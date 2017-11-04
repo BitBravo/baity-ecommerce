@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import ProductList from './components/ProductList'
 import carouselImage from "./assets/img/traditional-kitchen.jpg";
 import "./App.css";
 
@@ -13,7 +14,7 @@ class App extends Component {
           <div>
             <Header />
             <div><img src={carouselImage} style={{ maxWidth: "100%", maxHeight: "50%"}} /></div>
-            <div className="workspace" />
+            <ProductList/>
             <Footer />
           </div>
         </BrowserRouter>
