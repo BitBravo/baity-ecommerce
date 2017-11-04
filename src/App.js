@@ -12,7 +12,7 @@ class App extends Component {
         <BrowserRouter>
           <div>
             <Header />
-            <div><img src={carouselImage} style={{ maxWidth: "100%"}} /></div>
+            <div><img src={carouselImage} style={{ maxWidth: "100%", maxHeight: "50%"}} /></div>
             <div className="workspace" />
             <Footer />
           </div>
