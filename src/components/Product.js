@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { app, base } from '../base'
+import { Image, Col, Thumbnail, Button } from 'react-bootstrap';
 
-const productCardStyles = {
-    maxWidth: "30%",
-    minWidth: "150px",
-    flex: "1",
-    margin: "5px",
-  }
+
+// const productCardStyles = {
+//     maxWidth: "30%",
+//     minWidth: "150px",
+//     flex: "1",
+//     margin: "5px",
+//   }
 class Product extends Component {
 
     constructor() {
@@ -39,14 +41,24 @@ class Product extends Component {
     render() {
         const product = this.props.product
         return(
-            <div key={product.id} style={productCardStyles} className="pt-card pt-elevation-0 pt-interactive">
-            <h5>
-              <Link to={`/products/${product.id}`}>
-                <img maxWidth="100%" src={product.imgUrl}/>
-                <p>{product.category}</p>
-              </Link>
-            </h5>
-          </div>
+            
+            <Col xs={6} md={4}>
+                <Thumbnail src={product.imgUrl} alt="242x200">
+            
+                <h3>Thumbnail label</h3>
+                <p>Description</p>
+                <p>
+                  <Button bsStyle="primary">Button</Button>&nbsp;
+                  <Button bsStyle="default">Button</Button>
+                </p>
+                    <Link  to={`/products/${product.id}`}>
+                        التفاصيل
+                    </Link>
+                    </Thumbnail>
+                    </Col>
+                
+            
+          
         );
     }
 

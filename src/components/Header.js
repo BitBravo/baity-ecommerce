@@ -5,9 +5,9 @@ import bayty_icon from "../assets/img/bayty_icon.png";
 class Header extends Component {
   render() {
     return (
-      <nav className="pt-navbar">
-        <div className="pt-navbar-group pt-align-right">
-        <div className="pt-navbar-heading pt-rtl">
+      <nav >
+        <div >
+        <div >
             بيتي
         </div>  
               <img
@@ -18,11 +18,11 @@ class Header extends Component {
            
           
         </div>
-        <div className="pt-navbar-group pt-align-left">
+        <div >
           
-        <button className="pt-button pt-minimal pt-icon-cog" />          
-          <button className="pt-button pt-minimal pt-icon-user" />
-          <span className="pt-navbar-divider" />
+        <button  />          
+          <button  />
+          <span  />
         </div>
       </nav>
     );
