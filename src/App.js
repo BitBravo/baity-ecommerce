@@ -5,7 +5,8 @@ import Footer from "./components/Footer";
 import ProductList from './components/ProductList'
 import carouselImage from "./assets/img/traditional-kitchen.jpg";
 import "./App.css";
-
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap-theme.css';
 class App extends Component {
   render() {
     return (
