@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { app, base } from '../base'
+import Product from './Product'
 
 const productListStyles = {
     display: "flex",
@@ -9,12 +10,7 @@ const productListStyles = {
     justifyContent: "center",
   }
   
-  const productCardStyles = {
-    maxWidth: "30%",
-    minWidth: "150px",
-    flex: "1",
-    margin: "5px",
-  }
+  
 
 class ProductList extends Component {
 
@@ -61,10 +57,9 @@ componentWillUnmount() {
             <div style={productListStyles}>
               {productIds.map((id) => {
                 const product = products[id]
+                console.log(product)
                 return (
-                  <div key={id} style={productCardStyles} className="pt-card pt-elevation-0 pt-interactive">
-                    <h5><Link to={`/products/${product.id}`}>{product.title}</Link></h5>
-                  </div>
+                  <Product key={id} product={product}></Product>
                 )
               })}
             </div>
