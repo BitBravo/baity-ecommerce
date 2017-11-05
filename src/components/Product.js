@@ -40,13 +40,20 @@ class Product extends Component {
     return (
       <Col xs={6} md={4}>
         <Thumbnail src={product.imgUrl} alt="242x200">
-          <h3>Thumbnail label</h3>
-          <p>Description</p>
+          <div className="pull-right">
+            <h3 className="text-right">{product.name}</h3>
+          </div>
+          <div className="pull-right">
+            <p className="text-right">{product.desc}</p>
+          </div>
+          <div className="clearfix" />
           <p>
-            <Button bsStyle="primary">Button</Button>&nbsp;
-            <Button bsStyle="default">Button</Button>
+            <Link to={`/products/${product.id}`}>
+              <Button bsStyle="primary" block>
+                التفاصيل
+              </Button>
+            </Link>
           </p>
-          <Link to={`/products/${product.id}`}>التفاصيل</Link>
         </Thumbnail>
       </Col>
     );
