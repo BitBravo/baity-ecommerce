@@ -7,14 +7,16 @@ import {
   Button
 } from "react-bootstrap";
 import bayty_icon from "../assets/img/bayty_icon.png";
-
+ const rtlStyle = {
+   float: 'right'
+ }
 class Header extends Component {
   render() {
     return (
       <Navbar inverse collapseOnSelect fixedTop> 
-        <Navbar.Header >
+        <Navbar.Header style={rtlStyle}>
           
-          <Navbar.Brand>
+          <Navbar.Brand style={rtlStyle}>
               <img src={bayty_icon}   />
               
           </Navbar.Brand>
@@ -24,21 +26,21 @@ class Header extends Component {
           <Navbar.Toggle />
         </Navbar.Header>
         
-        <Navbar.Collapse>
-        <Nav >
+        <Navbar.Collapse style={{float: 'left !important'}}>
+        <Nav style={rtlStyle}>
         
           
           
-          <NavItem eventKey={2} href="#">
+          <NavItem eventKey={2} href="#" style={rtlStyle}>
             استعراض منتجاتي
           </NavItem>
-          <NavItem eventKey={1} href="#">
+          <NavItem eventKey={1} href="#" style={rtlStyle}>
             تحميل منتج جديد
           </NavItem>
           
-          <ul className="nav navbar-nav navbar-right">
+          <NavItem pullLeft style={{float: 'left !important'}} >
             <li><a href="#">Login</a></li>
-          </ul>
+          </NavItem>
 
           {/* <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
           <MenuItem eventKey={3.1}>Action</MenuItem>
