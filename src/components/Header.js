@@ -35,7 +35,9 @@ class Header extends Component {
             استعراض منتجاتي
           </NavItem>
           <NavItem eventKey={1} href="#" style={rtlStyle}>
+          <Link to="/newproduct">
             تحميل منتج جديد
+            </Link> 
           </NavItem>
           
           <NavItem pullLeft style={{float: 'left !important'}} >

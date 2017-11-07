@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ProductList from './components/ProductList'
+import ProductAdder from './components/ProductAdder'
 import carouselImage from "./assets/img/traditional-kitchen.jpg";
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.css';
@@ -14,6 +15,9 @@ class App extends Component {
         <BrowserRouter>
           <div>
             <Header />
+            <Route exact path="/newproduct" render={(props) => {
+                  return <ProductAdder setCurrentUser={this.setCurrentUser} {...props} />
+                }} />
             <div><img src={carouselImage} style={{ maxWidth: "100%", maxHeight: "50%"}} /></div>
             <ProductList/>
             <Footer />
