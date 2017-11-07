@@ -2,7 +2,7 @@ import React from "react";
 import Dropzone from "react-dropzone";
 import PropTypes from "prop-types";
 import { app } from "../base";
-// import firebase from 'firebase'
+import firebase from 'firebase'
 
 class ImageUploader extends React.Component {
   constructor(props) {
@@ -49,8 +49,36 @@ class ImageUploader extends React.Component {
         .child("testProductImages/" + Date.now() + Math.random());
       //upload the image. This is a task that will run async. Notice that it accepts a file as in
       //browser API File (see https://developer.mozilla.org/en-US/docs/Web/API/File)
-      imagesRef.put(file).then(function(snapshot) {
-        console.log("uploaded a file");
+      var metadata = {
+        contentType: file.type
+      };
+      //The following will return a task that will execte async
+      var uploadTask = imagesRef.put(file, metadata);
+      // Register three observers:
+      // 1. 'state_changed' observer, called any time the state changes
+      // 2. Error observer, called on failure
+      // 3. Completion observer, called on successful completion
+      uploadTask.on('state_changed', function(snapshot){
+        // Observe state change events such as progress, pause, and resume
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
+        switch (snapshot.state) {
+          case firebase.storage.TaskState.PAUSED: // or 'paused'
+            console.log('Upload is paused');
+            break;
+          case firebase.storage.TaskState.RUNNING: // or 'running'
+            console.log('Upload is running');
+            break;
+        }
+      }, function(error) {        
+        // Handle unsuccessful uploads
+        console.log('error uploading image of product')
+      }, function() {
+        // Handle successful uploads on complete
+        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+        var downloadURL = uploadTask.snapshot.downloadURL;
+        console.log('upload sucessful and image URL is: ' + downloadURL)
       });
     });
   }
@@ -60,7 +88,7 @@ class ImageUploader extends React.Component {
     //always (1) copy state value, (2) change the value, (3) then assign it back to state
     (this.multipleFiles)
     ? newFiles = [...this.state.files, ...files]
-    : newFiles = [...files]
+    : newFiles = [...files] //allow one image only and overwrite previous one
     this.setState({
       files: newFiles
     });
