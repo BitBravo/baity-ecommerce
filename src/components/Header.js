@@ -40,8 +40,8 @@ class Header extends Component {
             </Link> 
           </NavItem>
           
-          <NavItem pullLeft style={{float: 'left !important'}} >
-            <li><a href="#">Login</a></li>
+          <NavItem href="#" style={{float: 'left !important'}} >
+            Login
           </NavItem>
 
           {/* <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">

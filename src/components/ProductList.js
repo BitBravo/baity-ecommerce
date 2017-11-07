@@ -42,9 +42,7 @@ class ProductList extends Component {
   render() {
     const products = this.state.products;
     const productIds = Object.keys(products);
-    console.log("products are:");
-    console.log(productIds.length);
-    console.table(products);
+    
 
     return (
       <div>
@@ -54,7 +52,6 @@ class ProductList extends Component {
           <Row>
             {productIds.map(id => {
               const product = products[id];
-              console.log(product);
               return <Product key={id} product={product} />;
             })}
           </Row>
