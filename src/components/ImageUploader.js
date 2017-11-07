@@ -1,31 +1,64 @@
 import React from 'react';
-
+import Dropzone from 'react-dropzone'
 import PropTypes from 'prop-types';
 
-export default class ImageUploader extends React.Component {
+class ImageUploader extends React.Component {
 
   constructor(props) {
       super(props);
       this.state = {
-          elementId: this.props.elementId
+        files: []
       }
-      this.clickInput = this.clickInput.bind(this);
-      this.handleFiles = this.handleFiles.bind(this);
+      // this.clickInput = this.clickInput.bind(this);
+      // this.handleFiles = this.handleFiles.bind(this);
       this.convertFilesToBase64 = this.convertFilesToBase64.bind(this);
   }
 
-  clickInput() {
-    let element = document.getElementById(this.state.elementId);
-    element.value = '';
-    element.click();
+  // clickInput() {
+  //   let element = document.getElementById(this.state.elementId);
+  //   element.value = '';
+  //   element.click();
+  // }
+
+  // handleFiles(event) {
+  //   if(this.props.base64) {
+  //     this.convertFilesToBase64(event.target.files);
+  //   } else {
+  //     this.props.handleFiles(event.target.files);
+  //   }
+  // }
+
+  uploadImages() {
+    console.log(this.state.files)
   }
 
-  handleFiles(event) {
-    if(this.props.base64) {
-      this.convertFilesToBase64(event.target.files);
-    } else {
-      this.props.handleFiles(event.target.files);
-    }
+  handleOnDrop(files, rejectedFiles) {
+    const newFiles = [...this.state.files, ...files];//always copy state value, change it then assign it back  
+    this.setState({
+      files: newFiles
+    })
+    
+    // files.map((file) => {
+    //   newFiles.push(file);
+      
+      // const reader  = new FileReader();
+      
+      // reader.onload = (upload) =>  {
+      //   console.log("upload opject:")
+      //   console.log(upload)
+      //   const newFilesSrcs = this.state.filesSrcs;
+      //   const fileSrc = reader.result;
+      //   newFilesSrcs.push(fileSrc);
+      //   this.setState({
+      //     filesSrcs: newFilesSrcs
+      //   })
+      // }
+
+      // if (file) {
+      //   reader.readAsDataURL(file);
+      // }
+    // });
+        
   }
 
   convertFilesToBase64(files) {
@@ -63,28 +96,24 @@ export default class ImageUploader extends React.Component {
   }
 
   render() {
-    var hideInput = {
-      width: '0px',
-      opacity: '0',
-      position: 'fixed',
-    }
+    console.log(this.state.filesSrcs)
+    return (
+    <div className="wrapper">
+    <Dropzone accept="image/png, image/jpeg" onDrop={this.handleOnDrop.bind(this)} >
+      <p>يمكنك اضافة صور بسحب ملف الصورة وإلقائه هنا أو بالضغط على هذا المكان لتحميل الملف</p>
+    </Dropzone>
+    <aside>
+    <h2>الصور المرفوعة</h2>
+    <ul>
+      {
+        this.state.files.map((file) => <li key={file.name}><img src={file.preview} style={{maxWidth: "72px"}}/></li>)
+      }
+    </ul>
+  </aside>
+  <button onClick={this.uploadImages.bind(this)}>Upload Images</button>
+  </div>
+    );
 
-    return(
-      <div className='react-file-reader'>
-        <input type='file'
-          onChange={this.handleFiles}
-          accept={Array.isArray(this.props.fileTypes) ? this.props.fileTypes.join(',') : this.props.fileTypes}
-          className='react-file-reader-input'
-          id={this.state.elementId}
-          multiple={this.props.multipleFiles}
-          style={hideInput}
-        />
-
-        <div className='react-file-reader-button' onClick={this.clickInput}>
-          {this.props.children}
-        </div>
-      </div>
-    )
   }
 }
 

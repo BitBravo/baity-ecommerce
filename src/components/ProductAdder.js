@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import FileUploader from 'react-firebase-file-uploader';
+import ImageUploader from './ImageUploader'
  
 class ProductAdder extends Component {
   state = {
@@ -26,7 +26,7 @@ class ProductAdder extends Component {
   render() {
     return (
       <div>
-        <form>
+        {/* <form>
           <label>Username:</label>
           <input type="text" value={this.state.username} name="username" onChange={this.handleChangeUsername} />
           <label>Avatar:</label>
@@ -46,7 +46,8 @@ class ProductAdder extends Component {
             onUploadSuccess={this.handleUploadSuccess}
             onProgress={this.handleProgress}
           />
-        </form>
+        </form> */}
+        <ImageUploader />
       </div>
     );
   }
