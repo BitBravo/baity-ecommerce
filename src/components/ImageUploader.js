@@ -23,8 +23,8 @@ class ImageUploader extends React.Component {
     return (
       <Panel>
       <Grid >
-        <Row style={{float: 'right'}}>
-          <Col xs={12} md={12}>
+        <Row >
+          <Col xs={12} md={4} style={{float: 'right'}}>
         <Dropzone
           accept="image/png, image/jpeg" //only accepts png and jpeg images. Uses MIME not file name extention
           onDrop={this.props.onDrop}
@@ -69,8 +69,11 @@ class ImageUploader extends React.Component {
                   paddingLeft: "20px"
                 }}
               >
-                `الملفات التي تم قبولها {acceptedFiles.length}, الملفات التي تم
-                رفضها {rejectedFiles.length} `
+                <p>الملفات التي تم قبولها {acceptedFiles.length}, الملفات التي تم
+                رفضها {rejectedFiles.length}. </p>
+                <p>يمكنك اضافة صور بسحب ملف الصورة وإلقائه هنا أو بالضغط على هذا
+                المكان لتحميل الملف. سيتم فقط قبول ملفات الصور من نوع jpeg و png
+                وبحجم لا يزيد عن ٥ ميجابايت</p>
               </div>
             ) : (
               <div
@@ -90,14 +93,11 @@ class ImageUploader extends React.Component {
         </Dropzone>
         </Col>
         
-        <Col xs={12} md={12}>
-        
-          <h2>الصور المرفوعة</h2>
-          </Col> 
+       
         
           
             {this.props.files.map(file => (
-              <Col xs={12} md={4} key={file.name}>
+              <Col xs={12} md={4} key={file.name} style={{float: 'right'}}>
                 {/* <img src={file.preview} style={{ maxWidth: "72px" }} /> */}
                 <Image src={file.preview} rounded style={{ maxWidth: "200px" }}/>
               </Col>

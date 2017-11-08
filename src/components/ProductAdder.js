@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import { app } from "../base";
-import ImageUploader from './ImageUploader'
+import { database, storage } from "../base";
+import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap'
+import ProductForm from './ProductForm'
  
+
+
 class ProductAdder extends Component {
   constructor(props) {
     super(props)
@@ -11,6 +14,9 @@ class ProductAdder extends Component {
     };
     //change to true if you want to upload multiple images per product
     this.multipleFiles = false;
+    this.handleOnDrop = this.handleOnDrop.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.insertProduct = this.insertProduct.bind(this)
   }
  
   
@@ -35,12 +41,39 @@ class ProductAdder extends Component {
     }
 
 
-    handleUploadImages() {
-      //Check (https://firebase.google.com/docs/storage/web/upload-files) for more info
+    insertProduct(product, imgDownloadURL){
+      var postListRef = database.ref('testProducts')
+      var newPostRef = postListRef.push();
+      newPostRef.set({
+          category: product.productCat,
+          city: '',
+          city_department: '',
+          dataCreated: Date.now(),
+          department: product.productDept,
+          desc: product.productDesc,
+          height: product.productHeight,
+          id: newPostRef.key,
+          imgUrl: imgDownloadURL,
+          length: product.productLength,
+          likes: '0',
+          name: product.productName,
+          owner: '', //user id which is not yet implementd
+          postType: 'product',
+          price: product.productPrice,
+          width: product.productWidth
+      });
+    }
+
+    handleSubmit(value) {
+      //value should be the value of state of the ProductForm
+      
+      //1- upload the image of the product.
+      //2- add the product to the database
+      //Check (https://firebase.google.com/docs/storage/web/upload-files) &
+      //check (https://firebase.google.com/docs/database/web/read-and-write) for more info
       this.state.files.map(file => {
         //get a reference for the image bucket (the placeholder where we will put the image into)
-        var imagesRef = app
-          .storage()
+        var imagesRef = storage
           .ref()
           .child("testProductImages/" + Date.now() + Math.random());
         //upload the image. This is a task that will run async. Notice that it accepts a file as in
@@ -70,7 +103,7 @@ class ProductAdder extends Component {
                 break;
             }
           },
-          function(error) {
+          (error) => {
             // Handle unsuccessful uploads
             console.log("error uploading image of product");
             // A full list of error codes is available at
@@ -89,24 +122,31 @@ class ProductAdder extends Component {
                 break;
             }
           },
-          function() {
+          //use arrow function so that you can access this.insertProduct. See (https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback)
+          () => {
             // Handle successful uploads on complete
             // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-            var downloadURL = uploadTask.snapshot.downloadURL;
-            console.log("upload sucessful and image URL is: " + downloadURL);
+            var imgDownloadURL = uploadTask.snapshot.downloadURL;
+            console.log("upload sucessful and image URL is: " + imgDownloadURL);
+            this.insertProduct(value, imgDownloadURL)
           }
         );
       });
+      
     }
   
-
+    
+    
 
   render() {
     return (
       <div>
-        <ImageUploader onDrop={this.handleOnDrop.bind(this)} multipleFiles={this.multipleFiles} files={this.state.files}/>
-        <button onClick={this.handleUploadImages.bind(this)}>Upload Images</button>
-
+        <ProductForm 
+          onDrop={this.handleOnDrop.bind(this)} 
+          multipleFiles={this.multipleFiles} 
+          files={this.state.files}
+          onSubmit={this.handleSubmit.bind(this)}
+        />
       </div>
     );
   }
