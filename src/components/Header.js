@@ -29,14 +29,16 @@ class Header extends Component {
         <Navbar.Collapse style={{float: 'left !important'}}>
         <Nav style={rtlStyle}>
         
-          
+        <NavItem eventKey={2} href="#" style={rtlStyle}>
+          الصفحة الرئيسية
+          </NavItem>
           
           <NavItem eventKey={2} href="#" style={rtlStyle}>
             استعراض منتجاتي
           </NavItem>
           <NavItem eventKey={1} href="#" style={rtlStyle}>
           <Link to="/newproduct">
-            تحميل منتج جديد
+            اضافة منتج جديد
             </Link> 
           </NavItem>
           

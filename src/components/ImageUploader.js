@@ -10,15 +10,6 @@ class ImageUploader extends React.Component {
     
   }
 
-  
-
-  
- 
-
-    
-
-  
-
   render() {
     return (
       <Panel>
@@ -71,7 +62,7 @@ class ImageUploader extends React.Component {
               >
                 <p>الملفات التي تم قبولها {acceptedFiles.length}, الملفات التي تم
                 رفضها {rejectedFiles.length}. </p>
-                <p>يمكنك اضافة صور بسحب ملف الصورة وإلقائه هنا أو بالضغط على هذا
+                <p>يمكنك  تعديل الصورة بسحب ملف صورة جديدة وإلقائه هنا أو بالضغط على هذا
                 المكان لتحميل الملف. سيتم فقط قبول ملفات الصور من نوع jpeg و png
                 وبحجم لا يزيد عن ٥ ميجابايت</p>
               </div>
@@ -84,7 +75,7 @@ class ImageUploader extends React.Component {
                   paddingLeft: "20px"
                 }}
               >
-                يمكنك اضافة صور بسحب ملف الصورة وإلقائه هنا أو بالضغط على هذا
+                يمكنك اضافة صورة بسحب ملف الصورة وإلقائه هنا أو بالضغط على هذا
                 المكان لتحميل الملف. سيتم فقط قبول ملفات الصور من نوع jpeg و png
                 وبحجم لا يزيد عن ٥ ميجابايت
               </div>

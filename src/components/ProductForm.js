@@ -42,16 +42,19 @@ class ProductForm extends Component {
   //(https://stackoverflow.com/questions/40601834/deep-merge-of-complex-state-in-react)
   //(https://reactjs.org/docs/update.html)
   handleChange(e) {
+
+    const name = e.target.name;
+    const value = e.target.value;
     let newState = {};
+    newState[name] = value;
     
-    newState[e.target.name] = e.target.value;
-    
-    this.setState(newState);
+    this.setState(newState,
+      () => { this.validateField(name, value) });
   }
 
   render() {
     return (
-      <form style={{padding: '10px'}}>
+      <form style={{paddingRight: '100px', paddingLeft: '100px', paddingTop: '20px', paddingBottom: '20px'}}>
               <ImageUploader onDrop={this.props.onDrop} multipleFiles={this.props.multipleFiles} files={this.props.files}/>
       <FieldGroup
      id="formControlsProductName"
@@ -131,7 +134,7 @@ class ProductForm extends Component {
      name='productCat'
      value={this.state.productCat}
    />
-       <button type="submit" onClick={this.handleSubmit}>أضف المنتج</button>
+       <button type="submit" onClick={this.handleSubmit} className="btn btn-primary">أضف المنتج</button>
        </form>
     )
   }
