@@ -25,7 +25,7 @@ class Product extends Component {
   // }
 
   componentWillMount() {
-    this.productRef = base.syncState(`product`, {
+    this.productsRef = base.syncState(`product`, {
       context: this,
       state: "products"
     });

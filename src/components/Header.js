@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { LinkContainer } from 'react-router-bootstrap'
 import {
   Nav,
   Navbar,
@@ -29,17 +30,24 @@ class Header extends Component {
         <Navbar.Collapse style={{float: 'left !important'}}>
         <Nav style={rtlStyle}>
         
-          
-          
+        <LinkContainer to="/">
+        <NavItem eventKey={2}  style={rtlStyle}>
+          الصفحة الرئيسية
+          </NavItem>
+          </LinkContainer>
+
           <NavItem eventKey={2} href="#" style={rtlStyle}>
             استعراض منتجاتي
           </NavItem>
-          <NavItem eventKey={1} href="#" style={rtlStyle}>
-            تحميل منتج جديد
+
+          <LinkContainer to="/newproduct">
+          <NavItem eventKey={1}  style={rtlStyle}>
+            اضافة منتج جديد
           </NavItem>
+          </LinkContainer>
           
-          <NavItem pullLeft style={{float: 'left !important'}} >
-            <li><a href="#">Login</a></li>
+          <NavItem href="#" style={{float: 'left !important'}} >
+            Login
           </NavItem>
 
           {/* <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
