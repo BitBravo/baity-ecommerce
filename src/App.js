@@ -6,6 +6,9 @@ import Footer from "./components/Footer";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/css/bootstrap-theme.css";
+
+// The webapp contains Header then Main then Footer. 
+// Main will render Home when we choose the root '/' path.
 class App extends Component {
   render() {
     return (
