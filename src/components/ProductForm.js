@@ -52,6 +52,10 @@ class ProductForm extends Component {
       () => { this.validateField(name, value) });
   }
 
+  validateField(name, value) {
+    
+  }
+
   render() {
     return (
       <form style={{paddingRight: '100px', paddingLeft: '100px', paddingTop: '20px', paddingBottom: '20px'}}>
