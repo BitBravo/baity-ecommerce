@@ -12,7 +12,7 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <div style={{ margin: "0 auto" }}>
+        <div >
           <Header />
           <Main />
           <Footer />
