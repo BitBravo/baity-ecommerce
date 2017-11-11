@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
 import { database, storage } from "../base";
-import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap'
+import { FormGroup, ControlLabel, FormControl, HelpBlock, Panel } from 'react-bootstrap'
 import ProductForm from './ProductForm'
  
 
@@ -140,13 +140,17 @@ class ProductAdder extends Component {
 
   render() {
     return (
-      <div>
+      <div   style={{padding: '10em', background: '#F5F5F5', color: '#444444'}}>
+      <div className="panel panel-default" >
+      <div className="panel-body">
         <ProductForm 
           onDrop={this.handleOnDrop.bind(this)} 
           multipleFiles={this.multipleFiles} 
           files={this.state.files}
           onSubmit={this.handleSubmit.bind(this)}
         />
+        </div>
+        </div>
       </div>
     );
   }

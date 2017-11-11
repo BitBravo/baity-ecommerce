@@ -136,19 +136,19 @@ class ProductForm extends Component {
 
     switch (name) {
       case "name":
-          valid = value.length < 30 && value.length > 2; //match(/^([\w\W\d]{2,20})$/i);
+          valid = value.length <= 30 && value.length > 2; //match(/^([\w\W\d]{2,20})$/i);
           formError = valid
           ? ""
-          : " يجب أن يكون طول اسم المنتج بين حرفين و ٣٠ حرف";
+          : " يجب أن يكون طول اسم المنتج بين ثلاثة أحرف و ٣٠ حرف";
       break;
       case "desc":
-          valid = value.length < 200 && value.length > 15; //match(/^([\w\W\d]{2,20})$/i);
+          valid = value.length <= 200 && value.length >= 15; //match(/^([\w\W\d]{2,20})$/i);
           formError = valid
          ? ""
          : " يجب أن يكون طول وصف المنتج بين خمسة عشر حرفا  و ٢٠٠ حرف";
       break;
       case "factory":
-      valid = value.length < 100; //match(/^([\w\W\d]{2,20})$/i);
+      valid = value.length <= 100; //match(/^([\w\W\d]{2,20})$/i);
       formError = valid
         ? ""
         : " يجب أن يكون طول اسم المصنع أقل من ١٠٠ حرف";
@@ -226,12 +226,7 @@ class ProductForm extends Component {
   render() {
     return (
       <form
-        style={{
-          paddingRight: "100px",
-          paddingLeft: "100px",
-          paddingTop: "20px",
-          paddingBottom: "20px"
-        }}
+        
       >
         <ImageUploader
           onDrop={this.props.onDrop}
