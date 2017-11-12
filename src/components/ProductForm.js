@@ -31,17 +31,18 @@ function FieldGroup({ id, label, help, validationState, firstTime, ...props }) {
   );
 }
 
-const SelectGroup = ({ id, label, ...props }) => (
+
+const SelectGroup = ({ id, label, selectedOption, ...props }) => (
   <FormGroup controlId={id}>
     <ControlLabel>{label}</ControlLabel>
     <FormControl
       componentClass="select"
       placeholder={props.placeholder}
       name={props.name}
-      value={props.selectedOption}
+      value={selectedOption}
       onChange={props.onChange}
     >
-      {props.options.map(opt => {
+      {props.options.map(opt => {        
         return (
           <option key={opt} value={opt}>
             {opt}
@@ -147,8 +148,8 @@ class ProductForm extends Component {
     //if we are updating a product then show its data in the form otherwise show an empty form
     if (!this.props.isNewProduct) {
       this.state.name.value = this.props.product.name;
-      this.state.cat.value = this.props.product.cat;
-      this.state.dept.value = this.props.product.dept;
+      this.state.cat.value = this.props.product.category;
+      this.state.dept.value = this.props.product.department;
       this.state.desc.value = this.props.product.desc;
       this.state.factory.value = this.props.product.factory;
       this.state.height.value = this.props.product.height;
@@ -157,6 +158,7 @@ class ProductForm extends Component {
       this.state.price.value = this.props.product.price;
       // this.state.files = this.props.product.images; 
     }
+    console.log(this.state)
     //change to true if you want to upload multiple images per product
     this.multipleFiles = false;
 
@@ -565,6 +567,7 @@ class ProductForm extends Component {
           options={DepartmentList}
           selectedOption={this.state.dept.value}
         />
+
 
         <SelectGroup
           controlId="formControlsProductCatSelect"

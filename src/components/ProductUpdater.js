@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import firebase from "firebase";
 import { app, base, database, storage } from "../base";
+import Loading from './Loading'
+
 
 
 import {
@@ -159,22 +161,23 @@ class ProductUpdater extends Component {
   }
 
   render() {
-    return (
-      <div>
-      {this.state.loading
-      ? <div>Loading...</div>
-      :
-      <div>I am a product updater and my product is {JSON.stringify(this.state.product)}</div>
-      // <div style={{ padding: "10em", background: "#F5F5F5", color: "#444444" }}>
-      //   <div className="panel panel-default">
-      //     <div className="panel-body">
-      //       <ProductForm isNewProduct={false} onSubmit={this.handleSubmit.bind(this)} product={this.product} />
-      //     </div>
-      //   </div>
-      // </div>
-      }
+
+      if (this.state.loading)
+      return (
+        <Loading/>
+      ) 
+      else
+      return (
+        <div style={{ padding: "10em", background: "#F5F5F5", color: "#444444" }}>
+        <div className="panel panel-default">
+          <div className="panel-body">
+            <ProductForm isNewProduct={false} product={this.state.product} onSubmit={this.handleSubmit.bind(this)} />
+          </div>
+        </div>
       </div>
-    );
+      
+    
+      );
   }
 }
 
