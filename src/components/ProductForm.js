@@ -145,7 +145,7 @@ class ProductForm extends Component {
 
     this.state = initState;
     //if we are updating a product then show its data in the form otherwise show an empty form
-    if (!this.props.newProduct) {
+    if (!this.props.isNewProduct) {
       this.state.name.value = this.props.product.name;
       this.state.cat.value = this.props.product.cat;
       this.state.dept.value = this.props.product.dept;

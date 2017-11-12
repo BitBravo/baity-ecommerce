@@ -9,7 +9,7 @@ import { Image, Col, Thumbnail, Button } from "react-bootstrap";
 //     flex: "1",
 //     margin: "5px",
 //   }
-class Product extends Component {
+class ProductDetails extends Component {
   constructor() {
     super();
     // this.updateproduct = this.updateproduct.bind(this);
@@ -60,4 +60,4 @@ class Product extends Component {
   }
 }
 
-export default Product;
+export default ProductDetails;

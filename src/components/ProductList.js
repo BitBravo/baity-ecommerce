@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Grid, Row, Col } from "react-bootstrap";
 import { app, base } from "../base";
-import Product from "./Product";
+import ProductDetails from "./ProductDetails";
 
 // const productListStyles = {
 //     display: "flex",
@@ -52,7 +52,7 @@ class ProductList extends Component {
           <Row>
             {productIds.map(id => {
               const product = products[id];
-              return <Product key={id} product={product} />;
+              return <ProductDetails key={id} product={product} />;
             })}
           </Row>
         </Grid>

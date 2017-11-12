@@ -10,14 +10,14 @@ import {
 } from "react-bootstrap";
 import ProductForm from "./ProductForm";
 
-class ProductAdder extends Component {
+class ProductUpdater extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.insertProduct = this.insertProduct.bind(this);
+    this.updateProduct = this.updateProduct.bind(this);
   }
 
-  insertProduct(product, imgDownloadURL, formErrorViewer, formSuccessViewer) {
+  updateProduct(product, imgDownloadURL, formErrorViewer, formSuccessViewer) {
     try {
       var postListRef = database.ref("testProducts");
       var newPostRef = postListRef.push();
@@ -121,7 +121,7 @@ class ProductAdder extends Component {
           // For instance, get the download URL: https://firebasestorage.googleapis.com/...
           var imgDownloadURL = uploadTask.snapshot.downloadURL;
           console.log("upload sucessful and image URL is: " + imgDownloadURL);
-          this.insertProduct(formData, imgDownloadURL, formErrorViewer, formSuccessViewer);
+          this.updateProduct(formData, imgDownloadURL, formErrorViewer, formSuccessViewer);
         }
       );
     });
@@ -132,7 +132,7 @@ class ProductAdder extends Component {
       <div style={{ padding: "10em", background: "#F5F5F5", color: "#444444" }}>
         <div className="panel panel-default">
           <div className="panel-body">
-            <ProductForm isNewProduct={true} onSubmit={this.handleSubmit.bind(this)} />
+            <ProductForm isNewProduct={false} onSubmit={this.handleSubmit.bind(this)} product={this.product} />
           </div>
         </div>
       </div>
@@ -140,4 +140,4 @@ class ProductAdder extends Component {
   }
 }
 
-export default ProductAdder;
+export default ProductUpdater;
