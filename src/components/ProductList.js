@@ -46,7 +46,7 @@ class ProductList extends Component {
 
     return (
       <div>
-        <h1 style={{ marginBottom: "0.5em" }}>products</h1>
+        <h1>products</h1>
 
         <Grid>
           <Row>

@@ -12,24 +12,20 @@ import bayty_icon from "../assets/img/bayty_icon.png";
 class Header extends Component {
   render() {
     return (
-      <Navbar style={{direction: 'rtl'}} inverse collapseOnSelect fixedTop> 
+      <Navbar fixedTop> 
         <Navbar.Header >
+       
           
-          <Navbar.Brand >
-              <img src={bayty_icon}   />
-              
-          </Navbar.Brand>
-          
-          
-
-          <Navbar.Toggle />
+        <Navbar.Toggle />
         </Navbar.Header>
         
         <Navbar.Collapse >
+        <Navbar.Brand className="nav pull-right">
+              <img src={bayty_icon}/>
+          </Navbar.Brand > 
         <Nav >
-        
         <LinkContainer to="/">
-        <NavItem eventKey={2}  >
+        <NavItem eventKey={2}>
           الصفحة الرئيسية
           </NavItem>
           </LinkContainer>
@@ -47,7 +43,7 @@ class Header extends Component {
           <NavItem href="#"  >
             Login
           </NavItem>
-
+         
           {/* <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
           <MenuItem eventKey={3.1}>Action</MenuItem>
           <MenuItem eventKey={3.2}>Another action</MenuItem>

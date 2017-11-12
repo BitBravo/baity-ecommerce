@@ -39,21 +39,17 @@ class Product extends Component {
     const product = this.props.product;
     return (
       <Col xs={6} md={4}>
-        <Thumbnail src={product.imgUrl} alt="242x200">
-          <div >
+        <Thumbnail>
+        <Link to={`/products/${product.id}`}>
+              <img src={product.imgUrl} alt="242x200"/>
+              <div >
             <h3 >{product.name}</h3>
           </div>
+            </Link>
           <div >
             <p >{product.desc}</p>
           </div>
           <div className="clearfix" />
-          <p>
-            <Link to={`/products/${product.id}`}>
-              <Button bsStyle="primary" block>
-                التفاصيل
-              </Button>
-            </Link>
-          </p>
         </Thumbnail>
       </Col>
     );

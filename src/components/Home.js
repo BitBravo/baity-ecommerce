@@ -5,7 +5,7 @@ import carouselImage from "../assets/img/traditional-kitchen.jpg";
 
 const Home = () => (
   <div>
-    <img src={carouselImage} style={{ maxWidth: "100%", maxHeight: "50%" }} />
+    <img src={carouselImage}  />
     <ProductList />
   </div>
 );
