@@ -38,14 +38,22 @@ class ProductAdder extends Component {
         postType: "product",
         price: product.price.value,
         width: product.width.value
+      })
+      .then(() => {
+        console.log('insesrt succeeded');
+        formSuccessViewer();
+      })
+      .catch( (error) => {
+        console.log('could not insert product' + product);
+        formErrorViewer(error);
       });
-      formSuccessViewer();
+      // formSuccessViewer();
     } catch (error) {
       formErrorViewer(error);
     }
   }
 
-  handleSubmit(formData, formErrorViewer, formSuccessViewer) {
+  handleSubmit(formData, formErrorViewer, formSuccessViewer, formPercentageViewer) {
     //value should be the value of state of the ProductForm
 
     //1- upload the image of the product.
@@ -73,7 +81,8 @@ class ProductAdder extends Component {
         function(snapshot) {
           // Observe state change events such as progress, pause, and resume
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-          var progress = snapshot.bytesTransferred / snapshot.totalBytes * 100;
+          var progress = Math.round(snapshot.bytesTransferred / snapshot.totalBytes * 100);
+          formPercentageViewer(progress)
           console.log("Upload is " + progress + "% done");
           switch (snapshot.state) {
             case firebase.storage.TaskState.PAUSED: // or 'paused'

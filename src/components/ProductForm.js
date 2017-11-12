@@ -9,18 +9,16 @@ import {
   OverlayTrigger,
   Fade,
   Collapse,
-  Alert, Modal
+  Alert, Modal, ProgressBar
 } from "react-bootstrap";
 import ImageUploader from "./ImageUploader";
 import { Link } from "react-router-dom";
 import { LinkContainer } from 'react-router-bootstrap'
+import FaCheckCircleO from 'react-icons/lib/fa/check-circle-o'
+import FaTimesCircleO from 'react-icons/lib/fa/times-circle-o'
 
 
-const popoverHoverFocus = (
-  <Popover id="popover-trigger-hover-focus" title="Popover bottom">
-    <strong>Holy guacamole!</strong> Check this info.
-  </Popover>
-);
+
 
 function FieldGroup({ id, label, help, validationState, firstTime, ...props }) {
   return (
@@ -54,11 +52,8 @@ const SelectGroup = ({ id, label, ...props }) => (
   </FormGroup>
 );
 
-const popoverBottom = (
-  <Popover id="popover-positioned-bottom" title="Popover bottom">
-    <strong>Holy guacamole!</strong> Check this info.
-  </Popover>
-);
+
+
 
 const DepartmentList = ["صالة", "غرف نوم", "مطابخ", "مجلس", "دورات مياه"];
 const CategoryList = [
@@ -131,8 +126,16 @@ const initState = {
     alert: false,
     type: "info", //indicates that we should show an alert msg due to form submission failure
     alertMsg: "", //message shown when form submission fails
-    showSuccessfulSubmit: false
-  }
+  },
+  uploadProgress: {
+    show: false,
+    percentage: 0
+  },
+  submitStatus: {
+    showSubmitModal: false,
+    submitSuccessful: false,
+    errorMsg: ''
+  } 
 };
 
 
@@ -191,49 +194,69 @@ class ProductForm extends Component {
     e.preventDefault();
     try {
       if (this.state.formValid) {
-        //submit form. provide errorViewer to form submission method from parent
+        //submit form. 
+        //we will provide three callbacks to form submission handler in parent:
+        // 1- callback for notifying us about success
+        // 2- callback for notifying us about failure
+        // 3- callback for notifying us about progress of submission
         this.props.onSubmit(
           this.state,
+          //error callback
           err => {
-            this.setState({
-              formStatusAlert: {
-                alert: true,
-                type: "danger",
-                alertMsg:
-                  "حدث خطأ غير معروف. نرجو ابلاغ الصيانة بالخطأ التالي: " + err
-              }
-            });
+            //hide waiting alert then show submission failure msg
+            let uploadProgress = {
+              show: false, percentage: 0
+            }
+            //show failure popup
+            let submitStatus = {
+              showSubmitModal: true,
+              submitSuccessful: false,
+              errorMsg: 'حدث خطأ غير معروف. نرجو ابلاغ الصيانة بالخطأ التالي: " + err'
+            }
+            let newState = {...this.state, uploadProgress, submitStatus}
+            
+            this.setState(newState)
+            
           },
-          // also provide success handler
+          // success callback
           () => {
-            //hide waiting alert
-            this.setState(prevState => {
-              return {
-                formStatusAlert: {
-                  alert: false,
-                  type: prevState.formStatusAlert.type,
-                  alertMsg: "",
-                  showSuccessfulSubmit: true
-                }
-              };
-            });
-
+            //hide waiting alert then show submission success msg
+            let uploadProgress = {
+              show: false, percentage: 100
+            }
+            //show success popup
+            let submitStatus = {
+              showSubmitModal: true,
+              submitSuccessful: true,
+              errorMsg: ''
+            }
+            let newState = {...this.state, uploadProgress, submitStatus}
+            
+            this.setState(newState)
+            
+          },
+          // progress bar updater callback
+          (percentage) => {
+            this.setState(
+              {
+                uploadProgress: {show: percentage < 100, percentage: percentage}
+              }
+            )
           }
         );
-        //Now we have asked firebase to submit and we will wait async.
-        //Let us show a waiting alert to the user
-        this.setState(prevState => {
-          return {
-            formStatusAlert: {
-              alert: true,
-              type: "info",
-              alertMsg: "جاري اضافة المنتج ...",
-              showSuccessfulSubmit: false
-            }
-          };
-        });
+
+        //Now we have asked firebase to submit and we will wait for above call async.
+        //Let us show a progress bar to the user while waiting
+          (percentage) => {
+            this.setState(
+              {
+                uploadProgress: {show: true, percentage: 0}
+              }
+            )
+          }
+
       } else
-        //if submission fails show the alert message
+        //if form is not valid show the alert message
         this.setState({
           formStatusAlert: {
             alert: true,
@@ -244,15 +267,21 @@ class ProductForm extends Component {
           }
         });
     } catch (err) {
-      this.setState({
-        formStatusAlert: {
-          alert: true,
-          type: "danger",
-          alertMsg:
-            "حدث خطأ غير معروف. نرجو ابلاغ الصيانة بالخطأ التالي: " + err,
-            showSuccessfulSubmit: false
-        }
-      });
+      //in case something went wrong while trying to submit then handle the exception
+      //hide waiting alert then show submission failure msg
+      this.setState(
+        {
+          uploadProgress: {show: false, percentage: 100}
+        }, () => this.setState(
+            {
+              submitStatus: {
+                showSubmitModal: true,
+                submitSuccessful: false,
+                errorMsg: 'حدث خطأ غير معروف. نرجو ابلاغ الصيانة بالخطأ التالي: ' + err
+              }
+            }
+          )  
+      );
     }
   }
 
@@ -402,12 +431,13 @@ class ProductForm extends Component {
     });
   }
 
+  //reset state is used when someone adds a product and asks to add another one
+  //so we reset the state for the new product
   resetState() {
     this.setState(initState);
   }
 
   render() {
-    console.log(this.state)
     return (
       <form>
         <ImageUploader
@@ -423,7 +453,7 @@ class ProductForm extends Component {
           placeholder="أدخل اسم المنتج (مثلا: طقم كنب، بانيو حجري ...الخ)"
           onChange={this.handleChange}
           name="name"
-          value={this.state.name.Name}
+          value={this.state.name.value}
           help={this.state.name.formError}
           validationState={this.validationState(
             this.state.name.firstTime,
@@ -549,23 +579,53 @@ class ProductForm extends Component {
             {this.state.formStatusAlert.alertMsg}
           </Alert>
         </Collapse>
+
+          {/* This modal is shown after product addition is done asking if user wants to 
+          add another new product or go to main page  */}
         <Modal
-          show={this.state.formStatusAlert.showSuccessfulSubmit}
+          show={this.state.submitStatus.showSubmitModal}
           style={{top: 300}}
-          container={this}
-          aria-labelledby="contained-modal-title"
         >
-        <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title">  تمت اضافة المنتج بنجاح</Modal.Title>
+        <Modal.Header >
+            { this.state.submitStatus.submitSuccessful 
+              ? <Modal.Title id="contained-modal-title"><FaCheckCircleO style={{color: 'green', width: '30px', height: '30px'}}/>  تمت اضافة المنتج بنجاح</Modal.Title>
+              : <Modal.Title id="contained-modal-title"><FaTimesCircleO style={{color: 'red', width: '30px', height: '30px'}}/>  يوجد خطأ في اضافة المنتج</Modal.Title>
+            }
           </Modal.Header>
-          <Modal.Body>
-          <Link to="/newproduct">
-            <Button onClick={this.resetState}>اضافة منتج جديد</Button>
-            </Link>
+          { this.state.submitStatus.submitSuccessful 
+              ?
+              <Modal.Body>
+              <Link to="/newproduct">
+                <Button onClick={this.resetState}>اضافة منتج جديد</Button>
+                </Link>
+                <Link to="/">
+                <Button>العودة للصفحة الرئيسية</Button>
+                </Link>
+              </Modal.Body>
+            :
+            <Modal.Body>
+            <Alert
+              bsStyle='danger'
+            >
+              {this.state.submitStatus.errorMsg}
+            </Alert>
             <Link to="/">
-            <Button>العودة للصفحة الرئيسية</Button>
-            </Link>
-          </Modal.Body>
+                <Button>العودة للصفحة الرئيسية</Button>
+                </Link>
+            </Modal.Body>
+          }
+        </Modal>
+
+        {/* This modal is for uploading progress bar to show progress of uploading/adding product to DB */}
+        <Modal
+          show={this.state.uploadProgress.show}
+          style={{top: 300}}
+        >
+        <Modal.Header >
+            <Modal.Title id="contained-modal-title2">  جاري اضافة المنتج</Modal.Title>
+            <ProgressBar now={this.state.uploadProgress.percentage} label={`${this.state.uploadProgress.percentage}%`} />
+          </Modal.Header>
+          
         </Modal>
 
       </form>
