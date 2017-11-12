@@ -1,33 +1,36 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { app, base } from "../base";
-import { Image, Col, Thumbnail, Button } from "react-bootstrap";
+import { Image, Col, Thumbnail, Button, Modal } from "react-bootstrap";
+import Loading from './Loading'
 
-// const productCardStyles = {
-//     maxWidth: "30%",
-//     minWidth: "150px",
-//     flex: "1",
-//     margin: "5px",
-//   }
+
 class ProductDetails extends Component {
-  constructor() {
-    super();
-    // this.updateproduct = this.updateproduct.bind(this);
+  constructor(props) {
+    super(props);
+    this.productId = this.props.match.params.id;
+
     this.state = {
-      product: {}
+      product: {},
+      loading: true,
+      errorHandling: {
+        showError: false, errorMsg: 'error'
+      }
     };
   }
 
-  // getProductImage() {
-  //     const storageRef = app.storage().ref();
-  //     storageRef.child('productImage/' + this.props.product.imgUrl).
-
-  // }
-
   componentWillMount() {
-    this.productsRef = base.syncState(`product`, {
+    console.log(`product/${this.productId}`);
+    this.productsRef = base.syncState(`product/${this.productId}`, {
       context: this,
-      state: "products"
+      state: 'product',
+      then(data) {
+      console.log(data)
+      this.setState({loading: false})
+      },
+      onFailure(error) {
+      this.setState({errorHandling: {showError: true, errorMsg: error}});
+      }
     });
   }
 
@@ -36,26 +39,34 @@ class ProductDetails extends Component {
   }
 
   render() {
-    const product = this.props.product;
+    const product = this.state.product;
+    console.log(product)
+    if (this.state.loading)
     return (
-      <Col xs={6} md={4}>
-        <Thumbnail src={product.imgUrl} alt="242x200">
-          <div >
-            <h3 >{product.name}</h3>
-          </div>
-          <div >
-            <p >{product.desc}</p>
-          </div>
-          <div className="clearfix" />
-          <p>
-            <Link to={`/products/${product.id}`}>
-              <Button bsStyle="primary" block>
-                التفاصيل
-              </Button>
-            </Link>
-          </p>
-        </Thumbnail>
-      </Col>
+      <Loading/>
+    ) 
+    else
+      return(
+        <Col xs={6} md={4}>
+          <Thumbnail src={product.imgUrl} alt="242x200">
+            <div >
+              <h3 >{product.name}</h3>
+            </div>
+            <div >
+              <p >{product.desc}</p>
+            </div>
+            <div className="clearfix" />
+            <p>
+              <Link to={`/products/${product.id}/updateProduct`}>
+                <Button bsStyle="primary" block>
+                  تحديث بيانات المنتج
+                </Button>
+              </Link>
+            </p>
+          </Thumbnail>
+        </Col>
+      
+      
     );
   }
 }

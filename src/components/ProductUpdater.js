@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import firebase from "firebase";
-import { database, storage } from "../base";
+import { app, base, database, storage } from "../base";
+
+
 import {
   FormGroup,
   ControlLabel,
@@ -13,8 +15,37 @@ import ProductForm from "./ProductForm";
 class ProductUpdater extends Component {
   constructor(props) {
     super(props);
+    this.productId = this.props.match.params.id;
+    
+        this.state = {
+          product: {},
+          loading: true,
+          errorHandling: {
+            showError: false, errorMsg: 'error'
+          }
+        };
+
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateProduct = this.updateProduct.bind(this);
+  }
+
+  componentWillMount() {
+    console.log(`product/${this.productId}`);
+    this.productsRef = base.syncState(`product/${this.productId}`, {
+      context: this,
+      state: 'product',
+      then(data) {
+      console.log(data)
+      this.setState({loading: false})
+      },
+      onFailure(error) {
+      this.setState({errorHandling: {showError: true, errorMsg: error}});
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    base.removeBinding(this.productsRef);
   }
 
   updateProduct(product, imgDownloadURL, formErrorViewer, formSuccessViewer) {
@@ -129,12 +160,19 @@ class ProductUpdater extends Component {
 
   render() {
     return (
-      <div style={{ padding: "10em", background: "#F5F5F5", color: "#444444" }}>
-        <div className="panel panel-default">
-          <div className="panel-body">
-            <ProductForm isNewProduct={false} onSubmit={this.handleSubmit.bind(this)} product={this.product} />
-          </div>
-        </div>
+      <div>
+      {this.state.loading
+      ? <div>Loading...</div>
+      :
+      <div>I am a product updater and my product is {JSON.stringify(this.state.product)}</div>
+      // <div style={{ padding: "10em", background: "#F5F5F5", color: "#444444" }}>
+      //   <div className="panel panel-default">
+      //     <div className="panel-body">
+      //       <ProductForm isNewProduct={false} onSubmit={this.handleSubmit.bind(this)} product={this.product} />
+      //     </div>
+      //   </div>
+      // </div>
+      }
       </div>
     );
   }
