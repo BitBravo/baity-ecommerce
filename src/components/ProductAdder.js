@@ -44,8 +44,9 @@ class ProductAdder extends Component {
         formSuccessViewer();
       })
       .catch( (error) => {
-        console.log('could not insert product' + product);
-        formErrorViewer(error);
+        console.log('could not insert product');
+        console.log(product);
+        formErrorViewer(error.message);
       });
       // formSuccessViewer();
     } catch (error) {
@@ -96,6 +97,7 @@ class ProductAdder extends Component {
         error => {
           // Handle unsuccessful uploads
           console.log("error uploading image of product");
+          console.log(error);
           // A full list of error codes is available at
           // https://firebase.google.com/docs/storage/web/handle-errors
           switch (error.code) {
@@ -111,7 +113,7 @@ class ProductAdder extends Component {
               // Unknown error occurred, inspect error.serverResponse
               break;
           }
-          formErrorViewer(error);
+          formErrorViewer(error.message);
         },
         //use arrow function so that you can access this.insertProduct. See (https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback)
         () => {
@@ -130,7 +132,7 @@ class ProductAdder extends Component {
       <div style={{ padding: "10em", background: "#F5F5F5", color: "#444444" }}>
         <div className="panel panel-default">
           <div className="panel-body">
-            <ProductForm onSubmit={this.handleSubmit.bind(this)} />
+            <ProductForm newProduct={true} onSubmit={this.handleSubmit.bind(this)} />
           </div>
         </div>
       </div>

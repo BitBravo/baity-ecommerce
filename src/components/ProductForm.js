@@ -142,12 +142,21 @@ const initState = {
 class ProductForm extends Component {
   constructor(props) {
     super(props);
-    
-    
-    
 
     this.state = initState;
-
+    //if we are updating a product then show its data in the form otherwise show an empty form
+    if (!this.props.newProduct) {
+      this.state.name.value = this.props.product.name;
+      this.state.cat.value = this.props.product.cat;
+      this.state.dept.value = this.props.product.dept;
+      this.state.desc.value = this.props.product.desc;
+      this.state.factory.value = this.props.product.factory;
+      this.state.height.value = this.props.product.height;
+      this.state.length.value = this.props.product.length;
+      this.state.width.value = this.props.product.width;
+      this.state.price.value = this.props.product.price;
+      // this.state.files = this.props.product.images; 
+    }
     //change to true if you want to upload multiple images per product
     this.multipleFiles = false;
 
@@ -211,7 +220,7 @@ class ProductForm extends Component {
             let submitStatus = {
               showSubmitModal: true,
               submitSuccessful: false,
-              errorMsg: 'حدث خطأ غير معروف. نرجو ابلاغ الصيانة بالخطأ التالي: " + err'
+              errorMsg: 'حدث خطأ غير معروف. نرجو ابلاغ الصيانة بالخطأ التالي: ' + err
             }
             let newState = {...this.state, uploadProgress, submitStatus}
             
@@ -580,8 +589,10 @@ class ProductForm extends Component {
           </Alert>
         </Collapse>
 
-          {/* This modal is shown after product addition is done asking if user wants to 
-          add another new product or go to main page  */}
+          {/* This modal is shown after product addition/form submission is finshed.
+          Its content depends if the form submission was successful or failed.
+          if successful it will ask if user wants to add another new product or go to main page.
+          If failed it will show error message and ask user to go to home pgae  */}
         <Modal
           show={this.state.submitStatus.showSubmitModal}
           style={{top: 300}}
@@ -592,12 +603,15 @@ class ProductForm extends Component {
               : <Modal.Title id="contained-modal-title"><FaTimesCircleO style={{color: 'red', width: '30px', height: '30px'}}/>  يوجد خطأ في اضافة المنتج</Modal.Title>
             }
           </Modal.Header>
-          { this.state.submitStatus.submitSuccessful 
+          { 
+            this.state.submitStatus.submitSuccessful 
               ?
               <Modal.Body>
+                &nbsp;&nbsp;
               <Link to="/newproduct">
                 <Button onClick={this.resetState}>اضافة منتج جديد</Button>
                 </Link>
+                &nbsp;&nbsp;&nbsp;
                 <Link to="/">
                 <Button>العودة للصفحة الرئيسية</Button>
                 </Link>
@@ -616,7 +630,8 @@ class ProductForm extends Component {
           }
         </Modal>
 
-        {/* This modal is for uploading progress bar to show progress of uploading/adding product to DB */}
+        {/* This modal is for showing image upload progress bar to show progress of 
+        uploading/adding product to DB */}
         <Modal
           show={this.state.uploadProgress.show}
           style={{top: 300}}
