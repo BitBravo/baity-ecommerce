@@ -67,6 +67,8 @@ const CategoryList = [
 
 const initState = {
   newImages: [], //image files
+  imagesFromDB: [],
+  imagesToRemove: [],
   name: {
     value: "",
     valid: false,
@@ -125,8 +127,8 @@ const initState = {
   formValid: false,
   formStatusAlert: {
     alert: false,
-    type: "info", //indicates that we should show an alert msg due to form submission failure
-    alertMsg: "", //message shown when form submission fails
+    type: "info", //indicates that we should show an alert msg due to form invalid
+    alertMsg: "", //message shown when form can not be submitted cause form is not valid
   },
   uploadProgress: {
     show: false,
@@ -144,6 +146,8 @@ class ProductForm extends Component {
   constructor(props) {
     super(props);
 
+    //change to true if you want to upload multiple images per product
+    this.multipleImages = false;
     this.state = initState;
     //if we are updating a product then show its data in the form otherwise show an empty form
     if (!this.props.isNewProduct) {
@@ -156,11 +160,22 @@ class ProductForm extends Component {
       this.state.length.value = this.props.product.length;
       this.state.width.value = this.props.product.width;
       this.state.price.value = this.props.product.price;
-      // this.state.newImages = this.props.product.images; 
+      this.state.name.valid = true;
+      this.state.cat.valid = true;
+      this.state.dept.valid = true;
+      this.state.desc.valid = true;
+      this.state.factory.valid = true;
+      this.state.height.valid = true;
+      this.state.length.valid = true;
+      this.state.width.valid = true;
+      this.state.price.valid = true;
+      this.state.formValid = true
+      if (this.multipleImages)
+        null;//(still do not know what property is)this.state.imagesFromDB = [...this.props.product.imgUrl]; 
+      else
+        this.state.imagesFromDB = [this.props.product.imgUrl];//just URLs
     }
     console.log(this.state)
-    //change to true if you want to upload multiple images per product
-    this.multipleFiles = false;
 
     this.handleOnDrop = this.handleOnDrop.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -170,27 +185,93 @@ class ProductForm extends Component {
     this.handleAlertDismiss = this.handleAlertDismiss.bind(this);
     this.parseArabic = this.parseArabic.bind(this);
     this.resetState = this.resetState.bind(this);
+    this.addImage = this.addImage.bind(this);
+    this.addMultipleImages = this.addMultipleImages.bind(this);    
+    this.removeImageFromImagesFromDB = this.removeImageFromImagesFromDB.bind(this);
   }
 
+
   /*
-  This handles images when they dragged and dropped on dropzone or
-  when they are normally uploded using dropzone.
+    This method adds an image to this.state.newImages to be added later
+    to the database upon product upload/addition/update.
+    This works for multiple Images
   */
-  handleOnDrop(newImages, rejectedFiles) {
-    var newFiles = [];
+  addMultipleImages(newImages){
+    var newImagesTemp = [];
     //always (1) copy state value, (2) change the value, (3) then assign it back to state
-    this.multipleFiles
-      ? (newFiles = [...this.state.newImages, ...newImages])
-      : (newFiles = [...newImages]); //allow one image only and overwrite previous one
+
+    newImagesTemp = [...this.state.newImages, ...newImages]//merge new images with current ones
 
     //IT IS IMPORTANT that validateForm runs after this call to setState
     //is finished. see (https://reactjs.org/docs/state-and-lifecycle.html)
     this.setState(
       {
-        newImages: newFiles
+        newImages: newImagesTemp
       },
       () => this.validateForm()
     );
+  }
+
+  /*
+    This method adds an image to this.state.newImages to be added later
+    to the database upon product upload/addition/update.
+    This works for single image.
+  */
+  addImage(newImage){
+    //allow one image only and overwrite previous one
+    //IT IS IMPORTANT that validateForm runs after this call to setState
+    //is finished. see (https://reactjs.org/docs/state-and-lifecycle.html)
+    this.setState(
+      {
+        newImages: [...newImage]
+      },
+      () => this.validateForm()
+    );
+  }
+
+  /*
+    This method removes an image from this.state.imagesFromDB to be removed later
+    from the database upon product upload/update
+    TODO: remove image from this.state.newImages (i.e. when a user picks an image and then wants to remove it
+    or in other words cancel)
+  */
+  removeImageFromImagesFromDB(){
+    var imagesToRemoveTemp = [];
+    var imagesFromDBTemp = [];
+    
+    //copy current image in imagesFromDB to imagesToRemove since it will be removed
+    imagesToRemoveTemp = [...this.state.imagesFromDB];
+
+    
+    //IT IS IMPORTANT that validateForm runs after this call to setState
+    //is finished. see (https://reactjs.org/docs/state-and-lifecycle.html)
+    this.setState({ 
+      imagesFromDB: [...imagesFromDBTemp],
+      imagesToRemove: [...imagesToRemoveTemp]
+    },
+      () => this.validateForm()
+    );
+    
+    
+  }
+
+  /*
+  This handles images when they dragged and dropped on dropzone or
+  when they are normally uploded using dropzone. Dropzone allows
+  either one image at a time (mulitpleImages is false) or 
+  multiple images (multipleImages is true) to be added. 
+  TODO: fix for product with multiple images
+  */
+  handleOnDrop(newImages, rejectedFiles) {
+    if (this.multipleImages){
+      //deal with multiple images
+    } else {
+      this.addImage(newImages);
+      //if we are updating then remove the image that we got from DB
+      if (!this.props.isNewProduct)
+        this.removeImageFromImagesFromDB();
+    }
+
   }
 
   componentWillUnmount() {
@@ -330,21 +411,24 @@ class ProductForm extends Component {
     switch (name) {
       case "name":
         var pattern = /^([\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{3,30})$/i;
-        valid = pattern.test(value);
+        var spacesPattern = /^([\s]+)$/;
+        valid = pattern.test(value) && !spacesPattern.test(value);
         formError = valid
           ? ""
           : " يجب أن يكون طول اسم المنتج بين ثلاثة أحرف و ٣٠ حرف";
         break;
       case "desc":
         var pattern = /^([\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{15,200})$/i;
-        valid = pattern.test(value);
+        var spacesPattern = /^([\s]+)$/;
+        valid = pattern.test(value) && !spacesPattern.test(value);
         formError = valid
           ? ""
           : " يجب أن يكون طول وصف المنتج بين خمسة عشر حرفا  و ٢٠٠ حرف";
         break;
       case "factory":
         var pattern = /^([\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{2,100})$/i;
-        valid = pattern.test(value);
+        var spacesPattern = /^([\s]+)$/;
+        valid = pattern.test(value) && !spacesPattern.test(value);
         formError = valid ? "" : " يجب أن يكون طول اسم المصنع أقل من ١٠٠ حرف";
         break;
       case "price":
@@ -407,7 +491,7 @@ class ProductForm extends Component {
           this.state.length.valid &&
           this.state.width.valid &&
           this.state.price.valid &&
-          this.state.newImages.length > 0
+          (this.state.newImages.length > 0 || this.state.imagesFromDB.length > 0)
       },
       () =>
         //if alert box is visible then change it to invisible
@@ -457,8 +541,9 @@ class ProductForm extends Component {
       <form>
         <ImageUploader
           onDrop={this.handleOnDrop}
-          multipleFiles={this.multipleFiles}
+          multipleImages={this.multipleImages}
           newImages={this.state.newImages}
+          imagesFromDB={this.state.imagesFromDB}
         />
 
         <FieldGroup
@@ -584,7 +669,10 @@ class ProductForm extends Component {
         />
 
         <Button type="submit" onClick={this.handleSubmit} className="btn-block">
-          أضف المنتج
+        {this.props.isNewProduct
+         ?<span> أضف المنتج </span>
+         :<span> تحديث المنتج </span>
+        }
         </Button>
 
         <Collapse in={this.state.formStatusAlert.alert}>
@@ -606,8 +694,12 @@ class ProductForm extends Component {
         >
         <Modal.Header >
             { this.state.submitStatus.submitSuccessful 
-              ? <Modal.Title id="contained-modal-title"><FaCheckCircleO style={{color: 'green', width: '30px', height: '30px'}}/>  تمت اضافة المنتج بنجاح</Modal.Title>
-              : <Modal.Title id="contained-modal-title"><FaTimesCircleO style={{color: 'red', width: '30px', height: '30px'}}/>  يوجد خطأ في اضافة المنتج</Modal.Title>
+              ? this.props.isNewProduct 
+                  ? <Modal.Title id="contained-modal-title"><FaCheckCircleO style={{color: 'green', width: '30px', height: '30px'}}/>  تمت اضافة المنتج بنجاح</Modal.Title>
+                  : <Modal.Title id="contained-modal-title"><FaCheckCircleO style={{color: 'green', width: '30px', height: '30px'}}/>  تمت تحديث المنتج بنجاح</Modal.Title>
+              : this.props.isNewProduct
+                  ? <Modal.Title id="contained-modal-title"><FaTimesCircleO style={{color: 'red', width: '30px', height: '30px'}}/>  يوجد خطأ في اضافة المنتج</Modal.Title>
+                  : <Modal.Title id="contained-modal-title"><FaTimesCircleO style={{color: 'red', width: '30px', height: '30px'}}/>  يوجد خطأ في تحديث المنتج</Modal.Title>
             }
           </Modal.Header>
           { 
@@ -615,9 +707,12 @@ class ProductForm extends Component {
               ?
               <Modal.Body>
                 &nbsp;&nbsp;
-              <Link to="/newproduct">
-                <Button onClick={this.resetState}>اضافة منتج جديد</Button>
-                </Link>
+                { this.props.isNewProduct
+                    ? <Link to="/newproduct">
+                        <Button onClick={this.resetState}>اضافة منتج جديد</Button>
+                      </Link>
+                    : null
+                }
                 &nbsp;&nbsp;&nbsp;
                 <Link to="/">
                 <Button>العودة للصفحة الرئيسية</Button>

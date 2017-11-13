@@ -28,7 +28,6 @@ class ProductList extends Component {
       context: this,
       state: "products",
       then(data) {
-      console.log(data)
       this.setState({loading: false})
       },
       onFailure(error) {

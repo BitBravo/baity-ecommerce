@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { app, base } from "../base";
-import { Image, Col, Thumbnail, Button, Modal } from "react-bootstrap";
+import { Image, Alert, Col, Thumbnail, Button, Modal } from "react-bootstrap";
 import Loading from './Loading'
 
 
@@ -40,12 +40,27 @@ class ProductDetails extends Component {
 
   render() {
     const product = this.state.product;
-    console.log(product)
-    if (this.state.loading)
+
+    if (this.state.loading && !this.state.errorHandling.showError)
+    return <Loading />;
+  if (this.state.errorHandling.showError)
     return (
-      <Loading/>
-    ) 
-    else
+      <div>
+        <Modal show={true} style={{ top: 300 }}>
+          <Modal.Header>حدث خطأ غير معروف</Modal.Header>
+          <Modal.Body>
+            
+              <Alert bsStyle="danger">
+                {this.state.errorHandling.errorMsg.message}
+              </Alert>
+              <Link to="/">
+              <Button>العودة للصفحة الرئيسية</Button>
+              </Link>
+          </Modal.Body>
+        </Modal>
+      </div>
+    );
+  if (!this.state.loading && !this.state.showError)
       return(
         <Col xs={6} md={4}>
           <Thumbnail src={product.imgUrl} alt="242x200">
