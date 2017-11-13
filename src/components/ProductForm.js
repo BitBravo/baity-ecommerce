@@ -66,7 +66,7 @@ const CategoryList = [
 ];
 
 const initState = {
-  files: [], //image files
+  newImages: [], //image files
   name: {
     value: "",
     valid: false,
@@ -156,7 +156,7 @@ class ProductForm extends Component {
       this.state.length.value = this.props.product.length;
       this.state.width.value = this.props.product.width;
       this.state.price.value = this.props.product.price;
-      // this.state.files = this.props.product.images; 
+      // this.state.newImages = this.props.product.images; 
     }
     console.log(this.state)
     //change to true if you want to upload multiple images per product
@@ -176,18 +176,18 @@ class ProductForm extends Component {
   This handles images when they dragged and dropped on dropzone or
   when they are normally uploded using dropzone.
   */
-  handleOnDrop(files, rejectedFiles) {
+  handleOnDrop(newImages, rejectedFiles) {
     var newFiles = [];
     //always (1) copy state value, (2) change the value, (3) then assign it back to state
     this.multipleFiles
-      ? (newFiles = [...this.state.files, ...files])
-      : (newFiles = [...files]); //allow one image only and overwrite previous one
+      ? (newFiles = [...this.state.newImages, ...newImages])
+      : (newFiles = [...newImages]); //allow one image only and overwrite previous one
 
     //IT IS IMPORTANT that validateForm runs after this call to setState
     //is finished. see (https://reactjs.org/docs/state-and-lifecycle.html)
     this.setState(
       {
-        files: newFiles
+        newImages: newFiles
       },
       () => this.validateForm()
     );
@@ -195,7 +195,7 @@ class ProductForm extends Component {
 
   componentWillUnmount() {
     //to avoid memory leaks. See Important note @ (https://react-dropzone.js.org/)
-    this.state.files.map(file => {
+    this.state.newImages.map(file => {
       window.URL.revokeObjectURL(file.preview);
     });
   }
@@ -298,15 +298,16 @@ class ProductForm extends Component {
 
   //converts indian digits into arabic ١ -> 1, ٢ -> 2 ...etc
   parseArabic(str) {
-    return Number(
-      str
-        .replace(/[٠١٢٣٤٥٦٧٨٩]/g, function(d) {
-          return d.charCodeAt(0) - 1632;
-        })
-        .replace(/[۰۱۲۳۴۵۶۷۸۹]/g, function(d) {
-          return d.charCodeAt(0) - 1776;
-        })
-    );
+    
+    var result =  str
+                      .replace(/[٠١٢٣٤٥٦٧٨٩]/g, function(d) {
+                        return d.charCodeAt(0) - 1632;
+                      });
+                      // .replace(/[۰۱۲۳۴۵۶۷۸۹]/g, function(d) {
+                      //   return d.charCodeAt(0) - 1776;
+                      // })
+    return result;
+    
   }
 
   //Here we do all validations we would like
@@ -318,62 +319,65 @@ class ProductForm extends Component {
     const name = e.target.name;
     //value of the field (for a text field the text inside it, for a select the selected value)
     let value = e.target.value;
-
+    value = this.parseArabic(value)
+    
     let firstTime = false;
     let valid = false;
     let formError = "";
 
+    
+
     switch (name) {
       case "name":
-        valid = value.length <= 30 && value.length > 2; //match(/^([\w\W\d]{2,20})$/i);
+        var pattern = /^([\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{3,30})$/i;
+        valid = pattern.test(value);
         formError = valid
           ? ""
           : " يجب أن يكون طول اسم المنتج بين ثلاثة أحرف و ٣٠ حرف";
         break;
       case "desc":
-        valid = value.length <= 200 && value.length >= 15; //match(/^([\w\W\d]{2,20})$/i);
+        var pattern = /^([\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{15,200})$/i;
+        valid = pattern.test(value);
         formError = valid
           ? ""
           : " يجب أن يكون طول وصف المنتج بين خمسة عشر حرفا  و ٢٠٠ حرف";
         break;
       case "factory":
-        valid = value.length <= 100; //match(/^([\w\W\d]{2,20})$/i);
+        var pattern = /^([\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{2,100})$/i;
+        valid = pattern.test(value);
         formError = valid ? "" : " يجب أن يكون طول اسم المصنع أقل من ١٠٠ حرف";
         break;
       case "price":
-        let price = !isNaN(this.parseArabic(value))
-          ? +this.parseArabic(value)
+        let price = !isNaN(value)
+          ? +value
           : -1;
         valid = price > 0;
-        value = valid ? price : value;
+        console.log(price)
         formError = valid ? "" : " يجب أن يكون سعر المنتج رقم أكبر من الصفر";
         break;
       case "length":
-        let length = !isNaN(this.parseArabic(value))
-          ? +this.parseArabic(value)
+        let length = !isNaN(value)
+          ? +value
           : -1;
         valid = length > 0 && length < 10000;
-        value = valid ? length : value;
         formError = valid
           ? ""
           : "  يجب أن يكون طول المنتج رقم أكبر من الصفر وأصغر من ١٠٠٠٠ سم";
         break;
       case "width":
-        let width = !isNaN(this.parseArabic(value))
-          ? +this.parseArabic(value)
+        let width = !isNaN(value)
+          ? +value
           : -1;
         valid = width > 0 && width < 10000;
-        value = valid ? width : value;
         formError = valid
           ? ""
           : " يجب أن يكون عرض المنتج رقم أكبر من الصفر وأصغر من ١٠٠٠٠ سم";
         break;
       case "height":
-        let height = !isNaN(this.parseArabic(value))
-          ? +this.parseArabic(value)
+        let height = !isNaN(value)
+          ? +value
           : -1;
         valid = height > 0 && height < 10000;
-        value = valid ? height : value;
         formError = valid
           ? ""
           : " يجب أن يكون ارتفاع المنتج رقم أكبر من الصفر وأصغر من ١٠٠٠٠ سم";
@@ -403,7 +407,7 @@ class ProductForm extends Component {
           this.state.length.valid &&
           this.state.width.valid &&
           this.state.price.valid &&
-          this.state.files.length > 0
+          this.state.newImages.length > 0
       },
       () =>
         //if alert box is visible then change it to invisible
@@ -454,7 +458,7 @@ class ProductForm extends Component {
         <ImageUploader
           onDrop={this.handleOnDrop}
           multipleFiles={this.multipleFiles}
-          files={this.state.files}
+          newImages={this.state.newImages}
         />
 
         <FieldGroup

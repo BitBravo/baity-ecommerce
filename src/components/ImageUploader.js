@@ -87,7 +87,7 @@ class ImageUploader extends React.Component {
        
         
           
-            {this.props.files.map(file => (
+            {this.props.newImages.map(file => (
               <Col xs={12} md={4} key={file.name} style={{float: 'right'}}>
                 {/* <img src={file.preview} style={{ maxWidth: "72px" }} /> */}
                 <Image src={file.preview} rounded style={{ maxWidth: "200px" }}/>
