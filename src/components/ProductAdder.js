@@ -134,10 +134,6 @@ class ProductAdder extends Component {
       });
       
     }
-  
-    
-    
-
   render() {
     return (
       <div   style={{padding: '10em', background: '#F5F5F5', color: '#444444'}}>

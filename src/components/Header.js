@@ -14,8 +14,6 @@ class Header extends Component {
     return (
       <Navbar fixedTop> 
         <Navbar.Header >
-       
-          
         <Navbar.Toggle />
         </Navbar.Header>
         

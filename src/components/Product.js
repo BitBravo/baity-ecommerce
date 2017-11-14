@@ -39,18 +39,23 @@ class Product extends Component {
     const product = this.props.product;
     return (
       <Col xs={6} md={4}>
-        <Thumbnail>
-        <Link to={`/products/${product.id}`}>
-              <img src={product.imgUrl} alt="242x200"/>
-              <div >
-            <h3 >{product.name}</h3>
-          </div>
-            </Link>
-          <div >
+         <Thumbnail >
+           <div className="crop">
+      <Link to={`/products/${product.id}`} >
+
+              <img src={product.imgUrl} />
+              </Link>
+              </div>
+              <div className="padding">
+              <Link to={`/products/${product.id}`}>
+
+              <h4 > {product.name} </h4>
+              </Link>
+            
+        
             <p >{product.desc}</p>
-          </div>
-          <div className="clearfix" />
-        </Thumbnail>
+            </div>
+          </Thumbnail>
       </Col>
     );
   }

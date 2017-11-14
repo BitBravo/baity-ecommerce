@@ -45,8 +45,8 @@ class ProductList extends Component {
     
 
     return (
-      <div>
-        <h1>products</h1>
+      <div >
+        <h1 >products</h1>
 
         <Grid>
           <Row>
