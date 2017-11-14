@@ -3,9 +3,22 @@ import {
   FormGroup,
   ControlLabel,
   FormControl,
-  HelpBlock
+  HelpBlock,
+  Popover,
+  Button,
+  OverlayTrigger,
+  Fade,
+  Collapse,
+  Alert, Modal, ProgressBar
 } from "react-bootstrap";
 import ImageUploader from "./ImageUploader";
+import { Link } from "react-router-dom";
+import { LinkContainer } from 'react-router-bootstrap'
+import FaCheckCircleO from 'react-icons/lib/fa/check-circle-o'
+import FaTimesCircleO from 'react-icons/lib/fa/times-circle-o'
+
+
+
 
 function FieldGroup({ id, label, help, validationState, firstTime, ...props }) {
   return (
@@ -19,21 +32,21 @@ function FieldGroup({ id, label, help, validationState, firstTime, ...props }) {
 }
 
 
-const SelectGroup = ({id, label, ...props}) => (  
+const SelectGroup = ({ id, label, selectedOption, ...props }) => (
   <FormGroup controlId={id}>
-  <ControlLabel>{label}</ControlLabel>
-  <FormControl 
-  componentClass="select" 
-  placeholder={props.placeholder} 
-  name={props.name}
-  value={props.selectedOption}
-  onChange={props.onChange}
-  >
-      {props.options.map(opt => {
+    <ControlLabel>{label}</ControlLabel>
+    <FormControl
+      componentClass="select"
+      placeholder={props.placeholder}
+      name={props.name}
+      value={selectedOption}
+      onChange={props.onChange}
+    >
+      {props.options.map(opt => {        
         return (
-          <option
-            key={opt}
-            value={opt}>{opt}</option>
+          <option key={opt} value={opt}>
+            {opt}
+          </option>
         );
       })}
     </FormControl>
@@ -41,83 +54,341 @@ const SelectGroup = ({id, label, ...props}) => (
 );
 
 
+
+
+const DepartmentList = ["صالة", "غرف نوم", "مطابخ", "مجلس", "دورات مياه"];
+const CategoryList = [
+  "طاولة طعام",
+  " طقم كنب",
+  "ورق جدران",
+  "طاولة شاي",
+  "أدوات صحية"
+];
+
+const initState = {
+  newImages: [], //image files
+  imagesFromDB: [],
+  imagesToRemove: [],
+  name: {
+    value: "",
+    valid: false,
+    //indicates if it is the first time to edit the field. If so do not show validation error msgs
+    firstTime: true,
+    formError: ""
+  },
+  cat: {
+    value: CategoryList[0], //we must fill out default value since user may not select
+    valid: false,
+    firstTime: true,
+    formError: ""
+  },
+  dept: {
+    value: DepartmentList[0],
+    valid: false,
+    firstTime: true,
+    formError: ""
+  },
+  desc: {
+    value: "",
+    valid: false,
+    firstTime: true,
+    formError: ""
+  },
+  factory: {
+    value: "",
+    valid: false,
+    firstTime: true,
+    formError: ""
+  },
+  height: {
+    value: "",
+    valid: false,
+    firstTime: true,
+    formError: ""
+  },
+  length: {
+    value: "",
+    valid: false,
+    firstTime: true,
+    formError: ""
+  },
+  width: {
+    value: "",
+    valid: false,
+    firstTime: true,
+    formError: ""
+  },
+  price: {
+    value: "",
+    valid: false,
+    firstTime: true,
+    formError: ""
+  },
+  formValid: false,
+  formStatusAlert: {
+    alert: false,
+    type: "info", //indicates that we should show an alert msg due to form invalid
+    alertMsg: "", //message shown when form can not be submitted cause form is not valid
+  },
+  uploadProgress: {
+    show: false,
+    percentage: 0
+  },
+  submitStatus: {
+    showSubmitModal: false,
+    submitSuccessful: false,
+    errorMsg: ''
+  } 
+};
+
+
 class ProductForm extends Component {
   constructor(props) {
     super(props);
-    
-    this.state = {
-      DepartmentList: ["صالة", "غرف نوم", "مطابخ", "مجلس", "دورات مياه"],
-      CategoryList: ["طاولة طعام", " طقم كنب", "ورق جدران", "طاولة شاي", "أدوات صحية"],
-      name: {
-        value: "",
-        valid: false,
-        //indicates if it is the first time to edit the field. If so do not show validation error msgs
-        firstTime: true,
-        formError: ""
-      } ,
-      cat: {
-        value: "",
-        valid: false,
-        firstTime: true,
-        formError: ""
-      } ,
-      dept: {
-        value: "",
-        valid: false,
-        firstTime: true,
-        formError: ""
-      } ,
-      desc: {
-        value: "",
-        valid: false,
-        firstTime: true,
-        formError: ""
-      } ,
-      factory: {
-        value: "",
-        valid: false,
-        firstTime: true,
-        formError: ""
-      } ,
-      height: {
-        value: "",
-        valid: false,
-        firstTime: true,
-        formError: ""
-      } ,
-      length: {
-        value: "",
-        valid: false,
-        firstTime: true,
-        formError: ""
-      } ,
-      width: {
-        value: "",
-        valid: false,
-        firstTime: true,
-        formError: ""
-      } ,
-      price: {
-        value: "",
-        valid: false,
-        firstTime: true,
-        formError: ""
-      },
-      formValid: false
-      
-      
-    };
 
+    //change to true if you want to upload multiple images per product
+    this.multipleImages = false;
+    this.state = initState;
+    //if we are updating a product then show its data in the form otherwise show an empty form
+    if (!this.props.isNewProduct) {
+      this.state.name.value = this.props.product.name;
+      this.state.cat.value = this.props.product.category;
+      this.state.dept.value = this.props.product.department;
+      this.state.desc.value = this.props.product.desc;
+      this.state.factory.value = this.props.product.factory;
+      this.state.height.value = this.props.product.height;
+      this.state.length.value = this.props.product.length;
+      this.state.width.value = this.props.product.width;
+      this.state.price.value = this.props.product.price;
+      this.state.name.valid = true;
+      this.state.cat.valid = true;
+      this.state.dept.valid = true;
+      this.state.desc.valid = true;
+      this.state.factory.valid = true;
+      this.state.height.valid = true;
+      this.state.length.valid = true;
+      this.state.width.valid = true;
+      this.state.price.valid = true;
+      this.state.formValid = true
+      if (this.multipleImages)
+        null;//(still do not know what property is)this.state.imagesFromDB = [...this.props.product.imgUrl]; 
+      else
+        this.state.imagesFromDB = [this.props.product.imgUrl];//just URLs
+    }
+    console.log(this.state)
+
+    this.handleOnDrop = this.handleOnDrop.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.validateField = this.validateField.bind(this);
     this.validateForm = this.validateForm.bind(this);
     this.validationState = this.validationState.bind(this);
+    this.handleAlertDismiss = this.handleAlertDismiss.bind(this);
+    this.parseArabic = this.parseArabic.bind(this);
+    this.resetState = this.resetState.bind(this);
+    this.addImage = this.addImage.bind(this);
+    this.addMultipleImages = this.addMultipleImages.bind(this);    
+    this.removeImageFromImagesFromDB = this.removeImageFromImagesFromDB.bind(this);
   }
 
+
+  /*
+    This method adds an image to this.state.newImages to be added later
+    to the database upon product upload/addition/update.
+    This works for multiple Images
+  */
+  addMultipleImages(newImages){
+    var newImagesTemp = [];
+    //always (1) copy state value, (2) change the value, (3) then assign it back to state
+
+    newImagesTemp = [...this.state.newImages, ...newImages]//merge new images with current ones
+
+    //IT IS IMPORTANT that validateForm runs after this call to setState
+    //is finished. see (https://reactjs.org/docs/state-and-lifecycle.html)
+    this.setState(
+      {
+        newImages: newImagesTemp
+      },
+      () => this.validateForm()
+    );
+  }
+
+  /*
+    This method adds an image to this.state.newImages to be added later
+    to the database upon product upload/addition/update.
+    This works for single image.
+  */
+  addImage(newImage){
+    //allow one image only and overwrite previous one
+    //IT IS IMPORTANT that validateForm runs after this call to setState
+    //is finished. see (https://reactjs.org/docs/state-and-lifecycle.html)
+    this.setState(
+      {
+        newImages: [...newImage]
+      },
+      () => this.validateForm()
+    );
+  }
+
+  /*
+    This method removes an image from this.state.imagesFromDB to be removed later
+    from the database upon product upload/update
+    TODO: remove image from this.state.newImages (i.e. when a user picks an image and then wants to remove it
+    or in other words cancel)
+  */
+  removeImageFromImagesFromDB(){
+    var imagesToRemoveTemp = [];
+    var imagesFromDBTemp = [];
+    
+    //copy current image in imagesFromDB to imagesToRemove since it will be removed
+    imagesToRemoveTemp = [...this.state.imagesFromDB];
+
+    
+    //IT IS IMPORTANT that validateForm runs after this call to setState
+    //is finished. see (https://reactjs.org/docs/state-and-lifecycle.html)
+    this.setState({ 
+      imagesFromDB: [...imagesFromDBTemp],
+      imagesToRemove: [...imagesToRemoveTemp]
+    },
+      () => this.validateForm()
+    );
+    
+    
+  }
+
+  /*
+  This handles images when they dragged and dropped on dropzone or
+  when they are normally uploded using dropzone. Dropzone allows
+  either one image at a time (mulitpleImages is false) or 
+  multiple images (multipleImages is true) to be added. 
+  TODO: fix for product with multiple images
+  */
+  handleOnDrop(newImages, rejectedFiles) {
+    if (this.multipleImages){
+      //deal with multiple images
+    } else {
+      this.addImage(newImages);
+      //if we are updating then remove the image that we got from DB
+      if (!this.props.isNewProduct)
+        this.removeImageFromImagesFromDB();
+    }
+
+  }
+
+  componentWillUnmount() {
+    //to avoid memory leaks. See Important note @ (https://react-dropzone.js.org/)
+    this.state.newImages.map(file => {
+      window.URL.revokeObjectURL(file.preview);
+    });
+  }
+
+  //handles form submission by calling parent onSubmit handler method
   handleSubmit(e) {
     e.preventDefault();
-    this.props.onSubmit(this.state);
+    try {
+      if (this.state.formValid) {
+        //submit form. 
+        //we will provide three callbacks to form submission handler in parent:
+        // 1- callback for notifying us about success
+        // 2- callback for notifying us about failure
+        // 3- callback for notifying us about progress of submission
+        this.props.onSubmit(
+          this.state,
+          //error callback
+          err => {
+            //hide waiting alert then show submission failure msg
+            let uploadProgress = {
+              show: false, percentage: 0
+            }
+            //show failure popup
+            let submitStatus = {
+              showSubmitModal: true,
+              submitSuccessful: false,
+              errorMsg: 'حدث خطأ غير معروف. نرجو ابلاغ الصيانة بالخطأ التالي: ' + err
+            }
+            let newState = {...this.state, uploadProgress, submitStatus}
+            
+            this.setState(newState)
+            
+          },
+          // success callback
+          () => {
+            //hide waiting alert then show submission success msg
+            let uploadProgress = {
+              show: false, percentage: 100
+            }
+            //show success popup
+            let submitStatus = {
+              showSubmitModal: true,
+              submitSuccessful: true,
+              errorMsg: ''
+            }
+            let newState = {...this.state, uploadProgress, submitStatus}
+            
+            this.setState(newState)
+            
+          },
+          // progress bar updater callback
+          (percentage) => {
+            this.setState(
+              {
+                uploadProgress: {show: percentage < 100, percentage: percentage}
+              }
+            )
+          }
+        );
+
+        //Now we have asked firebase to submit and we will wait for above call async.
+        //Let us show a progress bar to the user while waiting
+          (percentage) => {
+            this.setState(
+              {
+                uploadProgress: {show: true, percentage: 0}
+              }
+            )
+          }
+
+      } else
+        //if form is not valid show the alert message
+        this.setState({
+          formStatusAlert: {
+            alert: true,
+            type: "danger",
+            alertMsg:
+              " عذرا ! يجب تعبئة النموذج كاملا مع الصورة بحيث تكون البيانات المعطاة صحيحة حسب المطلوب",
+              showSuccessfulSubmit: false
+          }
+        });
+    } catch (err) {
+      //in case something went wrong while trying to submit then handle the exception
+      //hide waiting alert then show submission failure msg
+      this.setState(
+        {
+          uploadProgress: {show: false, percentage: 100}
+        }, () => this.setState(
+            {
+              submitStatus: {
+                showSubmitModal: true,
+                submitSuccessful: false,
+                errorMsg: 'حدث خطأ غير معروف. نرجو ابلاغ الصيانة بالخطأ التالي: ' + err
+              }
+            }
+          )  
+      );
+    }
+  }
+
+  //converts indian digits into arabic ١ -> 1, ٢ -> 2 ...etc
+  parseArabic(str) {
+    
+    var result =  str
+                      .replace(/[٠١٢٣٤٥٦٧٨٩]/g, function(d) {
+                        return d.charCodeAt(0) - 1632;
+                      });
+                      // .replace(/[۰۱۲۳۴۵۶۷۸۹]/g, function(d) {
+                      //   return d.charCodeAt(0) - 1776;
+                      // })
+    return result;
+    
   }
 
   //Here we do all validations we would like
@@ -129,53 +400,67 @@ class ProductForm extends Component {
     const name = e.target.name;
     //value of the field (for a text field the text inside it, for a select the selected value)
     let value = e.target.value;
-
+    value = this.parseArabic(value)
+    
     let firstTime = false;
     let valid = false;
     let formError = "";
 
+    
+
     switch (name) {
       case "name":
-          valid = value.length <= 30 && value.length > 2; //match(/^([\w\W\d]{2,20})$/i);
-          formError = valid
-          ? ""
-          : " يجب أن يكون طول اسم المنتج بين ثلاثة أحرف و ٣٠ حرف";
-      break;
-      case "desc":
-          valid = value.length <= 200 && value.length >= 15; //match(/^([\w\W\d]{2,20})$/i);
-          formError = valid
-         ? ""
-         : " يجب أن يكون طول وصف المنتج بين خمسة عشر حرفا  و ٢٠٠ حرف";
-      break;
-      case "factory":
-      valid = value.length <= 100; //match(/^([\w\W\d]{2,20})$/i);
-      formError = valid
-        ? ""
-        : " يجب أن يكون طول اسم المصنع أقل من ١٠٠ حرف";
-      break;
-      case "price":
-        let price = !isNaN(value) ? +value : -1;
-        valid = price > 0;
+        var pattern = /^([\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{3,30})$/i;
+        var spacesPattern = /^([\s]+)$/;
+        valid = pattern.test(value) && !spacesPattern.test(value);
         formError = valid
           ? ""
-          : " يجب أن يكون سعر المنتج رقم أكبر من الصفر";
+          : " يجب أن يكون طول اسم المنتج بين ثلاثة أحرف و ٣٠ حرف";
         break;
-        case "length":
-        let length = !isNaN(value) ? +value : -1;
+      case "desc":
+        var pattern = /^([\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{15,200})$/i;
+        var spacesPattern = /^([\s]+)$/;
+        valid = pattern.test(value) && !spacesPattern.test(value);
+        formError = valid
+          ? ""
+          : " يجب أن يكون طول وصف المنتج بين خمسة عشر حرفا  و ٢٠٠ حرف";
+        break;
+      case "factory":
+        var pattern = /^([\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{2,100})$/i;
+        var spacesPattern = /^([\s]+)$/;
+        valid = pattern.test(value) && !spacesPattern.test(value);
+        formError = valid ? "" : " يجب أن يكون طول اسم المصنع أقل من ١٠٠ حرف";
+        break;
+      case "price":
+        let price = !isNaN(value)
+          ? +value
+          : -1;
+        valid = price > 0;
+        console.log(price)
+        formError = valid ? "" : " يجب أن يكون سعر المنتج رقم أكبر من الصفر";
+        break;
+      case "length":
+        let length = !isNaN(value)
+          ? +value
+          : -1;
         valid = length > 0 && length < 10000;
         formError = valid
           ? ""
           : "  يجب أن يكون طول المنتج رقم أكبر من الصفر وأصغر من ١٠٠٠٠ سم";
         break;
-        case "width":
-        let width = !isNaN(value) ? +value : -1;
+      case "width":
+        let width = !isNaN(value)
+          ? +value
+          : -1;
         valid = width > 0 && width < 10000;
         formError = valid
           ? ""
           : " يجب أن يكون عرض المنتج رقم أكبر من الصفر وأصغر من ١٠٠٠٠ سم";
         break;
-        case "height":
-        let height = !isNaN(value) ? +value : -1;
+      case "height":
+        let height = !isNaN(value)
+          ? +value
+          : -1;
         valid = height > 0 && height < 10000;
         formError = valid
           ? ""
@@ -184,55 +469,81 @@ class ProductForm extends Component {
       default:
         break;
     }
-    let newState = {[name]: {...this.state[name], valid, formError, value, firstTime}};
-    
-    //setState will shallow merge the new state with the current state
+    let newState = {
+      [name]: { ...this.state[name], valid, formError, value, firstTime }
+    };
+
+    //setState will shallow merge the new state with the current
+    //IT IS IMPORTANT that validateForm runs after this call to setState
+    //is finished. see (https://reactjs.org/docs/state-and-lifecycle.html)
+    this.setState(newState, () => this.validateForm());
+  }
+
+  //after each field validatiion, here we revalidate the whole form
+  validateForm() {
     this.setState(
-      newState,
-      () => {
-        this.validateForm;
-      }
+      {
+        formValid:
+          this.state.name.valid &&
+          this.state.desc.valid &&
+          this.state.factory.valid &&
+          this.state.height.valid &&
+          this.state.length.valid &&
+          this.state.width.valid &&
+          this.state.price.valid &&
+          (this.state.newImages.length > 0 || this.state.imagesFromDB.length > 0)
+      },
+      () =>
+        //if alert box is visible then change it to invisible
+        this.setState(prevState => {
+          return {
+            formStatusAlert: {
+              alert: false,
+              type: prevState.formStatusAlert.type,
+              alertMsg: "",
+              showSuccessfulSubmit: false
+            }
+          };
+        })
     );
   }
 
-  validateField(name, value) {
-    
+  //outputs validatin state of a field (valid, not valid, neutral since it is not touched yet)
+  validationState(firstTimeFlag, validFlag) {
+    if (firstTimeFlag) return null;
+    else if (validFlag) return "success";
+    else return "error";
   }
 
-  validateForm() {
-    this.setState({
-      formValid:
-        this.state.name.valid &&
-        this.state.cat.valid &&
-        this.state.dept.valid &&
-        this.state.desc.valid &&
-        this.state.factory.valid &&
-        this.state.height.valid &&
-        this.state.length.valid &&
-        this.state.width.valid &&
-        this.state.price.valid
+  //handles the dismissal of the alert box that appears when trying to submit invalid form
+  //or when form submission fails
+  handleAlertDismiss() {
+    this.setState(prevState => {
+      return {
+        formStatusAlert: {
+          alert: false,
+          type: prevState.formStatusAlert.type,
+          alertMsg: "",
+          showSuccessfulSubmit: false
+        }
+      };
     });
   }
 
-  validationState(firstTimeFlag, validFlag) {
-    if (firstTimeFlag)
-      return null;
-    else if (validFlag)
-      return "success"
-    else 
-      return "error"
+  //reset state is used when someone adds a product and asks to add another one
+  //so we reset the state for the new product
+  resetState() {
+    this.setState(initState);
   }
-  
 
   render() {
     return (
-      <form
-        
-      >
+      <form>
         <ImageUploader
-          onDrop={this.props.onDrop}
-          multipleFiles={this.props.multipleFiles}
-          files={this.props.files}
+          onDrop={this.handleOnDrop}
+          multipleImages={this.multipleImages}
+          newImages={this.state.newImages}
+          imagesFromDB={this.state.imagesFromDB}
         />
 
         <FieldGroup
@@ -242,9 +553,12 @@ class ProductForm extends Component {
           placeholder="أدخل اسم المنتج (مثلا: طقم كنب، بانيو حجري ...الخ)"
           onChange={this.handleChange}
           name="name"
-          value={this.state.name.Name}
+          value={this.state.name.value}
           help={this.state.name.formError}
-          validationState={this.validationState(this.state.name.firstTime, this.state.name.valid)}
+          validationState={this.validationState(
+            this.state.name.firstTime,
+            this.state.name.valid
+          )}
         />
 
         <FieldGroup
@@ -256,7 +570,10 @@ class ProductForm extends Component {
           name="price"
           value={this.state.price.value}
           help={this.state.price.formError}
-          validationState={this.validationState(this.state.price.firstTime, this.state.price.valid)}
+          validationState={this.validationState(
+            this.state.price.firstTime,
+            this.state.price.valid
+          )}
         />
         <FieldGroup
           id="formControlsProductLength"
@@ -267,8 +584,10 @@ class ProductForm extends Component {
           name="length"
           value={this.state.length.value}
           help={this.state.length.formError}
-          validationState={this.validationState(this.state.length.firstTime, this.state.length.valid)}
-          
+          validationState={this.validationState(
+            this.state.length.firstTime,
+            this.state.length.valid
+          )}
         />
         <FieldGroup
           id="formControlsProductWidth"
@@ -279,8 +598,10 @@ class ProductForm extends Component {
           name="width"
           value={this.state.width.value}
           help={this.state.width.formError}
-          validationState={this.validationState(this.state.width.firstTime, this.state.width.valid)}
-          
+          validationState={this.validationState(
+            this.state.width.firstTime,
+            this.state.width.valid
+          )}
         />
         <FieldGroup
           id="formControlsProductHeight"
@@ -291,8 +612,10 @@ class ProductForm extends Component {
           name="height"
           value={this.state.height.value}
           help={this.state.height.formError}
-          validationState={this.validationState(this.state.height.firstTime, this.state.height.valid)}
-          
+          validationState={this.validationState(
+            this.state.height.firstTime,
+            this.state.height.valid
+          )}
         />
         <FieldGroup
           id="formControlsProductFactory"
@@ -303,8 +626,10 @@ class ProductForm extends Component {
           name="factory"
           value={this.state.factory.value}
           help={this.state.factory.formError}
-          validationState={this.validationState(this.state.factory.firstTime, this.state.factory.valid)}
-          
+          validationState={this.validationState(
+            this.state.factory.firstTime,
+            this.state.factory.valid
+          )}
         />
 
         <FieldGroup
@@ -316,37 +641,110 @@ class ProductForm extends Component {
           name="desc"
           value={this.state.desc.value}
           help={this.state.desc.formError}
-          validationState={this.validationState(this.state.desc.firstTime, this.state.desc.valid)}
-          
+          validationState={this.validationState(
+            this.state.desc.firstTime,
+            this.state.desc.valid
+          )}
         />
 
-        
-
-        <SelectGroup controlId="formControlsProductDeptSelect"
+        <SelectGroup
+          controlId="formControlsProductDeptSelect"
           label="القسم"
-          name='dept'
-          placeholder={'اختر القسم الذي تنتمي له قطعة الأثاث '}
+          name="dept"
+          placeholder={"اختر القسم الذي تنتمي له قطعة الأثاث "}
           onChange={this.handleChange}
-          options={this.state.DepartmentList}
-          selectedOption={this.state.dept.value} />
+          options={DepartmentList}
+          selectedOption={this.state.dept.value}
+        />
 
-        <SelectGroup controlId="formControlsProductCatSelect"
+
+        <SelectGroup
+          controlId="formControlsProductCatSelect"
           label="الصنف"
-          name='cat'
+          name="cat"
           placeholder="أدخل الصنف (مثلا: طقم كنب، أدوات صحية ...الخ)"
           onChange={this.handleChange}
-          options={this.state.CategoryList}
-          selectedOption={this.state.cat.value} />
+          options={CategoryList}
+          selectedOption={this.state.cat.value}
+        />
 
-        
-        
-        <button
-          type="submit"
-          onClick={this.handleSubmit}
-          className="btn btn-primary"
+        <Button type="submit" onClick={this.handleSubmit} className="btn-block">
+        {this.props.isNewProduct
+         ?<span> أضف المنتج </span>
+         :<span> تحديث المنتج </span>
+        }
+        </Button>
+
+        <Collapse in={this.state.formStatusAlert.alert}>
+          <Alert
+            bsStyle={this.state.formStatusAlert.type}
+            onDismiss={this.handleAlertDismiss}
+          >
+            {this.state.formStatusAlert.alertMsg}
+          </Alert>
+        </Collapse>
+
+          {/* This modal is shown after product addition/form submission is finshed.
+          Its content depends if the form submission was successful or failed.
+          if successful it will ask if user wants to add another new product or go to main page.
+          If failed it will show error message and ask user to go to home pgae  */}
+        <Modal
+          show={this.state.submitStatus.showSubmitModal}
+          style={{top: 300}}
         >
-          أضف المنتج
-        </button>
+        <Modal.Header >
+            { this.state.submitStatus.submitSuccessful 
+              ? this.props.isNewProduct 
+                  ? <Modal.Title id="contained-modal-title"><FaCheckCircleO style={{color: 'green', width: '30px', height: '30px'}}/>  تمت اضافة المنتج بنجاح</Modal.Title>
+                  : <Modal.Title id="contained-modal-title"><FaCheckCircleO style={{color: 'green', width: '30px', height: '30px'}}/>  تمت تحديث المنتج بنجاح</Modal.Title>
+              : this.props.isNewProduct
+                  ? <Modal.Title id="contained-modal-title"><FaTimesCircleO style={{color: 'red', width: '30px', height: '30px'}}/>  يوجد خطأ في اضافة المنتج</Modal.Title>
+                  : <Modal.Title id="contained-modal-title"><FaTimesCircleO style={{color: 'red', width: '30px', height: '30px'}}/>  يوجد خطأ في تحديث المنتج</Modal.Title>
+            }
+          </Modal.Header>
+          { 
+            this.state.submitStatus.submitSuccessful 
+              ?
+              <Modal.Body>
+                &nbsp;&nbsp;
+                { this.props.isNewProduct
+                    ? <Link to="/newproduct">
+                        <Button onClick={this.resetState}>اضافة منتج جديد</Button>
+                      </Link>
+                    : null
+                }
+                &nbsp;&nbsp;&nbsp;
+                <Link to="/">
+                <Button>العودة للصفحة الرئيسية</Button>
+                </Link>
+              </Modal.Body>
+            :
+            <Modal.Body>
+            <Alert
+              bsStyle='danger'
+            >
+              {this.state.submitStatus.errorMsg}
+            </Alert>
+            <Link to="/">
+                <Button>العودة للصفحة الرئيسية</Button>
+                </Link>
+            </Modal.Body>
+          }
+        </Modal>
+
+        {/* This modal is for showing image upload progress bar to show progress of 
+        uploading/adding product to DB */}
+        <Modal
+          show={this.state.uploadProgress.show}
+          style={{top: 300}}
+        >
+        <Modal.Header >
+            <Modal.Title id="contained-modal-title2">  جاري اضافة المنتج</Modal.Title>
+            <ProgressBar now={this.state.uploadProgress.percentage} label={`${this.state.uploadProgress.percentage}%`} />
+          </Modal.Header>
+          
+        </Modal>
+
       </form>
     );
   }

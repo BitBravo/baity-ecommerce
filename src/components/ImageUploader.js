@@ -19,7 +19,7 @@ class ImageUploader extends React.Component {
         <Dropzone
           accept="image/png, image/jpeg" //only accepts png and jpeg images. Uses MIME not file name extention
           onDrop={this.props.onDrop}
-          multiple={this.props.multipleFiles} //allow one or multiple images per product
+          multiple={this.props.multipleImages} //allow either one (false) or more than one (true) images per product
           maxSize={1024 * 1024 * 5} //5MB
         >
           {({ isDragActive, isDragReject, acceptedFiles, rejectedFiles }) => {
@@ -59,10 +59,16 @@ class ImageUploader extends React.Component {
        
         
           
-            {this.props.files.map(file => (
+            {this.props.newImages.map(file => (
               <Col xs={12} md={4} key={file.name} style={{float: 'right'}}>
                 {/* <img src={file.preview} style={{ maxWidth: "72px" }} /> */}
                 <Image src={file.preview} rounded style={{ maxWidth: "200px" }}/>
+              </Col>
+            ))}
+
+            {this.props.imagesFromDB.map(imageUrl => (
+              <Col xs={12} md={4} key={imageUrl} style={{float: 'right'}}>
+                <Image src={imageUrl} rounded style={{ maxWidth: "200px" }}/>
               </Col>
             ))}
           
@@ -75,12 +81,12 @@ class ImageUploader extends React.Component {
 
 // ImageUploader.defaultProps = {
 //   fileTypes: 'image/*',
-//   multipleFiles: false,
+//   multipleImages: false,
 //   base64: false,
 // };
 
 // ImageUploader.propTypes = {
-//   multipleFiles: PropTypes.bool,
+//   multipleImages: PropTypes.bool,
 //   handleFiles: PropTypes.func.isRequired,
 //   fileTypes: PropTypes.oneOfType([
 //     PropTypes.string,

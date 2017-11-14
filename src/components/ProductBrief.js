@@ -9,7 +9,7 @@ import { Image, Col, Thumbnail, Button } from "react-bootstrap";
 //     flex: "1",
 //     margin: "5px",
 //   }
-class Product extends Component {
+class ProductBrief extends Component {
   constructor() {
     super();
     // this.updateproduct = this.updateproduct.bind(this);
@@ -18,22 +18,7 @@ class Product extends Component {
     };
   }
 
-  // getProductImage() {
-  //     const storageRef = app.storage().ref();
-  //     storageRef.child('productImage/' + this.props.product.imgUrl).
-
-  // }
-
-  componentWillMount() {
-    this.productsRef = base.syncState(`product`, {
-      context: this,
-      state: "products"
-    });
-  }
-
-  componentWillUnmount() {
-    base.removeBinding(this.productsRef);
-  }
+ 
 
   render() {
     const product = this.props.product;
@@ -61,4 +46,4 @@ class Product extends Component {
   }
 }
 
-export default Product;
+export default ProductBrief;

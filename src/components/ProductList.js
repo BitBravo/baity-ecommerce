@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Grid, Row, Col } from "react-bootstrap";
 import { app, base } from "../base";
-import Product from "./Product";
+import ProductBrief from "./ProductBrief";
+import Loading from './Loading'
+
 
 // const productListStyles = {
 //     display: "flex",
@@ -16,23 +18,23 @@ class ProductList extends Component {
     super();
     // this.updateproduct = this.updateproduct.bind(this);
     this.state = {
-      products: {}
+      products: {},
+      loading: true
     };
   }
 
   componentWillMount() {
     this.productsRef = base.syncState("product", {
       context: this,
-      state: "products"
+      state: "products",
+      then(data) {
+      this.setState({loading: false})
+      },
+      onFailure(error) {
+      this.setState({errorHandling: {showError: true, errorMsg: error}});
+      }
     });
-    // base.fetch('product', {
-    //   context: this,
-    //   asArray: true,
-    //   then(data){
-    //     console.log("fetching data the stupid way")
-    //     console.log(data);
-    //   }
-    // });
+    
   }
 
   componentWillUnmount() {
@@ -44,19 +46,24 @@ class ProductList extends Component {
     const productIds = Object.keys(products);
     
 
-    return (
-      <div >
-        <h1 >products</h1>
-
+    
+      if (this.state.loading)
+      return(
+       <Loading/>
+      )
+    else 
+      return (  <div>
+        <div style={{paddingBottom: '30px'}}/>
         <Grid>
           <Row>
             {productIds.map(id => {
               const product = products[id];
-              return <Product key={id} product={product} />;
+              return <ProductBrief key={id} product={product} />;
             })}
           </Row>
         </Grid>
       </div>
+      
     );
   }
 }

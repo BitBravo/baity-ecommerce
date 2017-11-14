@@ -3,6 +3,8 @@ import { Switch, Route } from "react-router-dom";
 import Home from "./Home";
 
 import ProductAdder from "./ProductAdder";
+import ProductDetails from "./ProductDetails";
+import ProductUpdater from "./ProductUpdater";
 
 // The Main component renders one of the three provided
 // Routes (provided that one matches). Both the /roster
@@ -19,6 +21,24 @@ const Main = () => (
         render={props => {
           return (
             <ProductAdder setCurrentUser={this.setCurrentUser} {...props} />
+          );
+        }}
+      />
+      <Route
+        exact
+        path="/products/:id"
+        render={props => {
+          return (
+            <ProductDetails setCurrentUser={this.setCurrentUser} {...props} />
+          );
+        }}
+      />
+      <Route
+        exact
+        path="/products/:id/updateProduct"
+        render={props => {
+          return (
+            <ProductUpdater setCurrentUser={this.setCurrentUser} {...props} />
           );
         }}
       />
