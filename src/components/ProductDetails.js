@@ -20,12 +20,10 @@ class ProductDetails extends Component {
   }
 
   componentWillMount() {
-    console.log(`product/${this.productId}`);
     this.productsRef = base.syncState(`product/${this.productId}`, {
       context: this,
       state: 'product',
       then(data) {
-      console.log(data)
       this.setState({loading: false})
       },
       onFailure(error) {
@@ -39,6 +37,8 @@ class ProductDetails extends Component {
   }
 
   render() {
+    console.log("current user in ProductDetails")
+    console.log(this.props.currentUser)
     const product = this.state.product;
 
     if (this.state.loading && !this.state.errorHandling.showError)
@@ -72,11 +72,15 @@ class ProductDetails extends Component {
             </div>
             <div className="clearfix" />
             <p>
-              <Link to={`/products/${product.id}/updateProduct`}>
+              {/* only product owner can update a product */}
+              {this.props.currentUser.uid === this.state.product.owner
+              ?<Link to={`/products/${product.id}/updateProduct`}>
                 <Button bsStyle="primary" block>
                   تحديث بيانات المنتج
                 </Button>
               </Link>
+              : null
+              }
             </p>
           </Thumbnail>
         </Col>

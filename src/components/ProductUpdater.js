@@ -189,6 +189,8 @@ class ProductUpdater extends Component {
   }
 
   render() {
+    console.log("current user in ProductUpdater")
+    console.log(this.props.currentUser)
     if (this.state.loading && !this.state.errorHandling.showError)
       return <Loading />;
     if (this.state.errorHandling.showError)

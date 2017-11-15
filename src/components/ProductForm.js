@@ -148,7 +148,7 @@ class ProductForm extends Component {
 
     //change to true if you want to upload multiple images per product
     this.multipleImages = false;
-    this.state = initState;
+    this.state = {...initState};
     //if we are updating a product then show its data in the form otherwise show an empty form
     if (!this.props.isNewProduct) {
       this.state.name.value = this.props.product.name;
@@ -175,6 +175,7 @@ class ProductForm extends Component {
       else
         this.state.imagesFromDB = [this.props.product.imgUrl];//just URLs
     }
+    console.log(this.props.isNewProduct)
     console.log(this.state)
 
     this.handleOnDrop = this.handleOnDrop.bind(this);
@@ -535,6 +536,11 @@ class ProductForm extends Component {
   resetState() {
     this.setState(initState);
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   this.resetState();
+  //   // this.setupStuff(nextProps);
+  // }
 
   render() {
     return (
