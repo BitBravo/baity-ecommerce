@@ -26,12 +26,35 @@ class App extends Component {
     this.setCurrentUser = this.setCurrentUser.bind(this);
   }
 
+  // For more info on user management in firebase see: 
+  // (https://firebase.google.com/docs/auth/web/manage-users)
   setCurrentUser(user) {
     if (user) {
       this.setState({
         currentUser: user,
         authenticated: true
       })
+
+      /*
+        // We can get the folloiwng information. See: (https://firebase.google.com/docs/auth/web/manage-users)
+        name = user.displayName;
+        email = user.email;
+        photoUrl = user.photoURL;
+        emailVerified = user.emailVerified;
+        uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
+                          // this value to authenticate with your backend server, if
+                          // you have one. Use User.getToken() instead.
+        // This is the information for providers (email&password, facebook, google, ...etc)
+        user.providerData.forEach(function (profile) {
+          console.log("Sign-in provider: " + profile.providerId);
+          console.log("  Provider-specific UID: " + profile.uid);
+          console.log("  Name: " + profile.displayName);
+          console.log("  Email: " + profile.email);
+          console.log("  Photo URL: " + profile.photoURL);
+        });
+      */
+
+
     } else {
       this.setState({
         currentUser: null,
@@ -41,18 +64,12 @@ class App extends Component {
   }
 
   componentWillMount() {
+    //the current user is: firebase.auth().currentUser
+    //For more info on firebase Auth object check the "user lifecycle" in:
+    // (https://firebase.google.com/docs/auth/users)
+    // Note that: app.auth() is short for firebase.auth(app)
     this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({
-          currentUser: user,
-          authenticated: true
-        })
-      } else {
-        this.setState({
-          currentUser: null,
-          authenticated: false
-        })
-      }
+      this.setCurrentUser(user);
     })
   }
 
@@ -67,7 +84,7 @@ class App extends Component {
       <BrowserRouter>
         <div style={{ margin: "0 auto" }}>
           <Header authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>
-          <Main setCurrentUser={this.setCurrentUser} authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>
+          <Main  authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>
           <Footer authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>
         </div>
       </BrowserRouter>
