@@ -33,7 +33,6 @@ class ProductUpdater extends Component {
   }
 
   componentWillMount() {
-    console.log(`product/${this.productId}`);
     this.productsRef = base.syncState(`product/${this.productId}`, {
       context: this,
       state: "product",
@@ -58,16 +57,16 @@ class ProductUpdater extends Component {
           category: product.cat.value,
           city: this.state.product.city,
           city_department: this.state.product.city_department,
-          dataCreated: Date.now(),
+          // dataCreated: Date.now(), // dateCreated should not be changed
           department: product.dept.value,
           desc: product.desc.value,
           height: product.height.value,
-          id: this.productId,
+          // id: this.productId, // id should not be changed
           imgUrl: imgDownloadURL,
           length: product.length.value,
-          //likes: this.state.product.likes,
+          //likes: this.state.product.likes, // likes should not be affected
           name: product.name.value,
-          owner: this.state.product.owner, //user id which is not yet implementd
+          // owner: this.state.product.owner, // owner should not change
           postType: this.state.product.postType,
           price: product.price.value,
           width: product.width.value
@@ -189,8 +188,7 @@ class ProductUpdater extends Component {
   }
 
   render() {
-    console.log("current user in ProductUpdater")
-    console.log(this.props.currentUser)
+   
     if (this.state.loading && !this.state.errorHandling.showError)
       return <Loading />;
     if (this.state.errorHandling.showError)

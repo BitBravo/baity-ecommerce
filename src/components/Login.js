@@ -109,7 +109,7 @@ class Login extends Component {
       .then((user) => {
         if (user && user.email) {
           this.loginForm.reset()
-          this.props.setCurrentUser(user)
+          //this.props.setCurrentUser(user)
           this.setState({ redirect: true })
         }
       })

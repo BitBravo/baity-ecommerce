@@ -175,8 +175,6 @@ class ProductForm extends Component {
       else
         this.state.imagesFromDB = [this.props.product.imgUrl];//just URLs
     }
-    console.log(this.props.isNewProduct)
-    console.log(this.state)
 
     this.handleOnDrop = this.handleOnDrop.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -360,6 +358,9 @@ class ProductForm extends Component {
           }
         });
     } catch (err) {
+      console.log('something went wrong while trying to add product: ');
+      console.log(this.state);
+      console.log(`ERROR: code: ${err.code}, message:${err.message}`);
       //in case something went wrong while trying to submit then handle the exception
       //hide waiting alert then show submission failure msg
       this.setState(

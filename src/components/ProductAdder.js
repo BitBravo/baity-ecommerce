@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import firebase from "firebase";
-import { database, storage } from "../base";
+import { app, database, storage } from "../base";
 import {
   FormGroup,
   ControlLabel,
@@ -23,7 +23,7 @@ class ProductAdder extends Component {
       var newPostRef = postListRef.push();
       newPostRef.set({
         category: product.cat.value,
-        city: "",
+        city: "الرياض",
         city_department: "",
         dataCreated: Date.now(),
         department: product.dept.value,
@@ -34,7 +34,7 @@ class ProductAdder extends Component {
         length: product.length.value,
         likes: "0",
         name: product.name.value,
-        owner: "", //user id which is not yet implementd
+        owner: this.props.currentUser.uid, //user id which is not yet implementd
         postType: "product",
         price: product.price.value,
         width: product.width.value
@@ -44,12 +44,16 @@ class ProductAdder extends Component {
         formSuccessViewer();
       })
       .catch( (error) => {
-        console.log('could not insert product');
+        console.log('could not insert following product: ');
         console.log(product);
+        console.log(`ERROR: code: ${error.code}, message:${error.message}`);
         formErrorViewer(error.message);
       });
       // formSuccessViewer();
     } catch (error) {
+      console.log('could not insert following product: ');
+      console.log(product);
+      console.log(`ERROR: code: ${error.code}, message:${error.message}`);
       formErrorViewer(error);
     }
   }
@@ -61,7 +65,7 @@ class ProductAdder extends Component {
     //2- add the product to the database
     //Check (https://firebase.google.com/docs/storage/web/upload-files) &
     //check (https://firebase.google.com/docs/database/web/read-and-write) for more info
-    formData.files.map(file => {
+    formData.newImages.map(file => {
       //get a reference for the image bucket (the placeholder where we will put the image into)
       var imagesRef = storage
         .ref()
@@ -97,7 +101,7 @@ class ProductAdder extends Component {
         error => {
           // Handle unsuccessful uploads
           console.log("error uploading image of product");
-          console.log(error);
+          console.log(`ERROR: code: ${error.code}, message:${error.message}`);
           // A full list of error codes is available at
           // https://firebase.google.com/docs/storage/web/handle-errors
           switch (error.code) {

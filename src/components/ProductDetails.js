@@ -37,8 +37,6 @@ class ProductDetails extends Component {
   }
 
   render() {
-    console.log("current user in ProductDetails")
-    console.log(this.props.currentUser)
     const product = this.state.product;
 
     if (this.state.loading && !this.state.errorHandling.showError)
