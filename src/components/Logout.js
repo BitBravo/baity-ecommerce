@@ -13,7 +13,6 @@ class Logout extends Component {
 
   componentWillMount() {
     app.auth().signOut().then((user, error) => {
-      this.props.setCurrentUser(null)
       this.setState({ redirect: true })
     });
   }

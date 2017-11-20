@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Grid, Row, Col } from "react-bootstrap";
 import { app, base } from "../base";
+import FirebaseServices from './FirebaseServices'
 import ProductBrief from "./ProductBrief";
 import Loading from './Loading'
 
@@ -24,7 +25,7 @@ class ProductList extends Component {
   }
 
   componentWillMount() {
-    this.productsRef = base.syncState("product", {
+    this.productsRef = base.syncState(FirebaseServices.PRODUCTS_PATH, {
       context: this,
       state: "products",
       then(data) {

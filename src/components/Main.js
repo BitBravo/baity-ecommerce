@@ -9,6 +9,8 @@ import ProductDetails from "./ProductDetails";
 import ProductUpdater from "./ProductUpdater";
 
 function AuthenticatedRoute({ component: Component, authenticated, ...rest }) {
+  console.log(authenticated)
+  console.log(rest)
   return (
     <Route
       {...rest}
@@ -26,7 +28,7 @@ function AuthenticatedRoute({ component: Component, authenticated, ...rest }) {
 
 class Main extends Component {
   constructor(props) {
-    super();
+    super(props);
   }
 
   render() {
@@ -41,7 +43,7 @@ class Main extends Component {
             path="/login"
             render={props => {
               return (
-                <Login setCurrentUser={this.props.setCurrentUser} {...props} />
+                <Login  currentUser={this.props.currentUser} {...props} />
               );
             }}
           />
@@ -51,7 +53,7 @@ class Main extends Component {
             render={props => {
               return (
                 <Register
-                  setCurrentUser={this.props.setCurrentUser}
+                  currentUser={this.props.currentUser}
                   {...props}
                 />
               );
@@ -61,7 +63,7 @@ class Main extends Component {
             exact
             path="/logout"
             render={props => {
-              return <Logout setCurrentUser={this.props.setCurrentUser} {...props} />;
+              return <Logout  {...props} />;
             }}
           />
           <AuthenticatedRoute

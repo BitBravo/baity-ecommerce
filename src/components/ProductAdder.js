@@ -132,8 +132,6 @@ class ProductAdder extends Component {
   }
 
   render() {
-    console.log("current user in ProductAdder")
-    console.log(this.props.currentUser)
     return (
       <div style={{ padding: "10em", background: "#F5F5F5", color: "#444444" }}>
         <div className="panel panel-default">

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { app, base } from "../base";
+import FirebaesServices from './FirebaseServices'
 import { Image, Alert, Col, Thumbnail, Button, Modal } from "react-bootstrap";
 import Loading from './Loading'
 
@@ -20,7 +21,7 @@ class ProductDetails extends Component {
   }
 
   componentWillMount() {
-    this.productsRef = base.syncState(`product/${this.productId}`, {
+    this.productsRef = base.syncState(`${FirebaesServices.PRODUCTS_PATH}/${this.productId}`, {
       context: this,
       state: 'product',
       then(data) {

@@ -3,6 +3,7 @@ import { Modal, Alert, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import firebase from "firebase";
 import { app, base, database, storage } from "../base";
+import FirebaseServices from './FirebaseServices'
 import Loading from "./Loading";
 
 import {
@@ -33,7 +34,7 @@ class ProductUpdater extends Component {
   }
 
   componentWillMount() {
-    this.productsRef = base.syncState(`product/${this.productId}`, {
+    this.productsRef = base.syncState(`${FirebaseServices.PRODUCTS_PATH}/${this.productId}`, {
       context: this,
       state: "product",
       then(data) {
