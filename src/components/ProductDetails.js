@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { app, base } from "../base";
 import FirebaesServices from './FirebaseServices'
 import { Image, Alert, Col, Thumbnail, Button, Modal } from "react-bootstrap";
-import Loading from './Loading'
+import Loading from './Loading';
 
 
 class ProductDetails extends Component {
@@ -38,6 +38,7 @@ class ProductDetails extends Component {
   }
 
   render() {
+ 
     const product = this.state.product;
 
     if (this.state.loading && !this.state.errorHandling.showError)
@@ -61,6 +62,7 @@ class ProductDetails extends Component {
     );
   if (!this.state.loading && !this.state.showError)
       return(
+        
         <Col xs={6} md={4}>
           <Thumbnail src={product.imgUrl} alt="242x200">
             <div >
@@ -83,7 +85,8 @@ class ProductDetails extends Component {
             </p>
           </Thumbnail>
         </Col>
-      
+       
+   
       
     );
   }

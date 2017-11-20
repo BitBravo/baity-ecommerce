@@ -25,41 +25,20 @@ class ImageUploader extends React.Component {
           {({ isDragActive, isDragReject, acceptedFiles, rejectedFiles }) => {
             if (isDragActive) {
               return (
-                <div
-                  style={{
-                    direction: "rtl",
-                    paddingRight: "20px",
-                    paddingTop: "20px",
-                    paddingLeft: "20px"
-                  }}
-                >
+                <div>
                   هذا الملف مسموح به
                 </div>
               );
             }
             if (isDragReject) {
               return (
-                <div
-                  style={{
-                    direction: "rtl",
-                    paddingRight: "20px",
-                    paddingTop: "20px",
-                    paddingLeft: "20px"
-                  }}
-                >
+                <div>
                   هذا الملف غير مسموح به
                 </div>
               );
             }
             return acceptedFiles.length || rejectedFiles.length ? (
-              <div
-                style={{
-                  direction: "rtl",
-                  paddingRight: "20px",
-                  paddingTop: "20px",
-                  paddingLeft: "20px"
-                }}
-              >
+              <div>
                 <p>الملفات التي تم قبولها {acceptedFiles.length}, الملفات التي تم
                 رفضها {rejectedFiles.length}. </p>
                 <p>يمكنك  تعديل الصورة بسحب ملف صورة جديدة وإلقائه هنا أو بالضغط على هذا
@@ -67,14 +46,7 @@ class ImageUploader extends React.Component {
                 وبحجم لا يزيد عن ٥ ميجابايت</p>
               </div>
             ) : (
-              <div
-                style={{
-                  direction: "rtl",
-                  paddingRight: "20px",
-                  paddingTop: "20px",
-                  paddingLeft: "20px"
-                }}
-              >
+              <div>
                 يمكنك اضافة صورة بسحب ملف الصورة وإلقائه هنا أو بالضغط على هذا
                 المكان لتحميل الملف. سيتم فقط قبول ملفات الصور من نوع jpeg و png
                 وبحجم لا يزيد عن ٥ ميجابايت

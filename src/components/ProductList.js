@@ -53,8 +53,10 @@ class ProductList extends Component {
        <Loading/>
       )
     else 
-      return (  <div>
-        <div style={{paddingBottom: '30px'}}/>
+      return (
+      
+         <div >
+           <h1>products</h1>
         <Grid>
           <Row>
             {productIds.map(id => {
@@ -64,6 +66,7 @@ class ProductList extends Component {
           </Row>
         </Grid>
       </div>
+    
       
     );
   }
