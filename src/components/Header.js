@@ -12,13 +12,13 @@ import bayty_icon from "../assets/img/bayty_icon.png";
 class Header extends Component {
   render() {
     return (
-      <Navbar fixedTop> 
+      <Navbar fixedTop inverse> 
         <Navbar.Header >
         <Navbar.Toggle />
         </Navbar.Header>
         
         <Navbar.Collapse >
-        <Navbar.Brand className="nav pull-right">
+        <Navbar.Brand className=" pull-right">
               <img src={bayty_icon}/>
           </Navbar.Brand > 
         <Nav >

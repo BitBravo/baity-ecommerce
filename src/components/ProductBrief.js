@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { app, base } from "../base";
-import { Image, Col, Thumbnail, Button } from "react-bootstrap";
+import { Image, Col, Thumbnail, Button, Card,Row } from "react-bootstrap";
+import Equalizer from "react-equalizer";
 
 // const productCardStyles = {
 //     maxWidth: "30%",
@@ -23,25 +24,34 @@ class ProductBrief extends Component {
   render() {
     const product = this.props.product;
     return (
-      <Col xs={6} md={4}>
-         <Thumbnail >
-           <div className="crop">
-      <Link to={`/products/${product.id}`} >
 
-              <img src={product.imgUrl} />
+   
+      <Equalizer>
+      <Col xs={6} md={4} >
+     
+         <Thumbnail >
+         
+           <div className="dotted-border ">
+          <Link to={`/products/${product.id}`} >
+              <img id="middle" src={product.imgUrl}/>
               </Link>
               </div>
-              <div className="padding">
+             
+              <div className="padding" >
               <Link to={`/products/${product.id}`}>
 
               <h4 > {product.name} </h4>
               </Link>
             
         
-            <p >{product.desc}</p>
+            <p className="flex-text text-muted">{product.desc}</p>
             </div>
+          
           </Thumbnail>
+         
       </Col>
+     
+      </Equalizer> 
     );
   }
 }

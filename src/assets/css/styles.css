@@ -1,11 +1,19 @@
 
-img {max-width: 100%; }
+
+.carousel img {width: 100%; border: 5px solid '#fff';
+   flex-direction: 200%;
+   
+  }
+.carousel div {max-height: 35em;}
+
 .navbar .nav {
     display: block;
     float: right;
     position: relative;
     text-align: center;
-    padding-left: 0; 
+    padding-left: 0;
+    color: blue; 
+    
 }
 .link{
     color: blue; }
@@ -15,6 +23,7 @@ img {max-width: 100%; }
     color: blue;
 }
 
+ 
 h1 {
 
     font-family: " Arial";
@@ -22,6 +31,7 @@ h1 {
     color: #333333;
     font-size: 3em;
     text-align: center;
+    
 }
 h1 h2 h3 h4 h5 h6 {
     font-family: " Arial";
@@ -30,44 +40,84 @@ h1 h2 h3 h4 h5 h6 {
     }
 
 .thumbnail {
-    display: block;
+    
     padding-top: 0;
     padding-left: 0;
     padding-right: 0;
     padding-bottom: 10;
     margin-bottom: 20px;
-    line-height: 1.42857;
+    max-width: 100%;
+    overflow: hidden;
+    margin: 30px auto;
+    position: relative;
     background-color: #fff;
     border: 0px solid;
     border-radius: 0px;
-    -webkit-transition: border 0.2s ease-in-out;
-    transition: border 0.2s ease-in-out; }
-
-
+     }
 .thumbnail .caption {
-      padding: 0px;
-      color: #888; }
+    padding: 0px;
+    color: #888; 
+    }
+
+
 
     .padding {
     padding-right: 5px;
-    padding-top: 5px;}
-
-    .crop {
-        width: 360px;
-        height: 220px;
-        overflow: hidden;
-        position: relative;
-    }
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-bottom: 5px;}
     
-    .crop img {
-        position: absolute;
-        margin: auto; 
-        height: 100%;
+    .image-wrap {
+       
+        max-height:260px;
+        overflow: hidden;
+        max-width: 100%;       
+        -webkit-transition: max-width .5s ease-out;  /* Saf3.2+, Chrome */
+        -moz-transition: max-width .5s ease-out;  /* FF4+ */
+        -ms-transition: max-width .5s ease-out;  /* IE10? */
+        -o-transition: max-width .5s ease-out;  /* Opera 10.5+ */
+        transition: max-width .5s ease-out; 
         width: 100%;
-        left: -50%;
-        right: -50%;
-        top: -50%;
-        bottom: -50%;
+        display: inline-block;
+        height: 100%;
         
-        
+      
+       
     }
+   .image-wrap img
+   { position: absolute;
+    clip:inherit;}
+
+    .dotted-border {  
+        position: relative; 
+        width: 100%;
+        height: 20em;
+      }
+      
+      #top-left, #middle, #bottom-right {
+        position: absolute;
+        top: 0px;
+        top:0; bottom: 0;/* vertical center */
+        left:0;right:0; 
+      }
+      
+      #top-left {
+        left: 260px;
+        clip: rect(0px,0px, 100px, 0px); 
+      }
+      
+      
+      #middle {  
+        clip: rect(0px, 360px,20em, 0px); 
+        /* standard syntax, unsupported by Internet Explorer 4-7 */
+      }
+      
+      #bottom-right {
+        left: 200px;
+        clip: rect(235px 335px 345px 160px);
+        /* non-standard syntax, but supported by all major browsers*/
+      }
+    
+
+     
+    
