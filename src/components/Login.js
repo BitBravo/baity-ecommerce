@@ -45,16 +45,6 @@ Here is how a firebase.auth().user object looks like:
 
 */
 
-const loginStyles = {
-  width: "90%",
-  maxWidth: "415px",
-  margin: "20px auto",
-  border: "1px solid #ddd",
-  borderRadius: "5px",
-  padding: "10px",
-  marginTop: "50px",
-  background: "#FFFFFF"
-};
 
 class Login extends Component {
   constructor() {
@@ -142,7 +132,9 @@ class Login extends Component {
     }
 
     return (
-      <div style={loginStyles}>
+      <div >
+      <h1> تسجيل الدخول الى بيتي </h1>
+      <div className="login">
       <Collapse in={this.state.formStatusAlert.alert}>
           <Alert
             bsStyle={this.state.formStatusAlert.type}
@@ -154,7 +146,7 @@ class Login extends Component {
             }
           </Alert>
         </Collapse>
-        <form className="form-signin" onSubmit={(event) => this.authWithEmailPassword(event)}
+        <form c onSubmit={(event) => this.authWithEmailPassword(event)}
           ref={(form) => { this.loginForm = form }}>
          
           <div className="form-group">
@@ -167,10 +159,12 @@ class Login extends Component {
           <label htmlFor="inputPassword">كلمة السر</label>
             <input className="form-control" id="inputPassword" name="password" type="password" ref={(input) => {this.passwordInput = input}} placeholder="كلمة السر"></input>
           </div>
-          <button type="submit" className="btn btn-lg btn-primary btn-block">تسجيل دخول</button>
-
+          <div className="form-group">
+          <button type="submit" >تسجيل دخول</button>
+          </div>
           
         </form>
+      </div>
       </div>
     )
   }

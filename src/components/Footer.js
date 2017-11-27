@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { Nav, Navbar, NavItem, Button } from "react-bootstrap";
+import baityfooter from '../assets/img/baityfooter.png';
+
+
 
 class Footer extends Component {
   constructor(props) {
@@ -8,13 +12,12 @@ class Footer extends Component {
 
   render() {
     return (
-      <footer>
-        <ul className="site-links">
-          <li>
-            © {this.state.year} CoderJourney
-          </li>
-        </ul>
-      </footer>
+      <Navbar className="footer" inverse>
+      <NavItem >
+              <img  src={baityfooter}/>
+              <h6> © {this.state.year} CoderJourney</h6>
+          </NavItem>
+      </Navbar>
     );
   }
 }

@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { app, base } from "../base";
 import FirebaesServices from './FirebaseServices'
-import { Image, Alert, Col, Thumbnail, Button, Modal } from "react-bootstrap";
+import { Image, Alert, Col, Thumbnail, Button, Modal,Row, Grid } from "react-bootstrap";
 import Loading from './Loading';
+import Equalizer from "react-equalizer";
 
 
 class ProductDetails extends Component {
@@ -63,28 +64,35 @@ class ProductDetails extends Component {
   if (!this.state.loading && !this.state.showError)
       return(
         
-        <Col xs={6} md={4}>
-          <Thumbnail src={product.imgUrl} alt="242x200">
-            <div >
+      
+        
+         <Grid className="productdetails">
+          <Row >
+           <Col  xs={12} sm={12} md={8} lg={8} className="pdimagebackground">
+           <div>
+            <img src={product.imgUrl} />
+            </div>
+            </Col>
+            <Col  xs={12} sm={12} md={4} lg={4} >
+            <div className="padding">
               <h3 >{product.name}</h3>
-            </div>
-            <div >
               <p >{product.desc}</p>
-            </div>
-            <div className="clearfix" />
             <p>
               {/* only product owner can update a product */}
               {this.props.currentUser.uid === this.state.product.owner
               ?<Link to={`/products/${product.id}/updateProduct`}>
-                <Button bsStyle="primary" block>
+                <button >
                   تحديث بيانات المنتج
-                </Button>
+                </button>
               </Link>
               : null
               }
             </p>
-          </Thumbnail>
-        </Col>
+            </div>
+            </Col>
+            </Row>
+        </Grid>
+        
        
    
       

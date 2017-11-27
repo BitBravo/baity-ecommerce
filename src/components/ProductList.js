@@ -25,6 +25,22 @@ class ProductList extends Component {
   }
 
   componentWillMount() {
+    if (this.props.thisUserOnly){
+    this.productsRef = base.syncState(FirebaseServices.PRODUCTS_PATH, {
+      context: this,
+      state: "products",
+      queries: {
+        orderByChild: 'owner',
+        equalTo: this.props.currentUser.uid
+      },
+      then(data) {
+      this.setState({loading: false})
+      },
+      onFailure(error) {
+      this.setState({errorHandling: {showError: true, errorMsg: error}});
+      }
+    });
+  } else {
     this.productsRef = base.syncState(FirebaseServices.PRODUCTS_PATH, {
       context: this,
       state: "products",
@@ -35,6 +51,7 @@ class ProductList extends Component {
       this.setState({errorHandling: {showError: true, errorMsg: error}});
       }
     });
+  }
     
   }
 
@@ -56,7 +73,6 @@ class ProductList extends Component {
       return (
       
          <div >
-           <h1>products</h1>
         <Grid>
           <Row>
             {productIds.map(id => {

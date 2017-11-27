@@ -26,14 +26,15 @@ class ProductBrief extends Component {
     return (
 
    
-      <Equalizer>
-      <Col xs={6} md={4} >
      
+      
+      <Col xs={6} md={4} >
+      <Equalizer>
          <Thumbnail >
          
            <div className="dotted-border ">
           <Link to={`/products/${product.id}`} >
-              <img id="middle" src={product.imgUrl}/>
+              <img id="middle" src={product.imgUrl} className="img-responsive"/>
               </Link>
               </div>
              
@@ -48,10 +49,10 @@ class ProductBrief extends Component {
             </div>
           
           </Thumbnail>
-         
+          </Equalizer>   
       </Col>
-     
-      </Equalizer> 
+    
+      
     );
   }
 }

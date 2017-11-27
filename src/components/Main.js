@@ -7,6 +7,7 @@ import Logout from "./Logout";
 import ProductAdder from "./ProductAdder";
 import ProductDetails from "./ProductDetails";
 import ProductUpdater from "./ProductUpdater";
+import MyProductList from './MyProductList'
 
 function AuthenticatedRoute({ component: Component, authenticated, ...rest }) {
   console.log(authenticated)
@@ -85,6 +86,13 @@ class Main extends Component {
             path="/products/:id/updateProduct"
             authenticated={this.props.authenticated}
             component={ProductUpdater}
+            currentUser={this.props.currentUser}
+          />
+          <AuthenticatedRoute
+            exact
+            path="/myproducts"
+            authenticated={this.props.authenticated}
+            component={MyProductList}
             currentUser={this.props.currentUser}
           />
         </Switch>
