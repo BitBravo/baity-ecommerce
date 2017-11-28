@@ -28,7 +28,7 @@ class ProductBrief extends Component {
    
      
       
-      <Col xs={6} md={4} >
+      <Col xs={12} md={4} >
       <Equalizer>
          <Thumbnail >
          

@@ -60,16 +60,6 @@ Here is how a firebase.auth().user object looks like:
 
 */
 
-const loginStyles = {
-  width: "90%",
-  maxWidth: "415px",
-  margin: "20px auto",
-  border: "1px solid #ddd",
-  borderRadius: "5px",
-  padding: "10px",
-  marginTop: "50px",
-  background: "#FFFFFF"
-};
 
 function FieldGroup({ id, label, help, validationState, firstTime, ...props }) {
   return (
@@ -352,7 +342,7 @@ class Register extends Component {
       return <Redirect to={from} />;
     }
     return (
-      <div style={loginStyles}>
+      <div className="loginreg">
         {loading ? (
           <Loading />
         ) : (
@@ -365,15 +355,14 @@ class Register extends Component {
             </Alert>
           </Collapse>
         )}
-        <form
-          className="form-signin"
-          onSubmit={event => this.authWithEmailPassword(event)}
-          ref={form => {
-            this.registerForm = form;
-          }}
-        >
-          <h2 className="form-signin-heading">تسجيل حساب تجاري</h2>
-          <hr />
+        <form onSubmit={event => this.authWithEmailPassword(event)}
+          ref={form => { this.registerForm = form; }}  >
+        <div className="loginregtitle">
+          <h1 >تسجيل حساب تجاري</h1>
+          <h3> الطريقة المثلى لتصميم منزلك </h3>
+       
+          </div>
+          
 
           <FieldGroup
             id="inputEmail"
@@ -480,7 +469,7 @@ class Register extends Component {
             )}
           />
 
-          <button type="submit" className="btn btn-lg btn-primary btn-block">
+          <button type="submit" >
             تسجيل
           </button>
         </form>

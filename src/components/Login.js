@@ -132,9 +132,10 @@ class Login extends Component {
     }
 
     return (
-      <div >
-      <h1> تسجيل الدخول الى بيتي </h1>
-      <div className="login">
+      <div className="loginreg">
+      
+    
+        
       <Collapse in={this.state.formStatusAlert.alert}>
           <Alert
             bsStyle={this.state.formStatusAlert.type}
@@ -146,9 +147,12 @@ class Login extends Component {
             }
           </Alert>
         </Collapse>
-        <form c onSubmit={(event) => this.authWithEmailPassword(event)}
+        <form  onSubmit={(event) => this.authWithEmailPassword(event)}
           ref={(form) => { this.loginForm = form }}>
-         
+         <div className="loginregtitle">
+      <h1> تسجيل الدخول الى بيتي </h1>
+      <h3> الطريقة المثلى لتصميم منزلك </h3>
+      </div>
           <div className="form-group">
           <label htmlFor="inputEmail">البريد الالكتروني</label>
 
@@ -165,7 +169,7 @@ class Login extends Component {
           
         </form>
       </div>
-      </div>
+      
     )
   }
 }

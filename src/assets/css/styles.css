@@ -22,10 +22,10 @@
 
 .carousel img { 
     width: 100%;
-    min-height: 35em; 
+    min-height: 50rem; 
   }
 .carousel div {
-    height: 50vh;
+    height: 50rem;
     }
 .hero {
     position: absolute;
@@ -76,13 +76,14 @@ h1 {
     font-size: 3em;
     text-align: center;
     padding-top:15px ;
-    padding-bottom: 15px;
+    padding-bottom: 10px;
     
 }
-h1 h2 h3 h4 h5 h6 {
+h2 h3 h4 h5 h6 {
     font-family: " Arial";
     color: #333333;
     padding-right: 5px;
+    padding-bottom: 15px;
     }
 
 .thumbnail {
@@ -154,23 +155,36 @@ h1 h2 h3 h4 h5 h6 {
         font-size: 2.5vmin; 
     }    
     
-    .login {
-        background-image: url ('../img/garden.jpg');
-        background-repeat:no-repeat;
-        background-size:contain;
-        
+    .loginreg { 
+       padding-top: 5%;;
+        width: 100%;
+        height: 100vh;
+        background-image: url( '../img/garden.jpg');
+        background-position: bottom;
         }
-    .login form {
-        width: 70%;
-        max-width: 415px;
-        margin: 20px auto;
-       
-        padding: 10px;
-        margin-top: 20px;
+        .loginregtitle {
+            text-align: center;
+            font-size: 10px;
+            background: rgb(240,240,240);
+            padding-bottom: 10px;
+            margin-top: -50px;
+            margin-left: -30px;
+            margin-right: -30px;
+            margin-bottom: 40px;
+        }
+    .loginreg form {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 5px;
+        width: 90%;
+        max-width: 500px;
+        padding: 30px;
         color: #3C3C3C;
+        background: rgb(255,255,255);
     }
       
-        .login button {
+        .loginreg button {
             background: rgb(73,157,157);
             width: 100%;
             color: white;
