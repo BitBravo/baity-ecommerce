@@ -66,17 +66,24 @@ class ProductDetails extends Component {
         
       
         
-         <Grid className="productdetails">
-          <Row >
-           <Col  xs={12} sm={12} md={8} lg={8} className="pdimagebackground">
-           <div>
+         
+          <Row className="productdetails">
+          <Equalizer>
+           <Col  xs={12} sm={12} md={8} lg={8} className="productdetailsimgbckgrnd">
             <img src={product.imgUrl} />
-            </div>
             </Col>
             <Col  xs={12} sm={12} md={4} lg={4} >
             <div className="padding">
-              <h3 >{product.name}</h3>
+              <h3>{product.factory}</h3>
+              </div>
+            <hr/>
+            <div className="padding">
+              <h4 >{product.name}</h4>
               <p >{product.desc}</p>
+              <h3 >{product.price} ريال سعودي</h3>
+              </div>
+              <hr/>
+              <div>
             <p>
               {/* only product owner can update a product */}
               {this.props.currentUser.uid === this.state.product.owner
@@ -90,8 +97,9 @@ class ProductDetails extends Component {
             </p>
             </div>
             </Col>
+            </Equalizer>
             </Row>
-        </Grid>
+      
         
        
    

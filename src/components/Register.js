@@ -362,10 +362,10 @@ class Register extends Component {
           ref={form => { this.registerForm = form; }}  >
            <img src={bayty_icon}/>
         <div className="loginregtitle">
-          <h1 >تسجيل حساب تجاري</h1>
+          <h3 >تسجيل حساب تجاري</h3>
           </div>
           <Row> 
-            <Col sm={12}  lg={6}>
+            <Col sm={6} md={6} lg={6}>
           <FieldGroup
             id="inputCoName"
             type="text"
@@ -387,7 +387,7 @@ class Register extends Component {
             )}
           />
  </Col>
-     <Col sm={12}  lg={6}>
+     <Col sm={6} md={6} lg={6}>
           <FieldGroup
             id="inputEmail"
             type="text"
@@ -411,7 +411,7 @@ class Register extends Component {
           </Col>
           </Row>
         <Row>  
-     <Col sm={12}  lg={6}>
+     <Col sm={6} md={6} lg={6}>
      <FieldGroup
             id="inputPassword2"
             type="password"
@@ -433,7 +433,7 @@ class Register extends Component {
             )}
           />
           </Col>
-         <Col sm={12}  lg={6}>
+         <Col  sm={6} md={6} lg={6}>
           <FieldGroup
             id="inputPassword"
             type="password"
@@ -458,9 +458,9 @@ class Register extends Component {
 </Row>
         
 <Row>
-<Col sm={12}  lg={6}>
+<Col  sm={6} md={6} lg={6}>
 </Col>
-<Col sm={12}  lg={6}>
+<Col  sm={6} md={6} lg={6}>
           <FieldGroup  pullright
             id="inputPhoneNo"
             type="text"

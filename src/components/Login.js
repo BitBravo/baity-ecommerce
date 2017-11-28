@@ -3,7 +3,7 @@ import { Redirect, Link } from 'react-router-dom'
 import { Collapse, Alert, Modal,Col,Row } from "react-bootstrap"
 import { app } from '../base'
 import bayty_icon from '../assets/img/bayty_icon.png';
-
+import { CSSTransition } from 'react-transition-group'
 /*
 
 This form uses firebase email/password authentication.
@@ -155,10 +155,10 @@ class Login extends Component {
          
          <div className="loginregtitle">
       
-      <h1> تسجيل الدخول الى بيتي </h1>
+      <h3> تسجيل الدخول الى بيتي </h3>
       </div>
       <Row>
-      <Col sm={12}  lg={6}>
+      <Col sm={6}  lg={6}>
           <div className="form-group">
           <label htmlFor="inputEmail">البريد الالكتروني</label>
 
@@ -166,7 +166,7 @@ class Login extends Component {
           
           </div>
           </Col>
-          <Col sm={12}  lg={6}>
+          <Col sm={6}  lg={6}>
           <div className="form-group">
           <label htmlFor="inputPassword">كلمة السر</label>
             <input className="form-control" id="inputPassword" name="password" type="password" ref={(input) => {this.passwordInput = input}} placeholder="كلمة السر"></input>

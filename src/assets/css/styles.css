@@ -1,7 +1,7 @@
 .footer{
     position: absolute;
     right: 0;
-  
+    width: 100%;
     left: 0;
     padding: 1rem;
 }
@@ -46,6 +46,7 @@
     width: 35px;
     margin-top: -10px;
     margin-bottom: -10px;
+    border-radius: 5px;
   
 }
 .navbar .nav {
@@ -69,21 +70,11 @@
 
  
 h1 {
-
-    font-family: " Arial";
-    line-height: 1.42857143;
     color: #333333;
-    font-size: 3em;
-    text-align: center;
-    padding-top:15px ;
-    padding-bottom: 10px;
-    
+    text-align: center;   
 }
 h2 h3 h4 h5 h6 {
-    font-family: " Arial";
     color: #333333;
-    padding-right: 5px;
-    padding-bottom: 15px;
     }
 
 .thumbnail {
@@ -109,54 +100,48 @@ h2 h3 h4 h5 h6 {
 
     .productdetails {
         width: 100%;
-        margin-top: 0; 
-        margin-bottom: 0;
+        margin:auto;
         padding: 0;
+        background: white;       
     
     }
-    
-    
     .productdetails div {
         overflow: auto;
+        
     }
-   .pdimagebackground {
-       background-color: #f4f4f4;  
+   .productdetailsimgbckgrnd {
+    border-right-style: solid;
+    border-width: .5px;
+    border-color:rgba(197, 196, 196, 0.694); 
+    background-color: #f4f4f4;  
    }
     
     .productdetails img{
         display: block;
         margin-left: 10%;
         margin-right: 10%;
-        width: 80%;
-        max-width: 80%;
-        
-        
+        width: 80%;  
     }
-     
+    .productdetails hr{
+        margin-left: -15px;
+    }
     .productdetails button{
-        font-family: " Arial";
-        margin-top:10px;
-        width: 30%;
-        min-width: 90px;
-        background: rgb(73,157,157);
-        border: white;
-        border-radius: 5px;
+        margin-right: 2%;
+        width: 70%;
+        max-width: 200px;
+        background:  rgb(73, 157, 157);
         color: white;
-        font-size: 2vmin; 
-    }
-    .productdetails h3  {
-        font-family: " Arial";
-        color: black;
-        font-size: 4vmin; 
+        align-items: center;
+        border-radius: 5px;
+        height: 40px;
     }
     .productdetails p {
-        font-family: " Arial";
         color: black;
-        font-size: 2.5vmin; 
+   
     }    
     
     .loginreg { 
-       padding-top: 8%;;
+       padding-top: 10%;
         width: 100%;
         height: 100vh;
         background-image: url( '../img/garden.jpg');
@@ -164,7 +149,7 @@ h2 h3 h4 h5 h6 {
 
         }
         .loginreg img {
-        width: 19%;
+        width: 20%;
         border-radius: 5px;
         margin-top: -70px;
         margin-right: 40%;
@@ -172,19 +157,19 @@ h2 h3 h4 h5 h6 {
         }
         .loginregtitle {
             text-align: center;
-            font-size: 10px;
             background: rgb(240,240,240);
-            padding-top: 15px;
-            margin-top: -55px;
+            padding-top: 12%;
+            padding-bottom: 1%;
+            margin-top: -65px;
             margin-left: -25px;
             margin-right: -25px;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
         }
     .loginreg form {
-        
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         margin-left: auto;
         margin-right: auto;
+        
         border-radius: 5px;
         width: 90%;
         max-width: 570px;
@@ -205,7 +190,7 @@ h2 h3 h4 h5 h6 {
         }
     
     .padding {
-    padding-right: 10px;
+    padding-right: 20px;
     padding-top: 5px;
     padding-left: 5px;
     padding-bottom: 5px;}

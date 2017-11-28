@@ -17,10 +17,11 @@ class Header extends Component {
         
         <Navbar.Collapse >
         <Nav>
+        
         <NavItem>
               <img className="navbrandimg" src={bayty_icon}/>
           </NavItem> 
-          
+         
             <LinkContainer to="/">
               <NavItem > <GoHome className="icons"/> الصفحة الرئيسية </NavItem>
             </LinkContainer>
