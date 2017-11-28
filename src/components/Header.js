@@ -31,7 +31,7 @@ class Header extends Component {
                 <NavItem><GoSignIn className="icons"/>تسجيل دخول</NavItem>
               </LinkContainer>
               <LinkContainer to="/register">
-                <NavItem><TiUserAddOutline className="icons"/>تسجيل مستخدم جديد</NavItem>
+                <NavItem><TiUserAddOutline className="icons"/>تسجيل مستخدم تجاري</NavItem>
               </LinkContainer>
             </Nav>
           ) : (

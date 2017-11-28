@@ -12,11 +12,14 @@ import {
   Collapse,
   Alert,
   Modal,
-  ProgressBar
+  ProgressBar,
+  Row,
+  Col
 } from "react-bootstrap";
 import FirebaseServices from "./FirebaseServices";
 import Loading from "./Loading";
 import { app } from "../base";
+import bayty_icon from '../assets/img/bayty_icon.png';
 
 /*
 This is the registration form for professional users.
@@ -357,76 +360,12 @@ class Register extends Component {
         )}
         <form onSubmit={event => this.authWithEmailPassword(event)}
           ref={form => { this.registerForm = form; }}  >
+           <img src={bayty_icon}/>
         <div className="loginregtitle">
           <h1 >تسجيل حساب تجاري</h1>
-          <h3> الطريقة المثلى لتصميم منزلك </h3>
-       
           </div>
-          
-
-          <FieldGroup
-            id="inputEmail"
-            type="text"
-            label="البريد الالكتروني"
-            placeholder="عنوان البريد الالكتروني"
-            inputRef={input => {
-              this.emailInput = input;
-            }}
-            name="email"
-            help={
-              this.state.formValidationStatus.email.firstTime ||
-              this.state.formValidationStatus.email.valid
-                ? "    نقدر خصوصية عملائنا ولن يتم مشاركة البريد الالكتروني مع أي جهة أخرى"
-                : this.state.formValidationStatus.email.errorMessage
-            }
-            validationState={this.validationState(
-              this.state.formValidationStatus.email.firstTime,
-              this.state.formValidationStatus.email.valid
-            )}
-          />
-
-          <FieldGroup
-            id="inputPassword"
-            type="password"
-            label="كلمة السر"
-            placeholder="كلمة السر"
-            inputRef={input => {
-              this.passwordInput = input;
-            }}
-            name="password"
-            help={
-              this.state.formValidationStatus.password1.firstTime ||
-              this.state.formValidationStatus.password1.valid
-                ? " كلمة السر خليط من الحروف اللاتينية والأرقام بطول لا يقل عن ٨ أحرف"
-                : this.state.formValidationStatus.password1.errorMessage
-            }
-            validationState={this.validationState(
-              this.state.formValidationStatus.password1.firstTime,
-              this.state.formValidationStatus.password1.valid
-            )}
-          />
-
-          <FieldGroup
-            id="inputPassword2"
-            type="password"
-            label="تأكيد كلمة السر"
-            placeholder="تأكيد كلمة السر"
-            inputRef={input => {
-              this.password2Input = input;
-            }}
-            name="password2"
-            help={
-              this.state.formValidationStatus.password2.firstTime ||
-              this.state.formValidationStatus.password2.valid
-                ? "يجب أن تتطابق كلمتي السر"
-                : this.state.formValidationStatus.password2.errorMessage
-            }
-            validationState={this.validationState(
-              this.state.formValidationStatus.password2.firstTime,
-              this.state.formValidationStatus.password2.valid
-            )}
-          />
-
+          <Row> 
+            <Col sm={12}  lg={6}>
           <FieldGroup
             id="inputCoName"
             type="text"
@@ -447,8 +386,82 @@ class Register extends Component {
               this.state.formValidationStatus.coName.valid
             )}
           />
-
+ </Col>
+     <Col sm={12}  lg={6}>
           <FieldGroup
+            id="inputEmail"
+            type="text"
+            label="البريد الالكتروني"
+            placeholder="عنوان البريد الالكتروني"
+            inputRef={input => {
+              this.emailInput = input;
+            }}
+            name="email"
+            help={
+              this.state.formValidationStatus.email.firstTime ||
+              this.state.formValidationStatus.email.valid
+                ? "    نقدر خصوصية عملائنا ولن يتم مشاركة البريد الالكتروني مع أي جهة أخرى"
+                : this.state.formValidationStatus.email.errorMessage
+            }
+            validationState={this.validationState(
+              this.state.formValidationStatus.email.firstTime,
+              this.state.formValidationStatus.email.valid
+            )}
+          />
+          </Col>
+          </Row>
+        <Row>  
+     <Col sm={12}  lg={6}>
+     <FieldGroup
+            id="inputPassword2"
+            type="password"
+            label="تأكيد كلمة السر"
+            placeholder="تأكيد كلمة السر"
+            inputRef={input => {
+              this.password2Input = input;
+            }}
+            name="password2"
+            help={
+              this.state.formValidationStatus.password2.firstTime ||
+              this.state.formValidationStatus.password2.valid
+                ? "يجب أن تتطابق كلمتي السر"
+                : this.state.formValidationStatus.password2.errorMessage
+            }
+            validationState={this.validationState(
+              this.state.formValidationStatus.password2.firstTime,
+              this.state.formValidationStatus.password2.valid
+            )}
+          />
+          </Col>
+         <Col sm={12}  lg={6}>
+          <FieldGroup
+            id="inputPassword"
+            type="password"
+            label="كلمة السر"
+            placeholder="كلمة السر"
+            inputRef={input => {
+              this.passwordInput = input;
+            }}
+            name="password"
+            help={
+              this.state.formValidationStatus.password1.firstTime ||
+              this.state.formValidationStatus.password1.valid
+                ? " كلمة السر خليط من الحروف اللاتينية والأرقام بطول لا يقل عن ٨ أحرف"
+                : this.state.formValidationStatus.password1.errorMessage
+            }
+            validationState={this.validationState(
+              this.state.formValidationStatus.password1.firstTime,
+              this.state.formValidationStatus.password1.valid
+            )}
+          />
+</Col>
+</Row>
+        
+<Row>
+<Col sm={12}  lg={6}>
+</Col>
+<Col sm={12}  lg={6}>
+          <FieldGroup  pullright
             id="inputPhoneNo"
             type="text"
             label="رقم الجوال"
@@ -468,7 +481,9 @@ class Register extends Component {
               this.state.formValidationStatus.phoneNo.valid
             )}
           />
+          </Col>
 
+          </Row>
           <button type="submit" >
             تسجيل
           </button>

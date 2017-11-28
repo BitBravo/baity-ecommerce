@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
-import { Collapse, Alert, Modal } from "react-bootstrap"
+import { Collapse, Alert, Modal,Col,Row } from "react-bootstrap"
 import { app } from '../base'
-
+import bayty_icon from '../assets/img/bayty_icon.png';
 
 /*
 
@@ -147,24 +147,35 @@ class Login extends Component {
             }
           </Alert>
         </Collapse>
+       
         <form  onSubmit={(event) => this.authWithEmailPassword(event)}
           ref={(form) => { this.loginForm = form }}>
+       
+         <img src={bayty_icon}/>
+         
          <div className="loginregtitle">
+      
       <h1> تسجيل الدخول الى بيتي </h1>
-      <h3> الطريقة المثلى لتصميم منزلك </h3>
       </div>
+      <Row>
+      <Col sm={12}  lg={6}>
           <div className="form-group">
           <label htmlFor="inputEmail">البريد الالكتروني</label>
 
           <input id="inputEmail"  className="form-control" name="email" type="email" ref={(input) => {this.emailInput = input}} placeholder="عنوان البريد الالكتروني"></input>
           
           </div>
+          </Col>
+          <Col sm={12}  lg={6}>
           <div className="form-group">
           <label htmlFor="inputPassword">كلمة السر</label>
             <input className="form-control" id="inputPassword" name="password" type="password" ref={(input) => {this.passwordInput = input}} placeholder="كلمة السر"></input>
           </div>
+          </Col>
+          </Row>
           <div className="form-group">
           <button type="submit" >تسجيل دخول</button>
+          <p> نسيت كلمة المرور؟ </p>
           </div>
           
         </form>
