@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
+import { LinkContainer } from "react-router-bootstrap";
 import { Collapse, Alert, Modal,Col,Row } from "react-bootstrap"
 import { app } from '../base'
 import bayty_icon from '../assets/img/bayty_icon.png';
@@ -133,9 +134,7 @@ class Login extends Component {
 
     return (
       <div className="loginreg">
-      
-    
-        
+   
       <Collapse in={this.state.formStatusAlert.alert}>
           <Alert
             bsStyle={this.state.formStatusAlert.type}
@@ -148,7 +147,7 @@ class Login extends Component {
           </Alert>
         </Collapse>
        
-        <form  onSubmit={(event) => this.authWithEmailPassword(event)}
+        <form    onSubmit={(event) => this.authWithEmailPassword(event)}
           ref={(form) => { this.loginForm = form }}>
        
          <img src={bayty_icon}/>
@@ -158,15 +157,16 @@ class Login extends Component {
       <h3> تسجيل الدخول الى بيتي </h3>
       </div>
       <Row>
-      <Col sm={6}  lg={6}>
-          <div className="form-group">
+      <Col sm={12}  lg={6} className="col-lg-push-6">
+          <div className="form-group" >
           <label htmlFor="inputEmail">البريد الالكتروني</label>
 
           <input id="inputEmail"  className="form-control" name="email" type="email" ref={(input) => {this.emailInput = input}} placeholder="عنوان البريد الالكتروني"></input>
           
           </div>
           </Col>
-          <Col sm={6}  lg={6}>
+         
+      <Col sm={12}  lg={6} className="col-lg-pull-6" >
           <div className="form-group">
           <label htmlFor="inputPassword">كلمة السر</label>
             <input className="form-control" id="inputPassword" name="password" type="password" ref={(input) => {this.passwordInput = input}} placeholder="كلمة السر"></input>
@@ -175,7 +175,11 @@ class Login extends Component {
           </Row>
           <div className="form-group">
           <button type="submit" >تسجيل دخول</button>
-          <p> نسيت كلمة المرور؟ </p>
+          <p><span Style="cursor:pointer"> نسيت كلمة المرور؟ </span></p>
+          <p > <span Style="color:black">ليس لديك حساب؟</span> 
+          <LinkContainer to="/register">
+          <span Style="cursor:pointer">&nbsp; قم بالتسجيل</span>
+          </LinkContainer></p>
           </div>
           
         </form>

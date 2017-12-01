@@ -47,7 +47,7 @@ class ProductDetails extends Component {
   if (this.state.errorHandling.showError)
     return (
       <div>
-        <Modal show={true} style={{ top: 300 }}>
+        <Modal show={true} style={{ top:-100 }}>
           <Modal.Header>حدث خطأ غير معروف</Modal.Header>
           <Modal.Body>
             
@@ -69,10 +69,10 @@ class ProductDetails extends Component {
          
           <Row className="productdetails">
           <Equalizer>
-           <Col  xs={12} sm={12} md={8} lg={8} className="productdetailsimgbckgrnd">
+           <Col  xl={12} sm={8} md={8} lg={8} className="productdetailsimgbckgrnd">
             <img src={product.imgUrl} />
             </Col>
-            <Col  xs={12} sm={12} md={4} lg={4} >
+            <Col  xl={12} sm={4} md={4} lg={4} >
             <div className="padding">
               <h3>{product.factory}</h3>
               </div>

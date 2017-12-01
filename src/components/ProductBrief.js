@@ -33,6 +33,7 @@ class ProductBrief extends Component {
          <Thumbnail >
          
            <div className="dotted-border ">
+          
           <Link to={`/products/${product.id}`} >
               <img id="middle" src={product.imgUrl} className="img-responsive"/>
               </Link>
@@ -46,6 +47,8 @@ class ProductBrief extends Component {
             
         
             <p className="flex-text text-muted">{product.desc}</p>
+            
+          
             </div>
           
           </Thumbnail>

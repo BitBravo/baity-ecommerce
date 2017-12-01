@@ -365,7 +365,30 @@ class Register extends Component {
           <h3 >تسجيل حساب تجاري</h3>
           </div>
           <Row> 
-            <Col sm={6} md={6} lg={6}>
+          
+     <Col sm={6}  md={6} lg={6} className={"col-lg-push-6; col-sm-push-6"}>
+          <FieldGroup
+            id="inputEmail"
+            type="text"
+            label="البريد الالكتروني"
+            placeholder="عنوان البريد الالكتروني"
+            inputRef={input => {
+              this.emailInput = input;
+            }}
+            name="email"
+            help={
+              this.state.formValidationStatus.email.firstTime ||
+              this.state.formValidationStatus.email.valid
+                ? "نقدر خصوصية عملائنا ولن يتم مشاركة البريد الالكتروني مع أي جهة أخرى"
+                : this.state.formValidationStatus.email.errorMessage
+            }
+            validationState={this.validationState(
+              this.state.formValidationStatus.email.firstTime,
+              this.state.formValidationStatus.email.valid
+            )}
+          />
+          </Col>
+          <Col sm={6}  md={6} lg={6} className={"col-lg-pull-6; col-sm-pull-6"}>
           <FieldGroup
             id="inputCoName"
             type="text"
@@ -387,31 +410,32 @@ class Register extends Component {
             )}
           />
  </Col>
-     <Col sm={6} md={6} lg={6}>
-          <FieldGroup
-            id="inputEmail"
-            type="text"
-            label="البريد الالكتروني"
-            placeholder="عنوان البريد الالكتروني"
-            inputRef={input => {
-              this.emailInput = input;
-            }}
-            name="email"
-            help={
-              this.state.formValidationStatus.email.firstTime ||
-              this.state.formValidationStatus.email.valid
-                ? "    نقدر خصوصية عملائنا ولن يتم مشاركة البريد الالكتروني مع أي جهة أخرى"
-                : this.state.formValidationStatus.email.errorMessage
-            }
-            validationState={this.validationState(
-              this.state.formValidationStatus.email.firstTime,
-              this.state.formValidationStatus.email.valid
-            )}
-          />
-          </Col>
           </Row>
         <Row>  
-     <Col sm={6} md={6} lg={6}>
+     
+         <Col  sm={6} md={6} lg={6} className={"col-lg-push-6; col-sm-push-6"}>
+          <FieldGroup
+            id="inputPassword"
+            type="password"
+            label="كلمة السر"
+            placeholder="كلمة السر"
+            inputRef={input => {
+              this.passwordInput = input;
+            }}
+            name="password"
+            help={
+              this.state.formValidationStatus.password1.firstTime ||
+              this.state.formValidationStatus.password1.valid
+                ? "كلمة السر خليط من الحروف اللاتينية والأرقام بطول لا يقل عن ٨ أحرف"
+                : this.state.formValidationStatus.password1.errorMessage
+            }
+            validationState={this.validationState(
+              this.state.formValidationStatus.password1.firstTime,
+              this.state.formValidationStatus.password1.valid
+            )}
+          />
+</Col>
+<Col sm={6}  md={6} lg={6} className={"col-lg-pull-6; col-sm-pull-6"}>
      <FieldGroup
             id="inputPassword2"
             type="password"
@@ -433,34 +457,10 @@ class Register extends Component {
             )}
           />
           </Col>
-         <Col  sm={6} md={6} lg={6}>
-          <FieldGroup
-            id="inputPassword"
-            type="password"
-            label="كلمة السر"
-            placeholder="كلمة السر"
-            inputRef={input => {
-              this.passwordInput = input;
-            }}
-            name="password"
-            help={
-              this.state.formValidationStatus.password1.firstTime ||
-              this.state.formValidationStatus.password1.valid
-                ? " كلمة السر خليط من الحروف اللاتينية والأرقام بطول لا يقل عن ٨ أحرف"
-                : this.state.formValidationStatus.password1.errorMessage
-            }
-            validationState={this.validationState(
-              this.state.formValidationStatus.password1.firstTime,
-              this.state.formValidationStatus.password1.valid
-            )}
-          />
-</Col>
 </Row>
         
 <Row>
-<Col  sm={6} md={6} lg={6}>
-</Col>
-<Col  sm={6} md={6} lg={6}>
+<Col  sm={6} md={6} lg={6} className={"col-lg-push-6; col-sm-push-6"}>
           <FieldGroup  pullright
             id="inputPhoneNo"
             type="text"
@@ -482,7 +482,6 @@ class Register extends Component {
             )}
           />
           </Col>
-
           </Row>
           <button type="submit" >
             تسجيل
