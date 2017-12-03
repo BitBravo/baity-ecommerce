@@ -19,7 +19,7 @@
 .myfooter img{
    width: 6.5vh;
    display: block;
-   margin-top: -20px;
+   margin-top:0;
    margin-bottom: 0;
    margin-left: auto;
    margin-right: auto;
@@ -33,10 +33,12 @@
 
 .carousel img { 
     width: 100%;
-    min-height: 50rem; 
+    min-height: 570px; 
+    margin-top:-50px;
+    margin-bottom: 0
   }
 .carousel div {
-    height: 50rem;
+    height: 500px;
     }
 .hero {
     position: absolute;
@@ -115,8 +117,23 @@
     -ms-transition:  background 0.3s ease-in-out;
     -o-transition:  background 0.3s ease-in-out;
     transition:  background 0.3s ease-in-out;   
-  }  
-
+  } 
+  .carousel div {
+    height: 280px;
+    } 
+  .carousel img { 
+      margin-top: -150px;
+      margin-left: -20px;
+      margin-right: -20px;
+      width: 150%;
+     min-height: 430px; 
+  }
+  .hero h3 {
+    font-size: 3rem;    
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+} 
 }
 
 
