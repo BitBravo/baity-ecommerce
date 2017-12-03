@@ -353,9 +353,6 @@ class Register extends Component {
         <div className="loginregtitle">
           <h3 >تسجيل حساب تجاري</h3>
           </div>
-          <Row>
-
-          <Col sm={12}  lg={6} className="col-lg-push-6">
           {loading ? (
             <Loading />
           ) : (
@@ -368,7 +365,9 @@ class Register extends Component {
               </Alert>
             </Collapse>
           )}
-        </Col>
+          <Row>
+
+          
 
           
      <Col sm={6}  md={6} lg={6} className={"col-lg-push-6; col-sm-push-6"}>
