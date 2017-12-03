@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Nav, Navbar, NavItem, Button } from "react-bootstrap";
 import baityfooter from '../assets/img/baityfooter.png';
 
 
@@ -12,12 +11,12 @@ class Footer extends Component {
 
   render() {
     return (
-      <footer className="footer" inverse>
      
-              <img  src={baityfooter}/>
-              <p> © {this.state.year} CoderJourney</p>
-         
-      </footer>
+
+<footer class="myfooter">
+{/* <img  src={baityfooter}/> */}
+  <h6 class="text-muted">© {this.state.year} Baity بيتي</h6>
+</footer>
     );
   }
 }
