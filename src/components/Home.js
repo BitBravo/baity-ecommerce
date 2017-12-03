@@ -14,8 +14,8 @@ const Home = () => (
         <div>
         <img  src={bedroom}     />
         <Carousel.Caption className="hero">
-          <h3>First slide </h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+          <h3>غير مزاجك واجعل منزلك أكثر جاذبية </h3>
+          {/* <p>غير مزاجك واجعل منزلك أكثر جاذبية </p> */}
         </Carousel.Caption>
         </div>
       </Carousel.Item>
@@ -23,8 +23,8 @@ const Home = () => (
         <div>
         <img  src= {traditionalkitchen}     />
         <Carousel.Caption className="hero">
-          <h3>Second slide </h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <h3>غير مزاجك واجعل منزلك أكثر جاذبية </h3>
+          {/* <p>غير مزاجك واجعل منزلك أكثر جاذبية </p> */}
         </Carousel.Caption>
         </div>
       </Carousel.Item>
@@ -32,15 +32,15 @@ const Home = () => (
       <div>
         <img  src= {livingroom}   />
         <Carousel.Caption className="hero">
-          <h3>Third slide </h3>
-          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+          <h3>غير مزاجك واجعل منزلك أكثر جاذبية </h3>
+          {/* <p>غير مزاجك واجعل منزلك أكثر جاذبية </p> */}
         </Carousel.Caption>
         </div>
       </Carousel.Item>
       
     </Carousel>
    </div>
-   <h1> غير مزاجك واجعل منزلك أكثر جاذبية </h1>
+   
     <ProductList thisUserOnly={false}/>
   </div>
   

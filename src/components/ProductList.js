@@ -72,7 +72,7 @@ class ProductList extends Component {
     else 
       return (
       
-         <div >
+         <div style={{paddingTop: "30px"}}>
         <Grid>
           <Row style={{display: 'flex', flexWrap: 'wrap'}}>
             {productIds.map(id => {

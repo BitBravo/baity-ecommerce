@@ -17,19 +17,21 @@ let DB_BASE = database.ref();
 //IMPORTANT: you can not use the following storge object as bucket root reference. To get the bucket root reference use storage.ref().
 let STORAGE_BASE = storage.ref();
 
-let _PRODUCTS_PATH = "testProducts"; //change me by removing test
+let testPrefix = "test"; //change this to switch from test tables to production tables
+
+let _PRODUCTS_PATH = testPrefix + "Products"; //change me by removing test
 let _IDEAS_PATH = "idea";
 let _USER_POSTS_PATH = "userPosts";
 let _PRODUCT_DEPTS_PATH = "productDepartment";
 let _IDEA_DEPTS_PATH = "ideaDepartment";
 let _USERS_PATH = "testUsers"; //change me by removing test
-let _BUSINESSES_PATH = "testBusiness"; //change me by removing test
+let _BUSINESSES_PATH = testPrefix + "Business"; //change me by removing test
 let _LIKES_PATH = "likes";
-let _GROUPS_PATH = "testGroup"; //change me by removing test
-let _BUSINESS_LOGOS_PATH = "testBusinessLogo";
-let _PRODUCT_IMAGES_PATH = "testProductImages";
+let _GROUPS_PATH = testPrefix + "Group"; //change me by removing test
+let _BUSINESS_LOGOS_PATH = testPrefix + "BusinessLogo";
+let _PRODUCT_IMAGES_PATH = testPrefix + "ProductImages";
 let _IDEA_IMAGES_PATH = "ideaImage";
-let _PROFILE_IMAGES_PATH = "testProfileImage";
+let _PROFILE_IMAGES_PATH = testPrefix + "testProfileImage";
 
 // DB references
 //You can use child() only on references (i.e. database.ref() but not database itself)
