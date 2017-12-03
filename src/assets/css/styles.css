@@ -212,7 +212,8 @@ h2 h3 h4 h5 h6 {
     
 
     .loginreg { 
-        padding-top: 15%;
+        padding-top: 10%;
+        padding-bottom: 5%;
         width: 100%;
         height: calc(100vh - (50px + 60px));
         background-image: url( '../img/garden.jpg');
@@ -222,6 +223,7 @@ h2 h3 h4 h5 h6 {
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
+        overflow: auto;
 
         }
         .loginreg img {
