@@ -146,6 +146,8 @@ class Login extends Component {
       
       <h3> تسجيل الدخول الى بيتي </h3>
       </div>
+      <Row>
+      <Col sm={12}  lg={6} className="col-lg-push-6">
       <Collapse in={this.state.formStatusAlert.alert}>
           <Alert
             bsStyle={this.state.formStatusAlert.type}
@@ -157,8 +159,7 @@ class Login extends Component {
             }
           </Alert>
         </Collapse>
-      <Row>
-      
+        </Col>
       <Col sm={12}  lg={6} className="col-lg-push-6">
           <div className="form-group" >
           <label htmlFor="inputEmail">البريد الالكتروني</label>
