@@ -28,14 +28,16 @@ class ProductBrief extends Component {
    
      
       
-      <Col xs={12} md={4} >
-      <Equalizer>
-         <Thumbnail >
+      <Col xs={12} md={4} sm={6} style={{marginBottom: "20px"}} >
+      <div className="mythumbnail">
          
-           <div className="dotted-border ">
+         
+           <div >
           
           <Link to={`/products/${product.id}`} >
-              <img id="middle" src={product.imgUrl} className="img-responsive"/>
+              {/* <img id="middle" src={product.imgUrl} className="img-responsive"/> */}
+              <img  src="http://via.placeholder.com/243x243" 
+              style={{width: "100%", height: "auto"}} className="img-responsive "/>
               </Link>
               </div>
              
@@ -50,9 +52,8 @@ class ProductBrief extends Component {
             
           
             </div>
+            </div>  
           
-          </Thumbnail>
-          </Equalizer>   
       </Col>
     
       

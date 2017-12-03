@@ -74,7 +74,7 @@ class ProductList extends Component {
       
          <div >
         <Grid>
-          <Row>
+          <Row style={{display: 'flex', flexWrap: 'wrap'}}>
             {productIds.map(id => {
               const product = products[id];
               return <ProductBrief key={id} product={product} />;
