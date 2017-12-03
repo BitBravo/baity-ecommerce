@@ -1,13 +1,22 @@
-
-.footer{
-    position: absolute;
-    right: 0;
-    width: 100%;
-    height: auto;
+.myfooter {
+    position: fixed;
     left: 0;
-    padding: 1rem;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    background-image: -webkit-linear-gradient(top, #3c3c3c 0%, #222 100%);
+    background-image: -o-linear-gradient(top, #3c3c3c 0%, #222 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#3c3c3c), to(#222));
+    background-image: linear-gradient(to bottom, #3c3c3c 0%, #222 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3c3c3c', endColorstr='#ff222222', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+    background-repeat: repeat-x;
+    display: block;
+    padding: 0 15px;    
 }
-.footer img{
+
+.myfooter img{
    width: 6.5vh;
    display: block;
    margin-top: -20px;
@@ -15,7 +24,7 @@
    margin-left: auto;
    margin-right: auto;
 }
-.footer h6 {text-align: center;font-size: 10px;color: white;}
+.myfooter h6 {text-align: center;font-size: 1.3rem;color: white; direction: ltr; line-height: 40px;}
 
 .icons {
     font-size: 1.5em;
@@ -183,10 +192,12 @@ h2 h3 h4 h5 h6 {
    
     }    
     
+    
+
     .loginreg { 
         padding-top: 15%;
         width: 100%;
-        height: 100vh;
+        height: calc(100vh - (50px + 60px));
         background-image: url( '../img/garden.jpg');
         background-repeat: no-repeat;
         background-attachment: fixed;
