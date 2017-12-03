@@ -3,6 +3,7 @@
     position: absolute;
     right: 0;
     width: 100%;
+    height: auto;
     left: 0;
     padding: 1rem;
 }
@@ -183,11 +184,16 @@ h2 h3 h4 h5 h6 {
     }    
     
     .loginreg { 
-       padding-top: 10%;
+        padding-top: 15%;
         width: 100%;
         height: 100vh;
         background-image: url( '../img/garden.jpg');
-        background-position: bottom;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
 
         }
         .loginreg img {
@@ -208,6 +214,7 @@ h2 h3 h4 h5 h6 {
             margin-bottom: 20px;
         }
     .loginreg form {
+        margin-top: 10px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         margin-left: auto;
         margin-right: auto;
@@ -219,13 +226,10 @@ h2 h3 h4 h5 h6 {
         background: rgb(255,255,255);
         animation-name: slideDown;
         -webkit-animation-name: slideDown;	
-    
         animation-duration: 1s;	
         -webkit-animation-duration: 1s;
-    
         animation-timing-function: ease;	
         -webkit-animation-timing-function: ease;	
-    
         visibility: visible !important;	
     }
     
@@ -274,7 +278,7 @@ h2 h3 h4 h5 h6 {
       .loginreg p {color:rgb(73, 157, 157);}
 
         .loginreg button {
-            background: rgb(73, 157, 157);
+            background-color: rgb(73, 157, 157);
             width: 100%;
             color: white;
             margin-top: 10px;
@@ -283,6 +287,9 @@ h2 h3 h4 h5 h6 {
             border-radius: 5px;
             height: 40px;
          
+        }
+        .loginreg button:hover {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         }
     
     .padding {
