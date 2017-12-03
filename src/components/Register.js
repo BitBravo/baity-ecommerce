@@ -346,25 +346,30 @@ class Register extends Component {
     }
     return (
       <div className="loginreg">
-        {loading ? (
-          <Loading />
-        ) : (
-          <Collapse in={this.state.formStatusAlert.alert}>
-            <Alert bsStyle={this.state.formStatusAlert.type}>
-              {this.state.formStatusAlert.alertMsg
-                .split(",")
-                .filter(msg => msg.length > 0)
-                .map(msg => <div key={msg}>- {msg}</div>)}
-            </Alert>
-          </Collapse>
-        )}
+        
         <form onSubmit={event => this.authWithEmailPassword(event)}
           ref={form => { this.registerForm = form; }}  >
            <img src={bayty_icon}/>
         <div className="loginregtitle">
           <h3 >تسجيل حساب تجاري</h3>
           </div>
-          <Row> 
+          <Row>
+
+          <Col sm={12}  lg={6} className="col-lg-push-6">
+          {loading ? (
+            <Loading />
+          ) : (
+            <Collapse in={this.state.formStatusAlert.alert}>
+              <Alert bsStyle={this.state.formStatusAlert.type}>
+                {this.state.formStatusAlert.alertMsg
+                  .split(",")
+                  .filter(msg => msg.length > 0)
+                  .map(msg => <div key={msg}>- {msg}</div>)}
+              </Alert>
+            </Collapse>
+          )}
+        </Col>
+
           
      <Col sm={6}  md={6} lg={6} className={"col-lg-push-6; col-sm-push-6"}>
           <FieldGroup
