@@ -12,12 +12,12 @@ class Footer extends Component {
 
   render() {
     return (
-      <Navbar className="footer" inverse>
-      <NavItem >
+      <footer className="footer" inverse>
+     
               <img  src={baityfooter}/>
-              <h6> © {this.state.year} CoderJourney</h6>
-          </NavItem>
-      </Navbar>
+              <p> © {this.state.year} CoderJourney</p>
+         
+      </footer>
     );
   }
 }
