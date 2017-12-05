@@ -34,8 +34,8 @@ class Main extends Component {
   }
 
   render() {
-    console.log("current user in Main")
-    console.log(this.props.currentUser)
+    //console.log("current user in Main")
+    //console.log(this.props.currentUser)
     return (
       <main>
         <Switch>
@@ -75,13 +75,20 @@ class Main extends Component {
             component={ProductAdder}     
             currentUser={this.props.currentUser}   
           />
-          <AuthenticatedRoute
+          <Route
+            exact
+            path="/myprofile"
+            render={props => {
+              return <ProfForm  {...props} />;
+            }}
+          />
+          {/* <AuthenticatedRoute
             exact
             path="/myprofile"
             authenticated={this.props.authenticated}    
             component={ProfForm}     
             currentUser={this.props.currentUser}   
-          />
+          /> */}
           <AuthenticatedRoute
             exact
             path="/products/:id"

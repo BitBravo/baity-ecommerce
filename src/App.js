@@ -78,8 +78,8 @@ class App extends Component {
   }
 
   render() {
-    console.log("current user in App")
-    console.log(this.state.currentUser)
+    //console.log("current user in App")
+    //console.log(this.state.currentUser)
     return (
       <BrowserRouter>
         <div style={{ margin: "0 auto" }}>
