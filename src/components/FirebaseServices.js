@@ -32,6 +32,7 @@ let _BUSINESS_LOGOS_PATH = testPrefix + "BusinessLogo";
 let _PRODUCT_IMAGES_PATH = testPrefix + "ProductImages";
 let _IDEA_IMAGES_PATH = "ideaImage";
 let _PROFILE_IMAGES_PATH = testPrefix + "testProfileImage";
+let _PROF_PATH = testPrefix + "professional";
 
 // DB references
 //You can use child() only on references (i.e. database.ref() but not database itself)
@@ -45,6 +46,7 @@ let _REF_USERS = DB_BASE.child(_USERS_PATH); //change me by removing test
 let _REF_BUSINESS = DB_BASE.child(_BUSINESSES_PATH); //change me by removing test
 let _REF_USER_LIKES = DB_BASE.child(_LIKES_PATH);
 let _REF_GROUP = DB_BASE.child(_GROUPS_PATH); //change me by removing test
+let _REF_PROF = DB_BASE.child(_PROF_PATH)
 
 // Storage reference
 var _REF_BUSINESS_LOGO = STORAGE_BASE.child(_BUSINESS_LOGOS_PATH); //change me by removing test
@@ -97,6 +99,9 @@ export default {
   get PROFILE_IMAGES_PATH() {
     return _PROFILE_IMAGES_PATH;
   },
+  get PROF_PATH() {
+    return _PROF_PATH;
+  },
   get root() {
     return DB_BASE;
   },
@@ -117,6 +122,9 @@ export default {
   },
   get profileImages() {
     return _REF_PROFILE_IMAGE;
+  },
+  get professionals() {
+    return _REF_PROF;
   },
   //create a professional user (i.e., business user) along with the group but not the business details
   // user is the object from firebase.auth.

@@ -7,7 +7,8 @@ import Logout from "./Logout";
 import ProductAdder from "./ProductAdder";
 import ProductDetails from "./ProductDetails";
 import ProductUpdater from "./ProductUpdater";
-import MyProductList from './MyProductList'
+import MyProductList from './MyProductList';
+import ProfForm from './ProfForm';
 
 function AuthenticatedRoute({ component: Component, authenticated, ...rest }) {
   console.log(authenticated)
@@ -72,6 +73,13 @@ class Main extends Component {
             path="/newproduct"
             authenticated={this.props.authenticated}    
             component={ProductAdder}     
+            currentUser={this.props.currentUser}   
+          />
+          <AuthenticatedRoute
+            exact
+            path="/myprofile"
+            authenticated={this.props.authenticated}    
+            component={ProfForm}     
             currentUser={this.props.currentUser}   
           />
           <AuthenticatedRoute
