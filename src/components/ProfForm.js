@@ -23,6 +23,7 @@ import Loading from "./Loading";
 import { app } from "../base";
 import FormUtils from './FormUtils'
 import bayty_icon from '../assets/img/bayty_icon.png';
+import logo_placeholder from '../assets/img/logo-placeholder.jpg';
 
 
 function FieldGroup({ id, label, help, validationState, firstTime, ...props }) {
@@ -360,8 +361,8 @@ class ProfForm extends Component {
             <Col lg={12} >
             
               {this.state.imagePreviewUrl
-              ? <Image style={{borderRadius: '50%', width: '180px', height: '180px', margin: '5px auto'}} src={this.state.imagePreviewUrl}  alt="logo" circle responsive /> 
-              : <Image style={{borderRadius: '50%', width: 'auto', margin: '5px auto'}} src="http://via.placeholder.com/180x180" alt="logo" circle responsive />
+              ? <Image style={{borderRadius: '50%', width: '200px', height: '200px', margin: '5px auto'}} src={this.state.imagePreviewUrl}  alt="logo" circle responsive /> 
+              : <Image style={{borderRadius: '50%', width: '200px', height: '200px', margin: '5px auto'}} src={logo_placeholder} alt="logo" circle responsive />
               }
             
             </Col>
