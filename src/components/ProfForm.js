@@ -19,6 +19,7 @@ import {
 import FirebaseServices from "./FirebaseServices";
 import Loading from "./Loading";
 import { app } from "../base";
+import Utils from './Utils'
 import bayty_icon from '../assets/img/bayty_icon.png';
 
 
@@ -62,7 +63,8 @@ const FIELDS = {
     valid: false,
     touched: true,
     errorMessage: "",
-    helpMsg: ""
+    helpMsg: "", 
+    value: ""
   },
   city: {
     type: 'select',
@@ -70,7 +72,8 @@ const FIELDS = {
     valid: false,
     touched: true,
     errorMessage: "",
-    helpMsg: ""
+    helpMsg: "", 
+    value: ""
   },
   logo: {
     type: 'image',
@@ -78,7 +81,8 @@ const FIELDS = {
     valid: false,
     touched: true,
     errorMessage: "",
-    helpMsg: ""
+    helpMsg: "", 
+    value: ""
   },
   preview: {
     type: 'input',
@@ -86,7 +90,8 @@ const FIELDS = {
     valid: false,
     touched: true,
     errorMessage: "",
-    helpMsg: ""
+    helpMsg: "", 
+    value: ""
   },
   website: {
     type: 'input',
@@ -94,7 +99,8 @@ const FIELDS = {
     valid: false,
     touched: true,
     errorMessage: "",
-    helpMsg: ""
+    helpMsg: "", 
+    value: ""
   },
   types: {
     type: 'checkbox',
@@ -102,7 +108,8 @@ const FIELDS = {
     valid: false,
     touched: true,
     errorMessage: "",
-    helpMsg: ""
+    helpMsg: "", 
+    value: ""
   },
   categories: {
     type: 'checkbox',
@@ -110,7 +117,8 @@ const FIELDS = {
     valid: false,
     touched: true,
     errorMessage: "",
-    helpMsg: ""
+    helpMsg: "", 
+    value: ""
   },
   addServices: {
     type: 'input',
@@ -118,7 +126,8 @@ const FIELDS = {
     valid: false,
     touched: true,
     errorMessage: "",
-    helpMsg: ""
+    helpMsg: "", 
+    value: ""
   },
   phoneNo: {
     type: 'input',
@@ -126,17 +135,35 @@ const FIELDS = {
     valid: false,
     touched: true,
     errorMessage: "",
-    helpMsg: ""
+    helpMsg: "", 
+    value: ""
   }
 }
 
 class ProfForm extends Component {
   constructor(args) {
     super(args);
-
+    this.state = {
+      ...FIELDS
+    }
     this.renderTextInputField = this.renderTextInputField.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
+  handleChange(e) {
+    //name of the field
+    const name = e.target.name;
+    //value of the field (for a text field the text inside it, for a select the selected value)
+    let value = e.target.value;
+    value = Utils.hindiToArabicDigits(value)
+    let fieldInfo = {...this.state[name]};
+
+
+    //update state
+    fieldInfo.value = value;
+    let newState = {[name]: fieldInfo};
+    this.setState(newState)
+  }
   //outputs validatin state of a field (valid, not valid, neutral since it is not touched yet)
   validationState(firstTimeFlag, validFlag) {
     if (firstTimeFlag) return null;
@@ -146,13 +173,12 @@ class ProfForm extends Component {
 
   renderTextInputField(fieldName, label, placeHolder, touched, valid, errorMsg, helpMsg) {
     return (<FieldGroup
+    name={fieldName}
     type="text"
     label={label}
     placeholder={placeHolder}
-    inputRef={input => {
-      this[fieldName] = input;
-    }}
-    
+    onChange={this.handleChange}
+    value={this.state[fieldName].value}
     help={
       touched ||
       valid
