@@ -17,6 +17,11 @@ const mybusinesscategories = [
   ['floors', 'أرضيات'],
   ['paintings', 'لوحات']
 ];
+
+//Shared patterns
+const spacesPattern = /^([\s]+)$/;
+
+//exported util functions and properties
 export default {
   //converts indian digits into arabic ١ -> 1, ٢ -> 2 ...etc
   hindiToArabicDigits(str) {
@@ -31,7 +36,8 @@ export default {
     return result;
     
   },
-  get BusinessProfile() {
+  //Select fields options for business profile form
+  get BusinessProfileOptions() {
     return {
       get businessTypes() {
         return mybusinesstypes;
@@ -43,7 +49,38 @@ export default {
         return mybusinesscategories;
       }
     }
+  },
+  //validators for business profile form
+  phoneNoValid(phoneNo){
+    const phoneNoPattern = /^(05)\d{8}$/;
+    return phoneNoPattern.test(phoneNo);
+  },
+  get phoneNoErrorMsg() {
+    return "رقم الجوال غير صالح. يجب أن يكون رقم الجوال بالصيغة التالية: 05XXXXXXXX";
+  },
+  bussNameValid(bussName){
+    const bussNamePattern = /^([.0-9\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{3,50})$/i;
+    
+    return bussNamePattern.test(bussName) && !spacesPattern.test(bussName);
+  },
+  get bussNameErrorMsg() {
+    return "يجب أن يكون طول اسم الشركة بين ثلاثة أحرف وخمسين حرف لا يحتوي على رموز غير معروفة";
+  },
+  bussDescValid(desc){
+    const bussDescPattern = /^([.0-9\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{10,200})$/i;
+    return bussDescPattern.test(desc) && !spacesPattern.test(desc);
+  },
+  get bussDescErrorMsg() {
+    return " يجب أن يكون طول النبذة عن الشركة أو المؤسسة بين عشرة أحرف  و ٢٠٠ حرف"
+  },
+  bussWebsiteValid(desc){
+    const bussWebsitePattern = /^([.0-9\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{10,200})$/i;
+    return bussWebsitePattern.test(desc) && !spacesPattern.test(desc);
+  },
+  get bussWebsiteErrorMsg() {
+    return "صيغة عنوان الموقع غير صحيحة "
   }
+  
 };
 
 

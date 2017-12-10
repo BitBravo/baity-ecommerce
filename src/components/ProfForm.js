@@ -30,7 +30,7 @@ function FieldGroup({ id, label, help, validationState, firstTime, ...props }) {
   return (
     <FormGroup controlId={id} validationState={validationState}>
       <ControlLabel>{label}</ControlLabel>
-      <FormControl style={{paddingRight: '12px'}} {...props} />
+      <FormControl  {...props} />
       {help && <HelpBlock>{help}</HelpBlock>}
       <FormControl.Feedback />
     </FormGroup>
@@ -65,20 +65,21 @@ const FIELDS = {
     type: 'text',
     label: 'اسم الشركة أو المؤسسة',
     valid: false,
-    touched: true,
-    errorMessage: "",
+    touched: false,
+    errorMessage: FormUtils.bussNameErrorMsg,
     helpMsg: "", 
-    value: ""
+    value: "",
+    onChangeValidation: FormUtils.bussNameValid
   },
   city: {
     type: 'select',
     label: 'مقر الشركة أو المؤسسة',
     valid: false,
-    touched: true,
+    touched: false,
     errorMessage: "",
     helpMsg: "", 
     value: "الرياض",
-    options: FormUtils.BusinessProfile.cities.map( (city) => {
+    options: FormUtils.BusinessProfileOptions.cities.map( (city) => {
       return {key: city.id, value: city.name_ar};
     })
   },
@@ -87,34 +88,36 @@ const FIELDS = {
     label: 'رقم الهاتف',
     placeholder: '05XXXXXXXX',
     valid: false,
-    touched: true,
-    errorMessage: "",
+    touched: false,
+    errorMessage: FormUtils.phoneNoErrorMsg,
     helpMsg: "", 
-    value: ""
+    value: "",
+    onChangeValidation: FormUtils.phoneNoValid
   },
   logo: {
     type: 'image',
     label: 'لوقو الشركة' ,
     valid: false,
-    touched: true,
+    touched: false,
     errorMessage: "",
     helpMsg: "", 
     value: ""
   },
-  preview: {
+  bussDesc: {
     type: 'textarea',
     label: 'نبذة عن الشركة',
     valid: false,
-    touched: true,
-    errorMessage: "",
+    touched: false,
+    errorMessage: FormUtils.bussDescErrorMsg,
     helpMsg: "", 
-    value: ""
+    value: "",
+    onChangeValidation: FormUtils.bussDescValid
   },
   website: {
     type: 'text',
     label: 'موقع الشركة على الانترنت',
     valid: false,
-    touched: true,
+    touched: false,
     errorMessage: "",
     helpMsg: "", 
     value: ""
@@ -123,27 +126,27 @@ const FIELDS = {
     type: 'checkbox',
     label: 'نوع العمل',
     valid: false,
-    touched: true,
+    touched: false,
     errorMessage: "",
     helpMsg: "", 
     value: [],
-    options: FormUtils.BusinessProfile.businessTypes
+    options: FormUtils.BusinessProfileOptions.businessTypes
   },
   categories: {
     type: 'checkbox',
     label: 'التصنيف',
     valid: false,
-    touched: true,
+    touched: false,
     errorMessage: "",
     helpMsg: "", 
     value: [],
-    options: FormUtils.BusinessProfile.businessCategories
+    options: FormUtils.BusinessProfileOptions.businessCategories
   },
   addServices: {
     type: 'text',
     label: 'خدمات اضافية',
     valid: false,
-    touched: true,
+    touched: false,
     errorMessage: "",
     helpMsg: "", 
     value: ""
@@ -154,8 +157,9 @@ class ProfForm extends Component {
   constructor(args) {
     super(args);
     this.state = {
-      ...FIELDS
+      FIELDS: {...FIELDS}
     }
+    this.updateState = this.updateState.bind(this);
     this.renderInputField = this.renderInputField.bind(this);
     this.renderTextareaField = this.renderTextareaField.bind(this);
     this.renderSelectField = this.renderSelectField.bind(this);
@@ -164,33 +168,36 @@ class ProfForm extends Component {
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
   }
 
+  updateState(fieldInfo, fieldName){
+    let newStateFields = {FIELDS: {...this.state.FIELDS}};
+    newStateFields.FIELDS[fieldName] = fieldInfo
+    this.setState(newStateFields)
+  }
+
   handleChange(e) {
     //name of the field
     const name = e.target.name;
     //value of the field (for a text field the text inside it, for a select the selected value)
     let value = e.target.value;
     value = FormUtils.hindiToArabicDigits(value)
-    let fieldInfo = {...this.state[name]};
+    let fieldInfo = {...this.state.FIELDS[name]};
 
 
     //update state
     fieldInfo.value = value;
-    let newState = {[name]: fieldInfo};
-    this.setState(newState)
+    fieldInfo.touched = true;
+    if (FIELDS[name].onChangeValidation)
+      fieldInfo.valid = FIELDS[name].onChangeValidation(value)? true: false;
+    this.updateState(fieldInfo, name)
+    
   }
 
   handleCheckboxChange(...args) {
     const name = args[2]
     const value = args[0]//an array of selected options
-    let fieldInfo = {...this.state[name]};
+    let fieldInfo = {...this.state.FIELDS[name]};
     fieldInfo.value = value
-    let newState = {[name]: fieldInfo};
-    this.setState(newState);
-    
-    
-    console.log(args[0])
-    console.log(args[2])
-    
+    this.updateState(fieldInfo, name)    
   }
 
   handleFileUpload( e ) {
@@ -218,13 +225,17 @@ class ProfForm extends Component {
 
 
   //outputs validatin state of a field (valid, not valid, neutral since it is not touched yet)
-  validationState(firstTimeFlag, validFlag) {
-    if (firstTimeFlag) return null;
+  validationState(touched, validFlag) {
+    if (!touched) return null;
     else if (validFlag) return "success";
     else return "error";
   }
 
   renderInputField(fieldConfig, fieldName) {
+    console.log('rendering input filed')
+    console.log(fieldName)
+    console.log(fieldConfig)
+    
     return (<FieldGroup
     key={fieldName}
     name={fieldName}
@@ -233,12 +244,12 @@ class ProfForm extends Component {
     label={fieldConfig.label}
     placeholder={fieldConfig.placeholder || null}
     onChange={this.handleChange}
-    value={this.state[fieldName].value}
+    value={this.state.FIELDS[fieldName].value}
     help={
-      fieldConfig.touched ||
+      !fieldConfig.touched ||
       fieldConfig.valid
         ? fieldConfig.helpMsg
-        : fieldConfig.errorMsg
+        : fieldConfig.errorMessage
     }
     validationState={this.validationState(
       fieldConfig.touched,
@@ -254,12 +265,12 @@ class ProfForm extends Component {
     label={fieldConfig.label}
     placeholder={fieldConfig.placeholder || ''}
     onChange={this.handleChange}
-    value={this.state[fieldName].value}
+    value={this.state.FIELDS[fieldName].value}
     help={
-      fieldConfig.touched ||
+      !fieldConfig.touched ||
       fieldConfig.valid
         ? fieldConfig.helpMsg
-        : fieldConfig.errorMsg
+        : fieldConfig.errorMessage
     }
     validationState={this.validationState(
       fieldConfig.touched,
@@ -275,7 +286,7 @@ class ProfForm extends Component {
       label={fieldConfig.label}
       onChange={this.handleChange}
       options={fieldConfig.options}
-      selectedOption={this.state[fieldName].value}    
+      selectedOption={this.state.FIELDS[fieldName].value}    
     />);
   }
   renderCheckboxFieldGroup(fieldConfig, fieldName) {
@@ -289,7 +300,7 @@ class ProfForm extends Component {
         key={'formgroup'+fieldName}
         
         name={fieldName}
-        value={this.state[fieldName].value}
+        value={this.state.FIELDS[fieldName].value}
         onChange={this.handleCheckboxChange}>
           <Row style={{display: 'flex', flexWrap: 'wrap'}} key={'row'+fieldName}>
           {
@@ -380,7 +391,7 @@ class ProfForm extends Component {
           
 
           { 
-            _.map(FIELDS, this.renderField.bind(this))
+            _.map(this.state.FIELDS, this.renderField.bind(this))
             
           }
           
