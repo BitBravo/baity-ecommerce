@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactDOM from 'react-dom'
 import _ from 'lodash'
 import {
   FormGroup,
@@ -66,6 +67,7 @@ const FIELDS = {
     label: 'اسم الشركة أو المؤسسة',
     valid: false,
     touched: false,
+    required: true,
     errorMessage: FormUtils.bussNameErrorMsg,
     helpMsg: "", 
     value: "",
@@ -74,8 +76,9 @@ const FIELDS = {
   city: {
     type: 'select',
     label: 'مقر الشركة أو المؤسسة',
-    valid: false,
+    valid: true,
     touched: false,
+    required: true,
     errorMessage: "",
     helpMsg: "", 
     value: "الرياض",
@@ -89,6 +92,7 @@ const FIELDS = {
     placeholder: '05XXXXXXXX',
     valid: false,
     touched: false,
+    required: true,
     errorMessage: FormUtils.phoneNoErrorMsg,
     helpMsg: "", 
     value: "",
@@ -99,6 +103,7 @@ const FIELDS = {
     label: 'لوقو الشركة' ,
     valid: false,
     touched: false,
+    required: false,
     errorMessage: "",
     helpMsg: "", 
     value: ""
@@ -108,6 +113,7 @@ const FIELDS = {
     label: 'نبذة عن الشركة',
     valid: false,
     touched: false,
+    required: false,
     errorMessage: FormUtils.bussDescErrorMsg,
     helpMsg: "", 
     value: "",
@@ -118,15 +124,18 @@ const FIELDS = {
     label: 'موقع الشركة على الانترنت',
     valid: false,
     touched: false,
-    errorMessage: "",
+    required: false,
+    errorMessage: FormUtils.bussWebsiteErrorMsg,
     helpMsg: "", 
-    value: ""
+    value: "",
+    onChangeValidation: FormUtils.bussWebsiteValid
   },
   types: {
     type: 'checkbox',
     label: 'نوع العمل',
     valid: false,
     touched: false,
+    required: true,
     errorMessage: "",
     helpMsg: "", 
     value: [],
@@ -137,6 +146,7 @@ const FIELDS = {
     label: 'التصنيف',
     valid: false,
     touched: false,
+    required: true,
     errorMessage: "",
     helpMsg: "", 
     value: [],
@@ -147,6 +157,7 @@ const FIELDS = {
     label: 'خدمات اضافية',
     valid: false,
     touched: false,
+    required: false,
     errorMessage: "",
     helpMsg: "", 
     value: ""
@@ -157,7 +168,13 @@ class ProfForm extends Component {
   constructor(args) {
     super(args);
     this.state = {
-      FIELDS: {...FIELDS}
+      FIELDS: {...FIELDS},
+      formStatusAlert: {
+        alert: false,
+        type: "info",
+        alertMsg: "",
+        showSuccessfulSubmit: false
+      }
     }
     this.updateState = this.updateState.bind(this);
     this.renderInputField = this.renderInputField.bind(this);
@@ -166,6 +183,9 @@ class ProfForm extends Component {
     this.renderCheckboxFieldGroup = this.renderCheckboxFieldGroup.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.validateField = this.validateField.bind(this);
+    this.validateForm = this.validateForm.bind(this);
   }
 
   updateState(fieldInfo, fieldName){
@@ -174,22 +194,29 @@ class ProfForm extends Component {
     this.setState(newStateFields)
   }
 
+  validateField(name, value){
+    let fieldData = {...this.state.FIELDS[name]};
+
+
+    //update state
+    fieldData.value = value;
+    fieldData.touched = true;
+    if (FIELDS[name].onChangeValidation)
+      fieldData.valid = FIELDS[name].onChangeValidation(value)? true: false;
+    else
+      fieldData.valid = true;
+    return fieldData;
+    
+  }
+
   handleChange(e) {
     //name of the field
     const name = e.target.name;
     //value of the field (for a text field the text inside it, for a select the selected value)
     let value = e.target.value;
     value = FormUtils.hindiToArabicDigits(value)
-    let fieldInfo = {...this.state.FIELDS[name]};
-
-
-    //update state
-    fieldInfo.value = value;
-    fieldInfo.touched = true;
-    if (FIELDS[name].onChangeValidation)
-      fieldInfo.valid = FIELDS[name].onChangeValidation(value)? true: false;
-    this.updateState(fieldInfo, name)
-    
+    let fieldData = this.validateField(name, value);
+    this.updateState(fieldData, name)
   }
 
   handleCheckboxChange(...args) {
@@ -201,9 +228,6 @@ class ProfForm extends Component {
   }
 
   handleFileUpload( e ) {
-    
-
-
     e.preventDefault();
   
     let reader = new FileReader();
@@ -221,21 +245,63 @@ class ProfForm extends Component {
   
    
   
+  validateForm(){
+    //first validate field and show errors
+    let newValidationState = _.reduce(this.state.FIELDS, 
+                              (newState, fieldData, fieldName) => { //result, value, key
+                                let newFieldData = this.validateField(fieldName, fieldData.value);
+                                newState[fieldName] = newFieldData;
+                                return newState;
+                              }, 
+                              {});
+    this.setState({FIELDS: newValidationState})
+    //then compute form validation
+    let formValid  = _.reduce(this.state.FIELDS, 
+                          (formValid, field) => { //result, value, key 
+                            console.log(formValid)
+                            console.log(field)
+                            if (field.type === 'checkbox' && field.required)
+                              return formValid && field.value.length > 0;
+                            else if (['text', 'tel', 'textarea'].includes(field.type) && !field.required && field.value.length === 0)
+                              return formValid;
+                            else
+                              return formValid && (field.valid || !field.required); 
+                          }, 
+                          true);
+    console.log('done validating form')
+    console.log(formValid)
+    return formValid;
+  }
 
+  handleSubmit(e) {
+    e.preventDefault();
+    
+    if (this.validateForm()){
+      console.log('*************form-valid*************')
+      //update
+    } else {
+      this.setState({
+        formStatusAlert: {
+          alert: true,
+          type: "danger",
+          alertMsg: " عذرا ! يجب تعبئة النموذج كاملا مع الصورة بحيث تكون البيانات المعطاة صحيحة حسب المطلوب",
+          showSuccessfulSubmit: false
+        }
+      })
+      ReactDOM.findDOMNode(this).scrollTop = 0;
+    }
+  }
 
+  
 
   //outputs validatin state of a field (valid, not valid, neutral since it is not touched yet)
-  validationState(touched, validFlag) {
-    if (!touched) return null;
+  validationState(touched, validFlag, required, value) {
+    if (!touched || (!required && value.length === 0 )) return null;
     else if (validFlag) return "success";
     else return "error";
   }
 
   renderInputField(fieldConfig, fieldName) {
-    console.log('rendering input filed')
-    console.log(fieldName)
-    console.log(fieldConfig)
-    
     return (<FieldGroup
     key={fieldName}
     name={fieldName}
@@ -246,14 +312,16 @@ class ProfForm extends Component {
     onChange={this.handleChange}
     value={this.state.FIELDS[fieldName].value}
     help={
-      !fieldConfig.touched ||
-      fieldConfig.valid
+      !fieldConfig.touched || (!fieldConfig.required && fieldConfig.value.length === 0 ) ||
+      fieldConfig.valid  
         ? fieldConfig.helpMsg
         : fieldConfig.errorMessage
     }
     validationState={this.validationState(
       fieldConfig.touched,
-      fieldConfig.valid
+      fieldConfig.valid,
+      fieldConfig.required,
+      fieldConfig.value
     )}
   />);
   }
@@ -267,14 +335,16 @@ class ProfForm extends Component {
     onChange={this.handleChange}
     value={this.state.FIELDS[fieldName].value}
     help={
-      !fieldConfig.touched ||
+      !fieldConfig.touched || (!fieldConfig.required && fieldConfig.value.length === 0 ) ||
       fieldConfig.valid
         ? fieldConfig.helpMsg
         : fieldConfig.errorMessage
     }
     validationState={this.validationState(
       fieldConfig.touched,
-      fieldConfig.valid
+      fieldConfig.valid,
+      fieldConfig.required,
+      fieldConfig.value
     )}
   />);
   }
@@ -356,18 +426,16 @@ class ProfForm extends Component {
           <div className="loginregtitle">
             <h3>بيانات الحساب</h3>
           </div>
-          {/* {loading ? (
+          { loading ? (
             <Loading />
           ) : (
             <Collapse in={this.state.formStatusAlert.alert}>
               <Alert bsStyle={this.state.formStatusAlert.type}>
                 {this.state.formStatusAlert.alertMsg
-                  .split(",")
-                  .filter(msg => msg.length > 0)
-                  .map(msg => <div key={msg}>- {msg}</div>)}
+                  }
               </Alert>
             </Collapse>
-          )} */}
+          )} 
           <Row>
             <Col lg={12} >
             
@@ -405,7 +473,7 @@ class ProfForm extends Component {
               
             </Col>
           </Row> */}
-          <button type="submit">تحديث الحساب</button>
+          <button type="submit" onClick={this.handleSubmit}>تحديث الحساب</button>
           <button type="submit">رجوع</button>
         </form>
       </div>
