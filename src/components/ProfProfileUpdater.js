@@ -124,7 +124,7 @@ class ProfProfileUpdater extends Component {
                   {this.state.errorHandling.errorMsg.message}
                 </Alert>
                 <Link to="/">
-                <Button>العودة للصفحة الرئيسية</Button>
+                <Button style={{margin: 'auto', display: 'block'}}>العودة للصفحة الرئيسية</Button>
                 </Link>
             </Modal.Body>
           </Modal>
@@ -169,7 +169,7 @@ class ProfProfileUpdater extends Component {
             
             }
               <Link to="/">
-                <Button style={{margin: 'auto'}}>العودة للصفحة الرئيسية</Button>
+                <Button style={{margin: 'auto', display: 'block'}}>العودة للصفحة الرئيسية</Button>
               </Link>
             </Modal.Body>
         </Modal>
