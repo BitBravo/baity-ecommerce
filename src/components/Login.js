@@ -177,10 +177,10 @@ class Login extends Component {
           </Row>
           <div className="form-group">
           <button type="submit" >تسجيل دخول</button>
-          <p><span Style="cursor:pointer"> نسيت كلمة المرور؟ </span></p>
-          <p > <span Style="color:black">ليس لديك حساب؟</span> 
+          <p><span style={{cursor:"pointer"}}> نسيت كلمة المرور؟ </span></p>
+          <p > <span style={{color:"black"}}>ليس لديك حساب؟</span> 
           <LinkContainer to="/register">
-          <span Style="cursor:pointer">&nbsp; قم بالتسجيل</span>
+          <span style={{cursor:"pointer"}}>&nbsp; قم بالتسجيل</span>
           </LinkContainer></p>
           </div>
           

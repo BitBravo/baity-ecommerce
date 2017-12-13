@@ -10,15 +10,15 @@ import ProductUpdater from "./ProductUpdater";
 import MyProductList from './MyProductList';
 import ProfProfileUpdater from './ProfProfileUpdater'
 
-function AuthenticatedRoute({ component: Component, authenticated, ...rest }) {
+function AuthenticatedRoute({ component: Component, authenticated, currentUser, ...rest }) {
   console.log(authenticated)
-  console.log(rest)
+  console.log(currentUser)
   return (
     <Route
       {...rest}
       render={props =>
         authenticated === true ? (
-          <Component {...props} {...rest} />
+          <Component currentUser={currentUser} {...props} {...rest} />
         ) : (
           <Redirect
             to={{ pathname: "/login", state: { from: props.location } }}
@@ -36,6 +36,7 @@ class Main extends Component {
   render() {
     //console.log("current user in Main")
     //console.log(this.props.currentUser)
+    
     return (
       <main>
         <Switch>
@@ -75,13 +76,31 @@ class Main extends Component {
             component={ProductAdder}     
             currentUser={this.props.currentUser}   
           />
+          {/* <AuthenticatedRoute
+            exact
+            path="/myprofprofile"
+            authenticated={this.props.authenticated}    
+            component={ProfProfileUpdater}     
+            currentUser={this.props.currentUser}   
+            
+          /> */}
+
           <Route
             exact
             path="/myprofprofile"
             render={props => {
-              return <ProfProfileUpdater  {...props} />;
-            }}
+              return (
+                this.props.authenticated === true ? (
+                  <ProfProfileUpdater currentUser={this.props.currentUser} {...props}  />
+                ) : (
+                <Redirect
+                  to={{ pathname: "/login", state: { from: props.location } }}
+                />
+                )
+              )}
+            }
           />
+
           {/* <AuthenticatedRoute
             exact
             path="/myprofile"
