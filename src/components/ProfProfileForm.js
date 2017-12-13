@@ -27,6 +27,8 @@ import bayty_icon from '../assets/img/bayty_icon.png';
 import logo_placeholder from '../assets/img/logo-placeholder.jpg';
 
 
+
+
 function FieldGroup({ id, label, help, validationState, firstTime, ...props }) {
   return (
     <FormGroup controlId={id} validationState={validationState}>
@@ -62,7 +64,7 @@ const SelectGroup = ({ id, label, selectedOption, ...props }) => (
 );
 
 const FIELDS = {
-  bussName: {
+  businessName: {
     type: 'text',
     label: 'اسم الشركة أو المؤسسة',
     valid: false,
@@ -86,7 +88,7 @@ const FIELDS = {
       return {key: city.id, value: city.name_ar};
     })
   },
-  phoneNo: {
+  phone: {
     type: 'tel',
     label: 'رقم الهاتف',
     placeholder: '05XXXXXXXX',
@@ -108,7 +110,7 @@ const FIELDS = {
     helpMsg: "", 
     value: ""
   },
-  bussDesc: {
+  preview: {
     type: 'textarea',
     label: 'نبذة عن الشركة',
     valid: false,
@@ -164,11 +166,16 @@ const FIELDS = {
   },
 }
 
-class ProfForm extends Component {
+class ProfProfileForm extends Component {
   constructor(args) {
     super(args);
+    let fields = {...FIELDS}
+    _.forEach(fields, (fieldData, fieldName) => { //element value, element key in object
+      fieldData.value = this.props.profile[fieldName] || ''
+    });
     this.state = {
-      FIELDS: {...FIELDS},
+      FIELDS: fields,
+      imgUrl: this.props.profile.imgUrl,
       formStatusAlert: {
         alert: false,
         type: "info",
@@ -176,6 +183,12 @@ class ProfForm extends Component {
         showSuccessfulSubmit: false
       }
     }
+
+    let fieldsWithValuesFromDB = _.reduce(this.state.FIELDS, 
+        (fieldsWithValuesFromDB, fieldData, fieldName) => { //result, value, key
+
+      }, {});
+
     this.updateState = this.updateState.bind(this);
     this.renderInputField = this.renderInputField.bind(this);
     this.renderTextareaField = this.renderTextareaField.bind(this);
@@ -186,6 +199,8 @@ class ProfForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.validateField = this.validateField.bind(this);
     this.validateForm = this.validateForm.bind(this);
+    this.packageDataForSubmission = this.packageDataForSubmission.bind(this)
+    this.validateFields = this.validateFields.bind(this)
   }
 
   updateState(fieldInfo, fieldName){
@@ -229,14 +244,37 @@ class ProfForm extends Component {
 
   handleFileUpload( e ) {
     e.preventDefault();
-  
+    if (!e.target.files.length > 0)//user canceled selecting a file
+      return  
     let reader = new FileReader();
     let file = e.target.files[0];
+    
+    let imageMaxSize = 1024 * 1024;//1MB
+    if (file.size > imageMaxSize){ 
+      var nBytes = file.size;
+      var sOutput = nBytes + " bytes" 
+      for (var aMultiples = ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"], nMultiple = 0, nApprox = nBytes / 1024; nApprox > 1; nApprox /= 1024, nMultiple++) {
+        sOutput = nApprox.toFixed(3) + " " + aMultiples[nMultiple];
+      }
+      this.setState({
+        imgError: true,
+        imgErrorMessage: 'يجب أن يكون حجم الصورة أقل من ٥ ميجابايت. حجم الملف الحالي هو: ' + sOutput
+      })
+      return;
+    } else if (!file.type.startsWith('image/jpeg') && !file.type.startsWith('image/png')){
+      this.setState({
+        imgError: true,
+        imgErrorMessage: 'يجب أن يتم تحميل صورة من نوع JPEG/PNG'
+      })
+      return;
+    }
 
     reader.onloadend = () => {
       this.setState({
         imgFile: file,
-        imagePreviewUrl: reader.result
+        imgUrl: reader.result,
+        imgError: false,
+        imgErrorMessage: ''
       });
     }
 
@@ -244,59 +282,101 @@ class ProfForm extends Component {
   }
   
    
-  
+  validateFields(){
+     //first validate field, set valid properties and error messages 
+     let newValidationState = _.reduce(this.state.FIELDS, 
+      (newState, fieldData, fieldName) => { //result, value, key
+        let newFieldData = this.validateField(fieldName, fieldData.value);
+        newState[fieldName] = newFieldData;
+        return newState;
+      }, 
+      {});
+      return newValidationState;
+  }
   validateForm(){
-    //first validate field and show errors
-    let newValidationState = _.reduce(this.state.FIELDS, 
-                              (newState, fieldData, fieldName) => { //result, value, key
-                                let newFieldData = this.validateField(fieldName, fieldData.value);
-                                newState[fieldName] = newFieldData;
-                                return newState;
-                              }, 
-                              {});
-    this.setState({FIELDS: newValidationState})
     //then compute form validation
     let formValid  = _.reduce(this.state.FIELDS, 
                           (formValid, field) => { //result, value, key 
-                            console.log(formValid)
                             console.log(field)
+                            console.log(formValid)
                             if (field.type === 'checkbox' && field.required)
                               return formValid && field.value.length > 0;
+                            //field not required and empty so ignore
                             else if (['text', 'tel', 'textarea'].includes(field.type) && !field.required && field.value.length === 0)
                               return formValid;
-                            else
+                            //field not touched and has value (from DB), it is valid
+                            else if(!field.touched && field.value && field.value.length > 0)
+                              return formValid;
+                            else 
                               return formValid && (field.valid || !field.required); 
                           }, 
                           true);
-    console.log('done validating form')
-    console.log(formValid)
     return formValid;
+  }
+
+  packageDataForSubmission(){
+    var profileData = _.reduce(this.state.FIELDS, 
+                  (profileData, fieldData, fieldName) => {
+                    profileData[fieldName] = fieldData.value;
+                    return profileData
+                  }, {});
+    return profileData;
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    
-    if (this.validateForm()){
-      console.log('*************form-valid*************')
-      //update
-    } else {
-      this.setState({
-        formStatusAlert: {
-          alert: true,
-          type: "danger",
-          alertMsg: " عذرا ! يجب تعبئة النموذج كاملا مع الصورة بحيث تكون البيانات المعطاة صحيحة حسب المطلوب",
-          showSuccessfulSubmit: false
+    this.setState({FIELDS: this.validateFields()},//first validate fields to touch all of them
+      this.setState({formValid: this.validateForm()}, () => {
+        console.log('ProfProfileForm.handleSubmit before validation')
+        if (this.state.formValid){
+          this.setState({
+            formStatusAlert: {
+              alert: false,
+              type: "info",
+              alertMsg: "",
+              showSuccessfulSubmit: true
+            }
+          })
+          //update
+          let profileData = this.packageDataForSubmission();
+          profileData.imgUrl = this.state.imgUrl;
+          profileData.imageFile = this.state.imgFile;
+          profileData.newImage = this.state.imgUrl !== this.props.profile.imgUrl;
+          console.log(this.state.imgUrl)
+          console.log(this.props.profile.imgUrl)
+          console.log('ProfProfileForm.handleSubmit')
+          this.props.onSubmit(profileData, (error) => {
+            console.log(error)
+            this.setState({
+              formStatusAlert: {
+                alert: true,
+                type: "danger",
+                alertMsg: "حدث خطأ أثناء التحديث : " + error,
+                showSuccessfulSubmit: false
+              }
+            })
+            ReactDOM.findDOMNode(this).scrollTop = 0;  
+          })
+        } else {
+          this.setState({
+            formStatusAlert: {
+              alert: true,
+              type: "danger",
+              alertMsg: " عذرا ! يجب تعبئة النموذج كاملا مع الصورة بحيث تكون البيانات المعطاة صحيحة حسب المطلوب",
+              showSuccessfulSubmit: false
+            }
+          })
+          ReactDOM.findDOMNode(this).scrollTop = 0;
         }
       })
-      ReactDOM.findDOMNode(this).scrollTop = 0;
-    }
+    );
   }
 
   
 
   //outputs validatin state of a field (valid, not valid, neutral since it is not touched yet)
   validationState(touched, validFlag, required, value) {
-    if (!touched || (!required && value.length === 0 )) return null;
+    if (!touched || (!required && (value === undefined || value.length === 0) )) return null;
     else if (validFlag) return "success";
     else return "error";
   }
@@ -310,12 +390,12 @@ class ProfForm extends Component {
     label={fieldConfig.label}
     placeholder={fieldConfig.placeholder || null}
     onChange={this.handleChange}
-    value={this.state.FIELDS[fieldName].value}
+    value={this.state.FIELDS[fieldName].value || ''}
     help={
-      !fieldConfig.touched || (!fieldConfig.required && fieldConfig.value.length === 0 ) ||
+      !fieldConfig.touched || (!fieldConfig.required && (fieldConfig.value === undefined || fieldConfig.value.length === 0) ) ||
       fieldConfig.valid  
-        ? fieldConfig.helpMsg
-        : fieldConfig.errorMessage
+        ? fieldConfig.helpMsg || ''
+        : fieldConfig.errorMessage || ''
     }
     validationState={this.validationState(
       fieldConfig.touched,
@@ -333,12 +413,12 @@ class ProfForm extends Component {
     label={fieldConfig.label}
     placeholder={fieldConfig.placeholder || ''}
     onChange={this.handleChange}
-    value={this.state.FIELDS[fieldName].value}
+    value={this.state.FIELDS[fieldName].value || ''}
     help={
-      !fieldConfig.touched || (!fieldConfig.required && fieldConfig.value.length === 0 ) ||
+      !fieldConfig.touched || (!fieldConfig.required && (fieldConfig.value === undefined || fieldConfig.value.length === 0 )) ||
       fieldConfig.valid
-        ? fieldConfig.helpMsg
-        : fieldConfig.errorMessage
+        ? fieldConfig.helpMsg || ''
+        : fieldConfig.errorMessage || ''
     }
     validationState={this.validationState(
       fieldConfig.touched,
@@ -412,10 +492,9 @@ class ProfForm extends Component {
   }
 
   render() {
-    console.log(this.state);
     var loading = false;
     return (
-      <div className="loginreg">
+      <div>
         <form
           onSubmit={event => this.authWithEmailPassword(event)}
           ref={form => {
@@ -439,8 +518,8 @@ class ProfForm extends Component {
           <Row>
             <Col lg={12} >
             
-              {this.state.imagePreviewUrl
-              ? <Image style={{borderRadius: '50%', width: '200px', height: '200px', margin: '5px auto'}} src={this.state.imagePreviewUrl}  alt="logo" circle responsive /> 
+              {this.state.imgUrl
+              ? <Image style={{borderRadius: '50%', width: '200px', height: '200px', margin: '5px auto'}} src={this.state.imgUrl}  alt="logo" circle responsive /> 
               : <Image style={{borderRadius: '50%', width: '200px', height: '200px', margin: '5px auto'}} src={logo_placeholder} alt="logo" circle responsive />
               }
             
@@ -449,9 +528,18 @@ class ProfForm extends Component {
             <Row>
               <Col lg={12}>
               <div style={{margin: '10px auto 30px', textAlign: 'center'}}>
-              <label htmlFor="profile_pic"><span style={{ color: 'green'}}>+&nbsp;</span>اضف شعار الشركة&nbsp;&nbsp;</label>
+              <label htmlFor="profile_pic"><span style={{ color: 'green'}}>+&nbsp;</span>
+              {this.state.imgUrl && this.state.imgUrl.length > 0 
+                ? "عدل شعار الشركة"
+                : "أضف شعار الشركة"
+              }
+              &nbsp;&nbsp;</label>
+              {this.state.imgError 
+                ?<span className="help-block" style={{fontSize: '100%', color: 'red'}}>تقبل الصور من نوع JPEG/JPG وحجم أقل من 1 ميجابايت 1MB</span>
+                :<span className="help-block" style={{fontSize: '80%'}}>تقبل الصور من نوع JPEG/JPG/PNG وحجم أقل من 1 ميجابايت </span>
+              }
               <input type="file" id="profile_pic" name="profile_pic"
-          accept=".jpg, .jpeg, .png" style={{opacity: 0}} onChange={this.handleFileUpload.bind(this)} />
+          accept="image/jpeg, image/png" style={{opacity: 0}} onChange={this.handleFileUpload.bind(this)} />
               </div>
               </Col>
               </Row>  
@@ -481,4 +569,4 @@ class ProfForm extends Component {
   }
 }
 
-export default ProfForm;
+export default ProfProfileForm;

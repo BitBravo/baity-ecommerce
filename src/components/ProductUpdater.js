@@ -47,7 +47,7 @@ class ProductUpdater extends Component {
   }
 
   componentWillUnmount() {
-    base.removeBinding(this.productsRef);
+    this.productsRef && base.removeBinding(this.productsRef);
   }
 
   updateProduct(product, imgDownloadURL, formErrorViewer, formSuccessViewer) {

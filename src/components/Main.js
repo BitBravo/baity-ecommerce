@@ -8,7 +8,7 @@ import ProductAdder from "./ProductAdder";
 import ProductDetails from "./ProductDetails";
 import ProductUpdater from "./ProductUpdater";
 import MyProductList from './MyProductList';
-import ProfForm from './ProfForm';
+import ProfProfileUpdater from './ProfProfileUpdater'
 
 function AuthenticatedRoute({ component: Component, authenticated, ...rest }) {
   console.log(authenticated)
@@ -77,9 +77,9 @@ class Main extends Component {
           />
           <Route
             exact
-            path="/myprofile"
+            path="/myprofprofile"
             render={props => {
-              return <ProfForm  {...props} />;
+              return <ProfProfileUpdater  {...props} />;
             }}
           />
           {/* <AuthenticatedRoute

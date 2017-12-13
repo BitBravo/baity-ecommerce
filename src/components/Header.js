@@ -59,7 +59,7 @@ class Header extends Component {
                 <LinkContainer to="/newproduct">
                   <NavItem ><MdAddToPhotos className="icons"/>اضافة منتج جديد  </NavItem>
                 </LinkContainer>
-                <LinkContainer to="/myprofile">
+                <LinkContainer to="/myprofprofile">
                   <NavItem ><MdAddToPhotos className="icons"/>حسابي  </NavItem>
                 </LinkContainer>
               </Nav>

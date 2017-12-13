@@ -1,4 +1,6 @@
 import { app, base, database, storage } from "../base";
+import firebase from "firebase";
+
 
 /************************************************************
  *            TESTING
@@ -17,21 +19,21 @@ let DB_BASE = database.ref();
 //IMPORTANT: you can not use the following storge object as bucket root reference. To get the bucket root reference use storage.ref().
 let STORAGE_BASE = storage.ref();
 
-let testPrefix = "test"; //change this to switch from test tables to production tables
+let testPrefix = "test-"; //change this to switch from test tables to production tables
 
-let _PRODUCTS_PATH = testPrefix + "Products"; //change me by removing test
+let _PRODUCTS_PATH = testPrefix + "product"; //change me by removing test
 let _IDEAS_PATH = "idea";
 let _USER_POSTS_PATH = "userPosts";
 let _PRODUCT_DEPTS_PATH = "productDepartment";
 let _IDEA_DEPTS_PATH = "ideaDepartment";
-let _USERS_PATH = "testUsers"; //change me by removing test
-let _BUSINESSES_PATH = testPrefix + "Business"; //change me by removing test
+//let _USERS_PATH = "testUsers"; //change me by removing test
+let _BUSINESSES_PATH = testPrefix + "business"; //change me by removing test
 let _LIKES_PATH = "likes";
-let _GROUPS_PATH = testPrefix + "Group"; //change me by removing test
+let _GROUPS_PATH = testPrefix + "group"; //change me by removing test
 let _BUSINESS_LOGOS_PATH = testPrefix + "BusinessLogo";
 let _PRODUCT_IMAGES_PATH = testPrefix + "ProductImages";
 let _IDEA_IMAGES_PATH = "ideaImage";
-let _PROFILE_IMAGES_PATH = testPrefix + "testProfileImage";
+let _PROFILE_IMAGES_PATH = testPrefix + "profileImage";
 let _PROF_PATH = testPrefix + "professional";
 
 // DB references
@@ -42,7 +44,7 @@ let _REF_IDEA = DB_BASE.child(_IDEAS_PATH);
 let _REF_USER_POSTS = DB_BASE.child(_USER_POSTS_PATH);
 let _REF_PRODUCT_DEPARTMENT = DB_BASE.child(_PRODUCT_DEPTS_PATH);
 let _REF_IDEA_DEPARTMENT = DB_BASE.child(_IDEA_DEPTS_PATH);
-let _REF_USERS = DB_BASE.child(_USERS_PATH); //change me by removing test
+// let _REF_USERS = DB_BASE.child(_USERS_PATH); //change me by removing test
 let _REF_BUSINESS = DB_BASE.child(_BUSINESSES_PATH); //change me by removing test
 let _REF_USER_LIKES = DB_BASE.child(_LIKES_PATH);
 let _REF_GROUP = DB_BASE.child(_GROUPS_PATH); //change me by removing test
@@ -75,9 +77,9 @@ export default {
   get IDEA_DEPTS_PATH() {
     return _IDEA_DEPTS_PATH;
   },
-  get USERS_PATH() {
-    return _USERS_PATH;
-  },
+  // get USERS_PATH() {
+  //   return _USERS_PATH;
+  // },
   get BUSINESSES_PATH() {
     return _BUSINESSES_PATH;
   },
@@ -108,9 +110,9 @@ export default {
   get products() {
     return _REF_PRODUCT;
   },
-  get users() {
-    return _REF_USERS;
-  },
+  // get users() {
+  //   return _REF_USERS;
+  // },
   get groups() {
     return _REF_GROUP;
   },
@@ -126,27 +128,187 @@ export default {
   get professionals() {
     return _REF_PROF;
   },
+  
+  
   //create a professional user (i.e., business user) along with the group but not the business details
   // user is the object from firebase.auth.
   createProfUser(user, phoneNo, coName) {
     let group = "prof";
+    let dateCreated = Date.now();
+    let businessObj = {
+      owner: user.uid,
+      email: user.email,
+      phone: phoneNo,
+      country: "Saudi Arabia",
+      businessName: coName,
+      dateCreated: dateCreated
+    }
+    var businessId = this.businesses.push().key;
     let userObj = {
+      businessId: businessId,
       uid: user.uid,
       provider: user.providerData[0].providerId, //assuming a user has only one provider. Change me to user forEach and search using the email
       email: user.email,
-      phone: phoneNo,
+      // phone: phoneNo,
       name: coName,
-      dateCreated: Date.now(),
-      country: "Saudi Arabia",
-      city: "", //we get it later on from profile
-      status: false,
+      dateCreated: dateCreated,
+      // country: "Saudi Arabia",
+      // city: "", //we get it later on from profile
       userGroup: group
     };
     var updates = {};
-    updates[`${_USERS_PATH}/${user.uid}`] = userObj;
+    updates[`${_PROF_PATH}/${user.uid}`] = userObj;
     updates[`${_GROUPS_PATH}/${group}/${user.uid}`] = group;
-    // add user to database and to group simultaniously and tomically
+    updates[`${_BUSINESSES_PATH}/${businessId}`] = businessObj;
+    // add user to database and to group and to business simultaniously and atomically
     return this.root.update(updates);
+  },
+  
+  
+  readBusinessId(userId, handler, failHandler){
+    this.professionals.child(`${userId}/businessId`).once('value').then( (snapshot) => {
+      handler((snapshot.val() || ''));
+    }).catch((error) => { failHandler(error)});
+  },
+
+
+  //update the profile for a professional user where new data is 
+  //stored at profileData. error and success handlers are 
+  //provided by form/formUpdater
+  updateProfProfileHelper(profileData, errorHandler, successHandler) {
+    console.log('FirebaseServices.updateProfProfileHelper')    
+    try {
+      var businessProfileRef = this.businesses.child(`${profileData.id}`);
+      businessProfileRef
+        .update({
+          categories: profileData.categories,
+          city: profileData.city,
+          country: 'Saudi Arabia',
+          phone: profileData.phone,
+          preview: profileData.preview,
+          imgUrl: profileData.imgUrl,
+          businessName: profileData.businessName,
+          types: profileData.types,
+          website: profileData.website
+        })
+        .then(() => {
+          console.log("insesrt succeeded");
+          successHandler();
+        })
+        .catch(error => {
+          console.log("could not insert profile");
+          console.log(profileData);
+          errorHandler(error.message);
+        });
+    } catch (error) {
+      errorHandler(error);
+    }
+  },
+
+
+  //upload a logo image for a professional user profile.
+  //newImage is the file object from an HTML file input.
+  //next is called after the upload is finished (usually
+  //to update the profile itself)
+  uploadProfProfileImage(newImage, progressHandler, errorHandler, next){
+      console.log('FirebaseServices.uploadProfProfileImage')
+      //1- upload the image of the profile.
+      //2- add the profile to the database
+      //get a reference for the image bucket (the placeholder where we will put the image into)
+      var imagesRef = this.profileImages.child(`${Date.now() + Math.random()}`);
+      console.log('imageRef: ')
+      console.log(imagesRef)
+      //upload the image. This is a task that will run async. Notice that it accepts a file as in
+      //browser API File (see https://developer.mozilla.org/en-US/docs/Web/API/File)
+      var metadata = {
+        contentType: newImage.type
+      };
+      //The following will return a task that will execte async
+      var uploadTask = imagesRef.put(newImage, metadata);
+      // Register three observers:
+      // 1. 'state_changed' observer, called any time the state changes
+      // 2. Error observer, called on failure
+      // 3. Completion observer, called on successful completion
+      uploadTask.on(
+        "state_changed",
+        function(snapshot) {
+          // Observe state change events such as progress, pause, and resume
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          var progress = Math.round(
+            snapshot.bytesTransferred / snapshot.totalBytes * 100
+          );
+          progressHandler(progress);
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case firebase.storage.TaskState.PAUSED: // or 'paused'
+              console.log("Upload is paused");
+              break;
+            case firebase.storage.TaskState.RUNNING: // or 'running'
+              console.log("Upload is running");
+              break;
+          }
+        },
+        error => {
+          // Handle unsuccessful uploads
+          console.log("error uploading image of profile");
+          console.log(error);
+          // A full list of error codes is available at
+          // https://firebase.google.com/docs/storage/web/handle-errors
+          switch (error.code) {
+            case "storage/unauthorized":
+              // User doesn't have permission to access the object
+              break;
+
+            case "storage/canceled":
+              // User canceled the upload
+              break;
+
+            case "storage/unknown":
+              // Unknown error occurred, inspect error.serverResponse
+              break;
+          }
+          errorHandler(error.message);
+        },
+        //use arrow function so that you can access this.insertprof. See (https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback)
+        () => {
+          // Handle successful uploads on complete
+          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+          let imgUrl = uploadTask.snapshot.downloadURL;
+          console.log("upload sucessful and image URL is: " + imgUrl);
+          next(imgUrl);
+          
+        }
+      ); //updateTask.on
+  },
+
+  //Main method to update a professional profile
+  updateProfProfile(profileData, errorHandler, successHandler, progressHandler){
+    console.log('FirebaseServices.updateProfProfile')
+    //if we have a new image then upload it
+    if (profileData.newImage) {
+      this.uploadProfProfileImage(
+        profileData.imageFile, 
+        progressHandler, 
+        errorHandler, 
+        (imgUrl) => {
+            profileData.imgUrl = imgUrl
+            //update profile with new data and new image URL
+            this.updateProfProfileHelper(
+              profileData,
+              errorHandler,
+              successHandler
+            );
+        }
+      );
+    } else {
+      //no change to current image/image URL
+      //update profile with new data 
+      this.updateProfProfileHelper(
+        profileData,
+        errorHandler,
+        successHandler
+      );
+    }
   }
 };
 

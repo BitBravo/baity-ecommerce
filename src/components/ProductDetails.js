@@ -35,7 +35,7 @@ class ProductDetails extends Component {
   }
 
   componentWillUnmount() {
-    base.removeBinding(this.productsRef);
+    this.productsRef && base.removeBinding(this.productsRef);
   }
 
   render() {
