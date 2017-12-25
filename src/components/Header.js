@@ -12,7 +12,7 @@ class Header extends Component {
   render() {
     return (
       
-      <Navbar fixedTop  inverse > 
+      <Navbar fixedTop   > 
     
         <Navbar.Header  >
         <NavbarBrand>

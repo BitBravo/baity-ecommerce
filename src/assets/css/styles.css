@@ -1,5 +1,5 @@
 .myfooter {
-    position: fixed;
+    /* position: fixed; */
     left: 0;
     bottom: 0;
     width: 100%;
@@ -13,7 +13,9 @@
     filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
     background-repeat: repeat-x;
     display: block;
-    padding: 0 15px;    
+    padding: 0 15px; 
+    margin: 0;
+    border: 0;   
 }
 
 .myfooter img{
@@ -24,7 +26,7 @@
    margin-left: auto;
    margin-right: auto;
 }
-.myfooter h6 {text-align: center;font-size: 1.3rem;color: white; direction: ltr; line-height: 40px;}
+.myfooter h6 {text-align: center;font-size: 1.3rem;color: white; direction: ltr; line-height: 40px; margin: 0}
 
 
 .imgPreview {
