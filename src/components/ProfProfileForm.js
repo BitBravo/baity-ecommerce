@@ -175,7 +175,7 @@ class ProfProfileForm extends Component {
     });
     this.state = {
       FIELDS: fields,
-      imgUrl: this.props.profile.imgUrl,
+      imgUrl: this.props.profile.imgUrl,//TODO: this should be part of the fields
       formStatusAlert: {
         alert: false,
         type: "info",
@@ -203,6 +203,9 @@ class ProfProfileForm extends Component {
     this.validateFields = this.validateFields.bind(this)
   }
 
+
+
+  //updates data for one field
   updateState(fieldInfo, fieldName){
     let newStateFields = {FIELDS: {...this.state.FIELDS}};
     newStateFields.FIELDS[fieldName] = fieldInfo
@@ -258,7 +261,7 @@ class ProfProfileForm extends Component {
       }
       this.setState({
         imgError: true,
-        imgErrorMessage: 'يجب أن يكون حجم الصورة أقل من ٥ ميجابايت. حجم الملف الحالي هو: ' + sOutput
+        imgErrorMessage: 'يجب أن يكون حجم الصورة أقل من ١ ميجابايت. حجم الملف الحالي هو: ' + sOutput
       })
       return;
     } else if (!file.type.startsWith('image/jpeg') && !file.type.startsWith('image/png')){
@@ -297,8 +300,7 @@ class ProfProfileForm extends Component {
     //then compute form validation
     let formValid  = _.reduce(this.state.FIELDS, 
                           (formValid, field) => { //result, value, key 
-                            console.log(field)
-                            console.log(formValid)
+                            
                             if (field.type === 'checkbox' && field.required)
                               return formValid && field.value.length > 0;
                             //field not required and empty so ignore
@@ -325,10 +327,11 @@ class ProfProfileForm extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.setState({FIELDS: this.validateFields()},//first validate fields to touch all of them
+    this.setState( {FIELDS: this.validateFields()},//first validate fields to touch all of them
       this.setState({formValid: this.validateForm()}, () => {
-        console.log('ProfProfileForm.handleSubmit before validation')
+        
         if (this.state.formValid){
+          //remove any error messages in the form
           this.setState({
             formStatusAlert: {
               alert: false,
@@ -337,27 +340,26 @@ class ProfProfileForm extends Component {
               showSuccessfulSubmit: true
             }
           })
-          //update
+          //package data for update
           let profileData = this.packageDataForSubmission();
           profileData.imgUrl = this.state.imgUrl;
           profileData.imageFile = this.state.imgFile;
           profileData.newImage = this.state.imgUrl !== this.props.profile.imgUrl;
-          console.log(this.state.imgUrl)
-          console.log(this.props.profile.imgUrl)
-          console.log('ProfProfileForm.handleSubmit')
-          this.props.onSubmit(profileData, (error) => {
-            console.log(error)
-            this.setState({
-              formStatusAlert: {
-                alert: true,
-                type: "danger",
-                alertMsg: "حدث خطأ أثناء التحديث : " + error,
-                showSuccessfulSubmit: false
-              }
+          //update
+          this.props.onSubmit(profileData, 
+            (error) => {
+              console.log(error)
+              this.setState({
+                formStatusAlert: {
+                  alert: true,
+                  type: "danger",
+                  alertMsg: "حدث خطأ أثناء التحديث : " + error,
+                  showSuccessfulSubmit: false
+                }
+              })
+              ReactDOM.findDOMNode(this).scrollTop = 0;  
             })
-            ReactDOM.findDOMNode(this).scrollTop = 0;  
-          })
-        } else {
+        } else {// form is not valid
           this.setState({
             formStatusAlert: {
               alert: true,
@@ -366,7 +368,7 @@ class ProfProfileForm extends Component {
               showSuccessfulSubmit: false
             }
           })
-          ReactDOM.findDOMNode(this).scrollTop = 0;
+          ReactDOM.findDOMNode(this).scrollIntoView();
         }
       })
     );

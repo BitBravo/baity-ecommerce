@@ -130,9 +130,10 @@ export default {
   },
   
   
-  //create a professional user (i.e., business user) along with the group but not the business details
+  //create a professional user (i.e., business user) along with the group and business entry (but not the business details)
   // user is the object from firebase.auth.
   createProfUser(user, phoneNo, coName) {
+    var businessId = this.businesses.push().key;
     let group = "prof";
     let dateCreated = Date.now();
     let businessObj = {
@@ -141,9 +142,9 @@ export default {
       phone: phoneNo,
       country: "Saudi Arabia",
       businessName: coName,
-      dateCreated: dateCreated
+      dateCreated: dateCreated,
+      id: businessId
     }
-    var businessId = this.businesses.push().key;
     let userObj = {
       businessId: businessId,
       uid: user.uid,
@@ -164,8 +165,9 @@ export default {
     return this.root.update(updates);
   },
   
-  
-  readBusinessId(userId, handler, failHandler){
+  //takes user id for a professional user 
+  //returns the business id for the professional user
+  getProfessionalUserBusinessId(userId, handler, failHandler){
     this.professionals.child(`${userId}/businessId`).once('value').then( (snapshot) => {
       handler((snapshot.val() || ''));
     }).catch((error) => { failHandler(error)});

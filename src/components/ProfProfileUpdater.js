@@ -46,21 +46,22 @@ class ProfProfileUpdater extends Component {
   }
 
   componentWillMount() {
-    FirebaseServices.readBusinessId(this.props.currentUser.uid, (businessId) => {
-      if (businessId === '') {
-        this.setState({ errorHandling: { showError: true, errorMsg: {message:'خطأ داخلي: لم يتم العثور على الشركة '} } });
-      } else {
-        this.bussRef = base.syncState(`${FirebaseServices.BUSINESSES_PATH}/${businessId}`, {
-          context: this,
-          state: "profile",
-          then(data) {
-            this.setState({ loading: false });
-          },
-          onFailure(error) {
-            this.setState({ errorHandling: { showError: true, errorMsg: error } });
-          }
-        })
-      }//else
+    FirebaseServices.getProfessionalUserBusinessId(this.props.currentUser.uid, 
+      (businessId) => {
+        if (businessId === '') {
+          this.setState({ errorHandling: { showError: true, errorMsg: {message:'خطأ داخلي: لم يتم العثور على الشركة '} } });
+        } else {
+          this.bussRef = base.syncState(`${FirebaseServices.BUSINESSES_PATH}/${businessId}`, {
+            context: this,
+            state: "profile",
+            then(data) {
+              this.setState({ loading: false });
+            },
+            onFailure(error) {
+              this.setState({ errorHandling: { showError: true, errorMsg: error } });
+            }
+          })
+        }//else
     }, (error) => {
       this.setState({ errorHandling: { showError: true, errorMsg: error } });
     });
@@ -105,8 +106,6 @@ class ProfProfileUpdater extends Component {
       return 
     }
     profileData.id = this.state.profile.id;
-    console.log(profileData)
-    console.log('ProfProfileForm.handleSubmit')
     FirebaseServices.updateProfProfile(profileData, formErrorHandler, this.formSuccessHandler, this.formPercentageViewer)  
   }
 
