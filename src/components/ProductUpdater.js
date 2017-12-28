@@ -31,6 +31,8 @@ class ProductUpdater extends Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateProduct = this.updateProduct.bind(this);
+    this.formPercentageViewer = this.formPercentageViewer.bind(this)
+    this.formSuccessHandler = this.formSuccessHandler.bind(this)
   }
 
   componentWillMount() {
@@ -48,6 +50,31 @@ class ProductUpdater extends Component {
 
   componentWillUnmount() {
     this.productsRef && base.removeBinding(this.productsRef);
+  }
+
+  formPercentageViewer(percentage) {   
+    this.setState(
+      {
+        uploadProgress: {show: percentage < 100, percentage: percentage}
+      }
+    )
+
+  }
+
+  formSuccessHandler() {
+    //hide waiting alert then show submission success msg
+    let uploadProgress = {
+      show: false, percentage: 100
+    }
+    //show success popup
+    let submitStatus = {
+      showSubmitModal: true,
+      submitSuccessful: true,
+      errorMsg: ''
+    }
+    let newState = {...this.state, uploadProgress, submitStatus}
+    
+    this.setState(newState)
   }
 
   updateProduct(product, imgDownloadURL, formErrorViewer, formSuccessViewer) {
