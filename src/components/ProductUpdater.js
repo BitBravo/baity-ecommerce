@@ -130,7 +130,7 @@ class ProductUpdater extends Component {
       //2- add the product to the database
       //Check (https://firebase.google.com/docs/storage/web/upload-files) &
       //check (https://firebase.google.com/docs/database/web/read-and-write) for more info
-      var newImage = formData.newImages[0];
+      var newImageFile = formData.newImages[0].file;//of type html File/Blob
       //get a reference for the image bucket (the placeholder where we will put the image into)
       var imagesRef = storage
         .ref()
@@ -138,10 +138,10 @@ class ProductUpdater extends Component {
       //upload the image. This is a task that will run async. Notice that it accepts a file as in
       //browser API File (see https://developer.mozilla.org/en-US/docs/Web/API/File)
       var metadata = {
-        contentType: newImage.type
+        contentType: newImageFile.type
       };
       //The following will return a task that will execte async
-      var uploadTask = imagesRef.put(newImage, metadata);
+      var uploadTask = imagesRef.put(newImageFile, metadata);
       // Register three observers:
       // 1. 'state_changed' observer, called any time the state changes
       // 2. Error observer, called on failure

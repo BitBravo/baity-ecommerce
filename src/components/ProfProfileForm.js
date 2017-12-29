@@ -274,8 +274,8 @@ class ProfProfileForm extends Component {
 
     reader.onloadend = () => {
       this.setState({
-        imgFile: file,
-        imgUrl: reader.result,
+        imgFile: file,//of type File that can be directly uploaded to firebase storage using "put" method
+        imgUrl: reader.result,//of type Data URL for preview purposes only see (https://en.wikipedia.org/wiki/Data_URI_scheme & https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL)
         imgError: false,
         imgErrorMessage: ''
       });

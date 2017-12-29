@@ -16,6 +16,10 @@ import { Link } from "react-router-dom";
 import { LinkContainer } from 'react-router-bootstrap'
 import FaCheckCircleO from 'react-icons/lib/fa/check-circle-o'
 import FaTimesCircleO from 'react-icons/lib/fa/times-circle-o'
+import bayty_icon from '../assets/img/bayty_icon.png';
+import ImagePreviewsContainer from './ImagePreviewsContainer'
+import styled from 'styled-components'
+import _ from 'lodash'
 
 
 
@@ -170,10 +174,7 @@ class ProductForm extends Component {
       this.state.width.valid = true;
       this.state.price.valid = true;
       this.state.formValid = true
-      if (this.multipleImages)
-        null;//(still do not know what property is)this.state.imagesFromDB = [...this.props.product.imgUrl]; 
-      else
-        this.state.imagesFromDB = [this.props.product.imgUrl];//just URLs
+      this.state.imagesFromDB = [this.props.product.images];//just URLs
     }
 
     this.handleOnDrop = this.handleOnDrop.bind(this);
@@ -187,6 +188,7 @@ class ProductForm extends Component {
     this.addImage = this.addImage.bind(this);
     this.addMultipleImages = this.addMultipleImages.bind(this);    
     this.removeImageFromImagesFromDB = this.removeImageFromImagesFromDB.bind(this);
+    this.deleteImage = this.deleteImage.bind(this);
   }
 
 
@@ -216,16 +218,32 @@ class ProductForm extends Component {
     to the database upon product upload/addition/update.
     This works for single image.
   */
-  addImage(newImage){
+  addImage(newImageFile, newImageDataURL){
     //allow one image only and overwrite previous one
     //IT IS IMPORTANT that validateForm runs after this call to setState
     //is finished. see (https://reactjs.org/docs/state-and-lifecycle.html)
+    if (_.findIndex(this.state.newImages, [ 'url', newImageDataURL] ) != -1)
+      return;
+    var newImage = {file: newImageFile, url: newImageDataURL}
     this.setState(
       {
-        newImages: [...newImage]
+        newImages: [...this.state.newImages, newImage]
       },
       () => this.validateForm()
     );
+  }
+
+  /*
+  this method removes an image that has been added during current session
+  but not inserted into database yet
+  */
+  deleteImage(imageDataURL){
+    var newImages = [...this.state.newImages];
+    _.remove(newImages, (image) => image.url === imageDataURL);
+    this.setState({
+        newImages: [...newImages],
+      }, () => this.validateForm()
+    )
   }
 
   /*
@@ -274,10 +292,10 @@ class ProductForm extends Component {
   }
 
   componentWillUnmount() {
-    //to avoid memory leaks. See Important note @ (https://react-dropzone.js.org/)
-    this.state.newImages.map(file => {
-      window.URL.revokeObjectURL(file.preview);
-    });
+    // //to avoid memory leaks. See Important note @ (https://react-dropzone.js.org/)
+    // this.state.newImages.map(file => {
+    //   window.URL.revokeObjectURL(file.preview);
+    // });
   }
 
   //handles form submission by calling parent onSubmit handler method
@@ -546,6 +564,16 @@ class ProductForm extends Component {
   render() {
     return (
       <form>
+        <img src={bayty_icon} />
+          <div className="loginregtitle">
+            <h3>أضافة منتج جديد</h3>
+          </div>
+        <ImagePreviewsContainer 
+          imagesFromDB={this.state.imagesFromDB} 
+          newImages={this.state.newImages}
+          addImage={this.addImage}
+          deleteImage={this.deleteImage}
+        />
         <ImageUploader
           onDrop={this.handleOnDrop}
           multipleImages={this.multipleImages}

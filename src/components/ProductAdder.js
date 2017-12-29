@@ -9,6 +9,27 @@ import {
   Panel
 } from "react-bootstrap";
 import ProductForm from "./ProductForm";
+import styled from 'styled-components'
+
+
+const StyledProductForm = styled.div`
+margin-top: 10px;
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+margin-left: auto;
+margin-right: auto;
+border-radius: 5px;
+width: 90%;
+padding: 25px;
+color: #3C3C3C;
+background: rgb(255,255,255);
+animation-name: slideDown;
+-webkit-animation-name: slideDown;	
+animation-duration: 1s;	
+-webkit-animation-duration: 1s;
+animation-timing-function: ease;	
+-webkit-animation-timing-function: ease;	
+visibility: visible !important;	
+`;
 
 class ProductAdder extends Component {
   constructor(props) {
@@ -133,13 +154,11 @@ class ProductAdder extends Component {
 
   render() {
     return (
-      <div style={{ padding: "10em", background: "#F5F5F5", color: "#444444" }}>
-        <div className="panel panel-default">
-          <div className="panel-body">
+      <StyledProductForm>
+        
             <ProductForm currentUser={this.props.currentUser} isNewProduct={true} onSubmit={this.handleSubmit.bind(this)} />
-          </div>
-        </div>
-      </div>
+        
+      </StyledProductForm>
     );
   }
 }

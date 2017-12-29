@@ -212,14 +212,14 @@ export default {
   //newImage is the file object from an HTML file input.
   //next is called after the upload is finished (usually
   //to update the profile itself)
-  uploadProfProfileImage(newImage, progressHandler, errorHandler, next){
-      console.log('FirebaseServices.uploadProfProfileImage')
+  //newImage is of type Blob of File
+  //see (https://firebase.google.com/docs/reference/js/firebase.storage.Reference?authuser=0#put)
+  //see (https://developer.mozilla.org/en-US/docs/Web/API/File)
+  uploadProfProfileImage(newImage, progressHandler, errorHandler, next){      
       //1- upload the image of the profile.
       //2- add the profile to the database
       //get a reference for the image bucket (the placeholder where we will put the image into)
       var imagesRef = this.profileImages.child(`${Date.now() + Math.random()}`);
-      console.log('imageRef: ')
-      console.log(imagesRef)
       //upload the image. This is a task that will run async. Notice that it accepts a file as in
       //browser API File (see https://developer.mozilla.org/en-US/docs/Web/API/File)
       var metadata = {
