@@ -675,12 +675,12 @@ class ProductForm extends Component {
           selectedOption={this.state.cat.value}
         />
 
-        <Button type="submit" onClick={this.handleSubmit} className="btn-block">
+        <button type="submit" onClick={this.handleSubmit}  >
         {this.props.isNewProduct
          ?<span> أضف المنتج </span>
          :<span> تحديث المنتج </span>
         }
-        </Button>
+        </button>
 
         <Collapse in={this.state.formStatusAlert.alert}>
           <Alert

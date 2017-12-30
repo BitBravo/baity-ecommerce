@@ -67,9 +67,9 @@ class ProductDetails extends Component {
       
         
          
-          <Row className="productdetails">
+          <Row className="productdetails" >
           <Equalizer>
-           <Col  xl={12} sm={8} md={8} lg={8} className="productdetailsimgbckgrnd">
+           <Col  xl={12} sm={8} md={8} lg={8} className="prdctimgbckgrnd">
             <img src={product.imgUrl} />
             </Col>
             <Col  xl={12} sm={4} md={4} lg={4} >

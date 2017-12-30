@@ -133,17 +133,17 @@ class Login extends Component {
     }
 
     return (
-      <div className="loginreg">
-   
       
+        
+      <div className="loginreg">
+       
+    
        
         <form    onSubmit={(event) => this.authWithEmailPassword(event)}
-          ref={(form) => { this.loginForm = form }}>
-       
-         <img src={bayty_icon}/>
-         
+          ref={(form) => { this.loginForm = form }}> 
+           
          <div className="loginregtitle">
-      
+         <img src={bayty_icon}/>
       <h3> تسجيل الدخول الى بيتي </h3>
       </div>
       <Collapse in={this.state.formStatusAlert.alert}>
@@ -158,7 +158,8 @@ class Login extends Component {
           </Alert>
         </Collapse>
       <Row>
-      
+      <Col lg= {12} sm={12}>
+      </Col>
       <Col sm={12}  lg={6} className="col-lg-push-6">
           <div className="form-group" >
           <label htmlFor="inputEmail">البريد الالكتروني</label>

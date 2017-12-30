@@ -24,14 +24,8 @@ class ProductBrief extends Component {
   render() {
     const product = this.props.product;
     return (
-
-   
-     
-      
       <Col xs={12} md={4} sm={6} style={{paddingBottom: "20px"}} >
       <div className="mythumbnail" >
-         
-         
            <div >
           
           <Link to={`/products/${product.id}`} >
@@ -46,11 +40,7 @@ class ProductBrief extends Component {
 
               <h4 > {product.name} </h4>
               </Link>
-            
-        
-            <p className="flex-text text-muted">{product.desc}</p>
-            
-          
+            <p>{product.desc}</p>
             </div>
             </div>  
           

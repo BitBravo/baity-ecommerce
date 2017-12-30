@@ -349,8 +349,9 @@ class Register extends Component {
         
         <form onSubmit={event => this.authWithEmailPassword(event)}
           ref={form => { this.registerForm = form; }}  >
-           <img src={bayty_icon}/>
+          
         <div className="loginregtitle">
+        <img className="img-responsive" src={bayty_icon}/>
           <h3 >تسجيل حساب تجاري</h3>
           </div>
           {loading ? (
