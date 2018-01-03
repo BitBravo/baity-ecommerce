@@ -1,5 +1,7 @@
 import { app, base, database, storage } from "../base";
 import firebase from "firebase";
+import _ from 'lodash'
+
 
 
 /************************************************************
@@ -192,7 +194,7 @@ export default {
     return ref.once('value')
       .then(dataSnapshot => dataSnapshot.val())
       .catch(error => {
-        console.log(`error reading entry of type ${entryType} with id (${entryId}) from DB`)
+        console.log(`FirebaseServices.readDBRecord: error reading entry of type ${entryType} with id (${entryId}) from DB`)
         console.log(`ERROR: code: ${error.code}, message:${error.message}`)
         throw error
       })
@@ -348,7 +350,10 @@ export default {
 
   //returns a product as a promise
   getProduct(productId){
-    return this.readDBRecord('product', productId)
+    return this.readDBRecord('product', productId).catch(error => {
+      console.log(`FirebaseServices.getProduct: can not read product ${productId} from DB`)
+      throw error;
+    })
   },
 
   // product is an object that contains all product properties except id
@@ -361,7 +366,11 @@ export default {
     // })
       var newProductRef = this.products.push();
       product = {...product, id: newProductRef.key};
-      return newProductRef.set(product).then( () => newProductRef.key);
+      return newProductRef.set(product).then( () => newProductRef.key)
+      .catch(error => {
+        console.log(`error inserting product: ${product} in DB`)
+        throw error;
+      });
   },
 
 
@@ -373,13 +382,7 @@ export default {
         .child(`${Date.now() + Math.random()}`);
       var task = imageRef.put(file, { contentType: file.type });
       task.name = file.name;
-      var progressBars = this.state.progressBars;
       viewUploadProgress(0, task.name)
-      // progressBars[task.name] = {
-      //   percentage: 0,
-      //   name: task.name
-      // };
-      // this.setState({ progressBars: { ...progressBars } } );
 
       // Register an upload task observer to observe state change events such as progress, pause, and resume
       task.on("state_changed", snapshot => {
@@ -388,13 +391,8 @@ export default {
           snapshot.bytesTransferred / snapshot.totalBytes * 100
         );
         //update progress viewer
-        viewUploadProgress(0, task.name)
-        // var progressBars = this.state.progressBars;
-        // progressBars[task.name] = {
-        //   percentage: progress,
-        //   name: task.name
-        // };
-        // this.setState({ progressBars: { ...progressBars } })
+        viewUploadProgress(progress, task.name)
+
         //additionl logging 
         console.log(
           "Upload of file " + task.name + " is " + progress + "% done"
@@ -418,7 +416,7 @@ export default {
         return urls
       })
       .then(urls => {
-        images = urls.map(imageUrl => {large: imageUrl})
+        var images = urls.map(imageUrl => ({large: imageUrl}))
         return images;
       })
       .catch(error => {
@@ -456,10 +454,18 @@ export default {
     .then(images => {
       return this.getProduct(productId)
       .then(product => {
+        console.log(images)
+        console.log(product)
         //combine new images with current images from DB into 'images' property of product
-        images = [...images, ...product.images];
+        images = product.images? [...images, ...product.images]: images;
         var productRef = this.products.child(productId);
         productRef.update({images: images})
+      })
+      .catch(error => {
+        console.log(`FirebaseServices.addProductImages: error while adding product images for product ${productId}`)
+        console.log(`ERROR: code: ${error.code}, message:${error.message}`);
+        console.log(error)
+        throw error
       })
     })
     

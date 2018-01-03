@@ -93,15 +93,13 @@ class ProductAdder extends Component {
   }
 
   handleSubmit(product, newImages, formErrorViewer, formSuccessViewer, formPercentageViewer) {
-    //id = push
-    //set(product).then
-    //upload images.then
-    //set(images)
     this.addProduct(product)
         .then((productId) => this.addImages(productId, newImages, formPercentageViewer))
+        .then(formSuccessViewer)
         .catch((error) => {
           console.log('could not insert product or upload images');
           console.log(`ERROR: code: ${error.code}, message:${error.message}`);
+          console.error('Error Stack Trace: ', error.stack);
           formErrorViewer(`ERROR: could not insert product or upload images. error code: ${error.code}, error message:${error.message}`)
         }) 
     

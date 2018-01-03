@@ -20,6 +20,7 @@ import bayty_icon from '../assets/img/bayty_icon.png';
 import ImagePreviewsContainer from './ImagePreviewsContainer'
 import styled from 'styled-components'
 import _ from 'lodash'
+import MyProgressBar from './MyProgressBar'
 
 
 
@@ -134,10 +135,7 @@ const initState = {
     type: "info", //indicates that we should show an alert msg due to form invalid
     alertMsg: "", //message shown when form can not be submitted cause form is not valid
   },
-  uploadProgress: {
-    show: false,
-    percentage: 0
-  },
+  progressBars: {},
   submitStatus: {
     showSubmitModal: false,
     submitSuccessful: false,
@@ -308,7 +306,7 @@ class ProductForm extends Component {
       department: this.state.dept.value,
       desc: this.state.desc.value,
       height: this.state.height.value,
-      imgUrl: imgDownloadURL,
+      imgUrl: 'None',
       length: this.state.length.value,
       likes: "0",
       name: this.state.name.value,
@@ -331,20 +329,18 @@ class ProductForm extends Component {
         // 2- callback for notifying us about failure
         // 3- callback for notifying us about progress of submission
         this.props.onSubmit(
-          product, this.state.newImages, this.state.imagesFromDB,
+          product, this.state.newImages, 
           //error callback
           err => {
             //hide waiting alert then show submission failure msg
-            let uploadProgress = {
-              show: false, percentage: 0
-            }
+            let progressBars = {}
             //show failure popup
             let submitStatus = {
               showSubmitModal: true,
               submitSuccessful: false,
               errorMsg: 'حدث خطأ غير معروف. نرجو ابلاغ الصيانة بالخطأ التالي: ' + err
             }
-            let newState = {...this.state, uploadProgress, submitStatus}
+            let newState = {...this.state, progressBars, submitStatus}
             
             this.setState(newState)
             
@@ -352,27 +348,26 @@ class ProductForm extends Component {
           // success callback
           () => {
             //hide waiting alert then show submission success msg
-            let uploadProgress = {
-              show: false, percentage: 100
-            }
+            let progressBars = {}
             //show success popup
             let submitStatus = {
               showSubmitModal: true,
               submitSuccessful: true,
               errorMsg: ''
             }
-            let newState = {...this.state, uploadProgress, submitStatus}
+            let newState = {...this.state, progressBars, submitStatus}
             
             this.setState(newState)
             
           },
           // progress bar updater callback
-          (percentage) => {
-            this.setState(
-              {
-                uploadProgress: {show: percentage < 100, percentage: percentage}
-              }
-            )
+          (percentage, name) => {
+            var progressBars = this.state.progressBars;
+            progressBars[name] = {
+              percentage: 0,
+              name: name
+            };
+            this.setState({ progressBars: { ...progressBars } } );
           }
         );
 
@@ -783,18 +778,7 @@ class ProductForm extends Component {
           }
         </Modal>
 
-        {/* This modal is for showing image upload progress bar to show progress of 
-        uploading/adding product to DB */}
-        <Modal
-          show={this.state.uploadProgress.show}
-          style={{top: 300}}
-        >
-        <Modal.Header >
-            <Modal.Title id="contained-modal-title2">  جاري اضافة المنتج</Modal.Title>
-            <ProgressBar now={this.state.uploadProgress.percentage} label={`${this.state.uploadProgress.percentage}%`} />
-          </Modal.Header>
-          
-        </Modal>
+        <MyProgressBar title='جاري اضافة المنتج' progressBars={this.state.progressBars} />
 
       </form>
     );
