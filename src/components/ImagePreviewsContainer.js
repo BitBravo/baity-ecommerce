@@ -167,7 +167,7 @@ class ImagePreviewsContainer extends Component {
     return (
       <Panel>
         <ErrorMessages reportError={this.state.imgError } errorMessages={this.state.imgErrorMessages || []}/>
-        <LargeImagePreview ref="LargeImage" mainImageDataURL={this.state.mainImageDataURL}/>
+        <LargeImagePreview mainImageDataURL={this.state.mainImageDataURL}/>
         <FlexRow>
           <Col xs={12} sm={6} md={4}lg={3} >
             <FileInput handleFileUpload={this.handleFileUpload.bind(this)}/>

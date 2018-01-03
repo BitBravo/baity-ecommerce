@@ -31,7 +31,7 @@ let _BUSINESSES_PATH = testPrefix + "business"; //change me by removing test
 let _LIKES_PATH = "likes";
 let _GROUPS_PATH = testPrefix + "group"; //change me by removing test
 let _BUSINESS_LOGOS_PATH = testPrefix + "BusinessLogo";
-let _PRODUCT_IMAGES_PATH = testPrefix + "ProductImages";
+let _PRODUCT_IMAGES_PATH = testPrefix + "productImages";
 let _IDEA_IMAGES_PATH = "ideaImage";
 let _PROFILE_IMAGES_PATH = testPrefix + "profileImage";
 let _PROF_PATH = testPrefix + "professional";
@@ -128,7 +128,9 @@ export default {
   get professionals() {
     return _REF_PROF;
   },
-  
+  get productImages() {
+    return _REF_PRODUCT_IMAGE;
+  },
   
   //create a professional user (i.e., business user) along with the group and business entry (but not the business details)
   // user is the object from firebase.auth.
@@ -165,6 +167,37 @@ export default {
     return this.root.update(updates);
   },
   
+  /*
+    Given the entry type (product, idea, ...etc) and entry ID
+    returns the entry value (product, idea, ...etc)from the DB
+    as a promise (call readDBRecord.then(val => ...) ) or 
+    an error from DB
+  */
+  readDBRecord(entryType, entryId){
+    var ref;
+    switch (entryType){
+      case 'product': 
+        ref = this.products.child(entryId);
+        break;
+      // case 'idea':
+      //   ref = this.ideas.child(entryId);
+      //   break;
+      case 'profUser':
+        ref = this.professionals.child(entryId);
+        break;
+      // case 'normalUser':
+      //   ref = this.normalUsers.child(entryId);
+      //   break;
+    }
+    return ref.once('value')
+      .then(dataSnapshot => dataSnapshot.val())
+      .catch(error => {
+        console.log(`error reading entry of type ${entryType} with id (${entryId}) from DB`)
+        console.log(`ERROR: code: ${error.code}, message:${error.message}`)
+        throw error
+      })
+  },
+
   //takes user id for a professional user 
   //returns the business id for the professional user
   getProfessionalUserBusinessId(userId, handler, failHandler){
@@ -311,6 +344,125 @@ export default {
         successHandler
       );
     }
+  },
+
+  //returns a product as a promise
+  getProduct(productId){
+    return this.readDBRecord('product', productId)
+  },
+
+  // product is an object that contains all product properties except id
+  // this is used to insert a new product into DB
+  insertProduct(product) {
+    // return new Promis((resolve, reject) => {
+    //   var newProductRef = this.products.push();
+    //   product = {...product, id: newProductRef.key};
+    //   newProductRef.set(product).then( () => newProductRef.key);
+    // })
+      var newProductRef = this.products.push();
+      product = {...product, id: newProductRef.key};
+      return newProductRef.set(product).then( () => newProductRef.key);
+  },
+
+
+  uploadProductImages(newImages, viewUploadProgress){
+    //get list of upload tasks from firebase SDK (this will immediatly start upload)
+    var tasks = _.map(newImages, image => {
+      const file = image.file
+      const imageRef = this.productImages
+        .child(`${Date.now() + Math.random()}`);
+      var task = imageRef.put(file, { contentType: file.type });
+      task.name = file.name;
+      var progressBars = this.state.progressBars;
+      viewUploadProgress(0, task.name)
+      // progressBars[task.name] = {
+      //   percentage: 0,
+      //   name: task.name
+      // };
+      // this.setState({ progressBars: { ...progressBars } } );
+
+      // Register an upload task observer to observe state change events such as progress, pause, and resume
+      task.on("state_changed", snapshot => {
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        var progress = Math.round(
+          snapshot.bytesTransferred / snapshot.totalBytes * 100
+        );
+        //update progress viewer
+        viewUploadProgress(0, task.name)
+        // var progressBars = this.state.progressBars;
+        // progressBars[task.name] = {
+        //   percentage: progress,
+        //   name: task.name
+        // };
+        // this.setState({ progressBars: { ...progressBars } })
+        //additionl logging 
+        console.log(
+          "Upload of file " + task.name + " is " + progress + "% done"
+        );
+        switch (snapshot.state) {
+          case firebase.storage.TaskState.PAUSED: // or 'paused'
+            console.log("Upload of file " + task.name + " is paused");
+            break;
+          case firebase.storage.TaskState.RUNNING: // or 'running'
+            console.log("Upload of  file " + task.name + " is running");
+            break;
+        }
+      });
+      return task;
+    });
+
+    //Wait for all upload tasks to finish then obtain links (URLs) to uploaded files
+    return Promise.all(tasks)
+      .then(snapshots => {
+        const urls = snapshots.map(snapshot => snapshot.downloadURL);
+        return urls
+      })
+      .then(urls => {
+        images = urls.map(imageUrl => {large: imageUrl})
+        return images;
+      })
+      .catch(error => {
+        // Handle unsuccessful uploads
+        console.log("error uploading file");
+        console.log(`ERROR: code: ${error.code}, message:${error.message}`);
+        // A full list of error codes is available at
+        // https://firebase.google.com/docs/storage/web/handle-errors
+        switch (error.code) {
+          case "storage/unauthorized":
+            // User doesn't have permission to access the object
+            break;
+
+          case "storage/canceled":
+            // User canceled the upload
+            break;
+
+          case "storage/unknown":
+            // Unknown error occurred, inspect error.serverResponse
+            break;
+        }
+        throw error;
+      });
+
+  },
+
+  
+  /*
+    1- uploads product images.
+    2- add images to product.
+    newImages: an array of [{'file' of type File(Blob), 'url' of type DataURL (not needed here)}]
+  */
+  addProductImages(productId, newImages, viewUploadProgress){
+    return this.uploadProductImages(newImages, viewUploadProgress)
+    .then(images => {
+      return this.getProduct(productId)
+      .then(product => {
+        //combine new images with current images from DB into 'images' property of product
+        images = [...images, ...product.images];
+        var productRef = this.products.child(productId);
+        productRef.update({images: images})
+      })
+    })
+    
   }
 };
 

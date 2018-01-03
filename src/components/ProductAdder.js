@@ -10,6 +10,7 @@ import {
 } from "react-bootstrap";
 import ProductForm from "./ProductForm";
 import styled from 'styled-components'
+import FirebaseServices from "./FirebaseServices";
 
 
 const StyledProductForm = styled.div`
@@ -36,6 +37,8 @@ class ProductAdder extends Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.insertProduct = this.insertProduct.bind(this);
+    this.addProduct = this.addProduct.bind(this);
+    this.addImages = this.addImages.bind(this);
   }
 
   insertProduct(product, imgDownloadURL, formErrorViewer, formSuccessViewer) {
@@ -79,77 +82,32 @@ class ProductAdder extends Component {
     }
   }
 
-  handleSubmit(formData, formErrorViewer, formSuccessViewer, formPercentageViewer) {
+  addImages(productId, newImages, formPercentageViewer){
+    return FirebaseServices.addProductImages(productId, newImages, formPercentageViewer)
+  }
+
+  addProduct(product){
+    //add owner to product
+    product = {...product, owner: this.props.currentUser.uid};
+    return FirebaseServices.insertProduct(product);//returns a promise resolved with product ID 
+  }
+
+  handleSubmit(product, newImages, formErrorViewer, formSuccessViewer, formPercentageViewer) {
+    //id = push
+    //set(product).then
+    //upload images.then
+    //set(images)
+    this.addProduct(product)
+        .then((productId) => this.addImages(productId, newImages, formPercentageViewer))
+        .catch((error) => {
+          console.log('could not insert product or upload images');
+          console.log(`ERROR: code: ${error.code}, message:${error.message}`);
+          formErrorViewer(`ERROR: could not insert product or upload images. error code: ${error.code}, error message:${error.message}`)
+        }) 
+    
     //value should be the value of state of the ProductForm
 
-    //1- upload the image of the product.
-    //2- add the product to the database
-    //Check (https://firebase.google.com/docs/storage/web/upload-files) &
-    //check (https://firebase.google.com/docs/database/web/read-and-write) for more info
-    formData.newImages.map(file => {
-      //get a reference for the image bucket (the placeholder where we will put the image into)
-      var imagesRef = storage
-        .ref()
-        .child("testProductImages/" + Date.now() + Math.random());
-      //upload the image. This is a task that will run async. Notice that it accepts a file as in
-      //browser API File (see https://developer.mozilla.org/en-US/docs/Web/API/File)
-      var metadata = {
-        contentType: file.type
-      };
-      //The following will return a task that will execte async
-      var uploadTask = imagesRef.put(file, metadata);
-      // Register three observers:
-      // 1. 'state_changed' observer, called any time the state changes
-      // 2. Error observer, called on failure
-      // 3. Completion observer, called on successful completion
-      uploadTask.on(
-        "state_changed",
-        function(snapshot) {
-          // Observe state change events such as progress, pause, and resume
-          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-          var progress = Math.round(snapshot.bytesTransferred / snapshot.totalBytes * 100);
-          formPercentageViewer(progress)
-          console.log("Upload is " + progress + "% done");
-          switch (snapshot.state) {
-            case firebase.storage.TaskState.PAUSED: // or 'paused'
-              console.log("Upload is paused");
-              break;
-            case firebase.storage.TaskState.RUNNING: // or 'running'
-              console.log("Upload is running");
-              break;
-          }
-        },
-        error => {
-          // Handle unsuccessful uploads
-          console.log("error uploading image of product");
-          console.log(`ERROR: code: ${error.code}, message:${error.message}`);
-          // A full list of error codes is available at
-          // https://firebase.google.com/docs/storage/web/handle-errors
-          switch (error.code) {
-            case "storage/unauthorized":
-              // User doesn't have permission to access the object
-              break;
-
-            case "storage/canceled":
-              // User canceled the upload
-              break;
-
-            case "storage/unknown":
-              // Unknown error occurred, inspect error.serverResponse
-              break;
-          }
-          formErrorViewer(error.message);
-        },
-        //use arrow function so that you can access this.insertProduct. See (https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback)
-        () => {
-          // Handle successful uploads on complete
-          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-          var imgDownloadURL = uploadTask.snapshot.downloadURL;
-          console.log("upload sucessful and image URL is: " + imgDownloadURL);
-          this.insertProduct(formData, imgDownloadURL, formErrorViewer, formSuccessViewer);
-        }
-      );
-    });
+    
   }
 
   render() {

@@ -189,6 +189,7 @@ class ProductForm extends Component {
     this.addMultipleImages = this.addMultipleImages.bind(this);    
     this.removeImageFromImagesFromDB = this.removeImageFromImagesFromDB.bind(this);
     this.deleteImage = this.deleteImage.bind(this);
+    this.packageProduct = this.packageProduct.bind(this);
   }
 
 
@@ -298,18 +299,39 @@ class ProductForm extends Component {
     // });
   }
 
+  packageProduct(){
+    var product = {
+      category: this.state.cat.value,
+      city: "الرياض",
+      city_department: "",
+      dateCreated: Date.now(),
+      department: this.state.dept.value,
+      desc: this.state.desc.value,
+      height: this.state.height.value,
+      imgUrl: imgDownloadURL,
+      length: this.state.length.value,
+      likes: "0",
+      name: this.state.name.value,
+      postType: "product",
+      price: this.state.price.value,
+      width: this.state.width.value
+    };
+    return product;
+  }
+
   //handles form submission by calling parent onSubmit handler method
   handleSubmit(e) {
     e.preventDefault();
     try {
       if (this.state.formValid) {
-        //submit form. 
+        var product = this.packageProduct();
+        //submit form by calling onSubmit 
         //we will provide three callbacks to form submission handler in parent:
         // 1- callback for notifying us about success
         // 2- callback for notifying us about failure
         // 3- callback for notifying us about progress of submission
         this.props.onSubmit(
-          this.state,
+          product, this.state.newImages, this.state.imagesFromDB,
           //error callback
           err => {
             //hide waiting alert then show submission failure msg
@@ -573,12 +595,6 @@ class ProductForm extends Component {
           newImages={this.state.newImages}
           addImage={this.addImage}
           deleteImage={this.deleteImage}
-        />
-        <ImageUploader
-          onDrop={this.handleOnDrop}
-          multipleImages={this.multipleImages}
-          newImages={this.state.newImages}
-          imagesFromDB={this.state.imagesFromDB}
         />
 
         <FieldGroup
