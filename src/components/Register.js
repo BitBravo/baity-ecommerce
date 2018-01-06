@@ -293,7 +293,7 @@ class Register extends Component {
               // Handle Errors here.
               var errorCode = error.code;
               var errorMessage = error.message;
-              if (errorCode == "auth/weak-password") {
+              if (errorCode === "auth/weak-password") {
                 formValidationStatus.password1.valid = formValidationStatus.password2.valid = false;
                 formValidationStatus.password1.firstTime = formValidationStatus.password2.firstTime = false;
                 formValidationStatus.password1.errorMessage = formValidationStatus.password2.errorMessage =
@@ -301,7 +301,7 @@ class Register extends Component {
                 this.reportError(
                   "كلمة السر ضعيفة. يجب أن يكون طول كلمة السر ٨ أحرف على الأقل وأن تكون خليط من الأحرف والأرقام"
                 );
-              } else if (errorCode == "auth/email-already-in-use") {
+              } else if (errorCode === "auth/email-already-in-use") {
                 formValidationStatus.email.valid = false;
                 formValidationStatus.email.firstTime = false;
                 formValidationStatus.email.errorMessage =
@@ -309,7 +309,7 @@ class Register extends Component {
                 this.reportError(
                   "البريد الالكتروني مسجل مسبقا. نرجو استخدام عنوان آخر أو طلب استرداد كلمة سر في حال كانت كلمة السر مفقودة"
                 );
-              } else if (errorCode == "auth/invalid-email") {
+              } else if (errorCode === "auth/invalid-email") {
                 formValidationStatus.email.valid = false;
                 formValidationStatus.email.firstTime = false;
                 formValidationStatus.email.errorMessage =
