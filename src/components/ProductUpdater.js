@@ -5,6 +5,8 @@ import firebase from "firebase";
 import { app, base, database, storage } from "../base";
 import FirebaseServices from './FirebaseServices'
 import Loading from "./Loading";
+import styled from 'styled-components'
+
 
 import {
   FormGroup,
@@ -15,242 +17,190 @@ import {
 } from "react-bootstrap";
 import ProductForm from "./ProductForm";
 
+const StyledProductForm = styled.div`
+margin-top: 10px;
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+margin-left: auto;
+margin-right: auto;
+border-radius: 5px;
+width: 90%;
+padding: 25px;
+color: #3C3C3C;
+background: rgb(255,255,255);
+animation-name: slideDown;
+-webkit-animation-name: slideDown;	
+animation-duration: 1s;	
+-webkit-animation-duration: 1s;
+animation-timing-function: ease;	
+-webkit-animation-timing-function: ease;	
+visibility: visible !important;	
+`;
+
+const ErrorMessage = (props) => 
+  <div>
+  <Modal show={true} style={{ top: 300 }}>
+    <Modal.Header>حدث خطأ غير معروف</Modal.Header>
+    <Modal.Body>
+      
+        <Alert bsStyle="danger">
+          {props.message}
+        </Alert>
+        <Link to="/">
+        <Button>العودة للصفحة الرئيسية</Button>
+        </Link>
+    </Modal.Body>
+  </Modal>
+  </div>
+
+function getStateForNewProduct(){
+  return {
+    isNewProduct: true,
+    product: null,
+    loading: false,
+    errorHandling: {
+      showError: false,
+      errorMsg: "error"
+    },
+  }
+}
+
+function getStateForUpdateProduct(){
+  return {
+    product: {},
+    loading: true,
+    errorHandling: {
+      showError: false,
+      errorMsg: "error"
+    },
+    isNewProduct: false
+  };
+}
+
 class ProductUpdater extends Component {
   constructor(props) {
     super(props);
-    this.productId = this.props.match.params.id;
+    console.log(`${this.constructor.name}.constructor`);
+    //if we updating an existing product
+    if (this.props.match.params.id){
+      this.productId = this.props.match.params.id;
 
-    this.state = {
-      product: {},
-      loading: true,
-      errorHandling: {
-        showError: false,
-        errorMsg: "error"
-      }
-    };
+      this.state = getStateForUpdateProduct();
+    } else {
+      this.state = getStateForNewProduct();
+    }
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateProduct = this.updateProduct.bind(this);
-    this.formPercentageViewer = this.formPercentageViewer.bind(this)
-    this.formSuccessHandler = this.formSuccessHandler.bind(this)
+    // this.formPercentageViewer = this.formPercentageViewer.bind(this)
+    // this.formSuccessHandler = this.formSuccessHandler.bind(this)
   }
 
   componentWillMount() {
-    this.productsRef = base.syncState(`${FirebaseServices.PRODUCTS_PATH}/${this.productId}`, {
-      context: this,
-      state: "product",
-      then(data) {
-        this.setState({ loading: false });
-      },
-      onFailure(error) {
-        this.setState({ errorHandling: { showError: true, errorMsg: error } });
-      }
-    });
+    console.log(`${this.constructor.name}.componentWillMount`);
+    if (!this.state.isNewProduct){
+      this.productsRef = base.syncState(`${FirebaseServices.PRODUCTS_PATH}/${this.productId}`, {
+        context: this,
+        state: "product",
+        then(data) {
+          this.setState({ loading: false });
+        },
+        onFailure(error) {
+          this.setState({ errorHandling: { showError: true, errorMsg: error } });
+        }
+      });
+    }
   }
 
   componentWillUnmount() {
-    this.productsRef && base.removeBinding(this.productsRef);
+    console.log(`${this.constructor.name}.componentWillUnmount`);
+    !this.state.isNewProduct && this.productsRef && base.removeBinding(this.productsRef);
   }
 
-  formPercentageViewer(percentage) {   
-    this.setState(
-      {
-        uploadProgress: {show: percentage < 100, percentage: percentage}
-      }
-    )
-
+  
+  componentDidMount(){
+    console.log(`${this.constructor.name}.componentDidMount`);
   }
 
-  formSuccessHandler() {
-    //hide waiting alert then show submission success msg
-    let uploadProgress = {
-      show: false, percentage: 100
-    }
-    //show success popup
-    let submitStatus = {
-      showSubmitModal: true,
-      submitSuccessful: true,
-      errorMsg: ''
-    }
-    let newState = {...this.state, uploadProgress, submitStatus}
-    
-    this.setState(newState)
-  }
-
-  updateProduct(product, imgDownloadURL, formErrorViewer, formSuccessViewer) {
-    try {
-      var postListRef = database.ref("testProducts/" + this.productId);
-      postListRef
-        .update({
-          category: product.cat.value,
-          city: this.state.product.city,
-          city_department: this.state.product.city_department,
-          // dataCreated: Date.now(), // dateCreated should not be changed
-          department: product.dept.value,
-          desc: product.desc.value,
-          height: product.height.value,
-          // id: this.productId, // id should not be changed
-          imgUrl: imgDownloadURL,
-          length: product.length.value,
-          //likes: this.state.product.likes, // likes should not be affected
-          name: product.name.value,
-          // owner: this.state.product.owner, // owner should not change
-          postType: this.state.product.postType,
-          price: product.price.value,
-          width: product.width.value
-        })
-        .then(() => {
-          console.log("insesrt succeeded");
-          formSuccessViewer();
-        })
-        .catch(error => {
-          console.log("could not insert product");
-          console.log(product);
-          formErrorViewer(error.message);
-        });
-      // formSuccessViewer();
-    } catch (error) {
-      formErrorViewer(error);
+  /**
+   * This should be called if user clicked on 'add new product' while viewing the form.
+   * Not sure if there is another case where this method will be called
+   */
+  componentWillReceiveProps(nextProps){
+    console.log(`${this.constructor.name}.componentWillReceiveProps`);
+    console.log('nextProps')
+    console.log(nextProps)
+    //if there is no id in the url (which means a new product)
+    if (!nextProps.match.params.id){
+      //since updating current product was inturrupted, 
+      !this.state.isNewProduct && this.productsRef && base.removeBinding(this.productsRef);
+      this.productId = undefined
+      this.setState(getStateForNewProduct());
     }
   }
+  
+  componentWillUpdate(){
+    console.log(`${this.constructor.name}.componentWillUpdate`);
+  }
+ 
 
-  handleSubmit(
-    formData,
-    formErrorViewer,
-    formSuccessViewer,
-    formPercentageViewer
-  ) {
-    //value should be the value of state of the ProductForm
-    console.log(formData);
-    var imgDownloadURL = null;
+  addImages(productId, newImages, formPercentageViewer){
+    return FirebaseServices.addProductImages(productId, newImages, formPercentageViewer)
+  }
 
-    //if we have a new image then upload it
-    if (formData.newImages.length > 0) {
-      //1- upload the image of the product.
-      //2- add the product to the database
-      //Check (https://firebase.google.com/docs/storage/web/upload-files) &
-      //check (https://firebase.google.com/docs/database/web/read-and-write) for more info
-      var newImageFile = formData.newImages[0].file;//of type html File/Blob
-      //get a reference for the image bucket (the placeholder where we will put the image into)
-      var imagesRef = storage
-        .ref()
-        .child("testProductImages/" + Date.now() + Math.random());
-      //upload the image. This is a task that will run async. Notice that it accepts a file as in
-      //browser API File (see https://developer.mozilla.org/en-US/docs/Web/API/File)
-      var metadata = {
-        contentType: newImageFile.type
-      };
-      //The following will return a task that will execte async
-      var uploadTask = imagesRef.put(newImageFile, metadata);
-      // Register three observers:
-      // 1. 'state_changed' observer, called any time the state changes
-      // 2. Error observer, called on failure
-      // 3. Completion observer, called on successful completion
-      uploadTask.on(
-        "state_changed",
-        function(snapshot) {
-          // Observe state change events such as progress, pause, and resume
-          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-          var progress = Math.round(
-            snapshot.bytesTransferred / snapshot.totalBytes * 100
-          );
-          formPercentageViewer(progress);
-          console.log("Upload is " + progress + "% done");
-          switch (snapshot.state) {
-            case firebase.storage.TaskState.PAUSED: // or 'paused'
-              console.log("Upload is paused");
-              break;
-            case firebase.storage.TaskState.RUNNING: // or 'running'
-              console.log("Upload is running");
-              break;
-          }
-        },
-        error => {
-          // Handle unsuccessful uploads
-          console.log("error uploading image of product");
-          console.log(error);
-          // A full list of error codes is available at
-          // https://firebase.google.com/docs/storage/web/handle-errors
-          switch (error.code) {
-            case "storage/unauthorized":
-              // User doesn't have permission to access the object
-              break;
+  addProduct(product){
+    //add owner to product
+    product = {...product, owner: this.props.currentUser.uid};
+    return FirebaseServices.insertProduct(product);//returns a promise resolved with product ID 
+  }
 
-            case "storage/canceled":
-              // User canceled the upload
-              break;
+  updateProduct(newProductData){
+    return FirebaseServices.updateProduct(newProductData, this.productId);//returns a promise resolved with product ID 
+  }
 
-            case "storage/unknown":
-              // Unknown error occurred, inspect error.serverResponse
-              break;
-          }
-          formErrorViewer(error.message);
-        },
-        //use arrow function so that you can access this.insertProduct. See (https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback)
-        () => {
-          // Handle successful uploads on complete
-          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-          imgDownloadURL = uploadTask.snapshot.downloadURL;
-          console.log("upload sucessful and image URL is: " + imgDownloadURL);
-          //update product with new data and new image URL
-          this.updateProduct(
-            formData,
-            imgDownloadURL,
-            formErrorViewer,
-            formSuccessViewer
-          );
-        }
-      ); //updateTask.on
+  handleSubmit(product, newImages, formPercentageViewer) {
+    if (this.state.isNewProduct) {
+      return this.addProduct(product)
+          .then((productId) => this.addImages(productId, newImages, formPercentageViewer))
+          .catch((error) => {
+            console.log('could not insert product or upload images');
+            console.log(`ERROR: code: ${error.code}, message:${error.message}`);
+            throw error
+          }) 
     } else {
-      //END-if there is an image to be uploaded
-      //else just keep the current URL
-      imgDownloadURL = formData.imagesFromDB[0];
-      //update product with new data and new image URL
-      this.updateProduct(
-        formData,
-        imgDownloadURL,
-        formErrorViewer,
-        formSuccessViewer
-      );
+      return this.updateProduct(product)
+        .then(() => this.addImages(this.productId, newImages, formPercentageViewer))
+        .catch((error) => {
+          console.log('could not update product or upload images');
+          console.log(`ERROR: code: ${error.code}, message:${error.message}`);
+          throw error
+        })
     }
+  }
+
+  deleteImageFromDB(imageUrl){
+    return FirebaseServices.deleteProductImage(imageUrl, this.productId)
   }
 
   render() {
-   
+    console.log(`${this.constructor.name}.render`);
     if (this.state.loading && !this.state.errorHandling.showError)
       return <Loading />;
     if (this.state.errorHandling.showError)
       return (
-        <div>
-          <Modal show={true} style={{ top: 300 }}>
-            <Modal.Header>حدث خطأ غير معروف</Modal.Header>
-            <Modal.Body>
-              
-                <Alert bsStyle="danger">
-                  {this.state.errorHandling.errorMsg.message}
-                </Alert>
-                <Link to="/">
-                <Button>العودة للصفحة الرئيسية</Button>
-                </Link>
-            </Modal.Body>
-          </Modal>
-        </div>
+        <ErrorMessage message={this.state.errorHandling.errorMsg.message}/>
+        
       );
     if (!this.state.loading && !this.state.showError)
       return (
-        <div
-          style={{ padding: "10em", background: "#F5F5F5", color: "#444444" }}
-        >
-          <div className="panel panel-default">
-            <div className="panel-body">
+        <StyledProductForm>
               <ProductForm
-                isNewProduct={false}
+                isNewProduct={this.state.isNewProduct}
                 product={this.state.product}
                 onSubmit={this.handleSubmit.bind(this)}
+                currentUser={this.props.currentUser}
+                deleteImageFromDB={this.deleteImageFromDB.bind(this)}
               />
-            </div>
-          </div>
-        </div>
+        </StyledProductForm>
       );
   }
 }

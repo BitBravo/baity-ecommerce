@@ -11,8 +11,6 @@ import MyProductList from './MyProductList';
 import ProfProfileUpdater from './ProfProfileUpdater'
 
 function AuthenticatedRoute({ component: Component, authenticated, currentUser, ...rest }) {
-  console.log(authenticated)
-  console.log(currentUser)
   return (
     <Route
       {...rest}
@@ -31,9 +29,29 @@ function AuthenticatedRoute({ component: Component, authenticated, currentUser, 
 class Main extends Component {
   constructor(props) {
     super(props);
+    console.log(`${this.constructor.name}.constructor`);
+  }
+
+  componentWillMount(){
+    console.log(`${this.constructor.name}.componentWillMount`);
+  }
+  componentDidMount(){
+    console.log(`${this.constructor.name}.componentDidMount`);
+  }
+  componentWillReceiveProps(nextProps){
+    console.log(`${this.constructor.name}.componentWillReceiveProps`);
+    console.log('nextProps')
+    console.log(nextProps)
+  }
+  componentWillUnmount(){
+    console.log(`${this.constructor.name}.componentWillUnmount`);
+  }
+  componentWillUpdate(){
+    console.log(`${this.constructor.name}.componentWillUpdate`);
   }
 
   render() {
+    console.log(`${this.constructor.name}.render`);
     //console.log("current user in Main")
     //console.log(this.props.currentUser)
     
@@ -73,7 +91,7 @@ class Main extends Component {
             exact
             path="/newproduct"
             authenticated={this.props.authenticated}    
-            component={ProductAdder}     
+            component={ProductUpdater}     
             currentUser={this.props.currentUser}   
           />
           {/* <AuthenticatedRoute

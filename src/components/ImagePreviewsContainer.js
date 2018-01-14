@@ -102,7 +102,6 @@ class ImagePreviewsContainer extends Component {
 
   handleFileUpload( e ) {
     e.preventDefault();
-    console.log(e.target.files)
     if (!e.target.files.length > 0)//user canceled selecting a file
       return  
     
@@ -149,19 +148,27 @@ class ImagePreviewsContainer extends Component {
   }
 
   handleImageSelect(imageDataURL){
-    this.setState({mainImageDataURL: imageDataURL}, () => {
-     
+    this.setState({mainImageDataURL: imageDataURL})
+  }
+
+  handleDeleteImage(imageDataURL, fromDB){
+    if(!fromDB || (this.props.imagesFromDB.length > 1)){
+      if(this.state.mainImageDataURL === imageDataURL)
+        this.setState({mainImageDataURL: ''})
       
-    });
+      return this.props.onImageDelete(imageDataURL, fromDB);
+    } else {
+      this.setState({
+        imgError: true,
+        imgErrorMessages: ['لا بد أن يكون عدد الصور للمنتج واحدة على الأقل']
+      })
+      return new Promise((resolve, reject) => {
+        reject({type: 'product error', message: 'لا بد أن يكون عدد الصور للمنتج واحدة على الأقل'})
+      })
+    }
   }
 
-  handleDeleteImage(imageDataURL){
-    this.props.deleteImage(imageDataURL);
-  }
-
-  handleDeleteImageFromDB(){
-    //implement later
-  }
+  
 
   render(){
     return (
@@ -175,9 +182,10 @@ class ImagePreviewsContainer extends Component {
           {
             this.props.imagesFromDB.map( 
               (image) => (
-                <Col xs={12} sm={6} md={4} lg={3} key={image.url} >
+                
+                <Col xs={12} sm={6} md={4} lg={3} key={image.large} >
                   <ImagePreview url={image.large} fromDB={true} onImageSelect={this.handleImageSelect.bind(this)}
-                  onImageDelete={this.handleDeleteImageFromDB.bind(this)}/>
+                  onImageDelete={this.handleDeleteImage.bind(this)}/>
                 </Col>
               )
             )

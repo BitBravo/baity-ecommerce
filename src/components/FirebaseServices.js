@@ -348,7 +348,9 @@ export default {
     }
   },
 
-  //returns a product as a promise
+  /* 
+    returns a product as a promise
+  */
   getProduct(productId){
     return this.readDBRecord('product', productId).catch(error => {
       console.log(`FirebaseServices.getProduct: can not read product ${productId} from DB`)
@@ -356,8 +358,15 @@ export default {
     })
   },
 
-  // product is an object that contains all product properties except id
-  // this is used to insert a new product into DB
+  getProductRef(productId){
+    return this.products.child(productId)
+  },
+
+  /** 
+   * This method is used to insert a new product into DB
+   * product: is an object that contains all product properties with new values 
+   * except id property.
+   */
   insertProduct(product) {
     // return new Promis((resolve, reject) => {
     //   var newProductRef = this.products.push();
@@ -373,6 +382,17 @@ export default {
       });
   },
 
+  /**
+   * This method is used to update a product in DB
+   * newProductData: an object that contains the changing product 
+   *   properties along with their new values
+   * productId: the id of the product to be updated
+   * returns: non-null promise containing void that resolves when update on server is complete
+   */
+  updateProduct(newProductData, productId){
+    var productRef = this.getProductRef(productId);
+    return productRef.update(newProductData);
+  },
 
   uploadProductImages(newImages, viewUploadProgress){
     //get list of upload tasks from firebase SDK (this will immediatly start upload)
@@ -447,15 +467,14 @@ export default {
   /*
     1- uploads product images.
     2- add images to product.
-    newImages: an array of [{'file' of type File(Blob), 'url' of type DataURL (not needed here)}]
+    newImages: an array of [{file: ..., url: ...}] where 'file' of type File(Blob), 'url' of type DataURL (not needed here)
+    returns: non-null promise containing void that resolves when update on server is complete
   */
   addProductImages(productId, newImages, viewUploadProgress){
     return this.uploadProductImages(newImages, viewUploadProgress)
     .then(images => {
       return this.getProduct(productId)
       .then(product => {
-        console.log(images)
-        console.log(product)
         //combine new images with current images from DB into 'images' property of product
         images = product.images? [...images, ...product.images]: images;
         var productRef = this.products.child(productId);
@@ -464,11 +483,35 @@ export default {
       .catch(error => {
         console.log(`FirebaseServices.addProductImages: error while adding product images for product ${productId}`)
         console.log(`ERROR: code: ${error.code}, message:${error.message}`);
-        console.log(error)
         throw error
       })
     })
     
+  },
+
+  /*
+    Given an image url and a product id this method will:
+    1- delete the image from the storage
+    2- delete the image from the product images
+    returns: a promise reporesenting product images after deleting the given image
+  */
+  deleteProductImage(imageUrl, productId){
+    console.log('FirebaseServices.deleteImage(): 1- deleting image from storage')
+    return storage.refFromURL(imageUrl).delete()
+      .then(() => {
+        return this.getProduct(productId)
+      })
+      .then( (product) => {
+        console.log('FirebaseServices.deleteImage(): 2- image deleted from storage. Start updating product')
+        var images = product.images;
+        images = images.filter( image => image.large !== imageUrl )
+        var productRef = this.getProductRef(productId)
+        return productRef.update({images: images}).then(() => {return images});
+      })
+      .catch(error => {
+        console.log(`FirebaseServices.deleteImage(): can not delete image. error code: ${error.code}, error message:${error.message}`)
+        throw error
+      })
   }
 };
 

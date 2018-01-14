@@ -70,87 +70,92 @@ const CategoryList = [
   "أدوات صحية"
 ];
 
-const initState = {
-  newImages: [], //image files
-  imagesFromDB: [],
-  imagesToRemove: [],
-  name: {
-    value: "",
-    valid: false,
-    //indicates if it is the first time to edit the field. If so do not show validation error msgs
-    firstTime: true,
-    formError: ""
-  },
-  cat: {
-    value: CategoryList[0], //we must fill out default value since user may not select
-    valid: false,
-    firstTime: true,
-    formError: ""
-  },
-  dept: {
-    value: DepartmentList[0],
-    valid: false,
-    firstTime: true,
-    formError: ""
-  },
-  desc: {
-    value: "",
-    valid: false,
-    firstTime: true,
-    formError: ""
-  },
-  factory: {
-    value: "",
-    valid: false,
-    firstTime: true,
-    formError: ""
-  },
-  height: {
-    value: "",
-    valid: false,
-    firstTime: true,
-    formError: ""
-  },
-  length: {
-    value: "",
-    valid: false,
-    firstTime: true,
-    formError: ""
-  },
-  width: {
-    value: "",
-    valid: false,
-    firstTime: true,
-    formError: ""
-  },
-  price: {
-    value: "",
-    valid: false,
-    firstTime: true,
-    formError: ""
-  },
-  formValid: false,
-  formStatusAlert: {
-    alert: false,
-    type: "info", //indicates that we should show an alert msg due to form invalid
-    alertMsg: "", //message shown when form can not be submitted cause form is not valid
-  },
-  progressBars: {},
-  submitStatus: {
-    showSubmitModal: false,
-    submitSuccessful: false,
-    errorMsg: ''
-  } 
-};
 
 
+
+
+function getInitState(){ 
+    return {
+        newImages: [], //image files
+        imagesFromDB: [],
+        name: {
+          value: "",
+          valid: false,
+          //indicates if it is the first time to edit the field. If so do not show validation error msgs
+          firstTime: true,
+          formError: ""
+        },
+        cat: {
+          value: CategoryList[0], //we must fill out default value since user may not select
+          valid: false,
+          firstTime: true,
+          formError: ""
+        },
+        dept: {
+          value: DepartmentList[0],
+          valid: false,
+          firstTime: true,
+          formError: ""
+        },
+        desc: {
+          value: "",
+          valid: false,
+          firstTime: true,
+          formError: ""
+        },
+        factory: {
+          value: "",
+          valid: false,
+          firstTime: true,
+          formError: ""
+        },
+        height: {
+          value: "",
+          valid: false,
+          firstTime: true,
+          formError: ""
+        },
+        length: {
+          value: "",
+          valid: false,
+          firstTime: true,
+          formError: ""
+        },
+        width: {
+          value: "",
+          valid: false,
+          firstTime: true,
+          formError: ""
+        },
+        price: {
+          value: "",
+          valid: false,
+          firstTime: true,
+          formError: ""
+        },
+        formValid: false,
+        formStatusAlert: {
+          alert: false,
+          type: "info", //indicates that we should show an alert msg due to form invalid
+          alertMsg: "", //message shown when form can not be submitted cause form is not valid
+        },
+        progressBars: {},
+        submitStatus: {
+          showSubmitModal: false,
+          submitSuccessful: false,
+          errorMsg: ''
+        } 
+      };
+}
+  
 class ProductForm extends Component {
   constructor(props) {
     super(props);
+    console.log(`${this.constructor.name}.constructor`);
 
-    //change to true if you want to upload multiple images per product
-    this.multipleImages = false;
-    this.state = {...initState};
+    this.state = {...getInitState()};
+    console.log('after copying initState, state is: ')
+    console.log(this.state)
     //if we are updating a product then show its data in the form otherwise show an empty form
     if (!this.props.isNewProduct) {
       this.state.name.value = this.props.product.name;
@@ -172,10 +177,10 @@ class ProductForm extends Component {
       this.state.width.valid = true;
       this.state.price.valid = true;
       this.state.formValid = true
-      this.state.imagesFromDB = [this.props.product.images];//just URLs
+      this.state.imagesFromDB = [...this.props.product.images];//just URLs
     }
-
-    this.handleOnDrop = this.handleOnDrop.bind(this);
+    console.log('after adding data from DB, state is: ')
+    console.log(this.state)
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.validateForm = this.validateForm.bind(this);
@@ -184,33 +189,67 @@ class ProductForm extends Component {
     this.parseArabic = this.parseArabic.bind(this);
     this.resetState = this.resetState.bind(this);
     this.addImage = this.addImage.bind(this);
-    this.addMultipleImages = this.addMultipleImages.bind(this);    
-    this.removeImageFromImagesFromDB = this.removeImageFromImagesFromDB.bind(this);
     this.deleteImage = this.deleteImage.bind(this);
     this.packageProduct = this.packageProduct.bind(this);
+    console.log('at the end of constructor state is: ')
+    console.log(this.state)
   }
 
 
-  /*
-    This method adds an image to this.state.newImages to be added later
-    to the database upon product upload/addition/update.
-    This works for multiple Images
-  */
-  addMultipleImages(newImages){
-    var newImagesTemp = [];
-    //always (1) copy state value, (2) change the value, (3) then assign it back to state
-
-    newImagesTemp = [...this.state.newImages, ...newImages]//merge new images with current ones
-
-    //IT IS IMPORTANT that validateForm runs after this call to setState
-    //is finished. see (https://reactjs.org/docs/state-and-lifecycle.html)
-    this.setState(
-      {
-        newImages: newImagesTemp
-      },
-      () => this.validateForm()
-    );
+  componentWillMount(){
+    console.log(`${this.constructor.name}.componentWillMount`);
   }
+  componentDidMount(){
+    console.log(`${this.constructor.name}.componentDidMount`);
+  }
+  /**
+   * This will be called in one of two cases:
+   * 1- the product we are updating has been changed somewhere else so we need to update form data
+   * 2- the user clicked 'add new product' link so we need to clean up and prepare for adding a new product
+   * @param {*} nextProps 
+   */
+  componentWillReceiveProps(nextProps){
+    console.log(`${this.constructor.name}.componentWillReceiveProps`);
+    console.log('nextProps')
+    console.log(nextProps)
+    //case 1
+    if (!nextProps.isNewProduct){
+      var newImages = this.state.newImages;//preserve new images added to product
+      this.setState(getInitState(), () => {
+        var newState = {...this.state, 
+          newImages: newImages,
+          name: {...this.state.name, value: this.props.product.name, valid: true},
+          cat: {...this.state.cat, value: this.props.product.category, valid: true},
+          dept: {...this.state.dept, value: this.props.product.department, valid: true},
+          desc: {...this.state.desc, value: this.props.product.desc, valid: true},
+          factory: {...this.state.factory, value: this.props.product.factory, valid: true},
+          height: {...this.state.height, value: this.props.product.height, valid: true},
+          length: {...this.state.length, value: this.props.product.length, valid: true},
+          width: {...this.state.width, value: this.props.product.width, valid: true},
+          price: {...this.state.price, value: this.props.product.price, valid: true},
+          formValid: true,
+          imagesFromDB: [...nextProps.product.images],
+          formStatusAlert: {
+            alert: true,
+            type: 'info',
+            alertMsg: "نود تنبهك أنه تم تحديث بيانات المنتج من قبل موظف آخر وقد تم تعديل البيانات أمامك بناء على التحديث",
+          }
+        }
+        this.setState(newState)
+      })
+    } 
+    //case 2
+    else {
+      this.resetState();
+    }
+  }
+  componentWillUnmount(){
+    console.log(`${this.constructor.name}.componentWillUnmount`);
+  }
+  componentWillUpdate(){
+    console.log(`${this.constructor.name}.componentWillUpdate`);
+  }
+  
 
   /*
     This method adds an image to this.state.newImages to be added later
@@ -221,8 +260,10 @@ class ProductForm extends Component {
     //allow one image only and overwrite previous one
     //IT IS IMPORTANT that validateForm runs after this call to setState
     //is finished. see (https://reactjs.org/docs/state-and-lifecycle.html)
+    console.log('before starting adding a new image')
     if (_.findIndex(this.state.newImages, [ 'url', newImageDataURL] ) != -1)
       return;
+      console.log('start adding a new image')
     var newImage = {file: newImageFile, url: newImageDataURL}
     this.setState(
       {
@@ -233,87 +274,66 @@ class ProductForm extends Component {
   }
 
   /*
-  this method removes an image that has been added during current session
-  but not inserted into database yet
+  this method removes an image that:
+  1- has been added during current session but not inserted into database yet (fromDB false)
+  2- has been downloaded from DB (fromDB true)
   */
-  deleteImage(imageDataURL){
-    var newImages = [...this.state.newImages];
-    _.remove(newImages, (image) => image.url === imageDataURL);
-    this.setState({
-        newImages: [...newImages],
-      }, () => this.validateForm()
-    )
-  }
-
-  /*
-    This method removes an image from this.state.imagesFromDB to be removed later
-    from the database upon product upload/update
-    TODO: remove image from this.state.newImages (i.e. when a user picks an image and then wants to remove it
-    or in other words cancel)
-  */
-  removeImageFromImagesFromDB(){
-    var imagesToRemoveTemp = [];
-    var imagesFromDBTemp = [];
-    
-    //copy current image in imagesFromDB to imagesToRemove since it will be removed
-    imagesToRemoveTemp = [...this.state.imagesFromDB];
-
-    
-    //IT IS IMPORTANT that validateForm runs after this call to setState
-    //is finished. see (https://reactjs.org/docs/state-and-lifecycle.html)
-    this.setState({ 
-      imagesFromDB: [...imagesFromDBTemp],
-      imagesToRemove: [...imagesToRemoveTemp]
-    },
-      () => this.validateForm()
-    );
-    
-    
-  }
-
-  /*
-  This handles images when they dragged and dropped on dropzone or
-  when they are normally uploded using dropzone. Dropzone allows
-  either one image at a time (mulitpleImages is false) or 
-  multiple images (multipleImages is true) to be added. 
-  TODO: fix for product with multiple images
-  */
-  handleOnDrop(newImages, rejectedFiles) {
-    if (this.multipleImages){
-      //deal with multiple images
+  deleteImage(imageDataURL, fromDB){
+    if (fromDB ){
+      if (this.state.imagesFromDB.length > 1){
+        return this.props.deleteImageFromDB(imageDataURL)
+          .then((imagesFromDB) => {
+            console.log('imagesFromDB')
+            console.log(imagesFromDB)
+            this.setState({
+                imagesFromDB: [...imagesFromDB],
+              }, () => this.validateForm()
+            ) 
+          })
+          .catch((error) => {
+            throw error
+          })
+      } else {
+        //now we catch this in imagePreviewsContainer so we need to remove this code
+        return new Promise((resolve, reject) => {
+          reject({type: 'product error', message: 'لا بد أن يكون عدد الصور للمنتج واحدة على الأقل'})
+        })
+      }
     } else {
-      this.addImage(newImages);
-      //if we are updating then remove the image that we got from DB
-      if (!this.props.isNewProduct)
-        this.removeImageFromImagesFromDB();
+      var newImages = [...this.state.newImages];
+      _.remove(newImages, (image) => image.url === imageDataURL);
+      this.setState({
+          newImages: [...newImages],
+        }, () => this.validateForm()
+      )
     }
-
-  }
-
-  componentWillUnmount() {
-    // //to avoid memory leaks. See Important note @ (https://react-dropzone.js.org/)
-    // this.state.newImages.map(file => {
-    //   window.URL.revokeObjectURL(file.preview);
-    // });
   }
 
   packageProduct(){
-    var product = {
+    var product;
+    //package form fields for either new or update
+    product = {
       category: this.state.cat.value,
-      city: "الرياض",
-      city_department: "",
-      dateCreated: Date.now(),
       department: this.state.dept.value,
       desc: this.state.desc.value,
       height: this.state.height.value,
-      imgUrl: 'None',
       length: this.state.length.value,
-      likes: "0",
       name: this.state.name.value,
-      postType: "product",
       price: this.state.price.value,
-      width: this.state.width.value
+      width: this.state.width.value,
+      factory: this.state.factory.value
     };
+    //if new product add other non form properties
+    if (this.props.isNewProduct) {
+      product = {...product,
+        city: "الرياض",
+        city_department: "",
+        dateCreated: Date.now(),
+        imgUrl: 'None',
+        likes: "0",
+        postType: "product"
+      };
+    }
     return product;
   }
 
@@ -330,36 +350,6 @@ class ProductForm extends Component {
         // 3- callback for notifying us about progress of submission
         this.props.onSubmit(
           product, this.state.newImages, 
-          //error callback
-          err => {
-            //hide waiting alert then show submission failure msg
-            let progressBars = {}
-            //show failure popup
-            let submitStatus = {
-              showSubmitModal: true,
-              submitSuccessful: false,
-              errorMsg: 'حدث خطأ غير معروف. نرجو ابلاغ الصيانة بالخطأ التالي: ' + err
-            }
-            let newState = {...this.state, progressBars, submitStatus}
-            
-            this.setState(newState)
-            
-          },
-          // success callback
-          () => {
-            //hide waiting alert then show submission success msg
-            let progressBars = {}
-            //show success popup
-            let submitStatus = {
-              showSubmitModal: true,
-              submitSuccessful: true,
-              errorMsg: ''
-            }
-            let newState = {...this.state, progressBars, submitStatus}
-            
-            this.setState(newState)
-            
-          },
           // progress bar updater callback
           (percentage, name) => {
             var progressBars = this.state.progressBars;
@@ -368,18 +358,44 @@ class ProductForm extends Component {
               name: name
             };
             this.setState({ progressBars: { ...progressBars } } );
-          }
-        );
+          })
+          .then(() => {
+            //show success popup
+            let submitStatus = {
+              showSubmitModal: true,
+              submitSuccessful: true,
+              errorMsg: ''
+            }
+            let newState = {...this.state, progressBars: {}, submitStatus: submitStatus}
+            
+            this.setState(newState, () => {console.log('after successful form submission state is:'); console.log(this.state);})
+            
+          })
+          .catch(error => {
+            //show failure popup
+            let submitStatus = {
+              showSubmitModal: true,
+              submitSuccessful: false,
+              errorMsg: `حدث خطأ غير معروف. نرجو ابلاغ الصيانة بالخطأ التالي: 
+                ERROR: could not insert/update product or upload images. error code: ${error.code}, error message:${error.message}`
+            }
+            let newState = {...this.state, progressBars: {}, submitStatus: submitStatus}
+            
+            this.setState(newState)
+            
+          })
+          
+        
 
-        //Now we have asked firebase to submit and we will wait for above call async.
-        //Let us show a progress bar to the user while waiting
-          (percentage) => {
-            this.setState(
-              {
-                uploadProgress: {show: true, percentage: 0}
-              }
-            )
-          }
+        // //Now we have asked firebase to submit and we will wait for above call async.
+        // //Let us show a progress bar to the user while waiting
+        //   (percentage) => {
+        //     this.setState(
+        //       {
+        //         uploadProgress: {show: true, percentage: 0}
+        //       }
+        //     )
+        //   }
 
       } else
         //if form is not valid show the alert message
@@ -400,7 +416,7 @@ class ProductForm extends Component {
       //hide waiting alert then show submission failure msg
       this.setState(
         {
-          uploadProgress: {show: false, percentage: 100}
+          progressBars: {}
         }, () => this.setState(
             {
               submitStatus: {
@@ -570,7 +586,7 @@ class ProductForm extends Component {
   //reset state is used when someone adds a product and asks to add another one
   //so we reset the state for the new product
   resetState() {
-    this.setState(initState);
+    this.setState(getInitState);
   }
 
   // componentWillReceiveProps(nextProps) {
@@ -579,6 +595,8 @@ class ProductForm extends Component {
   // }
 
   render() {
+    console.log(`${this.constructor.name}.render`);
+    console.log(this.state)
     return (
       <form>
         <img src={bayty_icon} />
@@ -589,7 +607,7 @@ class ProductForm extends Component {
           imagesFromDB={this.state.imagesFromDB} 
           newImages={this.state.newImages}
           addImage={this.addImage}
-          deleteImage={this.deleteImage}
+          onImageDelete={this.deleteImage}
         />
 
         <FieldGroup
