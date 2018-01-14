@@ -100,6 +100,18 @@ class ImagePreviewsContainer extends Component {
     }
   }
 
+  /**
+   * This is called if someone clicked a new product link or if product data gets
+   * changed by someone else. In both cases we need to remove error messages
+   * @param {*} nextProps 
+   */
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      imgError: false,
+      imgErrorMessages: []
+    });
+  }
+
   handleFileUpload( e ) {
     e.preventDefault();
     if (!e.target.files.length > 0)//user canceled selecting a file

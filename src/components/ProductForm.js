@@ -601,7 +601,11 @@ class ProductForm extends Component {
       <form>
         <img src={bayty_icon} />
           <div className="loginregtitle">
-            <h3>أضافة منتج جديد</h3>
+              {this.props.isNewProduct
+                ?<h3>أضافة منتج جديد</h3>
+                :<h3> تحديث المنتج </h3>
+                }
+            
           </div>
         <ImagePreviewsContainer 
           imagesFromDB={this.state.imagesFromDB} 
