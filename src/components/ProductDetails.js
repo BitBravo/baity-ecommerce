@@ -5,8 +5,15 @@ import FirebaesServices from './FirebaseServices'
 import { Image, Alert, Col, Thumbnail, Button, Modal,Row, Grid } from "react-bootstrap";
 import Loading from './Loading';
 import Equalizer from "react-equalizer";
+import styled from 'styled-components'
+import FaArrowCircleRight from 'react-icons/lib/fa/arrow-circle-right'
+import FaArrowCircleLeft from 'react-icons/lib/fa/arrow-circle-left'
 
-
+const FlexRow = styled(Row)`
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+`;
 class ProductDetails extends Component {
   constructor(props) {
     super(props);
@@ -17,7 +24,8 @@ class ProductDetails extends Component {
       loading: true,
       errorHandling: {
         showError: false, errorMsg: 'error'
-      }
+      },
+      index: 0
     };
   }
 
@@ -36,6 +44,16 @@ class ProductDetails extends Component {
 
   componentWillUnmount() {
     this.productsRef && base.removeBinding(this.productsRef);
+  }
+
+  nextImage(){
+    if (this.state.index < this.state.product.images.length - 1)
+      this.setState({index: (this.state.index + 1)});
+  }
+
+  prevImage(){
+    if (this.state.index > 0)
+      this.setState({index: (this.state.index - 1)});
   }
 
   render() {
@@ -68,10 +86,7 @@ class ProductDetails extends Component {
         
          
           <Row className="productdetails">
-          <Equalizer>
-           <Col  xl={12} sm={8} md={8} lg={8} className="productdetailsimgbckgrnd">
-            <img src={product.imgUrl} />
-            </Col>
+        
             <Col  xl={12} sm={4} md={4} lg={4} >
             <div className="padding">
               <h3>{product.factory}</h3>
@@ -97,7 +112,19 @@ class ProductDetails extends Component {
             </p>
             </div>
             </Col>
-            </Equalizer>
+            
+            <Col xl={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
+              <span style={{display: 'inline-block', height: '100%', verticalAlign: 'middle'}}/>
+              <FaArrowCircleRight size={50} onClick={this.nextImage.bind(this)}/>
+          </Col>
+           <Col  xl={10} sm={6} md={6} lg={6} className="productdetailsimgbckgrnd">
+            <img src={product.images[this.state.index].large} />
+            </Col>
+            <Col xl={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4', verticalAlign: 'middle'}}>
+            <span style={{display: 'inline-block', height: '100%', verticalAlign: 'middle'}}/>
+            <FaArrowCircleLeft size={50} onClick={this.prevImage.bind(this)}/>
+          </Col>
+
             </Row>
       
         

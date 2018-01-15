@@ -250,11 +250,11 @@ export default {
   //newImage is of type Blob of File
   //see (https://firebase.google.com/docs/reference/js/firebase.storage.Reference?authuser=0#put)
   //see (https://developer.mozilla.org/en-US/docs/Web/API/File)
-  uploadProfProfileImage(newImage, progressHandler, errorHandler, next){      
+  uploadProfProfileImage(uid, newImage, progressHandler, errorHandler, next){      
       //1- upload the image of the profile.
       //2- add the profile to the database
       //get a reference for the image bucket (the placeholder where we will put the image into)
-      var imagesRef = this.profileImages.child(`${Date.now() + Math.random()}`);
+      var imagesRef = this.profileImages.child(`${uid}/${Date.now() + Math.random()}`);
       //upload the image. This is a task that will run async. Notice that it accepts a file as in
       //browser API File (see https://developer.mozilla.org/en-US/docs/Web/API/File)
       var metadata = {
@@ -319,11 +319,12 @@ export default {
   },
 
   //Main method to update a professional profile
-  updateProfProfile(profileData, errorHandler, successHandler, progressHandler){
+  updateProfProfile(uid, profileData, errorHandler, successHandler, progressHandler){
     console.log('FirebaseServices.updateProfProfile')
     //if we have a new image then upload it
     if (profileData.newImage) {
       this.uploadProfProfileImage(
+        uid,
         profileData.imageFile, 
         progressHandler, 
         errorHandler, 
@@ -394,12 +395,12 @@ export default {
     return productRef.update(newProductData);
   },
 
-  uploadProductImages(newImages, viewUploadProgress){
+  uploadProductImages(newImages, viewUploadProgress, uid){
     //get list of upload tasks from firebase SDK (this will immediatly start upload)
     var tasks = _.map(newImages, image => {
       const file = image.file
       const imageRef = this.productImages
-        .child(`${Date.now() + Math.random()}`);
+        .child(`${uid}/${Date.now() + Math.random()}`);
       var task = imageRef.put(file, { contentType: file.type });
       task.name = file.name;
       viewUploadProgress(0, task.name)
@@ -470,8 +471,8 @@ export default {
     newImages: an array of [{file: ..., url: ...}] where 'file' of type File(Blob), 'url' of type DataURL (not needed here)
     returns: non-null promise containing void that resolves when update on server is complete
   */
-  addProductImages(productId, newImages, viewUploadProgress){
-    return this.uploadProductImages(newImages, viewUploadProgress)
+  addProductImages(productId, newImages, viewUploadProgress, uid){
+    return this.uploadProductImages(newImages, viewUploadProgress, uid)
     .then(images => {
       return this.getProduct(productId)
       .then(product => {

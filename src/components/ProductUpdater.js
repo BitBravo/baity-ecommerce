@@ -144,7 +144,7 @@ class ProductUpdater extends Component {
  
 
   addImages(productId, newImages, formPercentageViewer){
-    return FirebaseServices.addProductImages(productId, newImages, formPercentageViewer)
+    return FirebaseServices.addProductImages(productId, newImages, formPercentageViewer, this.props.currentUser.uid)
   }
 
   addProduct(product){
