@@ -87,7 +87,7 @@ class ProductDetails extends Component {
          
           <Row className="productdetails">
         
-            <Col  xl={12} sm={4} md={4} lg={4} >
+            <Col  xs={12} sm={4} md={4} lg={4} >
             <div className="padding">
               <h3>{product.factory}</h3>
               </div>
@@ -113,16 +113,18 @@ class ProductDetails extends Component {
             </div>
             </Col>
             
-            <Col xl={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
-              <span style={{display: 'inline-block', height: '100%', verticalAlign: 'middle'}}/>
-              <FaArrowCircleRight size={50} onClick={this.nextImage.bind(this)}/>
+            <Col xs={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
+              <div style={{marginTop: '30%'}}>
+              <FaArrowCircleRight size={50}   onClick={this.nextImage.bind(this)}/>
+              </div>
           </Col>
-           <Col  xl={10} sm={6} md={6} lg={6} className="productdetailsimgbckgrnd">
+           <Col  xs={10} sm={6} md={6} lg={6} className="productdetailsimgbckgrnd">
             <img src={product.images[this.state.index].large} />
             </Col>
-            <Col xl={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4', verticalAlign: 'middle'}}>
-            <span style={{display: 'inline-block', height: '100%', verticalAlign: 'middle'}}/>
-            <FaArrowCircleLeft size={50} onClick={this.prevImage.bind(this)}/>
+            <Col xs={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
+            <div style={{marginTop: '30%'}}>
+            <FaArrowCircleLeft size={50}  onClick={this.prevImage.bind(this)}/>
+            </div>
           </Col>
 
             </Row>

@@ -167,9 +167,7 @@ h2 h3 h4 h5 h6 {
         background: white;  
         display: flex;
         flex-wrap: wrap;
-        border-left-style: solid;
-        border-width: .5px;
-        border-color:rgba(197, 196, 196, 0.694); 
+        
     
     }
     .productdetails div {
@@ -183,15 +181,13 @@ h2 h3 h4 h5 h6 {
     
     .productdetails img{
         display: block;
-       align: middle;
+      
        margin: auto;
-        width: 80%;  
+        width: 100%;  
     }
-    .productdetails hr{
-        margin-left: -15px;
-    }
+    
     .productdetails button{
-        margin-right: 2%;
+        margin: auto;
         width: 70%;
         max-width: 200px;
         background:  rgb(73, 157, 157);
