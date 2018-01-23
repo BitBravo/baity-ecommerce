@@ -1,5 +1,5 @@
 .myfooter {
-    position: fixed;
+    /* position: fixed; */
     left: 0;
     bottom: 0;
     width: 100%;
@@ -13,7 +13,9 @@
     filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
     background-repeat: repeat-x;
     display: block;
-    padding: 0 15px;    
+    padding: 0 15px; 
+    margin: 0;
+    border: 0;   
 }
 
 .myfooter img{
@@ -24,7 +26,18 @@
    margin-left: auto;
    margin-right: auto;
 }
-.myfooter h6 {text-align: center;font-size: 1.3rem;color: white; direction: ltr; line-height: 40px;}
+.myfooter h6 {text-align: center;font-size: 1.3rem;color: white; direction: ltr; line-height: 40px; margin: 0}
+
+
+.imgPreview {
+    text-align: center;
+    margin: auto;
+    width: 90px;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    border-top: 5px solid gray;
+    border-bottom: 5px solid gray;
+}
 
 .icons {
     font-size: 1.5em;
@@ -145,52 +158,36 @@ h2 h3 h4 h5 h6 {
     color: #333333;
     }
 
-.mythumbnail { 
-    height: 100%;
-    position: relative;
-    background-color: #fff;
-    transform: scale(1, 1);
-    transition: transform 1s ease;
-     }
-.mythumbnail .caption {
-    padding: 0px;
-    color: #888; 
-    }
-          .mythumbnail:hover{
-              box-shadow:0px 0px 10px #6A6A6A;
-               border:1px solid #6A6A6A;
-               transition:all 0.5s ease-in-out;
-               transform: scale(1.05, 1.05);}
 
 
 
     .productdetails {
         margin:auto;
-        background: white;    
+        padding: 0;
+        background: white;  
+        display: flex;
+        flex-wrap: wrap;
+        
+    
     }
     .productdetails div {
-        overflow: auto;   
+        
+        
     }
-   .prdctimgbckgrnd {
-    border-right-style: solid;
-    border-bottom-style: solid;
-    border-width: .5px;
-    border-color:rgba(197, 196, 196, 0.694); 
+   .productdetailsimgbckgrnd {
+    
     background-color: #f4f4f4;  
    }
     
     .productdetails img{
         display: block;
-        margin-left: auto;
-        margin-right: auto;
-        width: 80%;
+      
+       margin: auto;
+        width: 100%;  
+    }
     
-    }
-    .productdetails hr{
-        margin-left: -15px;
-    }
     .productdetails button{
-        margin-right: 2%;
+        margin: auto;
         width: 70%;
         max-width: 200px;
         background:  rgb(73, 157, 157);
@@ -316,33 +313,8 @@ h2 h3 h4 h5 h6 {
         button:hover {
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         }
-
-    .productAdding  {
-        margin-top: 15px;
-        margin-bottom: 70px;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        margin-left: auto;
-        margin-right: auto;
-        border-radius: 5px;
-        width: 90%;
-        max-width: 900px;
-        padding: 25px;
-        color: #3C3C3C;
-        background: rgb(255,255,255);
-        animation-name: slideDown;
-        -webkit-animation-name: slideDown;	
-        animation-duration: 1s;	
-        -webkit-animation-duration: 1s;
-        animation-timing-function: ease;	
-        -webkit-animation-timing-function: ease;	
-        visibility: visible !important;	
-    }
-   
-    .padding {
-    padding-right: 20px;
-    padding-top: 5px;
-    padding-left: 5px;
-    padding-bottom: 5px;}
+    
+    
    
 
 

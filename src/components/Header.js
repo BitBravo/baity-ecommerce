@@ -12,7 +12,7 @@ class Header extends Component {
   render() {
     return (
       
-      <Navbar fixedTop  inverse > 
+      <Navbar fixedTop   > 
     
         <Navbar.Header  >
         <NavbarBrand>
@@ -58,6 +58,9 @@ class Header extends Component {
 
                 <LinkContainer to="/newproduct">
                   <NavItem ><MdAddToPhotos className="icons"/>اضافة منتج جديد  </NavItem>
+                </LinkContainer>
+                <LinkContainer to="/myprofprofile">
+                  <NavItem ><MdAddToPhotos className="icons"/>حسابي  </NavItem>
                 </LinkContainer>
               </Nav>
 

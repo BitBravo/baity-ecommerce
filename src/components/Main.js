@@ -4,20 +4,18 @@ import Home from "./Home";
 import Login from "./Login";
 import Register from "./Register";
 import Logout from "./Logout";
-import ProductAdder from "./ProductAdder";
 import ProductDetails from "./ProductDetails";
 import ProductUpdater from "./ProductUpdater";
-import MyProductList from './MyProductList'
+import MyProductList from './MyProductList';
+import ProfProfileUpdater from './ProfProfileUpdater'
 
-function AuthenticatedRoute({ component: Component, authenticated, ...rest }) {
-  console.log(authenticated)
-  console.log(rest)
+function AuthenticatedRoute({ component: Component, authenticated, currentUser, ...rest }) {
   return (
     <Route
       {...rest}
       render={props =>
         authenticated === true ? (
-          <Component {...props} {...rest} />
+          <Component currentUser={currentUser} {...props} {...rest} />
         ) : (
           <Redirect
             to={{ pathname: "/login", state: { from: props.location } }}
@@ -30,11 +28,32 @@ function AuthenticatedRoute({ component: Component, authenticated, ...rest }) {
 class Main extends Component {
   constructor(props) {
     super(props);
+    console.log(`${this.constructor.name}.constructor`);
+  }
+
+  componentWillMount(){
+    console.log(`${this.constructor.name}.componentWillMount`);
+  }
+  componentDidMount(){
+    console.log(`${this.constructor.name}.componentDidMount`);
+  }
+  componentWillReceiveProps(nextProps){
+    console.log(`${this.constructor.name}.componentWillReceiveProps`);
+    console.log('nextProps')
+    console.log(nextProps)
+  }
+  componentWillUnmount(){
+    console.log(`${this.constructor.name}.componentWillUnmount`);
+  }
+  componentWillUpdate(){
+    console.log(`${this.constructor.name}.componentWillUpdate`);
   }
 
   render() {
-    console.log("current user in Main")
-    console.log(this.props.currentUser)
+    console.log(`${this.constructor.name}.render`);
+    //console.log("current user in Main")
+    //console.log(this.props.currentUser)
+    
     return (
       <main>
         <Switch>
@@ -71,9 +90,41 @@ class Main extends Component {
             exact
             path="/newproduct"
             authenticated={this.props.authenticated}    
-            component={ProductAdder}     
+            component={ProductUpdater}     
             currentUser={this.props.currentUser}   
           />
+          {/* <AuthenticatedRoute
+            exact
+            path="/myprofprofile"
+            authenticated={this.props.authenticated}    
+            component={ProfProfileUpdater}     
+            currentUser={this.props.currentUser}   
+            
+          /> */}
+
+          <Route
+            exact
+            path="/myprofprofile"
+            render={props => {
+              return (
+                this.props.authenticated === true ? (
+                  <ProfProfileUpdater currentUser={this.props.currentUser} {...props}  />
+                ) : (
+                <Redirect
+                  to={{ pathname: "/login", state: { from: props.location } }}
+                />
+                )
+              )}
+            }
+          />
+
+          {/* <AuthenticatedRoute
+            exact
+            path="/myprofile"
+            authenticated={this.props.authenticated}    
+            component={ProfForm}     
+            currentUser={this.props.currentUser}   
+          /> */}
           <AuthenticatedRoute
             exact
             path="/products/:id"

@@ -19,6 +19,7 @@ import {
 import FirebaseServices from "./FirebaseServices";
 import Loading from "./Loading";
 import { app } from "../base";
+import FormUtils from './FormUtils'
 import bayty_icon from '../assets/img/bayty_icon.png';
 
 /*
@@ -183,38 +184,35 @@ class Register extends Component {
       errorMessage: ""
     };
 
-    const emailPattern = /[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/;
-    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    const companyNamePattern = /^([\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{3,30})$/i;
-    const phoneNoPattern = /^(05)\d{8}$/;
+    
     if (password1 !== password2) {
       formValidationStatus.password1.valid = formValidationStatus.password2.valid = false;
       formValidationStatus.password1.firstTime = formValidationStatus.password2.firstTime = false;
       formValidationStatus.password1.errorMessage = formValidationStatus.password2.errorMessage =
         "  كلمتي السر غير متطابقتين";
     }
-    if (!passwordPattern.test(password1)) {
+    if (!FormUtils.passwordValid(password1)) {
       formValidationStatus.password1.valid = formValidationStatus.password2.valid = false;
       formValidationStatus.password1.firstTime = formValidationStatus.password2.firstTime = false;
       formValidationStatus.password1.errorMessage = formValidationStatus.password2.errorMessage =
-        "  يجب أن تكون كلمة السر خليط من الحروف اللاتينية والأرقام بطول لا يقل عن ٨ أحرف";
+        FormUtils.passwordErrorMsg;
     }
-    if (!emailPattern.test(email)) {
+    if (!FormUtils.emailValid(email)) {
       formValidationStatus.email.valid = false;
       formValidationStatus.email.firstTime = false;
       formValidationStatus.email.errorMessage =
-        "  البريد الالكتروني ليس عنوان صحيح";
+        FormUtils.emailErrorMsg;
     }
-    if (!companyNamePattern.test(coName)) {
+    if (!FormUtils.bussNameValid(coName)) {
       formValidationStatus.coName.valid = false;
       formValidationStatus.coName.firstTime = false;
       formValidationStatus.coName.errorMessage =
-        "  يجب أن لا يحتوي اسم الشركة على رموز غير معروفة";
+        FormUtils.bussNameErrorMsg;
     }
-    if (!phoneNoPattern.test(phoneNo)) {
+    if (!FormUtils.phoneNoValid(phoneNo)) {
       formValidationStatus.phoneNo.valid = false;
       formValidationStatus.phoneNo.firstTime = false;
-      formValidationStatus.phoneNo.errorMessage = "  رقم التلفون غير صالح";
+      formValidationStatus.phoneNo.errorMessage = FormUtils.phoneNoErrorMsg;
     }
     validResult.valid =
       formValidationStatus.phoneNo.valid &&
@@ -295,7 +293,7 @@ class Register extends Component {
               // Handle Errors here.
               var errorCode = error.code;
               var errorMessage = error.message;
-              if (errorCode == "auth/weak-password") {
+              if (errorCode === "auth/weak-password") {
                 formValidationStatus.password1.valid = formValidationStatus.password2.valid = false;
                 formValidationStatus.password1.firstTime = formValidationStatus.password2.firstTime = false;
                 formValidationStatus.password1.errorMessage = formValidationStatus.password2.errorMessage =
@@ -303,7 +301,7 @@ class Register extends Component {
                 this.reportError(
                   "كلمة السر ضعيفة. يجب أن يكون طول كلمة السر ٨ أحرف على الأقل وأن تكون خليط من الأحرف والأرقام"
                 );
-              } else if (errorCode == "auth/email-already-in-use") {
+              } else if (errorCode === "auth/email-already-in-use") {
                 formValidationStatus.email.valid = false;
                 formValidationStatus.email.firstTime = false;
                 formValidationStatus.email.errorMessage =
@@ -311,7 +309,7 @@ class Register extends Component {
                 this.reportError(
                   "البريد الالكتروني مسجل مسبقا. نرجو استخدام عنوان آخر أو طلب استرداد كلمة سر في حال كانت كلمة السر مفقودة"
                 );
-              } else if (errorCode == "auth/invalid-email") {
+              } else if (errorCode === "auth/invalid-email") {
                 formValidationStatus.email.valid = false;
                 formValidationStatus.email.firstTime = false;
                 formValidationStatus.email.errorMessage =

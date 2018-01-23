@@ -19,6 +19,7 @@ import "./App.css";
 class App extends Component {
   constructor(props) {
     super(props);
+    console.log(`${this.constructor.name}.constructor`);
     this.state = {
       authenticated: false,
       currentUser: null
@@ -64,6 +65,7 @@ class App extends Component {
   }
 
   componentWillMount() {
+    console.log(`${this.constructor.name}.componentWillMount`);
     //the current user is: firebase.auth().currentUser
     //For more info on firebase Auth object check the "user lifecycle" in:
     // (https://firebase.google.com/docs/auth/users)
@@ -74,12 +76,27 @@ class App extends Component {
   }
 
   componentWillUnmount() {
+    console.log(`${this.constructor.name}.componentWillUnmount`);
     this.removeAuthListener();
   }
 
+  componentDidMount(){
+    console.log(`${this.constructor.name}.componentDidMount`);
+  }
+  componentWillReceiveProps(nextProps){
+    console.log(`${this.constructor.name}.componentWillReceiveProps`);
+    console.log('nextProps')
+    console.log(nextProps)
+  }
+  
+  componentWillUpdate(){
+    console.log(`${this.constructor.name}.componentWillUpdate`);
+  }
+
   render() {
-    console.log("current user in App")
-    console.log(this.state.currentUser)
+    console.log(`${this.constructor.name}.render`);
+    //console.log("current user in App")
+    //console.log(this.state.currentUser)
     return (
       <BrowserRouter>
         <div style={{ margin: "0 auto" }}>
