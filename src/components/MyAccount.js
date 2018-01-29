@@ -63,7 +63,13 @@ class MyAccount extends Component {
   }
 
   render() {
-    return (<ProductList thisUserOnly={true} currentUser={props.currentUser}/>);
+    return (
+      <div>
+        <MyAccountInfo />
+        <ProductList thisUserOnly={true} currentUser={props.currentUser}/>
+        <IdeasList />
+      </div>
+    );
   }
 }
 
