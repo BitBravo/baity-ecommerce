@@ -21,6 +21,10 @@ import Loading from "./Loading";
 import { app } from "../base";
 import FormUtils from './FormUtils'
 import bayty_icon from '../assets/img/bayty_icon.png';
+import { LinkContainer } from "react-router-bootstrap";
+import styled from 'styled-components'
+
+
 
 /*
 This is the registration form for professional users.
@@ -350,7 +354,7 @@ class Register extends Component {
           
         <div className="loginregtitle">
         <img className="img-responsive" src={bayty_icon}/>
-          <h3 >تسجيل حساب تجاري</h3>
+          <h2 style={{color:'rgb(26,156,142)'}} >التسجيل </h2>
           </div>
           {loading ? (
             <Loading />
@@ -369,7 +373,7 @@ class Register extends Component {
           
 
           
-     <Col sm={6}  md={6} lg={6} className={"col-lg-push-6; col-sm-push-6"}>
+     <Col sm={12}  md={12} lg={12} >
           <FieldGroup
             id="inputEmail"
             type="text"
@@ -391,7 +395,7 @@ class Register extends Component {
             )}
           />
           </Col>
-          <Col sm={6}  md={6} lg={6} className={"col-lg-pull-6; col-sm-pull-6"}>
+          <Col sm={12}  md={12} lg={12}>
           <FieldGroup
             id="inputCoName"
             type="text"
@@ -416,7 +420,7 @@ class Register extends Component {
           </Row>
         <Row>  
      
-         <Col  sm={6} md={6} lg={6} className={"col-lg-push-6; col-sm-push-6"}>
+         <Col  sm={12}  md={12} lg={12}>
           <FieldGroup
             id="inputPassword"
             type="password"
@@ -438,7 +442,7 @@ class Register extends Component {
             )}
           />
 </Col>
-<Col sm={6}  md={6} lg={6} className={"col-lg-pull-6; col-sm-pull-6"}>
+<Col sm={12}  md={12} lg={12}>
      <FieldGroup
             id="inputPassword2"
             type="password"
@@ -463,7 +467,7 @@ class Register extends Component {
 </Row>
         
 <Row>
-<Col  sm={6} md={6} lg={6} className={"col-lg-push-6; col-sm-push-6"}>
+<Col  sm={12}  md={12} lg={12}>
           <FieldGroup  pullright
             id="inputPhoneNo"
             type="text"
@@ -489,6 +493,11 @@ class Register extends Component {
           <button type="submit" >
             تسجيل
           </button>
+          <LinkContainer to="/" activeClassName="active">
+          <button>
+            إلغاء
+          </button>
+          </LinkContainer>
         </form>
       </div>
     );

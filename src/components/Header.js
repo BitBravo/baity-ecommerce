@@ -4,52 +4,78 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Nav, Navbar, NavItem, Button, NavbarBrand } from "react-bootstrap";
 import bayty_icon from '../assets/img/bayty_icon.png';
 import {GoSignIn,GoSignOut,GoHome} from 'react-icons/lib/go';
-import {MdPersonAdd,MdAddToPhotos,MdEventSeat} from 'react-icons/lib/md';
+import {MdPersonAdd,MdAddToPhotos,MdEventSeat,MdPersonOutline,MdAddShoppingCart} from 'react-icons/lib/md';
 import {TiUserAddOutline} from 'react-icons/lib/ti';
 import { IndexLinkContainer } from 'react-router-bootstrap'
+import styled from 'styled-components'
+
+
+ const Input = styled.input`
+ width:100%;
+ max-width:600px;
+ `
 
 class Header extends Component {
   render() {
     return (
       
-      <Navbar fixedTop   > 
-    
+      <Navbar fixedTop  > 
         <Navbar.Header  >
-        <NavbarBrand>
+        <Navbar.Toggle /> 
+         <Nav>
+          <NavbarBrand>
           <img src={bayty_icon} />
-          </NavbarBrand> 
-     
-          <Navbar.Toggle /> 
-       
-
-        </Navbar.Header>
-    
-       
-        <Navbar.Collapse   >
-        
-        <Nav  >
+          </NavbarBrand>
          
-            <IndexLinkContainer to="/" activeClassName="active">
-              <NavItem   > <GoHome className="icons"/> الصفحة الرئيسية </NavItem>
-            </IndexLinkContainer>
-            </Nav> 
-          
-          
-          {!this.props.authenticated ? (
+          <NavItem> 
+          <div className="inner-addon right-addon">
+          <i className="glyphicon glyphicon-search"></i>
+              <Input  id="inputEmail"  className="form-control" type="text"  placeholder="بحث عن منتجات أفكار ...."></Input>
+              </div>
+              </NavItem>
+              </Nav>  
+        </Navbar.Header>
+       
+        <Navbar.Collapse>
+        <Nav  bsStyle="tabs"
+          justified >
+        {!this.props.authenticated ? (
             
             <Nav pullLeft >
               <LinkContainer to="/login" activeClassName="active">
-                <NavItem ><GoSignIn className="icons"/>تسجيل دخول</NavItem>
+                <NavItem><GoSignIn className="icons"/>تسجيل دخول</NavItem>
               </LinkContainer>
               <LinkContainer to="/register" activeClassName="active">
-                <NavItem ><TiUserAddOutline className="icons"/>تسجيل مستخدم تجاري</NavItem>
+                <NavItem ><TiUserAddOutline className="icons"/>تسجيل</NavItem>
               </LinkContainer>
             </Nav>
          
           ) : (
-          
-            <div>
-              <Nav  >
+            <Nav pullLeft  >
+            <LinkContainer to="/logout">
+              <NavItem ><GoSignOut className="icons"/>تسجيل خروج</NavItem>
+            </LinkContainer>
+            <LinkContainer to="/myprofprofile" >
+                  <NavItem ><MdPersonOutline className="icons"/>حسابي</NavItem>
+                </LinkContainer>
+                {/* <NavItem><MdAddShoppingCart className="icons"/></NavItem> */}
+          </Nav>
+      )}
+        
+            <IndexLinkContainer to="/" activeClassName="active">
+              <NavItem> <GoHome className="icons"/>الصفحة الرئيسية</NavItem>
+            </IndexLinkContainer>
+            <IndexLinkContainer to="/products" activeClassName="active">
+              <NavItem> <MdEventSeat className="icons"/>المنتجات</NavItem>
+            </IndexLinkContainer>
+            <IndexLinkContainer to="/products" activeClassName="active">
+              <NavItem> <MdEventSeat className="icons"/>الأفكار</NavItem>
+            </IndexLinkContainer>
+            </Nav> 
+  
+              {/* <div>
+              <Nav bsStyle="tabs"
+          justified  >
               <LinkContainer to="/myproducts">
                 <NavItem  href="#"> <MdEventSeat className="icons"/>
                   استعراض منتجاتي
@@ -59,19 +85,11 @@ class Header extends Component {
                 <LinkContainer to="/newproduct">
                   <NavItem ><MdAddToPhotos className="icons"/>اضافة منتج جديد  </NavItem>
                 </LinkContainer>
-                <LinkContainer to="/myprofprofile">
-                  <NavItem ><MdAddToPhotos className="icons"/>حسابي  </NavItem>
-                </LinkContainer>
+               
               </Nav>
+              </div>
 
-              <Nav pullLeft  >
-                <LinkContainer to="/logout">
-                  <NavItem ><GoSignOut className="icons"/> تسجيل خروج</NavItem>
-                </LinkContainer>
-              </Nav>
-            </div>
-           
-          )}
+            
          
           {/* <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
           <MenuItem eventKey={3.1}>Action</MenuItem>

@@ -5,6 +5,16 @@ import { Collapse, Alert, Modal,Col,Row } from "react-bootstrap"
 import { app } from '../base'
 import bayty_icon from '../assets/img/bayty_icon.png';
 import { CSSTransition } from 'react-transition-group'
+import styled from 'styled-components'
+
+
+ const Input = styled.input`
+ width:100%;
+ max-width:500px;
+ height:50px;
+ border-radius: 0;
+ margin-bottom:30px;
+ `
 /*
 
 This form uses firebase email/password authentication.
@@ -136,15 +146,12 @@ class Login extends Component {
       
         
       <div className="loginreg">
-       
-    
-       
         <form    onSubmit={(event) => this.authWithEmailPassword(event)}
           ref={(form) => { this.loginForm = form }}> 
            
          <div className="loginregtitle">
-         <img src={bayty_icon}/>
-      <h3> تسجيل الدخول الى بيتي </h3>
+         <img src={bayty_icon}  />
+      <h2 style={{color:'rgb(26,156,142)'}}>تسجيل الدخول </h2>
       </div>
       <Collapse in={this.state.formStatusAlert.alert}>
           <Alert
@@ -160,28 +167,25 @@ class Login extends Component {
       <Row>
       <Col lg= {12} sm={12}>
       </Col>
-      <Col sm={12}  lg={6} className="col-lg-push-6">
+      <Col sm={12}  lg={12} >
           <div className="form-group" >
-          <label htmlFor="inputEmail">البريد الالكتروني</label>
-
-          <input id="inputEmail"  className="form-control" name="email" type="email" ref={(input) => {this.emailInput = input}} placeholder="عنوان البريد الالكتروني"></input>
-          
+           <Input id="inputEmail"  className="form-control" name="email" type="email" ref={(input) => {this.emailInput = input}} placeholder="عنوان البريد الالكتروني"></Input>
           </div>
           </Col>
          
-      <Col sm={12}  lg={6} className="col-lg-pull-6" >
+      <Col sm={12}  lg={12}>
           <div className="form-group">
-          <label htmlFor="inputPassword">كلمة السر</label>
-            <input className="form-control" id="inputPassword" name="password" type="password" ref={(input) => {this.passwordInput = input}} placeholder="كلمة السر"></input>
+            <Input className="form-control" id="inputPassword" name="password" type="password" ref={(input) => {this.passwordInput = input}} placeholder="كلمة السر"></Input>
           </div>
           </Col>
           </Row>
           <div className="form-group">
           <button type="submit" >تسجيل دخول</button>
           <p><span style={{cursor:"pointer"}}> نسيت كلمة المرور؟ </span></p>
+          
           <p > <span style={{color:"black"}}>ليس لديك حساب؟</span> 
-          <LinkContainer to="/register">
-          <span style={{cursor:"pointer"}}>&nbsp; قم بالتسجيل</span>
+          <LinkContainer to="/register" activeClassName="active" style={{cursor:"pointer"}}>
+          <span >&nbsp; قم بالتسجيل</span>
           </LinkContainer></p>
           </div>
           

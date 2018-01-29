@@ -599,11 +599,10 @@ class ProductForm extends Component {
     console.log(this.state)
     return (
       <form>
-        <img src={bayty_icon} />
-          <div className="loginregtitle">
+          <div>
               {this.props.isNewProduct
-                ?<h3>أضافة منتج جديد</h3>
-                :<h3> تحديث المنتج </h3>
+                ?<h2 style={{color:'rgb(26,156,142)'}}>إضافة المنتج </h2>
+                :<h2 style={{color:'rgb(26,156,142)'}}> تحديث المنتج </h2>
                 }
             
           </div>

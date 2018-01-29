@@ -15,7 +15,7 @@ class Footer extends Component {
 
 <footer className="myfooter">
 {/* <img  src={baityfooter}/> */}
-  <h6 className="text-muted">© {this.state.year} Baity بيتي</h6>
+  <h3  >{this.state.year}  Baity جميع الحقوق محفوظة  </h3>
 </footer>
     );
   }

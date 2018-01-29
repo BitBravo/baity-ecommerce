@@ -66,28 +66,6 @@ class ProductBrief extends Component {
   render() {
     const product = this.props.product;
     return (
-<<<<<<< HEAD
-      <Col xs={12} md={4} sm={6} style={{paddingBottom: "20px"}} >
-      <div className="mythumbnail" >
-           <div >
-          
-          <Link to={`/products/${product.id}`} >
-              {/* <img id="middle" src={product.imgUrl} className="img-responsive"/> */}
-              <img   src="http://via.placeholder.com/243x243"
-              style={{width: "100%", height: 'auto' }} className="img-responsive "/>
-              </Link>
-              </div>
-             
-              <div className="padding" >
-              <Link to={`/products/${product.id}`}>
-
-              <h4 > {product.name} </h4>
-              </Link>
-            <p>{product.desc}</p>
-            </div>
-            </div>  
-          
-=======
       <Col xs={12} md={4} sm={6} >
         <MyThumbnailDiv>
           <ImageContainer>
@@ -107,14 +85,20 @@ class ProductBrief extends Component {
           </ImageContainer>
 
           <PaddingDiv>
+           
+          <Col xs ={5} md={5}>
+              <h5>{product.price} ر.س</h5>
+             </Col>
             <Link to={`/products/${product.id}`}>
-              <h4> {product.name} </h4>
+             <Col xs ={7} md={7}>
+              <h5> {product.name} </h5>
+             </Col>
             </Link>
-
+            <hr/>
             <p className="flex-text text-muted">{product.desc}</p>
+            
           </PaddingDiv>
         </MyThumbnailDiv>
->>>>>>> 81f2b6ddee022415f3cdf2c1a86d6492e43dc8b8
       </Col>
     );
   }

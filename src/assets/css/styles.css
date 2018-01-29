@@ -1,23 +1,42 @@
+
+p {color:rgb(95,96,93);
+    font-weight: 10}
+ h1 {
+     color:rgb(95,96,93);
+     text-align: center;   
+ }
+ h2 h3 h4 h5 h6 {
+     color:rgb(95,96,93);
+     }
 .myfooter {
     /* position: fixed; */
+  
     left: 0;
     bottom: 0;
     width: 100%;
-    height: 60px;
-    line-height: 60px;
-    background-image: -webkit-linear-gradient(top, #3c3c3c 0%, #222 100%);
-    background-image: -o-linear-gradient(top, #3c3c3c 0%, #222 100%);
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#3c3c3c), to(#222));
-    background-image: linear-gradient(to bottom, #3c3c3c 0%, #222 100%);
+    height: 100px;
+    /*line-height: 100px;
+     background-image: -webkit-linear-gradient(top,rgb(26,156,142) 0%, rgb(26,156,142) 100%);
+    background-image: -o-linear-gradient(top, rgb(26,156,142) 0%, rgb(26,156,142) 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(26,156,142)), to(rgb(26,156,142)));
+    background-image: linear-gradient(to bottom, rgb(26,156,142) 0%, rgb(26,156,142) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3c3c3c', endColorstr='#ff222222', GradientType=0);
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false); 
+    background-repeat: repeat-x;*/
     display: block;
+    background-color: rgb(26, 156, 142);
     padding: 0 15px; 
     margin: 0;
     border: 0;   
 }
-
+.myfooter h3 {
+    color: rgb(255,255,255);
+    text-align: center;
+    padding-top: 30px;
+    direction: ltr;
+     line-height: 40px;
+     margin: 0; 
+}
 .myfooter img{
    width: 6.5vh;
    display: block;
@@ -26,9 +45,6 @@
    margin-left: auto;
    margin-right: auto;
 }
-.myfooter h6 {text-align: center;font-size: 1.3rem;color: white; direction: ltr; line-height: 40px; margin: 0}
-
-
 .imgPreview {
     text-align: center;
     margin: auto;
@@ -38,7 +54,15 @@
     border-top: 5px solid gray;
     border-bottom: 5px solid gray;
 }
-
+hr { 
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 0.5px;
+}
 .icons {
     font-size: 1.5em;
     margin-left:4px;
@@ -52,7 +76,7 @@
   }
 .carousel div {
     height: 500px;
-    }
+}
 .hero {
     position: absolute;
     top: 30%;
@@ -66,16 +90,23 @@
     font-weight: bold;
     margin: 0;
     padding: 0;
-} 
-.navbar-header{
-    float: right; 
 }
+
+.navbar-header{
+    float: none; 
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    
+}
+
 .navbar-toggle { 
     float: left !important;
+    
     margin: 0;
      height: 50px; 
      width: 50px; 
-     background: #444; 
+     background:white; 
      border-radius: 0;
      z-index: 1;
      
@@ -92,74 +123,17 @@
     float: right;
     text-align: center;
    padding: 0;
-   margin-right: 5px;
-   
+  
 }
 
 .navbar-brand {
- 
     width: 70px;
     height: auto;
-    margin-top: -10px;
+    margin-top: -5px;
     margin-bottom: -10px;
     display: inline-block;
     float: none;
 }
-@media only screen and (max-width: 767px) {
-.navbar{
-    position: absolute;
-    height: auto;
-   border-radius: 5px;
-}
-   
-  .navbar .nav{
-      float: right;
-      text-align: center;
-    margin: 0;
-    
-    list-style: none;
-    width: 70%;
-  } 
-  .nav-item{
-   float: right;
-    text-decoration: right;
-    display: block;
-   
-    -webkit-transition:  background 0.3s ease-in-out;
-    -moz-transition:  background 0.3s ease-in-out;
-    -ms-transition:  background 0.3s ease-in-out;
-    -o-transition:  background 0.3s ease-in-out;
-    transition:  background 0.3s ease-in-out;   
-  } 
-  .carousel div {
-    height: 280px;
-    } 
-  .carousel img { 
-      margin-top: -150px;
-      margin-left: -20px;
-      margin-right: -20px;
-      width: 150%;
-     min-height: 430px; 
-  }
-  .hero h3 {
-    font-size: 3rem;    
-    font-weight: bold;
-    margin: 0;
-    padding: 0;
-} 
-}
-
-
-h1 {
-    color: #333333;
-    text-align: center;   
-}
-h2 h3 h4 h5 h6 {
-    color: #333333;
-    }
-
-
-
 
     .productdetails {
         margin:auto;
@@ -167,39 +141,26 @@ h2 h3 h4 h5 h6 {
         background: white;  
         display: flex;
         flex-wrap: wrap;
-        
-    
     }
-    .productdetails div {
-        
-        
-    }
-   .productdetailsimgbckgrnd {
-    
-    background-color: #f4f4f4;  
-   }
+  
     
     .productdetails img{
         display: block;
-      
        margin: auto;
         width: 100%;  
     }
     
     .productdetails button{
-        margin: auto;
-        width: 70%;
-        max-width: 200px;
-        background:  rgb(73, 157, 157);
+        display:"block";
+        margin:"auto";
+        width: 80%;
+        max-width: 250px;
+        background:  rgb(26, 156, 142);
         color: white;
-        align-items: center;
-        border-radius: 5px;
+        text-align: center;
         height: 40px;
     }
-    .productdetails p {
-        color: black;
-   
-    }    
+    
     
     .loginreg { 
         padding-top: 10%;
@@ -219,7 +180,7 @@ h2 h3 h4 h5 h6 {
        
         .loginregtitle {
             text-align: center;
-            background: rgb(240,240,240);
+            background:white;
             padding-top: 10%;
             padding-bottom: 1%;
             margin-left: -25px;
@@ -228,10 +189,10 @@ h2 h3 h4 h5 h6 {
         }
         .loginregtitle img {
             display: block;
-            width: 20%;
+            width: 25%;
             margin-top: -18%;
             margin-bottom:auto;
-            border-radius: 5px;
+            border-radius: 50%;
             margin-left: auto;
             margin-right: auto;
         }
@@ -242,8 +203,8 @@ h2 h3 h4 h5 h6 {
         border-radius: 5px;
         width: 90%;
         max-width: 600px;
-        padding-left: 25px;
-        padding-right: 25px;
+        padding-left: 60px;
+        padding-right: 60px;
         padding-bottom: 25px;
         color: #3C3C3C;
         background: rgb(255,255,255);
@@ -254,6 +215,7 @@ h2 h3 h4 h5 h6 {
         animation-timing-function: ease;	
         -webkit-animation-timing-function: ease;	
         visibility: visible !important;	
+        
     }
     
     
@@ -298,76 +260,85 @@ h2 h3 h4 h5 h6 {
             -webkit-transform: translateY(0%);
         }	
     }
-      .loginreg p {color:rgb(73, 157, 157);}
+      .loginreg p {color:rgb(26, 156, 143);}
 
         button {
-            background-color: rgb(73, 157, 157);
+            background-color: rgb(26, 156, 142);
             width: 100%;
             color: white;
             margin-top: 10px;
+            margin-bottom: 10px;
             align-items: center;
-            border-radius: 5px;
-            height: 40px;
+            height: 50px;
          
         }
         button:hover {
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         }
-    
-    
-   
-
-
-
-
-    .image-wrap {
-       
-        max-height:260px;
-        overflow: hidden;
-        max-width: 100%;       
-        -webkit-transition: max-width .5s ease-out;  /* Saf3.2+, Chrome */
-        -moz-transition: max-width .5s ease-out;  /* FF4+ */
-        -ms-transition: max-width .5s ease-out;  /* IE10? */
-        -o-transition: max-width .5s ease-out;  /* Opera 10.5+ */
-        transition: max-width .5s ease-out; 
-        width: 100%;
-        display: inline-block;
-        height: 100%;
+        /* search icon */
+        .inner-addon { 
+            position: relative; 
+        }
+        /* style icon */
+        .inner-addon .glyphicon {
+          position: absolute;
+          padding: 10px;
+          pointer-events: none;
+        }
         
-      
-       
-    }
-   .image-wrap img
-   { position: absolute;
-    clip:inherit;}
+        /* align icon */
+        .left-addon .glyphicon  { left:  0px;}
+        .right-addon .glyphicon { right: 0px;}
+        
+        /* add padding  */
+        .left-addon input  { padding-left:  30px; }
+        .right-addon input { padding-right: 30px; }
 
-    .dotted-border {  
-        position: relative; 
-        width: 100%;
-        height: 20em;
-      }
-      
-      #top-left, #middle, #bottom-right {
-        position: absolute;
-        top: 0px;
-        top:0; bottom: 0;/* vertical center */
-        left:0;right:0; 
-      }
-      
-      #top-left {
-        left: 260px;
-        clip: rect(0px,0px, 100px, 0px); 
-      }
-      
-      
-      #middle {  
-        clip: rect(0px, 360px,20em, 0px); 
-        /* standard syntax, unsupported by Internet Explorer 4-7 */
-      }
-      
-      #bottom-right {
-        left: 200px;
-        clip: rect(235px 335px 345px 160px);
-        /* non-standard syntax, but supported by all major browsers*/
-      }
+    
+        @media only screen and (max-width: 767px) {
+           
+            .navbar{
+                position: absolute;
+                height: auto;
+               border-radius: 5px;
+            }
+              .navbar .nav{
+                  float: right;
+                  text-align: right;
+                margin: 0;
+                list-style: none;
+                width: 70%;
+              } 
+              .nav-item{
+               float: right;
+                text-decoration: right;
+            
+               
+                -webkit-transition:  background 0.3s ease-in-out;
+                -moz-transition:  background 0.3s ease-in-out;
+                -ms-transition:  background 0.3s ease-in-out;
+                -o-transition:  background 0.3s ease-in-out;
+                transition:  background 0.3s ease-in-out;   
+              } 
+              .carousel div {
+                height: 280px;
+                } 
+              .carousel img { 
+                  margin-top: -150px;
+                  margin-left: -20px;
+                  margin-right: -20px;
+                  width: 150%;
+                 min-height: 430px; 
+              }
+              .hero h3 {
+                font-size: 3rem;    
+                font-weight: bold;
+                margin: 0;
+                padding: 0;
+              } 
+            }
+
+
+
+
     
