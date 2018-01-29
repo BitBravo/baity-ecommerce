@@ -11,32 +11,32 @@ import { IndexLinkContainer } from 'react-router-bootstrap'
 class Header extends Component {
   render() {
     return (
-      
-      <Navbar fixedTop   > 
-    
+
+      <Navbar fixedTop   >
+
         <Navbar.Header  >
         <NavbarBrand>
           <img src={bayty_icon} />
-          </NavbarBrand> 
-     
-          <Navbar.Toggle /> 
-       
+          </NavbarBrand>
+
+          <Navbar.Toggle />
+
 
         </Navbar.Header>
-    
-       
+
+
         <Navbar.Collapse   >
-        
+
         <Nav  >
-         
+
             <IndexLinkContainer to="/" activeClassName="active">
               <NavItem   > <GoHome className="icons"/> الصفحة الرئيسية </NavItem>
             </IndexLinkContainer>
-            </Nav> 
-          
-          
+            </Nav>
+
+
           {!this.props.authenticated ? (
-            
+
             <Nav pullLeft >
               <LinkContainer to="/login" activeClassName="active">
                 <NavItem ><GoSignIn className="icons"/>تسجيل دخول</NavItem>
@@ -45,11 +45,16 @@ class Header extends Component {
                 <NavItem ><TiUserAddOutline className="icons"/>تسجيل مستخدم تجاري</NavItem>
               </LinkContainer>
             </Nav>
-         
+
           ) : (
-          
+
             <div>
               <Nav  >
+
+              <LinkContainer to="/account">
+                <NavItem ><MdAddToPhotos className="icons"/>account  </NavItem>
+              </LinkContainer>
+              
               <LinkContainer to="/myproducts">
                 <NavItem  href="#"> <MdEventSeat className="icons"/>
                   استعراض منتجاتي
@@ -70,9 +75,9 @@ class Header extends Component {
                 </LinkContainer>
               </Nav>
             </div>
-           
+
           )}
-         
+
           {/* <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
           <MenuItem eventKey={3.1}>Action</MenuItem>
           <MenuItem eventKey={3.2}>Another action</MenuItem>
@@ -80,11 +85,11 @@ class Header extends Component {
           <MenuItem divider />
           <MenuItem eventKey={3.4}>Separated link</MenuItem>
         </NavDropdown> */}
-       
+
        </Navbar.Collapse >
 
       </Navbar>
-      
+
     );
   }
 }

@@ -53,7 +53,7 @@ class Main extends Component {
     console.log(`${this.constructor.name}.render`);
     //console.log("current user in Main")
     //console.log(this.props.currentUser)
-    
+
     return (
       <main>
         <Switch>
@@ -89,17 +89,17 @@ class Main extends Component {
           <AuthenticatedRoute
             exact
             path="/newproduct"
-            authenticated={this.props.authenticated}    
-            component={ProductUpdater}     
-            currentUser={this.props.currentUser}   
+            authenticated={this.props.authenticated}
+            component={ProductUpdater}
+            currentUser={this.props.currentUser}
           />
           {/* <AuthenticatedRoute
             exact
             path="/myprofprofile"
-            authenticated={this.props.authenticated}    
-            component={ProfProfileUpdater}     
-            currentUser={this.props.currentUser}   
-            
+            authenticated={this.props.authenticated}
+            component={ProfProfileUpdater}
+            currentUser={this.props.currentUser}
+
           /> */}
 
           <Route
@@ -121,9 +121,9 @@ class Main extends Component {
           {/* <AuthenticatedRoute
             exact
             path="/myprofile"
-            authenticated={this.props.authenticated}    
-            component={ProfForm}     
-            currentUser={this.props.currentUser}   
+            authenticated={this.props.authenticated}
+            component={ProfForm}
+            currentUser={this.props.currentUser}
           /> */}
           <AuthenticatedRoute
             exact
@@ -144,6 +144,13 @@ class Main extends Component {
             path="/myproducts"
             authenticated={this.props.authenticated}
             component={MyProductList}
+            currentUser={this.props.currentUser}
+          />
+          <AuthenticatedRoute
+            exact
+            path="/account"
+            authenticated={this.props.authenticated}
+            component={MyAccount}
             currentUser={this.props.currentUser}
           />
         </Switch>
