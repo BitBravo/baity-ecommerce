@@ -298,6 +298,7 @@ margin-bottom: 10px;
         .right-addon .glyphicon { right: 0px;}
         
         /* add padding  */
+        .white, .white a {color: #fff;}
         .left-addon input  { padding-left:  30px; }
         .right-addon input { padding-right: 30px; }
 

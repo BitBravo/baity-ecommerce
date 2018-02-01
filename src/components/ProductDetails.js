@@ -128,7 +128,7 @@ class ProductDetails extends Component {
       
         
          
-          <Row className="productdetails">
+          <Row style={{display: 'flex', flexWrap: 'wrap'}} className="productdetails">
         
             <Col  xs={12} sm={4} md={4} lg={3} >
             <PaddingDiv>
