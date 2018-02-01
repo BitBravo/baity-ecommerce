@@ -13,6 +13,7 @@ import styled from 'styled-components'
  const Input = styled.input`
  width:100%;
  max-width:600px;
+ margin-bottom:0;
  `
 
 class Header extends Component {
@@ -45,9 +46,9 @@ class Header extends Component {
               <LinkContainer to="/login" activeClassName="active">
                 <NavItem><GoSignIn className="icons"/>تسجيل دخول</NavItem>
               </LinkContainer>
-              <LinkContainer to="/register" activeClassName="active">
+              {/* <LinkContainer to="/registration" activeClassName="active">
                 <NavItem ><TiUserAddOutline className="icons"/>تسجيل</NavItem>
-              </LinkContainer>
+              </LinkContainer> */}
             </Nav>
          
           ) : (
@@ -65,12 +66,12 @@ class Header extends Component {
             <IndexLinkContainer to="/" activeClassName="active">
               <NavItem> <GoHome className="icons"/>الصفحة الرئيسية</NavItem>
             </IndexLinkContainer>
-            <IndexLinkContainer to="/products" activeClassName="active">
+            <LinkContainer to="/productspage" activeClassName="active">
               <NavItem> <MdEventSeat className="icons"/>المنتجات</NavItem>
-            </IndexLinkContainer>
-            <IndexLinkContainer to="/products" activeClassName="active">
+            </LinkContainer>
+            <LinkContainer to="/products" activeClassName="active">
               <NavItem> <MdEventSeat className="icons"/>الأفكار</NavItem>
-            </IndexLinkContainer>
+            </LinkContainer>
             </Nav> 
   
               {/* <div>

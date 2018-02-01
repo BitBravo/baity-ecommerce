@@ -1,11 +1,19 @@
 import React from "react";
 import { Image,Carousel } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 import ProductList from './ProductList';
 import traditionalkitchen from '../assets/img/traditionalkitchen.jpg';
 import bedroom from '../assets/img/bedroom.jpg';
 import livingroom from '../assets/img/livingroom.jpg'; 
+import styled from 'styled-components'
 
 
+const Button = styled.button`
+ width:30%;
+ hieght:60px;
+margin-top:30px;
+font-size: 30px;
+ `
 const Home = () => (
   <div>
     <div>
@@ -15,8 +23,13 @@ const Home = () => (
         <img  src={bedroom}     />
         <Carousel.Caption className="hero">
           <h3>غير مزاجك واجعل منزلك أكثر جاذبية </h3>
-          {/* <p>غير مزاجك واجعل منزلك أكثر جاذبية </p> */}
+          <LinkContainer to="/registration" activeClassName="active">
+          <Button>
+            ابدأ معنا
+            </Button>
+            </LinkContainer>
         </Carousel.Caption>
+        
         </div>
       </Carousel.Item>
       <Carousel.Item>
@@ -24,7 +37,11 @@ const Home = () => (
         <img  src= {traditionalkitchen}     />
         <Carousel.Caption className="hero">
           <h3>غير مزاجك واجعل منزلك أكثر جاذبية </h3>
-          {/* <p>غير مزاجك واجعل منزلك أكثر جاذبية </p> */}
+          <LinkContainer to="/registration" activeClassName="active">
+          <Button>
+            ابدأ معنا
+            </Button>
+            </LinkContainer>
         </Carousel.Caption>
         </div>
       </Carousel.Item>
@@ -33,7 +50,11 @@ const Home = () => (
         <img  src= {livingroom}   />
         <Carousel.Caption className="hero">
           <h3>غير مزاجك واجعل منزلك أكثر جاذبية </h3>
-          {/* <p>غير مزاجك واجعل منزلك أكثر جاذبية </p> */}
+          <LinkContainer to="/registration" activeClassName="active">
+          <Button>
+            ابدأ معنا
+            </Button>
+            </LinkContainer>
         </Carousel.Caption>
         </div>
       </Carousel.Item>

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Home from "./Home";
+import ProductsPage from"./ProductsPage";
 import Login from "./Login";
 import Register from "./Register";
 import Logout from "./Logout";
@@ -8,6 +9,7 @@ import ProductDetails from "./ProductDetails";
 import ProductUpdater from "./ProductUpdater";
 import MyProductList from './MyProductList';
 import ProfProfileUpdater from './ProfProfileUpdater'
+import Registration from "./Registration";
 
 function AuthenticatedRoute({ component: Component, authenticated, currentUser, ...rest }) {
   return (
@@ -145,6 +147,31 @@ class Main extends Component {
             authenticated={this.props.authenticated}
             component={MyProductList}
             currentUser={this.props.currentUser}
+          />
+           <Route
+            exact
+            path="/productspage"
+            render={props => {
+              return (
+                <ProductsPage
+                  currentUser={this.props.currentUser}
+                  {...props}
+                />
+               
+              );
+            }}
+          />
+           <Route
+            exact
+            path="/registration"
+            render={props => {
+              return (
+                <Registration
+                  currentUser={this.props.currentUser}
+                  {...props}
+                />
+              );
+            }}
           />
         </Switch>
       </main>

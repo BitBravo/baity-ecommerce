@@ -8,13 +8,7 @@ import { CSSTransition } from 'react-transition-group'
 import styled from 'styled-components'
 
 
- const Input = styled.input`
- width:100%;
- max-width:500px;
- height:50px;
- border-radius: 0;
- margin-bottom:30px;
- `
+ 
 /*
 
 This form uses firebase email/password authentication.
@@ -169,13 +163,13 @@ class Login extends Component {
       </Col>
       <Col sm={12}  lg={12} >
           <div className="form-group" >
-           <Input id="inputEmail"  className="form-control" name="email" type="email" ref={(input) => {this.emailInput = input}} placeholder="عنوان البريد الالكتروني"></Input>
+           <input id="inputEmail"  name="email" type="email" ref={(input) => {this.emailInput = input}} placeholder="عنوان البريد الالكتروني"></input>
           </div>
           </Col>
          
       <Col sm={12}  lg={12}>
           <div className="form-group">
-            <Input className="form-control" id="inputPassword" name="password" type="password" ref={(input) => {this.passwordInput = input}} placeholder="كلمة السر"></Input>
+            <input id="inputPassword" name="password" type="password" ref={(input) => {this.passwordInput = input}} placeholder="كلمة السر"></input>
           </div>
           </Col>
           </Row>
