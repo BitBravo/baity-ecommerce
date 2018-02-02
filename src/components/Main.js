@@ -117,12 +117,19 @@ class Main extends Component {
               return <Logout  {...props} />;
             }}
           />
-          
+
           <AuthenticatedRoute
             exact
             path="/newproduct"
             authenticated={this.props.authenticated}
             component={ProductUpdater}
+            currentUser={this.props.currentUser}
+          />
+          <AuthenticatedRoute
+            exact
+            path="/products/:id"
+            authenticated={this.props.authenticated}
+            component={ProductDetails}
             currentUser={this.props.currentUser}
           />
           <AuthenticatedRoute

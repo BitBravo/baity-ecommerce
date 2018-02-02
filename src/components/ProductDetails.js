@@ -156,18 +156,19 @@ class ProductDetails extends Component {
               <p >الارتفاع: {product.height} سم</p>
               <p >المصنع: {product.factory}</p>
               </PaddingDiv>
+
               <PaddingDiv>
             <p>
               {/* only product owner can update a product */}
-
               {this.props.currentUser.uid === this.state.product.owner
-              ?<Link to={`/products/${product.id}/updateProduct`}>
+               ?<Link to={`/products/${product.id}/updateProduct`}>
                 <button >
                   تحديث بيانات المنتج
                 </button>
               </Link>
               : null
-              }
+
+            }
             </p>
             </PaddingDiv>
             </Col>

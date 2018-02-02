@@ -85,10 +85,16 @@ class IdeaBrief extends Component {
 
           <PaddingDiv>
             <Link to={`/ideas/${idea.id}`}>
-              <h4> {idea.name} </h4>
-            </Link>
-
-            <p className="flex-text text-muted">{idea.desc}</p>
+            <Col xs ={12} md={12}>
+              <h5> {idea.name} </h5>
+              </Col>
+             </Link>
+             <hr/>
+             <p className="flex-text text-muted">{idea.desc.substring(0,90)}
+               <Link style={{display: 'inline'}} to={`/ideas/${idea.id}`}>
+               ... المزيد
+               </Link>
+             </p>
           </PaddingDiv>
         </MyThumbnailDiv>
       </Col>
