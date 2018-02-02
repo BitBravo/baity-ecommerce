@@ -3,10 +3,16 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Home from "./Home";
 import Login from "./Login";
 import Register from "./Register";
+import RegisterNormal from "./RegisterNormal";
+import UserTypeSelector from "./UserTypeSelector";
 import Logout from "./Logout";
 import ProductDetails from "./ProductDetails";
 import ProductUpdater from "./ProductUpdater";
 import MyProductList from './MyProductList';
+import IdeaDetails from "./IdeaDetails";
+import IdeaUpdater from "./IdeaUpdater";
+import MyIdeaList from './MyIdeaList';
+import MyAccount from "./MyAccount";
 import ProfProfileUpdater from './ProfProfileUpdater'
 
 function AuthenticatedRoute({ component: Component, authenticated, currentUser, ...rest }) {
@@ -72,7 +78,29 @@ class Main extends Component {
             path="/register"
             render={props => {
               return (
+                <UserTypeSelector
+                />
+              );
+            }}
+          />
+          <Route
+            exact
+            path="/registerProf"
+            render={props => {
+              return (
                 <Register
+                  currentUser={this.props.currentUser}
+                  {...props}
+                />
+              );
+            }}
+          />
+          <Route
+            exact
+            path="/registerNormal"
+            render={props => {
+              return (
+                <RegisterNormal
                   currentUser={this.props.currentUser}
                   {...props}
                 />
@@ -91,6 +119,13 @@ class Main extends Component {
             path="/newproduct"
             authenticated={this.props.authenticated}
             component={ProductUpdater}
+            currentUser={this.props.currentUser}
+          />
+          <AuthenticatedRoute
+            exact
+            path="/newidea"
+            authenticated={this.props.authenticated}
+            component={IdeaUpdater}
             currentUser={this.props.currentUser}
           />
           {/* <AuthenticatedRoute
@@ -148,11 +183,33 @@ class Main extends Component {
           />
           <AuthenticatedRoute
             exact
-            path="/account"
+            path="/ideas/:id"
+            authenticated={this.props.authenticated}
+            component={IdeaDetails}
+            currentUser={this.props.currentUser}
+          />
+          <AuthenticatedRoute
+            exact
+            path="/ideas/:id/updateIdea"
+            authenticated={this.props.authenticated}
+            component={IdeaUpdater}
+            currentUser={this.props.currentUser}
+          />
+          <AuthenticatedRoute
+            exact
+            path="/myideas"
+            authenticated={this.props.authenticated}
+            component={MyIdeaList}
+            currentUser={this.props.currentUser}
+          />
+          <AuthenticatedRoute
+            exact
+            path="/myprofile"
             authenticated={this.props.authenticated}
             component={MyAccount}
             currentUser={this.props.currentUser}
           />
+
         </Switch>
       </main>
     );

@@ -37,6 +37,8 @@ let _PRODUCT_IMAGES_PATH = testPrefix + "productImages";
 let _IDEA_IMAGES_PATH = "ideaImage";
 let _PROFILE_IMAGES_PATH = testPrefix + "profileImage";
 let _PROF_PATH = testPrefix + "professional";
+let _NORMAL_PATH = "normal";
+
 
 // DB references
 //You can use child() only on references (i.e. database.ref() but not database itself)
@@ -51,6 +53,7 @@ let _REF_BUSINESS = DB_BASE.child(_BUSINESSES_PATH); //change me by removing tes
 let _REF_USER_LIKES = DB_BASE.child(_LIKES_PATH);
 let _REF_GROUP = DB_BASE.child(_GROUPS_PATH); //change me by removing test
 let _REF_PROF = DB_BASE.child(_PROF_PATH)
+let _REF_NORMAL = DB_BASE.child(_NORMAL_PATH)
 
 // Storage reference
 var _REF_BUSINESS_LOGO = STORAGE_BASE.child(_BUSINESS_LOGOS_PATH); //change me by removing test
@@ -106,6 +109,9 @@ export default {
   get PROF_PATH() {
     return _PROF_PATH;
   },
+  get NORMAL_PATH() {
+    return _NORMAL_PATH;
+  },
   get root() {
     return DB_BASE;
   },
@@ -130,10 +136,13 @@ export default {
   get professionals() {
     return _REF_PROF;
   },
+  get normalUsers() {
+    return _REF_NORMAL;
+  },
   get productImages() {
     return _REF_PRODUCT_IMAGE;
   },
-  
+
   //create a professional user (i.e., business user) along with the group and business entry (but not the business details)
   // user is the object from firebase.auth.
   createProfUser(user, phoneNo, coName) {
@@ -168,28 +177,54 @@ export default {
     // add user to database and to group and to business simultaniously and atomically
     return this.root.update(updates);
   },
-  
+
+  //create a normal user along with the group and business entry
+  // user is the object from firebase.auth.
+  createNormalUser(user, phoneNo, userName) {
+    let group = "normal";
+    let dateCreated = Date.now();
+    let userObj = {
+      uid: user.uid,
+      provider: user.providerData[0].providerId, //assuming a user has only one provider. Change me to user forEach and search using the email
+      email: user.email,
+      phone: phoneNo,
+      name: userName,
+      dateCreated: dateCreated,
+      country: "Saudi Arabia",
+      city: "", //we get it later on from profile
+      userGroup: group
+    };
+    var updates = {};
+    updates[`${_NORMAL_PATH}/${user.uid}`] = userObj;
+    updates[`${_GROUPS_PATH}/${group}/${user.uid}`] = group;
+    // add user to database and to group simultaniously and atomically
+    return this.root.update(updates);
+  },
+
   /*
     Given the entry type (product, idea, ...etc) and entry ID
     returns the entry value (product, idea, ...etc)from the DB
-    as a promise (call readDBRecord.then(val => ...) ) or 
+    as a promise (call readDBRecord.then(val => ...) ) or
     an error from DB
   */
   readDBRecord(entryType, entryId){
     var ref;
     switch (entryType){
-      case 'product': 
+      case 'product':
         ref = this.products.child(entryId);
         break;
-      // case 'idea':
-      //   ref = this.ideas.child(entryId);
-      //   break;
+      case 'idea':
+        ref = this.ideas.child(entryId);
+        break;
       case 'profUser':
         ref = this.professionals.child(entryId);
         break;
-      // case 'normalUser':
-      //   ref = this.normalUsers.child(entryId);
-      //   break;
+      case 'normalUser':
+        ref = this.normalUsers.child(entryId);
+        break;
+      case 'group':
+        ref = this.groups.child(entryId);
+        break;
     }
     return ref.once('value')
       .then(dataSnapshot => dataSnapshot.val())
@@ -200,7 +235,7 @@ export default {
       })
   },
 
-  //takes user id for a professional user 
+  //takes user id for a professional user
   //returns the business id for the professional user
   getProfessionalUserBusinessId(userId, handler, failHandler){
     this.professionals.child(`${userId}/businessId`).once('value').then( (snapshot) => {
@@ -209,11 +244,11 @@ export default {
   },
 
 
-  //update the profile for a professional user where new data is 
-  //stored at profileData. error and success handlers are 
+  //update the profile for a professional user where new data is
+  //stored at profileData. error and success handlers are
   //provided by form/formUpdater
   updateProfProfileHelper(profileData, errorHandler, successHandler) {
-    console.log('FirebaseServices.updateProfProfileHelper')    
+    console.log('FirebaseServices.updateProfProfileHelper')
     try {
       var businessProfileRef = this.businesses.child(`${profileData.id}`);
       businessProfileRef
@@ -250,7 +285,7 @@ export default {
   //newImage is of type Blob of File
   //see (https://firebase.google.com/docs/reference/js/firebase.storage.Reference?authuser=0#put)
   //see (https://developer.mozilla.org/en-US/docs/Web/API/File)
-  uploadProfProfileImage(uid, newImage, progressHandler, errorHandler, next){      
+  uploadProfProfileImage(uid, newImage, progressHandler, errorHandler, next){
       //1- upload the image of the profile.
       //2- add the profile to the database
       //get a reference for the image bucket (the placeholder where we will put the image into)
@@ -313,7 +348,7 @@ export default {
           let imgUrl = uploadTask.snapshot.downloadURL;
           console.log("upload sucessful and image URL is: " + imgUrl);
           next(imgUrl);
-          
+
         }
       ); //updateTask.on
   },
@@ -325,9 +360,9 @@ export default {
     if (profileData.newImage) {
       this.uploadProfProfileImage(
         uid,
-        profileData.imageFile, 
-        progressHandler, 
-        errorHandler, 
+        profileData.imageFile,
+        progressHandler,
+        errorHandler,
         (imgUrl) => {
             profileData.imgUrl = imgUrl
             //update profile with new data and new image URL
@@ -340,7 +375,7 @@ export default {
       );
     } else {
       //no change to current image/image URL
-      //update profile with new data 
+      //update profile with new data
       this.updateProfProfileHelper(
         profileData,
         errorHandler,
@@ -349,7 +384,7 @@ export default {
     }
   },
 
-  /* 
+  /*
     returns a product as a promise
   */
   getProduct(productId){
@@ -363,9 +398,9 @@ export default {
     return this.products.child(productId)
   },
 
-  /** 
+  /**
    * This method is used to insert a new product into DB
-   * product: is an object that contains all product properties with new values 
+   * product: is an object that contains all product properties with new values
    * except id property.
    */
   insertProduct(product) {
@@ -385,7 +420,7 @@ export default {
 
   /**
    * This method is used to update a product in DB
-   * newProductData: an object that contains the changing product 
+   * newProductData: an object that contains the changing product
    *   properties along with their new values
    * productId: the id of the product to be updated
    * returns: non-null promise containing void that resolves when update on server is complete
@@ -414,7 +449,7 @@ export default {
         //update progress viewer
         viewUploadProgress(progress, task.name)
 
-        //additionl logging 
+        //additionl logging
         console.log(
           "Upload of file " + task.name + " is " + progress + "% done"
         );
@@ -464,7 +499,7 @@ export default {
 
   },
 
-  
+
   /*
     1- uploads product images.
     2- add images to product.
@@ -487,7 +522,7 @@ export default {
         throw error
       })
     })
-    
+
   },
 
   /*

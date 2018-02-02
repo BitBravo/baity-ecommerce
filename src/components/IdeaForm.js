@@ -489,7 +489,7 @@ class IdeaForm extends Component {
         <img src={bayty_icon} />
           <div className="loginregtitle">
               {this.props.isNewIdea
-                ?<h3>اضافة فكرة جديد</h3>
+                ?<h3>اضافة فكرة جديدة</h3>
                 :<h3> تحديث الفكرة </h3>
                 }
 

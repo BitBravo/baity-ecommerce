@@ -1,77 +1,56 @@
 import React, { Component } from "react";
-import { Image } from "react-bootstrap";
-import ProductList from './ProductList';
-import livingroom from '../assets/img/livingroom.jpg';
-import firebase from "firebase";
-import { app, base, database, storage } from "../base";
-import FirebaseServices from './FirebaseServices'
+import { Switch, Route, Redirect, Link } from "react-router-dom";
+import { LinkContainer } from 'react-router-bootstrap'
 
-// function MyAccount(props) {
-//     return (<ProductList thisUserOnly={true} currentUser={props.currentUser}/>);
-// }
+import { app, base } from "../base";
+import FirebaseServices from './FirebaseServices';
+import ProductList from "./ProductList";
+import IdeaList from "./IdeaList";
+import ProfileInfo from "./ProfileInfo";
+
+import {
+  FormGroup,
+  ControlLabel,
+  FormControl,
+  HelpBlock,
+  Popover,
+  Button,
+  OverlayTrigger,
+  Fade,
+  Collapse,
+  Alert, Modal, ProgressBar
+} from "react-bootstrap";
+import ImageUploader from "./ImageUploader";
+import FaCheckCircleO from 'react-icons/lib/fa/check-circle-o'
+import FaTimesCircleO from 'react-icons/lib/fa/times-circle-o'
+import bayty_icon from '../assets/img/bayty_icon.png';
+import ImagePreviewsContainer from './ImagePreviewsContainer'
+import styled from 'styled-components'
+import _ from 'lodash'
+import MyProgressBar from './MyProgressBar'
 
 class MyAccount extends Component {
+  constructor(){
+    super();
+  }
 
-  constructor(props) {
-    super(props);
-    this.profId = this.props.match.params.id;
-
-    this.state = {
-      profile: {},
-      loading: true,
-      errorHandling: {
-        showError: false,
-        errorMsg: "error"
-      },
-      uploadProgress: {
-        show: false,
-        percentage: 0
-      },
-      submitStatus: {
-        showSubmitModal: false,
-        submitSuccessful: false,
-        errorMsg: ''
-      }
-    };
+  componentWillMount(){
 
   }
 
-  componentWillMount() {
-    FirebaseServices.getProfessionalUserBusinessId(this.props.currentUser.uid,
-      (businessId) => {
-        if (businessId === '') {
-          this.setState({ errorHandling: { showError: true, errorMsg: {message:'خطأ داخلي: لم يتم العثور على الشركة '} } });
-        } else {
-          this.bussRef = base.syncState(`${FirebaseServices.BUSINESSES_PATH}/${businessId}`, {
-            context: this,
-            state: "profile",
-            then(data) {
-              this.setState({ loading: false });
-            },
-            onFailure(error) {
-              this.setState({ errorHandling: { showError: true, errorMsg: error } });
-            }
-          })
-        }//else
-    }, (error) => {
-      this.setState({ errorHandling: { showError: true, errorMsg: error } });
-    });
+  componentWillUnmount(){
+
   }
 
-  componentWillUnmount() {
-    this.bussRef && base.removeBinding(this.bussRef);
-  }
-
-  render() {
+  render(){
     return (
       <div>
-        <MyAccountInfo />
-        <ProductList thisUserOnly={true} currentUser={props.currentUser}/>
-        <IdeasList />
-      </div>
-    );
+       <ProfileInfo currentUser={this.props.currentUser}/>
+       <ProductList thisUserOnly={true} shortList={true} currentUser={this.props.currentUser}/>
+       <IdeaList thisUserOnly={true} shortList={true} currentUser={this.props.currentUser}/>
+     </div>
+  );
   }
 }
-
 
 export default MyAccount;

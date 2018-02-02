@@ -42,7 +42,7 @@ class Header extends Component {
                 <NavItem ><GoSignIn className="icons"/>تسجيل دخول</NavItem>
               </LinkContainer>
               <LinkContainer to="/register" activeClassName="active">
-                <NavItem ><TiUserAddOutline className="icons"/>تسجيل مستخدم تجاري</NavItem>
+                <NavItem ><TiUserAddOutline className="icons"/> مستخدم جديد</NavItem>
               </LinkContainer>
             </Nav>
 
@@ -51,10 +51,6 @@ class Header extends Component {
             <div>
               <Nav  >
 
-              <LinkContainer to="/account">
-                <NavItem ><MdAddToPhotos className="icons"/>account  </NavItem>
-              </LinkContainer>
-              
               <LinkContainer to="/myproducts">
                 <NavItem  href="#"> <MdEventSeat className="icons"/>
                   استعراض منتجاتي
@@ -64,7 +60,7 @@ class Header extends Component {
                 <LinkContainer to="/newproduct">
                   <NavItem ><MdAddToPhotos className="icons"/>اضافة منتج جديد  </NavItem>
                 </LinkContainer>
-                <LinkContainer to="/myprofprofile">
+                <LinkContainer to="/myprofile">
                   <NavItem ><MdAddToPhotos className="icons"/>حسابي  </NavItem>
                 </LinkContainer>
               </Nav>
