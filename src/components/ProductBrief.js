@@ -28,7 +28,7 @@ const MyThumbnailDiv = styled.div`
 `
 // .mythumbnail .caption {
   // padding: 0px;
-  // color: #888; 
+  // color: #888;
   // }
 
 const PreviewImg = styled.img`
@@ -77,7 +77,7 @@ class ProductBrief extends Component {
                     ? product.images[0].large
                     : "http://via.placeholder.com/243x243"
                 }
-                                
+
               />
               {/* <img   src="http://via.placeholder.com/243x243" */}
             </Link>
@@ -85,7 +85,7 @@ class ProductBrief extends Component {
           </ImageContainer>
 
           <PaddingDiv>
-           
+
           <Col xs ={5} md={5}>
               <h5>{product.price} ر.س</h5>
              </Col>
@@ -96,7 +96,6 @@ class ProductBrief extends Component {
             </Link>
             <hr/>
             <p className="flex-text text-muted">{product.desc}</p>
-            
           </PaddingDiv>
         </MyThumbnailDiv>
       </Col>

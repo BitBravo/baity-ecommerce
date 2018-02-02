@@ -66,7 +66,7 @@ class IdeaList extends Component{
   }
 
   componentWillUnmount() {
-    this.ideasRef && base.removeBinding(this.ideaqsRef);
+    this.ideasRef && base.removeBinding(this.ideasRef);
   }
 
   render() {

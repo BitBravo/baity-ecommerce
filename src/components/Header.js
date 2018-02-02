@@ -57,7 +57,7 @@ class Header extends Component {
               <LinkContainer to="/logout">
                 <NavItem ><GoSignOut className="icons"/>تسجيل خروج</NavItem>
               </LinkContainer>
-              <LinkContainer to="/myprofprofile" >
+              <LinkContainer to="/myprofile" >
                     <NavItem ><MdPersonOutline className="icons"/>حسابي</NavItem>
                   </LinkContainer>
                   {/* <NavItem><MdAddShoppingCart className="icons"/></NavItem> */}
@@ -77,7 +77,7 @@ class Header extends Component {
             <LinkContainer to="/productspage" activeClassName="active">
               <NavItem> <MdEventSeat className="icons"/>المنتجات</NavItem>
             </LinkContainer>
-            <LinkContainer to="/products" activeClassName="active">
+            <LinkContainer to="/ideaspage" activeClassName="active">
               <NavItem> <MdEventSeat className="icons"/>الأفكار</NavItem>
             </LinkContainer>
             </Nav>

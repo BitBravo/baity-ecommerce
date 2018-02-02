@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Home from "./Home";
 import ProductsPage from"./ProductsPage";
+import IdeasPage from"./IdeasPage";
 import Login from "./Login";
 import Register from "./Register";
 import RegisterNormal from "./RegisterNormal";
@@ -116,6 +117,7 @@ class Main extends Component {
               return <Logout  {...props} />;
             }}
           />
+          
           <AuthenticatedRoute
             exact
             path="/newproduct"
@@ -162,13 +164,7 @@ class Main extends Component {
             component={ProfForm}
             currentUser={this.props.currentUser}
           /> */}
-          <AuthenticatedRoute
-            exact
-            path="/products/:id"
-            authenticated={this.props.authenticated}
-            component={ProductDetails}
-            currentUser={this.props.currentUser}
-          />
+
           <AuthenticatedRoute
             exact
             path="/products/:id/updateProduct"
@@ -190,14 +186,24 @@ class Main extends Component {
            render={props => {
              return (
                <ProductsPage
-                 currentUser={this.props.currentUser}
-                 {...props}
                />
 
              );
            }}
           />
-          
+
+          <Route
+           exact
+           path="/ideaspage"
+           render={props => {
+             return (
+               <IdeasPage
+               />
+
+             );
+           }}
+          />
+
           <AuthenticatedRoute
           exact
            path="/ideas/:id"
