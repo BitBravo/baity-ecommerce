@@ -102,22 +102,21 @@ hr {
 
 .navbar-toggle { 
     float: left !important;
-    
     margin: 0;
      height: 50px; 
      width: 50px; 
      background:white; 
      border-radius: 0;
      z-index: 1;
-     
     }
+
 .navbar-toggle .icon-bar { width: 28px; background: #fff;transition: 1.0s ease;}
-.navbar-toggle.collapsed .icon-bar:nth-child(2){transform: rotate(0)translateY(0)translateX(0);}
-.navbar-toggle.collapsed .icon-bar:nth-child(3){opacity:1}
-.navbar-toggle.collapsed .icon-bar:nth-child(4){transform:rotate(0)translateY(0)translateX(0);}
-.navbar-toggle .icon-bar:nth-child(2){transform: rotate(-45deg)translateY(5px)translateX(-5px);}
-.navbar-toggle .icon-bar:nth-child(3){opacity: 0}
-.navbar-toggle .icon-bar:nth-child(4){transform:rotate(45deg)translateY(-4px)translateX(-3px);}
+.navbar-toggle.collapsed .icon-bar:nth-child(2){transform: rotate(0)translateY(0)translateX(0);background-color: rgb(26, 156, 142)}
+.navbar-toggle.collapsed .icon-bar:nth-child(3){opacity:1;background-color: rgb(26, 156, 142)}
+.navbar-toggle.collapsed .icon-bar:nth-child(4){transform:rotate(0)translateY(0)translateX(0);background-color: rgb(26, 156, 142)}
+.navbar-toggle .icon-bar:nth-child(2){transform: rotate(-45deg)translateY(5px)translateX(-5px);background-color: rgb(26, 156, 142)}
+.navbar-toggle .icon-bar:nth-child(3){opacity: 0;background-color: rgb(26, 156, 142)}
+.navbar-toggle .icon-bar:nth-child(4){transform:rotate(45deg)translateY(-4px)translateX(-3px);background-color: rgb(26, 156, 142)}
  
 .navbar .nav {
     float: right;
@@ -125,13 +124,12 @@ hr {
    padding: 0;
   
 }
-
+ 
 .navbar-brand {
     width: 70px;
     height: auto;
     margin-top: -5px;
     margin-bottom: -10px;
-    display: inline-block;
     float: none;
 }
 
@@ -306,9 +304,10 @@ margin-bottom: 10px;
         @media only screen and (max-width: 767px) {
            
             .navbar{
-                position: absolute;
+                
                 height: auto;
                border-radius: 5px;
+               
             }
               .navbar .nav{
                   float: right;
@@ -316,12 +315,12 @@ margin-bottom: 10px;
                 margin: 0;
                 list-style: none;
                 width: 70%;
+                
               } 
+              
               .nav-item{
                float: right;
                 text-decoration: right;
-            
-               
                 -webkit-transition:  background 0.3s ease-in-out;
                 -moz-transition:  background 0.3s ease-in-out;
                 -ms-transition:  background 0.3s ease-in-out;
@@ -343,7 +342,9 @@ margin-bottom: 10px;
                 font-weight: bold;
                 margin: 0;
                 padding: 0;
+                
               } 
+             
             }
 
 

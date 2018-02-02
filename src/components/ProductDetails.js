@@ -184,7 +184,7 @@ class ProductDetails extends Component {
             <FaArrowCircleLeft size={40}  onClick={this.prevImage.bind(this)}/>
             </div>
           </Col>
-          <Col lg={8} style={{display:"block", margin:"auto"}}>
+          {/* <Col lg={8} style={{display:"block", margin:"auto"}}>
           <div>
              <h2 style={{color:'rgb(26,156,142)'}}> أصناف ذات صلة</h2>
              
@@ -218,7 +218,7 @@ class ProductDetails extends Component {
           </PaddingDiv>
         </MyThumbnailDiv>
       </Col>
-      </div> </Col> 
+      </div> </Col>  */}
             </Row>
      
     );

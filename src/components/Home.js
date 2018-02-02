@@ -10,9 +10,15 @@ import styled from 'styled-components'
 
 const Button = styled.button`
  width:30%;
- hieght:60px;
+ height:60px;
 margin-top:30px;
 font-size: 30px;
+@media only screen and (max-width: 767px) {
+  width:45%;
+  height:40px;
+  font-size: 25px;
+  margin-top:20px;
+}
  `
 const Home = () => (
   <div>

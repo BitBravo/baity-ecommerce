@@ -11,36 +11,38 @@ import styled from 'styled-components'
 
 
  const Input = styled.input`
- width:100%;
- max-width:600px;
+ width:400px;
  margin-bottom:0;
+ @media only screen and (max-width: 767px) {
+  width:200px;
+}
  `
 
 class Header extends Component {
   render() {
     return (
       
-      <Navbar fixedTop  > 
+      <Navbar fixedTop collapseOnSelect > 
         <Navbar.Header  >
         <Navbar.Toggle /> 
-         <Nav>
-          <NavbarBrand>
-          <img src={bayty_icon} />
+          
+           <NavbarBrand>
+         <IndexLinkContainer to="/" >
+          <img src={bayty_icon} /> 
+          </IndexLinkContainer>
           </NavbarBrand>
          
-          <NavItem> 
+        </Navbar.Header>
+        
+        <Navbar.Collapse>
+        <Nav>
+        <NavItem > 
           <div className="inner-addon right-addon">
           <i className="glyphicon glyphicon-search"></i>
               <Input  id="inputEmail"  className="form-control" type="text"  placeholder="بحث عن منتجات أفكار ...."></Input>
               </div>
               </NavItem>
-              </Nav>  
-        </Navbar.Header>
-       
-        <Navbar.Collapse>
-        <Nav  bsStyle="tabs"
-          justified >
-        {!this.props.authenticated ? (
+              {!this.props.authenticated ? (
             
             <Nav pullLeft >
               <LinkContainer to="/login" activeClassName="active">
@@ -62,6 +64,10 @@ class Header extends Component {
                 {/* <NavItem><MdAddShoppingCart className="icons"/></NavItem> */}
           </Nav>
       )}
+              </Nav>  
+        <Nav  bsStyle="tabs"
+          justified >
+       
         
             <IndexLinkContainer to="/" activeClassName="active">
               <NavItem> <GoHome className="icons"/>الصفحة الرئيسية</NavItem>

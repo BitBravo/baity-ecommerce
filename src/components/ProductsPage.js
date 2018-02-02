@@ -19,6 +19,10 @@ width:100%;
 height:60px;
 border-radius: 0;
 -webkit-appearance: none;
+@media only screen and (max-width: 767px) {
+  font-size:15px;
+}
+
 `
 
 const PaddingDiv = styled.div`
@@ -26,6 +30,12 @@ const PaddingDiv = styled.div`
   padding-top: 20px;
   padding-left: 0;
   padding-bottom: 0;
+  @media only screen and (max-width: 767px) {
+    display:inline-block;
+    width:20%;
+    font-size:10px;
+    padding-left: 5px;
+    padding-bottom: 10px;}
 `;
 
 class ProductsPage extends Component {
@@ -37,7 +47,7 @@ class ProductsPage extends Component {
       <Grid>
      <Row style={{display: 'flex', flexWrap: 'wrap'}}>
 
-        <Col lg={4}  >
+        <Col sm={4} xs={12}  >
         {/* <ButtonToolbar >
     <DropdownButton
 
@@ -56,7 +66,7 @@ class ProductsPage extends Component {
   */}
  <PaddingDiv>
  <div className="inner-addon left-addon">
-          <i className="glyphicon glyphicon-plus white" style={{padding:'20px'}} ></i>
+          <i className="glyphicon glyphicon-plus white" style={{padding:'5px'}} ></i>
   <Select name="selectThis" id="selectThis">
                     <option value="">التصنيف</option>
                     <option value=".option1">Option 1</option>
@@ -115,7 +125,7 @@ class ProductsPage extends Component {
                 </div>
                 </PaddingDiv>
    </Col>
-   <Col lg={8}>
+   <Col sm={8} xs={12} >
       
       <div>
   <Carousel >
