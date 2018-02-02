@@ -26,45 +26,47 @@ class Header extends Component {
         <Navbar.Header  >
         <Navbar.Toggle />
 
+        <Nav>
            <NavbarBrand>
          <IndexLinkContainer to="/" >
           <img src={bayty_icon} />
           </IndexLinkContainer>
           </NavbarBrand>
 
+          <NavItem >
+            <div className="inner-addon right-addon">
+            <i className="glyphicon glyphicon-search"></i>
+                <Input  id="inputEmail"  className="form-control" type="text"  placeholder="بحث عن منتجات أفكار ...."></Input>
+                </div>
+                </NavItem>
+        </Nav>
+
+                {!this.props.authenticated ? (
+
+              <Nav pullLeft >
+                <LinkContainer to="/login" activeClassName="active">
+                  <NavItem><GoSignIn className="icons"/>تسجيل دخول</NavItem>
+                </LinkContainer>
+                { <LinkContainer to="/registration" activeClassName="active">
+                  <NavItem ><TiUserAddOutline className="icons"/>تسجيل</NavItem>
+                </LinkContainer> }
+              </Nav>
+
+            ) : (
+              <Nav pullLeft  >
+              <LinkContainer to="/logout">
+                <NavItem ><GoSignOut className="icons"/>تسجيل خروج</NavItem>
+              </LinkContainer>
+              <LinkContainer to="/myprofprofile" >
+                    <NavItem ><MdPersonOutline className="icons"/>حسابي</NavItem>
+                  </LinkContainer>
+                  {/* <NavItem><MdAddShoppingCart className="icons"/></NavItem> */}
+            </Nav>
+        )}
         </Navbar.Header>
 
         <Navbar.Collapse>
-        <Nav>
-        <NavItem >
-          <div className="inner-addon right-addon">
-          <i className="glyphicon glyphicon-search"></i>
-              <Input  id="inputEmail"  className="form-control" type="text"  placeholder="بحث عن منتجات أفكار ...."></Input>
-              </div>
-              </NavItem>
-              {!this.props.authenticated ? (
 
-            <Nav pullLeft >
-              <LinkContainer to="/login" activeClassName="active">
-                <NavItem><GoSignIn className="icons"/>تسجيل دخول</NavItem>
-              </LinkContainer>
-              { <LinkContainer to="/registration" activeClassName="active">
-                <NavItem ><TiUserAddOutline className="icons"/>تسجيل</NavItem>
-              </LinkContainer> }
-            </Nav>
-
-          ) : (
-            <Nav pullLeft  >
-            <LinkContainer to="/logout">
-              <NavItem ><GoSignOut className="icons"/>تسجيل خروج</NavItem>
-            </LinkContainer>
-            <LinkContainer to="/myprofprofile" >
-                  <NavItem ><MdPersonOutline className="icons"/>حسابي</NavItem>
-                </LinkContainer>
-                {/* <NavItem><MdAddShoppingCart className="icons"/></NavItem> */}
-          </Nav>
-      )}
-              </Nav>
         <Nav  bsStyle="tabs"
           justified >
 
