@@ -11,6 +11,7 @@ const PaddingDiv = styled.div`
   padding-top: 5px;
   padding-left: 5px;
   padding-bottom: 5px;
+  height: 105px;
 `
 
 const MyThumbnailDiv = styled.div`
@@ -95,7 +96,12 @@ class ProductBrief extends Component {
              </Col>
             </Link>
             <hr/>
-            <p className="flex-text text-muted">{product.desc}</p>
+            <p className="flex-text text-muted">{product.desc.substring(0,90)}
+              <Link style={{display: 'inline'}} to={`/products/${product.id}`}>
+              ... المزيد
+              </Link>
+            </p>
+            
             
           </PaddingDiv>
         </MyThumbnailDiv>
