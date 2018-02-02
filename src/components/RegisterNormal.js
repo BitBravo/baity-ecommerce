@@ -345,25 +345,26 @@ class RegisterNormal extends Component {
     return (
       <div className="loginreg">
 
-        <form onSubmit={event => this.authWithEmailPassword(event)}
-          ref={form => { this.registerForm = form; }}  >
-           <img src={bayty_icon}/>
-        <div className="loginregtitle">
-          <h3 >تسجيل حساب عادي</h3>
-          </div>
-          {loading ? (
-            <Loading />
-          ) : (
-            <Collapse in={this.state.formStatusAlert.alert}>
-              <Alert bsStyle={this.state.formStatusAlert.type}>
-                {this.state.formStatusAlert.alertMsg
-                  .split(",")
-                  .filter(msg => msg.length > 0)
-                  .map(msg => <div key={msg}>- {msg}</div>)}
-              </Alert>
-            </Collapse>
-          )}
-          <Row>
+      <form onSubmit={event => this.authWithEmailPassword(event)}
+        ref={form => { this.registerForm = form; }}  >
+
+      <div className="loginregtitle">
+      <img className="img-responsive" src={bayty_icon}/>
+        <h2 style={{color:'rgb(26,156,142)'}} >التسجيل </h2>
+        </div>
+        {loading ? (
+          <Loading />
+        ) : (
+          <Collapse in={this.state.formStatusAlert.alert}>
+            <Alert bsStyle={this.state.formStatusAlert.type}>
+              {this.state.formStatusAlert.alertMsg
+                .split(",")
+                .filter(msg => msg.length > 0)
+                .map(msg => <div key={msg}>- {msg}</div>)}
+            </Alert>
+          </Collapse>
+        )}
+        <Row>
 
 
 
