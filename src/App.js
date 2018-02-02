@@ -14,7 +14,7 @@ import "./App.css";
 // const createElement = (Component, props) =>
 // <Component key={props.params.id} {...props}/>;
 
-// The webapp contains Header then Main then Footer. 
+// The webapp contains Header then Main then Footer.
 // Main will render Home when we choose the root '/' path.
 class App extends Component {
   constructor(props) {
@@ -22,18 +22,21 @@ class App extends Component {
     console.log(`${this.constructor.name}.constructor`);
     this.state = {
       authenticated: false,
-      currentUser: null
+      currentUser: null,
+      group: null
     }
     this.setCurrentUser = this.setCurrentUser.bind(this);
   }
 
-  // For more info on user management in firebase see: 
+  // For more info on user management in firebase see:
   // (https://firebase.google.com/docs/auth/web/manage-users)
   setCurrentUser(user) {
     if (user) {
+    //  FirebaseServices.readDBRecord('group', user.uid)
       this.setState({
         currentUser: user,
-        authenticated: true
+        authenticated: true,
+        group: 'prof'
       })
 
       /*
@@ -88,7 +91,7 @@ class App extends Component {
     console.log('nextProps')
     console.log(nextProps)
   }
-  
+
   componentWillUpdate(){
     console.log(`${this.constructor.name}.componentWillUpdate`);
   }

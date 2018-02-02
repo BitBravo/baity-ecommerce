@@ -4,10 +4,16 @@ import Home from "./Home";
 import ProductsPage from"./ProductsPage";
 import Login from "./Login";
 import Register from "./Register";
+import RegisterNormal from "./RegisterNormal";
+import UserTypeSelector from "./UserTypeSelector";
 import Logout from "./Logout";
 import ProductDetails from "./ProductDetails";
 import ProductUpdater from "./ProductUpdater";
 import MyProductList from './MyProductList';
+import IdeaDetails from "./IdeaDetails";
+import IdeaUpdater from "./IdeaUpdater";
+import MyIdeaList from './MyIdeaList';
+import MyAccount from "./MyAccount";
 import ProfProfileUpdater from './ProfProfileUpdater'
 import Registration from "./Registration";
 
@@ -55,7 +61,7 @@ class Main extends Component {
     console.log(`${this.constructor.name}.render`);
     //console.log("current user in Main")
     //console.log(this.props.currentUser)
-    
+
     return (
       <main>
         <Switch>
@@ -71,10 +77,32 @@ class Main extends Component {
           />
           <Route
             exact
-            path="/register"
+            path="/registration"
+            render={props => {
+              return (
+                <Registration
+                />
+              );
+            }}
+          />
+          <Route
+            exact
+            path="/registerProf"
             render={props => {
               return (
                 <Register
+                  currentUser={this.props.currentUser}
+                  {...props}
+                />
+              );
+            }}
+          />
+          <Route
+            exact
+            path="/registerNormal"
+            render={props => {
+              return (
+                <RegisterNormal
                   currentUser={this.props.currentUser}
                   {...props}
                 />
@@ -91,17 +119,24 @@ class Main extends Component {
           <AuthenticatedRoute
             exact
             path="/newproduct"
-            authenticated={this.props.authenticated}    
-            component={ProductUpdater}     
-            currentUser={this.props.currentUser}   
+            authenticated={this.props.authenticated}
+            component={ProductUpdater}
+            currentUser={this.props.currentUser}
+          />
+          <AuthenticatedRoute
+            exact
+            path="/newidea"
+            authenticated={this.props.authenticated}
+            component={IdeaUpdater}
+            currentUser={this.props.currentUser}
           />
           {/* <AuthenticatedRoute
             exact
             path="/myprofprofile"
-            authenticated={this.props.authenticated}    
-            component={ProfProfileUpdater}     
-            currentUser={this.props.currentUser}   
-            
+            authenticated={this.props.authenticated}
+            component={ProfProfileUpdater}
+            currentUser={this.props.currentUser}
+
           /> */}
 
           <Route
@@ -123,9 +158,9 @@ class Main extends Component {
           {/* <AuthenticatedRoute
             exact
             path="/myprofile"
-            authenticated={this.props.authenticated}    
-            component={ProfForm}     
-            currentUser={this.props.currentUser}   
+            authenticated={this.props.authenticated}
+            component={ProfForm}
+            currentUser={this.props.currentUser}
           /> */}
           <AuthenticatedRoute
             exact
@@ -148,31 +183,50 @@ class Main extends Component {
             component={MyProductList}
             currentUser={this.props.currentUser}
           />
-           <Route
-            exact
-            path="/productspage"
-            render={props => {
-              return (
-                <ProductsPage
-                  currentUser={this.props.currentUser}
-                  {...props}
-                />
-               
-              );
-            }}
+
+          <Route
+           exact
+           path="/productspage"
+           render={props => {
+             return (
+               <ProductsPage
+                 currentUser={this.props.currentUser}
+                 {...props}
+               />
+
+             );
+           }}
           />
-           <Route
+          
+          <AuthenticatedRoute
+          exact
+           path="/ideas/:id"
+           authenticated={this.props.authenticated}
+           component={IdeaDetails}
+            currentUser={this.props.currentUser}
+           />
+           <AuthenticatedRoute
+           exact
+            path="/ideas/:id/updateIdea"
+            authenticated={this.props.authenticated}
+            component={IdeaUpdater}
+             currentUser={this.props.currentUser}
+            />
+            <AuthenticatedRoute
             exact
-            path="/registration"
-            render={props => {
-              return (
-                <Registration
-                  currentUser={this.props.currentUser}
-                  {...props}
-                />
-              );
-            }}
-          />
+             path="/myideas"
+             authenticated={this.props.authenticated}
+             component={MyIdeaList}
+              currentUser={this.props.currentUser}
+             />
+             <AuthenticatedRoute
+             exact
+              path="/myprofile"
+              authenticated={this.props.authenticated}
+              component={MyAccount}
+               currentUser={this.props.currentUser}
+              />
+
         </Switch>
       </main>
     );
