@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { DropdownButton,MenuItem ,Col,Row,ButtonToolbar,Nav,NavDropdown,Button,Image,Carousel,Grid} from "react-bootstrap";
+import { DropdownButton,MenuItem ,Col,Row,ButtonToolbar,Nav,NavDropdown,Button,Image,Carousel,Grid,Collapse} from "react-bootstrap";
 import ProductList from './ProductList';
 import styled from 'styled-components'
 import traditionalkitchen from '../assets/img/traditionalkitchen.jpg';
@@ -46,7 +46,7 @@ class ProductsPage extends Component {
   <div>
       <Grid>
      <Row style={{display: 'flex', flexWrap: 'wrap'}}>
-
+     
         <Col sm={4} xs={12}  >
         {/* <ButtonToolbar >
     <DropdownButton
@@ -63,10 +63,11 @@ class ProductsPage extends Component {
       <MenuItem eventKey="4">Separated link</MenuItem>
     </DropdownButton>
   </ButtonToolbar>
-  */}
+  */} 
  <PaddingDiv>
+  
  <div className="inner-addon left-addon">
-          <i className="glyphicon glyphicon-plus white" style={{padding:'5px'}} ></i>
+          <i className="glyphicon glyphicon-plus white" style={{padding:'20px 0 10px 10px'}} ></i>
   <Select name="selectThis" id="selectThis">
                     <option value="">التصنيف</option>
                     <option value=".option1">Option 1</option>
@@ -114,7 +115,7 @@ class ProductsPage extends Component {
                 </PaddingDiv>
                 <PaddingDiv>
                 <div className="inner-addon left-addon">
-          <i className="glyphicon glyphicon-plus white" style={{padding:'20px'}} ></i>
+          <i className="glyphicon glyphicon-plus white" style={{padding:'20px 0 20px 2px'}} ></i>
                 <Select name="selectThis" id="selectThis">
                     <option value="">الطراز</option>
                     <option value=".option1">Option 1</option>
@@ -125,6 +126,7 @@ class ProductsPage extends Component {
                 </div>
                 </PaddingDiv>
    </Col>
+  
    <Col sm={8} xs={12} >
       
       <div>

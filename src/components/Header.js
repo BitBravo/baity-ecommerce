@@ -15,6 +15,7 @@ import styled from 'styled-components'
  margin-bottom:0;
  @media only screen and (max-width: 767px) {
   width:200px;
+ display: inline-block;
 }
  `
 
@@ -25,23 +26,19 @@ class Header extends Component {
       <Navbar fixedTop collapseOnSelect > 
         <Navbar.Header  >
         <Navbar.Toggle /> 
-          
+        <Nav>
            <NavbarBrand>
          <IndexLinkContainer to="/" >
           <img src={bayty_icon} /> 
           </IndexLinkContainer>
           </NavbarBrand>
-         
-        </Navbar.Header>
-        
-        <Navbar.Collapse>
-        <Nav>
+          
         <NavItem > 
           <div className="inner-addon right-addon">
           <i className="glyphicon glyphicon-search"></i>
               <Input  id="inputEmail"  className="form-control" type="text"  placeholder="بحث عن منتجات أفكار ...."></Input>
               </div>
-              </NavItem>
+              </NavItem></Nav> 
               {!this.props.authenticated ? (
             
             <Nav pullLeft >
@@ -64,12 +61,14 @@ class Header extends Component {
                 {/* <NavItem><MdAddShoppingCart className="icons"/></NavItem> */}
           </Nav>
       )}
-              </Nav>  
+               
+        </Navbar.Header>
+        
+        <Navbar.Collapse>
+    
         <Nav  bsStyle="tabs"
           justified >
-       
-        
-            <IndexLinkContainer to="/" activeClassName="active">
+        <IndexLinkContainer to="/" activeClassName="active">
               <NavItem> <GoHome className="icons"/>الصفحة الرئيسية</NavItem>
             </IndexLinkContainer>
             <LinkContainer to="/productspage" activeClassName="active">
