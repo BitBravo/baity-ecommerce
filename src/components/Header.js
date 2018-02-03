@@ -26,13 +26,13 @@ class Header extends Component {
         <Navbar.Header  >
         <Navbar.Toggle />
 
-        <Nav>
+        
            <NavbarBrand>
          <IndexLinkContainer to="/" >
           <img src={bayty_icon} />
           </IndexLinkContainer>
           </NavbarBrand>
-
+          <Nav>
           <NavItem >
             <div className="inner-addon right-addon">
             <i className="glyphicon glyphicon-search"></i>

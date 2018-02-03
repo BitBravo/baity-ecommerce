@@ -130,7 +130,7 @@ hr {
     height: auto;
     margin-top: -5px;
     margin-bottom: -10px;
-    float: none;
+    float: right;
 }
 
     .productdetails {
@@ -308,6 +308,12 @@ margin-bottom: 10px;
                 height: auto;
                border-radius: 5px;
                
+            }
+            .navbar-header{
+                display: flex;
+                flex-direction: row;
+               align-items: right;
+               width: 100%;
             }
               .navbar .nav{
                   float: right;
