@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import traditionalkitchen from '../assets/img/traditionalkitchen.jpg';
 import bedroom from '../assets/img/bedroom.jpg';
 import livingroom from '../assets/img/livingroom.jpg';
-import plus from '../assets/img/plus.png';
 
 
 const Select = styled.select`

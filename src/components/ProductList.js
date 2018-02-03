@@ -26,6 +26,23 @@ class ProductList extends Component {
 
   componentWillMount() {
     if (this.props.thisUserOnly){
+      if(this.props.shortList){
+    this.productsRef = base.syncState(FirebaseServices.PRODUCTS_PATH, {
+      context: this,
+      state: "products",
+      queries: {
+        orderByChild: 'owner',
+        limitToLast: 3,
+        equalTo: this.props.currentUser.uid
+      },
+      then(data) {
+      this.setState({loading: false})
+      },
+      onFailure(error) {
+      this.setState({errorHandling: {showError: true, errorMsg: error}});
+      }
+    });
+  } else {
     this.productsRef = base.syncState(FirebaseServices.PRODUCTS_PATH, {
       context: this,
       state: "products",
@@ -40,6 +57,7 @@ class ProductList extends Component {
       this.setState({errorHandling: {showError: true, errorMsg: error}});
       }
     });
+  }
   } else {
     this.productsRef = base.syncState(FirebaseServices.PRODUCTS_PATH, {
       context: this,
@@ -52,7 +70,7 @@ class ProductList extends Component {
       }
     });
   }
-    
+
   }
 
   componentWillUnmount() {
@@ -62,18 +80,25 @@ class ProductList extends Component {
   render() {
     const products = this.state.products;
     const productIds = Object.keys(products);
-    
 
-    
+
+
       if (this.state.loading)
       return(
        <Loading/>
       )
-    else 
+    else if (this.props.shortList){
       return (
-      
          <div style={{paddingTop: "30px"}}>
         <Grid>
+        <Row>
+          <Link to={`/myproducts`}>
+            <label>منتجاتي</label>
+          </Link>
+          <Link to={`/newproduct`}>
+            <button>إضافة منتج</button>
+          </Link>
+        </Row>
           <Row style={{display: 'flex', flexWrap: 'wrap'}}>
             {productIds.map(id => {
               const product = products[id];
@@ -82,9 +107,21 @@ class ProductList extends Component {
           </Row>
         </Grid>
       </div>
-    
-      
     );
+  } else {
+    return (
+       <div style={{paddingTop: "30px"}}>
+      <Grid>
+        <Row style={{display: 'flex', flexWrap: 'wrap'}}>
+          {productIds.map(id => {
+            const product = products[id];
+            return <ProductBrief key={id} product={product} />;
+          })}
+        </Row>
+      </Grid>
+    </div>
+  );
+  }
   }
 }
 

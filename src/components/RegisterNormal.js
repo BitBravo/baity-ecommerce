@@ -21,13 +21,9 @@ import Loading from "./Loading";
 import { app } from "../base";
 import FormUtils from './FormUtils'
 import bayty_icon from '../assets/img/bayty_icon1.png';
-import { LinkContainer } from "react-router-bootstrap";
-import styled from 'styled-components'
-
-
 
 /*
-This is the registration form for professional users.
+This is the registration form for normal users.
 It is uncontrolled react form.
 
 It uses firebase email/password authentication.
@@ -42,10 +38,10 @@ Here is how a firebase.auth().user object looks like:
   isAnonymous: false,
   providerData: [
     {
-      uid: "testpro6@baity.com",
+      uid: "testnormal6@baity.com",
       displayName: null,
       photoURL: null,
-      email: "testpro6@baity.com",
+      email: "testnormal6@baity.com",
       phoneNumber: null,
       providerId: "password"
     }
@@ -80,7 +76,7 @@ function FieldGroup({ id, label, help, validationState, firstTime, ...props }) {
   );
 }
 
-class Register extends Component {
+class RegisterNormal extends Component {
   constructor() {
     super();
     this.formValidationStatus = {
@@ -99,7 +95,7 @@ class Register extends Component {
         firstTime: true,
         errorMessage: ""
       },
-      coName: {
+      userName: {
         valid: false,
         firstTime: true,
         errorMessage: ""
@@ -167,9 +163,9 @@ class Register extends Component {
     formValidationStatus.email.valid = true;
     formValidationStatus.email.firstTime = false;
     formValidationStatus.email.errorMessage = "";
-    formValidationStatus.coName.valid = true;
-    formValidationStatus.coName.firstTime = false;
-    formValidationStatus.coName.errorMessage = "";
+    formValidationStatus.userName.valid = true;
+    formValidationStatus.userName.firstTime = false;
+    formValidationStatus.userName.errorMessage = "";
     formValidationStatus.phoneNo.valid = true;
     formValidationStatus.phoneNo.firstTime = false;
     formValidationStatus.phoneNo.errorMessage = "";
@@ -179,7 +175,7 @@ class Register extends Component {
     email,
     password1,
     password2,
-    coName,
+    userName,
     phoneNo,
     formValidationStatus
   ) {
@@ -188,7 +184,7 @@ class Register extends Component {
       errorMessage: ""
     };
 
-    
+
     if (password1 !== password2) {
       formValidationStatus.password1.valid = formValidationStatus.password2.valid = false;
       formValidationStatus.password1.firstTime = formValidationStatus.password2.firstTime = false;
@@ -207,11 +203,11 @@ class Register extends Component {
       formValidationStatus.email.errorMessage =
         FormUtils.emailErrorMsg;
     }
-    if (!FormUtils.bussNameValid(coName)) {
-      formValidationStatus.coName.valid = false;
-      formValidationStatus.coName.firstTime = false;
-      formValidationStatus.coName.errorMessage =
-        FormUtils.bussNameErrorMsg;
+    if (!FormUtils.userNameValid(userName)) {
+      formValidationStatus.userName.valid = false;
+      formValidationStatus.userName.firstTime = false;
+      formValidationStatus.userName.errorMessage =
+        FormUtils.userNameErrorMsg;
     }
     if (!FormUtils.phoneNoValid(phoneNo)) {
       formValidationStatus.phoneNo.valid = false;
@@ -220,7 +216,7 @@ class Register extends Component {
     }
     validResult.valid =
       formValidationStatus.phoneNo.valid &&
-      formValidationStatus.coName.valid &&
+      formValidationStatus.userName.valid &&
       formValidationStatus.email.valid &&
       formValidationStatus.password1.valid &&
       formValidationStatus.password2.valid;
@@ -231,9 +227,9 @@ class Register extends Component {
   /*
   IMPORTANT: currently we first register a user then we add that user to the DB.
   There is a possibility that a user gets registered by adding him to the DB
-  fails. We do not currently handle such failure and do not know what are the 
+  fails. We do not currently handle such failure and do not know what are the
   implications.
-  For more info on user management in firebase see: 
+  For more info on user management in firebase see:
   (https://firebase.google.com/docs/auth/web/manage-users)
 */
 
@@ -243,7 +239,7 @@ class Register extends Component {
     const email = this.emailInput.value;
     const password = this.passwordInput.value;
     const password2 = this.password2Input.value;
-    const coName = this.coNameInput.value;
+    const userName = this.userNameInput.value;
     const phoneNo = this.parseArabic(this.phoneNoInput.value);
 
     //and assuming everything is valid
@@ -254,7 +250,7 @@ class Register extends Component {
       email,
       password,
       password2,
-      coName,
+      userName,
       phoneNo,
       formValidationStatus
     );
@@ -274,7 +270,7 @@ class Register extends Component {
               if (user && user.email) {
 
                   // add user to DB
-                  FirebaseServices.createProfUser(user, phoneNo, coName)
+                  FirebaseServices.createNormalUser(user, phoneNo, userName)
                   .then( () => {
                     this.registerForm.reset(); //this works only cause this is not controlled
 
@@ -287,9 +283,9 @@ class Register extends Component {
                     //User is registered into firebase.auth in DB but not in firebase.database 'users'/'group'
                     //This should be very rare and currently we just report an error without handling it
                     console.log('adding user to DB failed');
-                    this.setState({ loading: false}, () => 
+                    this.setState({ loading: false}, () =>
                         this.reportError("حدث خطأ داخلي في النظام" + " User is signed up but not added to DB. Here is firebase error: " + error.code + " " + error.message));
-                    
+
                   })
               }
             })
@@ -348,32 +344,32 @@ class Register extends Component {
     }
     return (
       <div className="loginreg">
-        
-        <form onSubmit={event => this.authWithEmailPassword(event)}
-          ref={form => { this.registerForm = form; }}  >
-          
-        <div className="loginregtitle">
-        <img className="img-responsive" src={bayty_icon}/>
-          <h2 style={{color:'rgb(26,156,142)'}} >التسجيل </h2>
-          </div>
-          {loading ? (
-            <Loading />
-          ) : (
-            <Collapse in={this.state.formStatusAlert.alert}>
-              <Alert bsStyle={this.state.formStatusAlert.type}>
-                {this.state.formStatusAlert.alertMsg
-                  .split(",")
-                  .filter(msg => msg.length > 0)
-                  .map(msg => <div key={msg}>- {msg}</div>)}
-              </Alert>
-            </Collapse>
-          )}
-          <Row>
 
-          
+      <form onSubmit={event => this.authWithEmailPassword(event)}
+        ref={form => { this.registerForm = form; }}  >
 
-          
-     <Col sm={12}  md={12} lg={12} >
+      <div className="loginregtitle">
+      <img className="img-responsive" src={bayty_icon}/>
+        <h2 style={{color:'rgb(26,156,142)'}} >التسجيل </h2>
+        </div>
+        {loading ? (
+          <Loading />
+        ) : (
+          <Collapse in={this.state.formStatusAlert.alert}>
+            <Alert bsStyle={this.state.formStatusAlert.type}>
+              {this.state.formStatusAlert.alertMsg
+                .split(",")
+                .filter(msg => msg.length > 0)
+                .map(msg => <div key={msg}>- {msg}</div>)}
+            </Alert>
+          </Collapse>
+        )}
+        <Row>
+
+
+
+
+     <Col sm={6}  md={6} lg={6} className={"col-lg-push-6; col-sm-push-6"}>
           <FieldGroup
             id="inputEmail"
             type="text"
@@ -395,32 +391,32 @@ class Register extends Component {
             )}
           />
           </Col>
-          <Col sm={12}  md={12} lg={12}>
+          <Col sm={6}  md={6} lg={6} className={"col-lg-pull-6; col-sm-pull-6"}>
           <FieldGroup
-            id="inputCoName"
+            id="inputUserName"
             type="text"
-            label="اسم المؤسسة أو الشركة"
-            placeholder="اسم المؤسسة أو الشركة"
+            label="الاسم"
+            placeholder="الاسم"
             inputRef={input => {
-              this.coNameInput = input;
+              this.userNameInput = input;
             }}
-            name="coName"
+            name="userName"
             help={
-              this.state.formValidationStatus.coName.firstTime ||
-              this.state.formValidationStatus.coName.valid
+              this.state.formValidationStatus.userName.firstTime ||
+              this.state.formValidationStatus.userName.valid
                 ? null
-                : this.state.formValidationStatus.coName.errorMessage
+                : this.state.formValidationStatus.userName.errorMessage
             }
             validationState={this.validationState(
-              this.state.formValidationStatus.coName.firstTime,
-              this.state.formValidationStatus.coName.valid
+              this.state.formValidationStatus.userName.firstTime,
+              this.state.formValidationStatus.userName.valid
             )}
           />
  </Col>
           </Row>
-        <Row>  
-     
-         <Col  sm={12}  md={12} lg={12}>
+        <Row>
+
+         <Col  sm={6} md={6} lg={6} className={"col-lg-push-6; col-sm-push-6"}>
           <FieldGroup
             id="inputPassword"
             type="password"
@@ -442,7 +438,7 @@ class Register extends Component {
             )}
           />
 </Col>
-<Col sm={12}  md={12} lg={12}>
+<Col sm={6}  md={6} lg={6} className={"col-lg-pull-6; col-sm-pull-6"}>
      <FieldGroup
             id="inputPassword2"
             type="password"
@@ -465,9 +461,9 @@ class Register extends Component {
           />
           </Col>
 </Row>
-        
+
 <Row>
-<Col  sm={12}  md={12} lg={12}>
+<Col  sm={6} md={6} lg={6} className={"col-lg-push-6; col-sm-push-6"}>
           <FieldGroup  pullright
             id="inputPhoneNo"
             type="text"
@@ -493,15 +489,10 @@ class Register extends Component {
           <button type="submit" >
             تسجيل
           </button>
-          <LinkContainer to="/" activeClassName="active">
-          <button>
-            إلغاء
-          </button>
-          </LinkContainer>
         </form>
       </div>
     );
   }
 }
 
-export default Register;
+export default RegisterNormal;

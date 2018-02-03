@@ -91,46 +91,50 @@ hr {
     margin: 0;
     padding: 0;
 }
-
-.navbar-header{
-    float: none; 
+.navbar{
     width: 100%;
-    padding: 0;
-    margin: 0;
+    background-color:  rgb(247, 247, 247);
+}
+.navbar-header{
+    display: flex;
+    flex-direction: row;
+    float: right; 
+    width: 100%;
+   
+ background-color: rgb(247, 247, 247);
     
 }
 
-.navbar-toggle { 
-    float: left !important;
+.navbar-toggle {float: left;
     margin: 0;
      height: 50px; 
      width: 50px; 
-     background:white; 
-     border-radius: 0;
+     background:rgb(247, 247, 247); 
+     border: none;
      z-index: 1;
     }
 
-.navbar-toggle .icon-bar { width: 28px; background: #fff;transition: 1.0s ease;}
+.navbar-toggle .icon-bar { width: 28px; background-color: rgb(247, 247, 247);;transition: 1.0s ease; border-color: rgb(251, 251, 251);}
 .navbar-toggle.collapsed .icon-bar:nth-child(2){transform: rotate(0)translateY(0)translateX(0);background-color: rgb(26, 156, 142)}
 .navbar-toggle.collapsed .icon-bar:nth-child(3){opacity:1;background-color: rgb(26, 156, 142)}
 .navbar-toggle.collapsed .icon-bar:nth-child(4){transform:rotate(0)translateY(0)translateX(0);background-color: rgb(26, 156, 142)}
 .navbar-toggle .icon-bar:nth-child(2){transform: rotate(-45deg)translateY(5px)translateX(-5px);background-color: rgb(26, 156, 142)}
 .navbar-toggle .icon-bar:nth-child(3){opacity: 0;background-color: rgb(26, 156, 142)}
 .navbar-toggle .icon-bar:nth-child(4){transform:rotate(45deg)translateY(-4px)translateX(-3px);background-color: rgb(26, 156, 142)}
- 
+
 .navbar .nav {
     float: right;
     text-align: center;
-   padding: 0;
-  
+    background-color: rgb(247, 247, 247);
 }
  
 .navbar-brand {
-    width: 70px;
-    height: auto;
-    margin-top: -5px;
-    margin-bottom: -10px;
-    float: none;
+    width: 100px;
+    height: 50px;
+    
+    padding:0 0 0 15px;
+    float: right;
+   
 }
 
     .productdetails {
@@ -276,9 +280,9 @@ margin-bottom: 10px;
             height: 50px;
          
         }
-        button:hover {
+        /* button:hover {
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        }
+        } */
        
         /* search icon */
         .inner-addon { 
@@ -302,21 +306,25 @@ margin-bottom: 10px;
 
     
         @media only screen and (max-width: 767px) {
-           
+        
             .navbar{
-              
-                height: auto;
-               border-radius: 5px;
-               
+              width: 100%;
             }
-              .navbar .nav{
-                position: absolute;
+            .navbar .nav{
+               
                   float: right;
                   text-align: right;
-                margin: 0;
+               
                 list-style: none;
-                width: 70%;
+                width: 100%;
               } 
+            .navbar-header{
+                display: flex;
+                flex-direction: row;
+               align-items: right;
+               width: 100%;
+            }
+              
               .nav-item{
                float: right;
                 text-decoration: right;
@@ -343,7 +351,9 @@ margin-bottom: 10px;
                 padding: 0;
                 
               } 
-             
+              .myfooter h3 {
+                font-size:20px;
+              }
             }
 
 

@@ -3,13 +3,14 @@
 
 
 body {
-  margin: 70px 0 0 0 ; 
+  margin: 69px 0 0 0 ; 
   padding:0 ;
-  background-color: #f4f4f4;
+  background-color: rgb(247, 247, 247);;
   padding-top: 50px;
   direction: rtl;
-  background: #F5F5F5;
+  background: rgb(247, 247, 247);;
   font-family: 'Cairo', sans-serif;
+  background-image: url('./assets/img/background.jpeg')
 
 }
 @media only screen and (max-width: 767px) {

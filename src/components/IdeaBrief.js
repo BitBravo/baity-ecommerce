@@ -11,7 +11,6 @@ const PaddingDiv = styled.div`
   padding-top: 5px;
   padding-left: 5px;
   padding-bottom: 5px;
-  height: 105px;
 `
 
 const MyThumbnailDiv = styled.div`
@@ -54,28 +53,27 @@ const ImageContainer = styled.div`
   padding-top: 100%;
   position: relative;
 `;
-class ProductBrief extends Component {
+class IdeaBrief extends Component {
   constructor() {
     super();
-    // this.updateproduct = this.updateproduct.bind(this);
     this.state = {
-      product: {}
+      idea: {}
     };
   }
 
   //src="http://via.placeholder.com/243x243"
   render() {
-    const product = this.props.product;
+    const idea = this.props.idea;
     return (
       <Col xs={12} md={4} sm={6} >
         <MyThumbnailDiv>
           <ImageContainer>
             <ImageDiv>
-            <Link to={`/products/${product.id}`}>
+            <Link to={`/ideas/${idea.id}`}>
               <PreviewImg
                 src={
-                  product.images
-                    ? product.images[0].large
+                  idea.images
+                    ? idea.images[0].large
                     : "http://via.placeholder.com/243x243"
                 }
 
@@ -86,21 +84,17 @@ class ProductBrief extends Component {
           </ImageContainer>
 
           <PaddingDiv>
-
-          <Col xs ={5} md={5}>
-              <h5>{product.price} ر.س</h5>
-             </Col>
-            <Link to={`/products/${product.id}`}>
-             <Col xs ={7} md={7}>
-              <h5> {product.name} </h5>
-             </Col>
-            </Link>
-            <hr/>
-            <p className="flex-text text-muted">{product.desc.substring(0,90)}
-              <Link style={{display: 'inline'}} to={`/products/${product.id}`}>
-              ... المزيد
-              </Link>
-            </p>
+            <Link to={`/ideas/${idea.id}`}>
+            <Col xs ={12} md={12}>
+              <h5> {idea.name} </h5>
+              </Col>
+             </Link>
+             <hr/>
+             <p className="flex-text text-muted">{idea.desc.substring(0,90)}
+               <Link style={{display: 'inline'}} to={`/ideas/${idea.id}`}>
+               ... المزيد
+               </Link>
+             </p>
           </PaddingDiv>
         </MyThumbnailDiv>
       </Col>
@@ -108,4 +102,4 @@ class ProductBrief extends Component {
   }
 }
 
-export default ProductBrief;
+export default IdeaBrief;

@@ -100,7 +100,7 @@ class ProductDetails extends Component {
   }
 
   render() {
- 
+
     const product = this.state.product;
 
     if (this.state.loading && !this.state.errorHandling.showError)
@@ -111,7 +111,7 @@ class ProductDetails extends Component {
         <Modal show={true} style={{ top:-100 }}>
           <Modal.Header>حدث خطأ غير معروف</Modal.Header>
           <Modal.Body>
-            
+
               <Alert bsStyle="danger">
                 {this.state.errorHandling.errorMsg.message}
               </Alert>
@@ -124,12 +124,12 @@ class ProductDetails extends Component {
     );
   if (!this.state.loading && !this.state.showError)
       return(
-        
-      
-        
-         
+
+
+
+
           <Row style={{display: 'flex', flexWrap: 'wrap'}} className="productdetails">
-        
+
             <Col  xs={12} sm={4} md={4} lg={3} >
             <PaddingDiv>
             <Col xs={5} sm={5} md={5} lg={5} >
@@ -156,21 +156,23 @@ class ProductDetails extends Component {
               <p >الارتفاع: {product.height} سم</p>
               <p >المصنع: {product.factory}</p>
               </PaddingDiv>
+
               <PaddingDiv>
             <p>
               {/* only product owner can update a product */}
               {this.props.currentUser.uid === this.state.product.owner
-              ?<Link to={`/products/${product.id}/updateProduct`}>
+               ?<Link to={`/products/${product.id}/updateProduct`}>
                 <button >
                   تحديث بيانات المنتج
                 </button>
               </Link>
               : null
-              }
+
+            }
             </p>
             </PaddingDiv>
             </Col>
-            
+
             <Col xs={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
               <div style={{marginTop: '30%'}}>
               <FaArrowCircleRight size={40}   onClick={this.nextImage.bind(this)}/>
@@ -187,7 +189,7 @@ class ProductDetails extends Component {
           {/* <Col lg={8} style={{display:"block", margin:"auto"}}>
           <div>
              <h2 style={{color:'rgb(26,156,142)'}}> أصناف ذات صلة</h2>
-             
+
               <Col xs={12} md={4} sm={6} >
         <MyThumbnailDiv>
           <ImageContainer>
@@ -203,7 +205,7 @@ class ProductDetails extends Component {
           </ImageContainer>
 
           <PaddingDiv>
-           
+
           <Col xs ={5} md={5}>
               <h5>{product.price} ر.س</h5>
              </Col>
@@ -214,13 +216,13 @@ class ProductDetails extends Component {
             </Link>
             <hr/>
             <p className="flex-text text-muted">{product.desc}</p>
-            
+
           </PaddingDiv>
         </MyThumbnailDiv>
       </Col>
       </div> </Col>  */}
             </Row>
-     
+
     );
   }
 }
