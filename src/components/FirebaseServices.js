@@ -196,7 +196,7 @@ export default {
     };
     var updates = {};
     updates[`${_NORMAL_PATH}/${user.uid}`] = userObj;
-    updates[`${_GROUPS_PATH}/${group}/${user.uid}`] = group;
+    updates[`${_GROUPS_PATH}/${user.uid}`] = group;
     // add user to database and to group simultaniously and atomically
     return this.root.update(updates);
   },

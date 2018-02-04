@@ -97,13 +97,17 @@ class IdeaDetails extends Component {
               <div>
             <p>
               {/* only idea owner can update a idea */}
-              {this.props.currentUser.uid === this.state.idea.owner
+              {
+                this.props.authenticated
+                ?this.props.currentUser.uid === this.state.idea.owner
               ?<Link to={`/ideas/${idea.id}/updateIdea`}>
                 <button >
                   تحديث بيانات الفكرة
                 </button>
               </Link>
+                : null
               : null
+
               }
             </p>
             </div>

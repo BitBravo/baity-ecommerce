@@ -4,6 +4,7 @@ import { app } from "./base"
 import Header from "./components/Header";
 import Main from "./components/Main";
 import Footer from "./components/Footer";
+import FirebaseServices from "./components/FirebaseServices";
 import "./App.css";
 
 // function createElement(Component, props) {
@@ -32,12 +33,12 @@ class App extends Component {
   // (https://firebase.google.com/docs/auth/web/manage-users)
   setCurrentUser(user) {
     if (user) {
-    //  FirebaseServices.readDBRecord('group', user.uid)
+      FirebaseServices.readDBRecord('group', user.uid).then( value =>
       this.setState({
         currentUser: user,
         authenticated: true,
-        group: 'prof'
-      })
+        group: value
+      }))
 
       /*
         // We can get the folloiwng information. See: (https://firebase.google.com/docs/auth/web/manage-users)
@@ -104,7 +105,7 @@ class App extends Component {
       <BrowserRouter>
         <div style={{ margin: "0 auto" }}>
           <Header authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>
-          <Main  authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>
+          <Main  authenticated={this.state.authenticated} currentUser={this.state.currentUser} group={this.state.group}/>
           <Footer authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>
         </div>
       </BrowserRouter>
