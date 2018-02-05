@@ -4,14 +4,14 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Nav, Navbar, NavItem, Button, NavbarBrand } from "react-bootstrap";
 import bayty_icon from '../assets/img/bayty_icon.png';
 import {GoSignIn,GoSignOut,GoHome} from 'react-icons/lib/go';
-import {MdPersonAdd,MdAddToPhotos,MdEventSeat,MdPersonOutline,MdAddShoppingCart} from 'react-icons/lib/md';
+import {MdPersonAdd,MdAddToPhotos,MdEventSeat,MdPersonOutline,MdAddShoppingCart,MdWeekend} from 'react-icons/lib/md';
 import {TiUserAddOutline} from 'react-icons/lib/ti';
 import { IndexLinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components'
 
 
  const Input = styled.input`
- width:380px;
+ width:500px;
  margin:0;
  padding:0;
  @media only screen and (max-width: 767px) {
@@ -46,21 +46,22 @@ class Header extends Component {
                 {!this.props.authenticated ? (
 
               <Nav pullLeft style={{ display: 'flex',flexDirection: 'row'}}>
-                <LinkContainer to="/login" activeClassName="active">
-                  <NavItem><GoSignIn className="icons"/><span className="hidden-xs">تسجيل دخول</span></NavItem>
+                <LinkContainer to="/login" activeClassName="active" >
+                  <NavItem><GoSignIn className="icons"/><span className="hidden-xs hidden-sm">تسجيل دخول</span></NavItem>
                 </LinkContainer>
                 { <LinkContainer to="/registration" activeClassName="active">
-                  <NavItem ><TiUserAddOutline className="icons"/><span className="hidden-xs">تسجيل</span></NavItem>
+                  <NavItem ><TiUserAddOutline className="icons"/><span className="hidden-xs hidden-sm">تسجيل</span></NavItem>
                 </LinkContainer> }
               </Nav>
 
             ) : (
-              <Nav pullLeft  style={{ display: 'flex',flexDirection: 'row' }}>
-              <LinkContainer to="/logout">
-                <NavItem><GoSignOut className="icons"/><span className="hidden-xs">تسجيل خروج</span></NavItem>
+              <Nav pullLeft 
+                style={{ display: 'flex',flexDirection: 'row' }}>
+              <LinkContainer to="/logout" activeClassName="active">
+                <NavItem><GoSignOut className="icons"/><span className="hidden-xs hidden-sm">تسجيل خروج</span></NavItem>
               </LinkContainer>
-              <LinkContainer to="/myprofile" >
-                    <NavItem ><MdPersonOutline className="icons"/><span className="hidden-xs">حسابي</span></NavItem>
+              <LinkContainer to="/myprofile" activeClassName="active">
+                    <NavItem ><MdPersonOutline className="icons"/><span className="hidden-xs hidden-sm">حسابي</span></NavItem>
                   </LinkContainer>
                   {/* <NavItem><MdAddShoppingCart className="icons"/></NavItem> */}
             </Nav>
@@ -79,7 +80,7 @@ class Header extends Component {
               <NavItem> <MdEventSeat className="icons"/>المنتجات</NavItem>
             </LinkContainer>
             <LinkContainer to="/ideaspage" activeClassName="active">
-              <NavItem> <MdEventSeat className="icons"/>الأفكار</NavItem>
+              <NavItem> <MdWeekend className="icons"/>الأفكار</NavItem>
             </LinkContainer>
             </Nav>
 

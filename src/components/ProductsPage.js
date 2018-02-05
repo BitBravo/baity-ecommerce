@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { DropdownButton,MenuItem ,Col,Row,ButtonToolbar,Nav,NavDropdown,Button,Image,Carousel,Grid,Collapse} from "react-bootstrap";
+import { DropdownButton,MenuItem ,Col,Row,ButtonToolbar,
+  NavDropdown,Button,Image,Carousel,Grid,Panel} from "react-bootstrap";
 import ProductList from './ProductList';
 import styled from 'styled-components'
 import traditionalkitchen from '../assets/img/traditionalkitchen.jpg';
@@ -8,33 +9,29 @@ import bedroom from '../assets/img/bedroom.jpg';
 import livingroom from '../assets/img/livingroom.jpg';
 
 
-const Select = styled.select`
-background-color: rgb(26, 156, 142);
-color:white;
-font-size:20px;
-padding-right:10px;
-border:0;
-width:100%;
-height:60px;
-border-radius: 0;
--webkit-appearance: none;
-@media only screen and (max-width: 767px) {
-  font-size:15px;
-}
+// const Select = styled.select`
+// background-color: rgb(26, 156, 142);
+// color:white;
+// font-size:20px;
+// padding-right:10px;
+// border:0;
+// width:100%;
+// height:60px;
+// border-radius: 0;
+// -webkit-appearance: none;
+// @media only screen and (max-width: 767px) {
+//   font-size:15px;
+// }
 
-`
+// `
 
 const PaddingDiv = styled.div`
-  padding-right: 0px;
-  padding-top: 20px;
-  padding-left: 0;
-  padding-bottom: 0;
+  padding:10px 0 0 0;
+
   @media only screen and (max-width: 767px) {
     display:inline-block;
-    width:20%;
-    font-size:10px;
-    padding-left: 5px;
-    padding-bottom: 10px;}
+    width:19%;
+   
 `;
 
 class ProductsPage extends Component {
@@ -46,89 +43,36 @@ class ProductsPage extends Component {
       <Grid>
      <Row style={{display: 'flex', flexWrap: 'wrap'}}>
      
-        <Col sm={4} xs={12}  >
-        {/* <ButtonToolbar >
-    <DropdownButton
-
-      bsStyle='background:rgb(26, 156, 142)'
-      bsSize='width:1000px'
-      title="التصنيف"
-      id="dropdown-size-large"
-    >  <span className="glyphicon glyphicon-search"></span>
-      <MenuItem eventKey="1">Action</MenuItem>
-      <MenuItem eventKey="2">Another action</MenuItem>
-      <MenuItem eventKey="3">Something else here</MenuItem>
-      <MenuItem divider />
-      <MenuItem eventKey="4">Separated link</MenuItem>
-    </DropdownButton>
-  </ButtonToolbar>
-  */} 
- <PaddingDiv>
-  
- <div className="inner-addon left-addon">
-          <i className="glyphicon glyphicon-plus white" style={{padding:'20px 0 10px 10px'}} ></i>
-  <Select name="selectThis" id="selectThis">
-                    <option value="">التصنيف</option>
-                    <option value=".option1">Option 1</option>
-                    <option value=".option2">Option 2</option>
-                    <option value=".option3">Option 3</option>
-                    <option value=".option4">Option 4</option>
-                </Select>
-                </div>
-                </PaddingDiv>
-                <PaddingDiv>
-                <div className="inner-addon left-addon">
-          <i className="glyphicon glyphicon-plus white" style={{padding:'20px'}} ></i>
-                <Select name="selectThis" id="selectThis">
-                    <option value="">القسم</option>
-                    <option value=".option1">Option 1</option>
-                    <option value=".option2">Option 2</option>
-                    <option value=".option3">Option 3</option>
-                    <option value=".option4">Option 4</option>
-                </Select>
-                </div>
-                </PaddingDiv>
-                <PaddingDiv>
-                <div className="inner-addon left-addon">
-          <i className="glyphicon glyphicon-plus white" style={{padding:'20px'}} ></i>
-                <Select name="selectThis" id="selectThis">
-                    <option value="">السعر</option>
-                    <option value=".option1">Option 1</option>
-                    <option value=".option2">Option 2</option>
-                    <option value=".option3">Option 3</option>
-                    <option value=".option4">Option 4</option>
-                </Select>
-                </div>
-                </PaddingDiv>
-                <PaddingDiv>
-                <div className="inner-addon left-addon">
-          <i className="glyphicon glyphicon-plus white" style={{padding:'20px'}} ></i>
-                <Select name="selectThis" id="selectThis">
-                    <option value="">العلامة التجارية</option>
-                    <option value=".option1">Option 1</option>
-                    <option value=".option2">Option 2</option>
-                    <option value=".option3">Option 3</option>
-                    <option value=".option4">Option 4</option>
-                </Select>
-                </div>
-                </PaddingDiv>
-                <PaddingDiv>
-                <div className="inner-addon left-addon">
-          <i className="glyphicon glyphicon-plus white" style={{padding:'20px 0 20px 2px'}} ></i>
-                <Select name="selectThis" id="selectThis">
-                    <option value="">الطراز</option>
-                    <option value=".option1">Option 1</option>
-                    <option value=".option2">Option 2</option>
-                    <option value=".option3">Option 3</option>
-                    <option value=".option4">Option 4</option>
-                </Select>
-                </div>
-                </PaddingDiv>
+        <Col lg={2} sm={2} xs={12}  >
+        
+        <PaddingDiv>
+        <Panel header="التصنيف" collapsible >
+        <div className="form-check">
+  <input  type="checkbox" value="" id="defaultCheck1"/>
+  <span for="defaultCheck1">
+    Default checkbox
+  </span>
+</div>
+       </Panel> </PaddingDiv> <PaddingDiv>
+       <Panel header="القسم"  collapsible>
+       Some words
+       </Panel> </PaddingDiv> <PaddingDiv>
+       <Panel header="السعر"  collapsible>
+       Some words
+       </Panel> </PaddingDiv> <PaddingDiv>
+       <Panel header="المصنع"  collapsible>
+       Some words
+       </Panel> </PaddingDiv> <PaddingDiv>
+       <Panel header="الطراز"  collapsible>
+       Some words
+       </Panel>
+          </PaddingDiv>
+          
    </Col>
   
-   <Col sm={8} xs={12} >
+   <Col lg={10} sm={10} xs={12} >
       
-      <div>
+      
   <Carousel >
       <Carousel.Item>
         <div>
@@ -157,11 +101,12 @@ class ProductsPage extends Component {
       </Carousel.Item>
       
     </Carousel>
-   </div>
-</Col>
-   </Row>
+    </Col> </Row>
    </Grid>
+  
+   
    <ProductList thisUserOnly={false}/>
+ 
 	</div>			
     
   );}}
