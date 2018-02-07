@@ -102,7 +102,6 @@ hr {
     flex-direction: row;  
     float: none; 
     width: 100%;
-     
     background-color: rgb(247, 247, 247);
     
 }
@@ -131,7 +130,17 @@ hr {
     text-align: center;
     background-color: rgb(247, 247, 247);
 }
- 
+
+.dropdown{
+  background-color: rgb(247, 247, 247);
+width: 160px;
+}
+.dropdownmenu{padding:7px 0 0 0;
+   text-align: right;
+    /* border-radius: 50%;
+  background-image: url('../img/logo-placeholder.jpg') */
+}
+
 .navbar-brand {
     width: 100px;
     height: 50px;
@@ -233,7 +242,8 @@ margin-bottom: 10px;
     text-align: center;
     background-color:white;
     display:inline-block;
-}   
+}  
+
     @keyframes slideDown {
         0% {
             transform: translateY(-100%);
@@ -311,9 +321,78 @@ margin-bottom: 10px;
         .left-addon input  { padding-left:  30px; }
         .right-addon input { padding-right: 30px; }
 
-    
+        input {
+            outline: none;
+        }
+        input[type=search] {
+            -webkit-appearance: textfield;
+            -webkit-box-sizing: content-box;
+            font-family: inherit;
+            font-size: 100%;
+        }
+        input::-webkit-search-decoration,
+        input::-webkit-search-cancel-button {
+            display: none; 
+        }
+        
+        
+        input[type=search] {
+            background:   rgb(247, 247, 247) url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 9px center;
+            border: none;
+            padding: 9px 9px 0 0;
+            width: 50px;
+            height: 40px;
+         
+            
+            -webkit-transition: all .5s;
+            -moz-transition: all .5s;
+            transition: all .5s;
+        }
+        input[type=search]:focus {
+            width: 10px;
+            background-color: rgb(247, 247, 247);
+            border-color: #66CC75;
+            
+            -webkit-box-shadow: 0 0 5px rgba(109,207,246,.5);
+            -moz-box-shadow: 0 0 5px rgba(109,207,246,.5);
+            box-shadow: 0 0 5px rgba(109,207,246,.5);
+        }
+        
+        
+        input:-moz-placeholder {
+            color: #999;
+        }
+        input::-webkit-input-placeholder {
+            color: #999;
+        }
+        
+        /* Demo 2 */
+        #demo-2 input[type=search] {
+            width: 10px;
+            padding-left: 10px;
+            color: transparent;
+            cursor: pointer;
+        }
+        #demo-2 input[type=search]:hover {
+            background-color: #fff;
+        }
+        #demo-2 input[type=search]:focus {
+            width: 220px;
+            padding-right: 10px;
+            color: rgb(0, 0, 0);
+            background-color: rgb(247, 247, 247);
+            cursor: auto;
+        }
+        #demo-2 input:-moz-placeholder {
+            color: transparent;
+        }
+        #demo-2 input::-webkit-input-placeholder {
+            color: #999;
+            padding-right: 20px;
+        }
+       
         @media only screen and (max-width: 767px) {
-     
+           
             .navbar{ 
                 height: auto;
                border-radius: 5px;  
@@ -345,6 +424,9 @@ margin-bottom: 10px;
                 -o-transition:  background 0.3s ease-in-out;
                 transition:  background 0.3s ease-in-out;   
               } 
+              .search{
+                  display: none;
+              }
               .icons{
                   margin-bottom: 7px;
               }
@@ -370,4 +452,4 @@ margin-bottom: 10px;
               }
             }
 
-          
+            

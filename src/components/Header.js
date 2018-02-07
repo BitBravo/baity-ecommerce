@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import { Nav, Navbar, NavItem, Button, NavbarBrand } from "react-bootstrap";
+import { Nav, Navbar, NavItem, Button, NavbarBrand,NavDropdown,MenuItem } from "react-bootstrap";
 import bayty_icon from '../assets/img/bayty_icon.png';
 import {GoSignIn,GoSignOut,GoHome} from 'react-icons/lib/go';
 import {MdPersonAdd,MdAddToPhotos,MdEventSeat,MdPersonOutline,MdAddShoppingCart,MdWeekend} from 'react-icons/lib/md';
@@ -18,6 +18,12 @@ import styled from 'styled-components'
   width:100%;
 }
  `
+ const Search =styled.div`
+ display:none;
+ @media only screen and (max-width: 767px) {
+   display:inline-block;
+float:right;
+ `
  
 
 class Header extends Component {
@@ -31,40 +37,43 @@ class Header extends Component {
           <img src={bayty_icon} />
           </IndexLinkContainer>
           </NavbarBrand>
-          
-          <Nav>
+          {/* mobile search bar */}
+          <Nav  className="search">
           <NavItem >
             <div className="inner-addon right-addon">
             <i className="glyphicon glyphicon-search"></i>
-                <Input  id="inputEmail"  className="form-control" type="text"  placeholder="بحث عن منتجات أفكار ...."></Input>
-                </div>
-                </NavItem>
-
-     
-        </Nav>
+                <Input  id="search"  className="form-control" type="text"  placeholder="بحث عن منتجات أفكار ...."></Input>
+                </div> 
+                </NavItem></Nav>
+                <Search >
+                <form id="demo-2">
+	              <input type="search"  placeholder="بحث عن منتجات أفكار ...."/>
+                 </form>
+                </Search>
 
                 {!this.props.authenticated ? (
-
-              <Nav pullLeft style={{ display: 'flex',flexDirection: 'row'}}>
-                <LinkContainer to="/login" activeClassName="active" >
-                  <NavItem><GoSignIn className="icons"/><span className="hidden-xs hidden-sm">تسجيل دخول</span></NavItem>
+               <Nav pullLeft  className="dropdown">
+              <NavDropdown pullRight title="الحساب" className="dropdownmenu">
+                <LinkContainer style={{textAlign:'right'}} to="/login" activeClassName="active">
+                  <MenuItem  ><GoSignIn className="icons"/>تسجيل دخول</MenuItem>
                 </LinkContainer>
-                { <LinkContainer to="/registration" activeClassName="active">
-                  <NavItem ><TiUserAddOutline className="icons"/><span className="hidden-xs hidden-sm">تسجيل</span></NavItem>
+                { <LinkContainer style={{textAlign:'right'}} to="/registration" activeClassName="active">
+                  <MenuItem ><TiUserAddOutline className="icons"/>تسجيل</MenuItem>
                 </LinkContainer> }
-              </Nav>
-
+              </NavDropdown>
+</Nav>
             ) : (
-              <Nav pullLeft 
-                style={{ display: 'flex',flexDirection: 'row' }}>
-              <LinkContainer to="/logout" activeClassName="active">
-                <NavItem><GoSignOut className="icons"/><span className="hidden-xs hidden-sm">تسجيل خروج</span></NavItem>
+              <Nav pullLeft  className="dropdown">
+              <NavDropdown pullRight title="الحساب" className="dropdownmenu">
+              <LinkContainer style={{textAlign:'right'}} to="/logout" activeClassName="active">
+                <NavItem ><GoSignOut className="icons"/>تسجيل خروج</NavItem>
               </LinkContainer>
-              <LinkContainer to="/myprofile" activeClassName="active">
-                    <NavItem ><MdPersonOutline className="icons"/><span className="hidden-xs hidden-sm">حسابي</span></NavItem>
+              <LinkContainer  style={{textAlign:'right'}} to="/myprofile" activeClassName="active">
+                    <NavItem ><MdPersonOutline className="icons"/>حسابي</NavItem>
                   </LinkContainer>
                   {/* <NavItem><MdAddShoppingCart className="icons"/></NavItem> */}
-            </Nav>
+                  </NavDropdown>
+</Nav>
         )}  <Navbar.Toggle />
         </Navbar.Header>
        
