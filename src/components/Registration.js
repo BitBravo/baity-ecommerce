@@ -3,7 +3,7 @@ import { Redirect, Link } from 'react-router-dom'
 import { LinkContainer } from "react-router-bootstrap";
 import { Collapse, Alert, Modal,Col,Row } from "react-bootstrap"
 import { app } from '../base'
-import bayty_icon from '../assets/img/bayty_icon.png';
+import bayty_icon from '../assets/img/bayty_icon1.png';
 import { CSSTransition } from 'react-transition-group'
 import styled from 'styled-components'
 

@@ -20,7 +20,7 @@ import FirebaseServices from "./FirebaseServices";
 import Loading from "./Loading";
 import { app } from "../base";
 import FormUtils from './FormUtils'
-import bayty_icon from '../assets/img/bayty_icon.png';
+import bayty_icon from '../assets/img/bayty_icon1.png';
 import { LinkContainer } from "react-router-bootstrap";
 import styled from 'styled-components'
 

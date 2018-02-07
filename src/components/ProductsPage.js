@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { DropdownButton,MenuItem ,Col,Row,ButtonToolbar,Nav,NavDropdown,Button,Image,Carousel,Grid} from "react-bootstrap";
+import { DropdownButton,MenuItem ,Col,Row,ButtonToolbar,
+  NavDropdown,Button,Image,Carousel,Grid} from "react-bootstrap";
 import ProductList from './ProductList';
 import styled from 'styled-components'
 import traditionalkitchen from '../assets/img/traditionalkitchen.jpg';
 import bedroom from '../assets/img/bedroom.jpg';
 import livingroom from '../assets/img/livingroom.jpg';
-import plus from '../assets/img/plus.png';
 
 
 const Select = styled.select`
@@ -20,7 +20,9 @@ height:60px;
 border-radius: 0;
 -webkit-appearance: none;
 @media only screen and (max-width: 767px) {
-  font-size:15px;
+  font-size:11px;
+  height:30px;
+  padding-right:5px;
 }
 
 `
@@ -33,8 +35,7 @@ const PaddingDiv = styled.div`
   @media only screen and (max-width: 767px) {
     display:inline-block;
     width:20%;
-    font-size:10px;
-    padding-left: 5px;
+    padding-left:3px;
     padding-bottom: 10px;}
 `;
 
@@ -46,65 +47,53 @@ class ProductsPage extends Component {
   <div>
       <Grid>
      <Row style={{display: 'flex', flexWrap: 'wrap'}}>
-
-        <Col sm={4} xs={12}  >
-        {/* <ButtonToolbar >
-    <DropdownButton
-
-      bsStyle='background:rgb(26, 156, 142)'
-      bsSize='width:1000px'
-      title="التصنيف"
-      id="dropdown-size-large"
-    >  <span className="glyphicon glyphicon-search"></span>
-      <MenuItem eventKey="1">Action</MenuItem>
-      <MenuItem eventKey="2">Another action</MenuItem>
-      <MenuItem eventKey="3">Something else here</MenuItem>
-      <MenuItem divider />
-      <MenuItem eventKey="4">Separated link</MenuItem>
-    </DropdownButton>
-  </ButtonToolbar>
-  */}
+     
+        <Col sm={4} xs={12} >
+      
  <PaddingDiv>
- <div className="inner-addon left-addon">
-          <i className="glyphicon glyphicon-plus white" style={{padding:'5px'}} ></i>
-  <Select name="selectThis" id="selectThis">
+ <div className="inner-addon left-addon ">
+          <i className="glyphicon glyphicon-plus white plus"></i>
+                <Select name="selectThis" id="selectThis">
                     <option value="">التصنيف</option>
-                    <option value=".option1">Option 1</option>
-                    <option value=".option2">Option 2</option>
-                    <option value=".option3">Option 3</option>
-                    <option value=".option4">Option 4</option>
+                    <option value=".option1">طاولة طعام</option>
+                    <option value=".option2">طقم كنب</option>
+                    <option value=".option3">ورق جدران</option>
+                    <option value=".option4">طاولة شاي</option>
+                    <option value=".option4">أدوات صحية</option>
                 </Select>
                 </div>
                 </PaddingDiv>
                 <PaddingDiv>
-                <div className="inner-addon left-addon">
-          <i className="glyphicon glyphicon-plus white" style={{padding:'20px'}} ></i>
+                <div className="inner-addon left-addon ">
+          <i className="glyphicon glyphicon-plus white plus"></i>
                 <Select name="selectThis" id="selectThis">
                     <option value="">القسم</option>
-                    <option value=".option1">Option 1</option>
-                    <option value=".option2">Option 2</option>
-                    <option value=".option3">Option 3</option>
-                    <option value=".option4">Option 4</option>
+                    <option value=".option1">دورات مياه</option>
+                    <option value=".option2">مجلس</option>
+                    <option value=".option3">مطابخ</option>
+                    <option value=".option4">غرف نوم</option>
+                    <option value=".option4">صالة</option>
                 </Select>
                 </div>
                 </PaddingDiv>
                 <PaddingDiv>
-                <div className="inner-addon left-addon">
-          <i className="glyphicon glyphicon-plus white" style={{padding:'20px'}} ></i>
+                <div className="inner-addon left-addon ">
+          <i className="glyphicon glyphicon-plus white plus"></i>
                 <Select name="selectThis" id="selectThis">
                     <option value="">السعر</option>
-                    <option value=".option1">Option 1</option>
-                    <option value=".option2">Option 2</option>
-                    <option value=".option3">Option 3</option>
-                    <option value=".option4">Option 4</option>
+                    <option value=".option1">100-500</option>
+                    <option value=".option2">500-1000</option>
+                    <option value=".option3">1000-5000</option>
+                    <option value=".option4">5000-10000</option>
+                    <option value=".option4">أعلى من 10000</option>
                 </Select>
                 </div>
                 </PaddingDiv>
                 <PaddingDiv>
-                <div className="inner-addon left-addon">
-          <i className="glyphicon glyphicon-plus white" style={{padding:'20px'}} ></i>
+                <div className="inner-addon left-addon ">
+          <i className="glyphicon glyphicon-plus white plus"  ></i>
                 <Select name="selectThis" id="selectThis">
-                    <option value="">العلامة التجارية</option>
+                    <option value="">الشركة</option>
                     <option value=".option1">Option 1</option>
                     <option value=".option2">Option 2</option>
                     <option value=".option3">Option 3</option>
@@ -113,8 +102,8 @@ class ProductsPage extends Component {
                 </div>
                 </PaddingDiv>
                 <PaddingDiv>
-                <div className="inner-addon left-addon">
-          <i className="glyphicon glyphicon-plus white" style={{padding:'20px'}} ></i>
+                <div className="inner-addon left-addon ">
+          <i className="glyphicon glyphicon-plus white plus" ></i>
                 <Select name="selectThis" id="selectThis">
                     <option value="">الطراز</option>
                     <option value=".option1">Option 1</option>
@@ -123,8 +112,10 @@ class ProductsPage extends Component {
                     <option value=".option4">Option 4</option>
                 </Select>
                 </div>
-                </PaddingDiv>
+                </PaddingDiv> 
+          
    </Col>
+  
    <Col sm={8} xs={12} >
       
       <div>
@@ -157,10 +148,11 @@ class ProductsPage extends Component {
       
     </Carousel>
    </div>
-</Col>
+   </Col>
    </Row>
    </Grid>
    <ProductList thisUserOnly={false}/>
+   
 	</div>			
     
   );}}
