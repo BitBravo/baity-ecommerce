@@ -372,7 +372,7 @@ class RegisterNormal extends Component {
      <Col sm={6}  md={6} lg={6} className={"col-lg-push-6; col-sm-push-6"}>
           <FieldGroup
             id="inputEmail"
-            type="text"
+            type="email"
             label="البريد الالكتروني"
             placeholder="عنوان البريد الالكتروني"
             inputRef={input => {

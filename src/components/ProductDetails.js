@@ -160,7 +160,9 @@ class ProductDetails extends Component {
               <PaddingDiv>
             <p>
               {/* only product owner can update a product */}
-              {this.props.currentUser.uid === this.state.product.owner
+              {
+                this.props.authenticated
+                ? this.props.currentUser.uid === this.state.product.owner
                ?<Link to={`/products/${product.id}/updateProduct`}>
                 <button >
                   تحديث بيانات المنتج
@@ -168,7 +170,8 @@ class ProductDetails extends Component {
               </Link>
               : null
 
-            }
+            : null
+          }
             </p>
             </PaddingDiv>
             </Col>

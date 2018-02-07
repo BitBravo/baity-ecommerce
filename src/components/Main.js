@@ -112,6 +112,32 @@ class Main extends Component {
           />
           <Route
             exact
+            path="/products/:id"
+            render={props => {
+              return (
+                <ProductDetails
+                authenticated={this.props.authenticated}
+                  currentUser={this.props.currentUser}
+                  {...props}
+                />
+              );
+            }}
+          />
+          <Route
+            exact
+            path="/ideas/:id"
+            render={props => {
+              return (
+                <IdeaDetails
+                authenticated={this.props.authenticated}
+                  currentUser={this.props.currentUser}
+                  {...props}
+                />
+              );
+            }}
+          />
+          <Route
+            exact
             path="/logout"
             render={props => {
               return <Logout  {...props} />;
@@ -125,13 +151,7 @@ class Main extends Component {
             component={ProductUpdater}
             currentUser={this.props.currentUser}
           />
-          <AuthenticatedRoute
-            exact
-            path="/products/:id"
-            authenticated={this.props.authenticated}
-            component={ProductDetails}
-            currentUser={this.props.currentUser}
-          />
+
           <AuthenticatedRoute
             exact
             path="/newidea"
@@ -211,13 +231,6 @@ class Main extends Component {
            }}
           />
 
-          <AuthenticatedRoute
-          exact
-           path="/ideas/:id"
-           authenticated={this.props.authenticated}
-           component={IdeaDetails}
-            currentUser={this.props.currentUser}
-           />
            <AuthenticatedRoute
            exact
             path="/ideas/:id/updateIdea"
@@ -237,7 +250,8 @@ class Main extends Component {
               path="/myprofile"
               authenticated={this.props.authenticated}
               component={MyAccount}
-               currentUser={this.props.currentUser}
+              currentUser={this.props.currentUser}
+              group={this.props.group}
               />
 
         </Switch>

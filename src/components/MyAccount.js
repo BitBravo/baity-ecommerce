@@ -45,7 +45,9 @@ class MyAccount extends Component {
   render(){
     return (
       <div>
+      {this.props.group === "prof"?
        <ProfileInfo currentUser={this.props.currentUser}/>
+       : null}
        <ProductList thisUserOnly={true} shortList={true} currentUser={this.props.currentUser}/>
        <IdeaList thisUserOnly={true} shortList={true} currentUser={this.props.currentUser}/>
      </div>
