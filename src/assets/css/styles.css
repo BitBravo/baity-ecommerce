@@ -231,6 +231,7 @@ width: 160px;
         visibility: visible !important;	
         
     }
+  
  input{
  width:100%;
  max-width:500px;
@@ -320,7 +321,10 @@ margin-bottom: 10px;
         .white, .white a {color: #fff;}
         .left-addon input  { padding-left:  30px; }
         .right-addon input { padding-right: 30px; }
-
+        .plus{
+        
+          margin-top: 10px;
+          }
         input {
             outline: none;
         }
@@ -450,6 +454,14 @@ margin-bottom: 10px;
               .myfooter h3 {
                 font-size:20px;
               }
+    
+                .plus{
+                    font-size: 7px;
+                    margin-left: -3px;
+                    margin-top: 0;
+                    }
             }
-
+            @media only screen and (max-width: 350px){
+                .plus{display: none;} 
+            }
             
