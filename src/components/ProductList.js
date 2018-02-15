@@ -91,7 +91,8 @@ class ProductList extends Component {
       return (
          <div style={{paddingTop: "30px"}}>
         <Grid>
-        <Row>
+        {this.props.group === 'prof'
+        ?<Row>
           <Link to={`/myproducts`}>
             <label>منتجاتي</label>
           </Link>
@@ -99,6 +100,12 @@ class ProductList extends Component {
             <button>إضافة منتج</button>
           </Link>
         </Row>
+        :<Row>
+          <Link to={`/myideas/`}>
+          <label>المنتجات المفضلة</label>
+          </Link>
+          </Row>
+        }
           <Row style={{display: 'flex', flexWrap: 'wrap'}}>
             {productIds.map(id => {
               const product = products[id];

@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { app, base } from "../base";
-import FirebaesServices from './FirebaseServices'
+import FirebaseServices from './FirebaseServices'
 import { Image, Alert, Col, Thumbnail, Button, Modal,Row, Grid } from "react-bootstrap";
 import Loading from './Loading';
 import Equalizer from "react-equalizer";
 import styled from 'styled-components'
 import FaArrowCircleRight from 'react-icons/lib/fa/arrow-circle-right'
 import FaArrowCircleLeft from 'react-icons/lib/fa/arrow-circle-left'
+import plus from '../assets/img/plus.png';
 
 const FlexRow = styled(Row)`
   display: flex;
@@ -30,7 +31,7 @@ class IdeaDetails extends Component {
   }
 
   componentWillMount() {
-    this.ideasRef = base.syncState(`${FirebaesServices.IDEAS_PATH}/${this.ideaId}`, {
+    this.ideasRef = base.syncState(`${FirebaseServices.IDEAS_PATH}/${this.ideaId}`, {
       context: this,
       state: 'idea',
       then(data) {
@@ -54,6 +55,31 @@ class IdeaDetails extends Component {
   prevImage(){
     if (this.state.index > 0)
       this.setState({index: (this.state.index - 1)});
+  }
+
+  like(){
+    const userLikes = FirebaseServices.likes
+    const currentUserRef = userLikes.child(`${this.props.currentUser.uid}/ideas`)
+    const ideaRef = FirebaseServices.ideas.child(this.ideaId)
+
+    return ideaRef.transaction(function(post) {
+      console.log("Idea detailes - transaction()")
+      console.log(post)
+      if (post) {
+        currentUserRef.child(post.id).once('value', function (snap) {
+        if (snap.val()) {
+
+          post.likes--;
+          currentUserRef.child(post.id).set(null);
+        } else {
+          post.likes++;
+          //console.log(userLikes.child(currentUserId).child(post.id));
+          currentUserRef.child(post.id).set(post.postType);
+        }
+      })
+      }
+      return post;
+    });
   }
 
   render() {
@@ -124,6 +150,11 @@ class IdeaDetails extends Component {
             <Col xs={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
             <div style={{marginTop: '30%'}}>
             <FaArrowCircleLeft size={50}  onClick={this.prevImage.bind(this)}/>
+            </div>
+          </Col>
+          <Col xs={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
+            <div style={{marginTop: '30%'}}>
+              <img src={plus}  onClick={this.like.bind(this)}/>
             </div>
           </Col>
 

@@ -11,6 +11,7 @@ const PaddingDiv = styled.div`
   padding-top: 5px;
   padding-left: 5px;
   padding-bottom: 5px;
+  height: 105px;
 `
 
 const MyThumbnailDiv = styled.div`

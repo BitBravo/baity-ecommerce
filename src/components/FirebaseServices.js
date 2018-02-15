@@ -118,6 +118,9 @@ export default {
   get products() {
     return _REF_PRODUCT;
   },
+  get ideas() {
+    return _REF_IDEA;
+  },
   // get users() {
   //   return _REF_USERS;
   // },
@@ -141,6 +144,9 @@ export default {
   },
   get productImages() {
     return _REF_PRODUCT_IMAGE;
+  },
+  get likes() {
+    return _REF_USER_LIKES;
   },
 
   //create a professional user (i.e., business user) along with the group and business entry (but not the business details)
@@ -172,7 +178,7 @@ export default {
     };
     var updates = {};
     updates[`${_PROF_PATH}/${user.uid}`] = userObj;
-    updates[`${_GROUPS_PATH}/${group}/${user.uid}`] = group;
+    updates[`${_GROUPS_PATH}/${user.uid}`] = group;
     updates[`${_BUSINESSES_PATH}/${businessId}`] = businessObj;
     // add user to database and to group and to business simultaniously and atomically
     return this.root.update(updates);
@@ -191,7 +197,7 @@ export default {
       name: userName,
       dateCreated: dateCreated,
       country: "Saudi Arabia",
-      city: "", //we get it later on from profile
+      city: "الرياض", //we get it later on from profile
       userGroup: group
     };
     var updates = {};
@@ -224,6 +230,9 @@ export default {
         break;
       case 'group':
         ref = this.groups.child(entryId);
+        break;
+      case 'likes':
+        ref = this.likes.child(entryId);
         break;
     }
     return ref.once('value')
@@ -275,6 +284,60 @@ export default {
     } catch (error) {
       errorHandler(error);
     }
+  },
+
+  //update the profile for a normal user where new data is
+  //stored at profileData. error and success handlers are
+  //provided by form/formUpdater
+  normalUserProfileHelper(profileData, errorHandler, successHandler) {
+    console.log('FirebaseServices.normalUserProfileHelper')
+    try {
+      var normalUserProfileRef = this.normalUsers.child(`${profileData.id}`);
+      if (profileData.newImage) {
+      normalUserProfileRef
+        .update({
+          city: profileData.city,
+          country: 'Saudi Arabia',
+          phone: profileData.phone,
+          imgUrl: profileData.imgUrl,
+          name: profileData.name,
+          email: profileData.email
+        })
+        .then(() => {
+          console.log("insert succeeded");
+          successHandler();
+        })
+        .catch(error => {
+          console.log("could not insert profile");
+          console.log(profileData);
+          errorHandler(error.message);
+        });
+    } else {       console.log(normalUserProfileRef)
+
+      normalUserProfileRef
+        .update({
+          city: profileData.city,
+          country: 'Saudi Arabia',
+          phone: profileData.phone,
+          name: profileData.name,
+          email: profileData.email
+        })
+        .then(() => {
+          console.log(profileData);
+
+          console.log("insert succeeded");
+          successHandler();
+        })
+        .catch(error => {
+          console.log("could not insert profile");
+          console.log(profileData);
+          errorHandler(error.message);
+        });
+    }
+  } catch (error) {
+      errorHandler(error);
+    }
+
   },
 
 
@@ -377,6 +440,37 @@ export default {
       //no change to current image/image URL
       //update profile with new data
       this.updateProfProfileHelper(
+        profileData,
+        errorHandler,
+        successHandler
+      );
+    }
+  },
+
+  //Main method to update a normal user profile
+  updateNormalUserProfile(uid, profileData, errorHandler, successHandler, progressHandler){
+    console.log('FirebaseServices.updateNormalProfile')
+    //if we have a new image then upload it
+    if (profileData.newImage) {
+      this.uploadProfProfileImage(
+        uid,
+        profileData.imageFile,
+        progressHandler,
+        errorHandler,
+        (imgUrl) => {
+            profileData.imgUrl = imgUrl
+            //update profile with new data and new image URL
+            this.normalUserProfileHelper(
+              profileData,
+              errorHandler,
+              successHandler
+            );
+        }
+      );
+    } else {
+      //no change to current image/image URL
+      //update profile with new data
+      this.normalUserProfileHelper(
         profileData,
         errorHandler,
         successHandler
