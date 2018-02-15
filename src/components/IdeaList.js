@@ -84,14 +84,21 @@ class IdeaList extends Component{
 
          <div style={{paddingTop: "30px"}}>
         <Grid>
-        <Row>
-        <Link to={`/myideas/`}>
+        {this.props.group === 'prof'
+        ?<Row>
+          <Link to={`/myideas/`}>
             <label>أفكاري</label>
           </Link>
           <Link to={`/newidea`}>
             <button>إضافة فكرة</button>
           </Link>
-        </Row>
+          </Row>
+          :<Row>
+            <Link to={`/myfavideas/`}>
+            <label>الأفكار المفضلة</label>
+            </Link>
+            </Row>
+          }
           <Row style={{display: 'flex', flexWrap: 'wrap'}}>
             {ideaIds.map(id => {
               const idea = ideas[id];

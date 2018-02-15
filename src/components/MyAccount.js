@@ -7,6 +7,9 @@ import FirebaseServices from './FirebaseServices';
 import ProductList from "./ProductList";
 import IdeaList from "./IdeaList";
 import ProfileInfo from "./ProfileInfo";
+import NormalProfileInfo from "./NormalProfileInfo";
+import FavProducts from "./FavProducts";
+import FavIdeas from "./FavIdeas";
 
 import {
   FormGroup,
@@ -46,10 +49,39 @@ class MyAccount extends Component {
     return (
       <div>
       {this.props.group === "prof"?
-       <ProfileInfo currentUser={this.props.currentUser}/>
-       : null}
-       <ProductList thisUserOnly={true} shortList={true} currentUser={this.props.currentUser}/>
-       <IdeaList thisUserOnly={true} shortList={true} currentUser={this.props.currentUser}/>
+      <div>
+         <ProfileInfo currentUser={this.props.currentUser}/>
+         <ProductList
+          thisUserOnly={true}
+          shortList={true}
+          currentUser={this.props.currentUser}
+          group={this.props.group}
+         />
+         <IdeaList
+          thisUserOnly={true}
+          shortList={true}
+          currentUser={this.props.currentUser}
+          group={this.props.group}
+         />
+       </div>
+       : <div>
+          <NormalProfileInfo currentUser={this.props.currentUser}/>
+          <FavProducts
+           shortList={true}
+           currentUser={this.props.currentUser}
+           group={this.props.group}
+          />
+          <FavIdeas
+           shortList={true}
+           currentUser={this.props.currentUser}
+           group={this.props.group}
+          />
+        </div>
+      }
+
+
+
+
      </div>
   );
   }

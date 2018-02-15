@@ -74,7 +74,7 @@ export default {
 
     return bussNamePattern.test(userName) && !spacesPattern.test(userName);
   },
-  get bussNameErrorMsg() {
+  get userNameErrorMsg() {
     return "يجب أن يكون طول الاسم بين ثلاثة أحرف وخمسين حرف لا يحتوي على رموز غير معروفة";
   },
   bussDescValid(desc){

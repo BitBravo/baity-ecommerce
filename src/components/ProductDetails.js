@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { app, base } from "../base";
-import FirebaesServices from './FirebaseServices'
+import FirebaseServices from './FirebaseServices'
 import { Image, Alert, Col, Thumbnail, Button, Modal,Row, Grid } from "react-bootstrap";
 import Loading from './Loading';
 import Equalizer from "react-equalizer";
 import styled from 'styled-components'
 import FaArrowCircleRight from 'react-icons/lib/fa/arrow-circle-right'
 import FaArrowCircleLeft from 'react-icons/lib/fa/arrow-circle-left'
+import plus from '../assets/img/plus.png';
 
 const MyThumbnailDiv = styled.div`
   position: relative;
@@ -73,7 +74,7 @@ class ProductDetails extends Component {
   }
 
   componentWillMount() {
-    this.productsRef = base.syncState(`${FirebaesServices.PRODUCTS_PATH}/${this.productId}`, {
+    this.productsRef = base.syncState(`${FirebaseServices.PRODUCTS_PATH}/${this.productId}`, {
       context: this,
       state: 'product',
       then(data) {
@@ -97,6 +98,35 @@ class ProductDetails extends Component {
   prevImage(){
     if (this.state.index > 0)
       this.setState({index: (this.state.index - 1)});
+  }
+
+  like(){
+    const userLikes = FirebaseServices.likes
+    const currentUserRef = userLikes.child(this.props.currentUser.uid).child("products")
+    const productRef = FirebaseServices.products.child(this.productId)
+
+    return productRef.transaction(function(post) {
+      console.log("Prudoct detailes - transaction()")
+      console.log(post)
+      if (post) {
+        currentUserRef.child(post.id).once('value', function (snap) {
+        if (snap.val()) {
+          console.log(currentUserRef.child(post.id));
+
+          console.log("unlike");
+          post.likes--;
+          currentUserRef.child(post.id).set(null);
+        } else {
+          console.log("like");
+          console.log(currentUserRef.child(post.id));
+          post.likes++;
+          //console.log(userLikes.child(currentUserId).child(post.id));
+          currentUserRef.child(post.id).set(post.postType);
+        }
+      })
+      }
+      return post;
+    });
   }
 
   render() {
@@ -187,6 +217,11 @@ class ProductDetails extends Component {
             <Col xs={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
             <div style={{marginTop: '30%'}}>
             <FaArrowCircleLeft size={40}  onClick={this.prevImage.bind(this)}/>
+            </div>
+          </Col>
+          <Col xs={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
+            <div style={{marginTop: '30%'}}>
+              <img src={plus}  onClick={this.like.bind(this)}/>
             </div>
           </Col>
           {/* <Col lg={8} style={{display:"block", margin:"auto"}}>

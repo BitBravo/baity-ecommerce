@@ -16,7 +16,10 @@ import IdeaUpdater from "./IdeaUpdater";
 import MyIdeaList from './MyIdeaList';
 import MyAccount from "./MyAccount";
 import ProfProfileUpdater from './ProfProfileUpdater'
+import NorProfileUpdater from './NorProfileUpdater'
 import Registration from "./Registration";
+import FavProducts from "./FavProducts";
+import FavIdeas from "./FavIdeas";
 
 function AuthenticatedRoute({ component: Component, authenticated, currentUser, ...rest }) {
   return (
@@ -231,28 +234,53 @@ class Main extends Component {
            }}
           />
 
-           <AuthenticatedRoute
+          <AuthenticatedRoute
            exact
             path="/ideas/:id/updateIdea"
             authenticated={this.props.authenticated}
             component={IdeaUpdater}
              currentUser={this.props.currentUser}
-            />
-            <AuthenticatedRoute
+          />
+          <AuthenticatedRoute
             exact
              path="/myideas"
              authenticated={this.props.authenticated}
              component={MyIdeaList}
               currentUser={this.props.currentUser}
-             />
-             <AuthenticatedRoute
+           />
+           <AuthenticatedRoute
              exact
               path="/myprofile"
               authenticated={this.props.authenticated}
               component={MyAccount}
               currentUser={this.props.currentUser}
               group={this.props.group}
-              />
+            />
+            <AuthenticatedRoute
+              exact
+               path="/updateprofile"
+               authenticated={this.props.authenticated}
+               component={NorProfileUpdater}
+               currentUser={this.props.currentUser}
+            />
+            <AuthenticatedRoute
+              exact
+               path="/favproducts"
+               authenticated={this.props.authenticated}
+               component={FavProducts}
+               currentUser={this.props.currentUser}
+               group={this.props.group}
+               shortList={false}
+            />
+            <AuthenticatedRoute
+              exact
+               path="/favideas"
+               authenticated={this.props.authenticated}
+               component={FavIdeas}
+               currentUser={this.props.currentUser}
+               group={this.props.group}
+               shortList={false}
+            />
 
         </Switch>
       </main>
