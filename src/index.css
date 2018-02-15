@@ -1,18 +1,19 @@
-@import url('https://fonts.googleapis.com/css?family=Cairo');
 
-
-
+@font-face {
+  font-family: 'dinar';
+  src: url('./assets/fonts/ge-dinar-one/ge-dinar-one light.otf') format('opentype');
+  }
+  
 body {
   margin: 69px 0 0 0 ; 
   padding:0 ;
-  background-color: rgb(247, 247, 247);;
   padding-top: 50px;
   direction: rtl;
-  background: rgb(247, 247, 247);;
-  font-family: 'Cairo', sans-serif;
-  background-image: url('./assets/img/background.jpeg')
-
+  background: rgb(247, 247, 247);
+  font-family: 'dinar',sans-serif;
+  background-image: url('./assets/img/background.jpeg');  
 }
+
 @media only screen and (max-width: 767px) {
   body {margin:0 0 0 0;}
 }

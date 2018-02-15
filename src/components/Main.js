@@ -17,7 +17,6 @@ import MyIdeaList from './MyIdeaList';
 import MyAccount from "./MyAccount";
 import ProfProfileUpdater from './ProfProfileUpdater'
 import Registration from "./Registration";
-
 function AuthenticatedRoute({ component: Component, authenticated, currentUser, ...rest }) {
   return (
     <Route
@@ -218,7 +217,7 @@ class Main extends Component {
              );
            }}
           />
-
+          
           <Route
            exact
            path="/ideaspage"
