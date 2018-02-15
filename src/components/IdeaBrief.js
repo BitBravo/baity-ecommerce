@@ -4,12 +4,13 @@ import { app, base } from "../base";
 import { Image, Col, Thumbnail, Button, Card, Row } from "react-bootstrap";
 import Equalizer from "react-equalizer";
 import styled from 'styled-components'
+import {MdWeekend} from 'react-icons/lib/md';
 
 
 const PaddingDiv = styled.div`
-  padding-right: 20px;
-  padding-top: 5px;
-  padding-left: 5px;
+  padding-right: 5px;
+  padding-top:0;
+  padding-left: 0;
   padding-bottom: 5px;
   height: 105px;
 `
@@ -85,9 +86,9 @@ class IdeaBrief extends Component {
           </ImageContainer>
 
           <PaddingDiv>
-            <Link to={`/ideas/${idea.id}`}>
+            <Link to={`/ideas/${idea.id}`} style={{color:'black',fontWeight:'900'}}>
             <Col xs ={12} md={12}>
-              <h5> {idea.name} </h5>
+              <h5><MdWeekend className="icons" style={{color:'rgb(26,156,142)'}}/> {idea.name} </h5>
               </Col>
              </Link>
              <hr/>

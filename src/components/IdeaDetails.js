@@ -4,17 +4,54 @@ import { app, base } from "../base";
 import FirebaseServices from './FirebaseServices'
 import { Image, Alert, Col, Thumbnail, Button, Modal,Row, Grid } from "react-bootstrap";
 import Loading from './Loading';
-import Equalizer from "react-equalizer";
 import styled from 'styled-components'
-import FaArrowCircleRight from 'react-icons/lib/fa/arrow-circle-right'
-import FaArrowCircleLeft from 'react-icons/lib/fa/arrow-circle-left'
 import plus from '../assets/img/plus.png';
+import {MdAddShoppingCart,MdWeekend} from 'react-icons/lib/md';
 
-const FlexRow = styled(Row)`
-  display: flex;
-  flex-wrap: wrap;
-  text-align: center;
+const ImgGallaryThumb = styled.div`
+  }
 `;
+const PrevImgGallaryThumb = styled.div`
+  }
+`;
+
+const PreviewImg = styled.img`
+  width: 100%;
+  height: 100%;
+ 
+  }
+`;
+
+const ImageDiv = styled.div`
+  position:  absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: hidden;
+  &:hover {
+    box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+  }
+`;
+
+const ImageContainer = styled.div`
+width: 100%;
+height: 100%;
+
+`;
+
+const PaddingDiv = styled.div`
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-left: 0;
+  padding-bottom: 5px;
+`;
+const ImageCol=styled(Col)`
+border-left: 1.5px solid rgb(218, 218, 217);
+@media only screen and (max-width: 991px) {
+  border:none;
+`;
+
 class IdeaDetails extends Component {
   constructor(props) {
     super(props);
@@ -31,7 +68,8 @@ class IdeaDetails extends Component {
   }
 
   componentWillMount() {
-    this.ideasRef = base.syncState(`${FirebaseServices.IDEAS_PATH}/${this.ideaId}`, {
+    this.thumbImage.bind(this);
+    this.ideasRef = base.syncState(`${FirebaesServices.IDEAS_PATH}/${this.ideaId}`, {
       context: this,
       state: 'idea',
       then(data) {
@@ -55,6 +93,9 @@ class IdeaDetails extends Component {
   prevImage(){
     if (this.state.index > 0)
       this.setState({index: (this.state.index - 1)});
+  }
+  thumbImage(thumbIndex){
+    this.setState({index: thumbIndex});
   }
 
   like(){
@@ -108,19 +149,46 @@ class IdeaDetails extends Component {
   if (!this.state.loading && !this.state.showError)
       return(
 
-
-
-
-          <Row className="productdetails">
-
-            <Col  xs={12} sm={4} md={4} lg={4} >
-
-            <div className="padding">
-              <h4 >{idea.name}</h4>
-              <p >{idea.desc}</p>
+        <Grid >
+          <Row style={{display: 'flex', flexWrap: 'wrap'}} className="productdetails">
+             <ImageCol  xs={12} sm={12} md={8} lg={9}  style={{padding:'0'}}>
+      
+            <Carousel    indicators={false} wrap={false}>
+             <Carousel.Item> 
+               <ImageContainer>   
+            <ImageDiv > 
+            <PreviewImg src={idea.images[this.state.index].large}/> 
+            </ImageDiv>            
+            </ImageContainer>
+            <Glyphicon  className ="leftglyphicon" onClick={this.nextImage.bind(this)} glyph="chevron-left"/>
+             <Glyphicon className="rightglyphicon" onClick={this.prevImage.bind(this)} glyph="chevron-right"/>
+              </Carousel.Item>
+              
+            </Carousel >
+            <div className="product-slider">
+              <div id="thumbcarousel1" className="carousel1 slide" >
+                <ImgGallaryThumb className="item">
+                  {idea.images.map((obj, index) => {
+                    return <PrevImgGallaryThumb className="thumb " >
+                             <Image src={obj.large} onClick={() => { return this.setState({index: index})}}/>
+                          </PrevImgGallaryThumb>   
+                         })}  
+                </ImgGallaryThumb> 
               </div>
-              <hr/>
-              <div>
+           </div>
+            </ImageCol> 
+            <Col  xs={12} sm={12} md={4} lg={3}  style={{padding :'0 5px 0 0'}}>
+            <h4><MdWeekend className="icons" style={{color:'rgb(26,156,142)'}}/>{idea.name}</h4>
+            <hr/>
+            <button type="submit">
+               للتواصل
+               <MdAddShoppingCart className="icons" style={{marginRight:'20px'}}/></button>
+           
+            <PaddingDiv>
+            <h4>وصف الفكرة</h4>
+              <p > {idea.desc}</p>
+              </PaddingDiv>
+              <PaddingDiv>
             <p>
               {/* only idea owner can update a idea */}
               {
@@ -136,31 +204,10 @@ class IdeaDetails extends Component {
 
               }
             </p>
-            </div>
+            </PaddingDiv>
             </Col>
-
-            <Col xs={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
-              <div style={{marginTop: '30%'}}>
-              <FaArrowCircleRight size={50}   onClick={this.nextImage.bind(this)}/>
-              </div>
-          </Col>
-           <Col  xs={10} sm={6} md={6} lg={6} className="ideadetailsimgbckgrnd">
-            <img src={idea.images[this.state.index].large} />
-            </Col>
-            <Col xs={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
-            <div style={{marginTop: '30%'}}>
-            <FaArrowCircleLeft size={50}  onClick={this.prevImage.bind(this)}/>
-            </div>
-          </Col>
-          <Col xs={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
-            <div style={{marginTop: '30%'}}>
-              <img src={plus}  onClick={this.like.bind(this)}/>
-            </div>
-          </Col>
-
             </Row>
-
-
+            </Grid> 
 
 
 

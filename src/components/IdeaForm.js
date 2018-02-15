@@ -486,11 +486,11 @@ class IdeaForm extends Component {
     console.log(this.state)
     return (
       <form>
-        <img src={bayty_icon} />
-          <div className="loginregtitle">
+        
+          <div>
               {this.props.isNewIdea
-                ?<h3>اضافة فكرة جديدة</h3>
-                :<h3> تحديث الفكرة </h3>
+                ?<h3 style={{color:'rgb(26,156,142)'}}>اضافة فكرة جديدة</h3>
+                :<h3 style={{color:'rgb(26,156,142)'}}> تحديث الفكرة </h3>
                 }
 
           </div>
@@ -541,12 +541,12 @@ class IdeaForm extends Component {
           selectedOption={this.state.dept.value}
         />
 
-        <Button type="submit" onClick={this.handleSubmit} className="btn-block">
+       <button type="submit" onClick={this.handleSubmit}  >
         {this.props.isNewIdea
          ?<span> أضف الفكرة </span>
          :<span> تحديث الفكرة </span>
         }
-        </Button>
+        </button>
 
         <Collapse in={this.state.formStatusAlert.alert}>
           <Alert
@@ -582,7 +582,7 @@ class IdeaForm extends Component {
                 &nbsp;&nbsp;
                 { this.props.isNewIdea
                     ? <Link to="/newidea">
-                        <Button onClick={this.resetState}>اضافة فكرة جديد</Button>
+                        <Button onClick={this.resetState}>اضافة فكرة جديدة</Button>
                       </Link>
                     : null
                 }

@@ -1,11 +1,12 @@
 
 p {color:rgb(95,96,93);
-    font-weight: 10}
+ }
  h1 {
      color:rgb(95,96,93);
      text-align: center;   
  }
  h2 h3 h4 h5 h6 {
+    font-weight: 900;
      color:rgb(95,96,93);
      }
 .myfooter {
@@ -33,13 +34,14 @@ p {color:rgb(95,96,93);
     color: rgb(255,255,255);
     text-align: center;
     padding-top: 30px;
+    font-weight: bold;
     direction: ltr;
      line-height: 40px;
      margin: 0; 
 }
 .myfooter img{
-   width: 6.5vh;
-   display: block;
+   width: 7.5vh;
+  
    margin-top:0;
    margin-bottom: 0;
    margin-left: auto;
@@ -60,23 +62,39 @@ hr {
     margin-bottom: 0.5em;
     margin-left: auto;
     margin-right: auto;
-    border-style: inset;
-    border-width: 0.5px;
+    border-style: dotted;
+    border-width: 0.25px;
+    color:rgb(194, 194, 194)
 }
 .icons { 
     font-size: 1.5em;
     margin-left:4px;
-    
+    margin-right: 0;   
 }
-
+.shoppingcart{
+    font-size: 1.5em;
+    padding: 10px 5px 0 0;
+    margin-left: 0;
+    margin-right: 0;
+    direction: rtl;
+    transform: scaleX(-1); 
+    color: rgb(26, 156, 142);
+}
 .carousel img { 
-    width: 100%;
+    /* width: 100%;
     min-height: 570px; 
     margin-top:-50px;
-    margin-bottom: 0
+    margin-bottom: 0 */
   }
 .carousel div {
-    height: 500px;
+    height: 550px;
+}
+.carousel-indicators li {
+    background-color: white;
+    border: none;
+}
+.carousel-indicators .active {
+  background-color: rgb(26, 156, 142);
 }
 .hero {
     position: absolute;
@@ -86,23 +104,33 @@ hr {
     text-transform: uppercase;
     text-shadow: 1px 1px 0 rgba(0,0,0,.75);
 }
-.hero h3 {
-    font-size: 4rem;    
-    font-weight: bold;
+.hero h2 {
+    font-size: 5rem;    
+    font-weight: 900;
     margin: 0;
     padding: 0;
 }
-.navbar{height: auto;
+
+.navbar{
+    font-weight: 1000;
+    font-size: 16px;
+    height: auto;
     width: 100%;
     background: rgb(247, 247, 247);
     background-color: rgb(247, 247, 247);
 }
+
+  
+/* .navbar-default .navbar-nav > li  > a:active{
+    color: rgb(26, 156, 142); 
+} */
 .navbar-header{
     display: flex;
     flex-direction: row;  
     float: none; 
     width: 100%;
     background-color: rgb(247, 247, 247);
+    border-bottom: #3C3C3C;
     
 }
 
@@ -132,14 +160,17 @@ hr {
 }
 
 .dropdown{
+    color: rgb(26, 156, 142);
   background-color: rgb(247, 247, 247);
-width: 160px;
+  width: 90px;
 }
 .dropdownmenu{padding:7px 0 0 0;
    text-align: right;
     /* border-radius: 50%;
   background-image: url('../img/logo-placeholder.jpg') */
 }
+
+
 
 .navbar-brand {
     width: 100px;
@@ -150,31 +181,38 @@ width: 160px;
 }
 
     .productdetails {
-        margin:auto;
-        padding: 0;
-        background: white;  
-        display: flex;
-        flex-wrap: wrap;
+        background: white;
+        color:rgb(95,96,93);
+          
     }
-  
-    
-    .productdetails img{
-        display: block;
-       margin: auto;
-        width: 100%;  
-    }
+    .productdetails h4{font-weight: 900; }
     
     .productdetails button{
-        display:"block";
-        margin:"auto";
-        width: 80%;
-        max-width: 250px;
+        margin-top: 10px;
+        display: block;
+        margin-left:auto;
+        margin-right: auto;
+        width: 100%;
+        max-width: 230px;
         background:  rgb(26, 156, 142);
         color: white;
         text-align: center;
-        height: 40px;
+        height: 45px;
     }
-    
+   
+    .profileinfo {
+
+    }
+    .profileinfo button{
+        display:block;
+        margin:auto;
+        width: 100%;
+        max-width: 270px;
+        background:  rgb(26, 156, 142);
+        color: white;
+        text-align: center;
+        height: 50px;
+    }
     
     .loginreg { 
         padding-top: 10%;
@@ -296,6 +334,8 @@ margin-bottom: 10px;
             margin-bottom: 10px;
             align-items: center;
             height: 50px;
+            font-weight: 1000;
+            
          
         }
         /* button:hover {
@@ -322,7 +362,6 @@ margin-bottom: 10px;
         .left-addon input  { padding-left:  30px; }
         .right-addon input { padding-right: 30px; }
         .plus{
-        
           margin-top: 10px;
           }
         input {
@@ -362,6 +401,46 @@ margin-bottom: 10px;
             box-shadow: 0 0 5px rgba(109,207,246,.5);
         }
         
+        .product-slider 
+        { padding: 10px; }
+        .product-slider #thumbcarousel1 
+        { margin:0; padding:0; }
+        .product-slider #thumbcarousel1 .item 
+        { text-align: center;display:flex;flex-direction: row;vertical-align: middle; }
+        .product-slider #thumbcarousel1 .item .thumb
+        { border: 1px solid #cecece; width: 20%; margin: 0 3px; vertical-align: middle; display: inline-block;   cursor: pointer; max-width: 140px;  }
+        .product-slider #thumbcarousel1 .item .thumb:hover 
+        { border-color: rgb(26,156,142); }
+        .product-slider .item img
+         { width: 100%; height: 100%; max-height: 100px ;
+             }
+        
+
+        .rightglyphicon{
+            cursor:pointer;
+            color: rgb(75, 75, 75);
+            font-size: 40px;
+            position: absolute;
+            top: 50%;
+            right: 16px;
+            text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
+          }
+          
+          
+        .leftglyphicon{
+            vertical-align: middle;
+            cursor:pointer;
+            color: rgb(75, 75, 75);
+            font-size: 40px;
+            position: absolute;
+            top: 50%;
+            left: 16px;
+            text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
+            
+        }
+        .leftglyphicon:hover,.rightglyphicon:hover{
+         color: rgb(26,156,142);
+         }
         
         input:-moz-placeholder {
             color: #999;
@@ -431,6 +510,11 @@ margin-bottom: 10px;
               .search{
                   display: none;
               }
+              .dropdown{
+                background-color: rgb(247, 247, 247);
+                width: 120px;
+              }
+              
               .icons{
                   margin-bottom: 7px;
               }
@@ -438,13 +522,17 @@ margin-bottom: 10px;
                 height: 280px;
                 } 
               .carousel img { 
-                  margin-top: -150px;
+                  /* margin-top: -150px;
                   margin-left: -20px;
                   margin-right: -20px;
                   width: 150%;
-                 min-height: 430px; 
+                 min-height: 430px;  */
               }
-              .hero h3 {
+              .product-slider .item img
+              { width: 100%; height: 100%; max-height: 70px ;
+                  }
+            
+              .hero h2 {
                 font-size: 3rem;    
                 font-weight: bold;
                 margin: 0;
@@ -454,14 +542,23 @@ margin-bottom: 10px;
               .myfooter h3 {
                 font-size:20px;
               }
-    
+              .rightglyphicon{
+                  font-size: 25px;
+              }
+            
+              .leftglyphicon{
+                  font-size: 25px;}
                 .plus{
                     font-size: 7px;
                     margin-left: -3px;
                     margin-top: 0;
                     }
             }
+            
             @media only screen and (max-width: 350px){
                 .plus{display: none;} 
             }
-            
+            @media only screen and (min-width: 767px) {
+           .dropdownmenu:hover ul {
+               display: block;}}
+             

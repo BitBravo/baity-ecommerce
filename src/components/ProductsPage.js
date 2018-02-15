@@ -8,7 +8,28 @@ import traditionalkitchen from '../assets/img/traditionalkitchen.jpg';
 import bedroom from '../assets/img/bedroom.jpg';
 import livingroom from '../assets/img/livingroom.jpg';
 
+const PreviewImg = styled.img`
+  width: 100%;
+  height: 100%;
+ 
+`;
 
+const ImageDiv = styled.div`
+  position:  absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: hidden;
+  &:hover {
+    box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+  }
+`;
+
+const ImageContainer = styled.div`
+width: 100%;
+height: 100%;
+`;
 const Select = styled.select`
 background-color: rgb(26, 156, 142);
 color:white;
@@ -122,26 +143,39 @@ class ProductsPage extends Component {
   <Carousel >
       <Carousel.Item>
         <div>
-        <img  src={bedroom}     />
+        <ImageContainer>
+            <ImageDiv>
+              <PreviewImg  src= {traditionalkitchen} />
+        </ImageDiv>
+        </ImageContainer>
         <Carousel.Caption className="hero">
-          <h3>غير مزاجك واجعل منزلك أكثر جاذبية </h3>
+          <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
         </Carousel.Caption>
         
         </div>
       </Carousel.Item>
       <Carousel.Item>
         <div>
-        <img  src= {traditionalkitchen}     />
+        <ImageContainer>
+            <ImageDiv>
+              <PreviewImg  src= {livingroom}/>
+        </ImageDiv>
+        </ImageContainer>
         <Carousel.Caption className="hero">
-          <h3>غير مزاجك واجعل منزلك أكثر جاذبية </h3>
+          <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
         </Carousel.Caption>
         </div>
       </Carousel.Item>
       <Carousel.Item>
       <div>
-        <img  src= {livingroom}   />
+      <ImageContainer>
+            <ImageDiv>
+              <PreviewImg src={bedroom}/>
+     
+        </ImageDiv>
+        </ImageContainer>
         <Carousel.Caption className="hero">
-          <h3>غير مزاجك واجعل منزلك أكثر جاذبية </h3>
+          <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
         </Carousel.Caption>
         </div>
       </Carousel.Item>
