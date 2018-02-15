@@ -60,29 +60,35 @@ class ProfileInfo extends Component{
       <Grid>
       <Row>
         <Col sm={12}  lg={12}>
+        <div style={{position: 'relative'}}>
           <PreviewImg  src={livingroom}     />
-          <Link to={`/myprofprofile/`}>
-            <button>الاعدادات</button>
-          </Link>
+          <div style={{position: 'absolute',top: '10px',left: '20px',width: '20%'}}>
+            <Link to={`/myprofprofile/`}>
+              <button>الاعدادات</button>
+            </Link>
+          </div>
+        </div>
         </Col>
       </Row>
 
-      <Row style={{display: 'flex', flexWrap: 'wrap'}}>
+      <Row style={{display: 'flex', flexWrap: 'wrap', marginBottom: '40px'}}>
       <Col sm={4} lg={3}>
         {this.state.profile.imgUrl
-        ? <Image style={{borderRadius: '50%', width: '200px', height: '200px', margin: '5px auto'}} src={this.state.profile.imgUrl}  alt="logo" circle responsive />
-        : <Image style={{borderRadius: '50%', width: '200px', height: '200px', margin: '5px auto'}} src={logo_placeholder} alt="logo" circle responsive />
+        ? <Image style={{borderRadius: '50%', width: '200px', height: '200px', margin: '-100px auto'}} src={this.state.profile.imgUrl}  alt="logo" circle responsive />
+        : <Image style={{borderRadius: '50%', width: '200px', height: '200px', margin: '-100px auto'}} src={logo_placeholder} alt="logo" circle responsive />
         }
       </Col>
         <Col sm={8}  lg={6}>
-          <h3>{this.state.profile.businessName}</h3><h4> {this.state.profile.types}  </h4>
+          <h3 style={{display: 'inline-block'}}>{this.state.profile.businessName}</h3>
+          <h4 style={{display: 'inline'}}> {this.state.profile.types} </h4>
           <label>{this.state.profile.city} ،السعودية</label>
         </Col>
-        <Col>
+        <Col sm={12}  lg={3}>
           <button>اتصل بنا</button>
         </Col>
       </Row>
       </Grid>
+      <hr/>
       </div>
     )
   }
