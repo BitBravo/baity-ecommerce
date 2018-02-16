@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from 'react-dom'
+import { Redirect, Link } from 'react-router-dom'
 import _ from 'lodash'
 import {
   FormGroup,
@@ -15,7 +16,7 @@ import {
   Modal,
   ProgressBar,
   Row,
-  Col, 
+  Col,
   Image
 } from "react-bootstrap";
 import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
@@ -23,7 +24,7 @@ import FirebaseServices from "./FirebaseServices";
 import Loading from "./Loading";
 import { app } from "../base";
 import FormUtils from './FormUtils'
-import bayty_icon from '../assets/img/bayty_icon.png';
+import bayty_icon from '../assets/img/bayty_icon1.png';
 import logo_placeholder from '../assets/img/logo-placeholder.jpg';
 
 
@@ -52,7 +53,7 @@ const SelectGroup = ({ id, label, selectedOption, ...props }) => (
       onChange={props.onChange}
       style={{paddingTop: '2px'}}
     >
-      {props.options.map(opt => {        
+      {props.options.map(opt => {
         return (
           <option key={opt.key} value={opt.value}>
             {opt.value}
@@ -71,7 +72,7 @@ const FIELDS = {
     touched: false,
     required: true,
     errorMessage: FormUtils.bussNameErrorMsg,
-    helpMsg: "", 
+    helpMsg: "",
     value: "",
     onChangeValidation: FormUtils.bussNameValid
   },
@@ -82,7 +83,7 @@ const FIELDS = {
     touched: false,
     required: true,
     errorMessage: "",
-    helpMsg: "", 
+    helpMsg: "",
     value: "الرياض",
     options: FormUtils.BusinessProfileOptions.cities.map( (city) => {
       return {key: city.id, value: city.name_ar};
@@ -96,7 +97,7 @@ const FIELDS = {
     touched: false,
     required: true,
     errorMessage: FormUtils.phoneNoErrorMsg,
-    helpMsg: "", 
+    helpMsg: "",
     value: "",
     onChangeValidation: FormUtils.phoneNoValid
   },
@@ -105,9 +106,9 @@ const FIELDS = {
     label: 'لوقو الشركة' ,
     valid: false,
     touched: false,
-    required: false,
+    required: true,
     errorMessage: "",
-    helpMsg: "", 
+    helpMsg: "",
     value: ""
   },
   preview: {
@@ -117,7 +118,7 @@ const FIELDS = {
     touched: false,
     required: false,
     errorMessage: FormUtils.bussDescErrorMsg,
-    helpMsg: "", 
+    helpMsg: "",
     value: "",
     onChangeValidation: FormUtils.bussDescValid
   },
@@ -128,7 +129,7 @@ const FIELDS = {
     touched: false,
     required: false,
     errorMessage: FormUtils.bussWebsiteErrorMsg,
-    helpMsg: "", 
+    helpMsg: "",
     value: "",
     onChangeValidation: FormUtils.bussWebsiteValid
   },
@@ -139,7 +140,7 @@ const FIELDS = {
     touched: false,
     required: true,
     errorMessage: "",
-    helpMsg: "", 
+    helpMsg: "",
     value: [],
     options: FormUtils.BusinessProfileOptions.businessTypes
   },
@@ -150,7 +151,7 @@ const FIELDS = {
     touched: false,
     required: true,
     errorMessage: "",
-    helpMsg: "", 
+    helpMsg: "",
     value: [],
     options: FormUtils.BusinessProfileOptions.businessCategories
   },
@@ -161,7 +162,7 @@ const FIELDS = {
     touched: false,
     required: false,
     errorMessage: "",
-    helpMsg: "", 
+    helpMsg: "",
     value: ""
   },
 }
@@ -184,7 +185,7 @@ class ProfProfileForm extends Component {
       }
     }
 
-    let fieldsWithValuesFromDB = _.reduce(this.state.FIELDS, 
+    let fieldsWithValuesFromDB = _.reduce(this.state.FIELDS,
         (fieldsWithValuesFromDB, fieldData, fieldName) => { //result, value, key
 
       }, {});
@@ -224,7 +225,7 @@ class ProfProfileForm extends Component {
     else
       fieldData.valid = true;
     return fieldData;
-    
+
   }
 
   handleChange(e) {
@@ -242,20 +243,20 @@ class ProfProfileForm extends Component {
     const value = args[0]//an array of selected options
     let fieldInfo = {...this.state.FIELDS[name]};
     fieldInfo.value = value
-    this.updateState(fieldInfo, name)    
+    this.updateState(fieldInfo, name)
   }
 
   handleFileUpload( e ) {
     e.preventDefault();
     if (!e.target.files.length > 0)//user canceled selecting a file
-      return  
+      return
     let reader = new FileReader();
     let file = e.target.files[0];
-    
+
     let imageMaxSize = 1024 * 1024;//1MB
-    if (file.size > imageMaxSize){ 
+    if (file.size > imageMaxSize){
       var nBytes = file.size;
-      var sOutput = nBytes + " bytes" 
+      var sOutput = nBytes + " bytes"
       for (var aMultiples = ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"], nMultiple = 0, nApprox = nBytes / 1024; nApprox > 1; nApprox /= 1024, nMultiple++) {
         sOutput = nApprox.toFixed(3) + " " + aMultiples[nMultiple];
       }
@@ -283,24 +284,24 @@ class ProfProfileForm extends Component {
 
     reader.readAsDataURL(file)
   }
-  
-   
+
+
   validateFields(){
-     //first validate field, set valid properties and error messages 
-     let newValidationState = _.reduce(this.state.FIELDS, 
+     //first validate field, set valid properties and error messages
+     let newValidationState = _.reduce(this.state.FIELDS,
       (newState, fieldData, fieldName) => { //result, value, key
         let newFieldData = this.validateField(fieldName, fieldData.value);
         newState[fieldName] = newFieldData;
         return newState;
-      }, 
+      },
       {});
       return newValidationState;
   }
   validateForm(){
     //then compute form validation
-    let formValid  = _.reduce(this.state.FIELDS, 
-                          (formValid, field) => { //result, value, key 
-                            
+    let formValid  = _.reduce(this.state.FIELDS,
+                          (formValid, field) => { //result, value, key
+
                             if (field.type === 'checkbox' && field.required)
                               return formValid && field.value.length > 0;
                             //field not required and empty so ignore
@@ -309,15 +310,15 @@ class ProfProfileForm extends Component {
                             //field not touched and has value (from DB), it is valid
                             else if(!field.touched && field.value && field.value.length > 0)
                               return formValid;
-                            else 
-                              return formValid && (field.valid || !field.required); 
-                          }, 
+                            else
+                              return formValid && (field.valid || !field.required);
+                          },
                           true);
     return formValid;
   }
 
   packageDataForSubmission(){
-    var profileData = _.reduce(this.state.FIELDS, 
+    var profileData = _.reduce(this.state.FIELDS,
                   (profileData, fieldData, fieldName) => {
                     profileData[fieldName] = fieldData.value;
                     return profileData
@@ -329,7 +330,7 @@ class ProfProfileForm extends Component {
     e.preventDefault();
     this.setState( {FIELDS: this.validateFields()},//first validate fields to touch all of them
       this.setState({formValid: this.validateForm()}, () => {
-        
+
         if (this.state.formValid){
           //remove any error messages in the form
           this.setState({
@@ -346,7 +347,7 @@ class ProfProfileForm extends Component {
           profileData.imageFile = this.state.imgFile;
           profileData.newImage = this.state.imgUrl !== this.props.profile.imgUrl;
           //update
-          this.props.onSubmit(profileData, 
+          this.props.onSubmit(profileData,
             (error) => {
               console.log(error)
               this.setState({
@@ -357,7 +358,7 @@ class ProfProfileForm extends Component {
                   showSuccessfulSubmit: false
                 }
               })
-              ReactDOM.findDOMNode(this).scrollTop = 0;  
+              ReactDOM.findDOMNode(this).scrollTop = 0;
             })
         } else {// form is not valid
           this.setState({
@@ -374,7 +375,7 @@ class ProfProfileForm extends Component {
     );
   }
 
-  
+
 
   //outputs validatin state of a field (valid, not valid, neutral since it is not touched yet)
   validationState(touched, validFlag, required, value) {
@@ -395,7 +396,7 @@ class ProfProfileForm extends Component {
     value={this.state.FIELDS[fieldName].value || ''}
     help={
       !fieldConfig.touched || (!fieldConfig.required && (fieldConfig.value === undefined || fieldConfig.value.length === 0) ) ||
-      fieldConfig.valid  
+      fieldConfig.valid
         ? fieldConfig.helpMsg || ''
         : fieldConfig.errorMessage || ''
     }
@@ -438,7 +439,7 @@ class ProfProfileForm extends Component {
       label={fieldConfig.label}
       onChange={this.handleChange}
       options={fieldConfig.options}
-      selectedOption={this.state.FIELDS[fieldName].value}    
+      selectedOption={this.state.FIELDS[fieldName].value}
     />);
   }
   renderCheckboxFieldGroup(fieldConfig, fieldName) {
@@ -450,13 +451,13 @@ class ProfProfileForm extends Component {
         <hr style={{marginTop: "10px"}}/>
         <CheckboxGroup
         key={'formgroup'+fieldName}
-        
+
         name={fieldName}
         value={this.state.FIELDS[fieldName].value}
         onChange={this.handleCheckboxChange}>
           <Row style={{display: 'flex', flexWrap: 'wrap'}} key={'row'+fieldName}>
           {
-            fieldConfig.options.map((checkbox) => { 
+            fieldConfig.options.map((checkbox) => {
               return (
                   <Col key={"Col"+checkbox[0]} xs={6} sm={4}>
                     <label className="form-check-label"><Checkbox  className="form-check-input form-control-lg" value={checkbox[1]} key={checkbox[0]} />
@@ -467,20 +468,20 @@ class ProfProfileForm extends Component {
             })
           }
           </Row>
-        </CheckboxGroup>   
+        </CheckboxGroup>
         <hr />
       </FormGroup>
-      
+
     );
   }
 
   /*
-    render the field in a form based on an object that 
-    describes the fields info. Note that currently we 
-    do not render the fields in a specific order 
+    render the field in a form based on an object that
+    describes the fields info. Note that currently we
+    do not render the fields in a specific order
   */
   renderField(fieldConfig, fieldName) {
-    
+
     if (['text', 'tel'].includes(fieldConfig.type)){
       return this.renderInputField(fieldConfig, fieldName )
     } else if(fieldConfig.type === 'textarea') {
@@ -490,21 +491,34 @@ class ProfProfileForm extends Component {
     } else if(fieldConfig.type === 'checkbox') {
       return this.renderCheckboxFieldGroup(fieldConfig, fieldName)
     }
-    
+
+  }
+
+  authWithEmailPassword(event) {
+    event.preventDefault()
+    this.setState({ redirect: true })
   }
 
   render() {
     var loading = false;
+    const { from } = { from: { pathname: '/myprofile' } }
+    const { redirect } = this.state
+
+    if (redirect) {
+      return (
+        <Redirect to={from} />
+      )
+    }
     return (
       <div>
         <form
-          onSubmit={event => this.authWithEmailPassword(event)}
+        onSubmit={event => this.authWithEmailPassword(event)}
           ref={form => {
             this.profForm = form;
           }}
         >
-          <img src={bayty_icon} />
           <div className="loginregtitle">
+            <img src={bayty_icon} />
             <h3>بيانات الحساب</h3>
           </div>
           { loading ? (
@@ -516,27 +530,27 @@ class ProfProfileForm extends Component {
                   }
               </Alert>
             </Collapse>
-          )} 
+          )}
           <Row>
             <Col lg={12} >
-            
+
               {this.state.imgUrl
-              ? <Image style={{borderRadius: '50%', width: '200px', height: '200px', margin: '5px auto'}} src={this.state.imgUrl}  alt="logo" circle responsive /> 
+              ? <Image style={{borderRadius: '50%', width: '200px', height: '200px', margin: '5px auto'}} src={this.state.imgUrl}  alt="logo" circle responsive />
               : <Image style={{borderRadius: '50%', width: '200px', height: '200px', margin: '5px auto'}} src={logo_placeholder} alt="logo" circle responsive />
               }
-            
+
             </Col>
             </Row>
             <Row>
               <Col lg={12}>
               <div style={{margin: '10px auto 30px', textAlign: 'center'}}>
               <label htmlFor="profile_pic"><span style={{ color: 'green'}}>+&nbsp;</span>
-              {this.state.imgUrl && this.state.imgUrl.length > 0 
+              {this.state.imgUrl && this.state.imgUrl.length > 0
                 ? "عدل شعار الشركة"
                 : "أضف شعار الشركة"
               }
               &nbsp;&nbsp;</label>
-              {this.state.imgError 
+              {this.state.imgError
                 ?<span className="help-block" style={{fontSize: '100%', color: 'red'}}>تقبل الصور من نوع JPEG/JPG وحجم أقل من 1 ميجابايت 1MB</span>
                 :<span className="help-block" style={{fontSize: '80%'}}>تقبل الصور من نوع JPEG/JPG/PNG وحجم أقل من 1 ميجابايت </span>
               }
@@ -544,15 +558,15 @@ class ProfProfileForm extends Component {
           accept="image/jpeg, image/png" style={{opacity: 0}} onChange={this.handleFileUpload.bind(this)} />
               </div>
               </Col>
-              </Row>  
-          
-          
+              </Row>
 
-          { 
+
+
+          {
             _.map(this.state.FIELDS, this.renderField.bind(this))
-            
+
           }
-          
+
           {/* <Row>
             <Col
               sm={6}
@@ -560,11 +574,11 @@ class ProfProfileForm extends Component {
               lg={6}
               className={"col-lg-push-6; col-sm-push-6"}
             >
-              
+
             </Col>
           </Row> */}
           <button type="submit" onClick={this.handleSubmit}>تحديث الحساب</button>
-          <button type="submit">رجوع</button>
+          <button>إلغاء</button>
         </form>
       </div>
     );

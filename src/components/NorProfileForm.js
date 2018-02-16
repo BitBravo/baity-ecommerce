@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from 'react-dom'
+import { Redirect, Link } from 'react-router-dom'
 import _ from 'lodash'
 import {
   FormGroup,
@@ -23,7 +24,7 @@ import FirebaseServices from "./FirebaseServices";
 import Loading from "./Loading";
 import { app } from "../base";
 import FormUtils from './FormUtils'
-import bayty_icon from '../assets/img/bayty_icon.png';
+import bayty_icon from '../assets/img/bayty_icon1.png';
 import logo_placeholder from '../assets/img/logo-placeholder.jpg';
 
 
@@ -126,6 +127,10 @@ const FIELDS = {
 class NorProfileForm extends Component {
   constructor(args) {
     super(args);
+
+    this.authWithEmailPassword = this.authWithEmailPassword.bind(this)
+
+
     let fields = {...FIELDS}
     _.forEach(fields, (fieldData, fieldName) => { //element value, element key in object
       fieldData.value = this.props.profile[fieldName] || ''
@@ -380,18 +385,34 @@ class NorProfileForm extends Component {
 
   }
 
+  authWithEmailPassword(event) {
+    event.preventDefault()
+    this.setState({ redirect: true })
+  }
+
   render() {
     var loading = false;
+    const { from } = { from: { pathname: '/myprofile' } }
+    const { redirect } = this.state
+
+    if (redirect) {
+      return (
+        <Redirect to={from} />
+      )
+    }
     return (
       <div>
         <form
-          onSubmit={event => this.authWithEmailPassword(event)}
+          onSubmit={event => {
+            console.log(event)
+            this.authWithEmailPassword(event)
+            }}
           ref={form => {
             this.profForm = form;
           }}
         >
-          <img src={bayty_icon} />
           <div className="loginregtitle">
+          <img src={bayty_icon} />
           <h3>البيانات الشخصية</h3>
           </div>
           { loading ? (
@@ -451,7 +472,7 @@ class NorProfileForm extends Component {
             </Col>
           </Row> */}
           <button type="submit" onClick={this.handleSubmit}>حفظ التغييرات</button>
-          <button type="submit">إلغاء</button>
+          <button>إلغاء</button>
         </form>
       </div>
     );

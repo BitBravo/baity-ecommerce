@@ -7,20 +7,33 @@ import Loading from './Loading';
 import Equalizer from "react-equalizer";
 import styled from 'styled-components'
 import {MdAddShoppingCart,MdEventSeat} from 'react-icons/lib/md';
-import plus from '../assets/img/bayty_icon1.png';
+import FullHeart from '../assets/img/fullHeart.png';
+import EmptyHeart from '../assets/img/emptyHeart.png';
+
+const MyThumbnailDiv = styled.div`
+  position: relative;
+  background-color: #fff;
+  transform: scale(1, 1);
+  transition: transform 1s ease;
+  margin-bottom: 50px;
+  &:hover{
+    box-shadow:0px 0px 10px #6A6A6A;
+    border:1px solid #6A6A6A;
+    transition:all 0.5s ease-in-out;
+    transform: scale(1.05, 1.05);`
 
 const ImgGallaryThumb = styled.div`
-  }
+  
 `;
 const PrevImgGallaryThumb = styled.div`
-  }
+  
 `;
 
 const PreviewImg = styled.img`
   width: 100%;
   height: 100%;
 
-  }
+ 
 `;
 
 const ImageDiv = styled.div`
@@ -67,17 +80,33 @@ class ProductDetails extends Component {
       index: 0,
       nextIcon: <span onClick={this.nextImage.bind(this)} className="glyphicon glyphicon-chevron-right"></span>,
       prevIcon: <span onClick={this.prevImage.bind(this)} className="glyphicon glyphicon-chevron-left"></span>,
-    
+      liked: false
     };
+
+
   }
 
   componentWillMount() {
     this.thumbImage.bind(this);
+
+    const authenticated = this.props.authenticated
+
     this.productsRef = base.syncState(`${FirebaseServices.PRODUCTS_PATH}/${this.productId}`, {
       context: this,
       state: 'product',
       then(data) {
-      this.setState({loading: false})
+        if (authenticated) {
+          this.userLikesRef = FirebaseServices.readDBRecord('likes', `${this.props.currentUser.uid}/products/${this.productId}`)
+          .then(val => {
+            if (val) {
+              this.setState({liked: true, loading: false})
+            }else {
+              this.setState({liked: false, loading: false})
+            }
+          })
+        }else {
+          this.setState({loading: false})
+        }
       },
       onFailure(error) {
       this.setState({errorHandling: {showError: true, errorMsg: error}});
@@ -87,6 +116,7 @@ class ProductDetails extends Component {
 
   componentWillUnmount() {
     this.productsRef && base.removeBinding(this.productsRef);
+    this.userLikesRef && base.removeBinding(this.userLikesRef);
   }
 
   nextImage(){
@@ -103,32 +133,36 @@ class ProductDetails extends Component {
   }
 
   like(){
-    const userLikes = FirebaseServices.likes
-    const currentUserRef = userLikes.child(this.props.currentUser.uid).child("products")
-    const productRef = FirebaseServices.products.child(this.productId)
+    if (this.props.authenticated) {
+      const userLikes = FirebaseServices.likes
+      const currentUserRef = userLikes.child(this.props.currentUser.uid).child("products")
+      const productRef = FirebaseServices.products.child(this.productId)
 
-    return productRef.transaction(function(post) {
-      console.log("Prudoct detailes - transaction()")
-      console.log(post)
-      if (post) {
-        currentUserRef.child(post.id).once('value', function (snap) {
-        if (snap.val()) {
-          console.log(currentUserRef.child(post.id));
+      return productRef.transaction((post) => {
+        console.log("Prudoct detailes - transaction()")
+        console.log(post)
+        if (post) {
+          currentUserRef.child(post.id).once('value', (snap) => {
+          if (snap.val()) {
+            console.log(currentUserRef.child(post.id));
 
-          console.log("unlike");
-          post.likes--;
-          currentUserRef.child(post.id).set(null);
-        } else {
-          console.log("like");
-          console.log(currentUserRef.child(post.id));
-          post.likes++;
-          //console.log(userLikes.child(currentUserId).child(post.id));
-          currentUserRef.child(post.id).set(post.postType);
+            console.log("unlike");
+            post.likes--;
+            currentUserRef.child(post.id).set(null);
+            this.setState({liked: false})
+          } else {
+            console.log("like");
+            console.log(currentUserRef.child(post.id));
+            post.likes++;
+            //console.log(userLikes.child(currentUserId).child(post.id));
+            currentUserRef.child(post.id).set(post.postType);
+            this.setState({liked: true})
+          }
+        })
         }
-      })
-      }
-      return post;
-    });
+        return post;
+      });
+    }
   }
 
   render() {
@@ -230,9 +264,12 @@ class ProductDetails extends Component {
           }
             </p>
             </PaddingDiv>
-            <Col xs={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
+          <Col xs={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
             <div style={{marginTop: '30%'}}>
-              <img src={plus}  onClick={this.like.bind(this)}/>
+              {this.state.liked
+              ? <img src={FullHeart} onClick={this.like.bind(this)}/>
+              : <img src={EmptyHeart} onClick={this.like.bind(this)}/>
+              }
             </div>
           </Col>
             </Col>
