@@ -20,6 +20,7 @@ import NorProfileUpdater from './NorProfileUpdater'
 import Registration from "./Registration";
 import FavProducts from "./FavProducts";
 import FavIdeas from "./FavIdeas";
+import PasswordResetter from "./PasswordResetter"
 
 function AuthenticatedRoute({ component: Component, authenticated, currentUser, ...rest }) {
   return (
@@ -109,6 +110,16 @@ class Main extends Component {
                 <RegisterNormal
                   currentUser={this.props.currentUser}
                   {...props}
+                />
+              );
+            }}
+          />
+          <Route
+            exact
+            path="/resetpassword"
+            render={props => {
+              return (
+                <PasswordResetter
                 />
               );
             }}

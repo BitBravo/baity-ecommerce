@@ -6,9 +6,10 @@ import { app } from '../base'
 import bayty_icon from '../assets/img/bayty_icon1.png';
 import { CSSTransition } from 'react-transition-group'
 import styled from 'styled-components'
+import PasswordResetter from "./PasswordResetter"
 
 
- 
+
 /*
 
 This form uses firebase email/password authentication.
@@ -74,7 +75,7 @@ class Login extends Component {
     this.setState({
       formStatusAlert: {
         alert: true,
-        showRegisterLink: registerLink, 
+        showRegisterLink: registerLink,
         type: 'danger',
         alertMsg: msg,
         showSuccessfulSubmit: false
@@ -126,6 +127,8 @@ class Login extends Component {
       })
   }
 
+
+
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } }
     const { redirect } = this.state
@@ -137,12 +140,12 @@ class Login extends Component {
     }
 
     return (
-      
-        
+
+
       <div className="loginreg">
         <form    onSubmit={(event) => this.authWithEmailPassword(event)}
-          ref={(form) => { this.loginForm = form }}> 
-           
+          ref={(form) => { this.loginForm = form }}>
+
          <div className="loginregtitle">
          <img src={bayty_icon}  />
       <h2 style={{color:'rgb(26,156,142)'}}>تسجيل الدخول </h2>
@@ -166,7 +169,7 @@ class Login extends Component {
            <input id="inputEmail"  name="email" type="email" ref={(input) => {this.emailInput = input}} placeholder="عنوان البريد الالكتروني"></input>
           </div>
           </Col>
-         
+
       <Col sm={12}  lg={12}>
           <div className="form-group">
             <input id="inputPassword" name="password" type="password" ref={(input) => {this.passwordInput = input}} placeholder="كلمة السر"></input>
@@ -175,17 +178,20 @@ class Login extends Component {
           </Row>
           <div className="form-group">
           <button type="submit" >تسجيل دخول</button>
+
+          <LinkContainer to="/resetpassword" activeClassName="active" style={{cursor:"pointer"}}>
           <p><span style={{cursor:"pointer"}}> نسيت كلمة المرور؟ </span></p>
-          
-          <p > <span style={{color:"black"}}>ليس لديك حساب؟</span> 
-          <LinkContainer to="/register" activeClassName="active" style={{cursor:"pointer"}}>
+          </LinkContainer>
+
+          <p > <span style={{color:"black"}}>ليس لديك حساب؟</span>
+          <LinkContainer to="/registration" activeClassName="active" style={{cursor:"pointer"}}>
           <span >&nbsp; قم بالتسجيل</span>
           </LinkContainer></p>
           </div>
-          
+
         </form>
       </div>
-      
+
     )
   }
 }
