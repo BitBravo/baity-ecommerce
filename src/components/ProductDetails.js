@@ -8,7 +8,8 @@ import Equalizer from "react-equalizer";
 import styled from 'styled-components'
 import FaArrowCircleRight from 'react-icons/lib/fa/arrow-circle-right'
 import FaArrowCircleLeft from 'react-icons/lib/fa/arrow-circle-left'
-import plus from '../assets/img/plus.png';
+import FullHeart from '../assets/img/fullHeart.png';
+import EmptyHeart from '../assets/img/emptyHeart.png';
 
 const MyThumbnailDiv = styled.div`
   position: relative;
@@ -69,16 +70,33 @@ class ProductDetails extends Component {
       errorHandling: {
         showError: false, errorMsg: 'error'
       },
-      index: 0
+      index: 0,
+      liked: false
     };
+
+
   }
 
   componentWillMount() {
+
+    const authenticated = this.props.authenticated
+
     this.productsRef = base.syncState(`${FirebaseServices.PRODUCTS_PATH}/${this.productId}`, {
       context: this,
       state: 'product',
       then(data) {
-      this.setState({loading: false})
+        if (authenticated) {
+          this.userLikesRef = FirebaseServices.readDBRecord('likes', `${this.props.currentUser.uid}/products/${this.productId}`)
+          .then(val => {
+            if (val) {
+              this.setState({liked: true, loading: false})
+            }else {
+              this.setState({liked: false, loading: false})
+            }
+          })
+        }else {
+          this.setState({loading: false})
+        }
       },
       onFailure(error) {
       this.setState({errorHandling: {showError: true, errorMsg: error}});
@@ -88,6 +106,7 @@ class ProductDetails extends Component {
 
   componentWillUnmount() {
     this.productsRef && base.removeBinding(this.productsRef);
+    this.userLikesRef && base.removeBinding(this.userLikesRef);
   }
 
   nextImage(){
@@ -101,32 +120,36 @@ class ProductDetails extends Component {
   }
 
   like(){
-    const userLikes = FirebaseServices.likes
-    const currentUserRef = userLikes.child(this.props.currentUser.uid).child("products")
-    const productRef = FirebaseServices.products.child(this.productId)
+    if (this.props.authenticated) {
+      const userLikes = FirebaseServices.likes
+      const currentUserRef = userLikes.child(this.props.currentUser.uid).child("products")
+      const productRef = FirebaseServices.products.child(this.productId)
 
-    return productRef.transaction(function(post) {
-      console.log("Prudoct detailes - transaction()")
-      console.log(post)
-      if (post) {
-        currentUserRef.child(post.id).once('value', function (snap) {
-        if (snap.val()) {
-          console.log(currentUserRef.child(post.id));
+      return productRef.transaction((post) => {
+        console.log("Prudoct detailes - transaction()")
+        console.log(post)
+        if (post) {
+          currentUserRef.child(post.id).once('value', (snap) => {
+          if (snap.val()) {
+            console.log(currentUserRef.child(post.id));
 
-          console.log("unlike");
-          post.likes--;
-          currentUserRef.child(post.id).set(null);
-        } else {
-          console.log("like");
-          console.log(currentUserRef.child(post.id));
-          post.likes++;
-          //console.log(userLikes.child(currentUserId).child(post.id));
-          currentUserRef.child(post.id).set(post.postType);
+            console.log("unlike");
+            post.likes--;
+            currentUserRef.child(post.id).set(null);
+            this.setState({liked: false})
+          } else {
+            console.log("like");
+            console.log(currentUserRef.child(post.id));
+            post.likes++;
+            //console.log(userLikes.child(currentUserId).child(post.id));
+            currentUserRef.child(post.id).set(post.postType);
+            this.setState({liked: true})
+          }
+        })
         }
-      })
-      }
-      return post;
-    });
+        return post;
+      });
+    }
   }
 
   render() {
@@ -221,7 +244,10 @@ class ProductDetails extends Component {
           </Col>
           <Col xs={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
             <div style={{marginTop: '30%'}}>
-              <img src={plus}  onClick={this.like.bind(this)}/>
+              {this.state.liked
+              ? <img src={FullHeart} onClick={this.like.bind(this)}/>
+              : <img src={EmptyHeart} onClick={this.like.bind(this)}/>
+              }
             </div>
           </Col>
           {/* <Col lg={8} style={{display:"block", margin:"auto"}}>

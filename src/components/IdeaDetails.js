@@ -8,7 +8,8 @@ import Equalizer from "react-equalizer";
 import styled from 'styled-components'
 import FaArrowCircleRight from 'react-icons/lib/fa/arrow-circle-right'
 import FaArrowCircleLeft from 'react-icons/lib/fa/arrow-circle-left'
-import plus from '../assets/img/plus.png';
+import FullHeart from '../assets/img/fullHeart.png';
+import EmptyHeart from '../assets/img/emptyHeart.png';
 
 const FlexRow = styled(Row)`
   display: flex;
@@ -26,16 +27,29 @@ class IdeaDetails extends Component {
       errorHandling: {
         showError: false, errorMsg: 'error'
       },
-      index: 0
+      index: 0,
+      liked: false
     };
   }
 
   componentWillMount() {
+
     this.ideasRef = base.syncState(`${FirebaseServices.IDEAS_PATH}/${this.ideaId}`, {
       context: this,
       state: 'idea',
       then(data) {
-      this.setState({loading: false})
+        if (this.props.authenticated) {
+          this.userLikesRef = FirebaseServices.readDBRecord('likes', `${this.props.currentUser.uid}/ideas/${this.productId}`)
+          .then(val => {
+            if (val) {
+              this.setState({liked: true, loading: false})
+            }else {
+              this.setState({liked: false, loading: false})
+            }
+          })
+        }else {
+          this.setState({loading: false})
+        }
       },
       onFailure(error) {
       this.setState({errorHandling: {showError: true, errorMsg: error}});
@@ -45,6 +59,7 @@ class IdeaDetails extends Component {
 
   componentWillUnmount() {
     this.ideasRef && base.removeBinding(this.ideasRef);
+    this.userLikesRef && base.removeBinding(this.userLikesRef);
   }
 
   nextImage(){
@@ -58,28 +73,32 @@ class IdeaDetails extends Component {
   }
 
   like(){
-    const userLikes = FirebaseServices.likes
-    const currentUserRef = userLikes.child(`${this.props.currentUser.uid}/ideas`)
-    const ideaRef = FirebaseServices.ideas.child(this.ideaId)
+    if (this.props.authenticated) {
+      const userLikes = FirebaseServices.likes
+      const currentUserRef = userLikes.child(`${this.props.currentUser.uid}/ideas`)
+      const ideaRef = FirebaseServices.ideas.child(this.ideaId)
 
-    return ideaRef.transaction(function(post) {
-      console.log("Idea detailes - transaction()")
-      console.log(post)
-      if (post) {
-        currentUserRef.child(post.id).once('value', function (snap) {
-        if (snap.val()) {
+      return ideaRef.transaction((post) => {
+        console.log("Idea detailes - transaction()")
+        console.log(post)
+        if (post) {
+          currentUserRef.child(post.id).once('value', (snap) => {
+          if (snap.val()) {
 
-          post.likes--;
-          currentUserRef.child(post.id).set(null);
-        } else {
-          post.likes++;
-          //console.log(userLikes.child(currentUserId).child(post.id));
-          currentUserRef.child(post.id).set(post.postType);
+            post.likes--;
+            currentUserRef.child(post.id).set(null);
+            this.setState({liked: false})
+          } else {
+            post.likes++;
+            //console.log(userLikes.child(currentUserId).child(post.id));
+            currentUserRef.child(post.id).set(post.postType);
+            this.setState({liked: true})
+          }
+        })
         }
-      })
-      }
-      return post;
-    });
+        return post;
+      });
+    }
   }
 
   render() {
@@ -154,7 +173,10 @@ class IdeaDetails extends Component {
           </Col>
           <Col xs={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
             <div style={{marginTop: '30%'}}>
-              <img src={plus}  onClick={this.like.bind(this)}/>
+              {this.state.liked
+              ? <img src={FullHeart} onClick={this.like.bind(this)}/>
+              : <img src={EmptyHeart} onClick={this.like.bind(this)}/>
+              }
             </div>
           </Col>
 
