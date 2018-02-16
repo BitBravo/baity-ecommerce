@@ -7,6 +7,28 @@ import traditionalkitchen from '../assets/img/traditionalkitchen.jpg';
 import bedroom from '../assets/img/bedroom.jpg';
 import livingroom from '../assets/img/livingroom.jpg';
 
+const PreviewImg = styled.img`
+  width: 100%;
+  height: 100%;
+ 
+`;
+
+const ImageDiv = styled.div`
+  position:  absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: hidden;
+  &:hover {
+    box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+  }
+`;
+
+const ImageContainer = styled.div`
+width: 100%;
+height: 100%;
+`;
 
 const Select = styled.select`
 background-color: rgb(26, 156, 142);
@@ -47,36 +69,49 @@ class IdeasPage extends Component {
      <Row style={{display: 'flex', flexWrap: 'wrap'}}>
    <Col sm={12} xs={12} lg={12} >
 
-      <div>
-  <Carousel >
-      <Carousel.Item>
-        <div>
-        <img  src={bedroom}     />
-        <Carousel.Caption className="hero">
-          <h3>غير مزاجك واجعل منزلك أكثر جاذبية </h3>
-        </Carousel.Caption>
-
-        </div>
-      </Carousel.Item>
-      <Carousel.Item>
-        <div>
-        <img  src= {traditionalkitchen}     />
-        <Carousel.Caption className="hero">
-          <h3>غير مزاجك واجعل منزلك أكثر جاذبية </h3>
-        </Carousel.Caption>
-        </div>
-      </Carousel.Item>
-      <Carousel.Item>
-      <div>
-        <img  src= {livingroom}   />
-        <Carousel.Caption className="hero">
-          <h3>غير مزاجك واجعل منزلك أكثر جاذبية </h3>
-        </Carousel.Caption>
-        </div>
-      </Carousel.Item>
-
-    </Carousel>
-   </div>
+   <div>
+   <Carousel >
+       <Carousel.Item>
+         <div>
+         <ImageContainer>
+             <ImageDiv>
+               <PreviewImg  src= {traditionalkitchen} />
+         </ImageDiv>
+         </ImageContainer>
+         <Carousel.Caption className="hero">
+           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
+         </Carousel.Caption>
+         
+         </div>
+       </Carousel.Item>
+       <Carousel.Item>
+         <div>
+         <ImageContainer>
+             <ImageDiv>
+               <PreviewImg  src= {livingroom}/>
+         </ImageDiv>
+         </ImageContainer>
+         <Carousel.Caption className="hero">
+           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
+         </Carousel.Caption>
+         </div>
+       </Carousel.Item>
+       <Carousel.Item>
+       <div>
+       <ImageContainer>
+             <ImageDiv>
+               <PreviewImg src={bedroom}/>
+      
+         </ImageDiv>
+         </ImageContainer>
+         <Carousel.Caption className="hero">
+           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
+         </Carousel.Caption>
+         </div>
+       </Carousel.Item>
+       
+     </Carousel>
+    </div>
 </Col>
    </Row>
    </Grid>

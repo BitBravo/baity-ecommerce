@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import { Nav, Navbar, NavItem, Button, NavbarBrand,NavDropdown,MenuItem } from "react-bootstrap";
+import { Nav, Navbar, NavItem, Button, NavbarBrand,NavDropdown,MenuItem,Glyphicon ,DropdownButton,ButtonToolbar} from "react-bootstrap";
 import bayty_icon from '../assets/img/bayty_icon.png';
 import {GoSignIn,GoSignOut,GoHome} from 'react-icons/lib/go';
-import {MdPersonAdd,MdAddToPhotos,MdEventSeat,MdPersonOutline,MdAddShoppingCart,MdWeekend} from 'react-icons/lib/md';
+import {MdPersonAdd,MdAddToPhotos,MdEventSeat,MdPersonOutline,MdWeekend} from 'react-icons/lib/md';
 import {TiUserAddOutline} from 'react-icons/lib/ti';
 import { IndexLinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components'
@@ -27,11 +27,13 @@ float:right;
  
 
 class Header extends Component {
+ 
   render() {
     return (
 
       <Navbar  fixedTop collapseOnSelect>
         <Navbar.Header  >
+       
            <NavbarBrand>
          <IndexLinkContainer to="/" style={{cursor:"pointer"}}>
           <img src={bayty_icon} />
@@ -52,43 +54,44 @@ class Header extends Component {
                 </Search>
 
                 {!this.props.authenticated ? (
-               <Nav pullLeft  className="dropdown">
+               <Nav pullLeft  className="dropdown"  >
               <NavDropdown pullRight title="الحساب" className="dropdownmenu">
                 <LinkContainer style={{textAlign:'right'}} to="/login" activeClassName="active">
-                  <MenuItem  ><GoSignIn className="icons"/>تسجيل دخول</MenuItem>
+                  <MenuItem className="menuItem" ><GoSignIn className="icons"/>تسجيل دخول</MenuItem>
                 </LinkContainer>
-                { <LinkContainer style={{textAlign:'right'}} to="/registration" activeClassName="active">
+                 <LinkContainer className="menuItem" style={{textAlign:'right'}} to="/registration" activeClassName="active">
                   <MenuItem ><TiUserAddOutline className="icons"/>تسجيل</MenuItem>
-                </LinkContainer> }
+                </LinkContainer> 
               </NavDropdown>
-</Nav>
+           </Nav>
             ) : (
               <Nav pullLeft  className="dropdown">
               <NavDropdown pullRight title="الحساب" className="dropdownmenu">
               <LinkContainer style={{textAlign:'right'}} to="/logout" activeClassName="active">
-                <NavItem ><GoSignOut className="icons"/>تسجيل خروج</NavItem>
+                <MenuItem><GoSignOut className="icons"/>تسجيل خروج</MenuItem>
               </LinkContainer>
-              <LinkContainer  style={{textAlign:'right'}} to="/myprofile" activeClassName="active">
-                    <NavItem ><MdPersonOutline className="icons"/>حسابي</NavItem>
+              <LinkContainer style={{textAlign:'right'}} to="/myprofile" activeClassName="active">
+                    <MenuItem ><MdPersonOutline className="icons"/>حسابي</MenuItem>
                   </LinkContainer>
-                  {/* <NavItem><MdAddShoppingCart className="icons"/></NavItem> */}
                   </NavDropdown>
 </Nav>
-        )}  <Navbar.Toggle />
+        )} 
+                        <Glyphicon glyph="shopping-cart" className="shoppingcart" />
+
+         <Navbar.Toggle />
         </Navbar.Header>
-       
+        <Nav pullLeft>
+        </Nav> 
         <Navbar.Collapse>
 
-        <Nav  bsStyle="tabs"
-          justified >
-
-            <IndexLinkContainer to="/" activeClassName="active">
-              <NavItem> <GoHome className="icons"/>الصفحة الرئيسية</NavItem>
+        <Nav  bsStyle="tabs" justified >
+            <IndexLinkContainer to="/" >
+              <NavItem> <GoHome className="icons"/>الرئيسية</NavItem>
             </IndexLinkContainer>
-            <LinkContainer to="/productspage" activeClassName="active">
+            <LinkContainer to="/productspage" >
               <NavItem> <MdEventSeat className="icons"/>المنتجات</NavItem>
             </LinkContainer>
-            <LinkContainer to="/ideaspage" activeClassName="active">
+            <LinkContainer to="/ideaspage" >
               <NavItem> <MdWeekend className="icons"/>الأفكار</NavItem>
             </LinkContainer>
             </Nav>

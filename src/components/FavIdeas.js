@@ -1,12 +1,26 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Grid, Row, Col } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 import { app, base } from "../base";
 import FirebaseServices from './FirebaseServices'
 import IdeaBrief from "./IdeaBrief";
 import Loading from './Loading'
+import {MdWeekend} from 'react-icons/lib/md';
+import styled from 'styled-components'
 
 
+const Button = styled.button`
+position:absolute;
+top:50px;
+left: 20px;
+width: 17%;
+@media only screen and (max-width: 767px) {
+  left: 20px;
+  top:70px;
+  width: 40%;
+  height: 40px;
+`;
 class FavIdeas extends Component {
   constructor() {
     super();
@@ -64,35 +78,42 @@ class FavIdeas extends Component {
       )
     else if (this.props.shortList){
       return (
-         <div style={{paddingTop: "30px"}}>
-        <Grid>
-        <Row>
-          <Link to={`/favideas`}>
-          <label>الأفكار المفضلة</label>
-          </Link>
-          </Row>
-          <Row style={{display: 'flex', flexWrap: 'wrap'}}>
+         <Grid style={{backgroundColor:"white"}}>
+        <Row   style={{display: 'flex', flexWrap: 'wrap'}}>
+        <Col sm={12}  lg={12} >  
+        <hr/>
+          <Link  to={`/favideas`}>
+          <h2 style={{color:'rgb(26,156,142)',padding:"10px"}}>الأفكار المفضلة</h2>
+          </Link >
+          
             {ideaIds.map(id => {
               const idea = ideas[id];
               return <IdeaBrief key={id} idea={idea} />;
             })}
+            </Col>
           </Row>
         </Grid>
-      </div>
-    );
+     );
   } else {
     return (
-       <div style={{paddingTop: "30px"}}>
-      <Grid>
+      <Grid Grid style={{backgroundColor:"white"}}>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
+       <Col sm={12}  lg={12}>
+        <div style={{height:'100px'}}>
+        <h1 style={{color:'rgb(26,156,142)'}}> <MdWeekend className="icons" style={{color:'rgb(26,156,142)'}}/> أفكاري</h1>
+        <Link to={`/newproduct/`}>
+              <Button>اضافة فكرة</Button>
+            </Link>
+        </div>
+        <hr style={{marginBottom: '30px'}}/>
           {ideaIds.map(id => {
             const idea = ideas[id];
             return <IdeaBrief key={id} idea={idea} />;
           })}
+          </Col>  
         </Row>
       </Grid>
-    </div>
-  );
+   );
   }
   }
 }

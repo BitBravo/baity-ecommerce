@@ -4,18 +4,19 @@ import { app, base } from "../base";
 import { Image, Col, Thumbnail, Button, Card, Row } from "react-bootstrap";
 import Equalizer from "react-equalizer";
 import styled from 'styled-components'
-
+import {MdEventSeat} from 'react-icons/lib/md';
 
 const PaddingDiv = styled.div`
-  padding-right: 20px;
-  padding-top: 5px;
-  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 0;
+  padding-left: 0;
   padding-bottom: 5px;
   height: 105px;
 `
 
 const MyThumbnailDiv = styled.div`
   position: relative;
+  box-shadow:0px 10px 10px rgb(233,233,233);
   background-color: #fff;
   transform: scale(1, 1);
   transition: transform 1s ease;
@@ -85,18 +86,18 @@ class ProductBrief extends Component {
             </ImageDiv>
           </ImageContainer>
 
-          <PaddingDiv>
-
-          <Col xs ={5} md={5}>
-              <h5>{product.price} ر.س</h5>
+          <PaddingDiv >
+        
+          <Col xs ={3} md={4}>
+              <h5 style={{color:'rgb(26, 156, 142)'}}>{product.price} ر.س</h5>
              </Col>
-            <Link to={`/products/${product.id}`}>
-             <Col xs ={7} md={7}>
-              <h5> {product.name} </h5>
+            <Link to={`/products/${product.id}`} style={{color:'black',fontWeight:'900'}} >
+             <Col xs ={9} md={8} >
+              <h5><MdEventSeat className="icons" style={{color:'rgb(26,156,142)'}}/> {product.name} </h5>
              </Col>
             </Link>
-            <hr/>
-            <p className="flex-text text-muted">{product.desc.substring(0,90)}
+            <hr/> 
+            <p  className="flex-text text-muted">{product.desc.substring(0,90)}
               <Link style={{display: 'inline'}} to={`/products/${product.id}`}>
               ... المزيد
               </Link>

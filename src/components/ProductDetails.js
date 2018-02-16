@@ -2,33 +2,47 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { app, base } from "../base";
 import FirebaseServices from './FirebaseServices'
-import { Image, Alert, Col, Thumbnail, Button, Modal,Row, Grid } from "react-bootstrap";
+import { Image, Alert, Col, Thumbnail, Button, Modal,Row, Grid ,Carousel,Glyphicon} from "react-bootstrap";
 import Loading from './Loading';
 import Equalizer from "react-equalizer";
 import styled from 'styled-components'
-import FaArrowCircleRight from 'react-icons/lib/fa/arrow-circle-right'
-import FaArrowCircleLeft from 'react-icons/lib/fa/arrow-circle-left'
+import {MdAddShoppingCart,MdEventSeat} from 'react-icons/lib/md';
 import FullHeart from '../assets/img/fullHeart.png';
 import EmptyHeart from '../assets/img/emptyHeart.png';
 
-const MyThumbnailDiv = styled.div`
-  position: relative;
-  background-color: #fff;
-  transform: scale(1, 1);
-  transition: transform 1s ease;
-  margin-bottom: 50px;
-  &:hover{
-    box-shadow:0px 0px 10px #6A6A6A;
-    border:1px solid #6A6A6A;
-    transition:all 0.5s ease-in-out;
-    transform: scale(1.05, 1.05);
 
-  }
+const LikeDiv=styled.div`
+position: absolute;
+top:10%;
+left: 60px;
+font-size:40px;
+@media only screen and (max-width: 767px) {
+  font-size:20px;
+}
 `
+const LikeIcon=styled(Glyphicon)`
+cursor:pointer;
+color:rgb(26,156,142);
+
+`;
+const UnLikeIcon=styled(Glyphicon)`
+cursor:pointer;
+color: transparent;
+-webkit-text-stroke-width: 2px;
+-webkit-text-stroke-color: rgb(75, 75, 75);
+`;
+const ImgGallaryThumb = styled.div`
+  
+`;
+const PrevImgGallaryThumb = styled.div`
+  
+`;
 
 const PreviewImg = styled.img`
   width: 100%;
   height: 100%;
+
+ 
 `;
 
 const ImageDiv = styled.div`
@@ -44,33 +58,37 @@ const ImageDiv = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  width: 100%;
-  padding-top: 100%;
-  position: relative;
+width: 100%;
+height: 100%;
+
 `;
-const FlexRow = styled(Row)`
-  display: flex;
-  flex-wrap: wrap;
-  text-align: center;
-`;
+
 const PaddingDiv = styled.div`
-  padding-right: 20px;
-  padding-top: 0;
+  padding-right: 10px;
+  padding-top: 5px;
   padding-left: 0;
-  padding-bottom: 30px;
+  padding-bottom: 5px;
 `;
+const ImageCol=styled(Col)`
+border-left: 1.5px solid rgb(218, 218, 217);
+@media only screen and (max-width: 991px) {
+  border:none;
+`;
+
 class ProductDetails extends Component {
   constructor(props) {
     super(props);
     this.productId = this.props.match.params.id;
-
     this.state = {
       product: {},
       loading: true,
       errorHandling: {
         showError: false, errorMsg: 'error'
       },
+  
       index: 0,
+      nextIcon: <span onClick={this.nextImage.bind(this)} className="glyphicon glyphicon-chevron-right"></span>,
+      prevIcon: <span onClick={this.prevImage.bind(this)} className="glyphicon glyphicon-chevron-left"></span>,
       liked: false
     };
 
@@ -78,6 +96,7 @@ class ProductDetails extends Component {
   }
 
   componentWillMount() {
+    this.thumbImage.bind(this);
 
     const authenticated = this.props.authenticated
 
@@ -118,6 +137,9 @@ class ProductDetails extends Component {
     if (this.state.index > 0)
       this.setState({index: (this.state.index - 1)});
   }
+  thumbImage(thumbIndex){
+    this.setState({index: thumbIndex});
+  }
 
   like(){
     if (this.props.authenticated) {
@@ -155,6 +177,7 @@ class ProductDetails extends Component {
   render() {
 
     const product = this.state.product;
+    const {nextIcon,prevIcon}=this.state;
 
     if (this.state.loading && !this.state.errorHandling.showError)
     return <Loading />;
@@ -177,37 +200,66 @@ class ProductDetails extends Component {
     );
   if (!this.state.loading && !this.state.showError)
       return(
-
-
-
-
+       
+        <Grid >
           <Row style={{display: 'flex', flexWrap: 'wrap'}} className="productdetails">
-
-            <Col  xs={12} sm={4} md={4} lg={3} >
-            <PaddingDiv>
-            <Col xs={5} sm={5} md={5} lg={5} >
-              <h4 style={{color:'rgb(26,156,142)'}}>{product.price} ر.س</h4>
+             <ImageCol  xs={12} sm={12} md={8} lg={9}  style={{padding:'0'}}>
+      
+            <Carousel   indicators={false} wrap={false}>
+             <Carousel.Item> 
+               <ImageContainer>   
+            <ImageDiv > 
+            <PreviewImg src={product.images[this.state.index].large}/> 
+            </ImageDiv>            
+            </ImageContainer>
+            <Glyphicon  className ="leftglyphicon" onClick={this.nextImage.bind(this)} glyph="chevron-left"/>
+             <Glyphicon className="rightglyphicon" onClick={this.prevImage.bind(this)} glyph="chevron-right"/>
+             <LikeDiv>
+              {this.state.liked
+              ? <LikeIcon glyph="heart"  onClick={this.like.bind(this)}/>
+              : <UnLikeIcon glyph="heart"  onClick={this.like.bind(this)}/>
+              }
+         </LikeDiv>
+              </Carousel.Item>
+              
+            </Carousel >
+            <div className="product-slider">
+              <div id="thumbcarousel1" className="carousel1 slide" >
+                <ImgGallaryThumb className="item">
+                  {product.images.map((obj, index) => {
+                    return <PrevImgGallaryThumb className="thumb " >
+                             <Image src={obj.large} onClick={() => { return this.setState({index: index})}}/>
+                          </PrevImgGallaryThumb>   
+                         })}  
+                </ImgGallaryThumb> 
+              </div>
+           </div>
+            </ImageCol> 
+            <Col  xs={12} sm={12} md={4} lg={3}  style={{padding :'0 5px 0 0'}}>
+            
+            <Col xs={5} sm={5} md={5} lg={5} style={{padding :'0'}}>
+              <h4 style={{color:'rgb(26,156,142)'}}>{product.price} ر.س </h4>
               </Col>
-            <Col  xs={7} sm={7} md={7} lg={7} >
-            <h4 >{product.name}</h4>
+            <Col  xs={7} sm={7} md={7} lg={7} style={{padding :'0'}}>
+            <h4><MdEventSeat className="icons" style={{color:'rgb(26,156,142)'}}/>{product.name}</h4>
             </Col>
             <hr/>
-              </PaddingDiv>
-              <button style={{display:"block", margin:"auto"}}>
-                اضافة للسلة
-                </button>
+             
+              <button type="submit">
+               اضافة للسلة
+               <MdAddShoppingCart className="icons" style={{marginRight:'20px'}}/></button>
             <PaddingDiv>
             <h4>وصف المنتج</h4>
               <p > {product.desc}</p>
               </PaddingDiv>
               <PaddingDiv>
             <h4>المواصفات</h4>
-              <p >الصنف: {product.category}</p>
-              <p >القسم: {product.department}</p>
-              <p >الطول: {product.length} سم</p>
-              <p >العرض: {product.width} سم</p>
-              <p >الارتفاع: {product.height} سم</p>
-              <p >المصنع: {product.factory}</p>
+              <p >الصنف : {product.category}</p>
+              <p >القسم : {product.department}</p>
+              <p >الطول : {product.length} سم</p>
+              <p >العرض : {product.width} سم</p>
+              <p >الارتفاع : {product.height} سم</p>
+              <p >المصنع : {product.factory}</p>
               </PaddingDiv>
 
               <PaddingDiv>
@@ -217,7 +269,7 @@ class ProductDetails extends Component {
                 this.props.authenticated
                 ? this.props.currentUser.uid === this.state.product.owner
                ?<Link to={`/products/${product.id}/updateProduct`}>
-                <button >
+                <button style={{display:"block", margin:"auto"}}>
                   تحديث بيانات المنتج
                 </button>
               </Link>
@@ -228,65 +280,8 @@ class ProductDetails extends Component {
             </p>
             </PaddingDiv>
             </Col>
-
-            <Col xs={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
-              <div style={{marginTop: '30%'}}>
-              <FaArrowCircleRight size={40}   onClick={this.nextImage.bind(this)}/>
-              </div>
-          </Col>
-           <Col  xs={10} sm={6} md={6} lg={7} >
-            <img src={product.images[this.state.index].large} />
-            </Col>
-            <Col xs={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
-            <div style={{marginTop: '30%'}}>
-            <FaArrowCircleLeft size={40}  onClick={this.prevImage.bind(this)}/>
-            </div>
-          </Col>
-          <Col xs={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
-            <div style={{marginTop: '30%'}}>
-              {this.state.liked
-              ? <img src={FullHeart} onClick={this.like.bind(this)}/>
-              : <img src={EmptyHeart} onClick={this.like.bind(this)}/>
-              }
-            </div>
-          </Col>
-          {/* <Col lg={8} style={{display:"block", margin:"auto"}}>
-          <div>
-             <h2 style={{color:'rgb(26,156,142)'}}> أصناف ذات صلة</h2>
-
-              <Col xs={12} md={4} sm={6} >
-        <MyThumbnailDiv>
-          <ImageContainer>
-            <ImageDiv>
-            <Link to={`/products/${product.id}`}>
-              <PreviewImg
-                src={
-                  product.images
-                    ? product.images[0].large
-                    : "http://via.placeholder.com/243x243"}/>
-            </Link>
-            </ImageDiv>
-          </ImageContainer>
-
-          <PaddingDiv>
-
-          <Col xs ={5} md={5}>
-              <h5>{product.price} ر.س</h5>
-             </Col>
-            <Link to={`/products/${product.id}`}>
-             <Col xs ={7} md={7}>
-              <h5> {product.name} </h5>
-             </Col>
-            </Link>
-            <hr/>
-            <p className="flex-text text-muted">{product.desc}</p>
-
-          </PaddingDiv>
-        </MyThumbnailDiv>
-      </Col>
-      </div> </Col>  */}
             </Row>
-
+            </Grid> 
     );
   }
 }

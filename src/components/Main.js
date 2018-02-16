@@ -232,7 +232,7 @@ class Main extends Component {
              );
            }}
           />
-
+          
           <Route
            exact
            path="/ideaspage"

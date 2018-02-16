@@ -8,11 +8,28 @@ import livingroom from '../assets/img/livingroom.jpg';
 import styled from 'styled-components'
 import Loading from "./Loading";
 import logo_placeholder from '../assets/img/logo-placeholder.jpg';
+import {TiSocialTwitter,TiSocialInstagram,TiSocialFacebook} from 'react-icons/lib/ti';
 
 const PreviewImg = styled.img`
   width: 100%;
-  height: 20%;
+  height: 100%;
+ 
 `;
+const ImageCol=styled(Col)`
+height:300px;
+padding:0;
+  }
+`;
+const UserImg=styled.img`
+width: 180px;
+height: 180px;
+border-radius: 50%;
+margin: -100px auto;
+@media only screen and (max-width: 767px) {
+width: 80px;
+height: 80px;
+}
+`
 
 class NormalProfileInfo extends Component{
   constructor(){
@@ -44,36 +61,36 @@ class NormalProfileInfo extends Component{
 
   render(){
     return(
-      <div style={{paddingTop: "30px"}}>
-      <Grid>
-      <Row>
-        <Col sm={12}  lg={12}>
+   
+      <Grid style={{backgroundColor:"white"}}>
+      <Row  style={{display: 'flex', flexWrap: 'wrap'}}>
+        <ImageCol sm={12}  lg={12}>
           <PreviewImg  src={livingroom}     />
           <div style={{position: 'absolute',top: '10px',left: '20px',width: '20%'}}>
             <Link to={`/updateprofile/`}>
               <button>الاعدادات</button>
             </Link>
           </div>
+        </ImageCol>
+        <Col xs={12}  lg={12} style={{marginBottom:'20px'}}>
+        <Col xs={4} lg={2}>
+         <span style={{float:'left'}}><TiSocialTwitter className="icons"/> <TiSocialInstagram className="icons"/> <TiSocialFacebook className="icons"/></span>
         </Col>
-      </Row>
-
-      <Row style={{display: 'flex', flexWrap: 'wrap', marginBottom: '40px'}}>
-      <Col sm={4} lg={3}>
-        {this.state.profile.imgUrl
-        ? <Image style={{borderRadius: '50%', width: '200px', height: '200px', margin: '-100px auto'}} src={this.state.profile.imgUrl}  alt="logo" circle responsive />
-        : <Image style={{borderRadius: '50%', width: '200px', height: '200px', margin: '-100px auto'}} src={logo_placeholder} alt="logo" circle responsive />
-        }
-      </Col>
-        <Col sm={8}  lg={6}>
+        <Col xs={5}  lg={7} style={{paddingLeft:'0'}}>
           <h3>{this.state.profile.name}</h3>
           <label>{this.state.profile.city} ،السعودية</label>
         </Col>
-        <Col sm={12}  lg={3}>
-          <button>اتصل بنا</button>
+        <Col xs={3} lg={3}>
+        {this.state.profile.imgUrl
+        ? <UserImg  src={this.state.profile.imgUrl}  />
+        : <UserImg src={logo_placeholder} />
+        }
+      </Col>
         </Col>
       </Row>
+      <hr/>
       </Grid>
-      </div>
+   
     )
   }
 }
