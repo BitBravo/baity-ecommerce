@@ -55,7 +55,7 @@ class Header extends Component {
 
                 {!this.props.authenticated ? (
                <Nav pullLeft  className="dropdown"  >
-              <NavDropdown pullRight title="الحساب" className="dropdownmenu" style={{color:'rgb(26,156,142)'}}>
+              <NavDropdown pullRight title="الحساب" className="dropdownmenu">
                 <LinkContainer style={{textAlign:'right'}} to="/login" activeClassName="active">
                   <MenuItem className="menuItem" ><GoSignIn className="icons"/>تسجيل دخول</MenuItem>
                 </LinkContainer>

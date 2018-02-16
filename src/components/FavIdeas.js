@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Grid, Row, Col } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 import { app, base } from "../base";
 import FirebaseServices from './FirebaseServices'
 import IdeaBrief from "./IdeaBrief";
@@ -64,35 +65,35 @@ class FavIdeas extends Component {
       )
     else if (this.props.shortList){
       return (
-         <div style={{paddingTop: "30px"}}>
-        <Grid>
-        <Row>
-          <Link to={`/favideas`}>
-          <label>الأفكار المفضلة</label>
-          </Link>
-          </Row>
-          <Row style={{display: 'flex', flexWrap: 'wrap'}}>
+         <Grid style={{backgroundColor:"white"}}>
+        <Row   style={{display: 'flex', flexWrap: 'wrap'}}>
+        <Col sm={12}  lg={12}>  <hr/>
+          <Link  to={`/favideas`}>
+          <h2 style={{color:'rgb(26,156,142)',padding:"10px"}}>الأفكار المفضلة</h2>
+          </Link >
+          
             {ideaIds.map(id => {
               const idea = ideas[id];
               return <IdeaBrief key={id} idea={idea} />;
             })}
+            </Col>
           </Row>
         </Grid>
-      </div>
-    );
+     );
   } else {
     return (
-       <div style={{paddingTop: "30px"}}>
+       
       <Grid>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
+        <Col sm={12}  lg={12}>
           {ideaIds.map(id => {
             const idea = ideas[id];
             return <IdeaBrief key={id} idea={idea} />;
           })}
+           </Col>
         </Row>
       </Grid>
-    </div>
-  );
+   );
   }
   }
 }

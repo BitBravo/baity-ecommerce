@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { app, base } from "../base";
-import FirebaesServices from './FirebaseServices'
+import FirebaseServices from './FirebaseServices'
 import { Image, Alert, Col, Thumbnail, Button, Modal,Row, Grid ,Carousel,Glyphicon} from "react-bootstrap";
 import Loading from './Loading';
 import Equalizer from "react-equalizer";
 import styled from 'styled-components'
 import {MdAddShoppingCart,MdEventSeat} from 'react-icons/lib/md';
-import plus from '../assets/img/plus.png';
+import plus from '../assets/img/bayty_icon1.png';
 
 const ImgGallaryThumb = styled.div`
   }
@@ -73,7 +73,7 @@ class ProductDetails extends Component {
 
   componentWillMount() {
     this.thumbImage.bind(this);
-    this.productsRef = base.syncState(`${FirebaesServices.PRODUCTS_PATH}/${this.productId}`, {
+    this.productsRef = base.syncState(`${FirebaseServices.PRODUCTS_PATH}/${this.productId}`, {
       context: this,
       state: 'product',
       then(data) {
@@ -230,6 +230,11 @@ class ProductDetails extends Component {
           }
             </p>
             </PaddingDiv>
+            <Col xs={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
+            <div style={{marginTop: '30%'}}>
+              <img src={plus}  onClick={this.like.bind(this)}/>
+            </div>
+          </Col>
             </Col>
             </Row>
             </Grid> 

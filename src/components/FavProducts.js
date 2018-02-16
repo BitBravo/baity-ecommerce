@@ -63,35 +63,38 @@ console.log("In render")
       )
     else if (this.props.shortList){
       return (
-         <div style={{paddingTop: "30px"}}>
-         {console.log("render - shortList")}
-        <Grid>
-        <Row>
+        
+      
+         <Grid style={{backgroundColor:"white"}}>
+            {console.log("render - shortList")}
+        <Row   style={{display: 'flex', flexWrap: 'wrap'}}>
+        <Col sm={12}  lg={12}>  <hr/>
           <Link to={`/favproducts`}>
-          <label>المنتجات المفضلة</label>
+          <h2 style={{color:'rgb(26,156,142)'}}>المنتجات المفضلة</h2>
           </Link>
-          </Row>
-          <Row style={{display: 'flex', flexWrap: 'wrap'}}>
             {productIds.map(id => {
               const product = products[id];
               return <ProductBrief key={id} product={product} />;
             })}
+             
+          </Col>
           </Row>
+          
         </Grid>
-      </div>
     );
   } else {
     return (
-       <div style={{paddingTop: "30px"}}>
       <Grid>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
+        <Col sm={12}  lg={12}>
           {productIds.map(id => {
             const product = products[id];
             return <ProductBrief key={id} product={product} />;
           })}
-        </Row>
-      </Grid>
-    </div>
+           <hr/>
+         </Col>
+         </Row>
+       </Grid>
   );
   }
   }

@@ -16,6 +16,7 @@ const PaddingDiv = styled.div`
 
 const MyThumbnailDiv = styled.div`
   position: relative;
+  box-shadow:0px 10px 10px rgb(233,233,233);
   background-color: #fff;
   transform: scale(1, 1);
   transition: transform 1s ease;
