@@ -10,7 +10,26 @@ import EmptyHeart from '../assets/img/emptyHeart.png';
 import {MdAddShoppingCart,MdWeekend} from 'react-icons/lib/md';
 
 
+const LikeDiv=styled.div`
+position: absolute;
+top:10%;
+left: 60px;
+font-size:40px;
+@media only screen and (max-width: 767px) {
+  font-size:20px;
+}
+`
+const LikeIcon=styled(Glyphicon)`
+cursor:pointer;
+color:rgb(26,156,142);
 
+`;
+const UnLikeIcon=styled(Glyphicon)`
+cursor:pointer;
+color: transparent;
+-webkit-text-stroke-width: 2px;
+-webkit-text-stroke-color: rgb(75, 75, 75);
+`;
 const ImgGallaryThumb = styled.div`
   }
 `;
@@ -172,7 +191,6 @@ class IdeaDetails extends Component {
         <Grid >
           <Row style={{display: 'flex', flexWrap: 'wrap'}} className="productdetails">
              <ImageCol  xs={12} sm={12} md={8} lg={9}  style={{padding:'0'}}>
-      
             <Carousel    indicators={false} wrap={false}>
              <Carousel.Item> 
                <ImageContainer>   
@@ -182,8 +200,13 @@ class IdeaDetails extends Component {
             </ImageContainer>
             <Glyphicon  className ="leftglyphicon" onClick={this.nextImage.bind(this)} glyph="chevron-left"/>
              <Glyphicon className="rightglyphicon" onClick={this.prevImage.bind(this)} glyph="chevron-right"/>
+           <LikeDiv>
+              {this.state.liked
+              ? <LikeIcon glyph="heart"  onClick={this.like.bind(this)}/>
+              : <UnLikeIcon glyph="heart"  onClick={this.like.bind(this)}/>
+              }
+         </LikeDiv>
               </Carousel.Item>
-              
             </Carousel >
             <div className="product-slider">
               <div id="thumbcarousel1" className="carousel1 slide" >
@@ -226,12 +249,7 @@ class IdeaDetails extends Component {
             </p>
             </PaddingDiv>
           <Col xs={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
-            <div style={{marginTop: '30%'}}>
-              {this.state.liked
-              ? <img src={FullHeart} onClick={this.like.bind(this)}/>
-              : <img src={EmptyHeart} onClick={this.like.bind(this)}/>
-              }
-            </div>
+            
           </Col>
             </Col>
             </Row>

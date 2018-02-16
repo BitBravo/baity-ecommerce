@@ -10,18 +10,27 @@ import {MdAddShoppingCart,MdEventSeat} from 'react-icons/lib/md';
 import FullHeart from '../assets/img/fullHeart.png';
 import EmptyHeart from '../assets/img/emptyHeart.png';
 
-const MyThumbnailDiv = styled.div`
-  position: relative;
-  background-color: #fff;
-  transform: scale(1, 1);
-  transition: transform 1s ease;
-  margin-bottom: 50px;
-  &:hover{
-    box-shadow:0px 0px 10px #6A6A6A;
-    border:1px solid #6A6A6A;
-    transition:all 0.5s ease-in-out;
-    transform: scale(1.05, 1.05);`
 
+const LikeDiv=styled.div`
+position: absolute;
+top:10%;
+left: 60px;
+font-size:40px;
+@media only screen and (max-width: 767px) {
+  font-size:20px;
+}
+`
+const LikeIcon=styled(Glyphicon)`
+cursor:pointer;
+color:rgb(26,156,142);
+
+`;
+const UnLikeIcon=styled(Glyphicon)`
+cursor:pointer;
+color: transparent;
+-webkit-text-stroke-width: 2px;
+-webkit-text-stroke-color: rgb(75, 75, 75);
+`;
 const ImgGallaryThumb = styled.div`
   
 `;
@@ -205,6 +214,12 @@ class ProductDetails extends Component {
             </ImageContainer>
             <Glyphicon  className ="leftglyphicon" onClick={this.nextImage.bind(this)} glyph="chevron-left"/>
              <Glyphicon className="rightglyphicon" onClick={this.prevImage.bind(this)} glyph="chevron-right"/>
+             <LikeDiv>
+              {this.state.liked
+              ? <LikeIcon glyph="heart"  onClick={this.like.bind(this)}/>
+              : <UnLikeIcon glyph="heart"  onClick={this.like.bind(this)}/>
+              }
+         </LikeDiv>
               </Carousel.Item>
               
             </Carousel >
@@ -264,14 +279,6 @@ class ProductDetails extends Component {
           }
             </p>
             </PaddingDiv>
-          <Col xs={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
-            <div style={{marginTop: '30%'}}>
-              {this.state.liked
-              ? <img src={FullHeart} onClick={this.like.bind(this)}/>
-              : <img src={EmptyHeart} onClick={this.like.bind(this)}/>
-              }
-            </div>
-          </Col>
             </Col>
             </Row>
             </Grid> 

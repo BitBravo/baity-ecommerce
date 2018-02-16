@@ -510,10 +510,12 @@ margin-bottom: 10px;
               .search{
                   display: none;
               }
-              .dropdown{
+              
+              .dropdown > ul >li{
                 background-color: rgb(247, 247, 247);
                 width: 120px;
               }
+             
               
               .icons{
                   margin-bottom: 7px;
