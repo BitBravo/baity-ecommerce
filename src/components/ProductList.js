@@ -87,7 +87,7 @@ class ProductList extends Component {
 
       if (this.state.loading)
       return(
-       <Loading/>
+       <Loading />
       )
     else if (this.props.shortList){
       return (
@@ -106,7 +106,6 @@ class ProductList extends Component {
           <h2 style={{color:'rgb(26,156,142)'}}>منتجاتي</h2>
           </Link>
           </Col>
-         
           </Col>
           </Row>
         :<Row   style={{display: 'flex', flexWrap: 'wrap'}}>

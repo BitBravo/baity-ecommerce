@@ -85,7 +85,7 @@ class IdeaList extends Component{
 
       if (this.state.loading)
       return(
-       <Loading/>
+       <Loading />
       )
     else if (this.props.shortList){
       return (

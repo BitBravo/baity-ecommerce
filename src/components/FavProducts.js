@@ -71,7 +71,8 @@ console.log("In render")
          <Grid style={{backgroundColor:"white"}}>
             {console.log("render - shortList")}
         <Row   style={{display: 'flex', flexWrap: 'wrap'}}>
-        <Col sm={12}  lg={12}>  <hr/>
+        <Col sm={12}  lg={12}> 
+         <hr/>
           <Link to={`/favproducts`}>
           <h2 style={{color:'rgb(26,156,142)'}}>المنتجات المفضلة</h2>
           </Link>

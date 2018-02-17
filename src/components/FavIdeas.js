@@ -83,11 +83,11 @@ class FavIdeas extends Component {
         <Col sm={12}  lg={12} >  
         <hr/>
           <Link  to={`/favideas`}>
-          <h2 style={{color:'rgb(26,156,142)',padding:"10px"}}>الأفكار المفضلة</h2>
+          <h2 style={{color:'rgb(26,156,142)'}}>الأفكار المفضلة</h2>
           </Link >
             {ideaIds.map(id => {
               const idea = ideas[id];
-              return <div><span style={{backgroundColor:'black'}}></span><IdeaBrief key={id} idea={idea} /></div>;
+              return <IdeaBrief key={id} idea={idea} />;
             })}
             
             </Col>
