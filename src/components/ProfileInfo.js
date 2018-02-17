@@ -18,7 +18,7 @@ const SettingtButton = styled.button`
 @media only screen and (max-width: 767px) {
   height: 30px;
 `;
-const ContactButton = styled.button`
+const LogoutButton = styled.button`
 width:100%px;
 height: 30px;
 padding:  0;
@@ -28,6 +28,7 @@ color:rgb(26, 156, 142);
 @media only screen and (max-width: 767px) {
   height: 30px;
   width: 100%;
+  font-size:10px;
 `;
 const PreviewImg = styled.img`
   width: 100%;
@@ -121,7 +122,7 @@ class ProfileInfo extends Component{
         <Col xs={12}  lg={12} >
         <Col xs={3} sm={2} md={2} lg={2} style={{padding:'0'}}>
         <LinkContainer to="/logout" >
-        <ContactButton>  <GoSignOut className="icons"/>تسجيل خروج</ContactButton>
+        <LogoutButton> تسجيل خروج <GoSignOut className="icons"/></LogoutButton>
              </LinkContainer>
          <SocialDiv >
               <TiSocialTwitter className="icons"/>

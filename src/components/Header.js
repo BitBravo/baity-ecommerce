@@ -26,7 +26,6 @@ display:inline-block;
 float:right;
  `
  const UserImg = styled.img`
- margin-top:-5px;
  width:35px;
  height:35px;
  border-radius: 50%;
@@ -85,9 +84,7 @@ class Header extends Component {
               <Nav pullLeft>
               <NavItem>
               <LinkContainer to="/myprofile" activeClassName="active">
-              
               <UserImg  src={logo_placeholder} />
-        
               </LinkContainer>
               </NavItem>
               </Nav>
