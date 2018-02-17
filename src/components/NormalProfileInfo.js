@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Grid, Modal,Col,Row, Image } from "react-bootstrap"
 import { Link } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
 import firebase from "firebase";
 import { app, base, database, storage } from "../base";
 import FirebaseServices from './FirebaseServices';
@@ -10,10 +11,24 @@ import Loading from "./Loading";
 import logo_placeholder from '../assets/img/logo-placeholder.jpg';
 import {TiSocialTwitter,TiSocialInstagram,TiSocialFacebook} from 'react-icons/lib/ti';
 import {MdSettings} from 'react-icons/lib/md';
+import {GoSignOut} from 'react-icons/lib/go';
+
 
 const SettingtButton = styled.button`
 @media only screen and (max-width: 767px) {
   height: 30px;
+`;
+const LogoutButton = styled.button`
+width:100%px;
+height: 30px;
+padding:  0;
+background-color:transparent;
+border:1px solid rgb(26, 156, 142); 
+color:rgb(26, 156, 142);
+@media only screen and (max-width: 767px) {
+  height: 30px;
+  width: 100%;
+  font-size:10px;
 `;
 const PreviewImg = styled.img`
   width: 100%;
@@ -41,7 +56,6 @@ const SocialDiv = styled.div`
 text-align:center;
 font-size:15px;
 color:rgb(95,96,93);
-padding-top:10px;
 @media only screen and (max-width: 767px) {
   font-size:10px;}
 `
@@ -89,6 +103,9 @@ class NormalProfileInfo extends Component{
         </ImageCol>
         <Col xs={12}  lg={12}  >
         <Col xs={3} sm={2} md={2} lg={2} style={{padding:'0'}}>
+        <LinkContainer to="/logout" >
+        <LogoutButton> تسجيل خروج <GoSignOut className="icons"/></LogoutButton>
+             </LinkContainer>
         <SocialDiv >
         <TiSocialTwitter className="icons"/>
         <TiSocialInstagram className="icons"/> 

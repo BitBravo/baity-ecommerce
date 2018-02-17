@@ -117,7 +117,7 @@ class ProductList extends Component {
           <Row style={{display: 'flex', flexWrap: 'wrap'}}>
           <Col md={12}>
           {productIds.length < 1
-            ? <h5 style={{textAlign:'center'}}>لم تقم باضافة منتجات، إبدأ الان</h5>
+            ? <h4 style={{textAlign:'center'}}>لم تقم باضافة منتجات، إبدأ الان</h4>
           : null}
             {productIds.map(id => {
               const product = products[id];

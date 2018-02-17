@@ -81,11 +81,11 @@ class FavIdeas extends Component {
       return (
          <Grid style={{backgroundColor:"white"}}>
         <Row   style={{display: 'flex', flexWrap: 'wrap'}}>
-        <Col sm={12}  lg={12} >
+        <Col xs={12}  lg={12} >
         <hr style={{marginBottom: '30px'}}/>
         {this.state.empty
         ? <div><h2 style={{color:'rgb(26,156,142)'}}>الأفكار المفضلة</h2>
-          <span> ليس لديك أفكار مفضلة </span></div>
+          <h5> ليس لديك أفكار مفضلة </h5> </div>
         : <div><Link  to={`/favideas`}>
             <h2 style={{color:'rgb(26,156,142)'}}>الأفكار المفضلة</h2>
           </Link >
@@ -106,15 +106,12 @@ class FavIdeas extends Component {
       <Grid Grid style={{backgroundColor:"white"}}>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
        <Col xs={12}  lg={12}>
-       <Col xs={12}  lg={12}>
         <div style={{height:'70px'}}>
         <h2 style={{color:'rgb(26,156,142)',textAlign:'center'}}> <MdWeekend className="icons" style={{color:'rgb(26,156,142)'}}/> أفكاري المفضلة</h2>
         </div>
         <hr style={{marginBottom: '30px'}}/>
-        </Col>
-       
         {ideaIds.length < 1
-        ?<h5 style={{textAlign:'center'}}> ليس لديك أفكار مفضلة </h5> 
+        ?<h5 > ليس لديك أفكار مفضلة </h5> 
         : null}
           {ideaIds.map(id => {
             const idea = ideas[id];

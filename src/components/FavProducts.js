@@ -76,7 +76,7 @@ console.log("In render")
         <hr style={{marginBottom: '30px'}}/>
          {this.state.empty
          ? <div><h2 style={{color:'rgb(26,156,142)'}}>المنتجات المفضلة</h2>
-           <span>ليس لديك منتجات مفضلة</span></div>
+            <h5 > ليس لديك منتجات مفضلة </h5> </div>
          : <div><Link to={`/favproducts`}>
           <h2 style={{color:'rgb(26,156,142)'}}>المنتجات المفضلة</h2>
           </Link>
@@ -102,7 +102,7 @@ console.log("In render")
         </div>
         <hr style={{marginBottom: '30px'}}/>
         {productIds.length < 1
-        ? <h5 style={{textAlign:'center'}}> ليس لديك منتجات مفضلة </h5> 
+        ? <h5> ليس لديك منتجات مفضلة </h5> 
         : null}
           {productIds.map(id => {
             const product = products[id];
