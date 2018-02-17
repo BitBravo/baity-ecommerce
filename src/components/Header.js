@@ -33,10 +33,10 @@ position:absolute;
 left:20px;
  `
 const UserName = styled.div`
-font-size: 15px;
+font-size: 12px;
 dispaly:inline-block;
 position: absolute;
-top:15px;
+top:12px;
 left: 15px;
 color:rgb(26, 156, 142)`
 class Header extends Component {
@@ -91,7 +91,7 @@ class Header extends Component {
               <Nav pullLeft>
               <NavItem>
               <LinkContainer to="/myprofile" activeClassName="active">
-              <UserName > <MdPersonOutline style={{fontSize:"20px"}}/>مرحبا</UserName>
+              <UserName > <MdPersonOutline style={{fontSize:"20px"}}/><p style={{paddingTop:"0"}}>مرحبا</p></UserName>
               {/* <UserImg  src={logo_placeholder} /> */}
               </LinkContainer>
               

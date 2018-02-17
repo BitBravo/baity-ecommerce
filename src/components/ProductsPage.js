@@ -126,7 +126,7 @@ class ProductsPage extends Component {
                 <div className="inner-addon left-addon ">
           <i className="glyphicon glyphicon-plus white plus" ></i>
                 <Select name="selectThis" id="selectThis">
-                    <option value="">الطراز</option>
+                    <option value="">المدينة</option>
                     <option value=".option1">Option 1</option>
                     <option value=".option2">Option 2</option>
                     <option value=".option3">Option 3</option>

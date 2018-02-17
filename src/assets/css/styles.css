@@ -468,6 +468,7 @@ margin-bottom: 10px;
         #demo-2 input[type=search]:focus {
             width: 220px;
             padding-right: 10px;
+            margin-left: 10px;
             color: rgb(0, 0, 0);
             background-color: rgb(247, 247, 247);
             cursor: auto;
