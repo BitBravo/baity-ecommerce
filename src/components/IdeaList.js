@@ -114,9 +114,9 @@ console.log(ideaIds.length)
             </Row>
           }
           <Row style={{display: 'flex', flexWrap: 'wrap'}}>
-          <Col md={12}>
+          <Col md={12} >
           {ideaIds.length < 1
-          ? <h4 style={{textAlign:'center'}}>لم تقم باضافة أفكار، إبدأ الان</h4>
+          ? <h4 style={{textAlign:'center'}}>لم تقم باضافة منتجات، إبدأ الان</h4>
           : null}
             {ideaIds.map(id => {
               const idea = ideas[id];

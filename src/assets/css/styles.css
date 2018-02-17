@@ -74,6 +74,13 @@ hr {
     margin-left:4px;
     margin-right: 4px;   
 }
+.userlogo{
+    font-size: 25px;
+    position: absolute;
+    top:15px;
+    left: 20px;
+    color:rgb(26, 156, 142)
+}
 .shoppingcart{
     font-size: 1.5em;
     padding: 12px 5px 0 0;

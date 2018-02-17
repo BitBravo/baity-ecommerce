@@ -69,10 +69,9 @@ console.log("In render")
       return (
 
 
-         <Grid style={{backgroundColor:"white"}}>
-            {console.log("render - shortList")}
+        <Grid style={{backgroundColor:"white"}}>
         <Row   style={{display: 'flex', flexWrap: 'wrap'}}>
-        <Col sm={12}  lg={12}>
+        <Col xs={12}  lg={12} >
         <hr style={{marginBottom: '30px'}}/>
          {this.state.empty
          ? <div><h2 style={{color:'rgb(26,156,142)'}}>المنتجات المفضلة</h2>

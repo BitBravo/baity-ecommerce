@@ -65,7 +65,7 @@ class IdeaBrief extends Component {
   render() {
     const idea = this.props.idea;
     return (
-      <Col xs={12} md={4} sm={6} >
+      <Col xs={12} md={4} sm={6} style={{float:'right'}}>
         <MyThumbnailDiv>
           <ImageContainer>
             <ImageDiv>
@@ -85,7 +85,7 @@ class IdeaBrief extends Component {
 
           <PaddingDiv>
             <Link to={`/ideas/${idea.id}`} style={{color:'black',fontWeight:'900'}}>
-            <Col xs ={12} md={12}>
+            <Col xs ={12} md={12}  >
               <h5><MdWeekend className="icons" style={{color:'rgb(26,156,142)'}}/> {idea.name} </h5>
               </Col>
              </Link>

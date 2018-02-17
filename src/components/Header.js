@@ -32,7 +32,13 @@ float:right;
 position:absolute;
 left:20px;
  `
-
+const UserName = styled.div`
+font-size: 15px;
+dispaly:inline-block;
+position: absolute;
+top:15px;
+left: 15px;
+color:rgb(26, 156, 142)`
 class Header extends Component {
 
   render() {
@@ -65,8 +71,9 @@ class Header extends Component {
                 {!this.props.authenticated ? (
                   <Nav pullLeft>
                     <NavItem>
-                    <LinkContainer style={{textAlign:'right'}} to="/login" activeClassName="active">
-                    <UserImg src={logo_placeholder}/>
+                    <LinkContainer to="/login" activeClassName="active">
+                    {/* <UserImg src={logo_placeholder}/> */}
+                    <MdPersonOutline className='userlogo'/>
                     </LinkContainer>
                     </NavItem>
                     </Nav>
@@ -84,8 +91,10 @@ class Header extends Component {
               <Nav pullLeft>
               <NavItem>
               <LinkContainer to="/myprofile" activeClassName="active">
-              <UserImg  src={logo_placeholder} />
+              <UserName > <MdPersonOutline style={{fontSize:"20px"}}/>مرحبا</UserName>
+              {/* <UserImg  src={logo_placeholder} /> */}
               </LinkContainer>
+              
               </NavItem>
               </Nav>
 //               <Nav pullLeft  className="dropdown">

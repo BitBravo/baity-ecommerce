@@ -64,7 +64,7 @@ class ProductBrief extends Component {
   render() {
     const product = this.props.product;
     return (
-      <Col xs={12} md={4} sm={6} >
+      <Col xs={12} md={4} sm={6} style={{float:'right'}} >
         <MyThumbnailDiv>
           <ImageContainer>
             <ImageDiv>
