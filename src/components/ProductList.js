@@ -5,14 +5,16 @@ import { app, base } from "../base";
 import FirebaseServices from './FirebaseServices'
 import ProductBrief from "./ProductBrief";
 import Loading from './Loading'
+import styled from 'styled-components'
+import {MdEventSeat} from 'react-icons/lib/md';
 
 
-// const productListStyles = {
-//     display: "flex",
-//     flexDirection: "row",
-//     flexWrap: "wrap",
-//     justifyContent: "center",
-//   }
+const Button = styled.button`
+  width:180px;
+  @media only screen and (max-width: 767px) {
+    height: 30px;
+    width:100%;
+  `;
 
 class ProductList extends Component {
   constructor() {
@@ -89,21 +91,28 @@ class ProductList extends Component {
       )
     else if (this.props.shortList){
       return (
-         <div style={{paddingTop: "30px"}}>
-        <Grid>
+        <Grid style={{backgroundColor:"white"}}>
         {this.props.group === 'prof'
-        ?<Row>
-          <Link to={`/myproducts`}>
-            <label>منتجاتي</label>
-          </Link>
+        ?<Row   style={{display: 'flex', flexWrap: 'wrap'}}>
+        <Col xs={12}  lg={12} >  
+        <hr/>
+        <Col xs={5} md={3} lg={2} >
           <Link to={`/newproduct`}>
-            <button>إضافة منتج</button>
+            <Button>إضافة منتج<MdEventSeat className="icons" /></Button>
           </Link>
-        </Row>
-        :<Row>
-          <Link to={`/myideas/`}>
-          <label>المنتجات المفضلة</label>
+          </Col>
+          <Col xs={7} md={9} lg={10} >
+          <Link to={`/myproducts`}>
+          <h2 style={{color:'rgb(26,156,142)'}}>منتجاتي</h2>
           </Link>
+          </Col>
+         
+          </Col>
+          </Row>
+        :<Row   style={{display: 'flex', flexWrap: 'wrap'}}>
+          <Link  to={`/favproducts`}>
+          <h2 style={{color:'rgb(26,156,142)',padding:"10px"}}>المنتجات المفضلة</h2>
+          </Link >
           </Row>
         }
           <Row style={{display: 'flex', flexWrap: 'wrap'}}>
@@ -113,7 +122,7 @@ class ProductList extends Component {
             })}
           </Row>
         </Grid>
-      </div>
+ 
     );
   } else {
     return (

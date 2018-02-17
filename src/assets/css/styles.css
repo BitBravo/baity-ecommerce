@@ -1,4 +1,7 @@
 
+a:hover{
+    text-decoration: none;
+}
 p {color:rgb(95,96,93);
  }
  h1 {
@@ -69,7 +72,7 @@ hr {
 .icons { 
     font-size: 1.5em;
     margin-left:4px;
-    margin-right: 0;   
+    margin-right: 4px;   
 }
 .shoppingcart{
     font-size: 1.5em;
@@ -166,11 +169,10 @@ hr {
 }
 .dropdownmenu{padding:7px 0 0 0;
    text-align: right;
+   width: 90;
     /* border-radius: 50%;
   background-image: url('../img/logo-placeholder.jpg') */
 }
-
-
 
 .navbar-brand {
     width: 100px;
@@ -198,21 +200,10 @@ hr {
         color: white;
         text-align: center;
         height: 45px;
+    
     }
    
-    .profileinfo {
-
-    }
-    .profileinfo button{
-        display:block;
-        margin:auto;
-        width: 100%;
-        max-width: 270px;
-        background:  rgb(26, 156, 142);
-        color: white;
-        text-align: center;
-        height: 50px;
-    }
+   
     
     .loginreg { 
         padding-top: 10%;
@@ -401,6 +392,14 @@ margin-bottom: 10px;
             box-shadow: 0 0 5px rgba(109,207,246,.5);
         }
         
+        input[type=checkbox]{
+        float: right;
+        margin: 0 0 0 10px;
+        padding: 0;
+        width: 20px;
+        height: 20px
+        }
+
         .product-slider 
         { padding: 10px; }
         .product-slider #thumbcarousel1 
@@ -474,6 +473,7 @@ margin-bottom: 10px;
             padding-right: 20px;
         }
        
+       
         @media only screen and (max-width: 767px) {
            
             .navbar{ 
@@ -510,12 +510,14 @@ margin-bottom: 10px;
               .search{
                   display: none;
               }
-              
+              .dropdown{
+                width: 120px;
+              }
               .dropdown > ul >li{
                 background-color: rgb(247, 247, 247);
                 width: 120px;
               }
-             
+            
               
               .icons{
                   margin-bottom: 7px;
@@ -540,6 +542,9 @@ margin-bottom: 10px;
                 margin: 0;
                 padding: 0;
                 
+              }
+              .form-check-label{
+                  font-size: 10px;
               } 
               .myfooter h3 {
                 font-size:20px;
@@ -561,6 +566,6 @@ margin-bottom: 10px;
                 .plus{display: none;} 
             }
             @media only screen and (min-width: 767px) {
-           .dropdownmenu:hover ul {
-               display: block;}}
-             
+            .dropdownmenu:hover  ul{
+                display: block;
+               }}

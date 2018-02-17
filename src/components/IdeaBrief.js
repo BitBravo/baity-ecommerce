@@ -29,10 +29,7 @@ const MyThumbnailDiv = styled.div`
     transform: scale(1.05, 1.05);
   }
 `
-// .mythumbnail .caption {
-  // padding: 0px;
-  // color: #888;
-  // }
+
 
 const PreviewImg = styled.img`
   width: 100%;
@@ -94,7 +91,7 @@ class IdeaBrief extends Component {
              </Link>
              <hr/>
              <p className="flex-text text-muted">{idea.desc.substring(0,90)}
-               <Link style={{display: 'inline'}} to={`/ideas/${idea.id}`}>
+               <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/ideas/${idea.id}`}>
                ... المزيد
                </Link>
              </p>

@@ -8,11 +8,60 @@ import livingroom from '../assets/img/livingroom.jpg';
 import styled from 'styled-components'
 import Loading from "./Loading";
 import logo_placeholder from '../assets/img/logo-placeholder.jpg';
+import {TiSocialTwitter,TiSocialInstagram,TiSocialFacebook} from 'react-icons/lib/ti';
+import {MdCall,MdSettings} from 'react-icons/lib/md';
 
+const SettingtButton = styled.button`
+@media only screen and (max-width: 767px) {
+  height: 30px;
+`;
+const ContactButton = styled.button`
+width:100%px;
+height: 30px;
+padding:  0;
+background-color:transparent;
+border:1px solid rgb(26, 156, 142); 
+color:rgb(26, 156, 142);
+@media only screen and (max-width: 767px) {
+  height: 30px;
+  width: 100%;
+`;
 const PreviewImg = styled.img`
   width: 100%;
-  height: 20%;
+  height: 100%;
+ 
 `;
+const ImageCol=styled(Col)`
+height:400px;
+padding:0;
+@media only screen and (max-width: 767px) {
+  height:250px;
+  
+  }
+`;
+const UserImg=styled.img`
+width: 150px;
+height: 150px;
+border-radius: 50%;
+margin-top: -75px ;
+@media only screen and (max-width: 767px) {
+width: 80px;
+height: 80px;
+margin-top: -40px ;
+
+}
+`
+const UserNameDiv = styled.div`
+display:inline-block;
+padding-right:3px;
+`;
+const SocialDiv = styled.div`
+text-align:center;
+font-size:15px;
+color:rgb(95,96,93);
+@media only screen and (max-width: 767px) {
+  font-size:10px;}
+`
 
 class ProfileInfo extends Component{
   constructor(){
@@ -56,40 +105,40 @@ class ProfileInfo extends Component{
 
   render(){
     return(
-      <div style={{paddingTop: "30px"}}>
-      <Grid>
-      <Row>
-        <Col sm={12}  lg={12}>
-        <div style={{position: 'relative'}}>
+      <Grid style={{backgroundColor:"white"}}>
+      <Row  style={{display: 'flex', flexWrap: 'wrap'}}>
+        <ImageCol sm={12}  lg={12}>
           <PreviewImg  src={livingroom}     />
-          <div style={{position: 'absolute',top: '10px',left: '20px',width: '20%'}}>
+          <div style={{position: 'absolute',top: '10px',left: '30px',width:'25%'}}>
             <Link to={`/myprofprofile/`}>
-              <button>الاعدادات</button>
+              <SettingtButton>الاعدادات <MdSettings className="icons"/></SettingtButton>
             </Link>
           </div>
-        </div>
+        </ImageCol>
+        <Col xs={12}  lg={12} >
+        <Col xs={3} sm={2} md={2} lg={2} style={{padding:'0'}}>
+        <ContactButton>اتصل بنا <MdCall className="icons"/></ContactButton>
+         <SocialDiv >
+              <TiSocialTwitter className="icons"/>
+              <TiSocialInstagram className="icons"/> 
+             <TiSocialFacebook className="icons"/>
+         </SocialDiv>
         </Col>
-      </Row>
-
-      <Row style={{display: 'flex', flexWrap: 'wrap', marginBottom: '40px'}}>
-      <Col sm={4} lg={3}>
+        <Col xs={6} sm={6} md={7}lg={7} style={{padding:'0'}}>
+        <UserNameDiv> <h4 style={{color:'rgb(26,156,142)'}}>{this.state.profile.businessName} </h4> </UserNameDiv>
+         <UserNameDiv ><h5>{this.state.profile.types}</h5></UserNameDiv>
+          <h5 style={{marginTop:'0'}}>{this.state.profile.city}، السعودية</h5>
+        </Col>  
+          <Col xs={3} sm={4} md={3} lg={3} style={{paddingRight:'0'}}>
         {this.state.profile.imgUrl
-        ? <Image style={{borderRadius: '50%', width: '200px', height: '200px', margin: '-100px auto'}} src={this.state.profile.imgUrl}  alt="logo" circle responsive />
-        : <Image style={{borderRadius: '50%', width: '200px', height: '200px', margin: '-100px auto'}} src={logo_placeholder} alt="logo" circle responsive />
+        ? <UserImg  src={this.state.profile.imgUrl}  />
+        : <UserImg  src={logo_placeholder} />
         }
       </Col>
-        <Col sm={8}  lg={6}>
-          <h3 style={{display: 'inline-block'}}>{this.state.profile.businessName}</h3>
-          <h4 style={{display: 'inline'}}> {this.state.profile.types} </h4>
-          <label>{this.state.profile.city} ،السعودية</label>
-        </Col>
-        <Col sm={12}  lg={3}>
-          <button>اتصل بنا</button>
-        </Col>
-      </Row>
-      </Grid>
-      <hr/>
-      </div>
+      </Col>
+    </Row>
+    <hr/>
+    </Grid>
     )
   }
 }

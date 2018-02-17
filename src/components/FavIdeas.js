@@ -85,11 +85,11 @@ class FavIdeas extends Component {
           <Link  to={`/favideas`}>
           <h2 style={{color:'rgb(26,156,142)',padding:"10px"}}>الأفكار المفضلة</h2>
           </Link >
-          
             {ideaIds.map(id => {
               const idea = ideas[id];
-              return <IdeaBrief key={id} idea={idea} />;
+              return <div><span style={{backgroundColor:'black'}}></span><IdeaBrief key={id} idea={idea} /></div>;
             })}
+            
             </Col>
           </Row>
         </Grid>
@@ -98,18 +98,17 @@ class FavIdeas extends Component {
     return (
       <Grid Grid style={{backgroundColor:"white"}}>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
-       <Col sm={12}  lg={12}>
-        <div style={{height:'100px'}}>
-        <h1 style={{color:'rgb(26,156,142)'}}> <MdWeekend className="icons" style={{color:'rgb(26,156,142)'}}/> أفكاري</h1>
-        <Link to={`/newproduct/`}>
-              <Button>اضافة فكرة</Button>
-            </Link>
+       <Col xs={12}  lg={12}>
+        <div style={{height:'70px'}}>
+        <h2 style={{color:'rgb(26,156,142)',textAlign:'center'}}> <MdWeekend className="icons" style={{color:'rgb(26,156,142)'}}/> أفكاري المفضلة</h2>
         </div>
         <hr style={{marginBottom: '30px'}}/>
+        
           {ideaIds.map(id => {
             const idea = ideas[id];
-            return <IdeaBrief key={id} idea={idea} />;
+            return < IdeaBrief key={id} idea={idea} />;
           })}
+      
           </Col>  
         </Row>
       </Grid>

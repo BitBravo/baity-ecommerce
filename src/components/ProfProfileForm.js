@@ -26,8 +26,19 @@ import { app } from "../base";
 import FormUtils from './FormUtils'
 import bayty_icon from '../assets/img/bayty_icon1.png';
 import logo_placeholder from '../assets/img/logo-placeholder.jpg';
+import styled from 'styled-components';
 
 
+const UserImg=styled.img`
+width: 150px;
+height: 150px;
+border-radius: 50%; 
+display:block;
+margin:auto;
+@media only screen and (max-width: 767px) {
+width: 80px;
+height: 80px;
+}`;
 
 
 function FieldGroup({ id, label, help, validationState, firstTime, ...props }) {
@@ -44,14 +55,16 @@ function FieldGroup({ id, label, help, validationState, firstTime, ...props }) {
 
 const SelectGroup = ({ id, label, selectedOption, ...props }) => (
   <FormGroup controlId={id}>
-    <ControlLabel>{label}</ControlLabel>
+  <hr/>
+    <ControlLabel>{label} </ControlLabel>
+   
     <FormControl
       componentClass="select"
       placeholder={props.placeholder}
       name={props.name}
       value={selectedOption}
       onChange={props.onChange}
-      style={{paddingTop: '2px'}}
+    
     >
       {props.options.map(opt => {
         return (
@@ -445,11 +458,11 @@ class ProfProfileForm extends Component {
   renderCheckboxFieldGroup(fieldConfig, fieldName) {
     return (
       <FormGroup key={'formGroup'+fieldName}>
-        <ControlLabel key={'label'+fieldName} className="border-bottom-1" style={{marginTop: "30px", marginBottom: "5px"}}>
+        <ControlLabel key={'label'+fieldName} className="border-bottom-1" >
           {fieldConfig.label}
         </ControlLabel>
-        <hr style={{marginTop: "10px"}}/>
-        <CheckboxGroup
+      
+        <CheckboxGroup  
         key={'formgroup'+fieldName}
 
         name={fieldName}
@@ -460,7 +473,7 @@ class ProfProfileForm extends Component {
             fieldConfig.options.map((checkbox) => {
               return (
                   <Col key={"Col"+checkbox[0]} xs={6} sm={4}>
-                    <label className="form-check-label"><Checkbox  className="form-check-input form-control-lg" value={checkbox[1]} key={checkbox[0]} />
+                    <label className="form-check-label"><Checkbox value={checkbox[1]} key={checkbox[0]} />
                       {'  ' +checkbox[1]}
                     </label>
                   </Col>
@@ -469,7 +482,7 @@ class ProfProfileForm extends Component {
           }
           </Row>
         </CheckboxGroup>
-        <hr />
+    
       </FormGroup>
 
     );
@@ -519,7 +532,7 @@ class ProfProfileForm extends Component {
         >
           <div className="loginregtitle">
             <img src={bayty_icon} />
-            <h3>بيانات الحساب</h3>
+            <h2 style={{color:'rgb(26,156,142)'}}>بيانات الحساب</h2>
           </div>
           { loading ? (
             <Loading />
@@ -535,16 +548,16 @@ class ProfProfileForm extends Component {
             <Col lg={12} >
 
               {this.state.imgUrl
-              ? <Image style={{borderRadius: '50%', width: '200px', height: '200px', margin: '5px auto'}} src={this.state.imgUrl}  alt="logo" circle responsive />
-              : <Image style={{borderRadius: '50%', width: '200px', height: '200px', margin: '5px auto'}} src={logo_placeholder} alt="logo" circle responsive />
+              ? <UserImg  src={this.state.imgUrl}   />
+              : <UserImg  src={logo_placeholder}   />
               }
 
             </Col>
-            </Row>
-            <Row>
+        
+           
               <Col lg={12}>
               <div style={{margin: '10px auto 30px', textAlign: 'center'}}>
-              <label htmlFor="profile_pic"><span style={{ color: 'green'}}>+&nbsp;</span>
+              <label   style={{cursor:'pointer'}}   htmlFor="profile_pic"><span style={{ color: 'green'}}>+&nbsp;</span>
               {this.state.imgUrl && this.state.imgUrl.length > 0
                 ? "عدل شعار الشركة"
                 : "أضف شعار الشركة"

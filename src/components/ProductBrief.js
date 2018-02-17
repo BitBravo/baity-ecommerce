@@ -28,10 +28,6 @@ const MyThumbnailDiv = styled.div`
     transform: scale(1.05, 1.05);
   }
 `
-// .mythumbnail .caption {
-  // padding: 0px;
-  // color: #888;
-  // }
 
 const PreviewImg = styled.img`
   width: 100%;
@@ -98,7 +94,7 @@ class ProductBrief extends Component {
             </Link>
             <hr/> 
             <p  className="flex-text text-muted">{product.desc.substring(0,90)}
-              <Link style={{display: 'inline'}} to={`/products/${product.id}`}>
+              <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/products/${product.id}`}>
               ... المزيد
               </Link>
             </p>

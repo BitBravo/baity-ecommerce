@@ -9,26 +9,41 @@ import styled from 'styled-components'
 import Loading from "./Loading";
 import logo_placeholder from '../assets/img/logo-placeholder.jpg';
 import {TiSocialTwitter,TiSocialInstagram,TiSocialFacebook} from 'react-icons/lib/ti';
+import {MdSettings} from 'react-icons/lib/md';
 
+const SettingtButton = styled.button`
+@media only screen and (max-width: 767px) {
+  height: 30px;
+`;
 const PreviewImg = styled.img`
   width: 100%;
   height: 100%;
  
 `;
 const ImageCol=styled(Col)`
-height:300px;
+height:400px;
 padding:0;
+@media only screen and (max-width: 767px) {
+  height:250px;
   }
 `;
 const UserImg=styled.img`
-width: 180px;
-height: 180px;
+width: 150px;
+height: 150px;
 border-radius: 50%;
-margin: -100px auto;
+margin-top: -75px ;
 @media only screen and (max-width: 767px) {
 width: 80px;
 height: 80px;
-}
+margin-top: -40px ;
+}`
+const SocialDiv = styled.div`
+text-align:center;
+font-size:15px;
+color:rgb(95,96,93);
+padding-top:10px;
+@media only screen and (max-width: 767px) {
+  font-size:10px;}
 `
 
 class NormalProfileInfo extends Component{
@@ -66,21 +81,24 @@ class NormalProfileInfo extends Component{
       <Row  style={{display: 'flex', flexWrap: 'wrap'}}>
         <ImageCol sm={12}  lg={12}>
           <PreviewImg  src={livingroom}     />
-          <div style={{position: 'absolute',top: '10px',left: '20px',width: '20%'}}>
+          <div style={{position: 'absolute',top: '10px',left: '20px',width:'25%'}}>
             <Link to={`/updateprofile/`}>
-              <button>الاعدادات</button>
+              <SettingtButton>الاعدادات <MdSettings className="icons"/></SettingtButton>
             </Link>
           </div>
         </ImageCol>
-        <Col xs={12}  lg={12} style={{marginBottom:'20px'}}>
-        <Col xs={4} lg={2}>
-         <span style={{float:'left'}}><TiSocialTwitter className="icons"/> <TiSocialInstagram className="icons"/> <TiSocialFacebook className="icons"/></span>
+        <Col xs={12}  lg={12}  >
+        <Col xs={3} sm={2} md={2} lg={2} style={{padding:'0'}}>
+        <SocialDiv >
+        <TiSocialTwitter className="icons"/>
+        <TiSocialInstagram className="icons"/> 
+       <TiSocialFacebook className="icons"/>
+   </SocialDiv>        </Col>
+        <Col xs={6} sm={6} md={7}lg={7} style={{padding:'0'}}>
+          <h4 style={{color:'rgb(26,156,142)'}}>{this.state.profile.name}</h4>
+          <h5>{this.state.profile.city} ،السعودية</h5>
         </Col>
-        <Col xs={5}  lg={7} style={{paddingLeft:'0'}}>
-          <h3>{this.state.profile.name}</h3>
-          <label>{this.state.profile.city} ،السعودية</label>
-        </Col>
-        <Col xs={3} lg={3}>
+        <Col xs={3} sm={4} md={3} lg={3} style={{paddingRight:'0'}}>
         {this.state.profile.imgUrl
         ? <UserImg  src={this.state.profile.imgUrl}  />
         : <UserImg src={logo_placeholder} />
