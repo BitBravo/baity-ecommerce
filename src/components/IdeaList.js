@@ -36,7 +36,7 @@ class IdeaList extends Component{
           equalTo: this.props.currentUser.uid
         },
         then(data) {
-        this.setState({loading: false})
+          this.setState({loading: false})
         },
         onFailure(error) {
         this.setState({errorHandling: {showError: true, errorMsg: error}});
@@ -80,7 +80,7 @@ class IdeaList extends Component{
   render() {
     const ideas = this.state.ideas;
     const ideaIds = Object.keys(ideas);
-
+console.log(ideaIds.length)
 
 
       if (this.state.loading)
@@ -93,18 +93,18 @@ class IdeaList extends Component{
         <Grid style={{backgroundColor:"white"}}>
          {this.props.group === 'prof'
         ?<Row   style={{display: 'flex', flexWrap: 'wrap'}}>
-        <Col xs={12}  lg={12} >  
-        <hr/>
-        <Col xs={5} md={3} lg={2} > 
+        <Col xs={12}  lg={12} >
+        <hr style={{marginBottom: '30px'}}/>
+        <Col xs={5} md={3} lg={2} >
         <Link to={`/newidea`}>
             <Button>إضافة فكرة<MdWeekend className="icons"/></Button>
           </Link>
           </Col>
-          <Col xs={7} md={9} lg={10} > 
+          <Col xs={7} md={9} lg={10} >
           <Link to={`/myideas`}>
           <h2 style={{color:'rgb(26,156,142)'}}>أفكاري</h2>
           </Link>
-          </Col> 
+          </Col>
           </Col>
       </Row>
          :<Row style={{display: 'flex', flexWrap: 'wrap'}}>
@@ -114,19 +114,25 @@ class IdeaList extends Component{
             </Row>
           }
           <Row style={{display: 'flex', flexWrap: 'wrap'}}>
+          {ideaIds.length < 1
+          ? <h4 style={{textAlign:'center'}}>لم تقم باضافة أفكار، إبدأ الان</h4>
+          : null}
             {ideaIds.map(id => {
               const idea = ideas[id];
               return <IdeaBrief key={id} idea={idea} />;
             })}
           </Row>
         </Grid>
-  
+
   );
   } else {
     return (
        <div style={{paddingTop: "30px"}}>
       <Grid>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
+        {ideaIds.length < 1
+        ? <h4 style={{textAlign:'center'}}>لم تقم باضافة أفكار، إبدأ الان</h4>
+        : null}
           {ideaIds.map(id => {
             const idea = ideas[id];
             return <IdeaBrief key={id} idea={idea} />;

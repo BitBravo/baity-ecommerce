@@ -16,7 +16,8 @@ class FavProducts extends Component {
     this.likedProducts = this.likedProducts.bind(this);
     this.state = {
       products: {},
-      loading: true
+      loading: true,
+      empty: true
     };
   }
 
@@ -29,13 +30,13 @@ class FavProducts extends Component {
         FirebaseServices.products.child(id).once("value", (snapshot) => {
           console.log(snapshot.val())
           var products = [...this.state.products, snapshot.val()]
-          this.setState({products: products, loading: false})
+          this.setState({products: products, loading: false, empty: false})
 
         });
 
       });
     }else {
-      this.setState({loading: false})
+      this.setState({loading: false, empty: true})
   }
   }
 
@@ -66,24 +67,29 @@ console.log("In render")
       )
     else if (this.props.shortList){
       return (
-        
-      
+
+
          <Grid style={{backgroundColor:"white"}}>
             {console.log("render - shortList")}
         <Row   style={{display: 'flex', flexWrap: 'wrap'}}>
-        <Col sm={12}  lg={12}> 
-         <hr/>
-          <Link to={`/favproducts`}>
+        <Col sm={12}  lg={12}>
+        <hr style={{marginBottom: '30px'}}/>
+         {this.state.empty
+         ? <div><h2 style={{color:'rgb(26,156,142)'}}>المنتجات المفضلة</h2>
+           <span>ليس لديك منتجات مفضلة</span></div>
+         : <div><Link to={`/favproducts`}>
           <h2 style={{color:'rgb(26,156,142)'}}>المنتجات المفضلة</h2>
           </Link>
+          </div>
+        }
             {productIds.map(id => {
               const product = products[id];
               return <ProductBrief key={id} product={product} />;
             })}
-             
+
           </Col>
           </Row>
-          
+
         </Grid>
     );
   } else {
@@ -95,11 +101,14 @@ console.log("In render")
         <h2 style={{color:'rgb(26,156,142)',textAlign:'center'}}> <MdEventSeat className="icons" style={{color:'rgb(26,156,142)'}}/>  منتجاتي المفضلة</h2>
         </div>
         <hr style={{marginBottom: '30px'}}/>
+        {productIds.length < 1
+        ? <h4 style={{textAlign:'center'}}> ليس لديك منتجات مفضلة </h4>
+        : null}
           {productIds.map(id => {
             const product = products[id];
             return <ProductBrief key={id} product={product} />;
           })}
-           
+
          </Col>
          </Row>
        </Grid>

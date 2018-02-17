@@ -27,7 +27,8 @@ class FavIdeas extends Component {
     this.likedIdeas = this.likedIdeas.bind(this);
     this.state = {
       ideas: {},
-      loading: true
+      loading: true,
+      empty: true
     };
   }
 
@@ -38,12 +39,12 @@ class FavIdeas extends Component {
         FirebaseServices.ideas.child(id).once("value", (snapshot) => {
           console.log(snapshot.val())
           var ideas = [...this.state.ideas, snapshot.val()]
-          this.setState({ideas: ideas, loading: false})
+          this.setState({ideas: ideas, loading: false, empty: false})
         });
 
       });
     }else {
-      this.setState({loading: false})
+      this.setState({loading: false, empty: true})
     }
   }
 
@@ -80,16 +81,22 @@ class FavIdeas extends Component {
       return (
          <Grid style={{backgroundColor:"white"}}>
         <Row   style={{display: 'flex', flexWrap: 'wrap'}}>
-        <Col sm={12}  lg={12} >  
-        <hr/>
-          <Link  to={`/favideas`}>
-          <h2 style={{color:'rgb(26,156,142)'}}>الأفكار المفضلة</h2>
+        <Col sm={12}  lg={12} >
+        <hr style={{marginBottom: '30px'}}/>
+        {this.state.empty
+        ? <div><h2 style={{color:'rgb(26,156,142)'}}>الأفكار المفضلة</h2>
+          <span> ليس لديك أفكار مفضلة </span></div>
+        : <div><Link  to={`/favideas`}>
+            <h2 style={{color:'rgb(26,156,142)'}}>الأفكار المفضلة</h2>
           </Link >
+          </div>
+        }
+
             {ideaIds.map(id => {
               const idea = ideas[id];
               return <IdeaBrief key={id} idea={idea} />;
             })}
-            
+
             </Col>
           </Row>
         </Grid>
@@ -103,13 +110,15 @@ class FavIdeas extends Component {
         <h2 style={{color:'rgb(26,156,142)',textAlign:'center'}}> <MdWeekend className="icons" style={{color:'rgb(26,156,142)'}}/> أفكاري المفضلة</h2>
         </div>
         <hr style={{marginBottom: '30px'}}/>
-        
+        {ideaIds.length < 1
+        ? <h4 style={{textAlign:'center'}}> ليس لديك أفكار مفضلة </h4>
+        : null}
           {ideaIds.map(id => {
             const idea = ideas[id];
             return < IdeaBrief key={id} idea={idea} />;
           })}
-      
-          </Col>  
+
+          </Col>
         </Row>
       </Grid>
    );

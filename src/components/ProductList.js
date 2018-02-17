@@ -38,7 +38,7 @@ class ProductList extends Component {
         equalTo: this.props.currentUser.uid
       },
       then(data) {
-      this.setState({loading: false})
+        this.setState({loading: false})
       },
       onFailure(error) {
       this.setState({errorHandling: {showError: true, errorMsg: error}});
@@ -94,8 +94,8 @@ class ProductList extends Component {
         <Grid style={{backgroundColor:"white"}}>
         {this.props.group === 'prof'
         ?<Row   style={{display: 'flex', flexWrap: 'wrap'}}>
-        <Col xs={12}  lg={12} >  
-        <hr/>
+        <Col xs={12}  lg={12} >
+        <hr style={{marginBottom: '30px'}}/>
         <Col xs={5} md={3} lg={2} >
           <Link to={`/newproduct`}>
             <Button>إضافة منتج<MdEventSeat className="icons" /></Button>
@@ -115,19 +115,25 @@ class ProductList extends Component {
           </Row>
         }
           <Row style={{display: 'flex', flexWrap: 'wrap'}}>
+          {productIds.length < 1
+            ? <h4 style={{textAlign:'center'}}>لم تقم باضافة منتجات، إبدأ الان</h4>
+          : null}
             {productIds.map(id => {
               const product = products[id];
               return <ProductBrief key={id} product={product} />;
             })}
           </Row>
         </Grid>
- 
+
     );
   } else {
     return (
        <div style={{paddingTop: "30px"}}>
       <Grid>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
+        {productIds.length < 1
+          ? <h4 style={{textAlign:'center'}}>لم تقم باضافة منتجات، إبدأ الان</h4>
+        : null}
           {productIds.map(id => {
             const product = products[id];
             return <ProductBrief key={id} product={product} />;
