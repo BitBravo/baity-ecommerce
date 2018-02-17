@@ -188,7 +188,7 @@ class Register extends Component {
       errorMessage: ""
     };
 
-    
+
     if (password1 !== password2) {
       formValidationStatus.password1.valid = formValidationStatus.password2.valid = false;
       formValidationStatus.password1.firstTime = formValidationStatus.password2.firstTime = false;
@@ -231,9 +231,9 @@ class Register extends Component {
   /*
   IMPORTANT: currently we first register a user then we add that user to the DB.
   There is a possibility that a user gets registered by adding him to the DB
-  fails. We do not currently handle such failure and do not know what are the 
+  fails. We do not currently handle such failure and do not know what are the
   implications.
-  For more info on user management in firebase see: 
+  For more info on user management in firebase see:
   (https://firebase.google.com/docs/auth/web/manage-users)
 */
 
@@ -287,9 +287,9 @@ class Register extends Component {
                     //User is registered into firebase.auth in DB but not in firebase.database 'users'/'group'
                     //This should be very rare and currently we just report an error without handling it
                     console.log('adding user to DB failed');
-                    this.setState({ loading: false}, () => 
+                    this.setState({ loading: false}, () =>
                         this.reportError("حدث خطأ داخلي في النظام" + " User is signed up but not added to DB. Here is firebase error: " + error.code + " " + error.message));
-                    
+
                   })
               }
             })
@@ -348,10 +348,10 @@ class Register extends Component {
     }
     return (
       <div className="loginreg">
-        
+
         <form onSubmit={event => this.authWithEmailPassword(event)}
           ref={form => { this.registerForm = form; }}  >
-          
+
         <div className="loginregtitle">
         <img className="img-responsive" src={bayty_icon}/>
           <h2 style={{color:'rgb(26,156,142)'}} >التسجيل </h2>
@@ -370,13 +370,13 @@ class Register extends Component {
           )}
           <Row>
 
-          
 
-          
+
+
      <Col sm={12}  md={12} lg={12} >
           <FieldGroup
             id="inputEmail"
-            type="text"
+            type="email"
             label="البريد الالكتروني"
             placeholder="عنوان البريد الالكتروني"
             inputRef={input => {
@@ -418,8 +418,8 @@ class Register extends Component {
           />
  </Col>
           </Row>
-        <Row>  
-     
+        <Row>
+
          <Col  sm={12}  md={12} lg={12}>
           <FieldGroup
             id="inputPassword"
@@ -465,7 +465,7 @@ class Register extends Component {
           />
           </Col>
 </Row>
-        
+
 <Row>
 <Col  sm={12}  md={12} lg={12}>
           <FieldGroup  pullright
