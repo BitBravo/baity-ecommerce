@@ -99,16 +99,18 @@ class FavIdeas extends Component {
       <Grid Grid style={{backgroundColor:"white"}}>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
        <Col xs={12}  lg={12}>
+       <Col xs={12}  lg={12}>
         <div style={{height:'70px'}}>
         <h2 style={{color:'rgb(26,156,142)',textAlign:'center'}}> <MdWeekend className="icons" style={{color:'rgb(26,156,142)'}}/> أفكاري المفضلة</h2>
         </div>
         <hr style={{marginBottom: '30px'}}/>
-        
+        </Col>
+       
           {ideaIds.map(id => {
             const idea = ideas[id];
-            return < IdeaBrief key={id} idea={idea} />;
+            return  <Col xs={6}  lg={12}> < IdeaBrief key={id} idea={idea} /> </Col>;
           })}
-      
+     
           </Col>  
         </Row>
       </Grid>

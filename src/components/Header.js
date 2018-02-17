@@ -8,6 +8,7 @@ import {MdPersonAdd,MdAddToPhotos,MdEventSeat,MdPersonOutline,MdWeekend} from 'r
 import {TiUserAddOutline} from 'react-icons/lib/ti';
 import { IndexLinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components'
+import logo_placeholder from '../assets/img/logo-placeholder.jpg';
 
 
  const Input = styled.input`
@@ -21,17 +22,24 @@ import styled from 'styled-components'
  const Search =styled.div`
  display:none;
  @media only screen and (max-width: 767px) {
-   display:inline-block;
+display:inline-block;
 float:right;
  `
- 
+ const UserImg = styled.img`
+ margin-top:-5px;
+ width:35px;
+ height:35px;
+ border-radius: 50%;
+position:absolute;
+left:20px;
+ `
 
 class Header extends Component {
- 
+
   render() {
     return (
 
-      <Navbar  fixedTop collapseOnSelect>
+      <Navbar  fixedTop collapseOnSelect  collapseOnClick>
         <Navbar.Header  >
        
            <NavbarBrand>
@@ -52,37 +60,55 @@ class Header extends Component {
 	              <input type="search"  placeholder="بحث عن منتجات أفكار ...."/>
                  </form>
                 </Search>
+                
+
 
                 {!this.props.authenticated ? (
-               <Nav pullLeft  className="dropdown"  >
-              <NavDropdown pullRight title="الحساب" className="dropdownmenu">
-                <LinkContainer style={{textAlign:'right'}} to="/login" activeClassName="active">
-                  <MenuItem className="menuItem" ><GoSignIn className="icons"/>تسجيل دخول</MenuItem>
-                </LinkContainer>
-                 <LinkContainer className="menuItem" style={{textAlign:'right'}} to="/registration" activeClassName="active">
-                  <MenuItem ><TiUserAddOutline className="icons"/>تسجيل</MenuItem>
-                </LinkContainer> 
-              </NavDropdown>
-           </Nav>
+                  <Nav pullLeft>
+                    <NavItem>
+                    <LinkContainer style={{textAlign:'right'}} to="/login" activeClassName="active">
+                    <UserImg src={logo_placeholder}/>
+                    </LinkContainer>
+                    </NavItem>
+                    </Nav>
+          //      <Nav pullLeft  className="dropdown"  >
+          //     <NavDropdown pullRight title="الحساب" className="dropdownmenu">
+          //       <LinkContainer style={{textAlign:'right'}} to="/login" activeClassName="active">
+          //         <MenuItem className="menuItem" ><GoSignIn className="icons"/>تسجيل دخول</MenuItem>
+          //       </LinkContainer>
+          //        <LinkContainer className="menuItem" style={{textAlign:'right'}} to="/registration" activeClassName="active">
+          //         <MenuItem ><TiUserAddOutline className="icons"/>تسجيل</MenuItem>
+          //       </LinkContainer> 
+          //     </NavDropdown>
+          //  </Nav>
             ) : (
-              <Nav pullLeft  className="dropdown">
-              <NavDropdown pullRight title="الحساب" className="dropdownmenu">
-              <LinkContainer style={{textAlign:'right'}} to="/logout" activeClassName="active">
-                <MenuItem><GoSignOut className="icons"/>تسجيل خروج</MenuItem>
+              <Nav pullLeft>
+              <NavItem>
+              <LinkContainer to="/myprofile" activeClassName="active">
+              
+              <UserImg  src={logo_placeholder} />
+        
               </LinkContainer>
-              <LinkContainer style={{textAlign:'right'}} to="/myprofile" activeClassName="active">
-                    <MenuItem ><MdPersonOutline className="icons"/>حسابي</MenuItem>
-                  </LinkContainer>
-                  </NavDropdown>
-</Nav>
+              </NavItem>
+              </Nav>
+//               <Nav pullLeft  className="dropdown">
+//               <NavDropdown pullRight title="الحساب" className="dropdownmenu">
+//               <LinkContainer style={{textAlign:'right'}} to="/logout" activeClassName="active">
+//                 <MenuItem><GoSignOut className="icons"/>تسجيل خروج</MenuItem>
+//               </LinkContainer>
+//               <LinkContainer style={{textAlign:'right'}} to="/myprofile" activeClassName="active">
+//                     <MenuItem ><MdPersonOutline className="icons"/>حسابي</MenuItem>
+//                   </LinkContainer>
+//                   </NavDropdown>
+// </Nav>
         )} 
-                        <Glyphicon glyph="shopping-cart" className="shoppingcart" />
+                       <Glyphicon glyph="shopping-cart" className="shoppingcart" />
 
          <Navbar.Toggle />
         </Navbar.Header>
         <Nav pullLeft>
         </Nav> 
-        <Navbar.Collapse>
+        <Navbar.Collapse >
 
         <Nav  bsStyle="tabs" justified >
             <IndexLinkContainer to="/" >

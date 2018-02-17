@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Grid, Modal,Col,Row, Image } from "react-bootstrap"
+import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 import firebase from "firebase";
 import { app, base, database, storage } from "../base";
@@ -10,6 +11,8 @@ import Loading from "./Loading";
 import logo_placeholder from '../assets/img/logo-placeholder.jpg';
 import {TiSocialTwitter,TiSocialInstagram,TiSocialFacebook} from 'react-icons/lib/ti';
 import {MdCall,MdSettings} from 'react-icons/lib/md';
+import {GoSignOut} from 'react-icons/lib/go';
+
 
 const SettingtButton = styled.button`
 @media only screen and (max-width: 767px) {
@@ -117,7 +120,9 @@ class ProfileInfo extends Component{
         </ImageCol>
         <Col xs={12}  lg={12} >
         <Col xs={3} sm={2} md={2} lg={2} style={{padding:'0'}}>
-        <ContactButton>اتصل بنا <MdCall className="icons"/></ContactButton>
+        <LinkContainer to="/logout" >
+        <ContactButton>  <GoSignOut className="icons"/>تسجيل خروج</ContactButton>
+             </LinkContainer>
          <SocialDiv >
               <TiSocialTwitter className="icons"/>
               <TiSocialInstagram className="icons"/> 
