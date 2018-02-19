@@ -47,7 +47,7 @@ const SelectGroup = ({ id, label, selectedOption, ...props }) => (
       value={selectedOption}
       onChange={props.onChange}
     >
-      {props.options.map(opt => {        
+      {props.options.map(opt => {
         return (
           <option key={opt} value={opt}>
             {opt}
@@ -74,7 +74,7 @@ const CategoryList = [
 
 
 
-function getInitState(){ 
+function getInitState(){
     return {
         newImages: [], //image files
         imagesFromDB: [],
@@ -144,10 +144,10 @@ function getInitState(){
           showSubmitModal: false,
           submitSuccessful: false,
           errorMsg: ''
-        } 
+        }
       };
 }
-  
+
 class ProductForm extends Component {
   constructor(props) {
     super(props);
@@ -206,7 +206,7 @@ class ProductForm extends Component {
    * This will be called in one of two cases:
    * 1- the product we are updating has been changed somewhere else so we need to update form data
    * 2- the user clicked 'add new product' link so we need to clean up and prepare for adding a new product
-   * @param {*} nextProps 
+   * @param {*} nextProps
    */
   componentWillReceiveProps(nextProps){
     console.log(`${this.constructor.name}.componentWillReceiveProps`);
@@ -216,7 +216,7 @@ class ProductForm extends Component {
     if (!nextProps.isNewProduct){
       var newImages = this.state.newImages;//preserve new images added to product
       this.setState(getInitState(), () => {
-        var newState = {...this.state, 
+        var newState = {...this.state,
           newImages: newImages,
           name: {...this.state.name, value: this.props.product.name, valid: true},
           cat: {...this.state.cat, value: this.props.product.category, valid: true},
@@ -237,7 +237,7 @@ class ProductForm extends Component {
         }
         this.setState(newState)
       })
-    } 
+    }
     //case 2
     else {
       this.resetState();
@@ -249,7 +249,7 @@ class ProductForm extends Component {
   componentWillUpdate(){
     console.log(`${this.constructor.name}.componentWillUpdate`);
   }
-  
+
 
   /*
     This method adds an image to this.state.newImages to be added later
@@ -288,7 +288,7 @@ class ProductForm extends Component {
             this.setState({
                 imagesFromDB: [...imagesFromDB],
               }, () => this.validateForm()
-            ) 
+            )
           })
           .catch((error) => {
             throw error
@@ -330,7 +330,7 @@ class ProductForm extends Component {
         city_department: "",
         dateCreated: Date.now(),
         imgUrl: 'None',
-        likes: "0",
+        likes: 0,
         postType: "product"
       };
     }
@@ -343,13 +343,13 @@ class ProductForm extends Component {
     try {
       if (this.state.formValid) {
         var product = this.packageProduct();
-        //submit form by calling onSubmit 
+        //submit form by calling onSubmit
         //we will provide three callbacks to form submission handler in parent:
         // 1- callback for notifying us about success
         // 2- callback for notifying us about failure
         // 3- callback for notifying us about progress of submission
         this.props.onSubmit(
-          product, this.state.newImages, 
+          product, this.state.newImages,
           // progress bar updater callback
           (percentage, name) => {
             var progressBars = this.state.progressBars;
@@ -367,25 +367,25 @@ class ProductForm extends Component {
               errorMsg: ''
             }
             let newState = {...this.state, progressBars: {}, submitStatus: submitStatus}
-            
+
             this.setState(newState, () => {console.log('after successful form submission state is:'); console.log(this.state);})
-            
+
           })
           .catch(error => {
             //show failure popup
             let submitStatus = {
               showSubmitModal: true,
               submitSuccessful: false,
-              errorMsg: `حدث خطأ غير معروف. نرجو ابلاغ الصيانة بالخطأ التالي: 
+              errorMsg: `حدث خطأ غير معروف. نرجو ابلاغ الصيانة بالخطأ التالي:
                 ERROR: could not insert/update product or upload images. error code: ${error.code}, error message:${error.message}`
             }
             let newState = {...this.state, progressBars: {}, submitStatus: submitStatus}
-            
+
             this.setState(newState)
-            
+
           })
-          
-        
+
+
 
         // //Now we have asked firebase to submit and we will wait for above call async.
         // //Let us show a progress bar to the user while waiting
@@ -425,14 +425,14 @@ class ProductForm extends Component {
                 errorMsg: 'حدث خطأ غير معروف. نرجو ابلاغ الصيانة بالخطأ التالي: ' + err
               }
             }
-          )  
+          )
       );
     }
   }
 
   //converts indian digits into arabic ١ -> 1, ٢ -> 2 ...etc
   parseArabic(str) {
-    
+
     var result =  str
                       .replace(/[٠١٢٣٤٥٦٧٨٩]/g, function(d) {
                         return d.charCodeAt(0) - 1632;
@@ -441,7 +441,7 @@ class ProductForm extends Component {
                       //   return d.charCodeAt(0) - 1776;
                       // })
     return result;
-    
+
   }
 
   //Here we do all validations we would like
@@ -454,12 +454,12 @@ class ProductForm extends Component {
     //value of the field (for a text field the text inside it, for a select the selected value)
     let value = e.target.value;
     value = this.parseArabic(value)
-    
+
     let firstTime = false;
     let valid = false;
     let formError = "";
 
-    
+
 
     switch (name) {
       case "name":
@@ -604,10 +604,10 @@ class ProductForm extends Component {
                 ?<h2 style={{color:'rgb(26,156,142)'}}>إضافة المنتج </h2>
                 :<h2 style={{color:'rgb(26,156,142)'}}> تحديث المنتج </h2>
                 }
-            
+
           </div>
-        <ImagePreviewsContainer 
-          imagesFromDB={this.state.imagesFromDB} 
+        <ImagePreviewsContainer
+          imagesFromDB={this.state.imagesFromDB}
           newImages={this.state.newImages}
           addImage={this.addImage}
           onImageDelete={this.deleteImage}
@@ -760,8 +760,8 @@ class ProductForm extends Component {
           style={{top: 300}}
         >
         <Modal.Header >
-            { this.state.submitStatus.submitSuccessful 
-              ? this.props.isNewProduct 
+            { this.state.submitStatus.submitSuccessful
+              ? this.props.isNewProduct
                   ? <Modal.Title id="contained-modal-title"><FaCheckCircleO style={{color: 'green', width: '30px', height: '30px'}}/>  تمت اضافة المنتج بنجاح</Modal.Title>
                   : <Modal.Title id="contained-modal-title"><FaCheckCircleO style={{color: 'green', width: '30px', height: '30px'}}/>  تمت تحديث المنتج بنجاح</Modal.Title>
               : this.props.isNewProduct
@@ -769,8 +769,8 @@ class ProductForm extends Component {
                   : <Modal.Title id="contained-modal-title"><FaTimesCircleO style={{color: 'red', width: '30px', height: '30px'}}/>  يوجد خطأ في تحديث المنتج</Modal.Title>
             }
           </Modal.Header>
-          { 
-            this.state.submitStatus.submitSuccessful 
+          {
+            this.state.submitStatus.submitSuccessful
               ?
               <Modal.Body>
                 &nbsp;&nbsp;

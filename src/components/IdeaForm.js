@@ -263,7 +263,7 @@ class IdeaForm extends Component {
         city_department: "",
         dateCreated: Date.now(),
         imgUrl: 'None',
-        likes: "0",
+        likes: 0,
         postType: "idea"
       };
     }
@@ -486,7 +486,7 @@ class IdeaForm extends Component {
     console.log(this.state)
     return (
       <form>
-        
+
           <div>
               {this.props.isNewIdea
                 ?<h3 style={{color:'rgb(26,156,142)'}}>اضافة فكرة جديدة</h3>
