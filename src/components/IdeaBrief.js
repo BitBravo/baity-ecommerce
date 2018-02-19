@@ -9,7 +9,7 @@ import {MdWeekend} from 'react-icons/lib/md';
 
 const PaddingDiv = styled.div`
   padding-right: 5px;
-  padding-top:0;
+  padding-top: 0;
   padding-left: 0;
   padding-bottom: 5px;
   height: 105px;

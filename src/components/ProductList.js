@@ -115,7 +115,7 @@ class ProductList extends Component {
           </Row>
         }
           <Row style={{display: 'flex', flexWrap: 'wrap'}}>
-          <Col md={12}>
+          <Col xs={12}  lg={12} >
           {productIds.length < 1
             ? <h4 style={{textAlign:'center'}}>لم تقم باضافة منتجات، إبدأ الان</h4>
           : null}
@@ -133,7 +133,7 @@ class ProductList extends Component {
        <div style={{paddingTop: "30px"}}>
       <Grid>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
-        <Col md={12}>
+        <Col xs={12} md={12}>
         {productIds.length < 1
           ? <h4 style={{textAlign:'center'}}>لم تقم باضافة منتجات، إبدأ الان</h4>
      

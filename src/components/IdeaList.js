@@ -114,7 +114,7 @@ console.log(ideaIds.length)
             </Row>
           }
           <Row style={{display: 'flex', flexWrap: 'wrap'}}>
-          <Col md={12} >
+          <Col xs={12}  lg={12} >
           {ideaIds.length < 1
           ? <h4 style={{textAlign:'center'}}>لم تقم باضافة منتجات، إبدأ الان</h4>
           : null}
@@ -132,7 +132,7 @@ console.log(ideaIds.length)
        <div style={{paddingTop: "30px"}}>
       <Grid>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
-        <Col md={12}>
+        <Col xs={12} md={12}>
         {ideaIds.length < 1
         ? <h5 style={{textAlign:'center'}}>لم تقم باضافة أفكار، إبدأ الان</h5>
         : null}

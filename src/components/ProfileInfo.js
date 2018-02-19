@@ -115,14 +115,14 @@ class ProfileInfo extends Component{
           <PreviewImg  src={livingroom}     />
           <div style={{position: 'absolute',top: '10px',left: '30px',width:'25%'}}>
             <Link to={`/myprofprofile/`}>
-              <SettingtButton>الاعدادات <MdSettings className="icons"/></SettingtButton>
+              <SettingtButton>الاعدادات <MdSettings style={{fontSize:"17px",paddingRight:"3px"}}/></SettingtButton>
             </Link>
           </div>
         </ImageCol>
         <Col xs={12}  lg={12} >
         <Col xs={3} sm={2} md={2} lg={2} style={{padding:'0'}}>
         <LinkContainer to="/logout" >
-        <LogoutButton> تسجيل خروج <GoSignOut className="icons"/></LogoutButton>
+        <LogoutButton> تسجيل خروج <GoSignOut style={{fontSize:"17px",paddingRight:"3px"}}/></LogoutButton>
              </LinkContainer>
          <SocialDiv >
               <TiSocialTwitter className="icons"/>

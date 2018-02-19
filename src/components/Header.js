@@ -39,12 +39,13 @@ position: absolute;
 top:12px;
 left: 15px;
 color:rgb(26, 156, 142)`
+
 class Header extends Component {
 
   render() {
     return (
 
-      <Navbar  fixedTop collapseOnSelect  collapseOnClick>
+      <Navbar  fixedTop collapseOnSelect  >
         <Navbar.Header  >
        
            <NavbarBrand>

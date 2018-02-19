@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{ Component } from "react";
 import { Image,Carousel } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import ProductList from './ProductList';
@@ -46,7 +46,10 @@ font-size: 35px;
   margin-top:20px;
 }
  `
-const Home = () => (
+ class Home extends Component {
+
+  render() {
+    return (
   <div>
     <div >
   <Carousel   >
@@ -60,11 +63,13 @@ const Home = () => (
         </ImageContainer>
         <Carousel.Caption className="hero">
           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
-          <LinkContainer to="/registration" activeClassName="active">
-          <Button>
-            ابدأ معنا
-            </Button>
-            </LinkContainer>
+          <LinkContainer to="/login" >
+            
+            <Button>
+              ابدأ معنا
+              </Button>
+              </LinkContainer>
+
         </Carousel.Caption>
         
         </div>
@@ -78,12 +83,13 @@ const Home = () => (
         </ImageContainer>
         <Carousel.Caption className="hero">
           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
-    
-          <LinkContainer to="/registration" activeClassName="active">
-          <Button>
-            ابدأ معنا
-            </Button>
-            </LinkContainer>
+          <LinkContainer to="/login" >
+            
+            <Button>
+              ابدأ معنا
+              </Button>
+              </LinkContainer>
+
         </Carousel.Caption>
         </div>
       </Carousel.Item>
@@ -97,11 +103,13 @@ const Home = () => (
 
         <Carousel.Caption className="hero">
           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
-          <LinkContainer to="/registration" activeClassName="active">
-          <Button>
-            ابدأ معنا
-            </Button>
-            </LinkContainer>
+          <LinkContainer to="/login" >
+            
+            <Button>
+              ابدأ معنا
+              </Button>
+              </LinkContainer>
+
         </Carousel.Caption>
         </div>
       </Carousel.Item>
@@ -112,6 +120,6 @@ const Home = () => (
     <ProductList thisUserOnly={false}/>
   </div>
   
-);
+  );}}
 
 export default Home;

@@ -19,12 +19,13 @@ width: 17%;
 `;
 
 function MyProdutList(props) {
-    return (<Grid Grid style={{backgroundColor:"white"}}>
-    <Row style={{display: 'flex', flexWrap: 'wrap'}}>
-   <Col sm={12}  lg={12}>
-    <div style={{height:'100px'}}>
+    return (
+      <Grid style={{backgroundColor:"white"}}>
+        <Row   style={{display: 'flex', flexWrap: 'wrap'}}>
+        <Col xs={12}  lg={12} >
+        <div style={{height:'100px'}}>
     <h1 style={{color:'rgb(26,156,142)'}}> <MdEventSeat className="icons" style={{color:'rgb(26,156,142)'}}/> منتجاتي</h1>
-    <Link to={`/newidea/`}>
+    <Link to={`/newproduct/`}>
           <Button>اضافةمنتج</Button>
         </Link>
     </div>
