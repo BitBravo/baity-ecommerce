@@ -34,7 +34,7 @@ let _LIKES_PATH = "likes";
 let _GROUPS_PATH = "group"; //change me by removing test
 let _BUSINESS_LOGOS_PATH = "BusinessLogo";
 let _PRODUCT_IMAGES_PATH = "productImages";
-let _IDEA_IMAGES_PATH = "ideaImage";
+let _IDEA_IMAGES_PATH = "ideaImages";
 let _PROFILE_IMAGES_PATH = "profileImage";
 let _PROF_PATH = "professional";
 let _NORMAL_PATH = "normal";
@@ -145,6 +145,9 @@ export default {
   get productImages() {
     return _REF_PRODUCT_IMAGE;
   },
+  get ideaImages() {
+    return _REF_IDEA_IMAGE;
+  },
   get likes() {
     return _REF_USER_LIKES;
   },
@@ -162,7 +165,8 @@ export default {
       country: "Saudi Arabia",
       businessName: coName,
       dateCreated: dateCreated,
-      id: businessId
+      id: businessId,
+      city: "الرياض"
     }
     let userObj = {
       businessId: businessId,
@@ -492,6 +496,20 @@ export default {
     return this.products.child(productId)
   },
 
+  /*
+    returns an idea as a promise
+  */
+  getIdea(ideaId){
+    return this.readDBRecord('idea', ideaId).catch(error => {
+      console.log(`FirebaseServices.getIdea: can not read idea ${ideaId} from DB`)
+      throw error;
+    })
+  },
+
+  getIdeaRef(ideaId){
+    return this.ideas.child(ideaId)
+  },
+
   /**
    * This method is used to insert a new product into DB
    * product: is an object that contains all product properties with new values
@@ -522,6 +540,33 @@ export default {
   updateProduct(newProductData, productId){
     var productRef = this.getProductRef(productId);
     return productRef.update(newProductData);
+  },
+
+  insertIdea(idea) {
+    // return new Promis((resolve, reject) => {
+    //   var newIdeaRef = this.ideas.push();
+    //   idea = {...product, id: newIdeaRef.key};
+    //   newIdeaRef.set(idea).then( () => newIdeaRef.key);
+    // })
+      var newIdeaRef = this.ideas.push();
+      idea = {...idea, id: newIdeaRef.key};
+      return newIdeaRef.set(idea).then( () => newIdeaRef.key)
+      .catch(error => {
+        console.log(`error inserting idea: ${idea} in DB`)
+        throw error;
+      });
+  },
+
+  /**
+   * This method is used to update an idea in DB
+   * newIdeaData: an object that contains the changing product
+   *   properties along with their new values
+   * ideaId: the id of the idea to be updated
+   * returns: non-null promise containing void that resolves when update on server is complete
+   */
+  updateProduct(newIdeaData, ideaId){
+    var ideaRef = this.getIdeaRef(ideaId);
+    return ideaRef.update(newIdeaData);
   },
 
   uploadProductImages(newImages, viewUploadProgress, uid){
@@ -642,8 +687,130 @@ export default {
         console.log(`FirebaseServices.deleteImage(): can not delete image. error code: ${error.code}, error message:${error.message}`)
         throw error
       })
+  },
+
+
+uploadIdeaImages(newImages, viewUploadProgress, uid){
+    //get list of upload tasks from firebase SDK (this will immediatly start upload)
+    var tasks = _.map(newImages, image => {
+      const file = image.file
+      const imageRef = this.ideaImages
+        .child(`${uid}/${Date.now() + Math.random()}`);
+      var task = imageRef.put(file, { contentType: file.type });
+      task.name = file.name;
+      viewUploadProgress(0, task.name)
+
+      // Register an upload task observer to observe state change events such as progress, pause, and resume
+      task.on("state_changed", snapshot => {
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        var progress = Math.round(
+          snapshot.bytesTransferred / snapshot.totalBytes * 100
+        );
+        //update progress viewer
+        viewUploadProgress(progress, task.name)
+
+        //additionl logging
+        console.log(
+          "Upload of file " + task.name + " is " + progress + "% done"
+        );
+        switch (snapshot.state) {
+          case firebase.storage.TaskState.PAUSED: // or 'paused'
+            console.log("Upload of file " + task.name + " is paused");
+            break;
+          case firebase.storage.TaskState.RUNNING: // or 'running'
+            console.log("Upload of  file " + task.name + " is running");
+            break;
+        }
+      });
+      return task;
+    });
+
+    //Wait for all upload tasks to finish then obtain links (URLs) to uploaded files
+    return Promise.all(tasks)
+      .then(snapshots => {
+        const urls = snapshots.map(snapshot => snapshot.downloadURL);
+        return urls
+      })
+      .then(urls => {
+        var images = urls.map(imageUrl => ({large: imageUrl}))
+        return images;
+      })
+      .catch(error => {
+        // Handle unsuccessful uploads
+        console.log("error uploading file");
+        console.log(`ERROR: code: ${error.code}, message:${error.message}`);
+        // A full list of error codes is available at
+        // https://firebase.google.com/docs/storage/web/handle-errors
+        switch (error.code) {
+          case "storage/unauthorized":
+            // User doesn't have permission to access the object
+            break;
+
+          case "storage/canceled":
+            // User canceled the upload
+            break;
+
+          case "storage/unknown":
+            // Unknown error occurred, inspect error.serverResponse
+            break;
+        }
+        throw error;
+      });
+
+  },
+
+
+  /*
+    1- uploads idea images.
+    2- add images to idea.
+    newImages: an array of [{file: ..., url: ...}] where 'file' of type File(Blob), 'url' of type DataURL (not needed here)
+    returns: non-null promise containing void that resolves when update on server is complete
+  */
+  addIdeaImages(ideaId, newImages, viewUploadProgress, uid){
+    return this.uploadIdeaImages(newImages, viewUploadProgress, uid)
+    .then(images => {
+      return this.getIdea(ideaId)
+      .then(idea => {
+        //combine new images with current images from DB into 'images' property of idea
+        images = idea.images? [...images, ...idea.images]: images;
+        var ideaRef = this.ideas.child(ideaId);
+        ideaRef.update({images: images})
+      })
+      .catch(error => {
+        console.log(`FirebaseServices.addIdeaImages: error while adding idea images for idea ${ideaId}`)
+        console.log(`ERROR: code: ${error.code}, message:${error.message}`);
+        throw error
+      })
+    })
+
+  },
+
+  /*
+    Given an image url and a idea id this method will:
+    1- delete the image from the storage
+    2- delete the image from the idea images
+    returns: a promise reporesenting idea images after deleting the given image
+  */
+  deleteIdeaImage(imageUrl, ideaId){
+    console.log('FirebaseServices.deleteImage(): 1- deleting image from storage')
+    return storage.refFromURL(imageUrl).delete()
+      .then(() => {
+        return this.getIdea(ideaId)
+      })
+      .then( (idea) => {
+        console.log('FirebaseServices.deleteImage(): 2- image deleted from storage. Start updating idea')
+        var images = idea.images;
+        images = images.filter( image => image.large !== imageUrl )
+        var ideaRef = this.getIdeaRef(ideaId)
+        return ideaRef.update({images: images}).then(() => {return images});
+      })
+      .catch(error => {
+        console.log(`FirebaseServices.deleteImage(): can not delete image. error code: ${error.code}, error message:${error.message}`)
+        throw error
+      })
   }
 };
+
 
 //TODO: change the code into JS and export all functions
 // see (http://blog.cloud66.com/an-overview-of-es6-modules-in-javascript/)
