@@ -46,13 +46,14 @@ font-size: 35px;
   margin-top:20px;
 }
  `
- class Home extends Component {
 
-  render() { console.log(this.props.authenticated)
-    return (
+ const Home = ({authenticated}) => {
+   return (
+
   <div>
+   
     <div >
-  <Carousel   >
+  <Carousel>
       <Carousel.Item>
         <div>
           <ImageContainer>
@@ -64,14 +65,14 @@ font-size: 35px;
         <Carousel.Caption className="hero">
           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
          
-         { !this.props.authenticated  ? (
-          <LinkContainer to="/login" >
+          {!authenticated ?
+          (<LinkContainer to="/login" >
             
             <Button>
               ابدأ معنا
               </Button>
               </LinkContainer>)
-        :(<div>/</div> )}
+            :<div></div> }
         </Carousel.Caption>
         
         </div>
@@ -85,14 +86,15 @@ font-size: 35px;
         </ImageContainer>
         <Carousel.Caption className="hero">
           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
-          { !this.props.authenticated ? (
+         
+          {!authenticated ? 
             <LinkContainer to="/login" >
               
               <Button>
                 ابدأ معنا
                 </Button>
-                </LinkContainer>)
-          :(<div>/</div> )}
+                </LinkContainer>
+         :<div></div> }
         </Carousel.Caption>
         </div>
       </Carousel.Item>
@@ -106,14 +108,16 @@ font-size: 35px;
 
         <Carousel.Caption className="hero">
           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
-          { !this.props.authenticated  ? (
-            <LinkContainer to="/login" >
+         
+          {!authenticated ? 
+         <LinkContainer to="/login" >
               
-              <Button>
-                ابدأ معنا
-                </Button>
-                </LinkContainer>)
-          :(<div>/</div> )}
+         <Button>
+           ابدأ معنا
+           </Button>
+           </LinkContainer>
+          :<div></div> 
+          }
         </Carousel.Caption>
         </div>
       </Carousel.Item>
@@ -124,6 +128,6 @@ font-size: 35px;
     <ProductList thisUserOnly={false}/>
   </div>
   
-  );}}
+       );}
 
 export default Home;
