@@ -281,7 +281,13 @@ class Register extends Component {
                     //Should we set the user here or just listen to auth.onAuthStateChanged in App.js
                     //this.props.setCurrentUser(user);
 
+                    app.auth().currentUser.sendEmailVerification().then(function() {
+                      // Email sent.
+                      }, function(error) {
+                      // An error happened.
+                      });
                     this.setState({ redirect: true });
+
                   })
                   .catch( error => {
                     //User is registered into firebase.auth in DB but not in firebase.database 'users'/'group'
