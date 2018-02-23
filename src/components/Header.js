@@ -118,7 +118,7 @@ class Header extends Component {
         <Navbar.Collapse >
 
         <Nav  bsStyle="tabs" justified >
-            <IndexLinkContainer to="/" >
+            <IndexLinkContainer to="/home" >
               <NavItem> <GoHome className="icons"/>الرئيسية</NavItem>
             </IndexLinkContainer>
             <LinkContainer to="/productspage" >

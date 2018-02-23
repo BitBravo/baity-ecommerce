@@ -48,7 +48,7 @@ font-size: 35px;
  `
  class Home extends Component {
 
-  render() {
+  render() { console.log(this.props.authenticated)
     return (
   <div>
     <div >
@@ -63,13 +63,15 @@ font-size: 35px;
         </ImageContainer>
         <Carousel.Caption className="hero">
           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
+         
+         { !this.props.authenticated  ? (
           <LinkContainer to="/login" >
             
             <Button>
               ابدأ معنا
               </Button>
-              </LinkContainer>
-
+              </LinkContainer>)
+        :(<div>/</div> )}
         </Carousel.Caption>
         
         </div>
@@ -83,13 +85,14 @@ font-size: 35px;
         </ImageContainer>
         <Carousel.Caption className="hero">
           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
-          <LinkContainer to="/login" >
-            
-            <Button>
-              ابدأ معنا
-              </Button>
-              </LinkContainer>
-
+          { !this.props.authenticated ? (
+            <LinkContainer to="/login" >
+              
+              <Button>
+                ابدأ معنا
+                </Button>
+                </LinkContainer>)
+          :(<div>/</div> )}
         </Carousel.Caption>
         </div>
       </Carousel.Item>
@@ -103,13 +106,14 @@ font-size: 35px;
 
         <Carousel.Caption className="hero">
           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
-          <LinkContainer to="/login" >
-            
-            <Button>
-              ابدأ معنا
-              </Button>
-              </LinkContainer>
-
+          { !this.props.authenticated  ? (
+            <LinkContainer to="/login" >
+              
+              <Button>
+                ابدأ معنا
+                </Button>
+                </LinkContainer>)
+          :(<div>/</div> )}
         </Carousel.Caption>
         </div>
       </Carousel.Item>
