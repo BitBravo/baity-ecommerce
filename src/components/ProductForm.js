@@ -61,13 +61,145 @@ const SelectGroup = ({ id, label, selectedOption, ...props }) => (
 
 
 
-const DepartmentList = ["صالة", "غرف نوم", "مطابخ", "مجلس", "دورات مياه"];
-const CategoryList = [
-  "طاولة طعام",
-  " طقم كنب",
-  "ورق جدران",
-  "طاولة شاي",
-  "أدوات صحية"
+const DepartmentList = [
+  "صالات",
+  "مجالس",
+  "غرف النوم",
+  "مطابخ وأواني",
+  "غرف الطعام",
+  "دورات المياه",
+  "الأثاث",
+  "المخازن",
+  "جلسات خارجية",
+  "أرضيات",
+  "غرف أطفال",
+  "مكاتب منزلية"
+];
+var CategoryList = [
+  "خزائن الكتب",
+  "سجاد",
+  "كراسي",
+  "كنب",
+  "طاولات",
+  "الاكسسوارات والديكور",
+  "أبجورات",
+  "طاولات تلفزيون",
+  "لوحات",
+  "ستائر"
+];
+  // livingroom
+const CategoryListLivingroom = [
+  "خزائن الكتب",
+  "سجاد",
+  "كراسي",
+  "كنب",
+  "طاولات",
+  "الاكسسوارات والديكور",
+  "أبجورات",
+  "طاولات تلفزيون",
+  "لوحات",
+  "ستائر"
+];
+// setting room
+const CategoryListSettingroom = [
+  "سجاد",
+  "كراسي",
+  "كنب",
+  "طاولات",
+  "الاكسسوارات والديكور",
+  "أبجورات",
+  "لوحات",
+  "ستائر"
+];
+  //bedroom
+  const CategoryListBedroom = [
+  "سرير",
+  "فراش",
+  "الاكسسوارات والديكور",
+  "خزائن الملابس",
+  "أدراج",
+  "تسريحة",
+  "غرف الملابس",
+  "إضاءة",
+  "كراسي"
+];
+//kitchen
+const CategoryListKitchen = [
+  "مطابخ",
+  "إضاءة المطابخ",
+  "أواني منزلية"
+];
+  // diningroom
+const CategoryListDining = [
+  "طاولات طعام",
+  "خزائن غرف الطعام",
+  "كراسي طعام"
+];
+//bathroom
+const CategoryListBath = [
+"الاستحمام",
+"مغاسل",
+"مخازن دورات المياه",
+"إضاءة دورات المياه",
+"صنابير",
+"إكسسوارات دورات المياه",
+"مناشف",
+"مراحيض"
+];
+
+// Furnture
+const CategoryListFurn = [
+"خزائن الكتب",
+"سجاد",
+"كراسي",
+"كنب",
+"طاولات",
+"الإكسسوارات والديكور",
+"أبجورات",
+"طاولات تلفزيون",
+"إضاءة",
+"لوحات",
+"ستائر"
+];
+// garden
+const CategoryListGarden = [
+"كراسي الحديقة",
+"طاولات طعام خارجية",
+"أرجوحات",
+"المظلات",
+"الإكسسوارات الخارجية"
+];
+// home office
+const CategoryListOffice = [
+"طاولات مكتبية",
+"خزائن مكتبية",
+"كراسي مكتبية",
+"إضاة مكتبية",
+"خزائن التخزين"
+];
+// kids room
+const CategoryListKids = [
+  "كراسي الأطفال",
+  "سرير نوم الأطفال",
+  "مكاتب الأطفال",
+  "خزائن ملابس الأطفال",
+  "خزائن دورات المياه",
+  "خزائن مكتبية"
+];
+//storage
+const CategoryListStorage = [
+  "خزائن الملابس",
+  "خزائن الكتب",
+  "خزائن غرف الطعام",
+  "خزائن دورات المياه",
+  "خزائن مكتبية",
+  "خزائن ملابس الأطفال"
+];
+  //floors
+const CategoryListFloors = [
+  "أرضيات خشبية",
+  "بلاط أو سراميك",
+  "أرضيات الفينيل"
 ];
 
 
@@ -215,7 +347,25 @@ class ProductForm extends Component {
     //case 1
     if (!nextProps.isNewProduct){
       var newImages = this.state.newImages;//preserve new images added to product
-      this.setState(getInitState(), () => {
+      console.log("The this.props.product.category " + this.props.product.category)
+
+      switch (this.props.product.category) {
+        case "صالات": CategoryList = CategoryListLivingroom; break;
+        case "مجالس": CategoryList = CategoryListSettingroom; break;
+        case "غرف النوم": CategoryList = CategoryListBedroom; break;
+        case "مطابخ وأواني": CategoryList = CategoryListKitchen; break;
+        case "غرف الطعام": CategoryList = CategoryListDining; break;
+        case "دورات المياه": CategoryList = CategoryListBath; break;
+        case "الأثاث": CategoryList = CategoryListFurn; break;
+        case "المخازن": CategoryList = CategoryListStorage; break;
+        case "جلسات خارجية": CategoryList = CategoryListGarden; break;
+        case "أرضيات": CategoryList = CategoryListFloors; break;
+        case "غرف أطفال": CategoryList = CategoryListKids; break;
+        case "مكاتب منزلية": CategoryList = CategoryListOffice; break;
+        default:
+        break;
+      }
+        this.setState(getInitState(), () => {
         var newState = {...this.state,
           newImages: newImages,
           name: {...this.state.name, value: this.props.product.name, valid: true},
@@ -518,6 +668,25 @@ class ProductForm extends Component {
         formError = valid
           ? ""
           : " يجب أن يكون ارتفاع المنتج رقم أكبر من الصفر وأصغر من ١٠٠٠٠ سم";
+        break;
+      case "dept":
+        console.log("The index " + value)
+        switch (value) {
+          case "صالات": CategoryList = CategoryListLivingroom; break;
+          case "مجالس": CategoryList = CategoryListSettingroom; break;
+          case "غرف النوم": CategoryList = CategoryListBedroom; break;
+          case "مطابخ وأواني": CategoryList = CategoryListKitchen; break;
+          case "غرف الطعام": CategoryList = CategoryListDining; break;
+          case "دورات المياه": CategoryList = CategoryListBath; break;
+          case "الأثاث": CategoryList = CategoryListFurn; break;
+          case "المخازن": CategoryList = CategoryListStorage; break;
+          case "جلسات خارجية": CategoryList = CategoryListGarden; break;
+          case "أرضيات": CategoryList = CategoryListFloors; break;
+          case "غرف أطفال": CategoryList = CategoryListKids; break;
+          case "مكاتب منزلية": CategoryList = CategoryListOffice; break;
+          default:
+          break;
+        }
         break;
       default:
         break;
