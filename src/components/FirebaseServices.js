@@ -38,6 +38,7 @@ let _IDEA_IMAGES_PATH = testPrefix + "ideaImages";
 let _PROFILE_IMAGES_PATH = testPrefix + "profileImage";
 let _PROF_PATH = testPrefix + "professional";
 let _NORMAL_PATH = testPrefix + "normal";
+let _OWNER_PRODUCT_PATH = testPrefix + "ownerProduct"
 
 
 // DB references
@@ -54,12 +55,14 @@ let _REF_USER_LIKES = DB_BASE.child(_LIKES_PATH);
 let _REF_GROUP = DB_BASE.child(_GROUPS_PATH); //change me by removing test
 let _REF_PROF = DB_BASE.child(_PROF_PATH)
 let _REF_NORMAL = DB_BASE.child(_NORMAL_PATH)
+let _REF_OWNER_PRODUCT = DB_BASE.child(_OWNER_PRODUCT_PATH)
 
 // Storage reference
 var _REF_BUSINESS_LOGO = STORAGE_BASE.child(_BUSINESS_LOGOS_PATH); //change me by removing test
 var _REF_PRODUCT_IMAGE = STORAGE_BASE.child(_PRODUCT_IMAGES_PATH); //change me by removing test
 var _REF_IDEA_IMAGE = STORAGE_BASE.child(_IDEA_IMAGES_PATH);
 var _REF_PROFILE_IMAGE = STORAGE_BASE.child(_PROFILE_IMAGES_PATH); //change me by removing test
+
 
 // We are exporting an nonymous object.
 // To import simply write:
@@ -150,6 +153,9 @@ export default {
   },
   get likes() {
     return _REF_USER_LIKES;
+  },
+  get ownerProduct() {
+    return _REF_OWNER_PRODUCT
   },
 
   //create a professional user (i.e., business user) along with the group and business entry (but not the business details)
@@ -784,6 +790,22 @@ uploadIdeaImages(newImages, viewUploadProgress, uid){
     })
 
   },
+
+  // indexing() {
+  //   this.professionals.once('value')
+  //     .then(dataSnapshot => {
+  //       const profIds = Object.keys(dataSnapshot.val());
+  //       profIds.map(uid =>
+  //       this.products.orderByChild('owner').equalTo(uid).once('value')
+  //       .then(dataSnapshot => {
+  //         const productsIds = Object.keys(dataSnapshot.val());
+  //         productsIds.map(id => DB_BASE.child('test-ownerProduct').child(uid).child(id).set("true"))
+  //         console.log(dataSnapshot.val().key)}))})
+  //     .catch(error => {
+  //       console.log(`FirebaseServices.readDBRecord: error reading entry from DB`)
+  //       console.log(`ERROR: code: ${error.code}, message:${error.message}`)
+  //     })
+  // },
 
   /*
     Given an image url and a idea id this method will:
