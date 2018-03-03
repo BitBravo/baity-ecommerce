@@ -7,7 +7,7 @@ import ProductBrief from "./ProductBrief";
 import Loading from './Loading'
 import styled from 'styled-components'
 import {MdEventSeat} from 'react-icons/lib/md';
-import FirebasePaginator from 'firebase-paginator';
+import FirebasePaginator from './firebase-pag';
 
 
 const Button = styled.button`
@@ -16,7 +16,7 @@ const Button = styled.button`
     height: 40px;
     width:100%;
   `;
-
+const PAGE_SIZE = 2;
 class ProductList extends Component {
   constructor() {
     super();
@@ -36,7 +36,11 @@ class ProductList extends Component {
     this.listToArray = this.listToArray.bind(this)
     this.FirebasePaginator = this.firebasePaginator.bind(this, ref)
     this.forward = this.forward.bind(this)
+    this.firebasePaginatorFiltering = this.firebasePaginatorFiltering.bind(this, ref)
+    this.forwardFiltring = this.forwardFiltring.bind(this)
     console.log("ProductList-componentWillMount");
+
+//FirebaseServices.indexing();
 
     if (this.props.thisUserOnly){
       if(this.props.shortList){
@@ -57,24 +61,27 @@ class ProductList extends Component {
           }
     });
   } else {
-    this.productsRef = base.syncState(FirebaseServices.PRODUCTS_PATH, {
-      context: this,
-      state: "products",
-      queries: {
-        orderByChild: 'owner',
-        equalTo: this.props.currentUser.uid
-      },
-      then(data) {
-        this.setState({loading: false, firstTime: false})
-      },
-      onFailure(error) {
-      this.setState({errorHandling: {showError: true, errorMsg: error}});
-      }
-    });
+    // this.productsRef = base.syncState(FirebaseServices.PRODUCTS_PATH, {
+    //   context: this,
+    //   state: "products",
+    //   queries: {
+    //     orderByChild: 'owner',
+    //     equalTo: this.props.currentUser.uid
+    //   },
+    //   then(data) {
+    //     this.setState({loading: false, firstTime: false})
+    //   },
+    //   onFailure(error) {
+    //   this.setState({errorHandling: {showError: true, errorMsg: error}});
+    //   }
+    // });
+    var owner = this.props.currentUser.uid
+    var ref = FirebaseServices.ownerProduct.child(owner)
+    this.firebasePaginatorFiltering(ref, PAGE_SIZE)
   }
 } else {
-  var ref = FirebaseServices.products
-  this.firebasePaginator(ref)
+    var ref = FirebaseServices.products
+    this.firebasePaginator(ref, PAGE_SIZE)
   }
 
   }
@@ -117,6 +124,8 @@ class ProductList extends Component {
   listToArray() {
     const products = this.state.products
     const productIds = Object.keys(products);
+    console.log("listToArray - productIds.length " + productIds.length)
+
     var arr = [];
     productIds.map(id => {
       const product = products[id];
@@ -130,9 +139,9 @@ class ProductList extends Component {
 
   }
 
-  firebasePaginator(ref) {
+  firebasePaginator(ref, pageSize) {
     var options = {
-      pageSize: 2, //change this for production 
+      pageSize: PAGE_SIZE,
       finite: true,
       retainLastPage: false
     };
@@ -140,6 +149,7 @@ class ProductList extends Component {
     var itemsList = [];
     var handler = (() => {
       console.log("firebasePaginator - handler")
+      console.log("Collection " + paginator.collection)
       this.setState({
         products: paginator.collection,
         loading: false,
@@ -151,10 +161,43 @@ class ProductList extends Component {
     paginator.on('value', handler);
   }
 
+  firebasePaginatorFiltering(ref, pageSize) {
+    var options = {
+      pageSize: PAGE_SIZE,
+      finite: true,
+      retainLastPage: false,
+    };
+    var ref = FirebaseServices.ownerProduct
+    var paginator = new FirebasePaginator(ref, options);
+    var itemsList = [];
+    var handler = (() => {
+      console.log("firebasePaginator - handler")
+      console.log("Collection " + paginator.collection)
+
+      const productIds = Object.keys(paginator.collection);
+      var productsList = {}
+      console.log("the list contines" + productIds)
+      productIds.map(id => {
+        FirebaseServices.products.child(id).once("value", (snapshot) => {
+          console.log(snapshot.val())
+          var products = [...this.state.products, snapshot.val()]
+          this.setState({products: products, loading: false, firstTime: false})
+          this.listToArray()
+
+        });
+
+      });
+
+    });
+    console.log("firebasePaginator")
+    paginator.on('value', handler);
+  }
+
   forward(){
     var paginator = new FirebasePaginator(FirebaseServices.products);
     paginator.next()
     .then(() => {
+      console.log("forward - Collection " + paginator.collection)
       var newPage = this.state.page + 1;
       this.setState({products: paginator.collection, loading: false, page: newPage})
       this.listToArray();
@@ -162,6 +205,53 @@ class ProductList extends Component {
     console.log(paginator.collection);
   });
   }
+
+  forwardFiltring(){
+    var paginator = new FirebasePaginator(FirebaseServices.products);
+    paginator.next()
+    .then(() => {
+      console.log("forward - Collection " + paginator.collection)
+      var newPage = this.state.page + 1;
+      var productIds = Object.keys(paginator.collection);
+      productIds = productIds.slice(PAGE_SIZE * newPage)
+      var productsList = {}
+      console.log("the list contines" + productIds)
+      // var list = productIds.map(id => {
+      //   FirebaseServices.products.child(id).once("value", (snapshot) => {
+      //     console.log(snapshot.val())
+      //     var products = [...this.state.products, snapshot.val()]
+      //     this.setState({products: products, loading: false, firstTime: false})
+      //     this.listToArray()
+      //
+      //   });
+      // })
+      const listPromises = productIds.map(id => {
+        return FirebaseServices.products.child(id).once('value', snapshot => {
+          snapshot
+          console.log("The snapshot " +  snapshot)
+          console.log("The snap val " + snapshot.val());
+        })
+        console.log("The4444");
+      });
+
+      const results = Promise.all(listPromises)
+      results.then((snapshot) => {
+        this.setState({page: newPage, loading: false})
+        console.log("The8888 - page " + newPage);
+        console.log("The single " + snapshot);
+        console.log("The key " + snapshot.key);
+        console.log("The val " + snapshot.val());
+
+
+      })
+      .catch(err => {
+        // handle error
+      })
+    console.log('paginated forward');
+    console.log(paginator.collection);
+  });
+  }
+
 
   render() {
     const products = this.state.products
@@ -228,8 +318,10 @@ class ProductList extends Component {
         }
                </Col>
         </Row>
-        <Row><Button onClick={this.forward}>تحميل المزيد</Button></Row>
-
+        {this.props.currentUser?
+          <Row><Button onClick={this.forwardFiltring}>تحميل المزيد</Button></Row>
+        : <Row><Button onClick={this.forward}>تحميل المزيد</Button></Row>
+      }
       </Grid>
     </div>
   );
