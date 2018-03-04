@@ -184,11 +184,12 @@ class FavIdeas extends Component {
     return (
       <Grid Grid style={{backgroundColor:"white"}}>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
-        <InfiniteScroll style={{overflow:'none'}} 
+       
+       <Col xs={12}  md={12} lg={12}>
+       <InfiniteScroll style={{overflow:'none'}} 
           hasMore={!paginator.isLastPage} 
           next={ this.forwardFiltring}  
         >
-       <Col xs={12}  md={12} lg={12}>
         <div style={{height:'70px'}}>
         <h2 style={{color:'rgb(26,156,142)',textAlign:'center'}}> <MdWeekend className="icons" style={{color:'rgb(26,156,142)'}}/> أفكاري المفضلة</h2>
         </div>
@@ -199,9 +200,9 @@ class FavIdeas extends Component {
         {newIdeas.map((idea, index) => {
           return <IdeaBrief key={idea.id} idea={idea} />;
         })}
+          </InfiniteScroll>
 
           </Col>
-          </InfiniteScroll>
         </Row>
         
       </Grid>
