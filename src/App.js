@@ -104,7 +104,7 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div style={{ margin: "0 auto" }}>
-          <Header authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>
+          <Header authenticated={this.state.authenticated} currentUser={this.state.currentUser} group={this.state.group}/>
           <Main  authenticated={this.state.authenticated} currentUser={this.state.currentUser} group={this.state.group}/>
           <Footer authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>
         </div>

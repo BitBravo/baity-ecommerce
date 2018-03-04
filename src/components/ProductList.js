@@ -8,7 +8,7 @@ import Loading from './Loading'
 import styled from 'styled-components'
 import {MdEventSeat} from 'react-icons/lib/md';
 import FirebasePaginator from './firebase-pag';
-
+import Infinite from 'react-infinite-loading';
 
 const Button = styled.button`
   width:180px;
@@ -319,8 +319,12 @@ class ProductList extends Component {
                </Col>
         </Row>
         {this.props.currentUser?
-          <Row><Button onClick={this.forwardFiltring}>تحميل المزيد</Button></Row>
-        : <Row><Button onClick={this.forward}>تحميل المزيد</Button></Row>
+        <Infinite  handleLoading={this.forwardFiltring}  >
+        </Infinite>
+        : <Infinite  handleLoading={this.forward} isloading={false} >
+   
+        </Infinite>
+        // <Row><Button onClick={this.forward}>تحميل المزيد</Button></Row>
       }
       </Grid>
     </div>

@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
+import firebase from "firebase";
+import { app, base, database, storage } from "../base";
+import FirebaseServices from './FirebaseServices'
 import { Nav, Navbar, NavItem, Button, NavbarBrand,NavDropdown,MenuItem,Glyphicon ,DropdownButton,ButtonToolbar} from "react-bootstrap";
 import bayty_icon from '../assets/img/bayty_icon.png';
 import {GoSignIn,GoSignOut,GoHome} from 'react-icons/lib/go';
@@ -40,9 +43,14 @@ top:12px;
 left: 15px;
 color:rgb(26, 156, 142)`
 
+
+
 class Header extends Component {
+ 
 
   render() {
+   
+
     return (
 
       <Navbar  fixedTop collapseOnSelect  >
@@ -92,7 +100,15 @@ class Header extends Component {
               <Nav pullLeft>
               <NavItem>
               <LinkContainer to="/myprofile" activeClassName="active">
-              <UserName > <MdPersonOutline style={{fontSize:"20px"}}/><p style={{paddingTop:"0"}}>مرحبا</p></UserName>
+              <UserName > <MdPersonOutline style={{fontSize:"20px"}}/>
+              {this.props.group === "prof"?
+                          <p style={{paddingTop:"0"}}>
+                          {/* {this.props.profile.businessName} */}
+                          مرحبا</p>
+                          :<p style={{paddingTop:"0"}}>
+                          {/* {this.props.profile.name} */}
+                          مرحبا</p>}
+              </UserName>
               {/* <UserImg  src={logo_placeholder} /> */}
               </LinkContainer>
               
