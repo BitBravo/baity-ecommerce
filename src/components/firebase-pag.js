@@ -4,6 +4,7 @@ function FirebasePaginator(ref, defaults) {
   var paginator = this;
   var defaults = defaults || {};
   var pageSize = defaults.pageSize ? parseInt(defaults.pageSize, 10) : 10;
+  console.log("pageSize " +pageSize)
   var isFinite = defaults.finite ? defaults.finite : false;
   var retainLastPage = defaults.retainLastPage || false;
   var auth = defaults.auth;
@@ -78,7 +79,8 @@ function FirebasePaginator(ref, defaults) {
 
     var setPage = function(cursor, isForward, isLastPage) {
       this.ref = ref.orderByKey();
-
+      console.log("cursor " + cursor)
+      console.log()
       // If there it's forward pagination, use limitToFirst(pageSize + 1) and startAt(theLastKey)
 
       if (isForward) {
@@ -164,7 +166,10 @@ function FirebasePaginator(ref, defaults) {
     this.next = function() {
       var cursor;
       if (this.keys && this.keys.length) {
+        console.log("keys " + this.keys)
         cursor = this.keys[this.keys.length - 1];
+        //cursor = this.keys[0]; // by Asma
+
       }
       return setPage(cursor, true).then(function() {
         return fire('next');
