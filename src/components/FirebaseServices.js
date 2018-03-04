@@ -159,7 +159,7 @@ export default {
     return _REF_OWNER_PRODUCT
   },
   get ownerIdea() {
-    return _REF_OWNER_PRODUCT
+    return _REF_OWNER_IDEA
   },
 
   //create a professional user (i.e., business user) along with the group and business entry (but not the business details)
