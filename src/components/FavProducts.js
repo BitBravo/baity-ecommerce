@@ -8,6 +8,7 @@ import Loading from './Loading'
 import {MdEventSeat} from 'react-icons/lib/md';
 import styled from 'styled-components'
 import FirebasePaginator from './firebase-pag';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Button = styled.button`
   width:180px;
@@ -15,7 +16,7 @@ const Button = styled.button`
     height: 40px;
     width:100%;
   `;
-const PAGE_SIZE = 2;
+const PAGE_SIZE = 3;
 var options = {
   pageSize: PAGE_SIZE,
   finite: true,
@@ -165,6 +166,10 @@ class FavProducts extends Component {
     return (
       <Grid Grid style={{backgroundColor:"white"}}>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
+        <InfiniteScroll style={{overflow:'none'}} 
+          hasMore={!paginator.isLastPage} 
+          next={ this.forwardFiltring}  
+        >
        <Col xs={12}  lg={12}>
         <div style={{height:'70px'}}>
         <h2 style={{color:'rgb(26,156,142)',textAlign:'center'}}> <MdEventSeat className="icons" style={{color:'rgb(26,156,142)'}}/>  منتجاتي المفضلة</h2>
@@ -178,11 +183,9 @@ class FavProducts extends Component {
         })}
 
          </Col>
+         </InfiniteScroll>
          </Row>
-         {!paginator.isLastPage?
-           <Row><Button onClick={this.forwardFiltring}>تحميل المزيد</Button></Row>
-         : null
-         }
+        
        </Grid>
   );
   }
