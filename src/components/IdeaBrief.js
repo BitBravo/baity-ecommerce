@@ -65,6 +65,7 @@ class IdeaBrief extends Component {
   render() {
     const idea = this.props.idea;
     return (
+
       <Col xs={12} md={4} sm={6} style={{float:'right'}}>
         <MyThumbnailDiv>
           <ImageContainer>
@@ -98,6 +99,7 @@ class IdeaBrief extends Component {
           </PaddingDiv>
         </MyThumbnailDiv>
       </Col>
+
     );
   }
 }

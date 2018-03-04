@@ -243,7 +243,7 @@ class IdeaList extends Component{
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
         <InfiniteScroll style={{overflow:'none'}} 
           hasMore={!paginator.isLastPage}
-          next={this.props.thisUserOnly? this.forwardFiltring : this.forward}  
+          next={this.props.thisUserOnly? this.forwardFiltring : this.forward} 
         >
         <Col xs={12} md={12}>
         {newIdeas.length < 1
