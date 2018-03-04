@@ -8,7 +8,7 @@ import Loading from './Loading'
 import styled from 'styled-components'
 import {MdEventSeat} from 'react-icons/lib/md';
 import FirebasePaginator from './firebase-pag';
-import Infinite from 'react-infinite-loading';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Button = styled.button`
   width:180px;
@@ -16,7 +16,14 @@ const Button = styled.button`
     height: 40px;
     width:100%;
   `;
-const PAGE_SIZE = 2;
+const PAGE_SIZE = 6;
+var options = {
+  pageSize: PAGE_SIZE,
+  finite: true,
+  retainLastPage: false
+};
+var paginator;
+
 class ProductList extends Component {
   constructor() {
     super();
@@ -36,11 +43,10 @@ class ProductList extends Component {
     this.listToArray = this.listToArray.bind(this)
     this.FirebasePaginator = this.firebasePaginator.bind(this, ref)
     this.forward = this.forward.bind(this)
-    this.firebasePaginatorFiltering = this.firebasePaginatorFiltering.bind(this, ref)
+    this.firebasePaginatorFiltering1 = this.firebasePaginatorFiltering.bind(this, ref)
     this.forwardFiltring = this.forwardFiltring.bind(this)
-    console.log("ProductList-componentWillMount");
 
-//FirebaseServices.indexing();
+    // FirebaseServices.indexing();
 
     if (this.props.thisUserOnly){
       if(this.props.shortList){
@@ -53,7 +59,6 @@ class ProductList extends Component {
             equalTo: this.props.currentUser.uid
           },
           then(data) {
-            var products = [this.state.extraProducts]
             this.setState({loading: false, firstTime: false})
           },
           onFailure(error) {
@@ -77,19 +82,25 @@ class ProductList extends Component {
     // });
     var owner = this.props.currentUser.uid
     var ref = FirebaseServices.ownerProduct.child(owner)
-    this.firebasePaginatorFiltering(ref, PAGE_SIZE)
+    paginator = new FirebasePaginator(ref, options)
+    this.firebasePaginatorFiltering(ref)
   }
 } else {
     var ref = FirebaseServices.products
-    this.firebasePaginator(ref, PAGE_SIZE)
+    paginator = new FirebasePaginator(ref, options)
+
+    this.firebasePaginator(ref)
   }
 
   }
 
   componentWillUnmount() {
     this.productsRef && base.removeBinding(this.productsRef);
-    var paginator = new FirebasePaginator(FirebaseServices.products);
-    paginator.off('value', function(){});
+    //var paginator = new FirebasePaginator(FirebaseServices.products);
+    if (paginator) {
+      paginator.off('value', () => {
+      });
+    }
 
   }
 
@@ -124,32 +135,22 @@ class ProductList extends Component {
   listToArray() {
     const products = this.state.products
     const productIds = Object.keys(products);
-    console.log("listToArray - productIds.length " + productIds.length)
 
     var arr = [];
-    productIds.map(id => {
+    productIds.reverse().map(id => {
       const product = products[id];
       console.log("copy product " + product.id)
       arr.push(product)
     });
     var list = [...this.state.extraProducts, ...arr.slice()]
-    this.setState({extraProducts: arr.slice(), loading: false})
-    console.log("extraProducts.length " + this.state.extraProducts.length)
-      console.log(this.state.extraProducts)
+    //this.setState({extraProducts: arr.slice(), loading: false})
+    this.setState({extraProducts: list, loading: false})
 
   }
 
-  firebasePaginator(ref, pageSize) {
-    var options = {
-      pageSize: PAGE_SIZE,
-      finite: true,
-      retainLastPage: false
-    };
-    var paginator = new FirebasePaginator(ref, options);
+  firebasePaginator(ref) {
     var itemsList = [];
     var handler = (() => {
-      console.log("firebasePaginator - handler")
-      console.log("Collection " + paginator.collection)
       this.setState({
         products: paginator.collection,
         loading: false,
@@ -157,99 +158,142 @@ class ProductList extends Component {
       });
       this.listToArray()
     });
-    console.log("firebasePaginator")
     paginator.on('value', handler);
   }
 
-  firebasePaginatorFiltering(ref, pageSize) {
-    var options = {
-      pageSize: PAGE_SIZE,
-      finite: true,
-      retainLastPage: false,
-    };
-    var ref = FirebaseServices.ownerProduct
-    var paginator = new FirebasePaginator(ref, options);
+  firebasePaginatorFiltering(ref) {
     var itemsList = [];
-    var handler = (() => {
-      console.log("firebasePaginator - handler")
-      console.log("Collection " + paginator.collection)
+    var handler = ( () => {
+      if (this.state.firstTime){
+        const productIds = Object.keys(paginator.collection);
+        // array is sorted in assending order
+        var last = productIds[productIds.length]
 
-      const productIds = Object.keys(paginator.collection);
-      var productsList = {}
-      console.log("the list contines" + productIds)
-      productIds.map(id => {
-        FirebaseServices.products.child(id).once("value", (snapshot) => {
-          console.log(snapshot.val())
-          var products = [...this.state.products, snapshot.val()]
-          this.setState({products: products, loading: false, firstTime: false})
-          this.listToArray()
+          this.productsRef = base.bindToState(FirebaseServices.PRODUCTS_PATH, {
+            context: this,
+            state: "products",
+            queries: {
+              orderByChild: 'owner',
+              equalTo: this.props.currentUser.uid,
+              //startAt: productIds[productIds.length - 1],
+              limitToLast: PAGE_SIZE
+            },
+            then(data) {
+              this.setState({loading: false, firstTime: false})
+              this.listToArray();
+            },
+            onFailure(error) {
+            this.setState({errorHandling: {showError: true, errorMsg: error}});
+            }
+          });
 
+    }else {
+      var newPage = this.state.page + 1;
+      var productIds = (Object.keys(paginator.collection))
+      console.log(productIds.length)
+      if (productIds.length > 0){
+
+        // this.productsRef = base.bindToState(FirebaseServices.PRODUCTS_PATH, {
+        //   context: this,
+        //   state: "products",
+        //   queries: {
+        //     orderByChild: 'owner',
+        //     //equalTo: this.props.currentUser.uid,
+        //     startAt: productIds[0],
+        //     endAt: productIds[productIds.length - 1]
+        //   },
+        //   then(data) {
+        //     console.log(data)
+        //     this.setState({loading: false, firstTime: false})
+        //     this.listToArray();
+        //   },
+        //   onFailure(error) {
+        //   this.setState({errorHandling: {showError: true, errorMsg: error}});
+        //   }
+        // });
+        var newProducts = {}
+        const listPromises = productIds.map(id => {
+          return FirebaseServices.products.child(id).once('value', snapshot => {
+            snapshot.val()
+            newProducts = [...newProducts, snapshot.val()]
+          })
         });
 
-      });
+        const results = Promise.all(listPromises)
+        results.then((snapshot) => {
+          var newList = [...newProducts, ...this.state.products]
 
-    });
-    console.log("firebasePaginator")
+          //this.setState({products: newList, page: newPage, loading: false})
+          this.setState({products: newProducts, page: newPage, loading: false})
+          this.listToArray();
+
+        })//results.then
+      } //newProductIds.length
+    }//else
+  }) //handler
     paginator.on('value', handler);
   }
 
   forward(){
-    var paginator = new FirebasePaginator(FirebaseServices.products);
-    paginator.next()
+    paginator.previous()
     .then(() => {
-      console.log("forward - Collection " + paginator.collection)
-      var newPage = this.state.page + 1;
-      this.setState({products: paginator.collection, loading: false, page: newPage})
-      this.listToArray();
+      // console.log("forward - Collection " + paginator.collection)
+      // var newPage = this.state.page + 1;
+      // this.setState({products: paginator.collection, loading: false, page: newPage})
+      // this.listToArray();
     console.log('paginated forward');
-    console.log(paginator.collection);
   });
   }
 
   forwardFiltring(){
-    var paginator = new FirebasePaginator(FirebaseServices.products);
-    paginator.next()
+    paginator.previous()
     .then(() => {
-      console.log("forward - Collection " + paginator.collection)
-      var newPage = this.state.page + 1;
-      var productIds = Object.keys(paginator.collection);
-      productIds = productIds.slice(PAGE_SIZE * newPage)
-      var productsList = {}
-      console.log("the list contines" + productIds)
-      // var list = productIds.map(id => {
-      //   FirebaseServices.products.child(id).once("value", (snapshot) => {
-      //     console.log(snapshot.val())
-      //     var products = [...this.state.products, snapshot.val()]
-      //     this.setState({products: products, loading: false, firstTime: false})
-      //     this.listToArray()
-      //
-      //   });
-      // })
-      const listPromises = productIds.map(id => {
-        return FirebaseServices.products.child(id).once('value', snapshot => {
-          snapshot
-          console.log("The snapshot " +  snapshot)
-          console.log("The snap val " + snapshot.val());
-        })
-        console.log("The4444");
+      var ids = Object.keys(paginator.collection);
+      console.log("collection")
+      ids.map(id => {
+          console.log(id)
       });
-
-      const results = Promise.all(listPromises)
-      results.then((snapshot) => {
-        this.setState({page: newPage, loading: false})
-        console.log("The8888 - page " + newPage);
-        console.log("The single " + snapshot);
-        console.log("The key " + snapshot.key);
-        console.log("The val " + snapshot.val());
-
-
-      })
-      .catch(err => {
-        // handle error
-      })
-    console.log('paginated forward');
-    console.log(paginator.collection);
+  //     var newPage = this.state.page + 1;
+  //     var productIds = (Object.keys(paginator.collection)).reverse();
+  //     var newProductIds = productIds.slice(PAGE_SIZE * newPage).reverse()
+  //     console.log("old length " + productIds)
+  //     console.log("new length " + newProductIds)
+  //
+  //     if (newProductIds.length > 0){
+  //     var productsList = {}
+  //     console.log("the paginator contines" + productIds)
+  //     console.log("page No. " + paginator.pageNumber)
+  //
+  //     var newProducts = {}
+  //     const listPromises = newProductIds.map(id => {
+  //       return FirebaseServices.products.child(id).once('value', snapshot => {
+  //         snapshot.val()
+  //         newProducts = [...newProducts, snapshot.val()]
+  //       })
+  //     });
+  //
+  //     const results = Promise.all(listPromises)
+  //     results.then((snapshot) => {
+  //       var newList = [...newProducts, ...this.state.products]
+  //
+  //       this.setState({products: newList, page: newPage, loading: false})
+  //       //this.setState({products: paginator.collection, page: newPage, loading: false})
+  //       this.listToArray();
+  //       console.log("this.state.products")
+  //       this.state.products.map(obj => {
+  //         console.log(obj)
+  //       })
+  //
+  //     })
+  //     .catch(err => {
+  //       // handle error
+  //     })
+  //   }
+  //   console.log('paginated forward');
+  //   console.log("paginator.collection"+ paginator.collection);
+  //
   });
+
   }
 
 
@@ -301,11 +345,16 @@ class ProductList extends Component {
 
     );
   } else {
-    var newProducts = this.state.extraProducts.slice().reverse()
+    var newProducts = this.state.extraProducts.slice()
+
     return (
        <div style={{paddingTop: "30px"}}>
       <Grid>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
+        <InfiniteScroll style={{overflow:'none'}} 
+          hasMore={!paginator.isLastPage} 
+          next={this.props.thisUserOnly? this.forwardFiltring : this.forward}  
+        >
         <Col xs={12} md={12}>
         {newProducts.length < 1
           ? <h4 style={{textAlign:'center'}}>لم تقم باضافة منتجات، إبدأ الان</h4>
@@ -317,15 +366,9 @@ class ProductList extends Component {
           }</div>
         }
                </Col>
+          </InfiniteScroll>
         </Row>
-        {this.props.currentUser?
-        <Infinite  handleLoading={this.forwardFiltring}  >
-        </Infinite>
-        : <Infinite  handleLoading={this.forward} isloading={false} >
-   
-        </Infinite>
-        // <Row><Button onClick={this.forward}>تحميل المزيد</Button></Row>
-      }
+     
       </Grid>
     </div>
   );

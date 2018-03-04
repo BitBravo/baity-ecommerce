@@ -8,7 +8,14 @@ import IdeaBrief from "./IdeaBrief";
 import Loading from './Loading'
 import {MdWeekend} from 'react-icons/lib/md';
 import styled from 'styled-components'
+import FirebasePaginator from './firebase-pag';
 
+const Button1 = styled.button`
+  width:180px;
+  @media only screen and (max-width: 767px) {
+    height: 40px;
+    width:100%;
+  `;
 
 const Button = styled.button`
 position:absolute;
@@ -21,12 +28,21 @@ width: 17%;
   width: 40%;
   height: 40px;
 `;
+const PAGE_SIZE = 2;
+var options = {
+  pageSize: PAGE_SIZE,
+  finite: true,
+  retainLastPage: false
+};
+var paginator;
+
 class FavIdeas extends Component {
   constructor() {
     super();
     this.likedIdeas = this.likedIdeas.bind(this);
     this.state = {
       ideas: {},
+      extraIdeas: [],
       loading: true,
       empty: true
     };
@@ -49,6 +65,10 @@ class FavIdeas extends Component {
   }
 
   componentWillMount() {
+    this.listToArray = this.listToArray.bind(this)
+    this.firebasePaginatorFiltering1 = this.firebasePaginatorFiltering.bind(this, ref)
+    this.forwardFiltring = this.forwardFiltring.bind(this)
+
       if(this.props.shortList){
         FirebaseServices.likes.child(`${this.props.currentUser.uid}/ideas`).limitToLast(3).once("value", function (snapshot) {
           console.log(snapshot.val())
@@ -56,8 +76,11 @@ class FavIdeas extends Component {
 
 
   } else {
-    this.userLikesRef = FirebaseServices.readDBRecord('likes', `${this.props.currentUser.uid}/ideas`)
-    .then(val => this.likedIdeas(val))
+    // this.userLikesRef = FirebaseServices.readDBRecord('likes', `${this.props.currentUser.uid}/ideas`)
+    // .then(val => this.likedIdeas(val))
+    var ref = FirebaseServices.likes.child(`${this.props.currentUser.uid}/ideas`)
+    paginator = new FirebasePaginator(ref, options)
+    this.firebasePaginatorFiltering()
   }
 
 
@@ -65,7 +88,61 @@ class FavIdeas extends Component {
 
   componentWillUnmount() {
     this.userLikesRef && base.removeBinding(this.userLikesRef);
+    if (paginator) {
+      paginator.off('value', () => {
+      });
+    }
   }
+
+  listToArray() {
+    const ideas = this.state.ideas
+    const ideaIds = Object.keys(ideas);
+
+    var arr = [];
+    ideaIds.reverse().map(id => {
+      const idea = ideas[id];
+      console.log("copy idea " + idea.id)
+      arr.push(idea)
+    });
+    var list = []
+    if (this.state.extraIdeas.length < 1) {
+      list = arr.slice()
+    }else {
+      list = [...this.state.extraIdeas, ...arr.slice()]
+    }
+    this.setState({extraIdeas: list, loading: false})
+  }
+
+  firebasePaginatorFiltering() {
+    var handler = ( () => {
+      var ideaIds = (Object.keys(paginator.collection))
+      console.log(ideaIds.length)
+      if (ideaIds.length > 0){
+        var newIdeas = {}
+        const listPromises = ideaIds.map(id => {
+          return FirebaseServices.ideas.child(id).once('value', snapshot => {
+            snapshot.val()
+            console.log(snapshot.val())
+            newIdeas = [...newIdeas, snapshot.val()]
+          })
+        });
+
+        const results = Promise.all(listPromises)
+        results.then((snapshot) => {
+          this.setState({ideas: newIdeas, empty: false})
+          this.listToArray();
+
+        })//results.then
+      } //newIdeaIds.length
+  })
+    paginator.on('value', handler);
+  }
+
+  forwardFiltring(){
+    paginator.previous()
+    .then()
+  }
+
 
   render() {
     const ideas = this.state.ideas;
@@ -102,6 +179,7 @@ class FavIdeas extends Component {
         </Grid>
      );
   } else {
+    var newIdeas = this.state.extraIdeas.slice()
     return (
       <Grid Grid style={{backgroundColor:"white"}}>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
@@ -110,16 +188,19 @@ class FavIdeas extends Component {
         <h2 style={{color:'rgb(26,156,142)',textAlign:'center'}}> <MdWeekend className="icons" style={{color:'rgb(26,156,142)'}}/> أفكاري المفضلة</h2>
         </div>
         <hr style={{marginBottom: '30px'}}/>
-        {ideaIds.length < 1
-        ?<h5 > ليس لديك أفكار مفضلة </h5> 
+        {newIdeas.length < 1
+        ?<h5 > ليس لديك أفكار مفضلة </h5>
         : null}
-          {ideaIds.map(id => {
-            const idea = ideas[id];
-            return  < IdeaBrief key={id} idea={idea} />;
-          })}
-     
-          </Col> 
+        {newIdeas.map((idea, index) => {
+          return <IdeaBrief key={idea.id} idea={idea} />;
+        })}
+
+          </Col>
         </Row>
+        {!paginator.isLastPage?
+          <Row><Button1 onClick={this.forwardFiltring}>تحميل المزيد</Button1></Row>
+        : null
+        }
       </Grid>
    );
   }

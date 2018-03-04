@@ -39,7 +39,7 @@ let _PROFILE_IMAGES_PATH = testPrefix + "profileImage";
 let _PROF_PATH = testPrefix + "professional";
 let _NORMAL_PATH = testPrefix + "normal";
 let _OWNER_PRODUCT_PATH = testPrefix + "ownerProduct"
-
+let _OWNER_IDEA_PATH = testPrefix + "ownerIdea"
 
 // DB references
 //You can use child() only on references (i.e. database.ref() but not database itself)
@@ -56,6 +56,7 @@ let _REF_GROUP = DB_BASE.child(_GROUPS_PATH); //change me by removing test
 let _REF_PROF = DB_BASE.child(_PROF_PATH)
 let _REF_NORMAL = DB_BASE.child(_NORMAL_PATH)
 let _REF_OWNER_PRODUCT = DB_BASE.child(_OWNER_PRODUCT_PATH)
+let _REF_OWNER_IDEA = DB_BASE.child(_OWNER_IDEA_PATH)
 
 // Storage reference
 var _REF_BUSINESS_LOGO = STORAGE_BASE.child(_BUSINESS_LOGOS_PATH); //change me by removing test
@@ -156,6 +157,9 @@ export default {
   },
   get ownerProduct() {
     return _REF_OWNER_PRODUCT
+  },
+  get ownerIdea() {
+    return _REF_OWNER_IDEA
   },
 
   //create a professional user (i.e., business user) along with the group and business entry (but not the business details)
@@ -529,7 +533,8 @@ export default {
     // })
       var newProductRef = this.products.push();
       product = {...product, id: newProductRef.key};
-      return newProductRef.set(product).then( () => newProductRef.key)
+      this.ownerProduct.child(product.owner).child(newProductRef.key).set("true")
+      return newProductRef.set(product).then( () => newProductRef.key )
       .catch(error => {
         console.log(`error inserting product: ${product} in DB`)
         throw error;
@@ -556,6 +561,7 @@ export default {
     // })
       var newIdeaRef = this.ideas.push();
       idea = {...idea, id: newIdeaRef.key};
+      this.ownerIdea.child(idea.owner).child(newIdeaRef.key).set("true")
       return newIdeaRef.set(idea).then( () => newIdeaRef.key)
       .catch(error => {
         console.log(`error inserting idea: ${idea} in DB`)
@@ -791,21 +797,37 @@ uploadIdeaImages(newImages, viewUploadProgress, uid){
 
   },
 
-  // indexing() {
-  //   this.professionals.once('value')
-  //     .then(dataSnapshot => {
-  //       const profIds = Object.keys(dataSnapshot.val());
-  //       profIds.map(uid =>
-  //       this.products.orderByChild('owner').equalTo(uid).once('value')
-  //       .then(dataSnapshot => {
-  //         const productsIds = Object.keys(dataSnapshot.val());
-  //         productsIds.map(id => DB_BASE.child('test-ownerProduct').child(uid).child(id).set("true"))
-  //         console.log(dataSnapshot.val().key)}))})
-  //     .catch(error => {
-  //       console.log(`FirebaseServices.readDBRecord: error reading entry from DB`)
-  //       console.log(`ERROR: code: ${error.code}, message:${error.message}`)
-  //     })
-  // },
+  indexing() {
+    this.professionals.once('value')
+      .then(dataSnapshot => {
+        const profIds = Object.keys(dataSnapshot.val());
+        profIds.map(uid =>
+        this.products.orderByChild('owner').equalTo(uid).once('value')
+        .then(dataSnapshot => {
+          const productsIds = Object.keys(dataSnapshot.val());
+          productsIds.map(id => DB_BASE.child('test-ownerProduct').child(uid).child(id).set("true"))
+          console.log(dataSnapshot.val().key)}))})
+      .catch(error => {
+        console.log(`FirebaseServices.readDBRecord: error reading entry from DB`)
+        console.log(`ERROR: code: ${error.code}, message:${error.message}`)
+      })
+  },
+
+  indexingIdea() {
+    this.professionals.once('value')
+      .then(dataSnapshot => {
+        const profIds = Object.keys(dataSnapshot.val());
+        profIds.map(uid =>
+        this.ideas.orderByChild('owner').equalTo(uid).once('value')
+        .then(dataSnapshot => {
+          const productsIds = Object.keys(dataSnapshot.val());
+          productsIds.map(id => DB_BASE.child('test-ownerIdea').child(uid).child(id).set("true"))
+          console.log(dataSnapshot.val().key)}))})
+      .catch(error => {
+        console.log(`FirebaseServices.readDBRecord: error reading entry from DB`)
+        console.log(`ERROR: code: ${error.code}, message:${error.message}`)
+      })
+  },
 
   /*
     Given an image url and a idea id this method will:
