@@ -6,9 +6,9 @@ import './assets/css/styles.css';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
+import Favicon from 'react-favicon';
+import siteIcon from "./assets/img/bayty_icon1.png"
 
 
-
-
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<div><App /> <Favicon url={siteIcon} /></div>, document.getElementById('root'));
 registerServiceWorker();
