@@ -45,7 +45,6 @@ class ProductList extends Component {
     this.forward = this.forward.bind(this)
     this.firebasePaginatorFiltering1 = this.firebasePaginatorFiltering.bind(this, ref)
     this.forwardFiltring = this.forwardFiltring.bind(this)
-    console.log("ProductList-componentWillMount");
 
     // FirebaseServices.indexing();
 
@@ -97,9 +96,10 @@ class ProductList extends Component {
 
   componentWillUnmount() {
     this.productsRef && base.removeBinding(this.productsRef);
-    var paginator = new FirebasePaginator(FirebaseServices.products);
+    //var paginator = new FirebasePaginator(FirebaseServices.products);
+    if (paginator) {
     paginator.off('value', () => {
-    });
+    });}
 
   }
 
