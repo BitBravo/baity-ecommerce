@@ -98,8 +98,9 @@ class ProductList extends Component {
     this.productsRef && base.removeBinding(this.productsRef);
     //var paginator = new FirebasePaginator(FirebaseServices.products);
     if (paginator) {
-    paginator.off('value', () => {
-    });}
+      paginator.off('value', () => {
+      });
+    }
 
   }
 

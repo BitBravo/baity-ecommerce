@@ -89,8 +89,10 @@ class IdeaList extends Component{
 
   componentWillUnmount() {
     this.ideasRef && base.removeBinding(this.ideasRef);
-    paginator.off('value', () => {
-    });
+    if (paginator) {
+      paginator.off('value', () => {
+      });
+    }
   }
 
   firebasePaginator(ref) {
