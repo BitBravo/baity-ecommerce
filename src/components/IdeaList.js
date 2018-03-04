@@ -17,7 +17,7 @@ width:180px;
   height: 40px;
   width:100%;
 `;
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 3;
 var options = {
   pageSize: PAGE_SIZE,
   finite: true,
@@ -241,19 +241,21 @@ class IdeaList extends Component{
        <div style={{paddingTop: "30px"}}>
       <Grid>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
+        
+        <Col xs={12} md={12}>
         <InfiniteScroll style={{overflow:'none'}} 
           hasMore={!paginator.isLastPage}
           next={this.props.thisUserOnly? this.forwardFiltring : this.forward} 
         >
-        <Col xs={12} md={12}>
         {newIdeas.length < 1
         ? <h5 style={{textAlign:'center'}}>لم تقم باضافة أفكار، إبدأ الان</h5>
         : null}
           {newIdeas.map((idea, index) => {
             return <IdeaBrief key={idea.id} idea={idea} />;
           })}
+           </InfiniteScroll>
+
           </Col>
-          </InfiniteScroll>
         </Row>
       </Grid>
     </div>

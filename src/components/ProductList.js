@@ -16,7 +16,7 @@ const Button = styled.button`
     height: 40px;
     width:100%;
   `;
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 3;
 var options = {
   pageSize: PAGE_SIZE,
   finite: true,
@@ -351,11 +351,12 @@ class ProductList extends Component {
        <div style={{paddingTop: "30px"}}>
       <Grid>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
+       
+        <Col xs={12} md={12}>
         <InfiniteScroll style={{overflow:'none'}} 
           hasMore={!paginator.isLastPage} 
           next={this.props.thisUserOnly? this.forwardFiltring : this.forward}  
         >
-        <Col xs={12} md={12}>
         {newProducts.length < 1
           ? <h4 style={{textAlign:'center'}}>لم تقم باضافة منتجات، إبدأ الان</h4>
 
@@ -365,8 +366,9 @@ class ProductList extends Component {
             })
           }</div>
         }
+           </InfiniteScroll>
                </Col>
-          </InfiniteScroll>
+       
         </Row>
      
       </Grid>
