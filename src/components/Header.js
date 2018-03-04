@@ -46,16 +46,52 @@ color:rgb(26, 156, 142)`
 
 
 class Header extends Component {
- 
+
+  constructor() {
+    super();
+    this.temp = this.temp.bind(this)
+    this.state = {
+      userName: "",
+      firstTime: true
+    };
+  }
+
+  componentWillMount() {
+    if (this.props.authenticated){
+    if (this.props.group === "prof"){
+      FirebaseServices.readDBRecord('profUser', `${this.props.currentUser.uid}`)
+        .then(val => {
+          this.setState({userName: val.name, firstTime: false})})
+    }else {
+      FirebaseServices.readDBRecord('normalUser', `${this.props.currentUser.uid}`)
+        .then(val =>
+            this.setState({userName: val.name, firstTime: false}))
+    }
+  }
+  }
+
+  temp() {
+    if (this.props.authenticated){
+    if (this.props.group === "prof"){
+      FirebaseServices.readDBRecord('profUser', `${this.props.currentUser.uid}`)
+        .then(val => {
+          this.setState({userName: val.name, firstTime: false})})
+    }else {
+      FirebaseServices.readDBRecord('normalUser', `${this.props.currentUser.uid}`)
+        .then(val =>
+          this.setState({userName: val.name, firstTime: false}))
+    }
+  }
+  }
 
   render() {
-   
+    // if (this.state.firstTime){
+    //   this.temp()
 
     return (
-
       <Navbar  fixedTop collapseOnSelect  >
         <Navbar.Header  >
-       
+
            <NavbarBrand>
          <IndexLinkContainer to="/" style={{cursor:"pointer"}}>
           <img src={bayty_icon} />
@@ -67,14 +103,14 @@ class Header extends Component {
             <div className="inner-addon right-addon">
             <i className="glyphicon glyphicon-search"></i>
                 <Input  id="search"  className="form-control" type="text"  placeholder="بحث عن منتجات أفكار ...."></Input>
-                </div> 
+                </div>
                 </NavItem></Nav>
                 <Search >
                 <form id="demo-2">
 	              <input type="search"  placeholder="بحث عن منتجات أفكار ...."/>
                  </form>
                 </Search>
-                
+
 
 
                 {!this.props.authenticated ? (
@@ -86,51 +122,31 @@ class Header extends Component {
                     </LinkContainer>
                     </NavItem>
                     </Nav>
-          //      <Nav pullLeft  className="dropdown"  >
-          //     <NavDropdown pullRight title="الحساب" className="dropdownmenu">
-          //       <LinkContainer style={{textAlign:'right'}} to="/login" activeClassName="active">
-          //         <MenuItem className="menuItem" ><GoSignIn className="icons"/>تسجيل دخول</MenuItem>
-          //       </LinkContainer>
-          //        <LinkContainer className="menuItem" style={{textAlign:'right'}} to="/registration" activeClassName="active">
-          //         <MenuItem ><TiUserAddOutline className="icons"/>تسجيل</MenuItem>
-          //       </LinkContainer> 
-          //     </NavDropdown>
-          //  </Nav>
+
             ) : (
               <Nav pullLeft>
               <NavItem>
               <LinkContainer to="/myprofile" activeClassName="active">
               <UserName > <MdPersonOutline style={{fontSize:"20px"}}/>
-              {this.props.group === "prof"?
-                          <p style={{paddingTop:"0"}}>
-                          {/* {this.props.profile.businessName} */}
-                          مرحبا</p>
-                          :<p style={{paddingTop:"0"}}>
-                          {/* {this.props.profile.name} */}
-                          مرحبا</p>}
+
+                    <p style={{paddingTop:"0"}}>
+                      مرحبا
+                    {/*this.state.userName*/}
+              </p>
+
               </UserName>
               {/* <UserImg  src={logo_placeholder} /> */}
               </LinkContainer>
-              
+
               </NavItem>
               </Nav>
-//               <Nav pullLeft  className="dropdown">
-//               <NavDropdown pullRight title="الحساب" className="dropdownmenu">
-//               <LinkContainer style={{textAlign:'right'}} to="/logout" activeClassName="active">
-//                 <MenuItem><GoSignOut className="icons"/>تسجيل خروج</MenuItem>
-//               </LinkContainer>
-//               <LinkContainer style={{textAlign:'right'}} to="/myprofile" activeClassName="active">
-//                     <MenuItem ><MdPersonOutline className="icons"/>حسابي</MenuItem>
-//                   </LinkContainer>
-//                   </NavDropdown>
-// </Nav>
-        )} 
+          )}
                        <Glyphicon glyph="shopping-cart" className="shoppingcart" />
 
          <Navbar.Toggle />
         </Navbar.Header>
         <Nav pullLeft>
-        </Nav> 
+        </Nav>
         <Navbar.Collapse >
 
         <Nav  bsStyle="tabs" justified >
