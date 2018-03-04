@@ -70,7 +70,15 @@ class Main extends Component {
     return (
       <main>
         <Switch>
-          <Route exact path="/" component={Home} currentUser={this.props.currentUser}/>
+          <Route exact 
+          path="/"
+          render={props => {
+            return (
+            <Home 
+          currentUser={this.props.currentUser}
+          authenticated={this.props.authenticated}
+          />);}}
+          />
           <Route
             exact
             path="/login"

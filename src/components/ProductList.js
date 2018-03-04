@@ -8,7 +8,7 @@ import Loading from './Loading'
 import styled from 'styled-components'
 import {MdEventSeat} from 'react-icons/lib/md';
 import FirebasePaginator from './firebase-pag';
-
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Button = styled.button`
   width:180px;
@@ -16,7 +16,7 @@ const Button = styled.button`
     height: 40px;
     width:100%;
   `;
-const PAGE_SIZE = 2;
+const PAGE_SIZE = 6;
 var options = {
   pageSize: PAGE_SIZE,
   finite: true,
@@ -351,6 +351,10 @@ class ProductList extends Component {
        <div style={{paddingTop: "30px"}}>
       <Grid>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
+        <InfiniteScroll style={{overflow:'none'}} 
+          hasMore={!paginator.isLastPage} 
+          next={this.props.thisUserOnly? this.forwardFiltring : this.forward}  
+        >
         <Col xs={12} md={12}>
         {newProducts.length < 1
           ? <h4 style={{textAlign:'center'}}>لم تقم باضافة منتجات، إبدأ الان</h4>
@@ -362,16 +366,9 @@ class ProductList extends Component {
           }</div>
         }
                </Col>
+          </InfiniteScroll>
         </Row>
-        {!paginator.isLastPage?
-          <div>
-        {this.props.thisUserOnly?
-          <Row><Button onClick={this.forwardFiltring}>تحميل المزيد</Button></Row>
-        : <Row><Button onClick={this.forward}>تحميل المزيد</Button></Row>
-        }
-        </div>
-        : null
-        }
+     
       </Grid>
     </div>
   );

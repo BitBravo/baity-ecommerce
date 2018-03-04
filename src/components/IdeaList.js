@@ -8,6 +8,7 @@ import Loading from './Loading'
 import {MdWeekend} from 'react-icons/lib/md';
 import styled from 'styled-components'
 import FirebasePaginator from './firebase-pag';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 
 const Button = styled.button`
@@ -16,7 +17,7 @@ width:180px;
   height: 40px;
   width:100%;
 `;
-const PAGE_SIZE = 2;
+const PAGE_SIZE = 6;
 var options = {
   pageSize: PAGE_SIZE,
   finite: true,
@@ -115,7 +116,6 @@ class IdeaList extends Component{
     var arr = [];
     ideaIds.reverse().map(id => {
       const idea = ideas[id];
-      console.log("copy product " + idea.id)
       arr.push(idea)
     });
     var list = [...this.state.extraIdeas, ...arr.slice()]
@@ -241,6 +241,10 @@ class IdeaList extends Component{
        <div style={{paddingTop: "30px"}}>
       <Grid>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
+        <InfiniteScroll style={{overflow:'none'}} 
+          hasMore={!paginator.isLastPage}
+          next={this.props.thisUserOnly? this.forwardFiltring : this.forward}  
+        >
         <Col xs={12} md={12}>
         {newIdeas.length < 1
         ? <h5 style={{textAlign:'center'}}>لم تقم باضافة أفكار، إبدأ الان</h5>
@@ -249,16 +253,8 @@ class IdeaList extends Component{
             return <IdeaBrief key={idea.id} idea={idea} />;
           })}
           </Col>
+          </InfiniteScroll>
         </Row>
-        {!paginator.isLastPage?
-          <div>
-        {this.props.thisUserOnly?
-          <Row><Button onClick={this.forwardFiltring}>تحميل المزيد</Button></Row>
-        : <Row><Button onClick={this.forward}>تحميل المزيد</Button></Row>
-        }
-        </div>
-        : null
-        }
       </Grid>
     </div>
   );

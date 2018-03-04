@@ -260,6 +260,7 @@ class ProductDetails extends Component {
               <p >العرض : {product.width} سم</p>
               <p >الارتفاع : {product.height} سم</p>
               <p >المصنع : {product.factory}</p>
+              <p >المدينة : {product.city}</p>
               </PaddingDiv>
 
               <PaddingDiv>

@@ -46,13 +46,14 @@ font-size: 35px;
   margin-top:20px;
 }
  `
- class Home extends Component {
 
-  render() {
-    return (
+ const Home = ({authenticated}) => {
+   return (
+
   <div>
+   
     <div >
-  <Carousel   >
+  <Carousel>
       <Carousel.Item>
         <div>
           <ImageContainer>
@@ -63,13 +64,15 @@ font-size: 35px;
         </ImageContainer>
         <Carousel.Caption className="hero">
           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
-          <LinkContainer to="/login" >
+         
+          {!authenticated ?
+          (<LinkContainer to="/login" >
             
             <Button>
               ابدأ معنا
               </Button>
-              </LinkContainer>
-
+              </LinkContainer>)
+            :<div></div> }
         </Carousel.Caption>
         
         </div>
@@ -83,13 +86,15 @@ font-size: 35px;
         </ImageContainer>
         <Carousel.Caption className="hero">
           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
-          <LinkContainer to="/login" >
-            
-            <Button>
-              ابدأ معنا
-              </Button>
-              </LinkContainer>
-
+         
+          {!authenticated ? 
+            <LinkContainer to="/login" >
+              
+              <Button>
+                ابدأ معنا
+                </Button>
+                </LinkContainer>
+         :<div></div> }
         </Carousel.Caption>
         </div>
       </Carousel.Item>
@@ -103,13 +108,16 @@ font-size: 35px;
 
         <Carousel.Caption className="hero">
           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
-          <LinkContainer to="/login" >
-            
-            <Button>
-              ابدأ معنا
-              </Button>
-              </LinkContainer>
-
+         
+          {!authenticated ? 
+         <LinkContainer to="/login" >
+              
+         <Button>
+           ابدأ معنا
+           </Button>
+           </LinkContainer>
+          :<div></div> 
+          }
         </Carousel.Caption>
         </div>
       </Carousel.Item>
@@ -120,6 +128,6 @@ font-size: 35px;
     <ProductList thisUserOnly={false}/>
   </div>
   
-  );}}
+       );}
 
 export default Home;
