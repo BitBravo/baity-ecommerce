@@ -237,10 +237,10 @@ class ProductDetails extends Component {
             </ImageCol> 
             <Col  xs={12} sm={12} md={4} lg={3}  style={{padding :'0 5px 0 0'}}>
             
-            <Col xs={5} sm={5} md={5} lg={5} style={{padding :'0'}}>
+            <Col xs={5} sm={5} md={5} lg={5} style={{padding :'0',margin :'20px 0 0 0'}}>
               <h4 style={{color:'rgb(26,156,142)'}}>{product.price} ر.س </h4>
               </Col>
-            <Col  xs={7} sm={7} md={7} lg={7} style={{padding :'0'}}>
+            <Col  xs={7} sm={7} md={7} lg={7} style={{padding :'0',margin :'20px 0 0 0'}}>
             <h4><MdEventSeat className="icons" style={{color:'rgb(26,156,142)'}}/>{product.name}</h4>
             </Col>
             <hr/>
