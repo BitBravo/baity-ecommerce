@@ -15,5 +15,5 @@ body {
 }
 
 @media only screen and (max-width: 767px) {
-  body {margin:0 0 0 0;}
+  body {margin:0 0 100px 0;}
 }

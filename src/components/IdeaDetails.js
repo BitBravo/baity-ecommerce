@@ -220,7 +220,7 @@ class IdeaDetails extends Component {
               </div>
            </div>
             </ImageCol> 
-            <Col  xs={12} sm={12} md={4} lg={3}  style={{padding :'0 5px 0 0'}}>
+            <Col  xs={12} sm={12} md={4} lg={3}  style={{padding :'0 5px 0 0',margin :'20px 0 0 0'}}>
             <h4><MdWeekend className="icons" style={{color:'rgb(26,156,142)'}}/>{idea.name}</h4>
             <hr/>
             <button type="submit">
