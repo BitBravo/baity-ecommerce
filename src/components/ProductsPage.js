@@ -1,7 +1,19 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { DropdownButton,MenuItem ,Col,Row,ButtonToolbar,
-  NavDropdown,Button,Image,Carousel,Grid} from "react-bootstrap";
+import { DropdownButton,
+  MenuItem,
+  Col,
+  Row,
+  ButtonToolbar,
+  NavDropdown,
+  Button,
+  Image,
+  Carousel,
+  Grid,
+  FormGroup,
+  ControlLabel,
+  FormControl
+} from "react-bootstrap";
 import ProductList from './ProductList';
 import styled from 'styled-components'
 import traditionalkitchen from '../assets/img/traditionalkitchen.jpg';
@@ -11,7 +23,7 @@ import livingroom from '../assets/img/livingroom.jpg';
 const PreviewImg = styled.img`
   width: 100%;
   height: 100%;
- 
+
 `;
 
 const ImageDiv = styled.div`
@@ -60,20 +72,121 @@ const PaddingDiv = styled.div`
     padding-bottom: 10px;}
 `;
 
-class ProductsPage extends Component {
-   
-    render() {
+const DepartmentList = [
+  "صالات",
+  "مجالس",
+  "غرف النوم",
+  "مطابخ وأواني",
+  "غرف الطعام",
+  "دورات المياه",
+  "الأثاث",
+  "المخازن",
+  "جلسات خارجية",
+  "أرضيات",
+  "غرف أطفال",
+  "مكاتب منزلية"
+];
 
-      return (
-  <div>
-      <Grid>
-     <Row style={{display: 'flex', flexWrap: 'wrap'}}>
-     
-        <Col sm={4} xs={12} >
-      
- <PaddingDiv>
- <div className="inner-addon left-addon ">
-          <i className="glyphicon glyphicon-plus white plus"></i>
+const Style = [
+  "كلاسيكي",
+  "معاصر",
+  "تقليدي",
+  "ريفي",
+  "اسكندنافي",
+  "مكتبي",
+  "جلسات خارجية",
+  "تراثي",
+  "أمريكي",
+  "أوروبي"
+];
+
+const SelectGroup = ({ id, label, selectedOption, ...props }) => (
+  <FormGroup controlId={id}>
+    <ControlLabel>{label}</ControlLabel>
+    <FormControl
+      componentClass="select"
+      placeholder={props.placeholder}
+      name={props.name}
+      value={selectedOption}
+      onChange={props.onChange}
+    >
+      {props.options.map(opt => {
+        return (
+          <option key={opt} value={opt}>
+            {opt}
+          </option>
+        );
+      })}
+    </FormControl>
+  </FormGroup>
+);
+
+const DepOption = (list) => (
+  DepartmentList.map(opt => {
+    return (
+      <option key={opt} value={opt}>
+        {opt}
+      </option>
+    );
+    })
+)
+
+const StyleOption = (list) => (
+  Style.map(opt => {
+    return (
+      <option key={opt} value={opt}>
+        {opt}
+      </option>
+    );
+    })
+)
+
+class ProductsPage extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      value: "",
+      filter: "",
+      dept: "",
+      cat: "",
+      price: "",
+      style: ""
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+
+  }
+
+  handleChange(event) {
+    switch (event.target.id) {
+      case "department": this.setState({
+          value: event.target.value,
+          filter: event.target.id,
+          dept: event.target.value,
+          style: ""
+        }); break;
+      case "style": this.setState({
+          value: event.target.value,
+          filter: event.target.id,
+          dept: "",
+          style: event.target.value
+        }); break;
+    }
+
+    console.log("clicked: " + event.target.id)
+  }
+
+  render() {
+    return (
+      <div>
+        <Grid>
+          <Row style={{display: 'flex', flexWrap: 'wrap'}}>
+            <Col sm={4} xs={12} >
+
+            <PaddingDiv>
+            <div className="inner-addon left-addon ">
+              <i className="glyphicon glyphicon-plus white plus"></i>
                 <Select name="selectThis" id="selectThis">
                     <option value="">التصنيف</option>
                     <option value=".option1">طاولة طعام</option>
@@ -82,21 +195,19 @@ class ProductsPage extends Component {
                     <option value=".option4">طاولة شاي</option>
                     <option value=".option4">أدوات صحية</option>
                 </Select>
-                </div>
-                </PaddingDiv>
-                <PaddingDiv>
-                <div className="inner-addon left-addon ">
-          <i className="glyphicon glyphicon-plus white plus"></i>
-                <Select name="selectThis" id="selectThis">
-                    <option value="">القسم</option>
-                    <option value=".option1">دورات مياه</option>
-                    <option value=".option2">مجلس</option>
-                    <option value=".option3">مطابخ</option>
-                    <option value=".option4">غرف نوم</option>
-                    <option value=".option4">صالة</option>
+            </div>
+            </PaddingDiv>
+
+            <PaddingDiv>
+            <div className="inner-addon left-addon ">
+              <i className="glyphicon glyphicon-plus white plus"></i>
+                <Select name="selectThis" id="department" onChange={this.handleChange} value={this.state.dept}>
+                  <option value="">القسم</option>
+                  <DepOption list={DepartmentList} />
                 </Select>
-                </div>
-                </PaddingDiv>
+            </div>
+            </PaddingDiv>
+
                 <PaddingDiv>
                 <div className="inner-addon left-addon ">
           <i className="glyphicon glyphicon-plus white plus"></i>
@@ -114,7 +225,7 @@ class ProductsPage extends Component {
                 <div className="inner-addon left-addon ">
           <i className="glyphicon glyphicon-plus white plus"  ></i>
                 <Select name="selectThis" id="selectThis">
-                    <option value="">الشركة</option>
+                    <option value="">بلد الصنع</option>
                     <option value=".option1">Option 1</option>
                     <option value=".option2">Option 2</option>
                     <option value=".option3">Option 3</option>
@@ -122,23 +233,21 @@ class ProductsPage extends Component {
                 </Select>
                 </div>
                 </PaddingDiv>
+
                 <PaddingDiv>
                 <div className="inner-addon left-addon ">
           <i className="glyphicon glyphicon-plus white plus" ></i>
-                <Select name="selectThis" id="selectThis">
-                    <option value="">المدينة</option>
-                    <option value=".option1">Option 1</option>
-                    <option value=".option2">Option 2</option>
-                    <option value=".option3">Option 3</option>
-                    <option value=".option4">Option 4</option>
+          <Select name="selectThis" id="style" onChange={this.handleChange} value={this.state.style}>
+                    <option value="">الطراز</option>
+                    <StyleOption list={Style} />
                 </Select>
                 </div>
-                </PaddingDiv> 
-          
+                </PaddingDiv>
+
    </Col>
-  
+
    <Col sm={8} xs={12} >
-      
+
       <div>
   <Carousel >
       <Carousel.Item>
@@ -151,7 +260,7 @@ class ProductsPage extends Component {
         <Carousel.Caption className="hero">
           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
         </Carousel.Caption>
-        
+
         </div>
       </Carousel.Item>
       <Carousel.Item>
@@ -171,7 +280,7 @@ class ProductsPage extends Component {
       <ImageContainer>
             <ImageDiv>
               <PreviewImg src={bedroom}/>
-     
+
         </ImageDiv>
         </ImageContainer>
         <Carousel.Caption className="hero">
@@ -179,16 +288,16 @@ class ProductsPage extends Component {
         </Carousel.Caption>
         </div>
       </Carousel.Item>
-      
+
     </Carousel>
    </div>
    </Col>
    </Row>
    </Grid>
-   <ProductList thisUserOnly={false}/>
-   
-	</div>			
-    
+   <ProductList thisUserOnly={false} filterValue={this.state.value} filter={this.state.filter}/>
+
+	</div>
+
   );}}
-  
+
   export default ProductsPage;

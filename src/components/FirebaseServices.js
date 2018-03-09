@@ -38,8 +38,12 @@ let _IDEA_IMAGES_PATH = testPrefix + "ideaImages";
 let _PROFILE_IMAGES_PATH = testPrefix + "profileImage";
 let _PROF_PATH = testPrefix + "professional";
 let _NORMAL_PATH = testPrefix + "normal";
+let _BASKET_PATH = testPrefix + "basket";
 let _OWNER_PRODUCT_PATH = testPrefix + "ownerProduct"
 let _OWNER_IDEA_PATH = testPrefix + "ownerIdea"
+let _DEPARTMENT_PRODUCT_PATH = testPrefix + "deptProduct"
+let _STYLE_PRODUCT_PATH = testPrefix + "styleProduct"
+let _DEPARTMENT_IDEA_PATH = testPrefix + "deptIdea"
 
 // DB references
 //You can use child() only on references (i.e. database.ref() but not database itself)
@@ -55,8 +59,12 @@ let _REF_USER_LIKES = DB_BASE.child(_LIKES_PATH);
 let _REF_GROUP = DB_BASE.child(_GROUPS_PATH); //change me by removing test
 let _REF_PROF = DB_BASE.child(_PROF_PATH)
 let _REF_NORMAL = DB_BASE.child(_NORMAL_PATH)
+let _REF_BASEKT = DB_BASE.child(_BASKET_PATH)
 let _REF_OWNER_PRODUCT = DB_BASE.child(_OWNER_PRODUCT_PATH)
 let _REF_OWNER_IDEA = DB_BASE.child(_OWNER_IDEA_PATH)
+let _REF_DEPARTMENT_PRODUCT = DB_BASE.child(_DEPARTMENT_PRODUCT_PATH)
+let _REF_STYLE_PRODUCT = DB_BASE.child(_STYLE_PRODUCT_PATH)
+let _REF_DEPARTMENT_IDEA = DB_BASE.child(_DEPARTMENT_IDEA_PATH)
 
 // Storage reference
 var _REF_BUSINESS_LOGO = STORAGE_BASE.child(_BUSINESS_LOGOS_PATH); //change me by removing test
@@ -116,6 +124,9 @@ export default {
   get NORMAL_PATH() {
     return _NORMAL_PATH;
   },
+  get BASKET_PATH() {
+    return _BASKET_PATH;
+  },
   get root() {
     return DB_BASE;
   },
@@ -146,6 +157,9 @@ export default {
   get normalUsers() {
     return _REF_NORMAL;
   },
+  get basket() {
+    return _REF_BASKET;
+  },
   get productImages() {
     return _REF_PRODUCT_IMAGE;
   },
@@ -160,6 +174,15 @@ export default {
   },
   get ownerIdea() {
     return _REF_OWNER_IDEA
+  },
+  get deptProduct() {
+    return _REF_DEPARTMENT_PRODUCT
+  },
+  get styleProduct() {
+    return _REF_STYLE_PRODUCT
+  },
+  get deptIdea() {
+    return _REF_DEPARTMENT_IDEA
   },
 
   //create a professional user (i.e., business user) along with the group and business entry (but not the business details)
@@ -534,6 +557,7 @@ export default {
       var newProductRef = this.products.push();
       product = {...product, id: newProductRef.key};
       this.ownerProduct.child(product.owner).child(newProductRef.key).set("true")
+      this.deptProduct.child(product.dept).child(newProductRef.key).set("true")
       return newProductRef.set(product).then( () => newProductRef.key )
       .catch(error => {
         console.log(`error inserting product: ${product} in DB`)
@@ -562,6 +586,7 @@ export default {
       var newIdeaRef = this.ideas.push();
       idea = {...idea, id: newIdeaRef.key};
       this.ownerIdea.child(idea.owner).child(newIdeaRef.key).set("true")
+      //this.deptIdea.child(idea.dept).child(newProductRef.key).set("true")
       return newIdeaRef.set(idea).then( () => newIdeaRef.key)
       .catch(error => {
         console.log(`error inserting idea: ${idea} in DB`)
@@ -797,6 +822,42 @@ uploadIdeaImages(newImages, viewUploadProgress, uid){
 
   },
 
+  /*
+    returns a basket as a promise
+  */
+  getBasket(basketId){
+    return this.readDBRecord('basket', basketId).catch(error => {
+      console.log(`FirebaseServices.getBasket: can not read idea ${basketId} from DB`)
+      throw error;
+    })
+  },
+
+  getBasketRef(basketId){
+    return this.baskets.child(basketId)
+  },
+
+  /**
+   * This method is used to insert a new item into basket into DB
+   * product: is an object that contains all product properties with new values
+   * except id property.
+   */
+  insertItem(item) {
+    // return new Promis((resolve, reject) => {
+    //   var newProductRef = this.products.push();
+    //   product = {...product, id: newProductRef.key};
+    //   newProductRef.set(product).then( () => newProductRef.key);
+    // })
+      var newProductRef = this.basket.child(this.props.currentUser.uid).push();
+      product = {...product, id: newProductRef.key};
+      this.ownerProduct.child(product.owner).child(newProductRef.key).set("true")
+      this.deptProduct.child(product.dept).child(newProductRef.key).set("true")
+      return newProductRef.set(product).then( () => newProductRef.key )
+      .catch(error => {
+        console.log(`error inserting product: ${product} in DB`)
+        throw error;
+      });
+  },
+
   indexing() {
     this.professionals.once('value')
       .then(dataSnapshot => {
@@ -811,6 +872,62 @@ uploadIdeaImages(newImages, viewUploadProgress, uid){
         console.log(`FirebaseServices.readDBRecord: error reading entry from DB`)
         console.log(`ERROR: code: ${error.code}, message:${error.message}`)
       })
+  },
+
+  filterIndexing() {
+    const DepartmentList = [
+      "صالات",
+      "مجالس",
+      "غرف النوم",
+      "مطابخ وأواني",
+      "غرف الطعام",
+      "دورات المياه",
+      "الأثاث",
+      "المخازن",
+      "جلسات خارجية",
+      "أرضيات",
+      "غرف أطفال",
+      "مكاتب منزلية"
+    ];
+        DepartmentList.map((dep, i) => {
+        this.products.orderByChild('department').equalTo(dep).once('value')
+        .then(dataSnapshot => {
+          console.log(dataSnapshot.val())
+          const profIds = Object.keys(dataSnapshot.val());
+          profIds.map(id => {
+          DB_BASE.child('test-deptProduct').child(dep).child(id).set("true")
+          console.log(dataSnapshot.val().key)})})
+      .catch(error => {
+        console.log(`FirebaseServices.readDBRecord: error reading entry from DB`)
+        console.log(`ERROR: code: ${error.code}, message:${error.message}`)
+      })})
+  },
+
+  filterIndexingStyle() {
+    const Style = [
+      "كلاسيكي",
+      "معاصر",
+      "تقليدي",
+      "ريفي",
+      "اسكندنافي",
+      "مكتبي",
+      "جلسات خارجية",
+      "تراثي",
+      "أمريكي",
+      "أوروبي"
+    ];
+        Style.map((dep, i) => {
+        this.products.orderByChild('style').equalTo(dep).once('value')
+        .then(dataSnapshot => {
+          console.log(dataSnapshot.val())
+          const profIds = Object.keys(dataSnapshot.val());
+          profIds.map(id => {
+          DB_BASE.child('test-styleProduct').child(dep).child(id).set("true")
+          console.log(dataSnapshot.val().key)})})
+      .catch(error => {
+        console.log(`FirebaseServices.readDBRecord: error reading entry from DB`)
+        console.log(`ERROR: code: ${error.code}, message:${error.message}`)
+      })})
   },
 
   indexingIdea() {

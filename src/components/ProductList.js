@@ -33,7 +33,9 @@ class ProductList extends Component {
       extraProducts: [],
       loading: true,
       firstTime: true,
-      page: 0
+      page: 0,
+      filter: "",
+      filterValue: ""
     };
 
   }
@@ -46,7 +48,8 @@ class ProductList extends Component {
     this.firebasePaginatorFiltering1 = this.firebasePaginatorFiltering.bind(this, ref)
     this.forwardFiltring = this.forwardFiltring.bind(this)
 
-    // FirebaseServices.indexing();
+     //FirebaseServices.filterIndexing();
+     //FirebaseServices.filterIndexingStyle();
 
     if (this.props.thisUserOnly){
       if(this.props.shortList){
@@ -82,13 +85,13 @@ class ProductList extends Component {
     // });
     var owner = this.props.currentUser.uid
     var ref = FirebaseServices.ownerProduct.child(owner)
-    paginator = new FirebasePaginator(ref, options)
-    this.firebasePaginatorFiltering(ref)
+    //this.setState({filter: 'owner', filterValue: owner})
+    // paginator = new FirebasePaginator(ref, options)
+    this.firebasePaginatorFiltering(ref, 'owner', owner)
   }
 } else {
     var ref = FirebaseServices.products
     paginator = new FirebasePaginator(ref, options)
-
     this.firebasePaginator(ref)
   }
 
@@ -102,6 +105,53 @@ class ProductList extends Component {
       });
     }
 
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (paginator) {
+      paginator.off('value', () => {
+      });
+    }
+
+    if (nextProps.filter){
+    if(nextProps.filterValue.length > 0) {
+      this.setState({loading: true, firstTime: true})
+      var type;
+      switch (nextProps.filter) {
+        case 'department': type = FirebaseServices.deptProduct; break;
+        case 'style': type = FirebaseServices.styleProduct; break;
+      }
+      var ref = type.child(nextProps.filterValue)
+      this.firebasePaginatorFiltering(ref, nextProps.filter, nextProps.filterValue)
+
+      // paginator = new FirebasePaginator(ref, options)
+      //   this.productsRef = base.bindToState(FirebaseServices.PRODUCTS_PATH, {
+      //     context: this,
+      //     state: "products",
+      //     queries: {
+      //       orderByChild: 'department',
+      //       equalTo: nextProps.filter,
+      //       limitToLast: PAGE_SIZE
+      //     },
+      //     then(data) {
+      //       this.setState({loading: false, firstTime: false})
+      //       this.listToArray();
+      //     },
+      //     onFailure(error) {
+      //     this.setState({errorHandling: {showError: true, errorMsg: error}});
+      //     }
+      //   });
+    }else {
+      if(nextProps.filterValue.length < 1) {
+        this.setState({loading: true})
+      // reset the product list by deleting all from the extraProducts
+      this.setState({extraProducts: [], filter: '', filterValue: ""})
+      console.log("else block " + this.props.filter)
+
+      var ref = FirebaseServices.products
+      paginator = new FirebasePaginator(ref, options)
+      this.firebasePaginator(ref)
+    }}}
   }
 
   lazyLoading(){
@@ -161,8 +211,11 @@ class ProductList extends Component {
     paginator.on('value', handler);
   }
 
-  firebasePaginatorFiltering(ref) {
-    var itemsList = [];
+  firebasePaginatorFiltering(ref, filter, filterValue) {
+    paginator = new FirebasePaginator(ref, options)
+    this.setState({extraProducts: []})
+
+    // the callback for the paginator
     var handler = ( () => {
       if (this.state.firstTime){
         const productIds = Object.keys(paginator.collection);
@@ -173,9 +226,8 @@ class ProductList extends Component {
             context: this,
             state: "products",
             queries: {
-              orderByChild: 'owner',
-              equalTo: this.props.currentUser.uid,
-              //startAt: productIds[productIds.length - 1],
+              orderByChild: filter,
+              equalTo: filterValue,
               limitToLast: PAGE_SIZE
             },
             then(data) {
@@ -193,24 +245,6 @@ class ProductList extends Component {
       console.log(productIds.length)
       if (productIds.length > 0){
 
-        // this.productsRef = base.bindToState(FirebaseServices.PRODUCTS_PATH, {
-        //   context: this,
-        //   state: "products",
-        //   queries: {
-        //     orderByChild: 'owner',
-        //     //equalTo: this.props.currentUser.uid,
-        //     startAt: productIds[0],
-        //     endAt: productIds[productIds.length - 1]
-        //   },
-        //   then(data) {
-        //     console.log(data)
-        //     this.setState({loading: false, firstTime: false})
-        //     this.listToArray();
-        //   },
-        //   onFailure(error) {
-        //   this.setState({errorHandling: {showError: true, errorMsg: error}});
-        //   }
-        // });
         var newProducts = {}
         const listPromises = productIds.map(id => {
           return FirebaseServices.products.child(id).once('value', snapshot => {
@@ -247,12 +281,7 @@ class ProductList extends Component {
 
   forwardFiltring(){
     paginator.previous()
-    .then(() => {
-      var ids = Object.keys(paginator.collection);
-      console.log("collection")
-      ids.map(id => {
-          console.log(id)
-      });
+    .then();
   //     var newPage = this.state.page + 1;
   //     var productIds = (Object.keys(paginator.collection)).reverse();
   //     var newProductIds = productIds.slice(PAGE_SIZE * newPage).reverse()
@@ -292,7 +321,7 @@ class ProductList extends Component {
   //   console.log('paginated forward');
   //   console.log("paginator.collection"+ paginator.collection);
   //
-  });
+
 
   }
 
@@ -351,14 +380,16 @@ class ProductList extends Component {
        <div style={{paddingTop: "30px"}}>
       <Grid>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
-       
+
         <Col xs={12} md={12}>
-        <InfiniteScroll style={{overflow:'none'}} 
-          hasMore={!paginator.isLastPage} 
-          next={this.props.thisUserOnly? this.forwardFiltring : this.forward}  
+        <InfiniteScroll style={{overflow:'none'}}
+          hasMore={!paginator.isLastPage}
+          next={this.props.thisUserOnly? this.forwardFiltring : this.forward}
         >
         {newProducts.length < 1
-          ? <h4 style={{textAlign:'center'}}>لم تقم باضافة منتجات، إبدأ الان</h4>
+          ? this.props.thisUserOnly
+            ?<h4 style={{textAlign:'center'}}>لم تقم باضافة منتجات، إبدأ الان</h4>
+            :<h4 style={{textAlign:'center'}}>لا يوجد نتائج مطابقة</h4>
 
         : <div>{
               newProducts.map((product, index) => {
@@ -368,9 +399,9 @@ class ProductList extends Component {
         }
            </InfiniteScroll>
                </Col>
-       
+
         </Row>
-     
+
       </Grid>
     </div>
   );
