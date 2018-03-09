@@ -23,6 +23,7 @@ import logo_placeholder from '../assets/img/logo-placeholder.jpg';
 }
  `
  const Search =styled.div`
+ margin:0 0 0 0;
  display:none;
  @media only screen and (max-width: 767px) {
 display:inline-block;
