@@ -40,7 +40,7 @@ const PrevImgGallaryThumb = styled.div`
 const PreviewImg = styled.img`
   width: 100%;
   height: 100%;
- 
+
   }
 `;
 
@@ -78,6 +78,7 @@ class IdeaDetails extends Component {
   constructor(props) {
     super(props);
     this.ideaId = this.props.match.params.id;
+    this.owner = this.props.match.params.owner,
 
     this.state = {
       idea: {},
@@ -96,6 +97,11 @@ class IdeaDetails extends Component {
       context: this,
       state: 'idea',
       then(data) {
+        //getting the business name
+        FirebaseServices.readDBRecord('profUser', this.owner)
+          .then(val => {
+            this.setState({businessName: val.name})
+          //if user authenticated, get her likes to update the heart
         if (this.props.authenticated) {
           this.userLikesRef = FirebaseServices.readDBRecord('likes', `${this.props.currentUser.uid}/ideas/${this.productId}`)
           .then(val => {
@@ -108,7 +114,7 @@ class IdeaDetails extends Component {
         }else {
           this.setState({loading: false})
         }
-      },
+      })},
       onFailure(error) {
       this.setState({errorHandling: {showError: true, errorMsg: error}});
       }
@@ -192,11 +198,11 @@ class IdeaDetails extends Component {
           <Row style={{display: 'flex', flexWrap: 'wrap'}} className="productdetails">
              <ImageCol  xs={12} sm={12} md={8} lg={9}  style={{padding:'0'}}>
             <Carousel    indicators={false} wrap={false}>
-             <Carousel.Item> 
-               <ImageContainer>   
-            <ImageDiv > 
-            <PreviewImg src={idea.images[this.state.index].large}/> 
-            </ImageDiv>            
+             <Carousel.Item>
+               <ImageContainer>
+            <ImageDiv >
+            <PreviewImg src={idea.images[this.state.index].large}/>
+            </ImageDiv>
             </ImageContainer>
             <Glyphicon  className ="leftglyphicon" onClick={this.nextImage.bind(this)} glyph="chevron-left"/>
              <Glyphicon className="rightglyphicon" onClick={this.prevImage.bind(this)} glyph="chevron-right"/>
@@ -214,23 +220,32 @@ class IdeaDetails extends Component {
                   {idea.images.map((obj, index) => {
                     return <PrevImgGallaryThumb className="thumb " >
                              <Image src={obj.large} onClick={() => { return this.setState({index: index})}}/>
-                          </PrevImgGallaryThumb>   
-                         })}  
-                </ImgGallaryThumb> 
+                          </PrevImgGallaryThumb>
+                         })}
+                </ImgGallaryThumb>
               </div>
            </div>
-            </ImageCol> 
+            </ImageCol>
             <Col  xs={12} sm={12} md={4} lg={3}  style={{padding :'0 5px 0 0',margin :'20px 0 0 0'}}>
             <h4><MdWeekend className="icons" style={{color:'rgb(26,156,142)'}}/>{idea.name}</h4>
             <hr/>
             <button type="submit">
                للتواصل
                <MdAddShoppingCart className="icons" style={{marginRight:'20px'}}/></button>
-           
+
             <PaddingDiv>
             <h4>وصف الفكرة</h4>
               <p > {idea.desc}</p>
               </PaddingDiv>
+
+              <PaddingDiv>
+                <h4>من:
+                  <Link to={`/businessprofile/${idea.owner}`}>
+                  {this.state.businessName}
+                  </Link>
+                </h4>
+            </PaddingDiv>
+
               <PaddingDiv>
             <p>
               {/* only idea owner can update a idea */}
@@ -249,11 +264,11 @@ class IdeaDetails extends Component {
             </p>
             </PaddingDiv>
           <Col xs={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
-            
+
           </Col>
             </Col>
             </Row>
-            </Grid> 
+            </Grid>
 
 
 

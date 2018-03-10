@@ -33,7 +33,8 @@ class IdeaList extends Component{
       extraIdeas: [],
       loading: true,
       firstTime: true,
-      page: 0
+      page: 0,
+      owner: ""
     };
   }
 
@@ -47,6 +48,14 @@ class IdeaList extends Component{
     //FirebaseServices.indexingIdea();
 
     if (this.props.thisUserOnly){
+      var owner;
+      if(this.props.user){
+        owner = this.props.currentUser
+        this.setState({owner: owner})
+      }else{
+        owner = this.props.currentUser.uid
+        this.setState({owner: owner})
+      }
       if(this.props.shortList){
       this.ideassRef = base.syncState(FirebaseServices.IDEAS_PATH, {
         context: this,
@@ -54,7 +63,7 @@ class IdeaList extends Component{
         queries: {
           orderByChild: 'owner',
           limitToLast: 3,
-          equalTo: this.props.currentUser.uid
+          equalTo: owner
         },
         then(data) {
           this.setState({loading: false})
@@ -64,7 +73,7 @@ class IdeaList extends Component{
         }
       });
   } else {
-      var owner = this.props.currentUser.uid
+      //var owner = this.props.currentUser.uid
       var ref = FirebaseServices.ownerIdea.child(owner)
       paginator = new FirebasePaginator(ref, options)
       this.firebasePaginatorFiltering(ref)
@@ -136,7 +145,7 @@ class IdeaList extends Component{
             state: "ideas",
             queries: {
               orderByChild: 'owner',
-              equalTo: this.props.currentUser.uid,
+              equalTo: this.state.owner,
               limitToLast: PAGE_SIZE
             },
             then(data) {
@@ -190,6 +199,16 @@ class IdeaList extends Component{
     const ideas = this.state.ideas;
     const ideaIds = Object.keys(ideas);
 
+    var msg;
+    var title;
+    if (this.props.user) {
+      msg = "لا يوجد أفكار"
+      title = "الأفكار"
+    }else {
+      msg = " لم تقم باضافة أفكار، إبدأ الان"
+      title = "أفكاري"
+    }
+
       if (this.state.loading)
       return(
        <Loading />
@@ -209,21 +228,21 @@ class IdeaList extends Component{
           </Col>
           <Col xs={7} md={9} lg={10} >
           <Link to={`/myideas`}>
-          <h2 style={{color:'rgb(26,156,142)'}}>أفكاري</h2>
+          <h2 style={{color:'rgb(26,156,142)'}}>{title}</h2>
           </Link>
           </Col>
           </Col>
       </Row>
          :<Row style={{display: 'flex', flexWrap: 'wrap'}}>
-           <Link  to={`/favideas`}>
-           <h2 style={{color:'rgb(26,156,142)',padding:"10px"}}>الأفكار المفضلة</h2>
+           <Link  to={`/${this.state.owner}/ideas`}>
+           <h2 style={{color:'rgb(26,156,142)',padding:"10px"}}>{title} </h2>
            </Link >
             </Row>
           }
           <Row style={{display: 'flex', flexWrap: 'wrap'}}>
           <Col xs={12}  lg={12} >
           {ideaIds.length < 1
-          ? <h4 style={{textAlign:'center'}}>لم تقم باضافة منتجات، إبدأ الان</h4>
+          ? <h4 style={{textAlign:'center'}}>{msg}</h4>
           : null}
             {ideaIds.map(id => {
               const idea = ideas[id];
@@ -241,14 +260,14 @@ class IdeaList extends Component{
        <div style={{paddingTop: "30px"}}>
       <Grid>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
-        
+
         <Col xs={12} md={12}>
-        <InfiniteScroll style={{overflow:'none'}} 
+        <InfiniteScroll style={{overflow:'none'}}
           hasMore={!paginator.isLastPage}
-          next={this.props.thisUserOnly? this.forwardFiltring : this.forward} 
+          next={this.props.thisUserOnly? this.forwardFiltring : this.forward}
         >
         {newIdeas.length < 1
-        ? <h5 style={{textAlign:'center'}}>لم تقم باضافة أفكار، إبدأ الان</h5>
+        ? <h5 style={{textAlign:'center'}}>{msg}</h5>
         : null}
           {newIdeas.map((idea, index) => {
             return <IdeaBrief key={idea.id} idea={idea} />;

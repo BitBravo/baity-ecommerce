@@ -58,36 +58,37 @@ class Header extends Component {
   }
 
   componentWillMount() {
-    if (this.props.authenticated){
-    if (this.props.group === "prof"){
-      FirebaseServices.readDBRecord('profUser', `${this.props.currentUser.uid}`)
-        .then(val => {
-          this.setState({userName: val.name, firstTime: false})})
-    }else {
-      FirebaseServices.readDBRecord('normalUser', `${this.props.currentUser.uid}`)
-        .then(val =>
-            this.setState({userName: val.name, firstTime: false}))
-    }
-  }
+    // if (this.props.authenticated){
+    //   if (this.props.group === "prof"){
+    //     FirebaseServices.readDBRecord('profUser', `${this.props.currentUser.uid}`)
+    //       .then(val => {
+    //         this.setState({userName: val.name, firstTime: false})})
+    //   }else {
+    //     FirebaseServices.readDBRecord('normalUser', `${this.props.currentUser.uid}`)
+    //       .then(val =>
+    //           this.setState({userName: val.name, firstTime: false}))
+    //   }
+    // }
   }
 
+
   temp() {
-    if (this.props.authenticated){
-    if (this.props.group === "prof"){
-      FirebaseServices.readDBRecord('profUser', `${this.props.currentUser.uid}`)
-        .then(val => {
-          this.setState({userName: val.name, firstTime: false})})
-    }else {
-      FirebaseServices.readDBRecord('normalUser', `${this.props.currentUser.uid}`)
-        .then(val =>
-          this.setState({userName: val.name, firstTime: false}))
-    }
-  }
+  //   console.log(`${this.constructor.name}.componentWillUpdate`);
+  //   if (this.props.authenticated){
+  //   if (this.props.group === "prof"){
+  //     FirebaseServices.readDBRecord('profUser', `${this.props.currentUser.uid}`)
+  //       .then(val => {
+  //         this.setState({userName: val.name, firstTime: false})})
+  //   }else {
+  //     FirebaseServices.readDBRecord('normalUser', `${this.props.currentUser.uid}`)
+  //       .then(val =>
+  //         this.setState({userName: val.name, firstTime: false}))
+  //   }
+  // }
   }
 
   render() {
-    // if (this.state.firstTime){
-    //   this.temp()
+
 
     return (
       <Navbar  fixedTop collapseOnSelect  >
@@ -131,8 +132,8 @@ class Header extends Component {
               <UserName > <MdPersonOutline style={{fontSize:"20px"}}/>
 
                     <p style={{paddingTop:"0"}}>
-                      مرحبا
-                    {/*this.state.userName*/}
+                      مرحبا<br />
+                    {this.props.userName}
               </p>
 
               </UserName>

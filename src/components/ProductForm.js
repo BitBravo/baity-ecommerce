@@ -59,7 +59,18 @@ const SelectGroup = ({ id, label, selectedOption, ...props }) => (
 );
 
 
-
+const Style = [
+  "كلاسيكي",
+  "معاصر",
+  "تقليدي",
+  "ريفي",
+  "اسكندنافي",
+  "مكتبي",
+  "جلسات خارجية",
+  "تراثي",
+  "أمريكي",
+  "أوروبي"
+];
 
 const DepartmentList = [
   "صالات",
@@ -229,6 +240,12 @@ function getInitState(){
           firstTime: true,
           formError: ""
         },
+        style: {
+          value: Style[0],
+          valid: false,
+          firstTime: true,
+          formError: ""
+        },
         desc: {
           value: "",
           valid: false,
@@ -293,6 +310,7 @@ class ProductForm extends Component {
       this.state.name.value = this.props.product.name;
       this.state.cat.value = this.props.product.category;
       this.state.dept.value = this.props.product.department;
+      this.state.style.value = this.props.product.style;
       this.state.desc.value = this.props.product.desc;
       this.state.factory.value = this.props.product.factory;
       this.state.height.value = this.props.product.height;
@@ -302,6 +320,7 @@ class ProductForm extends Component {
       this.state.name.valid = true;
       this.state.cat.valid = true;
       this.state.dept.valid = true;
+      this.state.style.valid = true;
       this.state.desc.valid = true;
       this.state.factory.valid = true;
       this.state.height.valid = true;
@@ -371,6 +390,7 @@ class ProductForm extends Component {
           name: {...this.state.name, value: this.props.product.name, valid: true},
           cat: {...this.state.cat, value: this.props.product.category, valid: true},
           dept: {...this.state.dept, value: this.props.product.department, valid: true},
+          style: {...this.state.style, value: this.props.product.style, valid: true},
           desc: {...this.state.desc, value: this.props.product.desc, valid: true},
           factory: {...this.state.factory, value: this.props.product.factory, valid: true},
           height: {...this.state.height, value: this.props.product.height, valid: true},
@@ -465,6 +485,7 @@ class ProductForm extends Component {
     product = {
       category: this.state.cat.value,
       department: this.state.dept.value,
+      style: this.state.style.value,
       desc: this.state.desc.value,
       height: this.state.height.value,
       length: this.state.length.value,
@@ -902,6 +923,16 @@ class ProductForm extends Component {
           onChange={this.handleChange}
           options={CategoryList}
           selectedOption={this.state.cat.value}
+        />
+
+        <SelectGroup
+          controlId="formControlsProductStyleSelect"
+          label="الطراز"
+          name="style"
+          placeholder="أدخل الطراز (مثلا: كلاسيكي، معاصر ...الخ)"
+          onChange={this.handleChange}
+          options={Style}
+          selectedOption={this.state.style.value}
         />
 
         <button type="submit" onClick={this.handleSubmit}  >

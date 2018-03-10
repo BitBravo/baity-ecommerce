@@ -24,7 +24,8 @@ class App extends Component {
     this.state = {
       authenticated: false,
       currentUser: null,
-      group: null
+      group: null,
+      userName: ""
     }
     this.setCurrentUser = this.setCurrentUser.bind(this);
   }
@@ -33,12 +34,25 @@ class App extends Component {
   // (https://firebase.google.com/docs/auth/web/manage-users)
   setCurrentUser(user) {
     if (user) {
-      FirebaseServices.readDBRecord('group', user.uid).then( value =>
-      this.setState({
-        currentUser: user,
-        authenticated: true,
-        group: value
-      }))
+      FirebaseServices.readDBRecord('group', user.uid).then( value => {
+        if (value === "prof") {
+          FirebaseServices.readDBRecord('profUser', `${user.uid}`)
+            .then(val => {
+              this.setState({currentUser: user,
+              authenticated: true,
+              group: value,
+              userName: val.name
+            })})
+        }else {
+          FirebaseServices.readDBRecord('normalUser', `${user.uid}`)
+            .then(val => {
+              this.setState({currentUser: user,
+              authenticated: true,
+              group: value,
+              userName: val.name
+              })})
+        }
+      })
 
       /*
         // We can get the folloiwng information. See: (https://firebase.google.com/docs/auth/web/manage-users)
@@ -63,7 +77,8 @@ class App extends Component {
     } else {
       this.setState({
         currentUser: null,
-        authenticated: false
+        authenticated: false,
+        userName: ""
       })
     }
   }
@@ -104,7 +119,11 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div style={{ margin: "0 auto" }}>
-          <Header authenticated={this.state.authenticated} currentUser={this.state.currentUser} group={this.state.group}/>
+          <Header
+            authenticated={this.state.authenticated}
+            currentUser={this.state.currentUser}
+            group={this.state.group}
+            userName={this.state.userName}/>
           <Main  authenticated={this.state.authenticated} currentUser={this.state.currentUser} group={this.state.group}/>
           <Footer authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>
         </div>
