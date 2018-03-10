@@ -23,7 +23,7 @@ width:100%px;
 height: 30px;
 padding:  0;
 background-color:transparent;
-border:1px solid rgb(26, 156, 142); 
+border:1px solid rgb(26, 156, 142);
 color:rgb(26, 156, 142);
 @media only screen and (max-width: 767px) {
   height: 30px;
@@ -33,14 +33,14 @@ color:rgb(26, 156, 142);
 const PreviewImg = styled.img`
   width: 100%;
   height: 100%;
- 
+
 `;
 const ImageCol=styled(Col)`
 height:400px;
 padding:0;
 @media only screen and (max-width: 767px) {
   height:250px;
-  
+
   }
 `;
 const UserImg=styled.img`
@@ -74,6 +74,7 @@ class ProfileInfo extends Component{
     this.state = {
       profile: {},
       loading: true,
+      owner: "empty",
       errorHandling: {
         showError: false,
         errorMsg: "error"
@@ -82,7 +83,18 @@ class ProfileInfo extends Component{
   }
 
   componentWillMount(){
-    FirebaseServices.getProfessionalUserBusinessId(this.props.currentUser.uid,
+    var id = ""
+    if(this.props.user){
+      this.setState({owner: this.props.currentUser})
+      id=this.props.currentUser
+      console.log("this.props.currentUser " + this.props.currentUser)
+    }else{
+        this.setState({owner: this.props.currentUser.uid})
+        id = this.props.currentUser.uid
+        console.log("this.props.currentUser.uid " + this.props.currentUser.uid)
+    }
+    console.log("this.state.owner " + this.state.owner)
+    FirebaseServices.getProfessionalUserBusinessId(id,
       (businessId) => {
         if (businessId === '') {
           this.setState({ errorHandling: { showError: true, errorMsg: {message:'خطأ داخلي: لم يتم العثور على الشركة '} } });
@@ -114,19 +126,27 @@ class ProfileInfo extends Component{
         <ImageCol sm={12}  lg={12}>
           <PreviewImg  src={livingroom}     />
           <div style={{position: 'absolute',top: '10px',left: '30px',width:'25%'}}>
-            <Link to={`/myprofprofile/`}>
+          {!this.props.user
+            ?<Link to="/myprofprofile/">
               <SettingtButton>الاعدادات <MdSettings style={{fontSize:"17px",paddingRight:"3px"}}/></SettingtButton>
             </Link>
+            : null
+          }
           </div>
         </ImageCol>
         <Col xs={12}  lg={12} >
         <Col xs={3} sm={2} md={2} lg={2} style={{padding:'0'}}>
-        <LinkContainer to="/logout" >
-        <LogoutButton> تسجيل خروج <GoSignOut style={{fontSize:"17px",paddingRight:"3px"}}/></LogoutButton>
-             </LinkContainer>
+        {this.props.user
+        ? <LinkContainer to="/logout" >
+            <LogoutButton>اتصل بنا<GoSignOut style={{fontSize:"17px",paddingRight:"3px"}}/></LogoutButton>
+          </LinkContainer>
+        : <LinkContainer to="/logout" >
+            <LogoutButton> تسجيل خروج <GoSignOut style={{fontSize:"17px",paddingRight:"3px"}}/></LogoutButton>
+          </LinkContainer>
+        }
          <SocialDiv >
               <TiSocialTwitter className="icons"/>
-              <TiSocialInstagram className="icons"/> 
+              <TiSocialInstagram className="icons"/>
              <TiSocialFacebook className="icons"/>
          </SocialDiv>
         </Col>
@@ -134,7 +154,7 @@ class ProfileInfo extends Component{
         <UserNameDiv> <h4 style={{color:'rgb(26,156,142)'}}>{this.state.profile.businessName} </h4> </UserNameDiv>
          <UserNameDiv ><h5>{this.state.profile.types}</h5></UserNameDiv>
           <h5 style={{marginTop:'0'}}>{this.state.profile.city}، السعودية</h5>
-        </Col>  
+        </Col>
           <Col xs={3} sm={4} md={3} lg={3} style={{paddingRight:'0'}}>
         {this.state.profile.imgUrl
         ? <UserImg  src={this.state.profile.imgUrl}  />

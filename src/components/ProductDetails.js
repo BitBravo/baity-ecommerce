@@ -2,7 +2,17 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { app, base } from "../base";
 import FirebaseServices from './FirebaseServices'
-import { Image, Alert, Col, Thumbnail, Button, Modal,Row, Grid ,Carousel,Glyphicon} from "react-bootstrap";
+import { Image,
+  Alert,
+  Col,
+  Thumbnail,
+  Button,
+  Modal,
+  Row,
+  Grid,
+  Carousel,
+  Glyphicon} from "react-bootstrap";
+  import { LinkContainer } from "react-router-bootstrap";
 import Loading from './Loading';
 import Equalizer from "react-equalizer";
 import styled from 'styled-components'
@@ -32,17 +42,17 @@ color: transparent;
 -webkit-text-stroke-color: rgb(75, 75, 75);
 `;
 const ImgGallaryThumb = styled.div`
-  
+
 `;
 const PrevImgGallaryThumb = styled.div`
-  
+
 `;
 
 const PreviewImg = styled.img`
   width: 100%;
   height: 100%;
 
- 
+
 `;
 
 const ImageDiv = styled.div`
@@ -79,13 +89,14 @@ class ProductDetails extends Component {
   constructor(props) {
     super(props);
     this.productId = this.props.match.params.id;
+    this.owner = this.props.match.params.owner,
     this.state = {
       product: {},
+      businessName: "",
       loading: true,
       errorHandling: {
         showError: false, errorMsg: 'error'
       },
-  
       index: 0,
       nextIcon: <span onClick={this.nextImage.bind(this)} className="glyphicon glyphicon-chevron-right"></span>,
       prevIcon: <span onClick={this.prevImage.bind(this)} className="glyphicon glyphicon-chevron-left"></span>,
@@ -97,13 +108,18 @@ class ProductDetails extends Component {
 
   componentWillMount() {
     this.thumbImage.bind(this);
-
+    this.addToCart = this.addToCart.bind(this)
     const authenticated = this.props.authenticated
+
 
     this.productsRef = base.syncState(`${FirebaseServices.PRODUCTS_PATH}/${this.productId}`, {
       context: this,
       state: 'product',
       then(data) {
+        //getting the business name
+        FirebaseServices.readDBRecord('profUser', this.owner)
+          .then(val => this.setState({businessName: val.name}))
+          //if user authenticated, get her likes to update the heart
         if (authenticated) {
           this.userLikesRef = FirebaseServices.readDBRecord('likes', `${this.props.currentUser.uid}/products/${this.productId}`)
           .then(val => {
@@ -141,7 +157,7 @@ class ProductDetails extends Component {
     this.setState({index: thumbIndex});
   }
 
-  like(){
+  like() {
     if (this.props.authenticated) {
       const userLikes = FirebaseServices.likes
       const currentUserRef = userLikes.child(this.props.currentUser.uid).child("products")
@@ -174,6 +190,18 @@ class ProductDetails extends Component {
     }
   }
 
+  addToCart() {
+    if (this.props.currentUser){
+      FirebaseServices.insertItem(this.state.product, this.props.currentUser.uid)
+      .then(() =>
+        console.log("Item added"))
+      .catch(error =>
+        console.log("not able to add item"))
+    }else {
+      console.log("not Register")
+    }
+  }
+
   render() {
 
     const product = this.state.product;
@@ -200,17 +228,17 @@ class ProductDetails extends Component {
     );
   if (!this.state.loading && !this.state.showError)
       return(
-       
+
         <Grid >
           <Row style={{display: 'flex', flexWrap: 'wrap'}} className="productdetails">
              <ImageCol  xs={12} sm={12} md={8} lg={9}  style={{padding:'0'}}>
-      
+
             <Carousel   indicators={false} wrap={false}>
-             <Carousel.Item> 
-               <ImageContainer>   
-            <ImageDiv > 
-            <PreviewImg src={product.images[this.state.index].large}/> 
-            </ImageDiv>            
+             <Carousel.Item>
+               <ImageContainer>
+            <ImageDiv >
+            <PreviewImg src={product.images[this.state.index].large}/>
+            </ImageDiv>
             </ImageContainer>
             <Glyphicon  className ="leftglyphicon" onClick={this.nextImage.bind(this)} glyph="chevron-left"/>
              <Glyphicon className="rightglyphicon" onClick={this.prevImage.bind(this)} glyph="chevron-right"/>
@@ -221,7 +249,7 @@ class ProductDetails extends Component {
               }
          </LikeDiv>
               </Carousel.Item>
-              
+
             </Carousel >
             <div className="product-slider">
               <div id="thumbcarousel1" className="carousel1 slide" >
@@ -229,14 +257,14 @@ class ProductDetails extends Component {
                   {product.images.map((obj, index) => {
                     return <PrevImgGallaryThumb className="thumb " >
                              <Image src={obj.large} onClick={() => { return this.setState({index: index})}}/>
-                          </PrevImgGallaryThumb>   
-                         })}  
-                </ImgGallaryThumb> 
+                          </PrevImgGallaryThumb>
+                         })}
+                </ImgGallaryThumb>
               </div>
            </div>
-            </ImageCol> 
+            </ImageCol>
             <Col  xs={12} sm={12} md={4} lg={3}  style={{padding :'0 5px 0 0'}}>
-            
+
             <Col xs={5} sm={5} md={5} lg={5} style={{padding :'0',margin :'20px 0 0 0'}}>
               <h4 style={{color:'rgb(26,156,142)'}}>{product.price} ر.س </h4>
               </Col>
@@ -244,10 +272,19 @@ class ProductDetails extends Component {
             <h4><MdEventSeat className="icons" style={{color:'rgb(26,156,142)'}}/>{product.name}</h4>
             </Col>
             <hr/>
-             
+
+          {this.props.currentUser
+          ? <button type="submit" onClick={this.addToCart}>
+               اضافة للسلة
+              <MdAddShoppingCart className="icons" style={{marginRight:'20px'}}/>
+            </button>
+          : <LinkContainer to="/login">
               <button type="submit">
                اضافة للسلة
-               <MdAddShoppingCart className="icons" style={{marginRight:'20px'}}/></button>
+               <MdAddShoppingCart className="icons" style={{marginRight:'20px'}}/>
+              </button>
+            </LinkContainer>
+          }
             <PaddingDiv>
             <h4>وصف المنتج</h4>
               <p > {product.desc}</p>
@@ -263,6 +300,13 @@ class ProductDetails extends Component {
               <p >المدينة : {product.city}</p>
               </PaddingDiv>
 
+              <PaddingDiv>
+                <h4>من:
+                  <Link to={`/businessprofile/${product.owner}`}>
+                  {this.state.businessName}
+                  </Link>
+                </h4>
+            </PaddingDiv>
               <PaddingDiv>
             <p>
               {/* only product owner can update a product */}
@@ -282,7 +326,7 @@ class ProductDetails extends Component {
             </PaddingDiv>
             </Col>
             </Row>
-            </Grid> 
+            </Grid>
     );
   }
 }

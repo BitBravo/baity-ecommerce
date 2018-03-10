@@ -20,7 +20,10 @@ import NorProfileUpdater from './NorProfileUpdater'
 import Registration from "./Registration";
 import FavProducts from "./FavProducts";
 import FavIdeas from "./FavIdeas";
+import BusinessProfile from "./BusinessProfile"
 import PasswordResetter from "./PasswordResetter"
+import BusinessIdeas from "./BusinessIdeas"
+import BusinessProducts from "./BusinessProducts"
 
 function AuthenticatedRoute({ component: Component, authenticated, currentUser, ...rest }) {
   return (
@@ -70,11 +73,11 @@ class Main extends Component {
     return (
       <main>
         <Switch>
-          <Route exact 
+          <Route exact
           path="/"
           render={props => {
             return (
-            <Home 
+            <Home
           currentUser={this.props.currentUser}
           authenticated={this.props.authenticated}
           />);}}
@@ -134,7 +137,7 @@ class Main extends Component {
           />
           <Route
             exact
-            path="/products/:id"
+            path="/:owner/products/:id"
             render={props => {
               return (
                 <ProductDetails
@@ -147,7 +150,7 @@ class Main extends Component {
           />
           <Route
             exact
-            path="/ideas/:id"
+            path="/:owner/ideas/:id"
             render={props => {
               return (
                 <IdeaDetails
@@ -240,13 +243,49 @@ class Main extends Component {
              );
            }}
           />
-          
+
           <Route
            exact
            path="/ideaspage"
            render={props => {
              return (
                <IdeasPage
+               />
+
+             );
+           }}
+          />
+
+          <Route
+           exact
+           path="/businessprofile/:id"
+           render={props => {
+             return (
+               <BusinessProfile {...props}
+               />
+
+             );
+           }}
+          />
+
+          <Route
+           exact
+           path="/:id/products"
+           render={props => {
+             return (
+               <BusinessProducts {...props}
+               />
+
+             );
+           }}
+          />
+
+          <Route
+           exact
+           path="/:id/ideas"
+           render={props => {
+             return (
+               <BusinessIdeas {...props}
                />
 
              );

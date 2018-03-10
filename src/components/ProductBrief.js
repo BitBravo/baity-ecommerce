@@ -68,7 +68,7 @@ class ProductBrief extends Component {
         <MyThumbnailDiv>
           <ImageContainer>
             <ImageDiv>
-            <Link to={`/products/${product.id}`}>
+            <Link to={`${product.owner}/products/${product.id}`}>
               <PreviewImg
                 src={
                   product.images
@@ -83,18 +83,18 @@ class ProductBrief extends Component {
           </ImageContainer>
 
           <PaddingDiv >
-        
+
           <Col xs ={3} md={4}>
               <h5 style={{color:'rgb(26, 156, 142)'}}>{product.price} ر.س</h5>
              </Col>
-            <Link to={`/products/${product.id}`} style={{color:'black',fontWeight:'900'}} >
+            <Link to={`/${product.owner}/products/${product.id}`} style={{color:'black',fontWeight:'900'}} >
              <Col xs ={9} md={8} >
               <h5><MdEventSeat className="icons" style={{color:'rgb(26,156,142)'}}/> {product.name} </h5>
              </Col>
             </Link>
-            <hr/> 
+            <hr/>
             <p  className="flex-text text-muted">{product.desc.substring(0,90)}
-              <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/products/${product.id}`}>
+              <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
               ... المزيد
               </Link>
             </p>

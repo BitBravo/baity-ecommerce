@@ -35,7 +35,8 @@ class ProductList extends Component {
       firstTime: true,
       page: 0,
       filter: "",
-      filterValue: ""
+      filterValue: "",
+      owner: ""
     };
 
   }
@@ -52,6 +53,14 @@ class ProductList extends Component {
      //FirebaseServices.filterIndexingStyle();
 
     if (this.props.thisUserOnly){
+      var owner;
+      if(this.props.user){
+        owner = this.props.currentUser
+        this.setState({owner: owner})
+      }else{
+        owner = this.props.currentUser.uid
+        this.setState({owner: owner})
+      }
       if(this.props.shortList){
         this.productsRef = base.syncState(FirebaseServices.PRODUCTS_PATH, {
           context: this,
@@ -59,7 +68,7 @@ class ProductList extends Component {
           queries: {
             orderByChild: 'owner',
             limitToLast: 3,
-            equalTo: this.props.currentUser.uid
+            equalTo: owner
           },
           then(data) {
             this.setState({loading: false, firstTime: false})
@@ -69,25 +78,10 @@ class ProductList extends Component {
           }
     });
   } else {
-    // this.productsRef = base.syncState(FirebaseServices.PRODUCTS_PATH, {
-    //   context: this,
-    //   state: "products",
-    //   queries: {
-    //     orderByChild: 'owner',
-    //     equalTo: this.props.currentUser.uid
-    //   },
-    //   then(data) {
-    //     this.setState({loading: false, firstTime: false})
-    //   },
-    //   onFailure(error) {
-    //   this.setState({errorHandling: {showError: true, errorMsg: error}});
-    //   }
-    // });
-    var owner = this.props.currentUser.uid
-    var ref = FirebaseServices.ownerProduct.child(owner)
-    //this.setState({filter: 'owner', filterValue: owner})
-    // paginator = new FirebasePaginator(ref, options)
-    this.firebasePaginatorFiltering(ref, 'owner', owner)
+      var ref = FirebaseServices.ownerProduct.child(owner)
+      //this.setState({filter: 'owner', filterValue: owner})
+      // paginator = new FirebasePaginator(ref, options)
+      this.firebasePaginatorFiltering(ref, 'owner', owner)
   }
 } else {
     var ref = FirebaseServices.products
@@ -330,6 +324,16 @@ class ProductList extends Component {
     const products = this.state.products
     const productIds = Object.keys(products)
 
+    var msg;
+    var title;
+    if (this.props.user) {
+      msg = "لا يوجد منتجات"
+      title = "المنتجات"
+    }else {
+      msg = "لم تقم باضافة منتجات، إبدأ الان"
+      title = "منتجاتي"
+    }
+
     if (this.state.loading)
       return(
        <Loading />
@@ -348,21 +352,21 @@ class ProductList extends Component {
           </Col>
           <Col xs={7} md={9} lg={10} >
           <Link to={`/myproducts`}>
-          <h2 style={{color:'rgb(26,156,142)'}}>منتجاتي</h2>
+          <h2 style={{color:'rgb(26,156,142)'}}>{title}</h2>
           </Link>
           </Col>
           </Col>
           </Row>
         :<Row   style={{display: 'flex', flexWrap: 'wrap'}}>
-          <Link  to={`/favproducts`}>
-          <h2 style={{color:'rgb(26,156,142)',padding:"10px"}}>المنتجات المفضلة</h2>
+          <Link  to={`/:id/products`}>
+          <h2 style={{color:'rgb(26,156,142)',padding:"10px"}}> المنتجات</h2>
           </Link >
           </Row>
         }
           <Row style={{display: 'flex', flexWrap: 'wrap'}}>
           <Col xs={12}  lg={12} >
           {productIds.length < 1
-            ? <h4 style={{textAlign:'center'}}>لم تقم باضافة منتجات، إبدأ الان</h4>
+            ? <h4 style={{textAlign:'center'}}>{msg}</h4>
           : null}
             {productIds.map(id => {
               const product = products[id];

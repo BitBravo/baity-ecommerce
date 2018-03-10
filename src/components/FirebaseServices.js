@@ -59,7 +59,7 @@ let _REF_USER_LIKES = DB_BASE.child(_LIKES_PATH);
 let _REF_GROUP = DB_BASE.child(_GROUPS_PATH); //change me by removing test
 let _REF_PROF = DB_BASE.child(_PROF_PATH)
 let _REF_NORMAL = DB_BASE.child(_NORMAL_PATH)
-let _REF_BASEKT = DB_BASE.child(_BASKET_PATH)
+let _REF_BASKET = DB_BASE.child(_BASKET_PATH)
 let _REF_OWNER_PRODUCT = DB_BASE.child(_OWNER_PRODUCT_PATH)
 let _REF_OWNER_IDEA = DB_BASE.child(_OWNER_IDEA_PATH)
 let _REF_DEPARTMENT_PRODUCT = DB_BASE.child(_DEPARTMENT_PRODUCT_PATH)
@@ -825,35 +825,32 @@ uploadIdeaImages(newImages, viewUploadProgress, uid){
   /*
     returns a basket as a promise
   */
-  getBasket(basketId){
-    return this.readDBRecord('basket', basketId).catch(error => {
-      console.log(`FirebaseServices.getBasket: can not read idea ${basketId} from DB`)
+  getBasket(userId){
+    return this.readDBRecord('basket', userId).catch(error => {
+      console.log(`FirebaseServices.getBasket: can not read idea ${userId} from DB`)
       throw error;
     })
   },
 
-  getBasketRef(basketId){
-    return this.baskets.child(basketId)
+  getBasketRef(userId){
+    return this.basket.child(userId)
   },
 
   /**
    * This method is used to insert a new item into basket into DB
-   * product: is an object that contains all product properties with new values
-   * except id property.
    */
-  insertItem(item) {
+  insertItem(item, userId) {
+    console.log("userId " + userId)
+    console.log("item.key " + item.id)
     // return new Promis((resolve, reject) => {
     //   var newProductRef = this.products.push();
     //   product = {...product, id: newProductRef.key};
     //   newProductRef.set(product).then( () => newProductRef.key);
     // })
-      var newProductRef = this.basket.child(this.props.currentUser.uid).push();
-      product = {...product, id: newProductRef.key};
-      this.ownerProduct.child(product.owner).child(newProductRef.key).set("true")
-      this.deptProduct.child(product.dept).child(newProductRef.key).set("true")
-      return newProductRef.set(product).then( () => newProductRef.key )
+      return this.basket.child(userId).child(item.id).child("quantity").set(1)
+      .then( () => item.key )
       .catch(error => {
-        console.log(`error inserting product: ${product} in DB`)
+        console.log(`error adding product: ${item} in user basket`)
         throw error;
       });
   },

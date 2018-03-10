@@ -70,7 +70,7 @@ class IdeaBrief extends Component {
         <MyThumbnailDiv>
           <ImageContainer>
             <ImageDiv>
-            <Link to={`/ideas/${idea.id}`}>
+            <Link to={`/${idea.owner}/ideas/${idea.id}`}>
               <PreviewImg
                 src={
                   idea.images
@@ -85,7 +85,7 @@ class IdeaBrief extends Component {
           </ImageContainer>
 
           <PaddingDiv>
-            <Link to={`/ideas/${idea.id}`} style={{color:'black',fontWeight:'900'}}>
+            <Link to={`/${idea.owner}/ideas/${idea.id}`} style={{color:'black',fontWeight:'900'}}>
             <Col xs ={12} md={12}  >
               <h5><MdWeekend className="icons" style={{color:'rgb(26,156,142)'}}/> {idea.name} </h5>
               </Col>
