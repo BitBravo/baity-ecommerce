@@ -61,10 +61,10 @@ padding-right:3px;
 `;
 const SocialDiv = styled.div`
 text-align:center;
-font-size:15px;
+font-size:20px;
 color:rgb(95,96,93);
 @media only screen and (max-width: 767px) {
-  font-size:10px;}
+  font-size:20px;}
 `
 
 class ProfileInfo extends Component{
@@ -128,7 +128,7 @@ class ProfileInfo extends Component{
           <div style={{position: 'absolute',top: '10px',left: '30px',width:'25%'}}>
           {!this.props.user
             ?<Link to="/myprofprofile/">
-              <SettingtButton>الاعدادات <MdSettings style={{fontSize:"17px",paddingRight:"3px"}}/></SettingtButton>
+              <SettingtButton>الاعدادات <MdSettings style={{fontSize:"20px",paddingRight:"3px"}}/></SettingtButton>
             </Link>
             : null
           }

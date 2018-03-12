@@ -4,7 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import firebase from "firebase";
 import { app, base, database, storage } from "../base";
 import FirebaseServices from './FirebaseServices'
-import { Nav, Navbar, NavItem, Button, NavbarBrand,NavDropdown,MenuItem,Glyphicon ,DropdownButton,ButtonToolbar} from "react-bootstrap";
+import { Nav, Navbar, NavItem, Button, NavbarBrand,NavDropdown,MenuItem,Glyphicon ,DropdownButton,ButtonToolbar,Panel} from "react-bootstrap";
 import bayty_icon from '../assets/img/bayty_icon.png';
 import {GoSignIn,GoSignOut,GoHome} from 'react-icons/lib/go';
 import {MdPersonAdd,MdAddToPhotos,MdEventSeat,MdPersonOutline,MdWeekend} from 'react-icons/lib/md';
@@ -12,8 +12,27 @@ import {TiUserAddOutline} from 'react-icons/lib/ti';
 import { IndexLinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components'
 import logo_placeholder from '../assets/img/logo-placeholder.jpg';
+import Homepage from '../assets/img/Unselected-homepage.png';
+import Idea from '../assets/img/Unselected-idea.png';
+import Product from '../assets/img/UNselected-product.png';
+import Profile from '../assets/img/Profile-icon.png';
+import Cart from '../assets/img/Cart-icon.png';
 
 
+const CartNo = styled.div`
+position:absolute;
+left:15px;
+top:5px;
+height:15px;
+width:15px;
+font-size:10px;
+color:white;
+text-align:center;
+background-color:red;
+border-radius: 50%;
+
+}
+`
  const Input = styled.input`
  width:500px;
  margin:0;
@@ -37,13 +56,19 @@ position:absolute;
 left:20px;
  `
 const UserName = styled.div`
-font-size: 12px;
+font-size: 10px;
 dispaly:inline-block;
-position: absolute;
-top:12px;
-left: 15px;
-color:rgb(26, 156, 142)`
+color:rgb(26, 156, 142);
+margin-top: -10px;
+@media only screen and (max-width: 767px) {
+margin:0;
+}
+`
 
+const IconImg = styled.img`
+width:20px;
+ height:20px;
+;`
 
 
 class Header extends Component {
@@ -55,6 +80,7 @@ class Header extends Component {
       userName: "",
       firstTime: true
     };
+  
   }
 
   componentWillMount() {
@@ -93,7 +119,6 @@ class Header extends Component {
     return (
       <Navbar  fixedTop collapseOnSelect  >
         <Navbar.Header  >
-
            <NavbarBrand>
          <IndexLinkContainer to="/" style={{cursor:"pointer"}}>
           <img src={bayty_icon} />
@@ -101,9 +126,9 @@ class Header extends Component {
           </NavbarBrand>
           {/* mobile search bar */}
           <Nav  className="search">
-          <NavItem >
+          <NavItem > 
             <div className="inner-addon right-addon">
-            <i className="glyphicon glyphicon-search"></i>
+            <i   className="glyphicon glyphicon-search"></i>
                 <Input  id="search"  className="form-control" type="text"  placeholder="بحث عن منتجات أفكار ...."></Input>
                 </div>
                 </NavItem></Nav>
@@ -112,15 +137,14 @@ class Header extends Component {
 	              <input type="search"  placeholder="بحث عن منتجات أفكار ...."/>
                  </form>
                 </Search>
-
-
+        
 
                 {!this.props.authenticated ? (
                   <Nav pullLeft>
                     <NavItem>
                     <LinkContainer to="/login" activeClassName="active">
                     {/* <UserImg src={logo_placeholder}/> */}
-                    <MdPersonOutline className='userlogo'/>
+                    <IconImg src={Profile} />
                     </LinkContainer>
                     </NavItem>
                     </Nav>
@@ -129,22 +153,29 @@ class Header extends Component {
               <Nav pullLeft>
               <NavItem>
               <LinkContainer to="/myprofile" activeClassName="active">
-              <UserName > <MdPersonOutline style={{fontSize:"20px"}}/>
+              <UserName > <IconImg src={Profile} />
 
                     <p style={{paddingTop:"0"}}>
-                      مرحبا<br />
-                    {this.props.userName}
+                   
+                    مرحبا ،  {this.props.userName}
+                    
               </p>
-
+              {/* 
+             :<UserImg  src={logo_placeholder}/>} */}
               </UserName>
-              {/* <UserImg  src={logo_placeholder} /> */}
+            
               </LinkContainer>
 
               </NavItem>
               </Nav>
           )}
-                       <Glyphicon glyph="shopping-cart" className="shoppingcart" />
 
+     
+         <div style={{position:'relative'}}>
+          <CartNo>0</CartNo>
+          <IconImg src={Cart} className="shoppingcart"/>
+          </div>
+  
          <Navbar.Toggle />
         </Navbar.Header>
         <Nav pullLeft>
@@ -153,13 +184,13 @@ class Header extends Component {
 
         <Nav  bsStyle="tabs" justified >
             <IndexLinkContainer to="/" >
-              <NavItem> <GoHome className="icons"/>الرئيسية</NavItem>
+              <NavItem> <IconImg src={Homepage} className="icons"/>الرئيسية</NavItem>
             </IndexLinkContainer>
             <LinkContainer to="/productspage" >
-              <NavItem> <MdEventSeat className="icons"/>المنتجات</NavItem>
+              <NavItem> <IconImg src={Product} className="icons"/>المنتجات</NavItem>
             </LinkContainer>
             <LinkContainer to="/ideaspage" >
-              <NavItem> <MdWeekend className="icons"/>الأفكار</NavItem>
+              <NavItem> <IconImg src={Idea} className="icons"/>الأفكار</NavItem>
             </LinkContainer>
             </Nav>
 

@@ -9,6 +9,11 @@ import styled from 'styled-components'
 import {MdEventSeat} from 'react-icons/lib/md';
 import FirebasePaginator from './firebase-pag';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import Product from '../assets/img/AddingProduct.png';
+
+const IconImg = styled.img`
+width:20px;
+ height:20px;`
 
 const Button = styled.button`
   width:180px;
@@ -347,7 +352,7 @@ class ProductList extends Component {
         <hr style={{marginBottom: '30px'}}/>
         <Col xs={5} md={3} lg={2} >
           <Link to={`/newproduct`}>
-            <Button>إضافة منتج<MdEventSeat className="icons" /></Button>
+            <Button>إضافة منتج<IconImg src={Product} style={{marginRight:'30px'}}/></Button>
           </Link>
           </Col>
           <Col xs={7} md={9} lg={10} >

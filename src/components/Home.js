@@ -53,7 +53,7 @@ font-size: 35px;
   <div>
    
     <div >
-  <Carousel>
+  <Carousel indicators={false}>
       <Carousel.Item>
         <div>
           <ImageContainer>

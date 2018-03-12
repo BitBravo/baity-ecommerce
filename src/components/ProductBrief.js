@@ -5,6 +5,12 @@ import { Image, Col, Thumbnail, Button, Card, Row } from "react-bootstrap";
 import Equalizer from "react-equalizer";
 import styled from 'styled-components'
 import {MdEventSeat} from 'react-icons/lib/md';
+import Product from '../assets/img/Selected-product.png';
+
+
+const IconImg = styled.img`
+width:20px;
+ height:20px;`
 
 const PaddingDiv = styled.div`
   padding-right: 5px;
@@ -89,7 +95,7 @@ class ProductBrief extends Component {
              </Col>
             <Link to={`/${product.owner}/products/${product.id}`} style={{color:'black',fontWeight:'900'}} >
              <Col xs ={9} md={8} >
-              <h5><MdEventSeat className="icons" style={{color:'rgb(26,156,142)'}}/> {product.name} </h5>
+              <h5><IconImg src={Product} className="icons"/> {product.name} </h5>
              </Col>
             </Link>
             <hr/>
