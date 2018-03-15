@@ -11,7 +11,7 @@ body {
   direction: rtl;
   background: rgb(247, 247, 247);
   font-family: 'dinar',sans-serif;
-  background-image: url('./assets/img/background.jpeg');  
+  background-image: url('./assets/img/background.jpeg');   
 }
 
 @media only screen and (max-width: 767px) {

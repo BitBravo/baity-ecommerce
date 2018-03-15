@@ -9,8 +9,11 @@ import {MdWeekend} from 'react-icons/lib/md';
 import styled from 'styled-components'
 import FirebasePaginator from './firebase-pag';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import Idea from '../assets/img/AddingIdea.png';
 
-
+const IconImg = styled.img`
+width:20px;
+height:20px;`
 const Button = styled.button`
 width:180px;
 @media only screen and (max-width: 767px) {
@@ -223,7 +226,7 @@ class IdeaList extends Component{
         <hr style={{marginBottom: '30px'}}/>
         <Col xs={5} md={3} lg={2} >
         <Link to={`/newidea`}>
-            <Button>إضافة فكرة<MdWeekend className="icons"/></Button>
+            <Button>إضافة فكرة<IconImg src={Idea} style={{marginRight:'30px'}}/></Button>
           </Link>
           </Col>
           <Col xs={7} md={9} lg={10} >

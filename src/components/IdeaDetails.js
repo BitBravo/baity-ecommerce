@@ -8,15 +8,21 @@ import styled from 'styled-components'
 import FullHeart from '../assets/img/fullHeart.png';
 import EmptyHeart from '../assets/img/emptyHeart.png';
 import {MdAddShoppingCart,MdWeekend} from 'react-icons/lib/md';
+import Idea from '../assets/img/Selected-idea.png';
 
 
+const IconImg = styled.img`
+width:20px;
+ height:20px;
+`
 const LikeDiv=styled.div`
 position: absolute;
 top:10%;
 left: 60px;
 font-size:40px;
 @media only screen and (max-width: 767px) {
-  font-size:20px;
+  font-size:30px;
+  left: 30px;
 }
 `
 const LikeIcon=styled(Glyphicon)`
@@ -66,13 +72,22 @@ const PaddingDiv = styled.div`
   padding-right: 10px;
   padding-top: 5px;
   padding-left: 0;
-  padding-bottom: 5px;
+  @media only screen and (max-width: 991px) {
+    margin-bottom:50px;}
 `;
 const ImageCol=styled(Col)`
 border-left: 1.5px solid rgb(218, 218, 217);
 @media only screen and (max-width: 991px) {
   border:none;
 `;
+const DetailsCol =styled(Col)`
+padding :10px 5px 0 0;
+margin :15px 0 0 0;
+position:relative;
+@media only screen and (max-width: 991px) {
+  margin:0;
+}
+`
 
 class IdeaDetails extends Component {
   constructor(props) {
@@ -225,35 +240,37 @@ class IdeaDetails extends Component {
                 </ImgGallaryThumb>
               </div>
            </div>
+           <hr className='hidden-md hidden-lg' />
             </ImageCol>
-            <Col  xs={12} sm={12} md={4} lg={3}  style={{padding :'0 5px 0 0',margin :'20px 0 0 0'}}>
-            <h4><MdWeekend className="icons" style={{color:'rgb(26,156,142)'}}/>{idea.name}</h4>
-            <hr/>
+
+            <DetailsCol  xs={12} sm={12} md={4} lg={3}  >
+            <h4><IconImg src={Idea} className="icons"/>{idea.name}</h4>
+            <hr className='hidden-xs visible-md visible-lg' />
             <button type="submit">
                للتواصل
-               <MdAddShoppingCart className="icons" style={{marginRight:'20px'}}/></button>
+             </button>
 
             <PaddingDiv>
-            <h4>وصف الفكرة</h4>
+            <h4 style={{display:'inline'}}>وصف الفكرة</h4> 
+            <h6 style={{color:'rgb(26,156,142)',float:'left',display:'inline',padding :'0 0 0 20px'}}>الاعجاب</h6> 
               <p > {idea.desc}</p>
               </PaddingDiv>
-
-              <PaddingDiv>
-                <h4>من:
-                  <Link to={`/businessprofile/${idea.owner}`}>
+            
+            <div style={{display:'inline-block',position:'absolute',bottom:'0'}}>
+                  <h4 > من:
+                  <Link to={`/businessprofile/${idea.owner}`}style={{color:'rgb(26,156,142)'}}>
                   {this.state.businessName}
                   </Link>
                 </h4>
-            </PaddingDiv>
-
-              <PaddingDiv>
-            <p>
+                </div>
+               <div style={{display:'inline-block',position:'absolute',bottom:'0',left:'10px'}}>
+               <p>
               {/* only idea owner can update a idea */}
               {
                 this.props.authenticated
                 ?this.props.currentUser.uid === this.state.idea.owner
               ?<Link to={`/ideas/${idea.id}/updateIdea`}>
-                <button >
+                <button style={{width:'100%'}} >
                   تحديث بيانات الفكرة
                 </button>
               </Link>
@@ -262,11 +279,8 @@ class IdeaDetails extends Component {
 
               }
             </p>
-            </PaddingDiv>
-          <Col xs={1} sm ={1} md={1} lg={1} style={{backgroundColor: '#f4f4f4'}}>
-
-          </Col>
-            </Col>
+            </div>
+            </DetailsCol>
             </Row>
             </Grid>
 

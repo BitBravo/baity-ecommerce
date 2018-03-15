@@ -249,7 +249,7 @@ class ProductsPage extends Component {
    <Col sm={8} xs={12} >
 
       <div>
-  <Carousel >
+  <Carousel  indicators={false}>
       <Carousel.Item>
         <div>
         <ImageContainer>

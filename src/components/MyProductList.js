@@ -4,6 +4,12 @@ import {MdEventSeat} from 'react-icons/lib/md';
 import styled from 'styled-components'
 import { Grid, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import Product from '../assets/img/Selected-product.png';
+
+
+const IconImg = styled.img`
+width:40px;
+ height:40px;`
 
 
 const Button = styled.button`
@@ -24,7 +30,7 @@ function MyProdutList(props) {
         <Row   style={{display: 'flex', flexWrap: 'wrap'}}>
         <Col xs={12}  lg={12} >
         <div style={{height:'100px'}}>
-    <h1 style={{color:'rgb(26,156,142)'}}> <MdEventSeat className="icons" style={{color:'rgb(26,156,142)'}}/> منتجاتي</h1>
+    <h1 style={{color:'rgb(26,156,142)'}}> <IconImg src={Product} className="icons"/> منتجاتي</h1>
     <Link to={`/newproduct/`}>
           <Button>اضافةمنتج</Button>
         </Link>

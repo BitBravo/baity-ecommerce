@@ -44,7 +44,7 @@ class App extends Component {
               this.setState({currentUser: user,
               authenticated: true,
               group: value,
-              userName: val.name
+              userName: val.name,
             })})
         }else {
           FirebaseServices.readDBRecord('normalUser', `${user.uid}`)
@@ -52,7 +52,8 @@ class App extends Component {
               this.setState({currentUser: user,
               authenticated: true,
               group: value,
-              userName: val.name
+              userName: val.name,
+    
               })})
         }
       })
