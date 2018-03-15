@@ -102,6 +102,22 @@ position:relative;
   margin:0;
 }
 `;
+const Cartbutton = styled.button`
+height:30px;
+width:100%;
+background-color:white;
+color:rgb(95,96,93);
+border:solid 0.5px #cccccc;
+
+`
+const CloseButton=styled.button`
+position:absolute;
+top:0px;
+left:5px;
+width:30px;
+height:30px;
+background-color:white;
+color:black;`
 
 class ProductDetails extends Component {
   constructor(props) {
@@ -359,13 +375,20 @@ class ProductDetails extends Component {
               <div>
                 <Modal  {...this.props}
                   show={this.state.show}
-                  onHide={this.handleHide} style={{ top: 100 }}>
-                  <Modal.Header>السلة</Modal.Header>
-                  <Modal.Body>
-                    <Link to="/">
-                      <Button>عرض سلة التسوق</Button>
+                  onHide={this.handleHide} style={{ top: 300 }}>
+                 <Modal.Header>
+                  <CloseButton onClick={this.handleHide}>X</CloseButton>
+                    تمت اضافة المنتج الى سلتك
+                  </Modal.Header>
+                  <Modal.Body style={{display:'inline-block'}}>
+                  <div style={{display:'inline-block'}}>
+                    <Link to="/mycart">
+                      <button style={{height:'30px'}} >عرض سلة التسوق</button>
                     </Link>
-                      <Button onClick={this.handleHide}>اكمال التسوق</Button>
+                    </div>
+                    <div style={{display:'inline-block',marginRight: '20px'}}>
+                      <Cartbutton onClick={this.handleHide}>اكمال التسوق</Cartbutton>
+                      </div>
                   </Modal.Body>
                 </Modal>
               </div>

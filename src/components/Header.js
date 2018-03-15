@@ -4,7 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import firebase from "firebase";
 import { app, base, database, storage } from "../base";
 import FirebaseServices from './FirebaseServices'
-import { Nav, Navbar, NavItem, Button, NavbarBrand,NavDropdown,MenuItem,Glyphicon ,DropdownButton,ButtonToolbar,Panel} from "react-bootstrap";
+import { Nav, Navbar, NavItem, NavbarBrand,NavDropdown,MenuItem,Glyphicon ,Panel} from "react-bootstrap";
 import bayty_icon from '../assets/img/bayty_icon.png';
 import {GoSignIn,GoSignOut,GoHome} from 'react-icons/lib/go';
 import {MdPersonAdd,MdAddToPhotos,MdEventSeat,MdPersonOutline,MdWeekend} from 'react-icons/lib/md';
@@ -17,6 +17,7 @@ import Idea from '../assets/img/Unselected-idea.png';
 import Product from '../assets/img/UNselected-product.png';
 import Profile from '../assets/img/Profile-icon.png';
 import Cart from '../assets/img/Cart-icon.png';
+import CartList from './CartList';
 
 
 const CartNo = styled.div`
@@ -34,7 +35,7 @@ border-radius: 50%;
 }
 `
  const Input = styled.input`
- width:500px;
+ width:450px;
  margin:0;
  padding:0;
  @media only screen and (max-width: 767px) {
@@ -55,7 +56,7 @@ float:right;
 position:absolute;
 left:20px;
  `
-const UserName = styled.div`
+const UserLogo = styled.div`
 font-size: 10px;
 dispaly:inline-block;
 color:rgb(26, 156, 142);
@@ -64,12 +65,22 @@ margin-top: -10px;
 margin:0;
 }
 `
-
+const UserName = styled.p`
+display:inline;
+@media only screen and (max-width: 767px) {
+  margin-left:-20px;}
+`
 const IconImg = styled.img`
 width:20px;
  height:20px;
 ;`
-
+const Button=styled.button`
+height:30px;
+width:90%;
+display:block;
+margin-left:auto;
+margin-right:auto;
+`
 
 class Header extends Component {
 
@@ -153,29 +164,34 @@ class Header extends Component {
               <Nav pullLeft>
               <NavItem>
               <LinkContainer to="/myprofile" activeClassName="active">
-              <UserName > <IconImg src={Profile} />
-
-                    <p style={{paddingTop:"0"}}>
+              <UserLogo > <IconImg src={Profile} />
+<br/>
+                    <UserName >
                    
                     مرحبا ،  {this.props.userName}
                     
-              </p>
+              </UserName>
               {/* 
              :<UserImg  src={logo_placeholder}/>} */}
-              </UserName>
+              </UserLogo>
             
               </LinkContainer>
 
               </NavItem>
               </Nav>
           )}
-
-     
+         <div style={{position:'relative'}} className="cartmenu">
+           <LinkContainer to="/mycart" activeClassName="active" style={{position:'relative',cursor: 'pointer'}}>
          <div style={{position:'relative'}}>
           <CartNo>0</CartNo>
           <IconImg src={Cart} className="shoppingcart"/>
           </div>
-  
+          </LinkContainer>
+          <div className="shorcartlist">
+          
+            <Button>عرض السلة</Button>
+            </div>
+          </div>
          <Navbar.Toggle />
         </Navbar.Header>
         <Nav pullLeft>
