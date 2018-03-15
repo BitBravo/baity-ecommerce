@@ -49,7 +49,6 @@ class Header extends Component {
 
   constructor() {
     super();
-    this.temp = this.temp.bind(this)
     this.state = {
       userName: "",
       firstTime: true
@@ -70,25 +69,9 @@ class Header extends Component {
     // }
   }
 
-
-  temp() {
-  //   console.log(`${this.constructor.name}.componentWillUpdate`);
-  //   if (this.props.authenticated){
-  //   if (this.props.group === "prof"){
-  //     FirebaseServices.readDBRecord('profUser', `${this.props.currentUser.uid}`)
-  //       .then(val => {
-  //         this.setState({userName: val.name, firstTime: false})})
-  //   }else {
-  //     FirebaseServices.readDBRecord('normalUser', `${this.props.currentUser.uid}`)
-  //       .then(val =>
-  //         this.setState({userName: val.name, firstTime: false}))
-  //   }
-  // }
-  }
-
   render() {
 
-
+    console.log("cart " + this.props.cart)
     return (
       <Navbar  fixedTop collapseOnSelect  >
         <Navbar.Header  >

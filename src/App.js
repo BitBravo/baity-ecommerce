@@ -25,9 +25,12 @@ class App extends Component {
       authenticated: false,
       currentUser: null,
       group: null,
-      userName: ""
+      userName: "",
+      basket: {},
+      cartCount: 0
     }
     this.setCurrentUser = this.setCurrentUser.bind(this);
+    //this.updateCart = this.updateCart.bind(this);
   }
 
   // For more info on user management in firebase see:
@@ -83,6 +86,15 @@ class App extends Component {
     }
   }
 
+updateCart() {
+  var newCount = this.state.cartCount + 1
+  console.log("cont " + this.state.cartCount)
+  this.setState({
+    cartCount: newCount
+  })
+}
+  // method to update basket
+
   componentWillMount() {
     console.log(`${this.constructor.name}.componentWillMount`);
     //the current user is: firebase.auth().currentUser
@@ -123,8 +135,15 @@ class App extends Component {
             authenticated={this.state.authenticated}
             currentUser={this.state.currentUser}
             group={this.state.group}
-            userName={this.state.userName}/>
-          <Main  authenticated={this.state.authenticated} currentUser={this.state.currentUser} group={this.state.group}/>
+            userName={this.state.userName}
+            cart={this.state.cartCount}
+          />
+          <Main
+            authenticated={this.state.authenticated}
+            currentUser={this.state.currentUser}
+            group={this.state.group}
+            updateCart={this.updateCart.bind(this)}
+          />
           <Footer authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>
         </div>
       </BrowserRouter>

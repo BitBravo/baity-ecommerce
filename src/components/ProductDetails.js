@@ -193,8 +193,10 @@ class ProductDetails extends Component {
   addToCart() {
     if (this.props.currentUser){
       FirebaseServices.insertItem(this.state.product, this.props.currentUser.uid)
-      .then(() =>
-        console.log("Item added"))
+      .then(() => {
+        // update the cart in the header by calling the updateCart method passed from app
+        this.props.updateCart()
+        console.log("Item added")})
       .catch(error =>
         console.log("not able to add item"))
     }else {

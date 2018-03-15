@@ -24,6 +24,7 @@ import BusinessProfile from "./BusinessProfile"
 import PasswordResetter from "./PasswordResetter"
 import BusinessIdeas from "./BusinessIdeas"
 import BusinessProducts from "./BusinessProducts"
+import Basket from "./Basket"
 
 function AuthenticatedRoute({ component: Component, authenticated, currentUser, ...rest }) {
   return (
@@ -143,6 +144,7 @@ class Main extends Component {
                 <ProductDetails
                 authenticated={this.props.authenticated}
                   currentUser={this.props.currentUser}
+                  updateCart={this.props.updateCart}
                   {...props}
                 />
               );
@@ -184,14 +186,14 @@ class Main extends Component {
             component={IdeaUpdater}
             currentUser={this.props.currentUser}
           />
-          {/* <AuthenticatedRoute
+        <AuthenticatedRoute
             exact
-            path="/myprofprofile"
+            path="/mybasket"
             authenticated={this.props.authenticated}
-            component={ProfProfileUpdater}
+            component={Basket}
             currentUser={this.props.currentUser}
-
-          /> */}
+            updateCart={this.updateCart}
+          />
 
           <Route
             exact
