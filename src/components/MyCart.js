@@ -126,9 +126,12 @@ class MyCart extends Component {
             <CartList products={this.state.products} removefromCart={this.removefromCart}/>
 
             <Col xs={12} style={{ background:'white' }}>
-           <p> قيمة الطلبات:{subtotal}</p>
-           <p> القيمة الضريبية:{vat}</p>
-           <p> المجموع :{total}</p>
+           <h4 style={{ textAlign:'left'}}> قيمة الطلبات: &nbsp;&nbsp;
+           <span style={{ color: 'rgb(26,156,142)'}}> {subtotal}ر.س</span></h4>
+           <h4 style={{ textAlign:'left'}}> القيمة الضريبية:&nbsp;&nbsp;
+           <span style={{ color: 'rgb(26,156,142)'}}> {vat} ر.س </span></h4>
+           <h4 style={{ textAlign:'left'}}> المجموع : &nbsp;&nbsp;
+           <span style={{ color: 'rgb(26,156,142)'}}> {total} ر.س </span></h4>
            <Button onClick={this.handleSubmit}>اتمام العملية</Button>
             </Col>
              </Row>
