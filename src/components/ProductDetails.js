@@ -162,8 +162,8 @@ class ProductDetails extends Component {
       state: 'product',
       then(data) {
         //getting the business name
-        FirebaseServices.readDBRecord('profUser', this.owner)
-          .then(val => this.setState({ businessName: val.name }))
+        // FirebaseServices.readDBRecord('profUser', this.owner)
+        //   .then(val => this.setState({ businessName: val.name }))
         //if user authenticated, get her likes to update the heart
         if (authenticated) {
           this.userLikesRef = FirebaseServices.readDBRecord('likes', `${this.props.currentUser.uid}/products/${this.productId}`)
@@ -353,7 +353,7 @@ class ProductDetails extends Component {
               <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
                 <h4 > من:
                   <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
-                    {this.state.businessName}
+                    {product.businessName}
                   </Link>
                 </h4>
               </div>

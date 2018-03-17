@@ -189,11 +189,11 @@ class Main extends Component {
           />
         <AuthenticatedRoute
             exact
-            path="/mybasket"
+            path="/mycart"
             authenticated={this.props.authenticated}
-            component={Basket}
+            component={MyCart}
             currentUser={this.props.currentUser}
-            updateCart={this.updateCart}
+            updateCart={this.props.updateCart}
           />
 
           <Route
