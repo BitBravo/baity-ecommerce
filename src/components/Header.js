@@ -17,7 +17,7 @@ import Idea from '../assets/img/Unselected-idea.png';
 import Product from '../assets/img/UNselected-product.png';
 import Profile from '../assets/img/Profile-icon.png';
 import Cart from '../assets/img/Cart-icon.png';
-import CartList from './CartList';
+import MyCart from './MyCart';
 
 
 const CartNo = styled.div`
@@ -169,14 +169,15 @@ class Header extends Component {
           <CartNo>{this.props.cart}</CartNo>
           : null
          }
+        
           <IconImg src={Cart} className="shoppingcart"/>
           </div>
           </LinkContainer>
-          <div className="shorcartlist">
+          {/* <div className="shorcartlist">
           <LinkContainer to="/mycart" activeClassName="active">
             <Button>عرض السلة</Button>
             </LinkContainer>
-            </div>
+            </div> */}
           </div>
          <Navbar.Toggle />
         </Navbar.Header>

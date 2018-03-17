@@ -56,7 +56,11 @@ class CartBrief extends Component {
               <Col xs={7} sm={7} md={7} lg={7} style={{ padding: '0' }}>
                 <h4>{product.name}</h4>
               </Col>
-              <p>{product.desc}</p>
+              <p>{product.desc.substring(0,150)}
+              <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
+              ... المزيد
+              </Link>
+              </p>
               <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
                 <p > من:
                   <Link to='/'style={{ color: 'rgb(26,156,142)' }}>
@@ -67,9 +71,9 @@ class CartBrief extends Component {
               <div style={{ display: 'inline-block', position: 'absolute', bottom: '0', left: '15px' }}>
               {/*remove item form the cart by calling the removeItem method passed from myCart
               */}
-                <button onClick={this.removeItem.bind(this)}>
-                  <Glyphicon  glyph="trash" />
-                </button>
+        
+                  <Glyphicon  style={{cursor: 'pointer'}} glyph="trash" onClick={this.removeItem.bind(this)}/>
+       
               </div>
               </Col>
 
