@@ -54,8 +54,9 @@ class ProductList extends Component {
     this.firebasePaginatorFiltering1 = this.firebasePaginatorFiltering.bind(this, ref)
     this.forwardFiltring = this.forwardFiltring.bind(this)
 
-     //FirebaseServices.filterIndexing();
-     //FirebaseServices.filterIndexingStyle();
+    //FirebaseServices.filterIndexing();
+    //FirebaseServices.filterIndexingStyle();
+    //FirebaseServices.addOwnerName()
 
     if (this.props.thisUserOnly){
       var owner;

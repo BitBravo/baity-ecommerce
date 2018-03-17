@@ -9,7 +9,7 @@ import {
     Row,
     Grid,
     Glyphicon
-   
+
   } from "react-bootstrap";
   import logo_placeholder from '../assets/img/logo-placeholder.jpg';
 
@@ -30,42 +30,54 @@ width:150px;
 `
 class CartBrief extends Component {
 
-    constructor() {
-      super();
+  constructor() {
+    super();
 
-    }
+  }
+
+  removeItem() {
+    this.props.removefromCart(this.props.product.id)
+  }
 
 
     render(){
+      const product = this.props.product;
+
     return(
         <Grid>
              <CartRow  >
              <Col xs={4} sm={2}style={{ padding: '0 ' }} >
-            <ProductImg src={logo_placeholder}/>
+            <ProductImg src={product.images[0].large}/>
              </Col>
              <Col xs={8} sm={10} style={{ padding: '0 ' }}>
              <Col xs={5} sm={5} md={5} lg={5} style={{ padding: '0 0 0 15px' }}>
-                <h4 style={{ color: 'rgb(26,156,142)', float: 'left' }}>price ر.س </h4>
+                <h4 style={{ color: 'rgb(26,156,142)', float: 'left' }}>{product.price} ر.س </h4>
               </Col>
               <Col xs={7} sm={7} md={7} lg={7} style={{ padding: '0' }}>
-                <h4>name</h4>
+                <h4>{product.name}</h4>
               </Col>
-              <p>description</p>
+              <p>{product.desc.substring(0,150)}
+              <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
+              ... المزيد
+              </Link>
+              </p>
               <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
-                <p > من:
-                  <Link to='/'style={{ color: 'rgb(26,156,142)' }}>
-                  ProductOwner
-                  </Link>
+                <p style={{ color: 'rgb(26,156,142)' }}> من : 
+                  {product.businessName}
                 </p>
               </div>
               <div style={{ display: 'inline-block', position: 'absolute', bottom: '0', left: '15px' }}>
-              <Glyphicon  glyph="trash" />
+              {/*remove item from the cart by calling the removeItem method passed from myCart
+              */}
+
+                  <Glyphicon  style={{cursor: 'pointer'}} glyph="trash" onClick={this.removeItem.bind(this)}/>
+
               </div>
               </Col>
 
               </CartRow>
             </Grid>
-           
+
 
     );
   };

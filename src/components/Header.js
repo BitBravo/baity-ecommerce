@@ -17,7 +17,7 @@ import Idea from '../assets/img/Unselected-idea.png';
 import Product from '../assets/img/UNselected-product.png';
 import Profile from '../assets/img/Profile-icon.png';
 import Cart from '../assets/img/Cart-icon.png';
-import CartList from './CartList';
+import MyCart from './MyCart';
 
 
 const CartNo = styled.div`
@@ -86,12 +86,11 @@ class Header extends Component {
 
   constructor() {
     super();
-    this.temp = this.temp.bind(this)
     this.state = {
       userName: "",
       firstTime: true
     };
-  
+
   }
 
   componentWillMount() {
@@ -108,24 +107,7 @@ class Header extends Component {
     // }
   }
 
-
-  temp() {
-  //   console.log(`${this.constructor.name}.componentWillUpdate`);
-  //   if (this.props.authenticated){
-  //   if (this.props.group === "prof"){
-  //     FirebaseServices.readDBRecord('profUser', `${this.props.currentUser.uid}`)
-  //       .then(val => {
-  //         this.setState({userName: val.name, firstTime: false})})
-  //   }else {
-  //     FirebaseServices.readDBRecord('normalUser', `${this.props.currentUser.uid}`)
-  //       .then(val =>
-  //         this.setState({userName: val.name, firstTime: false}))
-  //   }
-  // }
-  }
-
   render() {
-
 
     return (
       <Navbar  fixedTop collapseOnSelect  >
@@ -137,7 +119,7 @@ class Header extends Component {
           </NavbarBrand>
           {/* mobile search bar */}
           <Nav  className="search">
-          <NavItem > 
+          <NavItem >
             <div className="inner-addon right-addon">
             <i   className="glyphicon glyphicon-search"></i>
                 <Input  id="search"  className="form-control" type="text"  placeholder="بحث عن منتجات أفكار ...."></Input>
@@ -148,7 +130,7 @@ class Header extends Component {
 	              <input type="search"  placeholder="بحث عن منتجات أفكار ...."/>
                  </form>
                 </Search>
-        
+
 
                 {!this.props.authenticated ? (
                   <Nav pullLeft>
@@ -167,14 +149,14 @@ class Header extends Component {
               <UserLogo > <IconImg src={Profile} />
 <br/>
                     <UserName >
-                   
+
                     مرحبا ،  {this.props.userName}
-                    
+
               </UserName>
-              {/* 
+              {/*
              :<UserImg  src={logo_placeholder}/>} */}
               </UserLogo>
-            
+
               </LinkContainer>
 
               </NavItem>
@@ -183,18 +165,19 @@ class Header extends Component {
          <div style={{position:'relative'}} className="cartmenu">
            <LinkContainer to="/mycart" activeClassName="active" style={{position:'relative',cursor: 'pointer'}}>
          <div style={{position:'relative'}}>
-          <CartNo>0</CartNo>
+         {this.props.cart > 0 ?
+          <CartNo>{this.props.cart}</CartNo>
+          : null
+         }
+
           <IconImg src={Cart} className="shoppingcart"/>
           </div>
           </LinkContainer>
-          <div className="shorcartlist">
-  
-           <CartList/>
-      
+          {/* <div className="shorcartlist">
           <LinkContainer to="/mycart" activeClassName="active">
             <Button>عرض السلة</Button>
             </LinkContainer>
-            </div>
+            </div> */}
           </div>
          <Navbar.Toggle />
         </Navbar.Header>

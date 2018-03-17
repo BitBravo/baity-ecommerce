@@ -145,6 +145,7 @@ class Main extends Component {
                 <ProductDetails
                 authenticated={this.props.authenticated}
                   currentUser={this.props.currentUser}
+                  updateCart={this.props.updateCart}
                   {...props}
                 />
               );
@@ -186,14 +187,14 @@ class Main extends Component {
             component={IdeaUpdater}
             currentUser={this.props.currentUser}
           />
-          {/* <AuthenticatedRoute
+        <AuthenticatedRoute
             exact
-            path="/myprofprofile"
+            path="/mycart"
             authenticated={this.props.authenticated}
-            component={ProfProfileUpdater}
+            component={MyCart}
             currentUser={this.props.currentUser}
-
-          /> */}
+            updateCart={this.props.updateCart}
+          />
 
           <Route
             exact

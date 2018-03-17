@@ -25,9 +25,12 @@ class App extends Component {
       authenticated: false,
       currentUser: null,
       group: null,
-      userName: ""
+      userName: "",
+      basket: {},
+      cartCount: 0
     }
     this.setCurrentUser = this.setCurrentUser.bind(this);
+    //this.updateCart = this.updateCart.bind(this);
   }
 
   // For more info on user management in firebase see:
@@ -50,11 +53,19 @@ class App extends Component {
               authenticated: true,
               group: value,
               userName: val.name,
-    
+
               })})
         }
       })
 
+      // get items in basket
+      FirebaseServices.basket.child(`${user.uid}/items`).once( "value", snapshot => {
+        console.log("val.childCount " + snapshot.numChildren())
+
+        this.setState({
+          cartCount: snapshot.numChildren()
+        })
+      })
       /*
         // We can get the folloiwng information. See: (https://firebase.google.com/docs/auth/web/manage-users)
         name = user.displayName;
@@ -75,14 +86,28 @@ class App extends Component {
       */
 
 
-    } else {
+    } else {//No user is logged in
       this.setState({
         currentUser: null,
         authenticated: false,
-        userName: ""
+        userName: "",
+        cartCount: 0
       })
     }
   }
+
+updateCart(add) {
+  var newCount = 0
+  if(add)
+    newCount = this.state.cartCount + 1
+  else {
+    newCount = this.state.cartCount - 1
+  }
+  this.setState({
+    cartCount: newCount
+  })
+}
+  // method to update basket
 
   componentWillMount() {
     console.log(`${this.constructor.name}.componentWillMount`);
@@ -124,8 +149,15 @@ class App extends Component {
             authenticated={this.state.authenticated}
             currentUser={this.state.currentUser}
             group={this.state.group}
-            userName={this.state.userName}/>
-          <Main  authenticated={this.state.authenticated} currentUser={this.state.currentUser} group={this.state.group}/>
+            userName={this.state.userName}
+            cart={this.state.cartCount}
+          />
+          <Main
+            authenticated={this.state.authenticated}
+            currentUser={this.state.currentUser}
+            group={this.state.group}
+            updateCart={this.updateCart.bind(this)}
+          />
           <Footer authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>
         </div>
       </BrowserRouter>

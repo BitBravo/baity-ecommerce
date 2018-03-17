@@ -271,6 +271,9 @@ export default {
       case 'likes':
         ref = this.likes.child(entryId);
         break;
+      case 'basket':
+        ref = this.basket.child(entryId);
+        break;
     }
     return ref.once('value')
       .then(dataSnapshot => dataSnapshot.val())
@@ -847,7 +850,7 @@ uploadIdeaImages(newImages, viewUploadProgress, uid){
     //   product = {...product, id: newProductRef.key};
     //   newProductRef.set(product).then( () => newProductRef.key);
     // })
-      return this.basket.child(userId).child(item.id).child("quantity").set(1)
+      return this.basket.child(userId).child(`items/${item.id}`).child("quantity").set(1)
       .then( () => item.key )
       .catch(error => {
         console.log(`error adding product: ${item} in user basket`)
@@ -937,6 +940,26 @@ uploadIdeaImages(newImages, viewUploadProgress, uid){
           const productsIds = Object.keys(dataSnapshot.val());
           productsIds.map(id => DB_BASE.child('test-ownerIdea').child(uid).child(id).set("true"))
           console.log(dataSnapshot.val().key)}))})
+      .catch(error => {
+        console.log(`FirebaseServices.readDBRecord: error reading entry from DB`)
+        console.log(`ERROR: code: ${error.code}, message:${error.message}`)
+      })
+  },
+
+  addOwnerName() {
+    this.professionals.once('value')
+      .then(dataSnapshot => {
+        const profIds = Object.keys(dataSnapshot.val());
+        const profs = dataSnapshot.val()
+        profIds.map(uid => {console.log(profs[uid].name)
+        this.products.orderByChild('owner').equalTo(uid).once('value')
+        .then(dataSnapshot => {
+          const productsIds = Object.keys(dataSnapshot.val());
+          productsIds.map(id => {
+            this.products.child(id).child('businessName').set(profs[uid].name)
+          })
+        })
+      })})
       .catch(error => {
         console.log(`FirebaseServices.readDBRecord: error reading entry from DB`)
         console.log(`ERROR: code: ${error.code}, message:${error.message}`)
