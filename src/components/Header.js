@@ -4,7 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import firebase from "firebase";
 import { app, base, database, storage } from "../base";
 import FirebaseServices from './FirebaseServices'
-import { Nav, Navbar, NavItem, NavbarBrand,NavDropdown,MenuItem,Glyphicon ,Panel} from "react-bootstrap";
+import { Nav, Navbar, NavItem, NavbarBrand,NavDropdown,MenuItem,Glyphicon ,Panel,Col} from "react-bootstrap";
 import bayty_icon from '../assets/img/bayty_icon.png';
 import {GoSignIn,GoSignOut,GoHome} from 'react-icons/lib/go';
 import {MdPersonAdd,MdAddToPhotos,MdEventSeat,MdPersonOutline,MdWeekend} from 'react-icons/lib/md';
@@ -188,6 +188,9 @@ class Header extends Component {
           </div>
           </LinkContainer>
           <div className="shorcartlist">
+  
+           <CartList/>
+      
           <LinkContainer to="/mycart" activeClassName="active">
             <Button>عرض السلة</Button>
             </LinkContainer>
