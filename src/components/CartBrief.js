@@ -56,16 +56,14 @@ class CartBrief extends Component {
               <Col xs={7} sm={7} md={7} lg={7} style={{ padding: '0' }}>
                 <h4>{product.name}</h4>
               </Col>
-              <p>{product.desc}</p>
+              <p>{product.desc.substring(0,90)}</p>
               <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
-                <p > من:
-                  <Link to='/'style={{ color: 'rgb(26,156,142)' }}>
+                <p style={{ color: 'rgb(26,156,142)' }}> من : 
                   {product.businessName}
-                  </Link>
                 </p>
               </div>
               <div style={{ display: 'inline-block', position: 'absolute', bottom: '0', left: '15px' }}>
-              {/*remove item form the cart by calling the removeItem method passed from myCart
+              {/*remove item from the cart by calling the removeItem method passed from myCart
               */}
                 <button onClick={this.removeItem.bind(this)}>
                   <Glyphicon  glyph="trash" />

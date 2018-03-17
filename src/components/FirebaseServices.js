@@ -271,6 +271,9 @@ export default {
       case 'likes':
         ref = this.likes.child(entryId);
         break;
+      case 'basket':
+        ref = this.basket.child(entryId);
+        break;
     }
     return ref.once('value')
       .then(dataSnapshot => dataSnapshot.val())
@@ -847,7 +850,7 @@ uploadIdeaImages(newImages, viewUploadProgress, uid){
     //   product = {...product, id: newProductRef.key};
     //   newProductRef.set(product).then( () => newProductRef.key);
     // })
-      return this.basket.child(userId).child(item.id).child("quantity").set(1)
+      return this.basket.child(userId).child(`items/${item.id}`).child("quantity").set(1)
       .then( () => item.key )
       .catch(error => {
         console.log(`error adding product: ${item} in user basket`)
