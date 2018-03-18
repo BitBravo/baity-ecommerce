@@ -92,6 +92,7 @@ class MyCart extends Component {
     // create a chat between user and business owner **later
     // fetch owners emails
     // send email msg with uesr email and product information
+    FirebaseServices.basket.child(this.props.currentUser.uid).child('completed').set(true)
   }
 
   removefromCart(id) {
