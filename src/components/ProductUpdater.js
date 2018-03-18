@@ -28,20 +28,20 @@ padding: 25px;
 color: #3C3C3C;
 background: rgb(255,255,255);
 animation-name: slideDown;
--webkit-animation-name: slideDown;	
-animation-duration: 1s;	
+-webkit-animation-name: slideDown;
+animation-duration: 1s;
 -webkit-animation-duration: 1s;
-animation-timing-function: ease;	
--webkit-animation-timing-function: ease;	
-visibility: visible !important;	
+animation-timing-function: ease;
+-webkit-animation-timing-function: ease;
+visibility: visible !important;
 `;
 
-const ErrorMessage = (props) => 
+const ErrorMessage = (props) =>
   <div>
   <Modal show={true} style={{ top: 300 }}>
     <Modal.Header>حدث خطأ غير معروف</Modal.Header>
     <Modal.Body>
-      
+
         <Alert bsStyle="danger">
           {props.message}
         </Alert>
@@ -109,6 +109,12 @@ class ProductUpdater extends Component {
         }
       });
     }
+    //add owner to product
+    FirebaseServices.readDBRecord('profUser', this.props.currentUser.uid)
+    .then(val => {
+      console.log(val.name)
+      this.name = val.name
+      })
   }
 
   componentWillUnmount() {
@@ -116,7 +122,7 @@ class ProductUpdater extends Component {
     !this.state.isNewProduct && this.productsRef && base.removeBinding(this.productsRef);
   }
 
-  
+
   componentDidMount(){
     console.log(`${this.constructor.name}.componentDidMount`);
   }
@@ -131,30 +137,30 @@ class ProductUpdater extends Component {
     console.log(nextProps)
     //if there is no id in the url (which means a new product)
     if (!nextProps.match.params.id){
-      //since updating current product was inturrupted, 
+      //since updating current product was inturrupted,
       !this.state.isNewProduct && this.productsRef && base.removeBinding(this.productsRef);
       this.productId = undefined
       this.setState(getStateForNewProduct());
     }
   }
-  
+
   componentWillUpdate(){
     console.log(`${this.constructor.name}.componentWillUpdate`);
   }
- 
+
 
   addImages(productId, newImages, formPercentageViewer){
     return FirebaseServices.addProductImages(productId, newImages, formPercentageViewer, this.props.currentUser.uid)
   }
 
   addProduct(product){
-    //add owner to product
     product = {...product, owner: this.props.currentUser.uid};
-    return FirebaseServices.insertProduct(product);//returns a promise resolved with product ID 
+    return FirebaseServices.insertProduct(product);//returns a promise resolved with product ID
   }
 
+
   updateProduct(newProductData){
-    return FirebaseServices.updateProduct(newProductData, this.productId);//returns a promise resolved with product ID 
+    return FirebaseServices.updateProduct(newProductData, this.productId);//returns a promise resolved with product ID
   }
 
   handleSubmit(product, newImages, formPercentageViewer) {
@@ -165,7 +171,7 @@ class ProductUpdater extends Component {
             console.log('could not insert product or upload images');
             console.log(`ERROR: code: ${error.code}, message:${error.message}`);
             throw error
-          }) 
+          })
     } else {
       return this.updateProduct(product)
         .then(() => this.addImages(this.productId, newImages, formPercentageViewer))
@@ -188,7 +194,7 @@ class ProductUpdater extends Component {
     if (this.state.errorHandling.showError)
       return (
         <ErrorMessage message={this.state.errorHandling.errorMsg.message}/>
-        
+
       );
     if (!this.state.loading && !this.state.showError)
       return (

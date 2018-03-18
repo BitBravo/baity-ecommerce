@@ -31,8 +31,6 @@ color:white;
 text-align:center;
 background-color:red;
 border-radius: 50%;
-
-}
 `
  const Input = styled.input`
  width:450px;

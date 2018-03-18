@@ -384,6 +384,9 @@ class ProductForm extends Component {
         default:
         break;
       }
+
+      this.setState({cat: { value:CategoryList[0]}})
+
         this.setState(getInitState(), () => {
         var newState = {...this.state,
           newImages: newImages,
