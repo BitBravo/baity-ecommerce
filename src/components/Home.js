@@ -1,5 +1,5 @@
 import React ,{ Component } from "react";
-import { Image,Carousel } from "react-bootstrap";
+import { Image,Carousel,Panel } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import ProductList from './ProductList';
 import traditionalkitchen from '../assets/img/traditionalkitchen.jpg';
@@ -51,7 +51,7 @@ font-size: 35px;
    return (
 
   <div>
-   
+
     <div >
   <Carousel indicators={false}>
       <Carousel.Item>
