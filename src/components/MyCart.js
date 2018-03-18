@@ -57,7 +57,7 @@ class MyCart extends Component {
   }
 
   fetchItems() {
-    var path = FirebaseServices.BASKET_PATH + `/${this.props.currentUser.uid}`
+    var path = FirebaseServices.BASKET_PATH + `/${this.props.currentUser.uid}/items`
     console.log("path " + path)
     this.basketRef = base.syncState(path, {
       context: this,
@@ -99,14 +99,13 @@ class MyCart extends Component {
   }
 
   deleteItem(id) {
-
-
     delete this.state.basket[id]
     this.setState({basket: this.state.basket})
 
-    FirebaseServices.basket.child(this.props.currentUser.uid).child(id).remove()
+    FirebaseServices.basket.child(this.props.currentUser.uid).child(`items/${id}`).remove()
     // for some reason calling fetch will not cause the page to rerender
     this.fetchItems()
+    this.props.updateCart(false)
   }
 
   render(){

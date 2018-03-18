@@ -62,18 +62,16 @@ class CartBrief extends Component {
               </Link>
               </p>
               <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
-                <p > من:
-                  <Link to='/'style={{ color: 'rgb(26,156,142)' }}>
+                <p style={{ color: 'rgb(26,156,142)' }}> من : 
                   {product.businessName}
-                  </Link>
                 </p>
               </div>
               <div style={{ display: 'inline-block', position: 'absolute', bottom: '0', left: '15px' }}>
-              {/*remove item form the cart by calling the removeItem method passed from myCart
+              {/*remove item from the cart by calling the removeItem method passed from myCart
               */}
-        
+
                   <Glyphicon  style={{cursor: 'pointer'}} glyph="trash" onClick={this.removeItem.bind(this)}/>
-       
+
               </div>
               </Col>
 

@@ -17,7 +17,6 @@ import Idea from '../assets/img/Unselected-idea.png';
 import Product from '../assets/img/UNselected-product.png';
 import Profile from '../assets/img/Profile-icon.png';
 import Cart from '../assets/img/Cart-icon.png';
-import MyCart from './MyCart';
 
 
 const CartNo = styled.div`
@@ -31,8 +30,6 @@ color:white;
 text-align:center;
 background-color:red;
 border-radius: 50%;
-
-}
 `
  const Input = styled.input`
  width:450px;
@@ -173,7 +170,6 @@ class Header extends Component {
           </div>
           </LinkContainer>
           {/* <div className="shorcartlist">
-          <MyCart/>
           <LinkContainer to="/mycart" activeClassName="active">
             <Button>عرض السلة</Button>
             </LinkContainer>

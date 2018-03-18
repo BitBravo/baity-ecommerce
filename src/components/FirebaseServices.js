@@ -26,7 +26,7 @@ let testPrefix = "test-"; //change this to switch from test tables to production
 let _PRODUCTS_PATH = testPrefix + "product"; //change me by removing test
 let _IDEAS_PATH = testPrefix + "idea";
 let _USER_POSTS_PATH = testPrefix + "userPosts";
-let _PRODUCT_DEPTS_PATH = testPrefix + "productDepartment";
+let _PRODUCT_DEPTS_PATH = testPrefix + "productDepartment"; //should be deleted
 let _IDEA_DEPTS_PATH = testPrefix + "ideaDepartment";
 //let _USERS_PATH = "testUsers"; //change me by removing test
 let _BUSINESSES_PATH = testPrefix + "business"; //change me by removing test
@@ -270,6 +270,9 @@ export default {
         break;
       case 'likes':
         ref = this.likes.child(entryId);
+        break;
+      case 'basket':
+        ref = this.basket.child(entryId);
         break;
     }
     return ref.once('value')
@@ -556,9 +559,13 @@ export default {
     // })
       var newProductRef = this.products.push();
       product = {...product, id: newProductRef.key};
+      console.log(newProductRef.key)
+      console.log(product.department)
+      console.log(product.style)
       this.ownerProduct.child(product.owner).child(newProductRef.key).set("true")
-      this.deptProduct.child(product.dept).child(newProductRef.key).set("true")
-      return newProductRef.set(product).then( () => newProductRef.key )
+      this.deptProduct.child(product.department).child(newProductRef.key).set("true")
+      this.styleProduct.child(product.style).child(newProductRef.key).set("true")
+      return newProductRef.set(product).then( () => newProductRef.key)
       .catch(error => {
         console.log(`error inserting product: ${product} in DB`)
         throw error;
@@ -649,6 +656,7 @@ export default {
       })
       .then(urls => {
         var images = urls.map(imageUrl => ({large: imageUrl}))
+        console.log(images)
         return images;
       })
       .catch(error => {
@@ -687,6 +695,7 @@ export default {
     .then(images => {
       return this.getProduct(productId)
       .then(product => {
+        console.log("product" + product)
         //combine new images with current images from DB into 'images' property of product
         images = product.images? [...images, ...product.images]: images;
         var productRef = this.products.child(productId);
@@ -847,7 +856,7 @@ uploadIdeaImages(newImages, viewUploadProgress, uid){
     //   product = {...product, id: newProductRef.key};
     //   newProductRef.set(product).then( () => newProductRef.key);
     // })
-      return this.basket.child(userId).child(item.id).child("quantity").set(1)
+      return this.basket.child(userId).child(`items/${item.id}`).child("quantity").set(1)
       .then( () => item.key )
       .catch(error => {
         console.log(`error adding product: ${item} in user basket`)
@@ -892,7 +901,7 @@ uploadIdeaImages(newImages, viewUploadProgress, uid){
           console.log(dataSnapshot.val())
           const profIds = Object.keys(dataSnapshot.val());
           profIds.map(id => {
-          DB_BASE.child('test-deptProduct').child(dep).child(id).set("true")
+          this.deptProduct.child(dep).child(id).set("true")
           console.log(dataSnapshot.val().key)})})
       .catch(error => {
         console.log(`FirebaseServices.readDBRecord: error reading entry from DB`)
@@ -919,7 +928,7 @@ uploadIdeaImages(newImages, viewUploadProgress, uid){
           console.log(dataSnapshot.val())
           const profIds = Object.keys(dataSnapshot.val());
           profIds.map(id => {
-          DB_BASE.child('test-styleProduct').child(dep).child(id).set("true")
+          this.styleProduct.child(dep).child(id).set("true")
           console.log(dataSnapshot.val().key)})})
       .catch(error => {
         console.log(`FirebaseServices.readDBRecord: error reading entry from DB`)
@@ -935,7 +944,7 @@ uploadIdeaImages(newImages, viewUploadProgress, uid){
         this.ideas.orderByChild('owner').equalTo(uid).once('value')
         .then(dataSnapshot => {
           const productsIds = Object.keys(dataSnapshot.val());
-          productsIds.map(id => DB_BASE.child('test-ownerIdea').child(uid).child(id).set("true"))
+          productsIds.map(id => this.ownerIdea.child(uid).child(id).set("true"))
           console.log(dataSnapshot.val().key)}))})
       .catch(error => {
         console.log(`FirebaseServices.readDBRecord: error reading entry from DB`)

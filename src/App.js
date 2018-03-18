@@ -53,11 +53,19 @@ class App extends Component {
               authenticated: true,
               group: value,
               userName: val.name,
-    
+
               })})
         }
       })
 
+      // get items in basket
+      FirebaseServices.basket.child(`${user.uid}/items`).once( "value", snapshot => {
+        console.log("val.childCount " + snapshot.numChildren())
+
+        this.setState({
+          cartCount: snapshot.numChildren()
+        })
+      })
       /*
         // We can get the folloiwng information. See: (https://firebase.google.com/docs/auth/web/manage-users)
         name = user.displayName;
@@ -78,18 +86,23 @@ class App extends Component {
       */
 
 
-    } else {
+    } else {//No user is logged in
       this.setState({
         currentUser: null,
         authenticated: false,
-        userName: ""
+        userName: "",
+        cartCount: 0
       })
     }
   }
 
-updateCart() {
-  var newCount = this.state.cartCount + 1
-  console.log("cont " + this.state.cartCount)
+updateCart(add) {
+  var newCount = 0
+  if(add)
+    newCount = this.state.cartCount + 1
+  else {
+    newCount = this.state.cartCount - 1
+  }
   this.setState({
     cartCount: newCount
   })
