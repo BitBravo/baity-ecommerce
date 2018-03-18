@@ -13,7 +13,14 @@ import Product from '../assets/img/AddingProduct.png';
 
 const IconImg = styled.img`
 width:20px;
- height:20px;`
+ height:20px;
+ margin-right:20px;
+ @media only screen and (max-width: 767px) {
+  width:15px;
+  height:15px;
+  margin-right:10px;
+ }`
+ 
 
 const Button = styled.button`
   width:180px;
@@ -54,8 +61,9 @@ class ProductList extends Component {
     this.firebasePaginatorFiltering1 = this.firebasePaginatorFiltering.bind(this, ref)
     this.forwardFiltring = this.forwardFiltring.bind(this)
 
-     //FirebaseServices.filterIndexing();
-     //FirebaseServices.filterIndexingStyle();
+    //FirebaseServices.filterIndexing();
+    //FirebaseServices.filterIndexingStyle();
+    //FirebaseServices.addOwnerName()
 
     if (this.props.thisUserOnly){
       var owner;
@@ -352,7 +360,7 @@ class ProductList extends Component {
         <hr style={{marginBottom: '30px'}}/>
         <Col xs={5} md={3} lg={2} >
           <Link to={`/newproduct`}>
-            <Button>إضافة منتج<IconImg src={Product} style={{marginRight:'30px'}}/></Button>
+            <Button>إضافة منتج<IconImg src={Product}/></Button>
           </Link>
           </Col>
           <Col xs={7} md={9} lg={10} >

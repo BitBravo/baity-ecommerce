@@ -13,7 +13,13 @@ import Idea from '../assets/img/AddingIdea.png';
 
 const IconImg = styled.img`
 width:20px;
-height:20px;`
+ height:20px;
+ margin-right:20px;
+ @media only screen and (max-width: 767px) {
+  width:15px;
+  height:15px;
+  margin-right:10px;
+ }`
 const Button = styled.button`
 width:180px;
 @media only screen and (max-width: 767px) {
@@ -226,7 +232,7 @@ class IdeaList extends Component{
         <hr style={{marginBottom: '30px'}}/>
         <Col xs={5} md={3} lg={2} >
         <Link to={`/newidea`}>
-            <Button>إضافة فكرة<IconImg src={Idea} style={{marginRight:'30px'}}/></Button>
+            <Button>إضافة فكرة<IconImg src={Idea} /></Button>
           </Link>
           </Col>
           <Col xs={7} md={9} lg={10} >

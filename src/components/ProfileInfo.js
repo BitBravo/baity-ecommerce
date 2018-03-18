@@ -64,7 +64,7 @@ text-align:center;
 font-size:20px;
 color:rgb(95,96,93);
 @media only screen and (max-width: 767px) {
-  font-size:20px;}
+  font-size:15px;}
 `
 
 class ProfileInfo extends Component{

@@ -74,7 +74,7 @@ class ProductBrief extends Component {
         <MyThumbnailDiv>
           <ImageContainer>
             <ImageDiv>
-            <Link to={`${product.owner}/products/${product.id}`}>
+            <Link to={`/${product.owner}/products/${product.id}`}>
               <PreviewImg
                 src={
                   product.images

@@ -21,7 +21,7 @@ width: 17%;
   left: 20px;
   top:70px;
   width: 40%;
-  height: 40px;
+  height: 30px;
 `;
 
 function MyProdutList(props) {

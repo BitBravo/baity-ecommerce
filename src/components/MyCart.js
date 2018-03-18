@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { app, base } from "../base";
 import FirebaseServices from './FirebaseServices'
 import CartList from './CartList';
+import CartBrief from "./CartBrief";
 import styled from 'styled-components'
 import {
     Col,
@@ -10,9 +11,9 @@ import {
     Row,
     Grid,
     Glyphicon
-   
   } from "react-bootstrap";
-  import logo_placeholder from '../assets/img/logo-placeholder.jpg';
+import logo_placeholder from '../assets/img/logo-placeholder.jpg';
+import Loading from './Loading'
 
 const Button =styled.button`
 display:block;
@@ -28,28 +29,118 @@ height:40px;
 
 class MyCart extends Component {
 
-    constructor() {
-      super();
+  constructor() {
+    super();
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.removefromCart = this.removefromCart.bind(this)
+    this.deleteItem = this.deleteItem.bind(this)
+    this.fetchItems = this.fetchItems.bind(this)
 
-    }
+
+    this.state = {
+      basket: {},
+      products: {},
+      loading: true,
+      total: 0,
+      errorHandling: {
+        showError: false,
+        errorMsg: ""}
+    };
+  }
+
+  componentWillMount() {
+    this.fetchItems()
+  }
+
+  componentWillUnmount() {
+    this.basketRef && base.removeBinding(this.basketRef);
+  }
+
+  fetchItems() {
+    var path = FirebaseServices.BASKET_PATH + `/${this.props.currentUser.uid}`
+    console.log("path " + path)
+    this.basketRef = base.syncState(path, {
+      context: this,
+      state: "basket",
+      then(data) {
+        var productIds = Object.keys(this.state.basket)
+
+        var newProducts = {}
+        var total = 0
+        const listPromises = productIds.map(id => {
+          return FirebaseServices.products.child(id).once('value', snapshot => {
+            snapshot.val()
+            total = Number(snapshot.val().price) + total
+            newProducts = [...newProducts, snapshot.val()]
+          })
+        });
+
+        const results = Promise.all(listPromises)
+        results.then((snapshot) => {
+          console.log("data " + this.state.basket.length)
+          this.setState({products: newProducts, loading: false, total: total})
+          console.log("newProducts " + newProducts.length)
+        })
+      },
+      onFailure(error) {
+      this.setState({errorHandling: {showError: true, errorMsg: error}});
+      }
+    })
+  }
+
+  handleSubmit(event) {
+    // create a chat between user and business owner **later
+    // fetch owners emails
+    // send email msg with uesr email and product information
+  }
+
+  removefromCart(id) {
+    this.deleteItem(id)
+  }
+
+  deleteItem(id) {
 
 
-    render(){
-    return(
+    delete this.state.basket[id]
+    this.setState({basket: this.state.basket})
+
+    FirebaseServices.basket.child(this.props.currentUser.uid).child(id).remove()
+    // for some reason calling fetch will not cause the page to rerender
+    this.fetchItems()
+  }
+
+  render(){
+    var subtotal = this.state.total
+    var vat = subtotal * 0.05
+    var total = subtotal + vat
+
+    if (this.state.loading)
+      return(
+       <Loading />
+      )
+    else {
+      return (
         <Grid>
-            <h2 style={{ textAlign:'center',color: 'rgb(26,156,142)'}}>سلة التسوق</h2>
-             <Row style={{ display: 'flex', flexWrap: 'wrap', boxShadow: '5px 5px 5px #d7d7d7' }} >
-            <CartList/>
+          <h2 style={{ textAlign:'center',color: 'rgb(26,156,142)'}}>سلة التسوق</h2>
+            <Row style={{ display: 'flex', flexWrap: 'wrap', boxShadow: '5px 5px 5px #d7d7d7' }} >
+            <CartList products={this.state.products} removefromCart={this.removefromCart}/>
+           
             <Col xs={12} style={{ background:'white' }}>
-           <p> قيمة الطلبات:</p>
-           <p> القيمة الضريبية:</p>
-           <p> المجموع :</p>
-           <Button>اتمام العملية</Button>
+           <h4 style={{ textAlign:'left'}}> قيمة الطلبات: &nbsp;&nbsp;
+           <span style={{ color: 'rgb(26,156,142)'}}> {subtotal}ر.س</span></h4>
+           <h4 style={{ textAlign:'left'}}> القيمة الضريبية:&nbsp;&nbsp;
+           <span style={{ color: 'rgb(26,156,142)'}}> {vat} ر.س </span></h4>
+           <h4 style={{ textAlign:'left'}}> المجموع : &nbsp;&nbsp;
+           <span style={{ color: 'rgb(26,156,142)'}}> {total} ر.س </span></h4>
+           {total > 0 
+           ?<Button onClick={this.handleSubmit}>اتمام العملية</Button>
+           :null}
             </Col>
              </Row>
             </Grid>
 
     );
-  };
+    };
+  }
 }
 export default MyCart;

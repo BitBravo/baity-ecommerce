@@ -943,6 +943,26 @@ uploadIdeaImages(newImages, viewUploadProgress, uid){
       })
   },
 
+  addOwnerName() {
+    this.professionals.once('value')
+      .then(dataSnapshot => {
+        const profIds = Object.keys(dataSnapshot.val());
+        const profs = dataSnapshot.val()
+        profIds.map(uid => {console.log(profs[uid].name)
+        this.products.orderByChild('owner').equalTo(uid).once('value')
+        .then(dataSnapshot => {
+          const productsIds = Object.keys(dataSnapshot.val());
+          productsIds.map(id => {
+            this.products.child(id).child('businessName').set(profs[uid].name)
+          })
+        })
+      })})
+      .catch(error => {
+        console.log(`FirebaseServices.readDBRecord: error reading entry from DB`)
+        console.log(`ERROR: code: ${error.code}, message:${error.message}`)
+      })
+  },
+
   /*
     Given an image url and a idea id this method will:
     1- delete the image from the storage

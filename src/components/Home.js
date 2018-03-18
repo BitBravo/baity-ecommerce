@@ -124,7 +124,6 @@ font-size: 35px;
       
     </Carousel>
    </div>
-   
     <ProductList thisUserOnly={false}/>
   </div>
   
