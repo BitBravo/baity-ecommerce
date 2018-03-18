@@ -221,19 +221,20 @@ class ProductsPage extends Component {
                 </Select>
                 </div>
                 </PaddingDiv>
-                <PaddingDiv>
-                <div className="inner-addon left-addon ">
-          <i className="glyphicon glyphicon-plus white plus"  ></i>
-                <Select name="selectThis" id="selectThis">
-                    <option value="">بلد الصنع</option>
-                    <option value=".option1">Option 1</option>
-                    <option value=".option2">Option 2</option>
-                    <option value=".option3">Option 3</option>
-                    <option value=".option4">Option 4</option>
-                </Select>
-                </div>
-                </PaddingDiv>
-
+                {
+          //       <PaddingDiv>
+          //       <div className="inner-addon left-addon ">
+          // <i className="glyphicon glyphicon-plus white plus"  ></i>
+          //       <Select name="selectThis" id="selectThis">
+          //           <option value="">بلد الصنع</option>
+          //           <option value=".option1">Option 1</option>
+          //           <option value=".option2">Option 2</option>
+          //           <option value=".option3">Option 3</option>
+          //           <option value=".option4">Option 4</option>
+          //       </Select>
+          //       </div>
+          //       </PaddingDiv>
+              }
                 <PaddingDiv>
                 <div className="inner-addon left-addon ">
           <i className="glyphicon glyphicon-plus white plus" ></i>

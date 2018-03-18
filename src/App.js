@@ -46,7 +46,7 @@ class App extends Component {
               group: value,
               userName: val.name,
             })})
-        }else {
+        }else if (value === "normal"){
           FirebaseServices.readDBRecord('normalUser', `${user.uid}`)
             .then(val => {
               this.setState({currentUser: user,
