@@ -122,9 +122,9 @@ class MyCart extends Component {
       return (
         <Grid>
           <h2 style={{ textAlign:'center',color: 'rgb(26,156,142)'}}>سلة التسوق</h2>
+          {this.state.products > 0 ?
             <Row style={{ display: 'flex', flexWrap: 'wrap', boxShadow: '5px 5px 5px #d7d7d7' }} >
             <CartList products={this.state.products} removefromCart={this.removefromCart}/>
-
             <Col xs={12} style={{ background:'white' }}>
            <h4 style={{ textAlign:'left'}}> قيمة الطلبات: &nbsp;&nbsp;
            <span style={{ color: 'rgb(26,156,142)'}}> {subtotal}ر.س</span></h4>
@@ -135,6 +135,8 @@ class MyCart extends Component {
            <Button onClick={this.handleSubmit}>اتمام العملية</Button>
             </Col>
              </Row>
+          : <h4 style={{textAlign:'center'}}>لم تقم باضافة منتجات، إبدأ الان</h4>
+           }
             </Grid>
 
     );
