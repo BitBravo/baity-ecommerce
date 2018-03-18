@@ -10,7 +10,6 @@ import _ from 'lodash'
 
 //TODO since we need to prepare a testing vs. production
 //building scripts
-
 /************************************************************
  *            PRODUCTION
  ************************************************************/
@@ -21,6 +20,7 @@ let DB_BASE = database.ref();
 //IMPORTANT: you can not use the following storge object as bucket root reference. To get the bucket root reference use storage.ref().
 let STORAGE_BASE = storage.ref();
 
+/* DATABASE AND STORGAE REFERENCES FOR TESTING*/
 let testPrefix = "test-"; //change this to switch from test tables to production tables
 
 let _PRODUCTS_PATH = testPrefix + "product"; //change me by removing test
@@ -44,6 +44,29 @@ let _OWNER_IDEA_PATH = testPrefix + "ownerIdea"
 let _DEPARTMENT_PRODUCT_PATH = testPrefix + "deptProduct"
 let _STYLE_PRODUCT_PATH = testPrefix + "styleProduct"
 let _DEPARTMENT_IDEA_PATH = testPrefix + "deptIdea"
+
+/* DATABASE AND STORGAE REFERENCES FOR DEPLOYMENT*/
+// let _PRODUCTS_PATH = "product"; //change me by removing test
+// let _IDEAS_PATH = "idea";
+// let _USER_POSTS_PATH = "userPosts";
+// let _PRODUCT_DEPTS_PATH = "productDepartment"; //should be deleted
+// let _IDEA_DEPTS_PATH = "ideaDepartment";
+// //let _USERS_PATH = "testUsers"; //change me by removing test
+// let _BUSINESSES_PATH = "business"; //change me by removing test
+// let _LIKES_PATH = "likes";
+// let _GROUPS_PATH = "group"; //change me by removing test
+// let _BUSINESS_LOGOS_PATH = "BusinessLogo";
+// let _PRODUCT_IMAGES_PATH = "productImages";
+// let _IDEA_IMAGES_PATH = "ideaImages";
+// let _PROFILE_IMAGES_PATH = "profileImage";
+// let _PROF_PATH = "professional";
+// let _NORMAL_PATH = "normal";
+// let _BASKET_PATH = "basket";
+// let _OWNER_PRODUCT_PATH = "ownerProduct"
+// let _OWNER_IDEA_PATH = "ownerIdea"
+// let _DEPARTMENT_PRODUCT_PATH = "deptProduct"
+// let _STYLE_PRODUCT_PATH = "styleProduct"
+// let _DEPARTMENT_IDEA_PATH = "deptIdea"
 
 // DB references
 //You can use child() only on references (i.e. database.ref() but not database itself)

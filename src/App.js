@@ -38,6 +38,8 @@ class App extends Component {
   setCurrentUser(user) {
     if (user) {
       FirebaseServices.readDBRecord('group', user.uid).then( value => {
+        console.log(value)
+
         if (value === "prof") {
           FirebaseServices.readDBRecord('profUser', `${user.uid}`)
             .then(val => {
@@ -46,14 +48,14 @@ class App extends Component {
               group: value,
               userName: val.name,
             })})
-        }else {
+        }else if (value === "normal"){
+          console.log("normal")
           FirebaseServices.readDBRecord('normalUser', `${user.uid}`)
             .then(val => {
               this.setState({currentUser: user,
               authenticated: true,
               group: value,
               userName: val.name,
-
               })})
         }
       })

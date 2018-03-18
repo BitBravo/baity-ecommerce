@@ -219,6 +219,7 @@ class ProductDetails extends Component {
               console.log("unlike");
               post.likes--;
               currentUserRef.child(post.id).set(null);
+              FirebaseServices.products.child(`${this.productId}/likes`).set(post.likes)
               this.setState({ liked: false })
             } else {
               console.log("like");
@@ -226,6 +227,7 @@ class ProductDetails extends Component {
               post.likes++;
               //console.log(userLikes.child(currentUserId).child(post.id));
               currentUserRef.child(post.id).set(post.postType);
+              FirebaseServices.products.child(`${this.productId}/likes`).set(post.likes)
               this.setState({ liked: true })
             }
           })
@@ -336,7 +338,9 @@ class ProductDetails extends Component {
               }
               <PaddingDiv>
                 <h4 style={{ display: 'inline' }}>وصف المنتج</h4>
-                <h6 style={{ color: 'rgb(26,156,142)', float: 'left', display: 'inline', padding: '0 0 0 20px' }}>الاعجاب </h6>
+                <h6 style={{ color: 'rgb(26,156,142)', float: 'left', display: 'inline', padding: '0 0 0 20px' }}>
+                  {product.likes > 0 ? product.likes : null} 
+                </h6>
                 <p > {product.desc}</p>
               </PaddingDiv>
               <PaddingDiv >

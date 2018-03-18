@@ -169,11 +169,13 @@ class IdeaDetails extends Component {
 
             post.likes--;
             currentUserRef.child(post.id).set(null);
+            FirebaseServices.ideas.child(`${this.ideaId}/likes`).set(post.likes)
             this.setState({liked: false})
           } else {
             post.likes++;
             //console.log(userLikes.child(currentUserId).child(post.id));
             currentUserRef.child(post.id).set(post.postType);
+            FirebaseServices.ideas.child(`${this.ideaId}/likes`).set(post.likes)
             this.setState({liked: true})
           }
         })
@@ -251,11 +253,13 @@ class IdeaDetails extends Component {
              </button>
 
             <PaddingDiv>
-            <h4 style={{display:'inline'}}>وصف الفكرة</h4> 
-            <h6 style={{color:'rgb(26,156,142)',float:'left',display:'inline',padding :'0 0 0 20px'}}>الاعجاب</h6> 
+            <h4 style={{display:'inline'}}>وصف الفكرة</h4>
+            <h6 style={{color:'rgb(26,156,142)',float:'left',display:'inline',padding :'0 0 0 20px'}}>
+              {idea.likes > 0 ? idea.likes : null} 
+            </h6>
               <p > {idea.desc}</p>
               </PaddingDiv>
-            
+
             <div style={{display:'inline-block',position:'absolute',bottom:'0'}}>
                   <h4 > من:
                   <Link to={`/businessprofile/${idea.owner}`}style={{color:'rgb(26,156,142)'}}>
