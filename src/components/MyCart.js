@@ -122,7 +122,7 @@ class MyCart extends Component {
       return (
         <Grid>
           <h2 style={{ textAlign:'center',color: 'rgb(26,156,142)'}}>سلة التسوق</h2>
-          {this.state.products > 0 ?
+          {this.state.total > 0 ?
             <Row style={{ display: 'flex', flexWrap: 'wrap', boxShadow: '5px 5px 5px #d7d7d7' }} >
             <CartList products={this.state.products} removefromCart={this.removefromCart}/>
             <Col xs={12} style={{ background:'white' }}>

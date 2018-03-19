@@ -154,7 +154,7 @@ class ProductUpdater extends Component {
   }
 
   addProduct(product){
-    product = {...product, owner: this.props.currentUser.uid};
+    product = {...product, owner: this.props.currentUser.uid, businessName: this.name};
     return FirebaseServices.insertProduct(product);//returns a promise resolved with product ID
   }
 
