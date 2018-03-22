@@ -26,7 +26,7 @@ width:180px;
   height: 40px;
   width:100%;
 `;
-const PAGE_SIZE = 3;
+const PAGE_SIZE = 12;
 var options = {
   pageSize: PAGE_SIZE,
   finite: true,
@@ -71,7 +71,7 @@ class IdeaList extends Component{
         state: "ideas",
         queries: {
           orderByChild: 'owner',
-          limitToLast: 3,
+          limitToLast: PAGE_SIZE,
           equalTo: owner
         },
         then(data) {

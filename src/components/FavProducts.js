@@ -16,7 +16,7 @@ const Button = styled.button`
     height: 40px;
     width:100%;
   `;
-const PAGE_SIZE = 3;
+const PAGE_SIZE = 12;
 var options = {
   pageSize: PAGE_SIZE,
   finite: true,
@@ -166,11 +166,11 @@ class FavProducts extends Component {
     return (
       <Grid Grid style={{backgroundColor:"white"}}>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
-        
+
        <Col xs={12}  lg={12}>
-       <InfiniteScroll style={{overflow:'none'}} 
-          hasMore={!paginator.isLastPage} 
-          next={ this.forwardFiltring}  
+       <InfiniteScroll style={{overflow:'none'}}
+          hasMore={!paginator.isLastPage}
+          next={ this.forwardFiltring}
         >
         <div style={{height:'70px'}}>
         <h2 style={{color:'rgb(26,156,142)',textAlign:'center'}}> <MdEventSeat className="icons" style={{color:'rgb(26,156,142)'}}/>  منتجاتي المفضلة</h2>
@@ -186,7 +186,7 @@ class FavProducts extends Component {
 
          </Col>
          </Row>
-        
+
        </Grid>
   );
   }

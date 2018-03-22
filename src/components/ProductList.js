@@ -20,7 +20,7 @@ width:20px;
   height:15px;
   margin-right:10px;
  }`
- 
+
 
 const Button = styled.button`
   width:180px;
@@ -28,7 +28,7 @@ const Button = styled.button`
     height: 40px;
     width:100%;
   `;
-const PAGE_SIZE = 3;
+const PAGE_SIZE = 12;
 var options = {
   pageSize: PAGE_SIZE,
   finite: true,
@@ -80,7 +80,7 @@ class ProductList extends Component {
           state: "products",
           queries: {
             orderByChild: 'owner',
-            limitToLast: 3,
+            limitToLast: PAGE_SIZE,
             equalTo: owner
           },
           then(data) {

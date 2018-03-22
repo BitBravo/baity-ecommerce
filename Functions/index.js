@@ -44,16 +44,17 @@ var userEmail = "";
  * Sends an email to normal user (buyier) and professional users(sellers).
  */
 // [START onUpdateTrigger]
-exports.sendBuyingEmail = functions.database.ref('{BASKET_REF}{uid}').onUpdate((event) => {
+exports.sendBuyingEmail = functions.database.ref('/basket/{id}').onUpdate((event) => {
   // [END onUpdateTrigger]
   // [START eventAttributes]
   const snapshot = event.data;
   const val = snapshot.val(); // The user basket
   /* PRODUCTION - The id of the user clicking 'اتمام العملية' recived as a parameter */
-  const userId = event.params.uid;
-  console.log("###$#event.params.uid "+event.params.uid);
+  const userId = event.params.id;
+  console.log("###$# event.params.id "+event.params.id);
+
   /* TESTING - we should provid an Id as the emulator does not recive the actual id*/
- // const userId = "E0xeGw1dZfgEspNSRYRRepB7jMi2";
+  //const userId = "E0xeGw1dZfgEspNSRYRRepB7jMi2";
 
   if (!snapshot.changed('completed')) {
     return null;
@@ -121,7 +122,7 @@ function getOwnersEmails(owner, product) {
       // Building Email message.
       mailOptions.subject ='طلب شراء';
       mailOptions.text = 'This item ' + url + ' has been requested by ' + userEmail;
-      mailOptions.html = '<b>Item '+product.id+' is being requested <a href="'+url+'">'+product.name+'</a> by '+userEmail+'</b>';
+      mailOptions.html = '<b>Item '+product.id+' is being requested by '+userEmail+' <a href="'+url+'">'+product.name+'</a></b>';
 
       mailTransport.sendMail(mailOptions)
         .then(() => {
