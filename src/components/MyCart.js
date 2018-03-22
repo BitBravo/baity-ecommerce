@@ -42,6 +42,7 @@ class MyCart extends Component {
       products: {},
       loading: true,
       total: 0,
+      completed: false,
       errorHandling: {
         showError: false,
         errorMsg: ""}
@@ -93,6 +94,8 @@ class MyCart extends Component {
     // fetch owners emails
     // send email msg with uesr email and product information
     FirebaseServices.basket.child(this.props.currentUser.uid).child('completed').set(true)
+    this.props.updateCart(false,true)
+    this.setState({completed: true});
   }
 
   removefromCart(id) {
@@ -106,7 +109,7 @@ class MyCart extends Component {
     FirebaseServices.basket.child(this.props.currentUser.uid).child(`items/${id}`).remove()
     // for some reason calling fetch will not cause the page to rerender
     this.fetchItems()
-    this.props.updateCart(false)
+    this.props.updateCart(false,false)
   }
 
   render(){
@@ -117,6 +120,10 @@ class MyCart extends Component {
     if (this.state.loading)
       return(
        <Loading />
+      )
+    else if(this.state.completed)
+      return (
+        <h4 style={{textAlign:'center'}}>تم إرسال الطلب للبائعين، شكرا لتسوقكم معنا</h4>
       )
     else {
       return (

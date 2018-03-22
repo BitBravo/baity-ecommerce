@@ -98,16 +98,18 @@ class App extends Component {
     }
   }
 
-updateCart(add) {
+updateCart(add, remove) {
   var newCount = 0
-  if(add)
-    newCount = this.state.cartCount + 1
+  if (remove)
+    this.setState({cartCount: newCount})
   else {
-    newCount = this.state.cartCount - 1
+    if(add)
+      newCount = this.state.cartCount + 1
+    else {
+      newCount = this.state.cartCount - 1
+    }
+    this.setState({cartCount: newCount})
   }
-  this.setState({
-    cartCount: newCount
-  })
 }
   // method to update basket
 

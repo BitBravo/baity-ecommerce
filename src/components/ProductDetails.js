@@ -242,7 +242,7 @@ class ProductDetails extends Component {
       FirebaseServices.insertItem(this.state.product, this.props.currentUser.uid)
       .then(() => {
         // update the cart in the header by calling the updateCart method passed from app
-        this.props.updateCart(true)
+        this.props.updateCart(true,false)
         console.log("Item added")})
       .catch(error =>
         console.log("not able to add item"))
@@ -339,7 +339,7 @@ class ProductDetails extends Component {
               <PaddingDiv>
                 <h4 style={{ display: 'inline' }}>وصف المنتج</h4>
                 <h6 style={{ color: 'rgb(26,156,142)', float: 'left', display: 'inline', padding: '0 0 0 20px' }}>
-                  {product.likes > 0 ? product.likes : null} 
+                  {product.likes > 0 ? product.likes : null}
                 </h6>
                 <p > {product.desc}</p>
               </PaddingDiv>
