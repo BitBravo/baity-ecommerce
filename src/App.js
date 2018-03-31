@@ -27,7 +27,8 @@ class App extends Component {
       group: null,
       userName: "",
       basket: {},
-      cartCount: 0
+      cartCount: 0,
+    
     }
     this.setCurrentUser = this.setCurrentUser.bind(this);
     //this.updateCart = this.updateCart.bind(this);
@@ -56,6 +57,7 @@ class App extends Component {
               authenticated: true,
               group: value,
               userName: val.name,
+            
               })})
         }
       })
@@ -93,7 +95,7 @@ class App extends Component {
         currentUser: null,
         authenticated: false,
         userName: "",
-        cartCount: 0
+        cartCount: 0,
       })
     }
   }

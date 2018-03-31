@@ -147,7 +147,7 @@ class FavProducts extends Component {
          ? <div><h2 style={{color:'rgb(26,156,142)'}}>المنتجات المفضلة</h2>
             <h5 > ليس لديك منتجات مفضلة </h5> </div>
          : <div><Link to={`/favproducts`}>
-          <h2 style={{color:'rgb(26,156,142)'}}>المنتجات المفضلة</h2>
+          <h2 style={{color:'rgb(26,156,142)'}}>المنتجات المفضلة</h2><p>المزيد</p>
           </Link>
           </div>
         }

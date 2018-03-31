@@ -18,7 +18,7 @@ width:20px;
  @media only screen and (max-width: 767px) {
   width:15px;
   height:15px;
-  margin-right:10px;
+  margin-right:0px;
  }`
 const Button = styled.button`
 width:180px;

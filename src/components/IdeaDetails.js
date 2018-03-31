@@ -44,8 +44,16 @@ const PrevImgGallaryThumb = styled.div`
 `;
 
 const PreviewImg = styled.img`
-  width: 100%;
-  height: 100%;
+width: auto;
+max-width:100%;
+ height: 100%;
+ object-fit: contain; 
+position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
   }
 `;
@@ -224,10 +232,12 @@ class IdeaDetails extends Component {
             <Glyphicon  className ="leftglyphicon" onClick={this.nextImage.bind(this)} glyph="chevron-left"/>
              <Glyphicon className="rightglyphicon" onClick={this.prevImage.bind(this)} glyph="chevron-right"/>
            <LikeDiv>
+        
               {this.state.liked
               ? <LikeIcon glyph="heart"  onClick={this.like.bind(this)}/>
               : <UnLikeIcon glyph="heart"  onClick={this.like.bind(this)}/>
               }
+
          </LikeDiv>
               </Carousel.Item>
             </Carousel >
@@ -255,7 +265,7 @@ class IdeaDetails extends Component {
             <PaddingDiv>
             <h4 style={{display:'inline'}}>وصف الفكرة</h4>
             <h6 style={{color:'rgb(26,156,142)',float:'left',display:'inline',padding :'0 0 0 20px'}}>
-              {idea.likes > 0 ? idea.likes : null} 
+            الاعجاب &nbsp;{idea.likes > 0 ? idea.likes : 0} 
             </h6>
               <p > {idea.desc}</p>
               </PaddingDiv>

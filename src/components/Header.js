@@ -4,7 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import firebase from "firebase";
 import { app, base, database, storage } from "../base";
 import FirebaseServices from './FirebaseServices'
-import { Nav, Navbar, NavItem, NavbarBrand,NavDropdown,MenuItem,Glyphicon ,Modal,Col,Collapse} from "react-bootstrap";
+import { Nav, Navbar, NavItem, NavbarBrand,NavDropdown,MenuItem,Glyphicon ,Modal,Col,Collapse,Row} from "react-bootstrap";
 import bayty_icon from '../assets/img/bayty_icon.png';
 import {GoSignIn,GoSignOut,GoHome} from 'react-icons/lib/go';
 import {MdPersonAdd,MdAddToPhotos,MdEventSeat,MdPersonOutline,MdWeekend} from 'react-icons/lib/md';
@@ -17,6 +17,7 @@ import Idea from '../assets/img/Unselected-idea.png';
 import Product from '../assets/img/UNselected-product.png';
 import Profile from '../assets/img/Profile-icon.png';
 import Cart from '../assets/img/Cart-icon.png';
+import {HeaderCart} from "./MyCart";
 
 
 const CartNo = styled.div`
@@ -54,6 +55,7 @@ float:right;
  border-radius: 50%;
 position:absolute;
 left:20px;
+top:10px;
  `
 const UserLogo = styled.div`
 font-size: 10px;
@@ -89,7 +91,10 @@ class Header extends Component {
     this.state = {
       userName: "",
       firstTime: true,    
-      show: false
+      show: false,
+      currentUser:""
+  
+     
     };
   this.handleShow = this.handleShow.bind(this);
   this.handleHide = this.handleHide.bind(this);
@@ -163,19 +168,18 @@ class Header extends Component {
               <Nav pullLeft>
               <NavItem>
               <LinkContainer to="/myprofile" activeClassName="active">
+             
               <UserLogo > <IconImg src={Profile} />
               <br/>
                     <UserName >
-
                     مرحبا ،  {this.props.userName}
-
+                
               </UserName>
-              {/*
-             :<UserImg  src={logo_placeholder}/>} */}
+             
               </UserLogo>
 
               </LinkContainer>
-
+           
               </NavItem>
               </Nav>
           )}
@@ -189,12 +193,16 @@ class Header extends Component {
           <IconImg src={Cart} className="shoppingcart"/>
           </div>
           </LinkContainer>
-          {/* <div className="shorcartlist">
-          <LinkContainer to="/mycart" activeClassName="active">
+          {this.props.authenticated ?
+          <div className="shorcartlist">
+          <HeaderCart currentUser={this.props.currentUser}  />
+          <LinkContainer to="/mycart" >
             <Button>عرض السلة</Button>
             </LinkContainer>
-            </div> */}
+            </div>:null}
           </div>
+
+          
          <Navbar.Toggle />
         </Navbar.Header>
         <Nav pullLeft>

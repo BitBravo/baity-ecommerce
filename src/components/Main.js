@@ -24,7 +24,7 @@ import BusinessProfile from "./BusinessProfile"
 import PasswordResetter from "./PasswordResetter"
 import BusinessIdeas from "./BusinessIdeas"
 import BusinessProducts from "./BusinessProducts"
-import MyCart from "./MyCart"
+import {MyCart} from "./MyCart"
 
 
 function AuthenticatedRoute({ component: Component, authenticated, currentUser, ...rest }) {
@@ -234,7 +234,7 @@ class Main extends Component {
             component={MyProductList}
             currentUser={this.props.currentUser}
           />
-         <Route
+         {/* <Route
             exact
             path="/mycart"
             render={props => {
@@ -243,7 +243,7 @@ class Main extends Component {
                 />
               );
             }}
-          />
+          /> */}
 
           <Route
            exact

@@ -58,10 +58,17 @@ const PrevImgGallaryThumb = styled.div`
 `;
 
 const PreviewImg = styled.img`
-  width: 100%;
-  height: 100%;
-
-
+  width: auto;
+  max-width:100%;
+   height: 100%;
+   object-fit: contain; 
+  position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+ 
 `;
 
 const ImageDiv = styled.div`
@@ -327,19 +334,19 @@ class ProductDetails extends Component {
               {this.props.currentUser
                 ? <button type="submit" onClick={ () => {this.addToCart();this.handleShow()}}>
                   اضافة للسلة
-               <IconImg src={Cart} style={{ marginRight: '30px' }} />
+               <IconImg src={Cart} style={{ marginRight: '15px' }} />
                 </button>
                 : <LinkContainer to="/login">
-                  <button type="submit">
+                  <button type="submit" onClick={ () => {this.addToCart();this.handleShow()}}>
                     اضافة للسلة
-               <IconImg src={Cart} style={{ marginRight: '30px' }} />
+               <IconImg src={Cart} style={{ marginRight: '15px' }} />
                   </button>
                 </LinkContainer>
               }
               <PaddingDiv>
                 <h4 style={{ display: 'inline' }}>وصف المنتج</h4>
                 <h6 style={{ color: 'rgb(26,156,142)', float: 'left', display: 'inline', padding: '0 0 0 20px' }}>
-                  {product.likes > 0 ? product.likes : null}
+                الاعجاب &nbsp;{product.likes > 0 ? product.likes : 0}
                 </h6>
                 <p > {product.desc}</p>
               </PaddingDiv>
@@ -378,7 +385,7 @@ class ProductDetails extends Component {
               </div>
 
               <div>
-                <Modal  {...this.props}
+                <Modal 
                   show={this.state.show}
                   onHide={this.handleHide} style={{ top: 300 }}>
                  <Modal.Header>
@@ -397,7 +404,7 @@ class ProductDetails extends Component {
                   </Modal.Body>
                 </Modal>
               </div>
-
+              
             </DetailsCol>
           </Row>
         </Grid>

@@ -67,7 +67,7 @@ const PaddingDiv = styled.div`
   padding-bottom: 0;
   @media only screen and (max-width: 767px) {
     display:inline-block;
-    width:20%;
+    width:25%;
     padding-left:3px;
     padding-bottom: 10px;}
 `;

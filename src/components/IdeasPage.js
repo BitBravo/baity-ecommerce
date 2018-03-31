@@ -70,7 +70,7 @@ class IdeasPage extends Component {
    <Col sm={12} xs={12} lg={12} >
 
    <div>
-   <Carousel >
+   <Carousel indicators={false}>
        <Carousel.Item>
          <div>
          <ImageContainer>

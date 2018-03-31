@@ -165,7 +165,7 @@ class FavIdeas extends Component {
         ? <div><h2 style={{color:'rgb(26,156,142)'}}>الأفكار المفضلة</h2>
           <h5> ليس لديك أفكار مفضلة </h5> </div>
         : <div><Link  to={`/favideas`}>
-            <h2 style={{color:'rgb(26,156,142)'}}>الأفكار المفضلة</h2>
+            <h2 style={{color:'rgb(26,156,142)'}}>الأفكار المفضلة</h2> <p>المزيد</p>
           </Link >
           </div>
         }
