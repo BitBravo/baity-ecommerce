@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { app, base } from "../base";
+import { app, base, db } from "../base";
 import FirebaseServices from './FirebaseServices'
+import FirestoreServices from './FirestoreServices'
 import {
   Image,
   Alert,
@@ -157,7 +158,7 @@ class ProductDetails extends Component {
     const authenticated = this.props.authenticated
 
 
-    this.productsRef = base.syncState(`${FirebaseServices.PRODUCTS_PATH}/${this.productId}`, {
+    this.productsRef = base.bindDoc(`${FirestoreServices.PRODUCTS_PATH}/${this.productId}`, {
       context: this,
       state: 'product',
       then(data) {
@@ -204,42 +205,46 @@ class ProductDetails extends Component {
 
   like() {
     if (this.props.authenticated) {
+      var like = false;
+      const productRef = FirestoreServices.products.doc(this.productId)
       const userLikes = FirebaseServices.likes
       const currentUserRef = userLikes.child(this.props.currentUser.uid).child("products")
-      const productRef = FirebaseServices.products.child(this.productId)
+      currentUserRef.child(this.productId).once('value', (snap) => {
+        if (snap.val()) {
+          console.log("unlike");
+          currentUserRef.child(this.productId).set(null);
+          like = false
+        } else {
+          console.log("like");
+          currentUserRef.child(this.productId).set("product");
+          like = true;
+        }
 
-      return productRef.transaction((post) => {
-        console.log("Prudoct detailes - transaction()")
-        console.log(post)
-        if (post) {
-          currentUserRef.child(post.id).once('value', (snap) => {
-            if (snap.val()) {
-              console.log(currentUserRef.child(post.id));
-
-              console.log("unlike");
-              post.likes--;
-              currentUserRef.child(post.id).set(null);
-              FirebaseServices.products.child(`${this.productId}/likes`).set(post.likes)
-              this.setState({ liked: false })
-            } else {
-              console.log("like");
-              console.log(currentUserRef.child(post.id));
-              post.likes++;
-              //console.log(userLikes.child(currentUserId).child(post.id));
-              currentUserRef.child(post.id).set(post.postType);
-              FirebaseServices.products.child(`${this.productId}/likes`).set(post.likes)
-              this.setState({ liked: true })
+      return db.runTransaction((transaction) => {
+          return transaction.get(productRef).then((doc) => {
+          console.log("Prudoct detailes - transaction()")
+          if (doc.exists) {
+           var post = doc.data()
+              if (!like) {
+                var newLikes = post.likes - 1;
+                transaction.update(productRef, { likes: newLikes });
+                this.setState({ liked: false })
+              } else {
+                var newLikes = post.likes + 1;
+                transaction.update(productRef, { likes: newLikes });
+                this.setState({ liked: true })
+              }
             }
           })
-        }
-        return post;
-      });
+          //return post;
+        });
+      })
     }
   }
 
   addToCart() {
     if (this.props.currentUser) {
-      FirebaseServices.insertItem(this.state.product, this.props.currentUser.uid)
+      FirestoreServices.insertItem(this.state.product, this.props.currentUser.uid)
       .then(() => {
         // update the cart in the header by calling the updateCart method passed from app
         this.props.updateCart(true,false)

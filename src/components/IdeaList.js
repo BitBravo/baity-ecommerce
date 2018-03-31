@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Grid, Row, Col } from "react-bootstrap";
 import { app, base } from "../base";
 import FirebaseServices from './FirebaseServices'
+import FirestoreServices from './FirestoreServices'
 import IdeaBrief from "./IdeaBrief";
 import Loading from './Loading'
 import {MdWeekend} from 'react-icons/lib/md';
@@ -33,6 +34,10 @@ var options = {
   retainLastPage: false
 };
 var paginator;
+var next;
+var lastVisible;
+var tempLastVisible;
+var isLastPage = false;
 
 class IdeaList extends Component{
   constructor() {
@@ -66,27 +71,49 @@ class IdeaList extends Component{
         this.setState({owner: owner})
       }
       if(this.props.shortList){
-      this.ideassRef = base.syncState(FirebaseServices.IDEAS_PATH, {
-        context: this,
-        state: "ideas",
-        queries: {
-          orderByChild: 'owner',
-          limitToLast: PAGE_SIZE,
-          equalTo: owner
-        },
-        then(data) {
-          this.setState({loading: false})
-        },
-        onFailure(error) {
-        this.setState({errorHandling: {showError: true, errorMsg: error}});
-        }
-      });
-  } else {
-      //var owner = this.props.currentUser.uid
-      var ref = FirebaseServices.ownerIdea.child(owner)
-      paginator = new FirebasePaginator(ref, options)
-      this.firebasePaginatorFiltering(ref)
-  }
+        this.ideassRef = base.bindCollection(FirestoreServices.IDEAS_PATH, {
+          context: this,
+          state: "ideas",
+          query: (ref) => {
+            return ref.where('owner', '==', owner)
+              .limit(3);
+          },
+          then(data) {
+            this.setState({loading: false})
+          },
+          onFailure(error) {
+          this.setState({errorHandling: {showError: true, errorMsg: error}});
+          }
+        });
+      } else {
+      // var ref = FirebaseServices.ownerIdea.child(owner)
+      // paginator = new FirebasePaginator(ref, options)
+      // this.firebasePaginatorFiltering(ref)
+
+      var first = FirestoreServices.ideas
+        .where("owner", "==", owner)
+        .limit(12);
+
+        first.get().then((documentSnapshots) => {
+        // Get the last visible document
+        lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+        console.log("last", lastVisible);
+
+        this.setState({
+          ideas: documentSnapshots,
+          loading: false,
+          firstTime: false
+        });
+        this.listToArray()
+
+        // Construct a new query starting at this document,
+        // get the next 12 .
+        next = FirestoreServices.ideas
+                .where("owner", "==", owner)
+                .startAfter(lastVisible)
+                .limit(12);
+        });
+    }
   } else {
     //     this.ideasRef = base.syncState(FirebaseServices.IDEAS_PATH, {
     //       context: this,
@@ -149,22 +176,22 @@ class IdeaList extends Component{
         // array is sorted in assending order
         var last = ideaIds[ideaIds.length]
 
-          this.productsRef = base.bindToState(FirebaseServices.IDEAS_PATH, {
-            context: this,
-            state: "ideas",
-            queries: {
-              orderByChild: 'owner',
-              equalTo: this.state.owner,
-              limitToLast: PAGE_SIZE
-            },
-            then(data) {
-              this.setState({loading: false, firstTime: false})
-              this.listToArray();
-            },
-            onFailure(error) {
-            this.setState({errorHandling: {showError: true, errorMsg: error}});
-            }
-          });
+        this.productsRef = base.bindToState(FirebaseServices.IDEAS_PATH, {
+          context: this,
+          state: "ideas",
+          queries: {
+            orderByChild: 'owner',
+            equalTo: this.state.owner,
+            limitToLast: PAGE_SIZE
+          },
+          then(data) {
+            this.setState({loading: false, firstTime: false})
+            this.listToArray();
+          },
+          onFailure(error) {
+          this.setState({errorHandling: {showError: true, errorMsg: error}});
+          }
+        });
 
     }else {
       var newPage = this.state.page + 1;
@@ -198,15 +225,37 @@ class IdeaList extends Component{
   }
 
   forwardFiltring(){
-    paginator.previous()
-    .then(() => {
+  //   paginator.previous()
+  //   .then(() => {
+  // });
+
+  next.get().then((documentSnapshots) => {
+    tempLastVisible = lastVisible;
+    lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+    console.log("last", lastVisible);
+    if (tempLastVisible === lastVisible){
+      isLastPage = true;
+      return
+    }
+    next = FirestoreServices.ideas
+            .where("owner", "==", this.state.owner)
+            .startAfter(lastVisible)
+            .limit(12);
+    this.setState({
+    ideas: documentSnapshots,
+    loading: false,
+    firstTime: false
   });
+  this.listToArray()
+  });
+
 
   }
 
   render() {
     const ideas = this.state.ideas;
     const ideaIds = Object.keys(ideas);
+    console.log("ideas " + ideaIds.length)
 
     var msg;
     var title;
@@ -264,6 +313,9 @@ class IdeaList extends Component{
   );
   } else {
     var newIdeas = this.state.extraIdeas.slice()
+    const ideaId = Object.keys(ideas);
+    console.log("ideas " + ideaId.length)
+
 
     return (
        <div style={{paddingTop: "30px"}}>
@@ -272,7 +324,7 @@ class IdeaList extends Component{
 
         <Col xs={12} md={12}>
         <InfiniteScroll style={{overflow:'none'}}
-          hasMore={!paginator.isLastPage}
+          hasMore={!isLastPage}
           next={this.props.thisUserOnly? this.forwardFiltring : this.forward}
         >
         {newIdeas.length < 1

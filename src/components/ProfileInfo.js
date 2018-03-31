@@ -4,7 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 import firebase from "firebase";
 import { app, base, database, storage } from "../base";
-import FirebaseServices from './FirebaseServices'
+import FirestoreServices from './FirestoreServices'
 import livingroom from '../assets/img/livingroom.jpg';
 import styled from 'styled-components'
 import Loading from "./Loading";
@@ -94,12 +94,12 @@ class ProfileInfo extends Component{
         console.log("this.props.currentUser.uid " + this.props.currentUser.uid)
     }
     console.log("this.state.owner " + this.state.owner)
-    FirebaseServices.getProfessionalUserBusinessId(id,
+    FirestoreServices.getProfessionalUserBusinessId(id,
       (businessId) => {
         if (businessId === '') {
           this.setState({ errorHandling: { showError: true, errorMsg: {message:'خطأ داخلي: لم يتم العثور على الشركة '} } });
         } else {
-          this.bussRef = base.syncState(`${FirebaseServices.BUSINESSES_PATH}/${businessId}`, {
+          this.bussRef = base.bindDoc(`${FirestoreServices.BUSINESSES_PATH}/${businessId}`, {
             context: this,
             state: "profile",
             then(data) {

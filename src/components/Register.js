@@ -16,7 +16,7 @@ import {
   Row,
   Col
 } from "react-bootstrap";
-import FirebaseServices from "./FirebaseServices";
+import FirestoreServices from "./FirestoreServices";
 import Loading from "./Loading";
 import { app } from "../base";
 import FormUtils from './FormUtils'
@@ -274,7 +274,7 @@ class Register extends Component {
               if (user && user.email) {
 
                   // add user to DB
-                  FirebaseServices.createProfUser(user, phoneNo, coName)
+                  FirestoreServices.createProfUser(user, phoneNo, coName)
                   .then( () => {
                     this.registerForm.reset(); //this works only cause this is not controlled
 

@@ -16,7 +16,7 @@ import {
   Row,
   Col
 } from "react-bootstrap";
-import FirebaseServices from "./FirebaseServices";
+import FirestoreServices from "./FirestoreServices";
 import Loading from "./Loading";
 import { app } from "../base";
 import FormUtils from './FormUtils'
@@ -270,7 +270,7 @@ class RegisterNormal extends Component {
               if (user && user.email) {
 
                   // add user to DB
-                  FirebaseServices.createNormalUser(user, phoneNo, userName)
+                  FirestoreServices.createNormalUser(user, phoneNo, userName)
                   .then( () => {
                     this.registerForm.reset(); //this works only cause this is not controlled
 
@@ -288,7 +288,7 @@ class RegisterNormal extends Component {
                     //This should be very rare and currently we just report an error without handling it
                     console.log('adding user to DB failed');
                     this.setState({ loading: false}, () =>
-                        this.reportError("حدث خطأ داخلي في النظام" + " User is signed up but not added to DB. Here is firebase error: " + error.code + " " + error.message));
+                        this.reportError("حدث خطأ داخلي في النظام" + " User is signed up but not added to DB. Here is firestore error: " + error.code + " " + error.message));
 
                   })
               }

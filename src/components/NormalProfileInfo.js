@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import firebase from "firebase";
 import { app, base, database, storage } from "../base";
-import FirebaseServices from './FirebaseServices';
+import FirestoreServices from './FirestoreServices';
 import livingroom from '../assets/img/livingroom.jpg';
 import styled from 'styled-components'
 import Loading from "./Loading";
@@ -23,7 +23,7 @@ width:100%px;
 height: 30px;
 padding:  0;
 background-color:transparent;
-border:1px solid rgb(26, 156, 142); 
+border:1px solid rgb(26, 156, 142);
 color:rgb(26, 156, 142);
 @media only screen and (max-width: 767px) {
   height: 30px;
@@ -33,7 +33,7 @@ color:rgb(26, 156, 142);
 const PreviewImg = styled.img`
   width: 100%;
   height: 100%;
- 
+
 `;
 const ImageCol=styled(Col)`
 height:400px;
@@ -76,7 +76,7 @@ class NormalProfileInfo extends Component{
 
   componentWillMount(){
 
-    FirebaseServices.readDBRecord('normalUser', this.props.currentUser.uid)
+    FirestoreServices.readDBRecord('normalUser', this.props.currentUser.uid)
       .then(value => this.setState({
         loading: false,
         profile: value
@@ -90,7 +90,7 @@ class NormalProfileInfo extends Component{
 
   render(){
     return(
-   
+
       <Grid style={{backgroundColor:"white"}}>
       <Row  style={{display: 'flex', flexWrap: 'wrap'}}>
         <ImageCol sm={12}  lg={12}>
@@ -108,7 +108,7 @@ class NormalProfileInfo extends Component{
              </LinkContainer>
         <SocialDiv >
         <TiSocialTwitter className="icons"/>
-        <TiSocialInstagram className="icons"/> 
+        <TiSocialInstagram className="icons"/>
        <TiSocialFacebook className="icons"/>
    </SocialDiv>        </Col>
         <Col xs={6} sm={6} md={7}lg={7} style={{padding:'0'}}>
@@ -125,7 +125,7 @@ class NormalProfileInfo extends Component{
       </Row>
       <hr/>
       </Grid>
-   
+
     )
   }
 }

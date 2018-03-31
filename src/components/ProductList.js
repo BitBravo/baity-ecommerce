@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Grid, Row, Col } from "react-bootstrap";
 import { app, base } from "../base";
 import FirebaseServices from './FirebaseServices'
+import FirestoreServices from './FirestoreServices'
 import ProductBrief from "./ProductBrief";
 import Loading from './Loading'
 import styled from 'styled-components'
@@ -75,13 +76,12 @@ class ProductList extends Component {
         this.setState({owner: owner})
       }
       if(this.props.shortList){
-        this.productsRef = base.syncState(FirebaseServices.PRODUCTS_PATH, {
+        this.productsRef = base.bindCollection(FirestoreServices.PRODUCTS_PATH, {
           context: this,
           state: "products",
-          queries: {
-            orderByChild: 'owner',
-            limitToLast: PAGE_SIZE,
-            equalTo: owner
+          query: (ref) => {
+            return ref.where('owner', '==', owner)
+                .limit(3);
           },
           then(data) {
             this.setState({loading: false, firstTime: false})
