@@ -3,7 +3,7 @@ import { Modal, Alert, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import firebase from "firebase";
 import { app, base, database, storage } from "../base";
-import FirebaseServices from './FirebaseServices'
+import FirestoreServices from './FirestoreServices'
 import Loading from "./Loading";
 import styled from 'styled-components'
 
@@ -98,7 +98,7 @@ class IdeaUpdater extends Component {
   componentWillMount() {
     console.log(`${this.constructor.name}.componentWillMount`);
     if (!this.state.isNewIdea){
-      this.ideasRef = base.syncState(`${FirebaseServices.IDEAS_PATH}/${this.ideaId}`, {
+      this.ideasRef = base.bindDoc(`${FirestoreServices.IDEAS_PATH}/${this.ideaId}`, {
         context: this,
         state: "idea",
         then(data) {
@@ -144,17 +144,17 @@ class IdeaUpdater extends Component {
 
 
   addImages(ideaId, newImages, formPercentageViewer){
-    return FirebaseServices.addIdeaImages(ideaId, newImages, formPercentageViewer, this.props.currentUser.uid)
+    return FirestoreServices.addIdeaImages(ideaId, newImages, formPercentageViewer, this.props.currentUser.uid)
   }
 
   addIdea(idea){
     //add owner to idea
     idea = {...idea, owner: this.props.currentUser.uid};
-    return FirebaseServices.insertIdea(idea);//returns a promise resolved with idea ID
+    return FirestoreServices.insertIdea(idea);//returns a promise resolved with idea ID
   }
 
   updateIdea(newIdeaData){
-    return FirebaseServices.updateIdea(newIdeaData, this.ideaId);//returns a promise resolved with idea ID
+    return FirestoreServices.updateIdea(newIdeaData, this.ideaId);//returns a promise resolved with idea ID
   }
 
   handleSubmit(idea, newImages, formPercentageViewer) {
@@ -178,7 +178,7 @@ class IdeaUpdater extends Component {
   }
 
   deleteImageFromDB(imageUrl){
-    return FirebaseServices.deleteIdeaImage(imageUrl, this.ideaId)
+    return FirestoreServices.deleteIdeaImage(imageUrl, this.ideaId)
   }
 
   render() {

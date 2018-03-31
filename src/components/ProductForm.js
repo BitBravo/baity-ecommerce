@@ -501,7 +501,6 @@ class ProductForm extends Component {
     if (this.props.isNewProduct) {
       product = {...product,
         city: "الرياض",
-        city_department: "",
         dateCreated: Date.now(),
         imgUrl: 'None',
         likes: 0,

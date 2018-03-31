@@ -3,7 +3,7 @@ import { Modal, Alert, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import firebase from "firebase";
 import { app, base, database, storage } from "../base";
-import FirebaseServices from './FirebaseServices'
+import FirestoreServices from './FirestoreServices'
 import Loading from "./Loading";
 import styled from 'styled-components'
 
@@ -98,7 +98,7 @@ class ProductUpdater extends Component {
   componentWillMount() {
     console.log(`${this.constructor.name}.componentWillMount`);
     if (!this.state.isNewProduct){
-      this.productsRef = base.syncState(`${FirebaseServices.PRODUCTS_PATH}/${this.productId}`, {
+      this.productsRef = base.bindDoc(`${FirestoreServices.PRODUCTS_PATH}/${this.productId}`, {
         context: this,
         state: "product",
         then(data) {
@@ -110,7 +110,7 @@ class ProductUpdater extends Component {
       });
     }
     //add owner to product
-    FirebaseServices.readDBRecord('profUser', this.props.currentUser.uid)
+    FirestoreServices.readDBRecord('profUser', this.props.currentUser.uid)
     .then(val => {
       console.log(val.name)
       this.name = val.name
@@ -150,17 +150,17 @@ class ProductUpdater extends Component {
 
 
   addImages(productId, newImages, formPercentageViewer){
-    return FirebaseServices.addProductImages(productId, newImages, formPercentageViewer, this.props.currentUser.uid)
+    return FirestoreServices.addProductImages(productId, newImages, formPercentageViewer, this.props.currentUser.uid)
   }
 
   addProduct(product){
     product = {...product, owner: this.props.currentUser.uid, businessName: this.name};
-    return FirebaseServices.insertProduct(product);//returns a promise resolved with product ID
+    return FirestoreServices.insertProduct(product);//returns a promise resolved with product ID
   }
 
 
   updateProduct(newProductData){
-    return FirebaseServices.updateProduct(newProductData, this.productId);//returns a promise resolved with product ID
+    return FirestoreServices.updateProduct(newProductData, this.productId);//returns a promise resolved with product ID
   }
 
   handleSubmit(product, newImages, formPercentageViewer) {
@@ -184,7 +184,7 @@ class ProductUpdater extends Component {
   }
 
   deleteImageFromDB(imageUrl){
-    return FirebaseServices.deleteProductImage(imageUrl, this.productId)
+    return FirestoreServices.deleteProductImage(imageUrl, this.productId)
   }
 
   render() {

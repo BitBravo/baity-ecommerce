@@ -422,9 +422,10 @@ export default {
       //   product = {...product, id: newProductRef.key};
       //   newProductRef.set(product).then( () => newProductRef.key);
       // })
-        var newProductRef = this.products.doc().id;
-        product = {...product, id: newProductRef.id};
-        return newProductRef.set(product).then( () => newProductRef.id)
+        var newProductRef = this.products.doc();
+        var id = newProductRef.id
+        product = {...product, id: id};
+        return newProductRef.set(product).then(() => id)
         .catch(error => {
           console.log(`error inserting product: ${product} in DB`)
           throw error;
@@ -449,9 +450,10 @@ export default {
       //   idea = {...product, id: newIdeaRef.key};
       //   newIdeaRef.set(idea).then( () => newIdeaRef.key);
       // })
-        var newIdeaRef = this.ideas.doc().id;
-        idea = {...idea, id: newIdeaRef.id};
-        return newIdeaRef.set(idea).then( () => newIdeaRef.id)
+        var newIdeaRef = this.ideas.doc();
+        var id = newIdeaRef.id
+        idea = {...idea, id: id};
+        return newIdeaRef.set(idea).then( () => id)
         .catch(error => {
           console.log(`error inserting idea: ${idea} in DB`)
           throw error;
