@@ -9,7 +9,6 @@ import IdeaBrief from "./IdeaBrief";
 import Loading from './Loading'
 import {MdWeekend} from 'react-icons/lib/md';
 import styled from 'styled-components'
-import FirebasePaginator from './firebase-pag';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Idea from '../assets/img/AddingIdea.png';
 
@@ -28,7 +27,7 @@ width:180px;
   height: 40px;
   width:100%;
 `;
- var options = {};
+var options = {};
 
 var paginator;
 var hasMore = true;
