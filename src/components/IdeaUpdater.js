@@ -109,6 +109,12 @@ class IdeaUpdater extends Component {
         }
       });
     }
+    //add owner to product
+    FirestoreServices.readDBRecord('profUser', this.props.currentUser.uid)
+    .then(val => {
+      console.log(val.name)
+      this.name = val.name
+      })
   }
 
   componentWillUnmount() {
@@ -149,7 +155,7 @@ class IdeaUpdater extends Component {
 
   addIdea(idea){
     //add owner to idea
-    idea = {...idea, owner: this.props.currentUser.uid};
+    idea = {...idea, owner: this.props.currentUser.uid,  businessName: this.name};
     return FirestoreServices.insertIdea(idea);//returns a promise resolved with idea ID
   }
 

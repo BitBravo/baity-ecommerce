@@ -502,7 +502,6 @@ class ProductForm extends Component {
       product = {...product,
         city: "الرياض",
         dateCreated: Date.now(),
-        imgUrl: 'None',
         likes: 0,
         postType: "product"
       };

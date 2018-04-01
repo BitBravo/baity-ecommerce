@@ -424,7 +424,8 @@ export default {
       // })
         var newProductRef = this.products.doc();
         var id = newProductRef.id
-        product = {...product, id: id};
+        var timestamp = firebase.firestore.FieldValue.serverTimestamp()
+        product = {...product, id: id, timestamp: timestamp};
         return newProductRef.set(product).then(() => id)
         .catch(error => {
           console.log(`error inserting product: ${product} in DB`)
@@ -452,8 +453,9 @@ export default {
       // })
         var newIdeaRef = this.ideas.doc();
         var id = newIdeaRef.id
-        idea = {...idea, id: id};
-        return newIdeaRef.set(idea).then( () => id)
+        var timestamp = firebase.firestore.FieldValue.serverTimestamp()
+        idea = {...idea, id: id, timestamp: timestamp};
+        return newIdeaRef.set(idea).then(() => id)
         .catch(error => {
           console.log(`error inserting idea: ${idea} in DB`)
           throw error;

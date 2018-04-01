@@ -137,7 +137,7 @@ class ProfileInfo extends Component{
         <Col xs={12}  lg={12} >
         <Col xs={3} sm={2} md={2} lg={2} style={{padding:'0'}}>
         {this.props.user
-        ? <LinkContainer to="/logout" >
+        ? <LinkContainer to="" >
             <LogoutButton>اتصل بنا<GoSignOut style={{fontSize:"17px",paddingRight:"3px"}}/></LogoutButton>
           </LinkContainer>
         : <LinkContainer to="/logout" >
