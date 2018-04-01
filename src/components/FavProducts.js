@@ -3,19 +3,38 @@ import { Link } from "react-router-dom";
 import { Grid, Row, Col } from "react-bootstrap";
 import { app, base } from "../base";
 import FirebaseServices from './FirebaseServices'
-import ProductBrief from "./ProductBrief";
+import {ProductBrief} from "./ProductBrief";
 import Loading from './Loading'
 import {MdEventSeat} from 'react-icons/lib/md';
 import styled from 'styled-components'
 import FirebasePaginator from './firebase-pag';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import {MyProductBrief} from "./ProductBrief";
 
 const Button = styled.button`
-  width:180px;
+background-color:transparent;
+border:1px solid rgb(26, 156, 142); 
+color:rgb(26, 156, 142);
+  width:100px;
+  height: 30px;
   @media only screen and (max-width: 767px) {
-    height: 40px;
-    width:100%;
+    height: 20px;
+    width:40px;
+    font-size:10px;
   `;
+  const NextButton= styled.button`
+  background-color:black;
+  opacity: 0.7;
+  position:absolute;
+  top: 0;
+  left: 0;
+  padding:0;
+  margin:0;
+  height:100%;
+  width: 15%;
+  font-size: 50px;
+  color:white;
+  `
 const PAGE_SIZE = 12;
 var options = {
   pageSize: PAGE_SIZE,
@@ -61,7 +80,7 @@ class FavProducts extends Component {
     this.forwardFiltring = this.forwardFiltring.bind(this)
 
       if(this.props.shortList){
-        FirebaseServices.likes.child(this.props.currentUser.uid).child("products").limitToLast(3).once("value", function (snapshot) {
+        FirebaseServices.likes.child(this.props.currentUser.uid).child("products").limitToLast(2).once("value", function (snapshot) {
         }).then(snapshot => this.likedProducts(snapshot.val()));
     } else {
       // this.userLikesRef = FirebaseServices.readDBRecord('likes', `${this.props.currentUser.uid}/products`)
@@ -140,22 +159,33 @@ class FavProducts extends Component {
     else if (this.props.shortList){
       return (
         <Grid style={{backgroundColor:"white"}}>
-        <Row   style={{display: 'flex', flexWrap: 'wrap'}}>
+        <Row   style={{display: 'flex', flexWrap: 'wrap',borderBottom: "1px dotted lightgray"}}>
         <Col xs={12}  lg={12} >
         <hr style={{marginBottom: '30px'}}/>
          {this.state.empty
          ? <div><h2 style={{color:'rgb(26,156,142)'}}>المنتجات المفضلة</h2>
             <h5 > ليس لديك منتجات مفضلة </h5> </div>
-         : <div><Link to={`/favproducts`}>
-          <h2 style={{color:'rgb(26,156,142)'}}>المنتجات المفضلة</h2><p>المزيد</p>
+         : <div>
+            <Col xs={2} md={3} lg={2} style={{margin: '20px 0 0 0'}} >
+          <Link to={`/favproducts`}>
+            <Button>المزيد</Button>
           </Link>
+          </Col>
+          <Col xs={10} md={9} lg={10} >
+           <Link to={`/favproducts`}>
+          <h2 style={{color:'rgb(26,156,142)'}}>المنتجات المفضلة</h2>
+          </Link>
+          </Col>
           </div>
-        }
+        }<Col xs={12} style={{padding:'0',margin:'0'}}>
+     
             {productIds.map(id => {
               const product = products[id];
-              return <ProductBrief key={id} product={product} />;
+              return <MyProductBrief key={id} product={product} />;
             })}
-
+                  <NextButton>></NextButton>
+           </Col>
+         
           </Col>
           </Row>
 

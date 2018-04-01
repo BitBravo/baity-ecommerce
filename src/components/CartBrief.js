@@ -103,7 +103,7 @@ export class HeaderCartBrief extends Component {
 
     return(
         <Grid>
-              <Row style={{ display: 'flex', flexWrap: 'wrap',width: 'auto ',paddingTop:'5px',borderBottom:'solid 0.1px lightgray ' }}>
+              <Row style={{ display: 'flex', flexWrap: 'wrap',width: 'auto ',paddingTop:'5px',borderBottom:'dotted 1px lightgray ' }}>
          
               <Col xs={1} style={{float:'right' }} >
               <Link to={`/${product.owner}/products/${product.id}`}>

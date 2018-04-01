@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 import { Grid, Row, Col } from "react-bootstrap";
 import { app, base } from "../base";
 import FirebaseServices from './FirebaseServices'
-import ProductBrief from "./ProductBrief";
+import {ProductBrief} from "./ProductBrief";
 import Loading from './Loading'
 import styled from 'styled-components'
 import {MdEventSeat} from 'react-icons/lib/md';
 import FirebasePaginator from './firebase-pag';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Product from '../assets/img/AddingProduct.png';
+import {MyProductBrief} from "./ProductBrief";
 
 const IconImg = styled.img`
 width:20px;
@@ -376,15 +377,15 @@ class ProductList extends Component {
           </Link >
           </Row>
         }
-          <Row style={{display: 'flex', flexWrap: 'wrap'}}>
+          <Row style={{display: 'flex', flexWrap: 'wrap',borderBottom:'dotted 1px lightgray ' }}>
           <Col xs={12}  lg={12} >
           {productIds.length < 1
             ? <h4 style={{textAlign:'center'}}>{msg}</h4>
           : null}
             {productIds.map(id => {
               const product = products[id];
-              return <ProductBrief key={id} product={product} />;
-            })}
+              return <MyProductBrief key={id} product={product} />;
+            })}  
             </Col>
           </Row>
         </Grid>
@@ -416,7 +417,7 @@ class ProductList extends Component {
         }
            </InfiniteScroll>
                </Col>
-
+       
         </Row>
 
       </Grid>

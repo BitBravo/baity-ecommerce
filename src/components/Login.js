@@ -142,7 +142,7 @@ class Login extends Component {
     return (
 
 
-      <div className="loginreg">
+      <div style={{ height:'100vh'}} className="loginreg">
         <form    onSubmit={(event) => this.authWithEmailPassword(event)}
           ref={(form) => { this.loginForm = form }}>
 

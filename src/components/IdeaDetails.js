@@ -116,6 +116,9 @@ class IdeaDetails extends Component {
 
   componentWillMount() {
     this.thumbImage.bind(this);
+    const authenticated = this.props.authenticated
+   
+   
     this.ideasRef = base.syncState(`${FirebaseServices.IDEAS_PATH}/${this.ideaId}`, {
       context: this,
       state: 'idea',
@@ -125,8 +128,8 @@ class IdeaDetails extends Component {
           .then(val => {
             this.setState({businessName: val.name})
           //if user authenticated, get her likes to update the heart
-        if (this.props.authenticated) {
-          this.userLikesRef = FirebaseServices.readDBRecord('likes', `${this.props.currentUser.uid}/ideas/${this.productId}`)
+        if (authenticated) {
+          this.userLikesRef = FirebaseServices.readDBRecord('likes', `${this.props.currentUser.uid}/ideas/${this.ideaId}`)
           .then(val => {
             if (val) {
               this.setState({liked: true, loading: false})
@@ -258,9 +261,12 @@ class IdeaDetails extends Component {
             <DetailsCol  xs={12} sm={12} md={4} lg={3}  >
             <h4><IconImg src={Idea} className="icons"/>{idea.name}</h4>
             <hr className='hidden-xs visible-md visible-lg' />
+            <Link to={`/businessprofile/${idea.owner}`}style={{color:'rgb(26,156,142)'}}>
             <button type="submit">
                للتواصل
-             </button>
+             </button> 
+                  </Link>
+           
 
             <PaddingDiv>
             <h4 style={{display:'inline'}}>وصف الفكرة</h4>

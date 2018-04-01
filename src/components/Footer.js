@@ -3,28 +3,65 @@ import baityfooter from '../assets/img/baityfooter.png';
 import {TiSocialTwitter,TiSocialInstagram,TiSocialFacebook,TiMail} from 'react-icons/lib/ti';
 import styled from 'styled-components'
 import { Link } from "react-router-dom";
-
+import { LinkContainer } from "react-router-bootstrap";
+import { IndexLinkContainer } from 'react-router-bootstrap';
+import { Glyphicon ,Modal} from "react-bootstrap";
+import Homepage from '../assets/img/Selected-homepage.png';
+import Idea from '../assets/img/Selected-idea.png';
+import Product from '../assets/img/Selected-product.png';
 
 const SocialDiv = styled.div`
 text-align:center;
-font-size:15px;
+font-size:20px;
 color:white;
 @media only screen and (max-width: 767px) {
-  font-size:12px;}
+display: flex;
+flex-wrap: wrap;
+justify-content: space-between;
+padding:0 10px 0 10px;}
 `
+const IconImg = styled.img`
+width:25px;
+ height:25px;
+;`
+const Search =styled.div`
+display:inline-block;
+color: rgb(26,156,142);
+ `
+ const Input = styled.input`
+ width:450px;
+ margin:0;
+ padding:0;
+ @media only screen and (max-width: 767px) {
+  width:100%;
+  height:30px;
+}
+ `
 
 class Footer extends Component {
   constructor(props) {
     super(props);
-    this.state = {year: new Date().getFullYear()};
+    this.state = {
+      show: false,
+      year: new Date().getFullYear()
+    };
+    this.handleShow = this.handleShow.bind(this);
+    this.handleHide = this.handleHide.bind(this);
+  }
+
+  handleShow() {
+    this.setState({ show: true });
+  }
+
+  handleHide() {
+    this.setState({ show: false });
   }
 
   render() {
-    return (
+    return ([
      
 
 <footer className="myfooter" fixed>
-
   <h4  > {this.state.year} جميع الحقوق محفوظة <span> <img  src={baityfooter}/></span></h4>
   <SocialDiv >
         <TiMail className="icons"/>
@@ -35,7 +72,35 @@ class Footer extends Component {
         <a style={{color:'white'}} href="https://www.facebook.com/profile.php?id=100025094470933">
        <TiSocialFacebook className="icons"/></a>
    </SocialDiv>
+</footer>,
+<footer className="mopilefooter" fixed>
+       <SocialDiv >     
+            <IndexLinkContainer to="/" >
+               <IconImg src={Homepage} className="icons"/>
+            </IndexLinkContainer>
+            <LinkContainer to="/productspage" >
+               <IconImg src={Product} className="icons"/>
+            </LinkContainer>
+            <LinkContainer to="/ideaspage" >
+               <IconImg src={Idea} className="icons"/>
+            </LinkContainer>
+              {/* mobile search bar */}
+              <Search  >
+                  <i   className="glyphicon glyphicon-search" onClick={this.handleShow}></i>
+                </Search> 
+                <Modal  {...this.props}
+                  show={this.state.show}
+                  onHide={this.handleHide}  style={{ top: 30 }}  >
+                  <Modal.Body>
+                  <form >
+	              <Input  placeholder="بحث عن منتجات أفكار ...."/>
+                 </form>
+                  </Modal.Body>
+                </Modal>
+       </SocialDiv >
+ 
 </footer>
+    ]
     );
   }
 }

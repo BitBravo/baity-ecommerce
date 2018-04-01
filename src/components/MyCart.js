@@ -42,7 +42,7 @@ height:200px;
  padding-top:5px;
 `
 
-export  class MyCart extends Component {
+export class MyCart extends Component {
 
   constructor() {
     super();
@@ -110,6 +110,7 @@ export  class MyCart extends Component {
           console.log("newProducts " + newProducts.length)
           
         })
+       
       },
       onFailure(error) {
       this.setState({errorHandling: {showError: true, errorMsg: error}});
@@ -174,6 +175,8 @@ export  class MyCart extends Component {
             </Col>
              </Row>
           : <h4 style={{textAlign:'center'}}>لم تقم باضافة منتجات، إبدأ الان</h4>
+
+
            }
             <div>
                 <Modal 
@@ -202,8 +205,6 @@ export class HeaderCart extends Component {
 
   constructor() {
     super();
-    this.removefromCart = this.removefromCart.bind(this)
-    this.deleteItem = this.deleteItem.bind(this)
     this.fetchItems = this.fetchItems.bind(this)
 
 
@@ -217,9 +218,9 @@ export class HeaderCart extends Component {
         showError: false,
         errorMsg: ""},
      
-    };
+      };
 
-  }
+   }
   componentWillMount() {
     this.fetchItems()
   }
@@ -261,8 +262,6 @@ export class HeaderCart extends Component {
  
   render(){
     var subtotal = this.state.total
-    var vat = subtotal * 0.05
-    var total = subtotal + vat
 
     if (this.state.loading)
       return(
@@ -276,7 +275,7 @@ export class HeaderCart extends Component {
             <hr/>
             <HeaderCartList products={this.state.products}/>
            <h4 style={{ textAlign:'center'}}> المجموع : 
-           <span style={{ color: 'rgb(26,156,142)'}}> {total} ر.س </span>
+        <span style={{ color: 'rgb(26,156,142)'}}> {subtotal} ر.س </span>
            </h4>
              </DropCart>
           

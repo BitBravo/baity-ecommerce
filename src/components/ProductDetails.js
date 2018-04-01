@@ -26,7 +26,7 @@ import Cart from '../assets/img/AddingtoCart.png';
 
 
 const IconImg = styled.img`
-width:25px;
+width:20px;
  height:20px;`
 
 const LikeDiv = styled.div`
@@ -139,8 +139,6 @@ class ProductDetails extends Component {
           showError: false, errorMsg: 'error'
         },
         index: 0,
-        nextIcon: <span onClick={this.nextImage.bind(this)} className="glyphicon glyphicon-chevron-right"></span>,
-        prevIcon: <span onClick={this.prevImage.bind(this)} className="glyphicon glyphicon-chevron-left"></span>,
         liked: false,
         show: false
       };

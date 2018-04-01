@@ -20,6 +20,12 @@ import Cart from '../assets/img/Cart-icon.png';
 import {HeaderCart} from "./MyCart";
 
 
+
+const MainNav=styled(Nav)`
+@media only screen and (max-width: 767px) {
+  display:none;
+}
+`
 const CartNo = styled.div`
 position:absolute;
 left:15px;
@@ -36,18 +42,6 @@ border-radius: 50%;
  width:450px;
  margin:0;
  padding:0;
- @media only screen and (max-width: 767px) {
-  width:100%;
-  height:30px;
-}
- `
- const Search =styled.div`
-margin-top:20px;
-width:50%;
- display:none;
- @media only screen and (max-width: 767px) {
-display:inline-block;
-float:right;
  `
  const UserImg = styled.img`
  width:35px;
@@ -92,8 +86,7 @@ class Header extends Component {
       userName: "",
       firstTime: true,    
       show: false,
-      currentUser:""
-  
+      currentUser:"",
      
     };
   this.handleShow = this.handleShow.bind(this);
@@ -130,7 +123,6 @@ class Header extends Component {
           <img src={bayty_icon} />
           </IndexLinkContainer>
           </NavbarBrand>
-          {/* mobile search bar */}
           <Nav  className="search">
           <NavItem >
             <div className="inner-addon right-addon">
@@ -138,22 +130,6 @@ class Header extends Component {
                 <Input  id="search"  className="form-control" type="text"  placeholder="بحث عن منتجات أفكار ...."></Input>
                 </div>
                 </NavItem></Nav>
-                <Search  id="demo-2">
-                {/* <form id="demo-2">
-	              <input type="search"  placeholder="بحث عن منتجات أفكار ...."/>
-                 </form> */}
-                  <i   className="glyphicon glyphicon-search" onClick={this.handleShow}></i>
-                </Search> 
-                <Modal  {...this.props}
-                  show={this.state.show}
-                  onHide={this.handleHide}  style={{ top: 30 }}  >
-                  <Modal.Body>
-                  <form >
-	              <Input  placeholder="بحث عن منتجات أفكار ...."/>
-                 </form>
-                  </Modal.Body>
-                </Modal>
-
                 {!this.props.authenticated ? (
                   <Nav pullLeft>
                     <NavItem>
@@ -193,23 +169,22 @@ class Header extends Component {
           <IconImg src={Cart} className="shoppingcart"/>
           </div>
           </LinkContainer>
-          {this.props.authenticated ?
+          {/* {this.props.authenticated ?
           <div className="shorcartlist">
           <HeaderCart currentUser={this.props.currentUser}  />
           <LinkContainer to="/mycart" >
             <Button>عرض السلة</Button>
             </LinkContainer>
-            </div>:null}
+            </div>:null} */}
           </div>
 
           
-         <Navbar.Toggle />
+ 
         </Navbar.Header>
-        <Nav pullLeft>
-        </Nav>
-        <Navbar.Collapse >
+      
+        {/* <Navbar.Collapse > */}
 
-        <Nav  bsStyle="tabs" justified >
+        <MainNav  bsStyle="tabs" justified >
             <IndexLinkContainer to="/" >
               <NavItem> <IconImg src={Homepage} className="icons"/>الرئيسية</NavItem>
             </IndexLinkContainer>
@@ -219,7 +194,7 @@ class Header extends Component {
             <LinkContainer to="/ideaspage" >
               <NavItem> <IconImg src={Idea} className="icons"/>الأفكار</NavItem>
             </LinkContainer>
-            </Nav>
+            </MainNav>
 
               {/* <div>
               <Nav bsStyle="tabs"
@@ -247,7 +222,7 @@ class Header extends Component {
           <MenuItem eventKey={3.4}>Separated link</MenuItem>
         </NavDropdown> */}
 
-       </Navbar.Collapse >
+       {/* </Navbar.Collapse > */}
 
       </Navbar>
 

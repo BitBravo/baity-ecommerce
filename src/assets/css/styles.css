@@ -12,6 +12,9 @@ p {color:rgb(95,96,93);
     font-weight: 900;
      color:rgb(95,96,93);
      }
+.mopilefooter{
+    display: none;
+}
 .myfooter {
     position: fixed;
     left: 0;
@@ -223,7 +226,7 @@ hr {
         padding-bottom: 10%;
         width: 100%;
         /* height: calc(100vh - (50px + 60px)); */
-        height: auto;
+        height: 100%;
         background-image: url( '../img/garden.jpg');
         background-repeat: no-repeat;
         background-attachment: fixed;
@@ -473,6 +476,7 @@ margin-bottom: 10px;
             padding-left: 10px;
             color: transparent;
             cursor: pointer;
+            
         }
         #demo-2 input[type=search]:hover {
             background-color: #fff;
@@ -573,9 +577,20 @@ margin-bottom: 10px;
               .form-check-label{
                   font-size: 10px;
               } 
-              .myfooter h4 {
-                font-size:15px;
+              .myfooter{
+                display:none;
               }
+              .mopilefooter{
+                display: block;
+                position: fixed;
+                padding:10px 0 0 0;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.269);
+                left: 0;
+                bottom: 0;
+                height: auto;
+                width: 100%;
+                background-color: rgb(247,247,247);
+            }
               .rightglyphicon{
               
                   font-size: 25px;

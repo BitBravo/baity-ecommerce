@@ -229,7 +229,7 @@ class IdeaList extends Component{
          {this.props.group === 'prof'
         ?<Row   style={{display: 'flex', flexWrap: 'wrap'}}>
         <Col xs={12}  lg={12} >
-        <hr style={{marginBottom: '30px'}}/>
+     
         <Col xs={5} md={3} lg={2} >
         <Link to={`/newidea`}>
             <Button>إضافة فكرة<IconImg src={Idea} /></Button>
