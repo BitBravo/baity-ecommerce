@@ -112,8 +112,8 @@ class NormalProfileInfo extends Component{
        <TiSocialFacebook className="icons"/>
    </SocialDiv>        </Col>
         <Col xs={6} sm={6} md={7}lg={7} style={{padding:'0'}}>
-          <h4 style={{color:'rgb(26,156,142)',paddingRight:'5px'}}>{this.state.profile.name}</h4>
-          <h5>{this.state.profile.city} ،السعودية</h5>
+          <h4 style={{color:'rgb(26,156,142)',paddingRight:'6px'}}>{this.state.profile.name}</h4>
+          <h6>{this.state.profile.city} ،السعودية</h6>
         </Col>
         <Col xs={3} sm={4} md={3} lg={3} style={{paddingRight:'0'}}>
         {this.state.profile.imgUrl

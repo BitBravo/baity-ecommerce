@@ -384,7 +384,7 @@ class ProductList extends Component {
           : null}
             {productIds.map(id => {
               const product = products[id];
-              return <MyProductBrief key={id} product={product} />;
+              return <ProductBrief key={id} product={product} />;
             })}  
             </Col>
           </Row>

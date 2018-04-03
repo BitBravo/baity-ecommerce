@@ -164,7 +164,12 @@ updateCart(add, remove) {
             group={this.state.group}
             updateCart={this.updateCart.bind(this)}
           />
-          <Footer authenticated={this.state.authenticated} currentUser={this.state.currentUser}/>
+          <Footer
+           authenticated={this.state.authenticated} 
+           currentUser={this.state.currentUser}
+           group={this.state.group}
+           userName={this.state.userName}
+           />
         </div>
       </BrowserRouter>
     );

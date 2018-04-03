@@ -35,6 +35,36 @@ color:rgb(26, 156, 142);
   font-size: 50px;
   color:white;
   `
+  const G=styled.div`
+  display: block;
+    text-align: start;
+    float: none;
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    z-index: auto;
+    width: 980px;
+    height: 450px;
+    margin: 0px;
+    overflow-x: scroll;
+    overflow-y:hidden;
+
+  `
+  const F=styled.div`
+  text-align: left;
+  float: none;
+  position: absolute;
+  top: 40px;
+  right: auto;
+  bottom: auto;
+  left: 0px;
+  margin: 0px;
+  width: 8330px;
+  height: 450px;
+  z-index: auto;`
+
 const PAGE_SIZE = 12;
 var options = {
   pageSize: PAGE_SIZE,
@@ -80,7 +110,7 @@ class FavProducts extends Component {
     this.forwardFiltring = this.forwardFiltring.bind(this)
 
       if(this.props.shortList){
-        FirebaseServices.likes.child(this.props.currentUser.uid).child("products").limitToLast(2).once("value", function (snapshot) {
+        FirebaseServices.likes.child(this.props.currentUser.uid).child("products").limitToLast(3).once("value", function (snapshot) {
         }).then(snapshot => this.likedProducts(snapshot.val()));
     } else {
       // this.userLikesRef = FirebaseServices.readDBRecord('likes', `${this.props.currentUser.uid}/products`)
@@ -177,15 +207,16 @@ class FavProducts extends Component {
           </Link>
           </Col>
           </div>
-        }<Col xs={12} style={{padding:'0',margin:'0'}}>
-     
+        }
+        {/* <G>
+        <F > */}
             {productIds.map(id => {
               const product = products[id];
-              return <MyProductBrief key={id} product={product} />;
+              return <ProductBrief key={id} product={product} />;
             })}
-                  <NextButton>></NextButton>
-           </Col>
-         
+               
+        {/* </F>
+        </G>  */}
           </Col>
           </Row>
 

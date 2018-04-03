@@ -9,6 +9,7 @@ import { Glyphicon ,Modal} from "react-bootstrap";
 import Homepage from '../assets/img/Selected-homepage.png';
 import Idea from '../assets/img/Selected-idea.png';
 import Product from '../assets/img/Selected-product.png';
+import Profile from '../assets/img/Profile-icon.png';
 
 const SocialDiv = styled.div`
 text-align:center;
@@ -24,19 +25,27 @@ const IconImg = styled.img`
 width:25px;
  height:25px;
 ;`
-const Search =styled.div`
-display:inline-block;
-color: rgb(26,156,142);
- `
- const Input = styled.input`
- width:450px;
- margin:0;
- padding:0;
- @media only screen and (max-width: 767px) {
-  width:100%;
-  height:30px;
+const UserImg = styled.img`
+width:35px;
+height:35px;
+border-radius: 50%;
+position:absolute;
+left:20px;
+top:10px;
+`
+const UserLogo = styled.div`
+font-size: 10px;
+dispaly:inline-block;
+color:rgb(26, 156, 142);
+margin-top: -10px;
+@media only screen and (max-width: 767px) {
+margin:0;
 }
- `
+`
+const UserName = styled.p`
+display:inline;
+font-size:8px;
+`
 
 class Footer extends Component {
   constructor(props) {
@@ -84,19 +93,24 @@ class Footer extends Component {
             <LinkContainer to="/ideaspage" >
                <IconImg src={Idea} className="icons"/>
             </LinkContainer>
-              {/* mobile search bar */}
-              <Search  >
-                  <i   className="glyphicon glyphicon-search" onClick={this.handleShow}></i>
-                </Search> 
-                <Modal  {...this.props}
-                  show={this.state.show}
-                  onHide={this.handleHide}  style={{ top: 30 }}  >
-                  <Modal.Body>
-                  <form >
-	              <Input  placeholder="بحث عن منتجات أفكار ...."/>
-                 </form>
-                  </Modal.Body>
-                </Modal>
+                {!this.props.authenticated ? (
+                    <LinkContainer to="/login" activeClassName="active">
+                    {/* <UserImg src={logo_placeholder}/> */}
+                    <IconImg src={Profile} />
+                    </LinkContainer>
+            ) : (
+
+              <LinkContainer to="/myprofile" activeClassName="active">
+              <UserLogo > <IconImg src={Profile} />
+              <br/>
+                    <UserName >
+           {this.props.userName}
+                
+              </UserName>
+              </UserLogo>
+              </LinkContainer>
+           
+          )}
        </SocialDiv >
  
 </footer>

@@ -57,7 +57,7 @@ margin-top: -40px ;
 `
 const UserNameDiv = styled.div`
 display:inline-block;
-padding-right:4px;
+padding-right:5px;
 `;
 const SocialDiv = styled.div`
 text-align:center;
@@ -153,7 +153,7 @@ class ProfileInfo extends Component{
         <Col xs={6} sm={6} md={7}lg={7} style={{padding:'0'}}>
         <UserNameDiv> <h4 style={{color:'rgb(26,156,142)'}}>{this.state.profile.businessName} </h4> </UserNameDiv>
          <UserNameDiv ><h5>{this.state.profile.types}</h5></UserNameDiv>
-          <h5 style={{marginTop:'0'}}>{this.state.profile.city}، السعودية</h5>
+          <h6 style={{marginTop:'0'}}>{this.state.profile.city}، السعودية</h6>
         </Col>
           <Col xs={3} sm={4} md={3} lg={3} style={{paddingRight:'0'}}>
         {this.state.profile.imgUrl

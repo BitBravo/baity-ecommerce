@@ -81,6 +81,7 @@ hr {
     left: 20px;
     color:rgb(26, 156, 142)
 }
+
 .shoppingcart{
     margin-top: 12px;
     margin-left: 0;
@@ -165,7 +166,12 @@ hr {
     text-align: center;
     background-color: rgb(247, 247, 247);
 }
+.navbar-nav > li {
+    float: right;}
 
+.cartmenu{
+    position: relative;
+    }
 .dropdown{
     color: rgb(26, 156, 142);
   background-color: rgb(247, 247, 247);
@@ -290,6 +296,7 @@ margin-bottom: 10px;
     text-align: center;
     background-color:white;
     display:inline-block;
+
 }  
 
     @keyframes slideDown {
@@ -476,7 +483,7 @@ margin-bottom: 10px;
             padding-left: 10px;
             color: transparent;
             cursor: pointer;
-            
+
         }
         #demo-2 input[type=search]:hover {
             background-color: #fff;
@@ -533,7 +540,11 @@ margin-bottom: 10px;
                 transition:  background 0.3s ease-in-out;   
               } 
               .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand{margin: 0 0 0 5px;}
-
+             
+            .cartmenu{
+                position: absolute;
+                left: 40px;
+                    }
               .search{
                   display: none;
               }

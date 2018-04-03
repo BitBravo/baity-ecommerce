@@ -34,8 +34,7 @@ const MyThumbnailDiv = styled.div`
     transform: scale(1.05, 1.05);
   }
   @media only screen and (max-width: 767px) {
-    &:hover{box-shadow:none;
-      border:none;
+    &:hover{
       transition:none;
       transform: none;}
   }
@@ -133,8 +132,8 @@ export class MyProductBrief extends Component {
   render() {
     const product = this.props.product;
     return (
-      <Col xs={6} md={4} sm={6} style={{float:'right',padding:'0 0 0 5px'}} >
-        <MyThumbnailDiv>
+
+        <MyThumbnailDiv style={{margin:'10px',float:'left',width:'250px'}}>
           <ImageContainer>
             <ImageDiv>
             <Link to={`/${product.owner}/products/${product.id}`}>
@@ -168,7 +167,7 @@ export class MyProductBrief extends Component {
             </p>
           </PaddingDiv>
         </MyThumbnailDiv>
-      </Col>
+
     );
   }
 }

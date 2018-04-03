@@ -38,11 +38,10 @@ text-align:center;
 background-color:red;
 border-radius: 50%;
 `
- const Input = styled.input`
- width:450px;
- margin:0;
- padding:0;
- `
+const UserNav =styled(Nav)`
+@media only screen and (max-width: 767px) {
+display:none;}
+`
  const UserImg = styled.img`
  width:35px;
  height:35px;
@@ -62,8 +61,6 @@ margin:0;
 `
 const UserName = styled.p`
 display:inline;
-@media only screen and (max-width: 767px) {
-  margin-left:-20px;}
 `
 const IconImg = styled.img`
 width:20px;
@@ -76,6 +73,26 @@ display:block;
 margin-left:auto;
 margin-right:auto;
 `
+const Search =styled.div`
+display:none;
+@media only screen and (max-width: 767px) {
+display:block;
+position:absolute;
+left:0;
+margin-top:15px;
+margin-left:15px;
+color: rgb(26,156,142);
+}
+`
+const Input = styled.input`
+ width:450px;
+ margin:0;
+ padding:0;
+ @media only screen and (max-width: 767px) {
+  width:100%;
+  height:30px;
+}
+ `
 
 class Header extends Component {
 
@@ -123,26 +140,30 @@ class Header extends Component {
           <img src={bayty_icon} />
           </IndexLinkContainer>
           </NavbarBrand>
-          <Nav  className="search">
+        {/* desktop search bar */} 
+          <Nav className="search">
           <NavItem >
             <div className="inner-addon right-addon">
             <i   className="glyphicon glyphicon-search" ></i>
                 <Input  id="search"  className="form-control" type="text"  placeholder="بحث عن منتجات أفكار ...."></Input>
                 </div>
-                </NavItem></Nav>
+                </NavItem>
+                </Nav>
+             
+       
                 {!this.props.authenticated ? (
-                  <Nav pullLeft>
-                    <NavItem>
+                  <UserNav >
+                    <NavItem style={{float: 'left' }}>
                     <LinkContainer to="/login" activeClassName="active">
-                    {/* <UserImg src={logo_placeholder}/> */}
+                 
                     <IconImg src={Profile} />
                     </LinkContainer>
                     </NavItem>
-                    </Nav>
+                    </UserNav>
 
             ) : (
-              <Nav pullLeft>
-              <NavItem>
+              <UserNav >
+              <NavItem style={{float: 'left' }}>
               <LinkContainer to="/myprofile" activeClassName="active">
              
               <UserLogo > <IconImg src={Profile} />
@@ -157,9 +178,26 @@ class Header extends Component {
               </LinkContainer>
            
               </NavItem>
-              </Nav>
+              </UserNav>
           )}
-         <div style={{position:'relative'}} className="cartmenu">
+
+
+          {/* mobile search bar */}
+                <Search  >
+                  <i   className="glyphicon glyphicon-search" onClick={this.handleShow}></i>
+                </Search> 
+     
+                <Modal  {...this.props}
+                  show={this.state.show}
+                  onHide={this.handleHide}  style={{ top: 30 }}  >
+                  <Modal.Body>
+                  <form >
+	              <Input  placeholder="بحث عن منتجات أفكار ...."/>
+                 </form>
+                  </Modal.Body>
+                </Modal>
+            
+         <div  className="cartmenu">
            <LinkContainer to="/mycart" activeClassName="active" style={{position:'relative',cursor: 'pointer'}}>
          <div style={{position:'relative'}}>
          {this.props.cart > 0 ?
@@ -177,11 +215,9 @@ class Header extends Component {
             </LinkContainer>
             </div>:null} */}
           </div>
-
-          
- 
         </Navbar.Header>
       
+
         {/* <Navbar.Collapse > */}
 
         <MainNav  bsStyle="tabs" justified >
