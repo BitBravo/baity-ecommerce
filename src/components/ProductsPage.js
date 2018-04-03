@@ -57,9 +57,17 @@ border-radius: 0;
   height:30px;
   padding-right:5px;
 }
-
 `
+const Filter = styled.div`
+@media only screen and (max-width: 767px){
+  position:fixed;
+  top:30px;
+  z-index:1;
+  background-color:white;
+  width:100%;
 
+}
+`
 const PaddingDiv = styled.div`
   padding-right: 0px;
   padding-top: 20px;
@@ -68,8 +76,10 @@ const PaddingDiv = styled.div`
   @media only screen and (max-width: 767px) {
     display:inline-block;
     width:25%;
+    padding-top:25px;
     padding-left:3px;
-    padding-bottom: 10px;}
+    padding-bottom: 2px;
+  z-index:1000;}
 `;
 
 const DepartmentList = [
@@ -182,8 +192,8 @@ class ProductsPage extends Component {
       <div>
         <Grid>
           <Row style={{display: 'flex', flexWrap: 'wrap'}}>
-            <Col sm={4} xs={12} >
-
+            <Col sm={4} xs={12} style={{padding:'2px'}}>
+          <Filter >
             <PaddingDiv>
             <div className="inner-addon left-addon ">
               <i className="glyphicon glyphicon-plus white plus"></i>
@@ -244,12 +254,12 @@ class ProductsPage extends Component {
                 </Select>
                 </div>
                 </PaddingDiv>
-
+       </Filter>
    </Col>
 
    <Col sm={8} xs={12} >
 
-      <div>
+      <div style={{marginTop:'40px'}}>
   <Carousel  indicators={false}>
       <Carousel.Item>
         <div>
@@ -295,7 +305,8 @@ class ProductsPage extends Component {
    </Col>
    </Row>
    </Grid>
-   <ProductList thisUserOnly={false} filterValue={this.state.value} filter={this.state.filter}/>
+   <ProductList 
+   thisUserOnly={false} filterValue={this.state.value} filter={this.state.filter}/>
 
 	</div>
 

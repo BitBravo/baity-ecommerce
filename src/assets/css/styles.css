@@ -617,7 +617,7 @@ margin-bottom: 10px;
             }
             
             @media only screen and (max-width: 350px){
-                .plus{display: none;} 
+                /* .plus{display: none;}  */
             }
             @media only screen and (min-width: 767px) {
             .dropdownmenu:hover  ul{
