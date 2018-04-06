@@ -100,6 +100,15 @@ const Style = [
   "أوروبي"
 ];
 
+const Price = [
+  "أقل من 100",
+  "100-500",
+  "500-1000",
+  "1000-3000",
+  "3000-5000",
+  "أعلى من 5000"
+];
+
 const SelectGroup = ({ id, label, selectedOption, ...props }) => (
   <FormGroup controlId={id}>
     <ControlLabel>{label}</ControlLabel>
@@ -141,41 +150,100 @@ const StyleOption = (list) => (
     })
 )
 
+const PriceOption = (list) => (
+  Price.map(opt => {
+    return (
+      <option key={opt} value={opt}>
+        {opt}
+      </option>
+    );
+    })
+)
+
 class ProductsPage extends Component {
 
   constructor() {
     super();
     this.state = {
       value: "",
-      filter: "",
+      filter: [],
       dept: "",
       cat: "",
       price: "",
+      priceRange: {upper: "", lower:""},
       style: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
-
+    this.setFilter = this.setFilter.bind(this);
   }
 
   handleChange(event) {
+    var obj={upper: "", lower:""};
     switch (event.target.id) {
-      case "department": this.setState({
-          value: event.target.value,
-          filter: event.target.id,
-          dept: event.target.value,
-          style: ""
-        }); break;
-      case "style": this.setState({
-          value: event.target.value,
-          filter: event.target.id,
-          dept: "",
-          style: event.target.value
+      case 'price':
+        switch (event.target.value) {
+          case 'أقل من 100': obj = {upper: 100, lower: ""}; break;
+          case '100-500': obj = {upper: 500, lower: 100}; break;
+          case '500-1000': obj = {upper: 1000, lower: 500}; break;
+          case '1000-3000': obj = {upper: 3000, lower: 1000}; break;
+          case '3000-5000': obj = {upper: 5000, lower: 3000}; break;
+          case 'أعلى من 5000': obj = {upper: "", lower: 5000}; break;
+        }; break;
+      default: obj = event.target.value;
+    }
+    var filter = this.setFilter()
+    //filter = this.setFilter(filter, filterType, filterValue)
+    switch (event.target.id) {
+      case "department":
+        filter[0] = {key:'department', value: event.target.value}
+        this.setState({
+            dept: event.target.value
+          }); break;
+      case "style":
+        filter[1] = {key:'style', value: event.target.value}
+        this.setState({
+            style: event.target.value
+          }); break;
+      case "price":
+        filter[2] = {key:'price', value: obj}
+        this.setState({
+          price: event.target.value,
+          priceRange: obj
         }); break;
     }
+    this.setState({filter: filter});
 
-    console.log("clicked: " + event.target.id)
   }
+
+  setFilter(){
+    var filter = [];
+    console.log("dept " + this.state.dept)
+    console.log("style " + this.state.style)
+    console.log("price " + this.state.priceRange)
+
+    filter.push({key:'department', value: this.state.dept})
+    filter.push({key:'style', value: this.state.style})
+    filter.push({key:'price', value: this.state.priceRange})
+    return filter;
+  }
+
+  // setFilter(filter, filterType, filterValue){
+  //   console.log("filter.length " + filter.length)
+  //
+  //   filter = filter.filter(function(obj){ return obj.key !== filterType;} )
+  //   if (filterValue === ""){    console.log("filter.length " + filter.length)
+  //
+  //     return filter;
+  //   }
+  //   else{
+  //     filter.push({key:filterType, value: filterValue})
+  //     console.log("filter.length " + filter.length)
+  //
+  //     return filter;
+  //   }
+  // }
+
 
   render() {
     return (
@@ -208,19 +276,16 @@ class ProductsPage extends Component {
             </div>
             </PaddingDiv>
 
-                <PaddingDiv>
-                <div className="inner-addon left-addon ">
-          <i className="glyphicon glyphicon-plus white plus"></i>
-                <Select name="selectThis" id="selectThis">
-                    <option value="">السعر</option>
-                    <option value=".option1">100-500</option>
-                    <option value=".option2">500-1000</option>
-                    <option value=".option3">1000-5000</option>
-                    <option value=".option4">5000-10000</option>
-                    <option value=".option4">أعلى من 10000</option>
+            <PaddingDiv>
+            <div className="inner-addon left-addon ">
+              <i className="glyphicon glyphicon-plus white plus"></i>
+                <Select name="selectThis" id="price" onChange={this.handleChange} value={this.state.price}>
+                  <option value="">السعر</option>
+                  <PriceOption list={Price} />
                 </Select>
-                </div>
-                </PaddingDiv>
+            </div>
+            </PaddingDiv>
+
                 {
           //       <PaddingDiv>
           //       <div className="inner-addon left-addon ">
@@ -295,7 +360,9 @@ class ProductsPage extends Component {
    </Col>
    </Row>
    </Grid>
-   <ProductList thisUserOnly={false} filterValue={this.state.value} filter={this.state.filter}/>
+    {console.log("filter " + Object.keys(this.state.filter))}
+    {console.log("filter " + Object.values(this.state.filter))}
+   <ProductList thisUserOnly={false} filter={this.state.filter}/>
 
 	</div>
 

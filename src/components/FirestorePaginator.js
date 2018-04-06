@@ -19,14 +19,16 @@ function FirestorePaginator(ref, defaults) {
     console.log("last", this.lastVisible);
     if (documentSnapshots.docs.length < pageSize){
       this.hasMore = false
+    }else{
+      // Construct a new query starting at this document,
+      // get the next 12 .
+      this.nextSet = this.ref
+              .startAfter(this.lastVisible)
+              .limit(pageSize);
     }
-    // Construct a new query starting at this document,
-    // get the next 12 .
-    this.nextSet = this.ref
-            .startAfter(this.lastVisible)
-            .limit(pageSize);
     return documentSnapshots.docs;
-  });
+    });
+
   }
 
 /*

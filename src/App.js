@@ -31,6 +31,7 @@ class App extends Component {
       cartCount: 0
     }
     this.setCurrentUser = this.setCurrentUser.bind(this);
+    this.getCart = this.getCart.bind(this)
     //this.updateCart = this.updateCart.bind(this);
   }
 
@@ -49,7 +50,7 @@ class App extends Component {
               group: value.group,
               userName: val.name,
             })
-            return this.getCart.bind(this, user)
+            return this.getCart(user)
           })
         }else if (value.group === "normal"){
           FirestoreServices.readDBRecord('normalUser', `${user.uid}`)
@@ -59,7 +60,7 @@ class App extends Component {
               group: value.group,
               userName: val.name,
               })
-              var b = this.getCart.bind(this, user)
+              var b = this.getCart(user)
               return b;
               })
         }
@@ -97,17 +98,23 @@ class App extends Component {
   }
 
 getCart(user){
+  console.log("val.childCount ");
+
   // get items in basket
   //FirestoreServices.getBasket()
-  FirestoreServices.basket.doc(user.uid).collection("items").get().then(doc => {
-    if (doc.exist){
-      const currentCount = doc.exists ? doc.data().count : 0
-      var count = Object.keys(doc.data().items)
-      console.log("val.childCount " + count.length);
+  FirestoreServices.basket.doc(user.uid).collection("items").get().then(docs => {
+    console.log("val.childCount " + docs.size);
+    this.setState({cartCount: docs.size})
+    return docs.size
 
-      this.setState({cartCount: count.length})
-      return count
-    }
+    // if (doc.exist){
+    //   const currentCount = doc.exists ? doc.data().count : 0
+    //   var count = Object.keys(doc.data().items)
+    //   console.log("val.childCount " + count.length);
+    //
+    //   this.setState({cartCount: count.length})
+    //   return docs.size
+    // }
   })
 }
 

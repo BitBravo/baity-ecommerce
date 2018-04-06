@@ -93,7 +93,6 @@ class ProfileInfo extends Component{
         id = this.props.currentUser.uid
         console.log("this.props.currentUser.uid " + this.props.currentUser.uid)
     }
-    console.log("this.state.owner " + this.state.owner)
     FirestoreServices.getProfessionalUserBusinessId(id,
       (businessId) => {
         if (businessId === '') {

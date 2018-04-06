@@ -48,18 +48,22 @@ class ProductList extends Component {
       owner: ""
     };
 
+    this.businessProducts = this.businessProducts.bind(this)
+
   }
 
   componentWillMount() {
     this.listToArray = this.listToArray.bind(this)
     this.forward = this.forward.bind(this)
     this.firePaginator = this.firePaginator.bind(this)
+    this.setRangeFilter = this.setRangeFilter.bind(this)
+    this.createQuery = this.createQuery.bind(this)
     //FirebaseServices.filterIndexing();
     //FirebaseServices.filterIndexingStyle();
     //FirebaseServices.addOwnerName()
 
     if (this.props.thisUserOnly){
-      this.businessProducts = this.businessProducts.bind(this)
+      this.businessProducts()
     } else {
       var ref = FirestoreServices.products
       this.firePaginator(ref);
@@ -71,29 +75,49 @@ class ProductList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log("componentWillReceiveProps - Product List")
+    console.log(nextProps)
+    // filter options will be recived as props
+    if (nextProps.filter) {
+    if (nextProps.filter.length > 0){
+      this.setState({loading: true}) // start loading indcator
+        var filterValues = nextProps.filter
+        console.log("filters: " + filterValues.length)
+      //  var ref = FirestoreServices.products
+        this.createQuery(filterValues);
+      }else {
+        // filter was reset => no filteration
+        if(nextProps.filter.length < 1) {
+        // reset the product list by deleting all from the extraProducts
 
+        var ref = FirestoreServices.products
+        this.firePaginator(ref);
+      }}
+    }else if(nextProps.thisUserOnly)
+      this.businessProducts()
 
-    if (nextProps.filter){
-    if(nextProps.filterValue.length > 0) {
-      this.setState({loading: true, firstTime: true})
-      var type;
-      switch (nextProps.filter) {
-        case 'department': type = FirebaseServices.deptProduct; break;
-        case 'style': type = FirebaseServices.styleProduct; break;
-      }
-      var ref = type.child(nextProps.filterValue)
-      this.firebasePaginatorFiltering(ref, nextProps.filter, nextProps.filterValue)
-    }else {
-      if(nextProps.filterValue.length < 1) {
-        this.setState({loading: true})
-      // reset the product list by deleting all from the extraProducts
-      this.setState({extraProducts: [], filter: '', filterValue: ""})
-      console.log("else block " + this.props.filter)
+  }
 
-      var ref = FirebaseServices.products
-      paginator = new FirestorePaginator(ref, {})
-      this.firebasePaginator(ref)
-    }}}
+  createQuery(filter){
+    var ref = FirestoreServices.products
+    if (filter[0].value !== ""){
+      console.log("filter 0 " + filter[0].value)
+      ref = ref.where(filter[0].key, "==", filter[0].value)
+    }
+    if (filter[1].value !== ""){
+      console.log("filter 1 " + filter[1].value)
+      ref = ref.where(filter[1].key, "==", filter[1].value)
+    }
+      console.log("filter 2" + filter[2].value)
+      ref = this.setRangeFilter(ref, filter[2])
+    console.log(ref)
+    this.firePaginator(ref);
+  }
+
+  setRangeFilter(ref, filter){
+    if(filter.value.upper !== "") ref = ref.where(filter.key, "<=", filter.value.upper);
+    if(filter.value.lower !== "") ref = ref.where(filter.key, ">=", filter.value.lower);
+    return ref;
   }
 
   businessProducts(){
@@ -154,63 +178,6 @@ class ProductList extends Component {
       })
      )
   }
-
-  // firebasePaginatorFiltering(ref, filter, filterValue) {
-  //   paginator = new FirebasePaginator(ref, options)
-  //   this.setState({extraProducts: []})
-  //
-  //   // the callback for the paginator
-  //   var handler = ( () => {
-  //     if (this.state.firstTime){
-  //       const productIds = Object.keys(paginator.collection);
-  //       // array is sorted in assending order
-  //       var last = productIds[productIds.length]
-  //
-  //         this.productsRef = base.bindToState(FirebaseServices.PRODUCTS_PATH, {
-  //           context: this,
-  //           state: "products",
-  //           queries: {
-  //             orderByChild: filter,
-  //             equalTo: filterValue,
-  //             limitToLast: PAGE_SIZE
-  //           },
-  //           then(data) {
-  //             this.setState({loading: false, firstTime: false})
-  //             this.listToArray();
-  //           },
-  //           onFailure(error) {
-  //           this.setState({errorHandling: {showError: true, errorMsg: error}});
-  //           }
-  //         });
-  //
-  //   }else {
-  //     var newPage = this.state.page + 1;
-  //     var productIds = (Object.keys(paginator.collection))
-  //     console.log(productIds.length)
-  //     if (productIds.length > 0){
-  //
-  //       var newProducts = {}
-  //       const listPromises = productIds.map(id => {
-  //         return FirebaseServices.products.child(id).once('value', snapshot => {
-  //           snapshot.val()
-  //           newProducts = [...newProducts, snapshot.val()]
-  //         })
-  //       });
-  //
-  //       const results = Promise.all(listPromises)
-  //       results.then((snapshot) => {
-  //         var newList = [...newProducts, ...this.state.products]
-  //
-  //         //this.setState({products: newList, page: newPage, loading: false})
-  //         this.setState({products: newProducts, page: newPage, loading: false})
-  //         this.listToArray();
-  //
-  //       })//results.then
-  //     } //newProductIds.length
-  //   }//else
-  // }) //handler
-  //   paginator.on('value', handler);
-  // }
 
   forward(){
     console.log("calling next()")

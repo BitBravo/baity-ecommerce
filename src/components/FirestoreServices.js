@@ -238,13 +238,102 @@ export default {
       return batch.commit();
     },
 
-    //takes user id for a professional user
-    //returns the business id for the professional user
-    getProfessionalUserBusinessId(userId, handler, failHandler){
-      this.professionals.doc(userId).get().then( (snapshot) => {
-        handler((snapshot.data().businessId || ''));
-      }).catch((error) => { failHandler(error)});
-    },
+  //takes user id for a professional user
+  //returns the business id for the professional user
+  getProfessionalUserBusinessId(userId, handler, failHandler){
+    console.log(userId)
+    this.professionals.doc(userId).get().then( (snapshot) => {
+      handler((snapshot.data().businessId || ''));
+    }).catch((error) => { failHandler(error)});
+  },
+
+  //update the profile for a professional user where new data is
+  //stored at profileData. error and success handlers are
+  //provided by form/formUpdater
+  updateProfProfileHelper(profileData, errorHandler, successHandler) {
+    console.log('FirestoreServices.updateProfProfileHelper')
+    try {
+      var businessProfileRef = this.businesses.doc(`${profileData.id}`);
+      businessProfileRef
+        .update({
+          categories: profileData.categories,
+          city: profileData.city,
+          country: 'Saudi Arabia',
+          phone: profileData.phone,
+          preview: profileData.preview,
+          imgUrl: profileData.imgUrl,
+          businessName: profileData.businessName,
+          types: profileData.types,
+          website: profileData.website
+        })
+        .then(() => {
+          console.log("insesrt succeeded");
+          successHandler();
+        })
+        .catch(error => {
+          console.log("could not insert profile");
+          console.log(profileData);
+          errorHandler(error.message);
+        });
+    } catch (error) {
+      errorHandler(error);
+    }
+  },
+
+  //update the profile for a normal user where new data is
+  //stored at profileData. error and success handlers are
+  //provided by form/formUpdater
+  normalUserProfileHelper(profileData, errorHandler, successHandler) {
+    console.log('FirestoreServices.normalUserProfileHelper')
+    try {
+      var normalUserProfileRef = this.normalUsers.doc(`${profileData.id}`);
+      if (profileData.newImage) {
+      normalUserProfileRef
+        .update({
+          city: profileData.city,
+          country: 'Saudi Arabia',
+          phone: profileData.phone,
+          imgUrl: profileData.imgUrl,
+          name: profileData.name,
+          email: profileData.email
+        })
+        .then(() => {
+          console.log("insert succeeded");
+          successHandler();
+        })
+        .catch(error => {
+          console.log("could not insert profile");
+          console.log(profileData);
+          errorHandler(error.message);
+        });
+    } else {       console.log(normalUserProfileRef)
+
+      normalUserProfileRef
+        .update({
+          city: profileData.city,
+          country: 'Saudi Arabia',
+          phone: profileData.phone,
+          name: profileData.name,
+          email: profileData.email
+        })
+        .then(() => {
+          console.log(profileData);
+
+          console.log("insert succeeded");
+          successHandler();
+        })
+        .catch(error => {
+          console.log("could not insert profile");
+          console.log(profileData);
+          errorHandler(error.message);
+        });
+    }
+  } catch (error) {
+      errorHandler(error);
+    }
+
+  },
+
 
     //upload a logo image for a professional user profile.
     //newImage is the file object from an HTML file input.
