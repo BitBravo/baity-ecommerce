@@ -12,10 +12,6 @@ import Product from '../assets/img/Selected-product.png';
 import Profile from '../assets/img/Profile-icon.png';
 
 const SocialDiv = styled.div`
-text-align:center;
-font-size:20px;
-color:white;
-@media only screen and (max-width: 767px) {
 display: flex;
 flex-wrap: wrap;
 justify-content: space-between;
@@ -51,36 +47,30 @@ class Footer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: false,
+ 
       year: new Date().getFullYear()
     };
-    this.handleShow = this.handleShow.bind(this);
-    this.handleHide = this.handleHide.bind(this);
+ 
   }
 
-  handleShow() {
-    this.setState({ show: true });
-  }
-
-  handleHide() {
-    this.setState({ show: false });
-  }
+ 
 
   render() {
     return ([
      
 
 <footer className="myfooter" fixed>
-  <h4  > {this.state.year} جميع الحقوق محفوظة <span> <img  src={baityfooter}/></span></h4>
-  <SocialDiv >
-        <TiMail className="icons"/>
+  <h4  style={{display:'inline-block'}}> {this.state.year} جميع الحقوق محفوظة <span> <img  src={baityfooter}/></span></h4>
+  <h6 style={{display:'inline-block', paddingRight:'20px'}}>
+       <a style={{color:'white'}}>
+        <TiMail className="icons"/></a>
         <a style={{color:'white'}} href="https://twitter.com/baity_sa">
         <TiSocialTwitter className="icons"/></a>
         <a style={{color:'white'}}href="https://www.instagram.com/baity_sa/">
         <TiSocialInstagram className="icons"/></a> 
         <a style={{color:'white'}} href="https://www.facebook.com/profile.php?id=100025094470933">
        <TiSocialFacebook className="icons"/></a>
-   </SocialDiv>
+   </h6>
 </footer>,
 <footer className="mopilefooter" fixed>
        <SocialDiv >     

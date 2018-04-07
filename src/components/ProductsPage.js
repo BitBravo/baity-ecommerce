@@ -59,8 +59,10 @@ border-radius: 0;
 }
 `
 const Filter = styled.div`
+margin-top:20px;
 @media only screen and (max-width: 767px){
   position:fixed;
+  margin-top:0;
   top:30px;
   z-index:1;
   background-color:white;
@@ -81,6 +83,13 @@ const PaddingDiv = styled.div`
     padding-bottom: 2px;
   z-index:1000;}
 `;
+const CarouselDiv = styled(Col)`
+padding-left:30px;
+padding-right:15px;
+margin-top:40px;
+@media only screen and (max-width: 767px) {
+  padding:0;
+`
 
 const DepartmentList = [
   "صالات",
@@ -197,6 +206,15 @@ class ProductsPage extends Component {
             <PaddingDiv>
             <div className="inner-addon left-addon ">
               <i className="glyphicon glyphicon-plus white plus"></i>
+                <Select name="selectThis" id="department" onChange={this.handleChange} value={this.state.dept}>
+                  <option value="">القسم</option>
+                  <DepOption list={DepartmentList} />
+                </Select>
+            </div>
+            </PaddingDiv>
+            <PaddingDiv>
+            <div className="inner-addon left-addon ">
+              <i className="glyphicon glyphicon-plus white plus"></i>
                 <Select name="selectThis" id="selectThis">
                     <option value="">التصنيف</option>
                     <option value=".option1">طاولة طعام</option>
@@ -204,16 +222,6 @@ class ProductsPage extends Component {
                     <option value=".option3">ورق جدران</option>
                     <option value=".option4">طاولة شاي</option>
                     <option value=".option4">أدوات صحية</option>
-                </Select>
-            </div>
-            </PaddingDiv>
-
-            <PaddingDiv>
-            <div className="inner-addon left-addon ">
-              <i className="glyphicon glyphicon-plus white plus"></i>
-                <Select name="selectThis" id="department" onChange={this.handleChange} value={this.state.dept}>
-                  <option value="">القسم</option>
-                  <DepOption list={DepartmentList} />
                 </Select>
             </div>
             </PaddingDiv>
@@ -257,9 +265,8 @@ class ProductsPage extends Component {
        </Filter>
    </Col>
 
-   <Col sm={8} xs={12} >
+<CarouselDiv sm={8} xs={12} >
 
-      <div style={{marginTop:'40px'}}>
   <Carousel  indicators={false}>
       <Carousel.Item>
         <div>
@@ -301,8 +308,7 @@ class ProductsPage extends Component {
       </Carousel.Item>
 
     </Carousel>
-   </div>
-   </Col>
+ </CarouselDiv>
    </Row>
    </Grid>
    <ProductList 

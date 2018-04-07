@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+import {LinkContainer}  from "react-router-bootstrap";
 import {
   FormGroup,
   ControlLabel,
@@ -493,6 +494,11 @@ class RegisterNormal extends Component {
           <button type="submit" >
             تسجيل
           </button>
+          <LinkContainer to="/" activeClassName="active">
+          <button>
+            إلغاء
+          </button>
+          </LinkContainer>
         </form>
       </div>
     );

@@ -58,6 +58,13 @@ const PaddingDiv = styled.div`
     padding-left: 5px;
     padding-bottom: 10px;}
 `;
+const CarouselDiv = styled(Col)`
+padding-left:30px;
+padding-right:30px;
+@media only screen and (max-width: 767px) {
+  padding-left:0;
+  padding-right:0;
+`
 
 class IdeasPage extends Component {
 
@@ -67,9 +74,9 @@ class IdeasPage extends Component {
   <div>
       <Grid>
      <Row style={{display: 'flex', flexWrap: 'wrap'}}>
-   <Col sm={12} xs={12} lg={12} >
+     <CarouselDiv sm={12} xs={12} lg={12} >
 
-   <div>
+  
    <Carousel indicators={false}>
        <Carousel.Item>
          <div>
@@ -111,8 +118,8 @@ class IdeasPage extends Component {
        </Carousel.Item>
        
      </Carousel>
-    </div>
-</Col>
+
+</CarouselDiv>
    </Row>
    </Grid>
    <IdeaList thisUserOnly={false}/>
