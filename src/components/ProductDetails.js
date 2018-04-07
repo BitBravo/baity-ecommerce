@@ -29,12 +29,23 @@ const IconImg = styled.img`
 width:20px;
  height:20px;`
 
-const LikeDiv = styled.div`
+const LikeDiv = styled.span`
 position: absolute;
 top:10%;
 left: 60px;
 font-size:40px;
+border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    color: #2d2d2d;
+    border: none;
+    background-color: hsla(0,0%,100%,.8);
+    padding: 5px 6px ;
+    cursor: default;
+    outline: none;
 @media only screen and (max-width: 767px) {
+  height: 40px;
+  width: 40px;
   font-size:30px;
   left: 30px;
 }
