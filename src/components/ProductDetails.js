@@ -109,6 +109,14 @@ position:relative;
   margin:0;
 }
 `;
+const ProductName =styled.div`
+margin-bottom:5px;
+@media only screen and (min-width: 992px) {
+margin-top:0; 
+border-bottom:dotted 1px lightgray ;
+height:55px;
+}
+`
 const Cartbutton = styled.button`
 height:30px;
 width:100%;
@@ -306,7 +314,7 @@ class ProductDetails extends Component {
               </Carousel >
 
 
-              <div className="product-slider">
+              <div className="product-slider" style={{borderBottom:'dotted 1px lightgray '}}>
                 <div id="thumbcarousel1" className="carousel1 slide" >
                   <ImgGallaryThumb className="item">
                     {product.images.map((obj, index) => {
@@ -316,19 +324,21 @@ class ProductDetails extends Component {
                     })}
                   </ImgGallaryThumb>
                 </div>
-              </div>
-              <hr className='hidden-md hidden-lg' />
+              </div >
+           
             </ImageCol>
 
             <DetailsCol xs={12} sm={12} md={4} lg={3}  >
-
+            <ProductName >
               <Col xs={5} sm={5} md={5} lg={5} style={{ padding: '0 0 0 10px' }}>
                 <h4 style={{ color: 'rgb(26,156,142)', float: 'left' }}>{product.price} ر.س </h4>
               </Col>
-              <Col xs={7} sm={7} md={7} lg={7} style={{ padding: '0' }}>
-                <h4><IconImg src={Product} className="icons" />{product.name}</h4>
+              <Col xs={6} sm={6} md={6} lg={6} style={{ padding: '0' }}>
+                <h4>{product.name}</h4>
               </Col>
-              <hr className='hidden-xs visible-md visible-lg' />
+              <Col xs ={1}  style={{padding:'7px 0 0 0'}}>
+             <IconImg src={Product} className="icons"/> </Col>
+         </ProductName>
               {this.props.currentUser
                 ? <button type="submit" onClick={ () => {this.addToCart();this.handleShow()}}>
                   اضافة للسلة
@@ -340,7 +350,7 @@ class ProductDetails extends Component {
                <IconImg src={Cart} style={{ marginRight: '15px' }} />
                   </button>
                 </LinkContainer>
-              }
+              }  
               <PaddingDiv>
                 <h4 style={{ display: 'inline' }}>وصف المنتج</h4>
                 <h6 style={{ color: 'rgb(26,156,142)', float: 'left', display: 'inline', padding: '0 0 0 20px' }}>

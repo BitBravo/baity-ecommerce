@@ -16,7 +16,7 @@ const PaddingDiv = styled.div`
   padding-top: 0;
   padding-left: 0;
   padding-bottom: 5px;
-  height: 105px;
+  height: 125px;
 `
 
 const MyThumbnailDiv = styled.div`
@@ -90,13 +90,12 @@ class IdeaBrief extends Component {
 
           <PaddingDiv>
             <Link to={`/${idea.owner}/ideas/${idea.id}`} style={{color:'black',fontWeight:'900'}}>
-            <Col xs ={12} md={12}  >
+            <Col xs ={12} md={12} style={{borderBottom:'dotted 1px lightgray',marginBottom:'10px'}} >
               <h5><IconImg src={Idea} className="icons"/> {idea.name} </h5>
               </Col>
              </Link>
-             <hr/>
              <p className="flex-text text-muted">{idea.desc.substring(0,90)}
-               <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/ideas/${idea.id}`}>
+               <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${idea.owner}/ideas/${idea.id}`}>
                ... المزيد
                </Link>
              </p>

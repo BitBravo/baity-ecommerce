@@ -10,14 +10,16 @@ import Product from '../assets/img/Selected-product.png';
 
 const IconImg = styled.img`
 width:20px;
- height:20px;`
+height:20px;
+
+`
 
 const PaddingDiv = styled.div`
-  padding-right: 5px;
+  padding-right: 7px;
   padding-top: 0;
-  padding-left: 0;
-  padding-bottom: 5px;
-  height: 105px;
+  padding-left: 7px;
+  padding-bottom: 10px;
+  height: 125px;
 `
 
 const MyThumbnailDiv = styled.div`
@@ -94,21 +96,23 @@ export class ProductBrief extends Component {
           </ImageContainer>
 
           <PaddingDiv >
-
-          <Col xs ={3} md={4}>
-              <h5 style={{color:'rgb(26, 156, 142)'}}>{product.price} ر.س</h5>
+          <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'45px'}}>
+          <Col xs ={5}  style={{paddingRight:'0',paddingLeft:'0'}}>
+              <h5 style={{color:'rgb(26, 156, 142)',float:'left'}}>{product.price} ر.س</h5>
              </Col>
             <Link to={`/${product.owner}/products/${product.id}`} style={{color:'black',fontWeight:'900'}} >
-             <Col xs ={9} md={8} >
-              <h5><IconImg src={Product} className="icons"/> {product.name} </h5>
-             </Col>
-            </Link>
-            <hr/>
-            <p  className="flex-text text-muted">{product.desc.substring(0,90)}
+             <Col xs ={6} style={{padding:'0 5px 0 0'}}>
+             <h5 > {product.name} </h5>
+             </Col></Link>
+             <Col xs ={1}  style={{padding:'7px 0 0 0'}}>
+             <IconImg src={Product} className="icons"/> </Col>
+             </div>
+            <p   className="flex-text text-muted">{product.desc.substring(0,90)}
               <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
               ... المزيد
               </Link>
             </p>
+          
           </PaddingDiv>
         </MyThumbnailDiv>
       </Col>
@@ -152,7 +156,7 @@ export class MyProductBrief extends Component {
 
           <PaddingDiv >
 
-          <Col xs ={4} md={4} style={{ padding:'2px 2px 2px 0'}}>
+          <Col xs ={4} md={4} style={{ padding:'2px 0 2px 0'}}>
               <h6 style={{color:'rgb(26, 156, 142)',fontSize:"10px"}}>{product.price} ر.س</h6>
              </Col>
             <Link to={`/${product.owner}/products/${product.id}`} style={{color:'black',fontWeight:'900'}} >

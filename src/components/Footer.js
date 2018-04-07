@@ -11,7 +11,7 @@ import Idea from '../assets/img/Selected-idea.png';
 import Product from '../assets/img/Selected-product.png';
 import Profile from '../assets/img/Profile-icon.png';
 
-const SocialDiv = styled.div`
+const MobileDiv = styled.div`
 display: flex;
 flex-wrap: wrap;
 justify-content: space-between;
@@ -29,18 +29,15 @@ position:absolute;
 left:20px;
 top:10px;
 `
-const UserLogo = styled.div`
-font-size: 10px;
-dispaly:inline-block;
-color:rgb(26, 156, 142);
-margin-top: -10px;
-@media only screen and (max-width: 767px) {
-margin:0;
-}
-`
+
 const UserName = styled.p`
-display:inline;
+display:block;
+margin-left:auto;
+margin-right:auto;
+text-align:center;
 font-size:8px;
+padding:0;
+margin-bottom:1px;
 `
 
 class Footer extends Component {
@@ -73,7 +70,7 @@ class Footer extends Component {
    </h6>
 </footer>,
 <footer className="mopilefooter" fixed>
-       <SocialDiv >     
+       <MobileDiv >     
             <IndexLinkContainer to="/" >
                <IconImg src={Homepage} className="icons"/>
             </IndexLinkContainer>
@@ -89,19 +86,18 @@ class Footer extends Component {
                     <IconImg src={Profile} />
                     </LinkContainer>
             ) : (
-
-              <LinkContainer to="/myprofile" activeClassName="active">
-              <UserLogo > <IconImg src={Profile} />
-              <br/>
+<div>
+              <LinkContainer to="/myprofile" activeClassName="active" style={{display:'block',marginLeft:'auto',marginRight:'auto'}} >
+               <IconImg src={Profile} />
+              </LinkContainer>
                     <UserName >
-           {this.props.userName}
+           {this.props.userName.substring(0,20)}
                 
               </UserName>
-              </UserLogo>
-              </LinkContainer>
-           
+              
+           </div>
           )}
-       </SocialDiv >
+       </MobileDiv >
  
 </footer>
     ]
