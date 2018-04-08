@@ -29,7 +29,7 @@ class App extends Component {
       userName: "",
       basket: {},
       cartCount: 0,
-    
+
     }
     this.setCurrentUser = this.setCurrentUser.bind(this);
     this.getCart = this.getCart.bind(this)
@@ -60,15 +60,11 @@ class App extends Component {
               authenticated: true,
               group: value.group,
               userName: val.name,
-<<<<<<< HEAD
               })
               var b = this.getCart(user)
               return b;
               })
-=======
-            
-              })})
->>>>>>> master
+
         }
       })
 
@@ -193,7 +189,7 @@ updateCart(add, remove) {
             setCurrentUser={this.setCurrentUser}
           />
           <Footer
-           authenticated={this.state.authenticated} 
+           authenticated={this.state.authenticated}
            currentUser={this.state.currentUser}
            group={this.state.group}
            userName={this.state.userName}

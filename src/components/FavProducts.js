@@ -4,7 +4,7 @@ import { Grid, Row, Col } from "react-bootstrap";
 import { app, base } from "../base";
 import FirestoreServices from './FirestoreServices'
 import FirebaseServices from './FirebaseServices'
-import {ProductBrief} from "./ProductBrief";
+import ProductBrief from "./ProductBrief";
 import Loading from './Loading'
 import {MdEventSeat} from 'react-icons/lib/md';
 import styled from 'styled-components'
@@ -14,7 +14,7 @@ import {MyProductBrief} from "./ProductBrief";
 
 const Button = styled.button`
 background-color:transparent;
-border:1px solid rgb(26, 156, 142); 
+border:1px solid rgb(26, 156, 142);
 color:rgb(26, 156, 142);
   width:100px;
   height: 30px;
@@ -215,7 +215,7 @@ class FavProducts extends Component {
               const product = products[id];
               return <ProductBrief key={id} product={product} />;
             })}
-               
+
         {/* </F>
         </G>  */}
           </Col>

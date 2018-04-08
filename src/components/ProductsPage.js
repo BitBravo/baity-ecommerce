@@ -435,14 +435,10 @@ class ProductsPage extends Component {
  </CarouselDiv>
    </Row>
    </Grid>
-<<<<<<< HEAD
     {console.log("filter " + Object.keys(this.state.filter))}
     {console.log("filter " + Object.values(this.state.filter))}
    <ProductList thisUserOnly={false} filter={this.state.filter}/>
-=======
-   <ProductList
-   thisUserOnly={false} filterValue={this.state.value} filter={this.state.filter}/>
->>>>>>> master
+
 
 	</div>
 
