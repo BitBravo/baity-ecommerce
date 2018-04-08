@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { app, base } from "../base";
+import { app, base, db } from "../base";
 import FirebaseServices from './FirebaseServices'
+import FirestoreServices from './FirestoreServices'
 import { Image, Alert, Col, Thumbnail, Button, Modal,Row, Grid ,Carousel,Glyphicon} from "react-bootstrap";
 import Loading from './Loading';
 import styled from 'styled-components'
@@ -58,7 +59,7 @@ const PreviewImg = styled.img`
 width: auto;
 max-width:100%;
  height: 100%;
- object-fit: contain; 
+ object-fit: contain;
 position: absolute;
   margin: auto;
   top: 0;
@@ -128,16 +129,10 @@ class IdeaDetails extends Component {
   componentWillMount() {
     this.thumbImage.bind(this);
     const authenticated = this.props.authenticated
-   
-   
-    this.ideasRef = base.syncState(`${FirebaseServices.IDEAS_PATH}/${this.ideaId}`, {
+    this.ideasRef = base.bindDoc(`${FirestoreServices.IDEAS_PATH}/${this.ideaId}`, {
       context: this,
       state: 'idea',
       then(data) {
-        //getting the business name
-        FirebaseServices.readDBRecord('profUser', this.owner)
-          .then(val => {
-            this.setState({businessName: val.name})
           //if user authenticated, get her likes to update the heart
         if (authenticated) {
           this.userLikesRef = FirebaseServices.readDBRecord('likes', `${this.props.currentUser.uid}/ideas/${this.ideaId}`)
@@ -151,7 +146,7 @@ class IdeaDetails extends Component {
         }else {
           this.setState({loading: false})
         }
-      })},
+      },
       onFailure(error) {
       this.setState({errorHandling: {showError: true, errorMsg: error}});
       }
@@ -180,29 +175,37 @@ class IdeaDetails extends Component {
     if (this.props.authenticated) {
       const userLikes = FirebaseServices.likes
       const currentUserRef = userLikes.child(`${this.props.currentUser.uid}/ideas`)
-      const ideaRef = FirebaseServices.ideas.child(this.ideaId)
+      const ideaRef = FirestoreServices.ideas.doc(this.ideaId)
+      var like = false;
 
-      return ideaRef.transaction((post) => {
-        console.log("Idea detailes - transaction()")
-        console.log(post)
-        if (post) {
-          currentUserRef.child(post.id).once('value', (snap) => {
-          if (snap.val()) {
-
-            post.likes--;
-            currentUserRef.child(post.id).set(null);
-            FirebaseServices.ideas.child(`${this.ideaId}/likes`).set(post.likes)
-            this.setState({liked: false})
-          } else {
-            post.likes++;
-            //console.log(userLikes.child(currentUserId).child(post.id));
-            currentUserRef.child(post.id).set(post.postType);
-            FirebaseServices.ideas.child(`${this.ideaId}/likes`).set(post.likes)
-            this.setState({liked: true})
-          }
-        })
+      currentUserRef.child(this.productId).once('value', (snap) => {
+        if (snap.val()) {
+          console.log("unlike");
+          currentUserRef.child(this.ideaId).set(null);
+          like = false
+        } else {
+          console.log("like");
+          currentUserRef.child(this.ideaId).set("idea");
+          like = true;
         }
-        return post;
+
+        return db.runTransaction((transaction) => {
+            return transaction.get(ideaRef).then((doc) => {
+            console.log("Prudoct detailes - transaction()")
+            if (doc.exists) {
+             var post = doc.data()
+                if (!like) {
+                  var newLikes = post.likes - 1;
+                  transaction.update(ideaRef, { likes: newLikes });
+                  this.setState({ liked: false })
+                } else {
+                  var newLikes = post.likes + 1;
+                  transaction.update(ideaRef, { likes: newLikes });
+                  this.setState({ liked: true })
+                }
+              }
+            })
+          });
       });
     }
   }
@@ -246,7 +249,7 @@ class IdeaDetails extends Component {
             <Glyphicon  className ="leftglyphicon" onClick={this.nextImage.bind(this)} glyph="chevron-left"/>
              <Glyphicon className="rightglyphicon" onClick={this.prevImage.bind(this)} glyph="chevron-right"/>
            <LikeDiv>
-        
+
               {this.state.liked
               ? <LikeIcon glyph="heart"  onClick={this.like.bind(this)}/>
               : <UnLikeIcon glyph="heart"  onClick={this.like.bind(this)}/>
@@ -275,14 +278,14 @@ class IdeaDetails extends Component {
             <Link to={`/businessprofile/${idea.owner}`}style={{color:'rgb(26,156,142)'}}>
             <button type="submit">
                للتواصل
-             </button> 
+             </button>
                   </Link>
-           
+
 
             <PaddingDiv>
             <h4 style={{display:'inline'}}>وصف الفكرة</h4>
             <h6 style={{color:'rgb(26,156,142)',float:'left',display:'inline',padding :'0 0 0 20px'}}>
-            الاعجاب &nbsp;{idea.likes > 0 ? idea.likes : 0} 
+            الاعجاب &nbsp;{idea.likes > 0 ? idea.likes : 0}
             </h6>
               <p > {idea.desc}</p>
               </PaddingDiv>
@@ -290,7 +293,7 @@ class IdeaDetails extends Component {
             <div style={{display:'inline-block',position:'absolute',bottom:'0'}}>
                   <h4 > من:
                   <Link to={`/businessprofile/${idea.owner}`}style={{color:'rgb(26,156,142)'}}>
-                  {this.state.businessName}
+                  {idea.businessName}
                   </Link>
                 </h4>
                 </div>

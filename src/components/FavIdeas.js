@@ -4,6 +4,7 @@ import { Grid, Row, Col } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { app, base } from "../base";
 import FirebaseServices from './FirebaseServices'
+import FirestoreServices from './FirestoreServices'
 import IdeaBrief from "./IdeaBrief";
 import Loading from './Loading'
 import {MdWeekend} from 'react-icons/lib/md';
@@ -58,9 +59,9 @@ class FavIdeas extends Component {
     if(val){
       const ideaIds = Object.keys(val);
       ideaIds.map(id => {
-        FirebaseServices.ideas.child(id).once("value", (snapshot) => {
-          console.log(snapshot.val())
-          var ideas = [...this.state.ideas, snapshot.val()]
+        FirestoreServices.ideas.doc(id).get().then((snapshot) => {
+          console.log(snapshot.data())
+          var ideas = [...this.state.ideas, snapshot.data()]
           this.setState({ideas: ideas, loading: false, empty: false})
         });
 
@@ -126,10 +127,9 @@ class FavIdeas extends Component {
       if (ideaIds.length > 0){
         var newIdeas = {}
         const listPromises = ideaIds.map(id => {
-          return FirebaseServices.ideas.child(id).once('value', snapshot => {
-            snapshot.val()
-            console.log(snapshot.val())
-            newIdeas = [...newIdeas, snapshot.val()]
+          return FirestoreServices.ideas.doc(id).get().then(snapshot => {
+            snapshot.data()
+            newIdeas = [...newIdeas, snapshot.data()]
           })
         });
 

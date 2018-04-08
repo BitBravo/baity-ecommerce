@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { IndexLinkContainer } from 'react-router-bootstrap';
 import { Glyphicon ,Modal} from "react-bootstrap";
-import Homepage from '../assets/img/Selected-homepage.png';
+import Homepage from '../assets/img/Selected-idea.png';
 import Idea from '../assets/img/Selected-idea.png';
 import Product from '../assets/img/Selected-product.png';
 import Profile from '../assets/img/Profile-icon.png';
@@ -44,17 +44,17 @@ class Footer extends Component {
   constructor(props) {
     super(props);
     this.state = {
- 
+
       year: new Date().getFullYear()
     };
- 
+
   }
 
- 
+
 
   render() {
     return ([
-     
+
 
 <footer className="myfooter" fixed>
   <h4  style={{display:'inline-block'}}> {this.state.year} جميع الحقوق محفوظة <span> <img  src={baityfooter}/></span></h4>
@@ -64,13 +64,13 @@ class Footer extends Component {
         <a style={{color:'white'}} href="https://twitter.com/baity_sa">
         <TiSocialTwitter className="icons"/></a>
         <a style={{color:'white'}}href="https://www.instagram.com/baity_sa/">
-        <TiSocialInstagram className="icons"/></a> 
+        <TiSocialInstagram className="icons"/></a>
         <a style={{color:'white'}} href="https://www.facebook.com/profile.php?id=100025094470933">
        <TiSocialFacebook className="icons"/></a>
    </h6>
 </footer>,
 <footer className="mopilefooter" fixed>
-       <MobileDiv >     
+       <MobileDiv >
             <IndexLinkContainer to="/" >
                <IconImg src={Homepage} className="icons"/>
             </IndexLinkContainer>
@@ -92,13 +92,13 @@ class Footer extends Component {
               </LinkContainer>
                     <UserName >
            {this.props.userName.substring(0,20)}
-                
+
               </UserName>
-              
+
            </div>
           )}
        </MobileDiv >
- 
+
 </footer>
     ]
     );

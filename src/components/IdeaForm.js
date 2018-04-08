@@ -272,9 +272,7 @@ class IdeaForm extends Component {
     if (this.props.isNewIdea) {
       idea = {...idea,
         city: "الرياض",
-        city_department: "",
         dateCreated: Date.now(),
-        imgUrl: 'None',
         likes: 0,
         postType: "idea"
       };

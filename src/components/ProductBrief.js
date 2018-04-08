@@ -54,7 +54,7 @@ const ImageDiv = styled.div`
   bottom: 0;
   right: 0;
   overflow: hidden;
-  
+
 `;
 
 const ImageContainer = styled.div`
@@ -64,7 +64,7 @@ const ImageContainer = styled.div`
 `;
 
 
-export class ProductBrief extends Component {
+ class ProductBrief extends Component {
   constructor() {
     super();
     // this.updateproduct = this.updateproduct.bind(this);
@@ -175,3 +175,5 @@ export class MyProductBrief extends Component {
     );
   }
 }
+
+export default ProductBrief;

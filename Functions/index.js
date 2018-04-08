@@ -27,45 +27,48 @@ const APP_NAME = 'Baity';
 // const PROF_REF = '/test-professional/';
 // const BASKET_REF = '/test-basket/';
 // const BASKET_ARCHIVE_REF = '/test-basketArchive/';
-// const NORMAL_REF = '/test-normal/';
+// const NORMAL_REF = 'test-normal';
 // const PRODUCT_REF =  '/test-product/';
 
 /* DATABASE REFERENCES FOR PRODUCTION */
 const PROF_REF = '/professional/';
 const BASKET_REF = '/basket/';
 const BASKET_ARCHIVE_REF = '/basketArchive/';
-const NORMAL_REF = '/normal/';
+const NORMAL_REF = 'normal';
 const PRODUCT_REF =  '/product/';
 
 var userEmail = "";
+exports.createThumpnail = require('./CreateThumbnail')
+exports.generateThumpnail = require('./generateThumpnail')
 
 // [START sendConfirmationEmails]
 /**
  * Sends an email to normal user (buyier) and professional users(sellers).
  */
 // [START onUpdateTrigger]
-exports.sendBuyingEmail = functions.database.ref('/basket/{id}').onUpdate((event) => {
+exports.sendBuyingEmail = functions.database.ref('/basket/{id}').onUpdate((event, context) => {
   // [END onUpdateTrigger]
   // [START eventAttributes]
   const snapshot = event.data;
-  const val = snapshot.val(); // The user basket
+  //const val = snapshot.data(); // The user basket
   /* PRODUCTION - The id of the user clicking 'اتمام العملية' recived as a parameter */
-  const userId = event.params.id;
+  //const userId = event.params.id;
   console.log("###$# event.params.id "+event.params.id);
 
   /* TESTING - we should provid an Id as the emulator does not recive the actual id*/
-  //const userId = "E0xeGw1dZfgEspNSRYRRepB7jMi2";
+  const userId = "E0xeGw1dZfgEspNSRYRRepB7jMi2";
 
   if (!snapshot.changed('completed')) {
     return null;
   }
 
 // get normal user email
-return admin.database().ref(NORMAL_REF + userId)
-    .once('value', snapshot => {
-      console.log("#### VALUE " + snapshot.val())
-      console.log("#### KEY " + snapshot.val().uid)
-      userEmail = snapshot.val().email;
+return admin.firestore().collection(NORMAL_REF).doc(userId)
+    .get().then(snapshot => {
+      console.log("#### VALUE ");
+      console.log("#### VALUE " + snapshot.data())
+      console.log("#### KEY " + snapshot.data().uid)
+      userEmail = snapshot.data().email;
       console.log("#### userEmail " + userEmail);
 
 const items = getItemsInBasket(userId);
@@ -80,7 +83,7 @@ const items = getItemsInBasket(userId);
   mailOptions.text = 'شكرا لاهتمامك سيتواصل معك أحد موظفينا قريبا';
 
   return mailTransport.sendMail(mailOptions)
-    .then(() => {console.log(`New confirmation email sent to:`);})
+    .then(() => console.log(`New confirmation email sent to:`))
     .catch((error) => console.error('There was an error while sending the email:', error));
 });// end result
 }); // cosing normal user query
@@ -95,28 +98,28 @@ function getItemsInBasket(userId) {
       productIds = Object.keys(snapshot.val());
       // Archiving the cart by calling moveCartToArchive
       var archivedCart = moveCartToArchive(userId);
-      productIds.map(id => admin.database().ref(PRODUCT_REF + id)
-          .once('value')
+      productIds.map(id => admin.firestore().collection(PRODUCT_REF).doc(id)
+          .get()
           .then(snapshot => {
-            products.push(snapshot.val());
-            var product = snapshot.val();
+            products.push(snapshot.data());
+            var product = snapshot.data();
             owners.push(getOwnersEmails(product.owner, product));
-            console.log(" #### current product " + snapshot.val().owner);
-            return snapshot.val().owner;
+            console.log(" #### current product " + snapshot.data().owner);
+            return snapshot.data().owner;
           })
           .catch((error) => console.error('failed to get items: ', error))//closing inner query
         );//closing map
       }); //closing items query
-};
+}
 
 function getOwnersEmails(owner, product) {
-  admin.database().ref(PROF_REF + owner)
-    .once('value')
+  admin.firestore().collection(PROF_REF).doc(owner)
+    .get()
     .then(snapshot => {
-      console.log("###### OWNER EMAIL: " + snapshot.val().email);
+      console.log("###### OWNER EMAIL: " + snapshot.data().email);
       const mailOptions = {
         from: '"Baity" <noreply@firebase.com>',
-        to: snapshot.val().email,
+        to: snapshot.data().email,
       };
       var url = 'https://bayty-246cc.firebaseapp.com/'+product.owner+'/products/'+product.id;
       // Building Email message.
@@ -124,29 +127,28 @@ function getOwnersEmails(owner, product) {
       mailOptions.text = 'This item ' + url + ' has been requested by ' + userEmail;
       mailOptions.html = '<b>Item '+product.id+' is being requested by '+userEmail+' <a href="'+url+'">'+product.name+'</a></b>';
 
-      mailTransport.sendMail(mailOptions)
+      return mailTransport.sendMail(mailOptions)
         .then(() => {
           console.log(`New confirmation email sent to:`)
-          return snapshot.val().email;})
+          return snapshot.data().email;})
         .catch((error) => console.error('There was an error while sending the email:', error))
     })
     .catch((error) => console.error('failed to get email: ', error));
     //closing inner query
 
-};
+}
 
 function moveCartToArchive(userId) {
   admin.database().ref(BASKET_REF + userId)
-  .once('value')
-  .then(snapshot => {
+  .once('value', snapshot => {
     admin.database().ref(BASKET_ARCHIVE_REF + userId).set(snapshot.val())
     .then(() => deleteBasket(userId))
     .catch((error) => console.log('moveCartToArchive - ' + error))
   });
-};
+}
 
 function deleteBasket(userId){
   admin.database().ref(BASKET_REF + userId).remove()
     .then(() => console.log('deleteBasket - cart removed '))
     .catch((error) => console.log('deleteBasket - ' + error));
-};
+}
