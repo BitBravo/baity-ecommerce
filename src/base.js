@@ -15,10 +15,10 @@ const config = {
 console.log(process.env.REACT_APP_FIREBASE_DATABASE)
 const app = firebase.initializeApp(config)
 const database = app.database()// short for firebase.database(app)
-const base2 = Rebase.createClass(app.database())
+const DBBase = Rebase.createClass(app.database())
 const storage = app.storage()//short for firebase.storage(app)
 const db = app.firestore()
 const base = Rebase.createClass(app.firestore());
 
 
-export { app, base, database, storage, db }
+export { app, base, database, storage, db, DBBase }

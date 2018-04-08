@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@google-cloud/storage": "^1.6.0",
     "bootstrap": "^3.3.7",
+    "child-process-promise": "^2.2.1",
     "firebase": "^4.11.0",
     "firebase-admin": "^5.11.0",
     "firebase-paginator": "^1.1.2",

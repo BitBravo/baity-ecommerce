@@ -19,6 +19,7 @@ import styled from 'styled-components'
 import traditionalkitchen from '../assets/img/traditionalkitchen.jpg';
 import bedroom from '../assets/img/bedroom.jpg';
 import livingroom from '../assets/img/livingroom.jpg';
+import Categories from './Categories';
 
 const PreviewImg = styled.img`
   width: 100%;
@@ -109,6 +110,8 @@ const Price = [
   "أعلى من 5000"
 ];
 
+var categoryList = ["حدد القسم أولا"];
+
 const SelectGroup = ({ id, label, selectedOption, ...props }) => (
   <FormGroup controlId={id}>
     <ControlLabel>{label}</ControlLabel>
@@ -160,6 +163,16 @@ const PriceOption = (list) => (
     })
 )
 
+var CategoriesOption = (list) => (
+  categoryList.map(opt => {
+    return (
+      <option key={opt} value={opt}>
+        {opt}
+      </option>
+    );
+    })
+)
+
 class ProductsPage extends Component {
 
   constructor() {
@@ -176,9 +189,14 @@ class ProductsPage extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.setFilter = this.setFilter.bind(this);
+    this.getList = this.getList.bind(this);
   }
 
   handleChange(event) {
+    if(event.target.id === "category") {
+      if (this.state.dept === "")
+        return
+    }
     var obj={upper: "", lower:""};
     switch (event.target.id) {
       case 'price':
@@ -205,15 +223,46 @@ class ProductsPage extends Component {
         this.setState({
             style: event.target.value
           }); break;
+      case "category":
+        filter[2] = {key:'category', value: event.target.value}
+        this.setState({
+          cat: event.target.value,
+        }); break;
       case "price":
-        filter[2] = {key:'price', value: obj}
+        filter[3] = {key:'price', value: obj}
         this.setState({
           price: event.target.value,
           priceRange: obj
         }); break;
+
     }
     this.setState({filter: filter});
 
+  }
+
+  getList(){
+    if (this.state.dept === "")
+      categoryList = ["حدد القسم أولا"]
+    else {
+      var CategoryList = [];
+      switch (this.state.dept) {
+        case "صالات": CategoryList = Categories.CategoryListLivingroom; break;
+        case "مجالس": CategoryList = Categories.CategoryListSettingroom; break;
+        case "غرف النوم": CategoryList = Categories.CategoryListBedroom; break;
+        case "مطابخ وأواني": CategoryList = Categories.CategoryListKitchen; break;
+        case "غرف الطعام": CategoryList = Categories.CategoryListDining; break;
+        case "دورات المياه": CategoryList = Categories.CategoryListBath; break;
+        case "الأثاث": CategoryList = Categories.CategoryListFurn; break;
+        case "المخازن": CategoryList = Categories.CategoryListStorage; break;
+        case "جلسات خارجية": CategoryList = Categories.CategoryListGarden; break;
+        case "أرضيات": CategoryList = Categories.CategoryListFloors; break;
+        case "غرف أطفال": CategoryList = Categories.CategoryListKids; break;
+        case "مكاتب منزلية": CategoryList = Categories.CategoryListOffice; break;
+        default:
+        break;
+      }
+      categoryList = CategoryList;
+    }
   }
 
   setFilter(){
@@ -224,6 +273,7 @@ class ProductsPage extends Component {
 
     filter.push({key:'department', value: this.state.dept})
     filter.push({key:'style', value: this.state.style})
+    filter.push({key:'category', value: this.state.cat})
     filter.push({key:'price', value: this.state.priceRange})
     return filter;
   }
@@ -255,13 +305,9 @@ class ProductsPage extends Component {
             <PaddingDiv>
             <div className="inner-addon left-addon ">
               <i className="glyphicon glyphicon-plus white plus"></i>
-                <Select name="selectThis" id="selectThis">
-                    <option value="">التصنيف</option>
-                    <option value=".option1">طاولة طعام</option>
-                    <option value=".option2">طقم كنب</option>
-                    <option value=".option3">ورق جدران</option>
-                    <option value=".option4">طاولة شاي</option>
-                    <option value=".option4">أدوات صحية</option>
+                <Select name="selectThis" id="department" onChange={this.handleChange} value={this.state.dept}>
+                  <option value="">القسم</option>
+                  <DepOption list={DepartmentList} />
                 </Select>
             </div>
             </PaddingDiv>
@@ -269,9 +315,12 @@ class ProductsPage extends Component {
             <PaddingDiv>
             <div className="inner-addon left-addon ">
               <i className="glyphicon glyphicon-plus white plus"></i>
-                <Select name="selectThis" id="department" onChange={this.handleChange} value={this.state.dept}>
-                  <option value="">القسم</option>
-                  <DepOption list={DepartmentList} />
+                <Select name="selectThis" id="category" onChange={this.handleChange} value={this.state.cat}>
+                  <option value="">التصنيف</option>
+                  {this.state.dept === ""
+                  ? <option value="">حدد القسم أولا</option>
+                  : <CategoriesOption list={this.getList()} />
+                  }
                 </Select>
             </div>
             </PaddingDiv>

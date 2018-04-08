@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { app, base } from "../base";
+import { app, base, DBBase } from "../base";
 import FirestoreServices from './FirestoreServices'
+import FirebaseServices from './FirebaseServices'
 import CartList from './CartList';
 import CartBrief from "./CartBrief";
 import styled from 'styled-components'
@@ -58,21 +59,25 @@ class MyCart extends Component {
   }
 
   fetchItems() {
-    var path = FirestoreServices.BASKET_PATH + `/${this.props.currentUser.uid}/items`
-    console.log("path " + path)
-    this.basketRef = base.bindCollection(path, {
-      context: this,
-      state: "basket",
-      then(data) {
-        var productIds = Object.keys(this.state.basket)
-        console.log(productIds)
-      var ref = FirestoreServices.basket.doc(this.props.currentUser.uid).collection("items")
-      ref.get().then(col => {
+    // var path = FirebaseServices.BASKET_PATH + `/${this.props.currentUser.uid}/items`
+    // console.log("path " + path)
+    // this.basketRef = DBBase.bindToState(path, {
+    //   context: this,
+    //   state: "basket",
+    //   then(data) {
+    //     console.log("DBBase data: " + data)
+    //     var productIds = Object.keys(this.state.basket)
+    //     console.log(productIds)
+      var ref = FirebaseServices.basket.child(`${this.props.currentUser.uid}/items`)
+      ref.once('value',snapshot => {
 
+        if(snapshot.val() !== null) {
         var newProducts = {}
         var total = 0
-        const listPromises = col.docs.map(doc =>
-            FirestoreServices.products.doc(doc.id).get().then(snapshot => {
+        var productIds = Object.keys(snapshot.val())
+        var products = snapshot.val()
+        const listPromises = productIds.map(doc =>
+            FirestoreServices.products.doc(doc).get().then(snapshot => {
             console.log("items " + snapshot.data())
             total = Number(snapshot.data().price) + total
             return newProducts = [...newProducts, snapshot.data()]
@@ -82,22 +87,25 @@ class MyCart extends Component {
         const results = Promise.all(listPromises)
         results.then((snapshot) => {
           console.log("data " + this.state.basket.length)
-          this.setState({products: newProducts, loading: false, total: total})
+          this.setState({products: newProducts, loading: false, total: total, basket: products})
           console.log("newProducts " + newProducts.length)
         })
-      })
-      },
-      onFailure(error) {
-      this.setState({errorHandling: {showError: true, errorMsg: error}});
+
+      }else {
+        this.setState({loading:false})
       }
     })
+      // onFailure(error) {
+      // this.setState({errorHandling: {showError: true, errorMsg: error}});
+      // }
+
   }
 
   handleSubmit(event) {
     // create a chat between user and business owner **later
     // fetch owners emails
     // send email msg with uesr email and product information
-    FirestoreServices.basket.doc(this.props.currentUser.uid).set({'completed': true})
+    FirebaseServices.basket.child(this.props.currentUser.uid).set({'completed': true})
     this.props.updateCart(false,true)
     this.setState({completed: true});
   }
@@ -110,7 +118,7 @@ class MyCart extends Component {
     delete this.state.basket[id]
     this.setState({basket: this.state.basket})
 
-    FirestoreServices.basket.doc(this.props.currentUser.uid).collection("items").doc(id).delete()
+    FirebaseServices.basket.child(`${this.props.currentUser.uid}/items/${id}`).remove()
     // for some reason calling fetch will not cause the page to rerender
     this.fetchItems()
     this.props.updateCart(false,false)

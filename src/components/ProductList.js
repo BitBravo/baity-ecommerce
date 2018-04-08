@@ -108,8 +108,12 @@ class ProductList extends Component {
       console.log("filter 1 " + filter[1].value)
       ref = ref.where(filter[1].key, "==", filter[1].value)
     }
-      console.log("filter 2" + filter[2].value)
-      ref = this.setRangeFilter(ref, filter[2])
+    if (filter[2].value !== ""){
+      console.log("filter 2 " + filter[2].value)
+      ref = ref.where(filter[2].key, "==", filter[2].value)
+    }
+      console.log("filter 3" + filter[3].value)
+      ref = this.setRangeFilter(ref, filter[3])
     console.log(ref)
     this.firePaginator(ref);
   }
