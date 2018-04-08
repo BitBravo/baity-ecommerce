@@ -4,19 +4,68 @@ import { Grid, Row, Col } from "react-bootstrap";
 import { app, base } from "../base";
 import FirestoreServices from './FirestoreServices'
 import FirebaseServices from './FirebaseServices'
-import ProductBrief from "./ProductBrief";
+import {ProductBrief} from "./ProductBrief";
 import Loading from './Loading'
 import {MdEventSeat} from 'react-icons/lib/md';
 import styled from 'styled-components'
 import FirebasePaginator from './firebase-pag';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import {MyProductBrief} from "./ProductBrief";
 
 const Button = styled.button`
-  width:180px;
+background-color:transparent;
+border:1px solid rgb(26, 156, 142); 
+color:rgb(26, 156, 142);
+  width:100px;
+  height: 30px;
   @media only screen and (max-width: 767px) {
-    height: 40px;
-    width:100%;
+    height: 20px;
+    width:40px;
+    font-size:10px;
   `;
+  const NextButton= styled.button`
+  background-color:black;
+  opacity: 0.7;
+  position:absolute;
+  top: 0;
+  left: 0;
+  padding:0;
+  margin:0;
+  height:100%;
+  width: 15%;
+  font-size: 50px;
+  color:white;
+  `
+  const G=styled.div`
+  display: block;
+    text-align: start;
+    float: none;
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    z-index: auto;
+    width: 980px;
+    height: 450px;
+    margin: 0px;
+    overflow-x: scroll;
+    overflow-y:hidden;
+
+  `
+  const F=styled.div`
+  text-align: left;
+  float: none;
+  position: absolute;
+  top: 40px;
+  right: auto;
+  bottom: auto;
+  left: 0px;
+  margin: 0px;
+  width: 8330px;
+  height: 450px;
+  z-index: auto;`
+
 const PAGE_SIZE = 12;
 var options = {
   pageSize: PAGE_SIZE,
@@ -141,22 +190,34 @@ class FavProducts extends Component {
     else if (this.props.shortList){
       return (
         <Grid style={{backgroundColor:"white"}}>
-        <Row   style={{display: 'flex', flexWrap: 'wrap'}}>
+        <Row   style={{display: 'flex', flexWrap: 'wrap',borderBottom: "1px dotted lightgray"}}>
         <Col xs={12}  lg={12} >
         <hr style={{marginBottom: '30px'}}/>
          {this.state.empty
          ? <div><h2 style={{color:'rgb(26,156,142)'}}>المنتجات المفضلة</h2>
             <h5 > ليس لديك منتجات مفضلة </h5> </div>
-         : <div><Link to={`/favproducts`}>
+         : <div>
+            <Col xs={2} md={3} lg={2} style={{margin: '20px 0 0 0'}} >
+          <Link to={`/favproducts`}>
+            <Button>المزيد</Button>
+          </Link>
+          </Col>
+          <Col xs={10} md={9} lg={10} >
+           <Link to={`/favproducts`}>
           <h2 style={{color:'rgb(26,156,142)'}}>المنتجات المفضلة</h2>
           </Link>
+          </Col>
           </div>
         }
+        {/* <G>
+        <F > */}
             {productIds.map(id => {
               const product = products[id];
               return <ProductBrief key={id} product={product} />;
             })}
-
+               
+        {/* </F>
+        </G>  */}
           </Col>
           </Row>
 

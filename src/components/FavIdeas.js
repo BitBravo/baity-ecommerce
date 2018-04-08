@@ -12,24 +12,29 @@ import styled from 'styled-components'
 import FirebasePaginator from './firebase-pag';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-const Button1 = styled.button`
-  width:180px;
+const Button = styled.button`
+background-color:transparent;
+border:1px solid rgb(26, 156, 142); 
+color:rgb(26, 156, 142);
+  width:100px;
+  height: 30px;
   @media only screen and (max-width: 767px) {
-    height: 40px;
-    width:100%;
+    height: 20px;
+    width:40px;
+    font-size:10px;
   `;
 
-const Button = styled.button`
-position:absolute;
-top:50px;
-left: 20px;
-width: 17%;
-@media only screen and (max-width: 767px) {
-  left: 20px;
-  top:70px;
-  width: 40%;
-  height: 40px;
-`;
+// const Button = styled.button`
+// position:absolute;
+// top:50px;
+// left: 20px;
+// width: 17%;
+// @media only screen and (max-width: 767px) {
+//   left: 20px;
+//   top:70px;
+//   width: 40%;
+//   height: 40px;
+// `;
 const PAGE_SIZE = 12;
 var options = {
   pageSize: PAGE_SIZE,
@@ -160,13 +165,20 @@ class FavIdeas extends Component {
          <Grid style={{backgroundColor:"white"}}>
         <Row   style={{display: 'flex', flexWrap: 'wrap'}}>
         <Col xs={12}  lg={12} >
-        <hr style={{marginBottom: '30px'}}/>
         {this.state.empty
         ? <div><h2 style={{color:'rgb(26,156,142)'}}>الأفكار المفضلة</h2>
           <h5> ليس لديك أفكار مفضلة </h5> </div>
-        : <div><Link  to={`/favideas`}>
-            <h2 style={{color:'rgb(26,156,142)'}}>الأفكار المفضلة</h2>
+        : <div>
+          <Col xs={2} md={3} lg={2} style={{margin: '20px 0 0 0'}} >
+          <Link to={`/favideas`}>
+            <Button>المزيد</Button>
+          </Link>
+          </Col>
+          <Col xs={10} md={9} lg={10} >
+          <Link  to={`/favideas`}>
+            <h2 style={{color:'rgb(26,156,142)'}}>الأفكار المفضلة</h2> 
           </Link >
+          </Col>
           </div>
         }
 

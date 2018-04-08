@@ -12,33 +12,26 @@ p {color:rgb(95,96,93);
     font-weight: 900;
      color:rgb(95,96,93);
      }
+.mopilefooter{
+    display: none;
+}
 .myfooter {
     position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
     height: auto;
-    /*line-height: 100px;
-     background-image: -webkit-linear-gradient(top,rgb(26,156,142) 0%, rgb(26,156,142) 100%);
-    background-image: -o-linear-gradient(top, rgb(26,156,142) 0%, rgb(26,156,142) 100%);
-    background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(26,156,142)), to(rgb(26,156,142)));
-    background-image: linear-gradient(to bottom, rgb(26,156,142) 0%, rgb(26,156,142) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3c3c3c', endColorstr='#ff222222', GradientType=0);
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false); 
-    background-repeat: repeat-x;*/
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: rgb(26, 156, 142);
-    padding: 0 15px; 
-    margin: 10px 0 0 0;
+    padding:2px 0 0 0; 
+    margin:0;
     border: 0;   
 }
 .myfooter h4 {
     color: rgb(255,255,255);
-    text-align: center;
-    padding-top: 7px;
-    font-weight: bold;
     direction: ltr;
-     line-height: 10px;
      margin: 0; 
 }
 .myfooter img{
@@ -68,8 +61,8 @@ hr {
     color:rgb(194, 194, 194)
 }
 .icons { 
-    margin-left:7px;
-    margin-right: 4px;   
+    margin-left:5px;
+    margin-right: 2px;   
 }
 .userlogo{
     font-size: 25px;
@@ -78,6 +71,7 @@ hr {
     left: 20px;
     color:rgb(26, 156, 142)
 }
+
 .shoppingcart{
     margin-top: 12px;
     margin-left: 0;
@@ -162,7 +156,12 @@ hr {
     text-align: center;
     background-color: rgb(247, 247, 247);
 }
+.navbar-nav > li {
+    float: right;}
 
+.cartmenu{
+    position: relative;
+    }
 .dropdown{
     color: rgb(26, 156, 142);
   background-color: rgb(247, 247, 247);
@@ -187,7 +186,7 @@ hr {
     display: none;
     position: absolute;
     top:50px;
-    left:-10px;
+    left:-20px;
     background-color: white;
     width: 250px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -220,9 +219,10 @@ hr {
     
     .loginreg { 
         padding-top: 10%;
-        padding-bottom: 5%;
+        padding-bottom: 10%;
         width: 100%;
-        height: calc(100vh - (50px + 60px));
+        /* height: calc(100vh - (50px + 60px)); */
+        height: 100%;
         background-image: url( '../img/garden.jpg');
         background-repeat: no-repeat;
         background-attachment: fixed;
@@ -230,7 +230,7 @@ hr {
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
-        overflow: scroll;
+        overflow: hidden;
 
         }
        
@@ -242,6 +242,7 @@ hr {
             margin-left: -25px;
             margin-right: -25px;
             margin-bottom: 20px;
+          
         }
         .loginregtitle img {
             display: block;
@@ -259,8 +260,8 @@ hr {
         border-radius: 5px;
         width: 90%;
         max-width: 600px;
-        padding-left: 60px;
-        padding-right: 60px;
+        padding-left: 40px;
+        padding-right: 40px;
         padding-bottom: 25px;
         color: #3C3C3C;
         background: rgb(255,255,255);
@@ -285,6 +286,7 @@ margin-bottom: 10px;
     text-align: center;
     background-color:white;
     display:inline-block;
+
 }  
 
     @keyframes slideDown {
@@ -471,6 +473,7 @@ margin-bottom: 10px;
             padding-left: 10px;
             color: transparent;
             cursor: pointer;
+
         }
         #demo-2 input[type=search]:hover {
             background-color: #fff;
@@ -493,7 +496,8 @@ margin-bottom: 10px;
        
        
         @media only screen and (max-width: 767px) {
-           
+            .cartmenu:hover .shorcartlist {
+                display: none;}
             .navbar{ 
                 height: auto;
                border-radius: 5px;  
@@ -526,7 +530,11 @@ margin-bottom: 10px;
                 transition:  background 0.3s ease-in-out;   
               } 
               .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand{margin: 0 0 0 5px;}
-
+             
+            .cartmenu{
+                position: absolute;
+                left: 40px;
+                    }
               .search{
                   display: none;
               }
@@ -570,9 +578,20 @@ margin-bottom: 10px;
               .form-check-label{
                   font-size: 10px;
               } 
-              .myfooter h4 {
-                font-size:15px;
+              .myfooter{
+                display:none;
               }
+              .mopilefooter{
+                display: block;
+                position: fixed;
+                padding:10px 0 0 0;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.269);
+                left: 0;
+                bottom: 0;
+                height: auto;
+                width: 100%;
+                background-color: rgb(247,247,247);
+            }
               .rightglyphicon{
               
                   font-size: 25px;
@@ -588,7 +607,7 @@ margin-bottom: 10px;
             }
             
             @media only screen and (max-width: 350px){
-                .plus{display: none;} 
+                /* .plus{display: none;}  */
             }
             @media only screen and (min-width: 767px) {
             .dropdownmenu:hover  ul{

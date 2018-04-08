@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { app, base, DBBase } from "../base";
 import FirestoreServices from './FirestoreServices'
 import FirebaseServices from './FirebaseServices'
-import CartList from './CartList';
-import CartBrief from "./CartBrief";
+import {MainCartList,HeaderCartList} from './CartList';
+import {MainCartBrief,HeaderCartBrief}from "./CartBrief";
 import styled from 'styled-components'
 import {
     Col,
@@ -16,6 +16,14 @@ import {
 import logo_placeholder from '../assets/img/logo-placeholder.jpg';
 import Loading from './Loading'
 
+const Cartbutton = styled.button`
+display:block;
+margin-left:auto;
+margin-right:auto;
+height:35px;
+width:140px;
+background-color:rgb(26, 156, 142);
+`
 const Button =styled.button`
 display:block;
 margin-left:auto;
@@ -24,16 +32,23 @@ width:30%;
 height:40px;
 @media only screen and (max-width: 767px) {
     width:80%;
-   height:30px;;
+    height:35px;;
 }
 `
+const DropCart=styled.div`
+width: 250px;
+height:200px;
+ overflow-y:auto;
+ overflow-x: hidden;
+ padding-top:5px;
+`
 
-class MyCart extends Component {
+export class MyCart extends Component {
 
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.removefromCart = this.removefromCart.bind(this)
+   this.removefromCart = this.removefromCart.bind(this)
     this.deleteItem = this.deleteItem.bind(this)
     this.fetchItems = this.fetchItems.bind(this)
 
@@ -46,9 +61,22 @@ class MyCart extends Component {
       completed: false,
       errorHandling: {
         showError: false,
-        errorMsg: ""}
+        errorMsg: ""},
+      show: false
     };
+    this.handleShow = this.handleShow.bind(this);
+    this.handleHide = this.handleHide.bind(this);
   }
+
+
+  handleShow() {
+    this.setState({ show: true });
+  }
+
+  handleHide() {
+    this.setState({ show: false });
+  }
+
 
   componentWillMount() {
     this.fetchItems()
@@ -89,6 +117,7 @@ class MyCart extends Component {
           console.log("data " + this.state.basket.length)
           this.setState({products: newProducts, loading: false, total: total, basket: products})
           console.log("newProducts " + newProducts.length)
+
         })
 
       }else {
@@ -124,6 +153,7 @@ class MyCart extends Component {
     this.props.updateCart(false,false)
   }
 
+
   render(){
     var subtotal = this.state.total
     var vat = subtotal * 0.05
@@ -135,15 +165,15 @@ class MyCart extends Component {
       )
     else if(this.state.completed)
       return (
-        <h4 style={{textAlign:'center'}}>تم إرسال الطلب للبائعين، شكرا لتسوقكم معنا</h4>
+        <h2 style={{ textAlign:'center',color: 'rgb(26,156,142)'}}>تم إرسال الطلب للبائعين، شكرا لتسوقكم معنا</h2>
       )
     else {
-      return (
-        <Grid>
+      return [
+        <Grid key="one">
           <h2 style={{ textAlign:'center',color: 'rgb(26,156,142)'}}>سلة التسوق</h2>
           {this.state.total > 0 ?
             <Row style={{ display: 'flex', flexWrap: 'wrap', boxShadow: '5px 5px 5px #d7d7d7' }} >
-            <CartList products={this.state.products} removefromCart={this.removefromCart}/>
+            <MainCartList products={this.state.products} removefromCart={this.removefromCart}/>
             <Col xs={12} style={{ background:'white' }}>
            <h4 style={{ textAlign:'left'}}> قيمة الطلبات: &nbsp;&nbsp;
            <span style={{ color: 'rgb(26,156,142)'}}> {subtotal}ر.س</span></h4>
@@ -152,16 +182,118 @@ class MyCart extends Component {
            <h4 style={{ textAlign:'left'}}> المجموع : &nbsp;&nbsp;
            <span style={{ color: 'rgb(26,156,142)'}}> {total} ر.س </span></h4>
            {total > 0
-           ?<Button onClick={this.handleSubmit}>اتمام العملية</Button>
+           ?<Button onClick={this.handleShow}>اتمام العملية</Button>
            :null}
             </Col>
              </Row>
           : <h4 style={{textAlign:'center'}}>لم تقم باضافة منتجات، إبدأ الان</h4>
+
+
            }
+            <div>
+                <Modal
+                   show={this.state.show}
+                   onHide={this.handleHide} style={{ top: 300 }}>
+                 <Modal.Header>
+                    سيتم ارسال بيانات تواصلك للبائع لخدمتك
+                  </Modal.Header>
+                  <Modal.Body>
+
+                      <Cartbutton onClick={ () => {this.handleShow();this.handleSubmit()}}>تأكيد</Cartbutton>
+
+                      <p style={{color:'rgb(26, 156, 142)'}}>ارسال الايميل فقط</p>
+                  </Modal.Body>
+                </Modal>
+              </div>
             </Grid>
+          ];
+    };
+  }
+
+
+}
+
+export class HeaderCart extends Component {
+
+  constructor() {
+    super();
+    this.fetchItems = this.fetchItems.bind(this)
+
+
+    this.state = {
+      basket: {},
+      products: {},
+      loading: true,
+      total: 0,
+      completed: false,
+      errorHandling: {
+        showError: false,
+        errorMsg: ""},
+
+      };
+
+   }
+  componentWillMount() {
+    this.fetchItems()
+  }
+
+
+
+  fetchItems() {
+    var path = FirebaseServices.BASKET_PATH + `/${this.props.currentUser.uid}/items`
+    console.log("path " + path)
+    this.basketRef = base.syncState(path, {
+      context: this,
+      state: "basket",
+      then(data) {
+        var productIds = Object.keys(this.state.basket)
+
+        var newProducts = {}
+        var total = 0
+        const listPromises = productIds.map(id => {
+          return FirebaseServices.products.child(id).once('value', snapshot => {
+            snapshot.val()
+            total = Number(snapshot.val().price) + total
+            newProducts = [...newProducts, snapshot.val()]
+          })
+        });
+
+        const results = Promise.all(listPromises)
+        results.then((snapshot) => {
+          console.log("data " + this.state.basket.length)
+          this.setState({products: newProducts, loading: false, total: total})
+          console.log("newProducts " + newProducts.length)
+        })
+      },
+      onFailure(error) {
+      this.setState({errorHandling: {showError: true, errorMsg: error}});
+      }
+    })
+  }
+
+
+  render(){
+    var subtotal = this.state.total
+
+    if (this.state.loading)
+      return(
+       <Loading />
+      )
+
+    else {
+      return (
+            <DropCart >
+            <p style={{ textAlign:'center'}}>سلة التسوق</p>
+            <hr/>
+            <HeaderCartList products={this.state.products}/>
+           <h4 style={{ textAlign:'center'}}> المجموع :
+        <span style={{ color: 'rgb(26,156,142)'}}> {subtotal} ر.س </span>
+           </h4>
+             </DropCart>
+
+
 
     );
     };
   }
 }
-export default MyCart;

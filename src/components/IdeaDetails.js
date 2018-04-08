@@ -45,8 +45,16 @@ const PrevImgGallaryThumb = styled.div`
 `;
 
 const PreviewImg = styled.img`
-  width: 100%;
-  height: 100%;
+width: auto;
+max-width:100%;
+ height: 100%;
+ object-fit: contain;
+position: absolute;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
   }
 `;
@@ -109,13 +117,14 @@ class IdeaDetails extends Component {
 
   componentWillMount() {
     this.thumbImage.bind(this);
+    const authenticated = this.props.authenticated
     this.ideasRef = base.bindDoc(`${FirestoreServices.IDEAS_PATH}/${this.ideaId}`, {
       context: this,
       state: 'idea',
       then(data) {
           //if user authenticated, get her likes to update the heart
-        if (this.props.authenticated) {
-          this.userLikesRef = FirebaseServices.readDBRecord('likes', `${this.props.currentUser.uid}/ideas/${this.productId}`)
+        if (authenticated) {
+          this.userLikesRef = FirebaseServices.readDBRecord('likes', `${this.props.currentUser.uid}/ideas/${this.ideaId}`)
           .then(val => {
             if (val) {
               this.setState({liked: true, loading: false})
@@ -229,10 +238,12 @@ class IdeaDetails extends Component {
             <Glyphicon  className ="leftglyphicon" onClick={this.nextImage.bind(this)} glyph="chevron-left"/>
              <Glyphicon className="rightglyphicon" onClick={this.prevImage.bind(this)} glyph="chevron-right"/>
            <LikeDiv>
+
               {this.state.liked
               ? <LikeIcon glyph="heart"  onClick={this.like.bind(this)}/>
               : <UnLikeIcon glyph="heart"  onClick={this.like.bind(this)}/>
               }
+
          </LikeDiv>
               </Carousel.Item>
             </Carousel >
@@ -253,14 +264,17 @@ class IdeaDetails extends Component {
             <DetailsCol  xs={12} sm={12} md={4} lg={3}  >
             <h4><IconImg src={Idea} className="icons"/>{idea.name}</h4>
             <hr className='hidden-xs visible-md visible-lg' />
+            <Link to={`/businessprofile/${idea.owner}`}style={{color:'rgb(26,156,142)'}}>
             <button type="submit">
                للتواصل
              </button>
+                  </Link>
+
 
             <PaddingDiv>
             <h4 style={{display:'inline'}}>وصف الفكرة</h4>
             <h6 style={{color:'rgb(26,156,142)',float:'left',display:'inline',padding :'0 0 0 20px'}}>
-              {idea.likes > 0 ? idea.likes : null}
+            الاعجاب &nbsp;{idea.likes > 0 ? idea.likes : 0}
             </h6>
               <p > {idea.desc}</p>
               </PaddingDiv>

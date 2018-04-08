@@ -33,6 +33,11 @@ const MyThumbnailDiv = styled.div`
     transition:all 0.5s ease-in-out;
     transform: scale(1.05, 1.05);
   }
+  @media only screen and (max-width: 767px) {
+    &:hover{
+      transition:none;
+      transform: none;}
+  }
 `
 
 const PreviewImg = styled.img`
@@ -47,9 +52,7 @@ const ImageDiv = styled.div`
   bottom: 0;
   right: 0;
   overflow: hidden;
-  &:hover {
-    box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
-  }
+  
 `;
 
 const ImageContainer = styled.div`
@@ -57,7 +60,9 @@ const ImageContainer = styled.div`
   padding-top: 100%;
   position: relative;
 `;
-class ProductBrief extends Component {
+
+
+export class ProductBrief extends Component {
   constructor() {
     super();
     // this.updateproduct = this.updateproduct.bind(this);
@@ -111,4 +116,58 @@ class ProductBrief extends Component {
   }
 }
 
-export default ProductBrief;
+// export default ProductBrief;
+
+
+export class MyProductBrief extends Component {
+  constructor() {
+    super();
+    // this.updateproduct = this.updateproduct.bind(this);
+    this.state = {
+      product: {}
+    };
+  }
+
+  //src="http://via.placeholder.com/243x243"
+  render() {
+    const product = this.props.product;
+    return (
+
+        <MyThumbnailDiv style={{margin:'10px',float:'left',width:'250px'}}>
+          <ImageContainer>
+            <ImageDiv>
+            <Link to={`/${product.owner}/products/${product.id}`}>
+              <PreviewImg
+                src={
+                  product.images
+                    ? product.images[0].large
+                    : "http://via.placeholder.com/243x243"
+                }
+
+              />
+              {/* <img   src="http://via.placeholder.com/243x243" */}
+            </Link>
+            </ImageDiv>
+          </ImageContainer>
+
+          <PaddingDiv >
+
+          <Col xs ={4} md={4} style={{ padding:'2px 2px 2px 0'}}>
+              <h6 style={{color:'rgb(26, 156, 142)',fontSize:"10px"}}>{product.price} ر.س</h6>
+             </Col>
+            <Link to={`/${product.owner}/products/${product.id}`} style={{color:'black',fontWeight:'900'}} >
+             <Col xs ={8} md={8} style={{ padding:'2px'}} >
+              <h6><IconImg style={{width:"15px",height:'15px'}}src={Product} className="icons"/> {product.name} </h6>
+             </Col>
+            </Link>
+            <p  style={{fontSize:'10px'}}className="flex-text text-muted">{product.desc.substring(0,30)}
+              <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
+              ... المزيد
+              </Link>
+            </p>
+          </PaddingDiv>
+        </MyThumbnailDiv>
+
+    );
+  }
+}

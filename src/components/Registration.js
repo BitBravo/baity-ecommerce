@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
 import { LinkContainer } from "react-router-bootstrap";
-import { Collapse, Alert, Modal,Col,Row } from "react-bootstrap"
+import { Collapse, Alert, Modal,Col,Row ,Grid} from "react-bootstrap"
 import { app } from '../base'
 import bayty_icon from '../assets/img/bayty_icon1.png';
 import { CSSTransition } from 'react-transition-group'
@@ -12,7 +12,7 @@ class Registration extends Component {
         return (
 
 
-            <div className="loginreg">
+            <div style={{height:'calc(100vh - (50px + 60px))'}} className="loginreg">
               <form>
 
                <div className="loginregtitle">
@@ -31,6 +31,8 @@ class Registration extends Component {
           </LinkContainer>
           </form>
           </div>
+
+         
            );
         }
       }

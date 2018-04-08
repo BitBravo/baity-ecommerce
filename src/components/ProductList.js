@@ -11,6 +11,7 @@ import styled from 'styled-components'
 import {MdEventSeat} from 'react-icons/lib/md';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Product from '../assets/img/AddingProduct.png';
+import {MyProductBrief} from "./ProductBrief";
 
 const IconImg = styled.img`
 width:20px;
@@ -19,7 +20,7 @@ width:20px;
  @media only screen and (max-width: 767px) {
   width:15px;
   height:15px;
-  margin-right:10px;
+  margin-right:2px;
  }`
 
 
@@ -251,7 +252,7 @@ class ProductList extends Component {
           </Link >
           </Row>
         }
-          <Row style={{display: 'flex', flexWrap: 'wrap'}}>
+          <Row style={{display: 'flex', flexWrap: 'wrap',borderBottom:'dotted 1px lightgray ' }}>
           <Col xs={12}  lg={12} >
           {productIds.length < 1
             ? <h4 style={{textAlign:'center'}}>{msg}</h4>

@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { app, base } from "../base";
 import FirebaseServices from './FirebaseServices'
-import CartBrief from "./CartBrief";
+import {MainCartBrief,HeaderCartBrief}from "./CartBrief";
+
 import styled from 'styled-components'
 import {
     Col,
@@ -19,7 +20,7 @@ const ProductImg = styled.img`
 height:100px;
 width:100px;
 `
-class CartList extends Component {
+export class MainCartList extends Component {
 
   constructor() {
       super();
@@ -47,7 +48,7 @@ class CartList extends Component {
           : <div>{
                 productIds.map(id => {
                   const product = products[id];
-                return <CartBrief key={id} product={product} removefromCart={this.props.removefromCart} />;
+                return <MainCartBrief key={id} product={product} removefromCart={this.props.removefromCart} />;
               })
             }</div>
           }
@@ -60,4 +61,45 @@ class CartList extends Component {
       );
   };
 }
-export default CartList;
+
+export class HeaderCartList extends Component {
+
+  constructor() {
+      super();
+      this.state = {
+        products: {}
+      }
+
+  }
+
+  componentWillMount() {
+    this.setState({products: this.props.products})
+  }
+
+
+  render() {
+    const products = this.props.products
+    const productIds = Object.keys(products)
+
+    return (
+
+          <div>
+
+          {productIds.length < 1
+          ? <h4 style={{textAlign:'center'}}>لم تقم باضافة منتجات، إبدأ الان</h4>
+          : <div>{
+                productIds.map(id => {
+                  const product = products[id];
+                return <HeaderCartBrief key={id} product={product} removefromCart={this.props.removefromCart} />;
+              })
+            }</div>
+          }
+</div>
+
+
+
+
+
+      );
+  };
+}

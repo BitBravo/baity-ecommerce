@@ -9,7 +9,7 @@ import livingroom from '../assets/img/livingroom.jpg';
 import styled from 'styled-components'
 import Loading from "./Loading";
 import logo_placeholder from '../assets/img/logo-placeholder.jpg';
-import {TiSocialTwitter,TiSocialInstagram,TiSocialFacebook} from 'react-icons/lib/ti';
+import {TiSocialTwitter,TiSocialInstagram,TiSocialFacebook,TiPhoneOutline} from 'react-icons/lib/ti';
 import {MdCall,MdSettings} from 'react-icons/lib/md';
 import {GoSignOut} from 'react-icons/lib/go';
 
@@ -57,7 +57,7 @@ margin-top: -40px ;
 `
 const UserNameDiv = styled.div`
 display:inline-block;
-padding-right:3px;
+padding-right:5px;
 `;
 const SocialDiv = styled.div`
 text-align:center;
@@ -127,7 +127,7 @@ class ProfileInfo extends Component{
           <div style={{position: 'absolute',top: '10px',left: '30px',width:'25%'}}>
           {!this.props.user
             ?<Link to="/myprofprofile/">
-              <SettingtButton>الاعدادات <MdSettings style={{fontSize:"20px",paddingRight:"3px"}}/></SettingtButton>
+              <SettingtButton>الاعدادات <MdSettings style={{fontSize:"17px",paddingRight:"3px"}}/></SettingtButton>
             </Link>
             : null
           }
@@ -136,9 +136,9 @@ class ProfileInfo extends Component{
         <Col xs={12}  lg={12} >
         <Col xs={3} sm={2} md={2} lg={2} style={{padding:'0'}}>
         {this.props.user
-        ? <LinkContainer to="" >
-            <LogoutButton>اتصل بنا<GoSignOut style={{fontSize:"17px",paddingRight:"3px"}}/></LogoutButton>
-          </LinkContainer>
+        ?
+            <LogoutButton style={{cursor:'auto'}}>اتصل بنا<TiPhoneOutline style={{fontSize:"17px",paddingRight:"3px"}}/></LogoutButton>
+
         : <LinkContainer to="/logout" >
             <LogoutButton> تسجيل خروج <GoSignOut style={{fontSize:"17px",paddingRight:"3px"}}/></LogoutButton>
           </LinkContainer>
@@ -152,7 +152,7 @@ class ProfileInfo extends Component{
         <Col xs={6} sm={6} md={7}lg={7} style={{padding:'0'}}>
         <UserNameDiv> <h4 style={{color:'rgb(26,156,142)'}}>{this.state.profile.businessName} </h4> </UserNameDiv>
          <UserNameDiv ><h5>{this.state.profile.types}</h5></UserNameDiv>
-          <h5 style={{marginTop:'0'}}>{this.state.profile.city}، السعودية</h5>
+          <h6 style={{marginTop:'0'}}>{this.state.profile.city}، السعودية</h6>
         </Col>
           <Col xs={3} sm={4} md={3} lg={3} style={{paddingRight:'0'}}>
         {this.state.profile.imgUrl

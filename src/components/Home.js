@@ -7,6 +7,8 @@ import bedroom from '../assets/img/bedroom.jpg';
 import livingroom from '../assets/img/livingroom.jpg'; 
 import styled from 'styled-components'
 
+
+
 const PreviewImg = styled.img`
   width: 100%;
   height: 100%;
@@ -124,6 +126,7 @@ font-size: 35px;
       
     </Carousel>
    </div>
+
     <ProductList thisUserOnly={false}/>
   </div>
   

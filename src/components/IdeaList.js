@@ -19,7 +19,7 @@ width:20px;
  @media only screen and (max-width: 767px) {
   width:15px;
   height:15px;
-  margin-right:10px;
+  margin-right:0px;
  }`
 const Button = styled.button`
 width:180px;
@@ -172,7 +172,7 @@ next(){
          {this.props.group === 'prof'
         ?<Row   style={{display: 'flex', flexWrap: 'wrap'}}>
         <Col xs={12}  lg={12} >
-        <hr style={{marginBottom: '30px'}}/>
+     
         <Col xs={5} md={3} lg={2} >
         <Link to={`/newidea`}>
             <Button>إضافة فكرة<IconImg src={Idea} /></Button>

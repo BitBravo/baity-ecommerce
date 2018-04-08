@@ -4,7 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import firebase from "firebase";
 import { app, base, database, storage } from "../base";
 import FirebaseServices from './FirebaseServices'
-import { Nav, Navbar, NavItem, NavbarBrand,NavDropdown,MenuItem,Glyphicon ,Modal,Col,Collapse} from "react-bootstrap";
+import { Nav, Navbar, NavItem, NavbarBrand,NavDropdown,MenuItem,Glyphicon ,Modal,Col,Collapse,Row} from "react-bootstrap";
 import bayty_icon from '../assets/img/bayty_icon.png';
 import {GoSignIn,GoSignOut,GoHome} from 'react-icons/lib/go';
 import {MdPersonAdd,MdAddToPhotos,MdEventSeat,MdPersonOutline,MdWeekend} from 'react-icons/lib/md';
@@ -17,8 +17,15 @@ import Idea from '../assets/img/Unselected-idea.png';
 import Product from '../assets/img/UNselected-product.png';
 import Profile from '../assets/img/Profile-icon.png';
 import Cart from '../assets/img/Cart-icon.png';
+import {HeaderCart} from "./MyCart";
 
 
+
+const MainNav=styled(Nav)`
+@media only screen and (max-width: 767px) {
+  display:none;
+}
+`
 const CartNo = styled.div`
 position:absolute;
 left:15px;
@@ -31,29 +38,17 @@ text-align:center;
 background-color:red;
 border-radius: 50%;
 `
- const Input = styled.input`
- width:450px;
- margin:0;
- padding:0;
- @media only screen and (max-width: 767px) {
-  width:100%;
-  height:30px;
-}
- `
- const Search =styled.div`
-margin-top:20px;
-width:50%;
- display:none;
- @media only screen and (max-width: 767px) {
-display:inline-block;
-float:right;
- `
+const UserNav =styled(Nav)`
+@media only screen and (max-width: 767px) {
+display:none;}
+`
  const UserImg = styled.img`
  width:35px;
  height:35px;
  border-radius: 50%;
 position:absolute;
 left:20px;
+top:10px;
  `
 const UserLogo = styled.div`
 font-size: 10px;
@@ -66,8 +61,6 @@ margin:0;
 `
 const UserName = styled.p`
 display:inline;
-@media only screen and (max-width: 767px) {
-  margin-left:-20px;}
 `
 const IconImg = styled.img`
 width:20px;
@@ -80,6 +73,26 @@ display:block;
 margin-left:auto;
 margin-right:auto;
 `
+const Search =styled.div`
+display:none;
+@media only screen and (max-width: 767px) {
+display:block;
+position:absolute;
+left:0;
+margin-top:15px;
+margin-left:15px;
+color: rgb(26,156,142);
+}
+`
+const Input = styled.input`
+ width:450px;
+ margin:0;
+ padding:0;
+ @media only screen and (max-width: 767px) {
+  width:100%;
+  height:30px;
+}
+ `
 
 class Header extends Component {
 
@@ -89,7 +102,9 @@ class Header extends Component {
     this.state = {
       userName: "",
       firstTime: true,    
-      show: false
+      show: false,
+      currentUser:"",
+     
     };
   this.handleShow = this.handleShow.bind(this);
   this.handleHide = this.handleHide.bind(this);
@@ -125,20 +140,53 @@ class Header extends Component {
           <img src={bayty_icon} />
           </IndexLinkContainer>
           </NavbarBrand>
-          {/* mobile search bar */}
-          <Nav  className="search">
+        {/* desktop search bar */} 
+          <Nav className="search">
           <NavItem >
             <div className="inner-addon right-addon">
             <i   className="glyphicon glyphicon-search" ></i>
                 <Input  id="search"  className="form-control" type="text"  placeholder="بحث عن منتجات أفكار ...."></Input>
                 </div>
-                </NavItem></Nav>
-                <Search  id="demo-2">
-                {/* <form id="demo-2">
-	              <input type="search"  placeholder="بحث عن منتجات أفكار ...."/>
-                 </form> */}
+                </NavItem>
+                </Nav>
+             
+       
+                {!this.props.authenticated ? (
+                  <UserNav >
+                    <NavItem style={{float: 'left' }}>
+                    <LinkContainer to="/login" activeClassName="active">
+                 
+                    <IconImg src={Profile} />
+                    </LinkContainer>
+                    </NavItem>
+                    </UserNav>
+
+            ) : (
+              <UserNav >
+              <NavItem style={{float: 'left' }}>
+              <LinkContainer to="/myprofile" activeClassName="active">
+             
+              <UserLogo > <IconImg src={Profile} />
+              <br/>
+                    <UserName >
+                    مرحبا ،  {this.props.userName}
+                
+              </UserName>
+             
+              </UserLogo>
+
+              </LinkContainer>
+           
+              </NavItem>
+              </UserNav>
+          )}
+
+
+          {/* mobile search bar */}
+                <Search  >
                   <i   className="glyphicon glyphicon-search" onClick={this.handleShow}></i>
                 </Search> 
+     
                 <Modal  {...this.props}
                   show={this.state.show}
                   onHide={this.handleHide}  style={{ top: 30 }}  >
@@ -148,38 +196,8 @@ class Header extends Component {
                  </form>
                   </Modal.Body>
                 </Modal>
-
-                {!this.props.authenticated ? (
-                  <Nav pullLeft>
-                    <NavItem>
-                    <LinkContainer to="/login" activeClassName="active">
-                    {/* <UserImg src={logo_placeholder}/> */}
-                    <IconImg src={Profile} />
-                    </LinkContainer>
-                    </NavItem>
-                    </Nav>
-
-            ) : (
-              <Nav pullLeft>
-              <NavItem>
-              <LinkContainer to="/myprofile" activeClassName="active">
-              <UserLogo > <IconImg src={Profile} />
-              <br/>
-                    <UserName >
-
-                    مرحبا ،  {this.props.userName}
-
-              </UserName>
-              {/*
-             :<UserImg  src={logo_placeholder}/>} */}
-              </UserLogo>
-
-              </LinkContainer>
-
-              </NavItem>
-              </Nav>
-          )}
-         <div style={{position:'relative'}} className="cartmenu">
+            
+         <div  className="cartmenu">
            <LinkContainer to="/mycart" activeClassName="active" style={{position:'relative',cursor: 'pointer'}}>
          <div style={{position:'relative'}}>
          {this.props.cart > 0 ?
@@ -189,19 +207,20 @@ class Header extends Component {
           <IconImg src={Cart} className="shoppingcart"/>
           </div>
           </LinkContainer>
-          {/* <div className="shorcartlist">
-          <LinkContainer to="/mycart" activeClassName="active">
+          {/* {this.props.authenticated ?
+          <div className="shorcartlist">
+          <HeaderCart currentUser={this.props.currentUser}  />
+          <LinkContainer to="/mycart" >
             <Button>عرض السلة</Button>
             </LinkContainer>
-            </div> */}
+            </div>:null} */}
           </div>
-         <Navbar.Toggle />
         </Navbar.Header>
-        <Nav pullLeft>
-        </Nav>
-        <Navbar.Collapse >
+      
 
-        <Nav  bsStyle="tabs" justified >
+        {/* <Navbar.Collapse > */}
+
+        <MainNav  bsStyle="tabs" justified >
             <IndexLinkContainer to="/" >
               <NavItem> <IconImg src={Homepage} className="icons"/>الرئيسية</NavItem>
             </IndexLinkContainer>
@@ -211,7 +230,7 @@ class Header extends Component {
             <LinkContainer to="/ideaspage" >
               <NavItem> <IconImg src={Idea} className="icons"/>الأفكار</NavItem>
             </LinkContainer>
-            </Nav>
+            </MainNav>
 
               {/* <div>
               <Nav bsStyle="tabs"
@@ -239,7 +258,7 @@ class Header extends Component {
           <MenuItem eventKey={3.4}>Separated link</MenuItem>
         </NavDropdown> */}
 
-       </Navbar.Collapse >
+       {/* </Navbar.Collapse > */}
 
       </Navbar>
 
