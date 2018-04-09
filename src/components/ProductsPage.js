@@ -213,8 +213,17 @@ class ProductsPage extends Component {
 
   handleChange(event) {
     if(event.target.id === "category") {
-      if (this.state.dept === "")
-        return
+      if (this.state.dept === ""){
+        this.setState({
+          cat: "",
+        });
+        return;
+      }
+    }else if(event.target.id === "department"){
+    if (event.target.value === "")
+      this.setState({
+        cat: "",
+      });
     }
     var obj={upper: "", lower:""};
     switch (event.target.id) {
@@ -233,7 +242,8 @@ class ProductsPage extends Component {
     //filter = this.setFilter(filter, filterType, filterValue)
     switch (event.target.id) {
       case "department":
-        filter[0] = {key:'department', value: event.target.value}
+        filter[0] = {key:'department', value: event.target.value};
+        if(event.target.value === "") filter[2] = {key:'category', value: ""};
         this.setState({
             dept: event.target.value
           }); break;
@@ -321,15 +331,7 @@ class ProductsPage extends Component {
           <Row style={{display: 'flex', flexWrap: 'wrap'}}>
             <Col sm={4} xs={12} style={{padding:'2px'}}>
           <Filter >
-            <PaddingDiv>
-            <div className="inner-addon left-addon ">
-              <i className="glyphicon glyphicon-plus white plus"></i>
-                <Select name="selectThis" id="department" onChange={this.handleChange} value={this.state.dept}>
-                  <option value="">القسم</option>
-                  <DepOption list={DepartmentList} />
-                </Select>
-            </div>
-            </PaddingDiv>
+
             <PaddingDiv>
             <div className="inner-addon left-addon ">
               <i className="glyphicon glyphicon-plus white plus"></i>

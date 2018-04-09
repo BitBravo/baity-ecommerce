@@ -73,14 +73,14 @@ const PreviewImg = styled.img`
   width: auto;
   max-width:100%;
    height: 100%;
-   object-fit: contain; 
+   object-fit: contain;
   position: absolute;
     margin: auto;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
- 
+
 `;
 
 const ImageDiv = styled.div`
@@ -124,7 +124,7 @@ position:relative;
 const ProductName =styled.div`
 margin-bottom:5px;
 @media only screen and (min-width: 992px) {
-margin-top:0; 
+margin-top:0;
 border-bottom:dotted 1px lightgray ;
 height:55px;
 }
@@ -269,12 +269,15 @@ class ProductDetails extends Component {
   addToCart() {
     if (this.props.currentUser) {
       FirebaseServices.insertItem(this.state.product, this.props.currentUser.uid)
-      .then(() => {
+      .then(quantity => {
+        console.log("quantity " + quantity);
+
         // update the cart in the header by calling the updateCart method passed from app
-        this.props.updateCart(true,false)
-        console.log("Item added")})
+        (quantity === 1 ? this.props.updateCart(true,false) : null);
+        console.log("Item added");
+      })
       .catch(error =>
-        console.log("not able to add item"))
+        console.log("not able to add item - "+ error));
     }else {
       console.log("not Register")
     }
@@ -341,7 +344,7 @@ class ProductDetails extends Component {
                   </ImgGallaryThumb>
                 </div>
               </div >
-           
+
             </ImageCol>
 
             <DetailsCol xs={12} sm={12} md={4} lg={3}  >
@@ -366,7 +369,7 @@ class ProductDetails extends Component {
                <IconImg src={Cart} style={{ marginRight: '15px' }} />
                   </button>
                 </LinkContainer>
-              }  
+              }
               <PaddingDiv>
                 <h4 style={{ display: 'inline' }}>وصف المنتج</h4>
                 <h6 style={{ color: 'rgb(26,156,142)', float: 'left', display: 'inline', padding: '0 0 0 20px' }}>
@@ -409,7 +412,7 @@ class ProductDetails extends Component {
               </div>
 
               <div>
-                <Modal 
+                <Modal
                   show={this.state.show}
                   onHide={this.handleHide} style={{ top: 300 }}>
                  <Modal.Header>
@@ -428,7 +431,7 @@ class ProductDetails extends Component {
                   </Modal.Body>
                 </Modal>
               </div>
-              
+
             </DetailsCol>
           </Row>
         </Grid>

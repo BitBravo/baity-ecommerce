@@ -62,6 +62,7 @@ class ProductList extends Component {
     //FirebaseServices.filterIndexing();
     //FirebaseServices.filterIndexingStyle();
     //FirebaseServices.addOwnerName()
+    //FirestoreServices.addTimestamp()
 
     if (this.props.thisUserOnly){
       this.businessProducts()
@@ -91,7 +92,8 @@ class ProductList extends Component {
         if(nextProps.filter.length < 1) {
         // reset the product list by deleting all from the extraProducts
 
-        var ref = FirestoreServices.products
+        var ref = FirestoreServices.products.orderBy('timestamp', 'desc')
+
         this.firePaginator(ref);
       }}
     }else if(nextProps.thisUserOnly)
@@ -114,14 +116,16 @@ class ProductList extends Component {
       ref = ref.where(filter[2].key, "==", filter[2].value)
     }
       console.log("filter 3" + filter[3].value)
-      ref = this.setRangeFilter(ref, filter[3])
+      ref = this.setRangeFilter(ref, filter[3]).orderBy('timestamp', 'desc')
     console.log(ref)
     this.firePaginator(ref);
   }
 
   setRangeFilter(ref, filter){
-    if(filter.value.upper !== "") ref = ref.where(filter.key, "<=", filter.value.upper);
-    if(filter.value.lower !== "") ref = ref.where(filter.key, ">=", filter.value.lower);
+    var pf = false;
+    if(filter.value.upper !== "") {ref = ref.where(filter.key, "<=", filter.value.upper); pf=true};
+    if(filter.value.lower !== "") {ref = ref.where(filter.key, ">=", filter.value.lower); pf=true;}
+    if(pf) ref = ref.orderBy('price', 'asc');
     return ref;
   }
 

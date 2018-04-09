@@ -56,6 +56,7 @@ export class MyCart extends Component {
     this.state = {
       basket: {},
       products: {},
+      quantities: [],
       loading: true,
       total: 0,
       completed: false,
@@ -104,18 +105,22 @@ export class MyCart extends Component {
         var total = 0
         var productIds = Object.keys(snapshot.val())
         var products = snapshot.val()
-        const listPromises = productIds.map(doc =>
-            FirestoreServices.products.doc(doc).get().then(snapshot => {
+        var quantities = [];
+        const listPromises = productIds.map(id =>
+            FirestoreServices.products.doc(id).get().then(snapshot => {
             console.log("items " + snapshot.data())
-            total = Number(snapshot.data().price) + total
-            return newProducts = [...newProducts, snapshot.data()]
+            var quantity = products[id].quantity
+            //quantities.push(quantity);
+            total = Number(snapshot.data().price) * quantity + total
+            var product = {...snapshot.data(), quantity: quantity};
+            return newProducts = [...newProducts, product]
           })
         );
 
         const results = Promise.all(listPromises)
         results.then((snapshot) => {
           console.log("data " + this.state.basket.length)
-          this.setState({products: newProducts, loading: false, total: total, basket: products})
+          this.setState({products: newProducts, quantities: quantities, loading: false, total: total, basket: products})
           console.log("newProducts " + newProducts.length)
 
         })
@@ -156,7 +161,7 @@ export class MyCart extends Component {
 
   render(){
     var subtotal = this.state.total
-    var vat = subtotal * 0.05
+    var vat = Number((subtotal * 0.05).toFixed(2))
     var total = subtotal + vat
 
     if (this.state.loading)
@@ -251,10 +256,10 @@ export class HeaderCart extends Component {
         var newProducts = {}
         var total = 0
         const listPromises = productIds.map(id => {
-          return FirebaseServices.products.child(id).once('value', snapshot => {
-            snapshot.val()
-            total = Number(snapshot.val().price) + total
-            newProducts = [...newProducts, snapshot.val()]
+          return FirestoreServices.products.doc(id).get().then(snapshot => {
+            snapshot.data()
+            total = Number(snapshot.data().price) + total
+            newProducts = [...newProducts, snapshot.data()]
           })
         });
 

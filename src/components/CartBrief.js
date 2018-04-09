@@ -18,7 +18,10 @@ display:flex;
  flexWrap: wrap;
  background:white;
  margin-bottom:20px;
- box-shadow: 5px 5px 5px #d7d7d7;`
+ box-shadow: 5px 5px 5px #d7d7d7;
+ @media only screen and (max-width: 991px) {
+    height:130px;;
+ }`
 
 const ProductImg=styled.img`
 height:150px;
@@ -51,20 +54,30 @@ export class MainCartBrief extends Component {
             <ProductImg src={product.images[0].large}/></Link>
              </Col>
              <Col xs={8} sm={10} style={{ padding: '0 ' }}>
-             <Col xs={5} sm={5} md={5} lg={5} style={{ padding: '0 0 0 15px' }}>
+             <Col xs={6} sm={5} md={5} lg={5} style={{ padding: '0 10px 0 5px' }}>
                 <h4 style={{ color: 'rgb(26,156,142)', float: 'left' }}>{product.price} ر.س </h4>
               </Col>
-              <Col xs={7} sm={7} md={7} lg={7} style={{ padding: '0' }}>
+              <Col xs={6} sm={7} md={7} lg={7} style={{ padding: '0' }}>
               <Link  style={{color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
               <h4>{product.name}</h4></Link>
               </Col>
-              <p>{product.desc.substring(0,150)}
+              <Col xs={4} sm={3} md={3} lg={3} style={{ padding: '0 10px 0 5px' }}>
+              <div>
+                <h6 style={{ color: 'rgb(26,156,142)', float: 'left' }}> الكمية :
+                  {product.quantity}
+                </h6>
+              </div>
+              </Col>
+              <Col xs={8} sm={9} md={9} lg={9} style={{ padding: '0' }}>
+              <p>{product.desc.substring(0,90)}
               <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
               ... المزيد
               </Link>
               </p>
+              </Col>
+
               <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
-                <p style={{ color: 'rgb(26,156,142)' }}> من : 
+                <p style={{ color: 'rgb(26,156,142)' }}> من :
                   {product.businessName}
                 </p>
               </div>
@@ -104,7 +117,7 @@ export class HeaderCartBrief extends Component {
     return(
         <Grid>
               <Row style={{ display: 'flex', flexWrap: 'wrap',width: 'auto ',paddingTop:'5px',borderBottom:'dotted 1px lightgray ' }}>
-         
+
               <Col xs={1} style={{float:'right' }} >
               <Link to={`/${product.owner}/products/${product.id}`}>
             <img src={product.images[0].large} style={{height:'50px',width:'50px'}}/></Link>

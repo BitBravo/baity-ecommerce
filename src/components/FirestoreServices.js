@@ -10,18 +10,32 @@ let STORAGE_BASE = storage.ref();
 /* DATABASE AND STORGAE REFERENCES FOR TESTING*/
 let testPrefix = "test-"; //change this to switch from test tables to production tables
 
-let _PRODUCTS_PATH = testPrefix + "product"; //change me by removing test
-let _IDEAS_PATH = testPrefix + "idea";
-let _BUSINESSES_PATH = testPrefix + "business"; //change me by removing test
-let _LIKES_PATH = testPrefix + "likes";
-let _GROUPS_PATH = testPrefix + "group"; //change me by removing test
-let _BUSINESS_LOGOS_PATH = testPrefix + "BusinessLogo";
-let _PRODUCT_IMAGES_PATH = testPrefix + "productImages";
-let _IDEA_IMAGES_PATH = testPrefix + "ideaImages";
-let _PROFILE_IMAGES_PATH = testPrefix + "profileImage";
-let _PROF_PATH = testPrefix + "professional";
-let _NORMAL_PATH = testPrefix + "normal";
-let _BASKET_PATH = testPrefix + "basket";
+// let _PRODUCTS_PATH = testPrefix + "product"; //change me by removing test
+// let _IDEAS_PATH = testPrefix + "idea";
+// let _BUSINESSES_PATH = testPrefix + "business"; //change me by removing test
+// let _LIKES_PATH = testPrefix + "likes";
+// let _GROUPS_PATH = testPrefix + "group"; //change me by removing test
+// let _BUSINESS_LOGOS_PATH = testPrefix + "BusinessLogo";
+// let _PRODUCT_IMAGES_PATH = testPrefix + "productImages";
+// let _IDEA_IMAGES_PATH = testPrefix + "ideaImages";
+// let _PROFILE_IMAGES_PATH = testPrefix + "profileImage";
+// let _PROF_PATH = testPrefix + "professional";
+// let _NORMAL_PATH = testPrefix + "normal";
+// let _BASKET_PATH = testPrefix + "basket";
+
+/* DATABASE AND STORGAE REFERENCES FOR TESTING*/
+let _PRODUCTS_PATH = "product"; //change me by removing test
+let _IDEAS_PATH = "idea";
+let _BUSINESSES_PATH = "business"; //change me by removing test
+let _LIKES_PATH = "likes";
+let _GROUPS_PATH = "group"; //change me by removing test
+let _BUSINESS_LOGOS_PATH = "BusinessLogo";
+let _PRODUCT_IMAGES_PATH = "productImages";
+let _IDEA_IMAGES_PATH = "ideaImages";
+let _PROFILE_IMAGES_PATH = "profileImage";
+let _PROF_PATH = "professional";
+let _NORMAL_PATH = "normal";
+let _BASKET_PATH = "basket";
 
 
 // firestore references
@@ -809,20 +823,35 @@ export default {
     return this.basket.doc(userId)
   },
 
+  addTimestamp(){
+    this.ideas.get().then(docs => {
+      docs.forEach(doc =>{
+        // console.log("doc.data().price " + doc.data().price)
+        // console.log("doc.data().price " + Number(doc.data().price))
+
+        var data = {
+          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        }
+        this.ideas.doc(doc.id).update(data)
+      }
+      )
+    })
+  }
+
   /**
    * This method is used to insert a new item into basket into DB
    */
-  insertItem(item, userId) {
-    console.log("userId " + userId)
-    console.log("item.id " + item.id)
-    var cartData = {
-      quantity: 1
-  };
-    return this.basket.doc(userId).collection("items").doc(item.id).set(cartData)
-      .then( () => item.id )
-      .catch(error => {
-        console.log(`error adding product: ${item} in user basket`)
-        throw error;
-      });
-  }
+  // insertItem(item, userId) {
+  //   console.log("userId " + userId)
+  //   console.log("item.id " + item.id)
+  //   var cartData = {
+  //     quantity: 1
+  // };
+  //   return this.basket.doc(userId).collection("items").doc(item.id).set(cartData)
+  //     .then( () => item.id )
+  //     .catch(error => {
+  //       console.log(`error adding product: ${item} in user basket`)
+  //       throw error;
+  //     });
+  // }
 };
