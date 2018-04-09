@@ -82,6 +82,7 @@ class Main extends Component {
             <Home
           currentUser={this.props.currentUser}
           authenticated={this.props.authenticated}
+          {...props}
           />);}}
           />
           <Route

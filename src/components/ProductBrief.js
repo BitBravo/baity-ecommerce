@@ -123,7 +123,7 @@ export class ProductBrief extends Component {
 // export default ProductBrief;
 
 
-export class MyProductBrief extends Component {
+export class CBrief extends Component {
   constructor() {
     super();
     // this.updateproduct = this.updateproduct.bind(this);
@@ -137,7 +137,6 @@ export class MyProductBrief extends Component {
     const product = this.props.product;
     return (
 
-        <MyThumbnailDiv style={{margin:'10px',float:'left',width:'250px'}}>
           <ImageContainer>
             <ImageDiv>
             <Link to={`/${product.owner}/products/${product.id}`}>
@@ -154,23 +153,7 @@ export class MyProductBrief extends Component {
             </ImageDiv>
           </ImageContainer>
 
-          <PaddingDiv >
-
-          <Col xs ={4} md={4} style={{ padding:'2px 0 2px 0'}}>
-              <h6 style={{color:'rgb(26, 156, 142)',fontSize:"10px"}}>{product.price} ر.س</h6>
-             </Col>
-            <Link to={`/${product.owner}/products/${product.id}`} style={{color:'black',fontWeight:'900'}} >
-             <Col xs ={8} md={8} style={{ padding:'2px'}} >
-              <h6><IconImg style={{width:"15px",height:'15px'}}src={Product} className="icons"/> {product.name} </h6>
-             </Col>
-            </Link>
-            <p  style={{fontSize:'10px'}}className="flex-text text-muted">{product.desc.substring(0,30)}
-              <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
-              ... المزيد
-              </Link>
-            </p>
-          </PaddingDiv>
-        </MyThumbnailDiv>
+        
 
     );
   }

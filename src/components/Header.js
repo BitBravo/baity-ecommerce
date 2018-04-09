@@ -17,7 +17,7 @@ import Idea from '../assets/img/Unselected-idea.png';
 import Product from '../assets/img/UNselected-product.png';
 import Profile from '../assets/img/Profile-icon.png';
 import Cart from '../assets/img/Cart-icon.png';
-import {HeaderCart} from "./MyCart";
+import {HeaderCart} from "./MyCart2";
 
 
 
@@ -232,31 +232,6 @@ class Header extends Component {
             </LinkContainer>
             </MainNav>
 
-              {/* <div>
-              <Nav bsStyle="tabs"
-          justified  >
-              <LinkContainer to="/myproducts">
-                <NavItem  href="#"> <MdEventSeat className="icons"/>
-                  استعراض منتجاتي
-                </NavItem>
-                </LinkContainer>
-
-                <LinkContainer to="/newproduct">
-                  <NavItem ><MdAddToPhotos className="icons"/>اضافة منتج جديد  </NavItem>
-                </LinkContainer>
-
-              </Nav>
-              </div>
-
-
-
-          {/* <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-          <MenuItem eventKey={3.1}>Action</MenuItem>
-          <MenuItem eventKey={3.2}>Another action</MenuItem>
-          <MenuItem eventKey={3.3}>Something else here</MenuItem>
-          <MenuItem divider />
-          <MenuItem eventKey={3.4}>Separated link</MenuItem>
-        </NavDropdown> */}
 
        {/* </Navbar.Collapse > */}
 
