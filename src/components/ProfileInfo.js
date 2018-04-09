@@ -4,7 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 import firebase from "firebase";
 import { app, base, database, storage } from "../base";
-import FirebaseServices from './FirebaseServices'
+import FirestoreServices from './FirestoreServices'
 import livingroom from '../assets/img/livingroom.jpg';
 import styled from 'styled-components'
 import Loading from "./Loading";
@@ -93,13 +93,12 @@ class ProfileInfo extends Component{
         id = this.props.currentUser.uid
         console.log("this.props.currentUser.uid " + this.props.currentUser.uid)
     }
-    console.log("this.state.owner " + this.state.owner)
-    FirebaseServices.getProfessionalUserBusinessId(id,
+    FirestoreServices.getProfessionalUserBusinessId(id,
       (businessId) => {
         if (businessId === '') {
           this.setState({ errorHandling: { showError: true, errorMsg: {message:'خطأ داخلي: لم يتم العثور على الشركة '} } });
         } else {
-          this.bussRef = base.syncState(`${FirebaseServices.BUSINESSES_PATH}/${businessId}`, {
+          this.bussRef = base.bindDoc(`${FirestoreServices.BUSINESSES_PATH}/${businessId}`, {
             context: this,
             state: "profile",
             then(data) {
@@ -137,9 +136,9 @@ class ProfileInfo extends Component{
         <Col xs={12}  lg={12} >
         <Col xs={3} sm={2} md={2} lg={2} style={{padding:'0'}}>
         {this.props.user
-        ? 
+        ?
             <LogoutButton style={{cursor:'auto'}}>اتصل بنا<TiPhoneOutline style={{fontSize:"17px",paddingRight:"3px"}}/></LogoutButton>
-        
+
         : <LinkContainer to="/logout" >
             <LogoutButton> تسجيل خروج <GoSignOut style={{fontSize:"17px",paddingRight:"3px"}}/></LogoutButton>
           </LinkContainer>

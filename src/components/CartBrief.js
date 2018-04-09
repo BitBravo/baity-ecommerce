@@ -55,20 +55,29 @@ export class MainCartBrief extends Component {
              </Col>
              <Col xs={8} sm={10} style={{ padding: '0 ' }}>
              <Col xs={6} sm={5} md={5} lg={5} style={{ padding: '0 10px 0 5px' }}>
-                <h5 style={{ color: 'rgb(26,156,142)', float: 'left' }}>{product.price} ر.س </h5>
+                <h4 style={{ color: 'rgb(26,156,142)', float: 'left' }}>{product.price} ر.س </h4>
               </Col>
               <Col xs={6} sm={7} md={7} lg={7} style={{ padding: '0' }}>
               <Link  style={{color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
               <h5>{product.name}</h5></Link>
               </Col>
-              <h6 style={{ padding: '10px' }}>{product.desc.substring(0,40)}
+              <Col xs={4} sm={3} md={3} lg={3} style={{ padding: '0 10px 0 5px' }}>
+              <div>
+                <h6 style={{ color: 'rgb(26,156,142)', float: 'left' }}> الكمية :
+                  {product.quantity}
+                </h6>
+              </div>
+              </Col>
+              <Col xs={8} sm={9} md={9} lg={9} style={{ padding: '0' }}>
+              <p>{product.desc.substring(0,90)}
               <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
               ... المزيد
               </Link>
-              </h6>
+              </p>
+              </Col>
 
-              <div style={{ display: 'inline-block', position: 'absolute' ,bottom:'0'  }}>
-                <p style={{ color: 'rgb(26,156,142)' }}> من : 
+              <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
+                <p style={{ color: 'rgb(26,156,142)' }}> من :
                   {product.businessName}
                 </p>
               </div>
@@ -108,7 +117,7 @@ export class HeaderCartBrief extends Component {
     return(
         <Grid>
               <Row style={{ display: 'flex', flexWrap: 'wrap',width: 'auto ',paddingTop:'5px',borderBottom:'dotted 1px lightgray ' }}>
-         
+
               <Col xs={1} style={{float:'right' }} >
               <Link to={`/${product.owner}/products/${product.id}`}>
             <img src={product.images[0].large} style={{height:'50px',width:'50px'}}/></Link>

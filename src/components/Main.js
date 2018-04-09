@@ -6,7 +6,6 @@ import IdeasPage from"./IdeasPage";
 import Login from "./Login";
 import Register from "./Register";
 import RegisterNormal from "./RegisterNormal";
-import UserTypeSelector from "./UserTypeSelector";
 import Logout from "./Logout";
 import ProductDetails from "./ProductDetails";
 import ProductUpdater from "./ProductUpdater";
@@ -90,7 +89,10 @@ class Main extends Component {
             path="/login"
             render={props => {
               return (
-                <Login  currentUser={this.props.currentUser} {...props} />
+                <Login
+                currentUser={this.props.currentUser}
+                setCurrentUser={this.props.setCurrentUser}
+                {...props} />
               );
             }}
           />

@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Main from "./components/Main";
 import Footer from "./components/Footer";
 import FirebaseServices from "./components/FirebaseServices";
+import FirestoreServices from "./components/FirestoreServices";
 import "./App.css";
 
 // function createElement(Component, props) {
@@ -28,9 +29,10 @@ class App extends Component {
       userName: "",
       basket: {},
       cartCount: 0,
-    
+
     }
     this.setCurrentUser = this.setCurrentUser.bind(this);
+    this.getCart = this.getCart.bind(this)
     //this.updateCart = this.updateCart.bind(this);
   }
 
@@ -38,38 +40,35 @@ class App extends Component {
   // (https://firebase.google.com/docs/auth/web/manage-users)
   setCurrentUser(user) {
     if (user) {
-      FirebaseServices.readDBRecord('group', user.uid).then( value => {
-        console.log(value)
+      FirestoreServices.readDBRecord('group', user.uid).then( value => {
+        console.log(value.group)
 
-        if (value === "prof") {
-          FirebaseServices.readDBRecord('profUser', `${user.uid}`)
+        if (value.group === "prof") {
+          FirestoreServices.readDBRecord('profUser', `${user.uid}`)
             .then(val => {
               this.setState({currentUser: user,
               authenticated: true,
-              group: value,
+              group: value.group,
               userName: val.name,
-            })})
-        }else if (value === "normal"){
-          console.log("normal")
-          FirebaseServices.readDBRecord('normalUser', `${user.uid}`)
+            })
+            return this.getCart(user)
+          })
+        }else if (value.group === "normal"){
+          FirestoreServices.readDBRecord('normalUser', `${user.uid}`)
             .then(val => {
               this.setState({currentUser: user,
               authenticated: true,
-              group: value,
+              group: value.group,
               userName: val.name,
-            
-              })})
+              })
+              var b = this.getCart(user)
+              return b;
+              })
+
         }
       })
 
-      // get items in basket
-      FirebaseServices.basket.child(`${user.uid}/items`).once( "value", snapshot => {
-        console.log("val.childCount " + snapshot.numChildren())
 
-        this.setState({
-          cartCount: snapshot.numChildren()
-        })
-      })
       /*
         // We can get the folloiwng information. See: (https://firebase.google.com/docs/auth/web/manage-users)
         name = user.displayName;
@@ -100,15 +99,38 @@ class App extends Component {
     }
   }
 
+getCart(user){
+  console.log("val.childCount ");
+
+  // get items in basket
+  //FirestoreServices.getBasket()
+  FirebaseServices.basket.child(`${user.uid}/items`).once('value', snapshot => {
+    console.log("val.childCount " + snapshot.numChildren());
+    this.setState({cartCount: snapshot.numChildren()})
+    return snapshot.numChildren()
+
+    // if (doc.exist){
+    //   const currentCount = doc.exists ? doc.data().count : 0
+    //   var count = Object.keys(doc.data().items)
+    //   console.log("val.childCount " + count.length);
+    //
+    //   this.setState({cartCount: count.length})
+    //   return docs.size
+    // }
+  })
+}
+
 updateCart(add, remove) {
   var newCount = 0
   if (remove)
     this.setState({cartCount: newCount})
   else {
-    if(add)
+    if(add){
       newCount = this.state.cartCount + 1
-    else {
+      console.log("Item added")
+    }else {
       newCount = this.state.cartCount - 1
+      console.log("Item removed")
     }
     this.setState({cartCount: newCount})
   }
@@ -157,15 +179,17 @@ updateCart(add, remove) {
             group={this.state.group}
             userName={this.state.userName}
             cart={this.state.cartCount}
+            setCurrentUser={this.setCurrentUser}
           />
           <Main
             authenticated={this.state.authenticated}
             currentUser={this.state.currentUser}
             group={this.state.group}
             updateCart={this.updateCart.bind(this)}
+            setCurrentUser={this.setCurrentUser}
           />
           <Footer
-           authenticated={this.state.authenticated} 
+           authenticated={this.state.authenticated}
            currentUser={this.state.currentUser}
            group={this.state.group}
            userName={this.state.userName}

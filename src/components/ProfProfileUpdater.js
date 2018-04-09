@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Modal, Alert, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import firebase from "firebase";
+import fire from "firebase";
 import { app, base, database, storage } from "../base";
-import FirebaseServices from './FirebaseServices'
+import FirestoreServices from './FirestoreServices'
 import Loading from "./Loading";
 
 import {
@@ -46,12 +46,12 @@ class ProfProfileUpdater extends Component {
   }
 
   componentWillMount() {
-    FirebaseServices.getProfessionalUserBusinessId(this.props.currentUser.uid, 
+    FirestoreServices.getProfessionalUserBusinessId(this.props.currentUser.uid,
       (businessId) => {
         if (businessId === '') {
           this.setState({ errorHandling: { showError: true, errorMsg: {message:'خطأ داخلي: لم يتم العثور على الشركة '} } });
         } else {
-          this.bussRef = base.syncState(`${FirebaseServices.BUSINESSES_PATH}/${businessId}`, {
+          this.bussRef = base.bindDoc(`${FirestoreServices.BUSINESSES_PATH}/${businessId}`, {
             context: this,
             state: "profile",
             then(data) {
@@ -71,7 +71,7 @@ class ProfProfileUpdater extends Component {
     this.bussRef && base.removeBinding(this.bussRef);
   }
 
-  formPercentageViewer(percentage) {   
+  formPercentageViewer(percentage) {
       this.setState(
         {
           uploadProgress: {show: percentage < 100, percentage: percentage}
@@ -91,11 +91,11 @@ class ProfProfileUpdater extends Component {
       errorMsg: ''
     }
     let newState = {...this.state, uploadProgress, submitStatus}
-    
+
     this.setState(newState)
   }
 
-  
+
 
   handleSubmit(
     profileData,
@@ -103,10 +103,10 @@ class ProfProfileUpdater extends Component {
   ) {
     if (!this.state.profile){
       formErrorHandler('خطأ داخلي: لم يتم العثور على البروفايل في قاعدة البيانات')
-      return 
+      return
     }
     profileData.id = this.state.profile.id;
-    FirebaseServices.updateProfProfile(this.props.currentUser.uid, profileData, formErrorHandler, this.formSuccessHandler, this.formPercentageViewer)  
+    FirestoreServices.updateProfProfile(this.props.currentUser.uid, profileData, formErrorHandler, this.formSuccessHandler, this.formPercentageViewer)
   }
 
   render() {
@@ -118,7 +118,7 @@ class ProfProfileUpdater extends Component {
           <Modal show={true} style={{ top: 300 }}>
             <Modal.Header>حدث خطأ غير معروف</Modal.Header>
             <Modal.Body>
-              
+
                 <Alert bsStyle="danger">
                   {this.state.errorHandling.errorMsg.message}
                 </Alert>
@@ -132,9 +132,9 @@ class ProfProfileUpdater extends Component {
     if (!this.state.loading && !this.state.showError)
       return (
         <div
-        className="loginreg" 
+        className="loginreg"
         >
-          
+
               <ProfProfileForm
                 profile={this.state.profile}
                 onSubmit={this.handleSubmit.bind(this)}
@@ -149,31 +149,31 @@ class ProfProfileUpdater extends Component {
           style={{top: 300}}
         >
           <Modal.Header >
-            { this.state.submitStatus.submitSuccessful 
+            { this.state.submitStatus.submitSuccessful
               ? <Modal.Title id="contained-modal-title"><FaCheckCircleO style={{color: 'green', width: '30px', height: '30px'}}/>  تم تحديث البروفايل بنجاح</Modal.Title>
               : <Modal.Title id="contained-modal-title"><FaTimesCircleO style={{color: 'red', width: '30px', height: '30px'}}/>  حدث خطأ في تحديث البروفايل</Modal.Title>
             }
           </Modal.Header>
             <Modal.Body>
-            { this.state.submitStatus.submitSuccessful 
+            { this.state.submitStatus.submitSuccessful
               ?
-                null 
+                null
               :
-                
+
                 <Alert
                   bsStyle='danger'
                 >
                   {this.state.submitStatus.errorMsg}
                 </Alert>
-            
+
             }
               <Link to="/">
                 <Button style={{margin: 'auto', display: 'block'}}>العودة للصفحة الرئيسية</Button>
               </Link>
             </Modal.Body>
         </Modal>
-        
-        {/* This modal is for showing image upload progress bar to show progress of 
+
+        {/* This modal is for showing image upload progress bar to show progress of
         uploading/adding product to DB */}
         <Modal
           show={this.state.uploadProgress.show}

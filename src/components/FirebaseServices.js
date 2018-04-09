@@ -872,17 +872,26 @@ uploadIdeaImages(newImages, viewUploadProgress, uid){
    * This method is used to insert a new item into basket into DB
    */
   insertItem(item, userId) {
-    console.log("userId " + userId)
-    console.log("item.key " + item.id)
+    console.log("userId " + userId);
+    console.log("adding item.key " + item.id);
     // return new Promis((resolve, reject) => {
     //   var newProductRef = this.products.push();
     //   product = {...product, id: newProductRef.key};
     //   newProductRef.set(product).then( () => newProductRef.key);
     // })
-      return this.basket.child(userId).child(`items/${item.id}`).child("quantity").set(1)
-      .then( () => item.key )
+    return this.basket.child(userId).child(`items/${item.id}`)
+    .once('value'). then( snapshot =>
+        this.setQuantity(item, userId, snapshot)
+    );
+  },
+
+  setQuantity(item, userId, snapshot) {
+    var quantity = (snapshot.exists()? snapshot.val().quantity + 1 : 1);
+    return this.basket.child(userId).child(`items/${item.id}`).child("quantity")
+        .set(quantity)
+      .then( () => quantity )
       .catch(error => {
-        console.log(`error adding product: ${item} in user basket`)
+        console.log(`error adding product: ${item} in user basket`);
         throw error;
       });
   },

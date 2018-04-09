@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { app, base } from "../base";
+import { app, base, DBBase } from "../base";
+import FirestoreServices from './FirestoreServices'
 import FirebaseServices from './FirebaseServices'
 import {MainCartList} from './CartList';
 import {MainCartBrief}from "./CartBrief";
@@ -50,12 +51,13 @@ export class MyCart extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
    this.removefromCart = this.removefromCart.bind(this)
     this.deleteItem = this.deleteItem.bind(this)
-    this.fetchItems = this.fetchItems.bind(this) 
+    this.fetchItems = this.fetchItems.bind(this)
 
 
     this.state = {
       basket: {},
       products: {},
+      quantities: [],
       loading: true,
       total: 0,
       completed: false,
@@ -87,43 +89,58 @@ export class MyCart extends Component {
   }
 
   fetchItems() {
-    var path = FirebaseServices.BASKET_PATH + `/${this.props.currentUser.uid}/items`
-    console.log("path " + path)
-    this.basketRef = base.syncState(path, {
-      context: this,
-      state: "basket",
-      then(data) {
-        var productIds = Object.keys(this.state.basket)
+    // var path = FirebaseServices.BASKET_PATH + `/${this.props.currentUser.uid}/items`
+    // console.log("path " + path)
+    // this.basketRef = DBBase.bindToState(path, {
+    //   context: this,
+    //   state: "basket",
+    //   then(data) {
+    //     console.log("DBBase data: " + data)
+    //     var productIds = Object.keys(this.state.basket)
+    //     console.log(productIds)
+      var ref = FirebaseServices.basket.child(`${this.props.currentUser.uid}/items`)
+      ref.once('value',snapshot => {
+
+        if(snapshot.val() !== null) {
         var newProducts = {}
         var total = 0
-        const listPromises = productIds.map(id => {
-          return FirebaseServices.products.child(id).once('value', snapshot => {
-            snapshot.val()
-            total = Number(snapshot.val().price) + total
-            newProducts = [...newProducts, snapshot.val()]
+        var productIds = Object.keys(snapshot.val())
+        var products = snapshot.val()
+        var quantities = [];
+        const listPromises = productIds.map(id =>
+            FirestoreServices.products.doc(id).get().then(snapshot => {
+            console.log("items " + snapshot.data())
+            var quantity = products[id].quantity
+            //quantities.push(quantity);
+            total = Number(snapshot.data().price) * quantity + total
+            var product = {...snapshot.data(), quantity: quantity};
+            return newProducts = [...newProducts, product]
           })
-        });
+        );
 
         const results = Promise.all(listPromises)
         results.then((snapshot) => {
           console.log("data " + this.state.basket.length)
-          this.setState({products: newProducts, loading: false, total: total})
+          this.setState({products: newProducts, quantities: quantities, loading: false, total: total, basket: products})
           console.log("newProducts " + newProducts.length)
-          
+
         })
-       
-      },
-      onFailure(error) {
-      this.setState({errorHandling: {showError: true, errorMsg: error}});
+
+      }else {
+        this.setState({loading:false})
       }
     })
+      // onFailure(error) {
+      // this.setState({errorHandling: {showError: true, errorMsg: error}});
+      // }
+
   }
 
   handleSubmit(event) {
     // create a chat between user and business owner **later
     // fetch owners emails
     // send email msg with uesr email and product information
-    FirebaseServices.basket.child(this.props.currentUser.uid).child('completed').set(true)
+    FirebaseServices.basket.child(this.props.currentUser.uid).set({'completed': true})
     this.props.updateCart(false,true)
     this.setState({completed: true});
   }
@@ -136,16 +153,20 @@ export class MyCart extends Component {
     delete this.state.basket[id]
     this.setState({basket: this.state.basket})
 
-    FirebaseServices.basket.child(this.props.currentUser.uid).child(`items/${id}`).remove()
+    FirebaseServices.basket.child(`${this.props.currentUser.uid}/items/${id}`).remove()
     // for some reason calling fetch will not cause the page to rerender
     this.fetchItems()
     this.props.updateCart(false,false)
   }
- 
-  
+
+
   render(){
     var subtotal = this.state.total
+<<<<<<< HEAD
     var vat = Number((subtotal * 0.05).toFixed(3))
+=======
+    var vat = Number((subtotal * 0.05).toFixed(2))
+>>>>>>> 5c23fa900a6b541c263d54f35a1fe8abc96c5031
     var total = subtotal + vat
 
     if (this.state.loading)
@@ -180,16 +201,16 @@ export class MyCart extends Component {
 
            }
             <div>
-                <Modal 
+                <Modal
                    show={this.state.show}
                    onHide={this.handleHide} style={{ top: 300 }}>
                  <Modal.Header>
                     سيتم ارسال بيانات تواصلك للبائع لخدمتك
                   </Modal.Header>
                   <Modal.Body>
-                
+
                       <Cartbutton onClick={ () => {this.handleShow();this.handleSubmit()}}>تأكيد</Cartbutton>
-               
+
                       <p style={{color:'rgb(26, 156, 142)'}}>ارسال الايميل فقط</p>
                   </Modal.Body>
                 </Modal>
@@ -199,7 +220,94 @@ export class MyCart extends Component {
           ];
     };
   }
-  
- 
+
+
 }
 
+<<<<<<< HEAD
+=======
+export class HeaderCart extends Component {
+
+  constructor() {
+    super();
+    this.fetchItems = this.fetchItems.bind(this)
+
+
+    this.state = {
+      basket: {},
+      products: {},
+      loading: true,
+      total: 0,
+      completed: false,
+      errorHandling: {
+        showError: false,
+        errorMsg: ""},
+
+      };
+
+   }
+  componentWillMount() {
+    this.fetchItems()
+  }
+
+
+
+  fetchItems() {
+    var path = FirebaseServices.BASKET_PATH + `/${this.props.currentUser.uid}/items`
+    console.log("path " + path)
+    this.basketRef = base.syncState(path, {
+      context: this,
+      state: "basket",
+      then(data) {
+        var productIds = Object.keys(this.state.basket)
+
+        var newProducts = {}
+        var total = 0
+        const listPromises = productIds.map(id => {
+          return FirestoreServices.products.doc(id).get().then(snapshot => {
+            snapshot.data()
+            total = Number(snapshot.data().price) + total
+            newProducts = [...newProducts, snapshot.data()]
+          })
+        });
+
+        const results = Promise.all(listPromises)
+        results.then((snapshot) => {
+          console.log("data " + this.state.basket.length)
+          this.setState({products: newProducts, loading: false, total: total})
+          console.log("newProducts " + newProducts.length)
+        })
+      },
+      onFailure(error) {
+      this.setState({errorHandling: {showError: true, errorMsg: error}});
+      }
+    })
+  }
+
+
+  render(){
+    var subtotal = this.state.total
+
+    if (this.state.loading)
+      return(
+       <Loading />
+      )
+
+    else {
+      return (
+            <DropCart >
+            <p style={{ textAlign:'center'}}>سلة التسوق</p>
+            <hr/>
+            <HeaderCartList products={this.state.products}/>
+           <h4 style={{ textAlign:'center'}}> المجموع :
+        <span style={{ color: 'rgb(26,156,142)'}}> {subtotal} ر.س </span>
+           </h4>
+             </DropCart>
+
+
+
+    );
+    };
+  }
+}
+>>>>>>> 5c23fa900a6b541c263d54f35a1fe8abc96c5031

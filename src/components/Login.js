@@ -7,6 +7,7 @@ import bayty_icon from '../assets/img/bayty_icon1.png';
 import { CSSTransition } from 'react-transition-group'
 import styled from 'styled-components'
 import PasswordResetter from "./PasswordResetter"
+import FirestoreServices from "./FirestoreServices";
 
 
 
@@ -98,15 +99,20 @@ class Login extends Component {
         //} else if (providers.indexOf("password") === -1) {
           // this means the user is registered using SSO so point him to SSO singin
         } else {
+          console.log("fetchProvidersForEmail")
+
           // sign in with email/password and return user object on success
           return app.auth().signInWithEmailAndPassword(email, password)
         }
       })
       .then((user) => {
+        console.log("fetchProvidersForEmail then")
+
         if (user && user.email) {
           this.loginForm.reset()
-          //this.props.setCurrentUser(user)
+          this.props.setCurrentUser(user)
           this.setState({ redirect: true })
+
         }
       })
       .catch((error) => {
@@ -126,8 +132,6 @@ class Login extends Component {
         }
       })
   }
-
-
 
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } }

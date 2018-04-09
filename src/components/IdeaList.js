@@ -3,11 +3,12 @@ import { Link } from "react-router-dom";
 import { Grid, Row, Col } from "react-bootstrap";
 import { app, base } from "../base";
 import FirebaseServices from './FirebaseServices'
+import FirestoreServices from './FirestoreServices'
+import FirestorePaginator from './FirestorePaginator'
 import IdeaBrief from "./IdeaBrief";
 import Loading from './Loading'
 import {MdWeekend} from 'react-icons/lib/md';
 import styled from 'styled-components'
-import FirebasePaginator from './firebase-pag';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Idea from '../assets/img/AddingIdea.png';
 
@@ -26,13 +27,10 @@ width:180px;
   height: 40px;
   width:100%;
 `;
-const PAGE_SIZE = 12;
-var options = {
-  pageSize: PAGE_SIZE,
-  finite: true,
-  retainLastPage: false
-};
+var options = {};
+
 var paginator;
+var hasMore = true;
 
 class IdeaList extends Component{
   constructor() {
@@ -49,12 +47,8 @@ class IdeaList extends Component{
 
   componentWillMount() {
     this.listToArray = this.listToArray.bind(this)
-    this.FirebasePaginator = this.firebasePaginator.bind(this, ref)
-    this.forward = this.forward.bind(this)
-    this.firebasePaginatorFiltering1 = this.firebasePaginatorFiltering.bind(this, ref)
-    this.forwardFiltring = this.forwardFiltring.bind(this)
+    this.next = this.next.bind(this);
 
-    //FirebaseServices.indexingIdea();
 
     if (this.props.thisUserOnly){
       var owner;
@@ -66,147 +60,96 @@ class IdeaList extends Component{
         this.setState({owner: owner})
       }
       if(this.props.shortList){
-      this.ideassRef = base.syncState(FirebaseServices.IDEAS_PATH, {
-        context: this,
-        state: "ideas",
-        queries: {
-          orderByChild: 'owner',
-          limitToLast: PAGE_SIZE,
-          equalTo: owner
-        },
-        then(data) {
-          this.setState({loading: false})
-        },
-        onFailure(error) {
-        this.setState({errorHandling: {showError: true, errorMsg: error}});
-        }
-      });
-  } else {
-      //var owner = this.props.currentUser.uid
-      var ref = FirebaseServices.ownerIdea.child(owner)
-      paginator = new FirebasePaginator(ref, options)
-      this.firebasePaginatorFiltering(ref)
-  }
-  } else {
-    //     this.ideasRef = base.syncState(FirebaseServices.IDEAS_PATH, {
-    //       context: this,
-    //       state: "ideas",
-    //       then(data) {
-    //       this.setState({loading: false})
-    //       },
-    //       onFailure(error) {
-    //       this.setState({errorHandling: {showError: true, errorMsg: error}});
-    //       }
-    // });
-    var ref = FirebaseServices.ideas
-    paginator = new FirebasePaginator(ref, options)
+        this.ideasRef = base.bindCollection(FirestoreServices.IDEAS_PATH, {
+          context: this,
+          state: "ideas",
+          query: (ref) => {
+            return ref.where('owner', '==', owner)
+              .limit(3);
+          },
+          then(data) {
+            this.setState({loading: false})
+          },
+          onFailure(error) {
+          this.setState({errorHandling: {showError: true, errorMsg: error}});
+          }
+        });
+      } else {
+       var ref = FirestoreServices.ideas.where("owner", "==", owner)
+       paginator = new FirestorePaginator(ref, {})
+       paginator.on()
+       .then((docs) =>
+         this.setState({
+           ideas: docs,
+           loading: false,
+           firstTime: false
+         })
+        )
 
-    this.firebasePaginator(ref)
+    }
+  } else {
+    var ref = FirestoreServices.ideas
+    paginator = new FirestorePaginator(ref, {})
+    paginator.on()
+    .then((docs) =>
+      this.setState({
+        ideas: docs,
+        loading: false,
+        firstTime: false
+      })
+     )
   }
 
   }
 
   componentWillUnmount() {
     this.ideasRef && base.removeBinding(this.ideasRef);
-    if (paginator) {
-      paginator.off('value', () => {
-      });
-    }
   }
 
-  firebasePaginator(ref) {
-    var itemsList = [];
-    var handler = (() => {
-      this.setState({
-        ideas: paginator.collection,
-        loading: false,
-        firstTime: false
-      });
-      this.listToArray()
-    });
-    paginator.on('value', handler);
-  }
 
   listToArray() {
-    const ideas = this.state.ideas
-    const ideaIds = Object.keys(ideas);
-
-    var arr = [];
-    ideaIds.reverse().map(id => {
-      const idea = ideas[id];
-      arr.push(idea)
-    });
-    var list = [...this.state.extraIdeas, ...arr.slice()]
-    this.setState({extraIdeas: list, loading: false})
-
-  }
-
-  firebasePaginatorFiltering(ref) {
-    var itemsList = [];
-    var handler = ( () => {
-      if (this.state.firstTime){
-        const ideaIds = Object.keys(paginator.collection);
-        // array is sorted in assending order
-        var last = ideaIds[ideaIds.length]
-
-          this.productsRef = base.bindToState(FirebaseServices.IDEAS_PATH, {
-            context: this,
-            state: "ideas",
-            queries: {
-              orderByChild: 'owner',
-              equalTo: this.state.owner,
-              limitToLast: PAGE_SIZE
-            },
-            then(data) {
-              this.setState({loading: false, firstTime: false})
-              this.listToArray();
-            },
-            onFailure(error) {
-            this.setState({errorHandling: {showError: true, errorMsg: error}});
-            }
-          });
-
-    }else {
-      var newPage = this.state.page + 1;
-      var ideaIds = (Object.keys(paginator.collection))
-      console.log(ideaIds.length)
-      if (ideaIds.length > 0){
-        var newIdeas = {}
-        const listPromises = ideaIds.map(id => {
-          return FirebaseServices.ideas.child(id).once('value', snapshot => {
-            snapshot.val()
-            newIdeas = [...newIdeas, snapshot.val()]
-          })
-        });
-
-        const results = Promise.all(listPromises)
-        results.then((snapshot) => {
-          this.setState({ideas: newIdeas, page: newPage, loading: false})
-          this.listToArray();
-
-        })//results.then
-      } //newProductIds.length
-    }//else
-  }) //handler
-    paginator.on('value', handler);
-  }
-
-  forward(){
-    paginator.previous()
-    .then(() => {
-    });
-  }
-
-  forwardFiltring(){
-    paginator.previous()
-    .then(() => {
-  });
+    // const ideas = this.state.ideas
+    // const ideaIds = Object.keys(ideas);
+    //
+    // var arr = [];
+    // ideaIds.reverse().map(id => {
+    //   const idea = ideas[id];
+    //   arr.push(idea)
+    // });
+    // var list = [...this.state.extraIdeas, ...arr.slice()]
+    // this.setState({extraIdeas: list, loading: false})
 
   }
+
+next(){
+  console.log("calling next()")
+  if (!paginator.hasMore){
+    hasMore = false;
+    console.log("next() Has no more")
+    return
+  }
+  console.log("next() Has more")
+  paginator.next()
+  .then((docs) => {
+    if (!paginator.hasMore){
+      hasMore = false;
+      console.log("next() Has no more")
+      return
+    }
+    console.log("hasMore = " + paginator.hasMore)
+    var newIdeas = this.state.ideas.concat(docs)
+    this.setState({
+      ideas: newIdeas,
+      loading: false,
+      firstTime: false
+    })
+  })
+}
 
   render() {
     const ideas = this.state.ideas;
     const ideaIds = Object.keys(ideas);
+    console.log("ideas " + ideaIds.length)
 
     var msg;
     var title;
@@ -263,8 +206,6 @@ class IdeaList extends Component{
 
   );
   } else {
-    var newIdeas = this.state.extraIdeas.slice()
-
     return (
        <div style={{paddingTop: "30px"}}>
       <Grid>
@@ -272,14 +213,14 @@ class IdeaList extends Component{
 
         <Col xs={12} md={12}>
         <InfiniteScroll style={{overflow:'none'}}
-          hasMore={!paginator.isLastPage}
-          next={this.props.thisUserOnly? this.forwardFiltring : this.forward}
+          hasMore={hasMore}
+          next={this.next}
         >
-        {newIdeas.length < 1
+        {ideas.length < 1
         ? <h5 style={{textAlign:'center'}}>{msg}</h5>
         : null}
-          {newIdeas.map((idea, index) => {
-            return <IdeaBrief key={idea.id} idea={idea} />;
+          {ideas.map((idea, index) => {
+            return <IdeaBrief key={idea.id} idea={idea.data()} />;
           })}
            </InfiniteScroll>
 
