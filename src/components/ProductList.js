@@ -23,7 +23,17 @@ width:20px;
   margin-right:2px;
  }`
 
-
+ const MoreButton = styled.button`
+ background-color:transparent;
+ border:1px solid rgb(26, 156, 142); 
+ color:rgb(26, 156, 142);
+   width:100px;
+   height: 30px;
+   @media only screen and (max-width: 767px) {
+     height: 20px;
+     width:40px;
+     font-size:10px;
+   `;
 const Button = styled.button`
   width:180px;
   @media only screen and (max-width: 767px) {
@@ -253,9 +263,17 @@ class ProductList extends Component {
           </Col>
           </Row>
         :<Row   style={{display: 'flex', flexWrap: 'wrap'}}>
-          <Link  to={`/${this.state.owner}/products`}>
-          <h2 style={{color:'rgb(26,156,142)',padding:"10px"}}> المنتجات</h2>
+
+        <Col xs={9} md={9} lg={10} >
+        <Link  to={`/${this.state.owner}/products`}>
+          <h2 style={{color:'rgb(26,156,142)',padding:"0 10px 0 0"}}> المنتجات</h2>
           </Link >
+          </Col>
+          <Col xs={3} md={3} lg={2} style={{padding:"20px 10px 0 0"}} >
+             <Link to={`/:id/products`}>
+            <MoreButton>المزيد</MoreButton>
+          </Link>
+          </Col>
           </Row>
         }
           <Row style={{display: 'flex', flexWrap: 'wrap',borderBottom:'dotted 1px lightgray ' }}>

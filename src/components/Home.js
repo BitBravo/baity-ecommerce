@@ -1,4 +1,5 @@
 import React ,{ Component } from "react";
+import { app, base } from "../base";
 import { Image,Carousel,Panel } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import ProductList from './ProductList';
@@ -6,6 +7,7 @@ import traditionalkitchen from '../assets/img/traditionalkitchen.jpg';
 import bedroom from '../assets/img/bedroom.jpg';
 import livingroom from '../assets/img/livingroom.jpg'; 
 import styled from 'styled-components'
+import {CBrief} from "./ProductBrief";
 
 
 
@@ -48,8 +50,19 @@ font-size: 35px;
   margin-top:20px;
 }
  `
+ export class Home extends Component {
+  constructor() {
+    super();
+    this.state = {
+      products: {}
+    };
+  }
+  render() {
+    const products = this.state.products
+    const productIds = Object.keys(products)
 
- const Home = ({authenticated}) => {
+
+ 
    return (
 
   <div>
@@ -60,14 +73,15 @@ font-size: 35px;
         <div>
           <ImageContainer>
             <ImageDiv>
-              <PreviewImg src={bedroom}/>
+           
+              <PreviewImg  src={bedroom}/>
      
         </ImageDiv>
         </ImageContainer>
         <Carousel.Caption className="hero">
           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
          
-          {!authenticated ?
+          {!this.props.authenticated ?
           (<LinkContainer to="/login" >
             
             <Button>
@@ -89,7 +103,7 @@ font-size: 35px;
         <Carousel.Caption className="hero">
           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
          
-          {!authenticated ? 
+          {!this.props.authenticated ? 
             <LinkContainer to="/login" >
               
               <Button>
@@ -111,7 +125,7 @@ font-size: 35px;
         <Carousel.Caption className="hero">
           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
          
-          {!authenticated ? 
+          {!this.props.authenticated ? 
          <LinkContainer to="/login" >
               
          <Button>
@@ -130,6 +144,6 @@ font-size: 35px;
     <ProductList thisUserOnly={false}/>
   </div>
   
-       );}
+       );}}
 
 export default Home;
