@@ -178,7 +178,7 @@ class IdeaDetails extends Component {
       const ideaRef = FirestoreServices.ideas.doc(this.ideaId)
       var like = false;
 
-      currentUserRef.child(this.productId).once('value', (snap) => {
+      currentUserRef.child(this.ideaId).once('value', (snap) => {
         if (snap.val()) {
           console.log("unlike");
           currentUserRef.child(this.ideaId).set(null);
