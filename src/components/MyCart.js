@@ -100,6 +100,7 @@ export class MyCart extends Component {
     //     console.log(productIds)
       var ref = FirebaseServices.basket.child(`${this.props.currentUser.uid}/items`)
       ref.once('value',snapshot => {
+        console.log("data fetching ")
 
         if(snapshot.val() !== null) {
         var newProducts = {}
@@ -127,7 +128,8 @@ export class MyCart extends Component {
         })
 
       }else {
-        this.setState({loading:false})
+        console.log("data NULL  ")
+        this.setState({loading:false, products:{}, total: 0})
       }
     })
       // onFailure(error) {

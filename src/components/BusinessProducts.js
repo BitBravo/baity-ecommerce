@@ -27,7 +27,7 @@ function BusinessProducts(props) {
         <h1 style={{color:'rgb(26,156,142)'}}> <MdWeekend className="icons" style={{color:'rgb(26,156,142)'}}/> المنتجات</h1>
         </div>
         <hr style={{marginBottom: '30px'}}/>
-        <ProductList thisUserOnly={true} user={true} currentUser={this.props.match.params.id}/>
+        <ProductList thisUserOnly={true} user={true} currentUser={props.match.params.id}/>
         </Col>
         </Row>
       </Grid>);

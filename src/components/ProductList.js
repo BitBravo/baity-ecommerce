@@ -74,8 +74,9 @@ class ProductList extends Component {
     //FirebaseServices.addOwnerName()
     //FirestoreServices.addTimestamp()
 
+    hasMore = true;
     if (this.props.thisUserOnly){
-      this.businessProducts()
+      this.businessProducts(this.props)
     } else {
       var ref = FirestoreServices.products
       this.firePaginator(ref);
@@ -107,7 +108,7 @@ class ProductList extends Component {
         this.firePaginator(ref);
       }}
     }else if(nextProps.thisUserOnly)
-      this.businessProducts()
+      this.businessProducts(nextProps)
 
   }
 
@@ -139,17 +140,18 @@ class ProductList extends Component {
     return ref;
   }
 
-  businessProducts(){
+  businessProducts(props){
+    console.log("BusinessProducts")
       var owner;
-      if(this.props.user){
-        owner = this.props.currentUser
+      if(props.user){
+        owner = props.currentUser
         this.setState({owner: owner})
       }else{
-        owner = this.props.currentUser.uid
+        owner = props.currentUser.uid
         this.setState({owner: owner})
       }
       // Here in the profile page or the company page
-      if(this.props.shortList){
+      if(props.shortList){
         this.productsRef = base.bindCollection(FirestoreServices.PRODUCTS_PATH, {
           context: this,
           state: "products",
@@ -263,7 +265,7 @@ class ProductList extends Component {
         :<Row   style={{display: 'flex', flexWrap: 'wrap'}}>
 
         <Col xs={9} md={9} lg={10} >
-          <Link  to={`/:id/products`}>
+        <Link  to={`/${this.state.owner}/products`}>
           <h2 style={{color:'rgb(26,156,142)',padding:"0 10px 0 0"}}> المنتجات</h2>
           </Link >
           </Col>
