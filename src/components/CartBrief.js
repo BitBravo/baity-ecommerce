@@ -61,21 +61,20 @@ export class MainCartBrief extends Component {
               <Link  style={{color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
               <h5>{product.name}</h5></Link>
               </Col>
-              <Col xs={4} sm={3} md={3} lg={3} style={{ padding: '0 10px 0 5px' }}>
-              <div>
+              <Col xs={12} style={{ padding: '0' }}>
+              <Col xs={4} sm={3} md={2} lg={2} style={{ padding: '0 10px 0 5px' }}>
                 <h6 style={{ color: 'rgb(26,156,142)', float: 'left' }}> الكمية :
                   {product.quantity}
                 </h6>
-              </div>
               </Col>
-              <Col xs={8} sm={9} md={9} lg={9} style={{ padding: '0' }}>
+              <Col xs={8} sm={9} md={10} lg={10} style={{ padding: '0'}}>
               <p>{product.desc.substring(0,90)}
               <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
               ... المزيد
               </Link>
               </p>
               </Col>
-
+             </Col>
               <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
                 <p style={{ color: 'rgb(26,156,142)' }}> من :
                   {product.businessName}
