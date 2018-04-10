@@ -3,7 +3,7 @@ import { Modal, Alert, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import firebase from "firebase";
 import { app, base, database, storage } from "../base";
-import FirebaseServices from './FirebaseServices'
+import FirestoreServices from './FirestoreServices'
 import Loading from "./Loading";
 
 import {
@@ -46,7 +46,7 @@ class NorProfileUpdater extends Component {
   }
 
   componentWillMount() {
-    FirebaseServices.readDBRecord('normalUser', this.props.currentUser.uid)
+    FirestoreServices.readDBRecord('normalUser', this.props.currentUser.uid)
       .then(value => this.setState({
         loading: false,
         profile: value
@@ -92,7 +92,7 @@ class NorProfileUpdater extends Component {
       return
     }
     profileData.id = this.state.profile.uid;
-    FirebaseServices.updateNormalUserProfile(this.props.currentUser.uid, profileData, formErrorHandler, this.formSuccessHandler, this.formPercentageViewer)
+    FirestoreServices.updateNormalUserProfile(this.props.currentUser.uid, profileData, formErrorHandler, this.formSuccessHandler, this.formPercentageViewer)
   }
 
   render() {
