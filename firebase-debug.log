@@ -1,0 +1,130 @@
+[debug] [2018-04-10T17:07:18.252Z] ----------------------------------------------------------------------
+[debug] [2018-04-10T17:07:18.253Z] Command:       /usr/local/Cellar/node/8.1.0_1/bin/node /usr/local/bin/firebase deploy
+[debug] [2018-04-10T17:07:18.254Z] CLI Version:   3.17.6
+[debug] [2018-04-10T17:07:18.254Z] Platform:      darwin
+[debug] [2018-04-10T17:07:18.254Z] Node Version:  v8.1.0
+[debug] [2018-04-10T17:07:18.254Z] Time:          Tue Apr 10 2018 20:07:18 GMT+0300 (+03)
+[debug] [2018-04-10T17:07:18.254Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-04-10T17:07:18.269Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-04-10T17:07:18.269Z] > authorizing via signed-in user
+[debug] [2018-04-10T17:07:18.271Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/bayty-246cc  
+  
+ Tue Apr 10 2018 20:07:18 GMT+0300 (+03)
+[debug] [2018-04-10T17:07:19.652Z] <<< HTTP RESPONSE 200
+[debug] [2018-04-10T17:07:19.653Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/bayty-246cc/tokens  
+  
+ Tue Apr 10 2018 20:07:19 GMT+0300 (+03)
+[debug] [2018-04-10T17:07:20.745Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'bayty-246cc'...
+[info] 
+[info] i  deploying database, functions, hosting
+[info] i  database: checking rules syntax...
+[debug] [2018-04-10T17:07:22.446Z] >>> HTTP REQUEST PUT https://bayty-246cc.firebaseio.com/.settings/rules.json?dryRun=true  
+ {
+  "rules": {
+    ".read": true,
+    ".write": true
+  }
+}
+ 
+ Tue Apr 10 2018 20:07:22 GMT+0300 (+03)
+[debug] [2018-04-10T17:07:23.826Z] <<< HTTP RESPONSE 200
+[info] ✔  database: rules syntax for database bayty-246cc is valid
+[debug] [2018-04-10T17:07:23.829Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint .",
+    "serve": "firebase serve --only functions",
+    "shell": "firebase experimental:functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "dependencies": {
+    "firebase-admin": "~5.8.1",
+    "firebase-functions": "^0.8.1",
+    "nodemailer": "^4.6.3"
+  },
+  "devDependencies": {
+    "eslint": "^4.12.0",
+    "eslint-plugin-promise": "^3.6.0"
+  },
+  "private": true
+}
+[info] i  functions: ensuring necessary APIs are enabled...
+[debug] [2018-04-10T17:07:23.831Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/cloudfunctions.googleapis.com/projectSettings/bayty-246cc?view=CONSUMER_VIEW  
+  
+ Tue Apr 10 2018 20:07:23 GMT+0300 (+03)
+[debug] [2018-04-10T17:07:23.832Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/runtimeconfig.googleapis.com/projectSettings/bayty-246cc?view=CONSUMER_VIEW  
+  
+ Tue Apr 10 2018 20:07:23 GMT+0300 (+03)
+[debug] [2018-04-10T17:07:26.204Z] <<< HTTP RESPONSE 200
+[debug] [2018-04-10T17:07:26.535Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: all necessary APIs are enabled
+[debug] [2018-04-10T17:07:26.536Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/bayty-246cc  
+  
+ Tue Apr 10 2018 20:07:26 GMT+0300 (+03)
+[debug] [2018-04-10T17:07:28.657Z] <<< HTTP RESPONSE 200
+[debug] [2018-04-10T17:07:28.658Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/99051375607:getServerAppConfig  
+  
+ Tue Apr 10 2018 20:07:28 GMT+0300 (+03)
+[debug] [2018-04-10T17:07:29.887Z] <<< HTTP RESPONSE 200
+[info] i  functions: preparing functions directory for uploading...
+[debug] [2018-04-10T17:07:29.890Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/bayty-246cc/configs  
+  
+ Tue Apr 10 2018 20:07:29 GMT+0300 (+03)
+[debug] [2018-04-10T17:07:31.542Z] <<< HTTP RESPONSE 200
+[info] i  functions: packaged functions (47.29 KB) for uploading
+[debug] [2018-04-10T17:07:31.958Z] >>> HTTP REQUEST GET https://www.googleapis.com/storage/v1/b/staging.bayty-246cc.appspot.com  
+  
+ Tue Apr 10 2018 20:07:31 GMT+0300 (+03)
+[debug] [2018-04-10T17:07:33.573Z] <<< HTTP RESPONSE 200
+[debug] [2018-04-10T17:07:33.574Z] >>> HTTP REQUEST POST https://www.googleapis.com/upload/storage/v1/b/staging.bayty-246cc.appspot.com/o?uploadType=media&name=firebase-functions-source  
+ ReadStream {
+  _readableState: 
+   ReadableState {
+     objectMode: false,
+     highWaterMark: 65536,
+     buffer: BufferList { head: [Object], tail: [Object], length: 1 },
+     length: 48427,
+     pipes: null,
+     pipesCount: 0,
+     flowing: null,
+     ended: true,
+     endEmitted: false,
+     reading: false,
+     sync: false,
+     needReadable: false,
+     emittedReadable: true,
+     readableListening: false,
+     resumeScheduled: false,
+     destroyed: false,
+     defaultEncoding: 'utf8',
+     awaitDrain: 0,
+     readingMore: false,
+     decoder: null,
+     encoding: null },
+  readable: true,
+  domain: null,
+  _events: { end: [Function] },
+  _eventsCount: 1,
+  _maxListeners: undefined,
+  path: '/var/folders/l9/dwl1kl890wngny8fdg5d1zn00000gn/T/firebase-functions-403690criqsiFtHts.zip',
+  fd: 19,
+  flags: 'r',
+  mode: 438,
+  start: undefined,
+  end: undefined,
+  autoClose: true,
+  pos: undefined,
+  bytesRead: 48427 } 
+ Tue Apr 10 2018 20:07:33 GMT+0300 (+03)
+[debug] [2018-04-10T17:07:35.518Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: functions folder uploaded successfully
+[info] i  hosting: preparing build directory for upload...
+[debug] [2018-04-10T17:07:36.312Z] >>> HTTP REQUEST PUT https://deploy.firebase.com/v1/hosting/bayty-246cc/uploads/-L9kWhS5rmhRzUueWuw1?fileCount=25&message=  
+  
+ Tue Apr 10 2018 20:07:36 GMT+0300 (+03)

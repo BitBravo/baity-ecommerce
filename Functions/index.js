@@ -38,8 +38,8 @@ const NORMAL_REF = 'normal';
 const PRODUCT_REF =  '/product/';
 
 var userEmail = "";
-exports.createThumpnail = require('./CreateThumbnail')
-exports.generateThumpnail = require('./generateThumpnail')
+//exports.createThumpnail = require('./CreateThumbnail')
+//exports.generateThumpnail = require('./generateThumpnail')
 
 // [START sendConfirmationEmails]
 /**
