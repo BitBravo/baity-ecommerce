@@ -3,7 +3,6 @@ import { Switch, Route, Redirect, Link } from "react-router-dom";
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { app, base } from "../base";
-import FirebaseServices from './FirebaseServices';
 import ProductList from "./ProductList";
 import IdeaList from "./IdeaList";
 import ProfileInfo from "./ProfileInfo";

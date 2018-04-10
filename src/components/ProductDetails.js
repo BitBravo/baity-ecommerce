@@ -286,6 +286,7 @@ class ProductDetails extends Component {
   render() {
 
     const product = this.state.product;
+    console.log(product.id)
     const { nextIcon, prevIcon } = this.state;
     if (this.state.loading && !this.state.errorHandling.showError)
       return <Loading />;

@@ -48,6 +48,7 @@ class IdeaList extends Component{
   componentWillMount() {
     this.listToArray = this.listToArray.bind(this)
     this.next = this.next.bind(this);
+    hasMore = true;
 
 
     if (this.props.thisUserOnly){
@@ -172,7 +173,7 @@ next(){
          {this.props.group === 'prof'
         ?<Row   style={{display: 'flex', flexWrap: 'wrap'}}>
         <Col xs={12}  lg={12} >
-     
+
         <Col xs={5} md={3} lg={2} >
         <Link to={`/newidea`}>
             <Button>إضافة فكرة<IconImg src={Idea} /></Button>
