@@ -10,32 +10,32 @@ let STORAGE_BASE = storage.ref();
 /* DATABASE AND STORGAE REFERENCES FOR TESTING*/
 let testPrefix = "test-"; //change this to switch from test tables to production tables
 
-// let _PRODUCTS_PATH = testPrefix + "product"; //change me by removing test
-// let _IDEAS_PATH = testPrefix + "idea";
-// let _BUSINESSES_PATH = testPrefix + "business"; //change me by removing test
-// let _LIKES_PATH = testPrefix + "likes";
-// let _GROUPS_PATH = testPrefix + "group"; //change me by removing test
-// let _BUSINESS_LOGOS_PATH = testPrefix + "BusinessLogo";
-// let _PRODUCT_IMAGES_PATH = testPrefix + "productImages";
-// let _IDEA_IMAGES_PATH = testPrefix + "ideaImages";
-// let _PROFILE_IMAGES_PATH = testPrefix + "profileImage";
-// let _PROF_PATH = testPrefix + "professional";
-// let _NORMAL_PATH = testPrefix + "normal";
-// let _BASKET_PATH = testPrefix + "basket";
+let _PRODUCTS_PATH = testPrefix + "product"; //change me by removing test
+let _IDEAS_PATH = testPrefix + "idea";
+let _BUSINESSES_PATH = testPrefix + "business"; //change me by removing test
+let _LIKES_PATH = testPrefix + "likes";
+let _GROUPS_PATH = testPrefix + "group"; //change me by removing test
+let _BUSINESS_LOGOS_PATH = testPrefix + "BusinessLogo";
+let _PRODUCT_IMAGES_PATH = testPrefix + "productImages";
+let _IDEA_IMAGES_PATH = testPrefix + "ideaImages";
+let _PROFILE_IMAGES_PATH = testPrefix + "profileImage";
+let _PROF_PATH = testPrefix + "professional";
+let _NORMAL_PATH = testPrefix + "normal";
+let _BASKET_PATH = testPrefix + "basket";
 
 /* DATABASE AND STORGAE REFERENCES FOR TESTING*/
-let _PRODUCTS_PATH = "product"; //change me by removing test
-let _IDEAS_PATH = "idea";
-let _BUSINESSES_PATH = "business"; //change me by removing test
-let _LIKES_PATH = "likes";
-let _GROUPS_PATH = "group"; //change me by removing test
-let _BUSINESS_LOGOS_PATH = "BusinessLogo";
-let _PRODUCT_IMAGES_PATH = "productImages";
-let _IDEA_IMAGES_PATH = "ideaImages";
-let _PROFILE_IMAGES_PATH = "profileImage";
-let _PROF_PATH = "professional";
-let _NORMAL_PATH = "normal";
-let _BASKET_PATH = "basket";
+// let _PRODUCTS_PATH = "product"; //change me by removing test
+// let _IDEAS_PATH = "idea";
+// let _BUSINESSES_PATH = "business"; //change me by removing test
+// let _LIKES_PATH = "likes";
+// let _GROUPS_PATH = "group"; //change me by removing test
+// let _BUSINESS_LOGOS_PATH = "BusinessLogo";
+// let _PRODUCT_IMAGES_PATH = "productImages";
+// let _IDEA_IMAGES_PATH = "ideaImages";
+// let _PROFILE_IMAGES_PATH = "profileImage";
+// let _PROF_PATH = "professional";
+// let _NORMAL_PATH = "normal";
+// let _BASKET_PATH = "basket";
 
 
 // firestore references
@@ -577,12 +577,14 @@ export default {
       return ideaRef.update(newIdeaData);
     },
 
-    uploadProductImages(newImages, viewUploadProgress, uid){
+    uploadProductImages(newImages, viewUploadProgress, uid, productId){
+      var i = 0;
       //get list of upload tasks from firebase SDK (this will immediatly start upload)
       var tasks = _.map(newImages, image => {
         const file = image.file
+        //const imageRef = this.productImages.child(`${uid}/${Date.now() + Math.random()}`);
         const imageRef = this.productImages
-          .child(`${uid}/${Date.now() + Math.random()}`);
+          .child(`${uid}/p${i++}${productId}${Date.now() + Math.random()}`);
         var task = imageRef.put(file, { contentType: file.type });
         task.name = file.name;
         viewUploadProgress(0, task.name)
@@ -653,7 +655,7 @@ export default {
     returns: non-null promise containing void that resolves when update on server is complete
   */
   addProductImages(productId, newImages, viewUploadProgress, uid){
-    return this.uploadProductImages(newImages, viewUploadProgress, uid)
+    return this.uploadProductImages(newImages, viewUploadProgress, uid, productId)
     .then(images => {
       return this.getProduct(productId)
       .then(product => {
@@ -697,12 +699,13 @@ export default {
       })
   },
 
-  uploadIdeaImages(newImages, viewUploadProgress, uid){
+  uploadIdeaImages(newImages, viewUploadProgress, uid, ideaId){
+    var i = 0;
     //get list of upload tasks from firebase SDK (this will immediatly start upload)
     var tasks = _.map(newImages, image => {
       const file = image.file
       const imageRef = this.ideaImages
-        .child(`${uid}/${Date.now() + Math.random()}`);
+        .child(`${uid}/i${i++}${ideaId}${Date.now() + Math.random()}`);
       var task = imageRef.put(file, { contentType: file.type });
       task.name = file.name;
       viewUploadProgress(0, task.name)
@@ -772,7 +775,7 @@ export default {
     returns: non-null promise containing void that resolves when update on server is complete
   */
   addIdeaImages(ideaId, newImages, viewUploadProgress, uid){
-    return this.uploadIdeaImages(newImages, viewUploadProgress, uid)
+    return this.uploadIdeaImages(newImages, viewUploadProgress, uid, ideaId)
     .then(images => {
       return this.getIdea(ideaId)
       .then(idea => {

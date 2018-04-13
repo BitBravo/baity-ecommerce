@@ -15,6 +15,14 @@ const THUMB_MAX_WIDTH = 200;
 // Thumbnail prefix added to file names.
 const THUMB_PREFIX = 'thumb_';
 
+//firestore references - Testing
+const PRODUCT_REF = "test-product";
+const IDEA_REF = "test-idea";
+
+//firestore references - Production
+// const PRODUCT_REF = "product";
+// const IDEA_REF = "idea";
+
 /**
  * When an image is uploaded in the Storage bucket We generate a thumbnail automatically using
  * ImageMagick.
@@ -44,11 +52,18 @@ exports = module.exports = functions.storage.object().onFinalize((object) => {
     return null;
   }
 
-  //get DB collection and doc from fileename
+  //get DB collection and doc from filename
+  // from fileName get doc id, index, and collection (procudt, prof,...)
+  // p: product, i: idea, n: normal, l: business logo
+  var  collectionId;
+  switch (fileName.charAt(0)) {
+    case 'p': collectionId = PRODUCT_REF; break;
+    case 'i': collectionId = IDEA_REF; break;
+  }
+  var index = fileName.charAt(1); // 1 char
   console.log("fileName " + fileName);
-  var  collectionId = "test-product"; // 1 char
-  var index = 0; // 1 char
   var docId = fileName.substring(2,22); // 20 char
+  console.log("docId " + docId);
 
   // Cloud Storage files.
   const bucket = gcs.bucket(object.bucket);
@@ -93,7 +108,10 @@ exports = module.exports = functions.storage.object().onFinalize((object) => {
     const thumbFileUrl = thumbResult[0];
     const fileUrl = originalResult[0];
     // Add the URLs to the Database
-    images = [{large: fileUrl, thumbnail: thumbFileUrl}];
-    return admin.firestore().collection(collectionId).doc(docId).update({images: images});
-  }).then(() => console.log('Thumbnail URLs saved to database.'));
+    return admin.firestore().collection(collectionId).doc(docId).get()
+    .then((doc) => {
+      console.log("fileUrl " + fileUrl);
+      var images = [...doc.data().images,{large: fileUrl, thumbnail: thumbFileUrl}];
+      return admin.firestore().collection(collectionId).doc(docId).set({images: images}, { merge: true })
+  })}).then(() => console.log('Thumbnail URLs saved to database.'));
 });
