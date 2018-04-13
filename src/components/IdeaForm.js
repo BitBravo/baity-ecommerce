@@ -557,7 +557,12 @@ class IdeaForm extends Component {
          :<span> تحديث الفكرة </span>
         }
         </button>
-
+    
+        <LinkContainer to="/myprofile" activeClassName="active">
+          <button   >
+        إلغاء
+          </button>
+        </LinkContainer>
         <Collapse in={this.state.formStatusAlert.alert}>
           <Alert
             bsStyle={this.state.formStatusAlert.type}

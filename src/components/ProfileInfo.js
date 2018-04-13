@@ -66,7 +66,14 @@ color:rgb(95,96,93);
 @media only screen and (max-width: 767px) {
   font-size:15px;}
 `
-
+const CloseButton=styled.button`
+position:absolute;
+top:0px;
+left:5px;
+width:30px;
+height:30px;
+background-color:white;
+color:black;`
 class ProfileInfo extends Component{
   constructor(){
     super();
@@ -78,8 +85,19 @@ class ProfileInfo extends Component{
       errorHandling: {
         showError: false,
         errorMsg: "error"
-      }
+      },
+      show: false
     };
+  this.handleShow = this.handleShow.bind(this);
+  this.handleHide = this.handleHide.bind(this);
+  }
+
+  handleShow() {
+    this.setState({ show: true });
+  }
+
+  handleHide() {
+    this.setState({ show: false });
   }
 
   componentWillMount(){
@@ -137,7 +155,7 @@ class ProfileInfo extends Component{
         <Col xs={3} sm={2} md={2} lg={2} style={{padding:'0'}}>
         {this.props.user
         ?
-            <LogoutButton style={{cursor:'auto'}}>اتصل بنا<TiPhoneOutline style={{fontSize:"17px",paddingRight:"3px"}}/></LogoutButton>
+            <LogoutButton style={{cursor:'auto'}} onClick={this.handleShow}>اتصل بنا<TiPhoneOutline style={{fontSize:"17px",paddingRight:"3px"}}/></LogoutButton>
 
         : <LinkContainer to="/logout" >
             <LogoutButton> تسجيل خروج <GoSignOut style={{fontSize:"17px",paddingRight:"3px"}}/></LogoutButton>
@@ -150,9 +168,9 @@ class ProfileInfo extends Component{
          </SocialDiv>
         </Col>
         <Col xs={6} sm={6} md={7}lg={7} style={{padding:'0'}}>
-        <UserNameDiv> <h4 style={{color:'rgb(26,156,142)'}}>{this.state.profile.businessName} </h4> </UserNameDiv>
-         <UserNameDiv ><h5>{this.state.profile.types}</h5></UserNameDiv>
-          <h6 style={{marginTop:'0'}}>{this.state.profile.city}، السعودية</h6>
+        <UserNameDiv> <h4 style={{color:'rgb(26,156,142)',padding:'0'}}>{this.state.profile.businessName} </h4> </UserNameDiv>
+         <UserNameDiv ><h6 style={{margin:'0',padding:'0'}}>{this.state.profile.types}</h6></UserNameDiv>
+          <h6 style={{marginTop:'0'}}>{this.state.profile.city}،السعودية</h6>
         </Col>
           <Col xs={3} sm={4} md={3} lg={3} style={{paddingRight:'0'}}>
         {this.state.profile.imgUrl
@@ -163,6 +181,22 @@ class ProfileInfo extends Component{
       </Col>
     </Row>
     <hr/>
+    <div>
+                <Modal
+                  show={this.state.show}
+                  onHide={this.handleHide} style={{ top: 250 }}>
+                 <Modal.Header>
+                  <CloseButton>X</CloseButton>
+                    للتواصل مع البائع
+                  </Modal.Header>
+                  <Modal.Body style={{display:'inline-block'}}>
+                  <div style={{display:'inline-block'}}>
+                  <p>رقم الهاتف</p>
+                  <a style={{color:'rgb(26,156,142)'}} href="tel:{this.state.profile.phone}">{this.state.profile.phone}</a>
+                    </div>
+                  </Modal.Body>
+                </Modal>
+              </div>
     </Grid>
     )
   }

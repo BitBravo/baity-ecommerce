@@ -15,7 +15,7 @@ const MobileDiv = styled.div`
 display: flex;
 flex-wrap: wrap;
 justify-content: space-between;
-padding:0 10px 0 10px;}
+padding:0 4px 0 4px;}
 `
 const IconImg = styled.img`
 width:25px;
@@ -71,28 +71,40 @@ class Footer extends Component {
 </footer>,
 <footer className="mopilefooter" fixed>
        <MobileDiv >
-            <IndexLinkContainer to="/" >
-               <IconImg src={Homepage} className="icons"/>
-            </IndexLinkContainer>
+            <LinkContainer to="/" >
+            <span> 
+              <IconImg src={Homepage}/>
+             <UserName > الرئيسية </UserName>
+            </span>
+            </LinkContainer>
             <LinkContainer to="/productspage" >
-               <IconImg src={Product} className="icons"/>
+            <span> 
+               <IconImg src={Product} />
+               <UserName > المنتجات </UserName>
+            </span> 
             </LinkContainer>
             <LinkContainer to="/ideaspage" >
-               <IconImg src={Idea} className="icons"/>
+            <span> 
+               <IconImg src={Idea} />
+               <UserName > الأفكار </UserName>
+            </span> 
             </LinkContainer>
-                {!this.props.authenticated ? (
-                    <LinkContainer to="/login" activeClassName="active">
+            
+             {!this.props.authenticated ? (
+                <LinkContainer to="/login" activeClassName="active">
                     {/* <UserImg src={logo_placeholder}/> */}
+                  <span> 
                     <IconImg src={Profile} />
-                    </LinkContainer>
+                    <UserName > حسابي </UserName>
+                  </span> 
+                </LinkContainer>
             ) : (
-<div>
-              <LinkContainer to="/myprofile" activeClassName="active" style={{display:'block',marginLeft:'auto',marginRight:'auto'}} >
+          <div>
+              <LinkContainer to="/myprofile" activeClassName="active" style={{display:'block',marginLeft:'auto',marginRight:'auto',padding:'0'}} >
                <IconImg src={Profile} />
               </LinkContainer>
                     <UserName >
-           {this.props.userName.substring(0,20)}
-
+           {this.props.userName.substring(0,13)}
               </UserName>
 
            </div>

@@ -942,7 +942,11 @@ class ProductForm extends Component {
          :<span> تحديث المنتج </span>
         }
         </button>
-
+        <LinkContainer to="/myprofile" activeClassName="active">
+          <button   >
+        إلغاء
+          </button>
+        </LinkContainer>
         <Collapse in={this.state.formStatusAlert.alert}>
           <Alert
             bsStyle={this.state.formStatusAlert.type}

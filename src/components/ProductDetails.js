@@ -41,7 +41,7 @@ border-radius: 50%;
     color: #2d2d2d;
     border: none;
     background-color: hsla(0,0%,100%,.8);
-    padding: 5px 6px ;
+    padding: 6px 6.5px ;
     cursor: default;
     outline: none;
 @media only screen and (max-width: 767px) {
@@ -415,7 +415,7 @@ class ProductDetails extends Component {
               <div>
                 <Modal
                   show={this.state.show}
-                  onHide={this.handleHide} style={{ top: 300 }}>
+                  onHide={this.handleHide} style={{ top: 250 }}>
                  <Modal.Header>
                   <CloseButton onClick={this.handleHide}>X</CloseButton>
                     تمت اضافة المنتج الى سلتك

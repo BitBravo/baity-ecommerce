@@ -82,7 +82,7 @@ const FileInput = ({handleFileUpload}) => (
     <FileInputDiv>
     <label style={{width: '100%'}} htmlFor="image">
       <input type="file" name="image" id="image" multiple accept=".jpg, .jpeg, .png" style={{display:'none'}} onChange={handleFileUpload}/>
-      <AddImageIcon size={140}/>
+      <AddImageIcon size={130}/>
       <p><a>أضف صورة</a></p>
     </label>
     </FileInputDiv>

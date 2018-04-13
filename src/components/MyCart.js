@@ -201,7 +201,7 @@ export class MyCart extends Component {
             <div>
                 <Modal
                    show={this.state.show}
-                   onHide={this.handleHide} style={{ top: 300 }}>
+                   onHide={this.handleHide} style={{ top: 250 }}>
                  <Modal.Header>
                     سيتم ارسال بيانات تواصلك للبائع لخدمتك
                   </Modal.Header>

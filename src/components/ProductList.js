@@ -269,8 +269,8 @@ class ProductList extends Component {
           <h2 style={{color:'rgb(26,156,142)',padding:"0 10px 0 0"}}> المنتجات</h2>
           </Link >
           </Col>
-          <Col xs={3} md={3} lg={2} style={{padding:"20px 10px 0 0"}} >
-             <Link to={`/:id/products`}>
+         <Col xs={3} md={3} lg={2} style={{padding:"20px 10px 0 0"}} >
+             <Link to={`/${this.state.owner}/products`}>
             <MoreButton>المزيد</MoreButton>
           </Link>
           </Col>

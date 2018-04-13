@@ -77,7 +77,7 @@ const ImageContainer = styled.div`
   render() {
     const product = this.props.product;
     return (
-      <Col xs={12} md={4} sm={6} style={{float:'right'}} >
+      <Col xs={6} md={4} sm={6} style={{float:'right'}} >
         <MyThumbnailDiv>
           <ImageContainer>
             <ImageDiv>
