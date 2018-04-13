@@ -1,0 +1,3 @@
+2018-04-12T00:15:16.199Z - info: User function triggered, starting execution
+2018-04-12T00:15:16.202Z - error: Function returned undefined, expected Promise or value
+2018-04-12T00:15:16.212Z - info: Execution took 8 ms, user function completed successfully

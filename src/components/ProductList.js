@@ -25,7 +25,7 @@ width:20px;
 
  const MoreButton = styled.button`
  background-color:transparent;
- border:1px solid rgb(26, 156, 142); 
+ border:1px solid rgb(26, 156, 142);
  color:rgb(26, 156, 142);
    width:100px;
    height: 30px;
@@ -72,7 +72,7 @@ class ProductList extends Component {
     //FirebaseServices.filterIndexing();
     //FirebaseServices.filterIndexingStyle();
     //FirebaseServices.addOwnerName()
-    //FirestoreServices.addTimestamp()
+    FirestoreServices.addTimestamp()
 
     hasMore = true;
     if (this.props.thisUserOnly){

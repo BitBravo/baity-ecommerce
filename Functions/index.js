@@ -9,6 +9,15 @@ admin.initializeApp({
   databaseURL: "https://bayty-246cc.firebaseio.com"
 });
 
+const gcs = require('@google-cloud/storage')({keyFilename: './bayty-c2bd7548d364.json'});
+const spawn = require('child-process-promise').spawn;
+const path = require('path');
+const os = require('os');
+//const mkdirp = require('mkdirp-promise');
+const fs = require('fs');
+
+
+
 // Configure the email transport using the default SMTP transport and a GMail account.
 // For Gmail, enable these:
 // 1. https://www.google.com/settings/security/lesssecureapps
@@ -38,8 +47,13 @@ const NORMAL_REF = 'normal';
 const PRODUCT_REF =  '/product/';
 
 var userEmail = "";
-//exports.createThumpnail = require('./CreateThumbnail')
-//exports.generateThumpnail = require('./generateThumpnail')
+//exports.thumbnailTest = require('./thumbnailTest');
+exports.thumbnailGeneration = require('./gTNSample');
+
+//exports.generateThumbnail = require('./generateThumbnail.js')
+
+
+
 
 // [START sendConfirmationEmails]
 /**
@@ -52,11 +66,11 @@ exports.sendBuyingEmail = functions.database.ref('/basket/{id}').onUpdate((event
   const snapshot = event.data;
   //const val = snapshot.data(); // The user basket
   /* PRODUCTION - The id of the user clicking 'اتمام العملية' recived as a parameter */
-  //const userId = event.params.id;
+  const userId = event.params.id;
   console.log("###$# event.params.id "+event.params.id);
 
   /* TESTING - we should provid an Id as the emulator does not recive the actual id*/
-  const userId = "E0xeGw1dZfgEspNSRYRRepB7jMi2";
+  //const userId = "E0xeGw1dZfgEspNSRYRRepB7jMi2";
 
   if (!snapshot.changed('completed')) {
     return null;

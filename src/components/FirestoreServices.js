@@ -828,13 +828,13 @@ export default {
       docs.forEach(doc =>{
         // console.log("doc.data().price " + doc.data().price)
         // console.log("doc.data().price " + Number(doc.data().price))
-
+        this.professionals.doc(doc.data().owner).get().then(prof => {
         var data = {
-          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          businessName: prof.data().name
         }
         this.ideas.doc(doc.id).update(data)
-      }
-      )
+      })
+    })
     })
   }
 

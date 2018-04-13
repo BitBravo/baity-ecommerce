@@ -160,7 +160,7 @@ class Login extends Component {
           >
             {this.state.formStatusAlert.alertMsg}
             {this.state.formStatusAlert.showRegisterLink
-            ? <Link to="/register">  انقر هنا للتسجيل كمستخدم جديد </Link>
+            ? <Link to="/registration">  انقر هنا للتسجيل كمستخدم جديد </Link>
             :null
             }
           </Alert>
