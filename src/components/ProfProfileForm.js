@@ -177,7 +177,9 @@ const FIELDS = {
     errorMessage: "",
     helpMsg: "",
     value: ""
-  },
+  }
+
+  
 }
 
 class ProfProfileForm extends Component {

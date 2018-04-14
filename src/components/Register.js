@@ -110,7 +110,7 @@ class Register extends Component {
         errorMessage: ""
       }
     };
-
+    
     this.state = {
       redirect: false,
       formStatusAlert: {
@@ -181,7 +181,7 @@ class Register extends Component {
     password2,
     coName,
     phoneNo,
-    formValidationStatus
+    formValidationStatus,
   ) {
     let validResult = {
       valid: false,
@@ -218,12 +218,13 @@ class Register extends Component {
       formValidationStatus.phoneNo.firstTime = false;
       formValidationStatus.phoneNo.errorMessage = FormUtils.phoneNoErrorMsg;
     }
+
     validResult.valid =
       formValidationStatus.phoneNo.valid &&
       formValidationStatus.coName.valid &&
       formValidationStatus.email.valid &&
       formValidationStatus.password1.valid &&
-      formValidationStatus.password2.valid;
+      formValidationStatus.password2.valid 
 
     return validResult;
   }
@@ -256,7 +257,7 @@ class Register extends Component {
       password2,
       coName,
       phoneNo,
-      formValidationStatus
+      formValidationStatus,
     );
 
     //and set the state based on result to render errors/acceptance

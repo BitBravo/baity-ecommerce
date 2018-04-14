@@ -186,7 +186,7 @@ class ProfileInfo extends Component{
                   show={this.state.show}
                   onHide={this.handleHide} style={{ top: 250 }}>
                  <Modal.Header>
-                  <CloseButton>X</CloseButton>
+                  <CloseButton onClick={this.handleHide}>X</CloseButton>
                     للتواصل مع البائع
                   </Modal.Header>
                   <Modal.Body style={{display:'inline-block'}}>
