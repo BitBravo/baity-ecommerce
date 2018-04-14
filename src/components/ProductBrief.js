@@ -11,6 +11,9 @@ import Product from '../assets/img/Selected-product.png';
 const IconImg = styled.img`
 width:20px;
 height:20px;
+@media only screen and (max-width: 767px) {
+  width:12px;
+height:12px;}
 
 `
 
@@ -20,6 +23,17 @@ const PaddingDiv = styled.div`
   padding-left: 7px;
   padding-bottom: 10px;
   height: 125px;
+  @media only screen and (max-width: 767px) {
+    font-size:10px;
+    height: 110px;}
+`
+const MyThumbnailCol = styled(Col)`
+@media only screen and (max-width: 767px) {
+  padding-left:5px;
+  padding-right:5px;
+  padding-bottom:5px;
+  padding-top:5px;
+}
 `
 
 const MyThumbnailDiv = styled.div`
@@ -39,6 +53,7 @@ const MyThumbnailDiv = styled.div`
     &:hover{
       transition:none;
       transform: none;}
+      margin-bottom: 20px;
   }
 `
 
@@ -62,7 +77,14 @@ const ImageContainer = styled.div`
   padding-top: 100%;
   position: relative;
 `;
-
+const DescriptionCol = styled(Col)`
+padding-right:0;
+padding-left:0;
+font-size:14px;
+margin-top:5px;
+@media only screen and (max-width: 767px) {
+  font-size:10px;
+`
 
  class ProductBrief extends Component {
   constructor() {
@@ -77,7 +99,7 @@ const ImageContainer = styled.div`
   render() {
     const product = this.props.product;
     return (
-      <Col xs={12} md={4} sm={6} style={{float:'right'}} >
+      <MyThumbnailCol xs={6} md={4} sm={6} style={{float:'right'}} >
         <MyThumbnailDiv>
           <ImageContainer>
             <ImageDiv>
@@ -96,26 +118,32 @@ const ImageContainer = styled.div`
           </ImageContainer>
 
           <PaddingDiv >
-          <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'45px'}}>
-          <Col xs ={5}  style={{paddingRight:'0',paddingLeft:'0'}}>
-              <h5 style={{color:'rgb(26, 156, 142)',float:'left'}}>{product.price} ر.س</h5>
-             </Col>
+          <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'35px'}}>
+            <DescriptionCol xs ={5}  >
+              <p style={{color:'rgb(26, 156, 142)',float:'left'}}>{product.price} ر.س</p>
+             </DescriptionCol>
             <Link to={`/${product.owner}/products/${product.id}`} style={{color:'black',fontWeight:'900'}} >
-             <Col xs ={6} style={{padding:'0 5px 0 0'}}>
-             <h5 > {product.name} </h5>
-             </Col></Link>
-             <Col xs ={1}  style={{padding:'7px 0 0 0'}}>
+             <DescriptionCol xs ={6} style={{padding:'0 5px 0 0'}}>
+             <p > {product.name.substring(0,15)} </p>
+             </DescriptionCol></Link>
+             <Col xs ={1}  style={{padding:'4px 0 0 0'}}>
              <IconImg src={Product} className="icons"/> </Col>
              </div>
-            <p   className="flex-text text-muted">{product.desc.substring(0,90)}
+            <p >{product.desc.substring(0,75)}
               <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
               ... المزيد
               </Link>
             </p>
-          
+            <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
+                <p > من:
+                  <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
+                    {product.businessName}
+                  </Link>
+                </p>
+              </div>
           </PaddingDiv>
         </MyThumbnailDiv>
-      </Col>
+      </MyThumbnailCol>
     );
   }
 }

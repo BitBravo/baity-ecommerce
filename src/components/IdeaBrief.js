@@ -94,11 +94,18 @@ class IdeaBrief extends Component {
               <h5><IconImg src={Idea} className="icons"/> {idea.name} </h5>
               </Col>
              </Link>
-             <p className="flex-text text-muted">{idea.desc.substring(0,90)}
+             <p className="flex-text text-muted">{idea.desc.substring(0,50)}
                <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${idea.owner}/ideas/${idea.id}`}>
                ... المزيد
                </Link>
              </p>
+             <div style={{display:'inline-block',position:'absolute',bottom:'0'}}>
+                  <h6 > من:
+                  <Link to={`/businessprofile/${idea.owner}`}style={{color:'rgb(26,156,142)'}}>
+                  {idea.businessName}
+                  </Link>
+                </h6>
+                </div>
           </PaddingDiv>
         </MyThumbnailDiv>
       </Col>

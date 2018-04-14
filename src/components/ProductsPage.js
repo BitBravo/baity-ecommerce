@@ -85,7 +85,7 @@ const PaddingDiv = styled.div`
   z-index:1000;}
 `;
 const CarouselDiv = styled(Col)`
-padding-left:30px;
+padding-left:20px;
 padding-right:15px;
 margin-top:40px;
 @media only screen and (max-width: 767px) {

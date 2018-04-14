@@ -277,7 +277,7 @@ class ProductList extends Component {
           </Row>
         }
           <Row style={{display: 'flex', flexWrap: 'wrap',borderBottom:'dotted 1px lightgray ' }}>
-          <Col xs={12}  lg={12} >
+          <Col xs={12}  lg={12} style={{padding:'0 5px 0 5px'}}>
           {productIds.length < 1
             ? <h4 style={{textAlign:'center'}}>{msg}</h4>
           : null}
@@ -297,7 +297,7 @@ class ProductList extends Component {
       <Grid>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
 
-        <Col xs={12} md={12}>
+        <Col xs={12} md={12}  style={{padding:'0 5px 0 5px'}}>
         <InfiniteScroll style={{overflow:'none'}}
           hasMore={hasMore}
           next={this.forward}
