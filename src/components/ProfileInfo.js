@@ -135,7 +135,6 @@ class ProfileInfo extends Component{
   componentWillUnmount(){
     this.bussRef && base.removeBinding(this.bussRef);
   }
-
   render(){
     return(
       <Grid style={{backgroundColor:"white"}}>
@@ -161,10 +160,10 @@ class ProfileInfo extends Component{
             <LogoutButton> تسجيل خروج <GoSignOut style={{fontSize:"17px",paddingRight:"3px"}}/></LogoutButton>
           </LinkContainer>
         }
-         <SocialDiv >
-              <a href="{this.state.profile.twitter}"><TiSocialTwitter className="icons"/></a>
-              <TiSocialInstagram className="icons"/>
-             <TiSocialFacebook className="icons"/>
+         <SocialDiv >  
+             <a href={`https://twitter.com/${this.state.profile.twitter}`} style={{color:'gray'}}><TiSocialTwitter className="icons"/></a>
+             <a href={`https://www.facebook.com/${this.state.profile.facebook}`} style={{color:'gray'}}><TiSocialFacebook className="icons"/></a>
+             <a href={`https://www.instagram.com/${this.state.profile.instagram}`} style={{color:'gray'}}><TiSocialInstagram className="icons"/></a>
          </SocialDiv>
         </Col>
         <Col xs={6} sm={6} md={7}lg={7} style={{padding:'0'}}>
@@ -192,7 +191,7 @@ class ProfileInfo extends Component{
                   <Modal.Body style={{display:'inline-block'}}>
                   <div style={{display:'inline-block'}}>
                   <p>رقم الهاتف</p>
-                  <a style={{color:'rgb(26,156,142)'}} href="tel:{this.state.profile.phone}">{this.state.profile.phone}</a>
+                  <a style={{color:'rgb(26,156,142)'}} href={`tel:${this.state.profile.phone}`}>{this.state.profile.phone}</a>
                     </div>
                   </Modal.Body>
                 </Modal>
