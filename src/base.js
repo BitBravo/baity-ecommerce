@@ -19,6 +19,7 @@ const DBBase = Rebase.createClass(app.database())
 const storage = app.storage()//short for firebase.storage(app)
 const db = app.firestore()
 const base = Rebase.createClass(app.firestore());
+const storageKey = 'BAITY_KEY_FOR_LOCAL_STORAGE';
 
 
-export { app, base, database, storage, db, DBBase }
+export { app, base, database, storage, db, DBBase, storageKey }

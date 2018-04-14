@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Redirect } from "react-router-dom";
-import { app } from "./base"
+import { app, storageKey } from "./base"
 import Header from "./components/Header";
 import Main from "./components/Main";
 import Footer from "./components/Footer";
@@ -8,6 +8,9 @@ import FirebaseServices from "./components/FirebaseServices";
 import FirestoreServices from "./components/FirestoreServices";
 import "./App.css";
 
+const userStorageKey = storageKey + '_USER';
+const groupStorageKey = storageKey + '_GROUP';
+const userNameStorageKey = storageKey + '_USERNAME'; 
 // function createElement(Component, props) {
 //   var key = Math.floor(Math.random() * 1000); // some key that changes across route changes
 //   return <Component key={key} {...props} />;
@@ -40,12 +43,19 @@ class App extends Component {
   // (https://firebase.google.com/docs/auth/web/manage-users)
   setCurrentUser(user) {
     if (user) {
+      // cache user object to avoid firebase auth latency bug
+      window.localStorage.setItem(userStorageKey, JSON.stringify(user));
+      
       FirestoreServices.readDBRecord('group', user.uid).then( value => {
         console.log(value.group)
 
         if (value.group === "prof") {
           FirestoreServices.readDBRecord('profUser', `${user.uid}`)
             .then(val => {
+              //cache username value and group value
+              window.localStorage.setItem(groupStorageKey, value.group);
+              window.localStorage.setItem(userNameStorageKey, val.name);
+
               this.setState({currentUser: user,
               authenticated: true,
               group: value.group,
@@ -56,6 +66,10 @@ class App extends Component {
         }else if (value.group === "normal"){
           FirestoreServices.readDBRecord('normalUser', `${user.uid}`)
             .then(val => {
+              //cache username value and group value
+              window.localStorage.setItem(groupStorageKey, value.group);
+              window.localStorage.setItem(userNameStorageKey, val.name);
+
               this.setState({currentUser: user,
               authenticated: true,
               group: value.group,
@@ -90,6 +104,11 @@ class App extends Component {
 
 
     } else {//No user is logged in
+      // 1- clean up auth cache
+      window.localStorage.removeItem(userStorageKey);
+      window.localStorage.removeItem(groupStorageKey);
+      window.localStorage.removeItem(userNameStorageKey);
+      // 2- clean up state
       this.setState({
         currentUser: null,
         authenticated: false,
@@ -139,11 +158,32 @@ updateCart(add, remove) {
 
   componentWillMount() {
     console.log(`${this.constructor.name}.componentWillMount`);
+    // Due to the fact that the rendering of App component may happen before 
+    // the authentication with firebase is done, and since this may cause
+    // a problem when a logged in user refreshes his page, we need to cache the auth
+    // data in the local browser storage to retrieve it synchronously before
+    // rendering the component
+    if (window.localStorage.getItem(userStorageKey)){
+      console.log('user from local sotrage')
+      console.log(window.localStorage.getItem(userStorageKey))
+      console.log('user from local storage after parse')
+      console.log(JSON.parse(window.localStorage.getItem(userStorageKey)))
+      this.setState(
+        { 
+          currentUser: JSON.parse(window.localStorage.getItem(userStorageKey)),
+          authenticated: true,
+          group: window.localStorage.getItem(groupStorageKey),
+          userName: window.localStorage.getItem(userNameStorageKey),
+        }
+      )
+    }
     //the current user is: firebase.auth().currentUser
     //For more info on firebase Auth object check the "user lifecycle" in:
     // (https://firebase.google.com/docs/auth/users)
     // Note that: app.auth() is short for firebase.auth(app)
     this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
+      console.log('user from firebase auth')
+      console.log(user)
       this.setCurrentUser(user);
     })
   }
