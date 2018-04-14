@@ -17,7 +17,7 @@ import Idea from '../assets/img/Unselected-idea.png';
 import Product from '../assets/img/UNselected-product.png';
 import Profile from '../assets/img/Profile-icon.png';
 import Cart from '../assets/img/Cart-icon.png';
-import {HeaderCart} from "./MyCart2";
+import {HeaderCart} from "./MyCart";
 
 
 

@@ -146,6 +146,39 @@ const FIELDS = {
     value: "",
     onChangeValidation: FormUtils.bussWebsiteValid
   },
+  twitter: {
+    type: 'text',
+    label: 'حساب الشركة على تويتر',
+    valid: false,
+    touched: false,
+    required: false,
+    errorMessage: FormUtils.bussTwitterErrorMsg,
+    helpMsg: "",
+    value: "",
+    onChangeValidation: FormUtils.bussTwitterValid
+  },
+  facebook: {
+    type: 'text',
+    label: 'حساب الشركة على فيسبوك',
+    valid: false,
+    touched: false,
+    required: false,
+    errorMessage: FormUtils.bussFacebookErrorMsg,
+    helpMsg: "",
+    value: "",
+    onChangeValidation: FormUtils.bussFacebookValid
+  },
+  instagram: {
+    type: 'text',
+    label: 'حساب الشركة على انستاقرام',
+    valid: false,
+    touched: false,
+    required: false,
+    errorMessage: FormUtils.bussInstagramErrorMsg,
+    helpMsg: "",
+    value: "",
+    onChangeValidation: FormUtils.bussInstagramValid
+  },
   types: {
     type: 'checkbox',
     label: 'نوع العمل',

@@ -278,7 +278,10 @@ export default {
           imgUrl: profileData.imgUrl,
           businessName: profileData.businessName,
           types: profileData.types,
-          website: profileData.website
+          website: profileData.website,
+          twitter: profileData.twitter,
+          facebook: profileData.facebook,
+          instagram: profileData.instagram
         })
         .then(() => {
           console.log("insesrt succeeded");

@@ -162,7 +162,7 @@ class ProfileInfo extends Component{
           </LinkContainer>
         }
          <SocialDiv >
-              <TiSocialTwitter className="icons"/>
+              <a href="{this.state.profile.twitter}"><TiSocialTwitter className="icons"/></a>
               <TiSocialInstagram className="icons"/>
              <TiSocialFacebook className="icons"/>
          </SocialDiv>
