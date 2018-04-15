@@ -5,7 +5,7 @@ import { Image, Col, Thumbnail, Button, Card, Row } from "react-bootstrap";
 import Equalizer from "react-equalizer";
 import styled from 'styled-components'
 import {MdEventSeat} from 'react-icons/lib/md';
-import Product from '../assets/img/Selected-product.png';
+import Product from '../assets/img/selected-product.png';
 
 
 const IconImg = styled.img`
@@ -107,11 +107,11 @@ margin-top:5px;
               <PreviewImg
                 src={
                   product.images
-                    ? product.images[0].large
+                    ? product.images[0].thumbnail? product.images[0].thumbnail : product.images[0].large
                     : "http://via.placeholder.com/243x243"
                 }
-
               />
+              {console.log("thumbnail " + product.images[0].thumbnail)}
               {/* <img   src="http://via.placeholder.com/243x243" */}
             </Link>
             </ImageDiv>
@@ -134,6 +134,7 @@ margin-top:5px;
               ... المزيد
               </Link>
             </p>
+<<<<<<< HEAD
             <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
                 <p > من:
                   <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
@@ -141,6 +142,9 @@ margin-top:5px;
                   </Link>
                 </p>
               </div>
+=======
+
+>>>>>>> 898d2580164af221dcbd162b6afc383aa705fd36
           </PaddingDiv>
         </MyThumbnailDiv>
       </MyThumbnailCol>
@@ -171,17 +175,16 @@ export class CBrief extends Component {
               <PreviewImg
                 src={
                   product.images
-                    ? product.images[0].large
+                    ? product.images[0].thumbnail? product.images[0].thumbnail : product.images[0].large
                     : "http://via.placeholder.com/243x243"
                 }
-
               />
               {/* <img   src="http://via.placeholder.com/243x243" */}
             </Link>
             </ImageDiv>
           </ImageContainer>
 
-        
+
 
     );
   }
