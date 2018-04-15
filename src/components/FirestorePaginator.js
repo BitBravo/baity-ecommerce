@@ -45,7 +45,7 @@ function FirestorePaginator(ref, defaults) {
       console.log("length ", documentSnapshots.docs.length);
       this.lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
 
-      this.nextSet = ref
+      this.nextSet = this.ref
               .startAfter(this.lastVisible)
               .limit(pageSize);
       return documentSnapshots.docs;

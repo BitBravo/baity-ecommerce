@@ -15,7 +15,7 @@ let _IDEAS_PATH = testPrefix + "idea";
 let _BUSINESSES_PATH = testPrefix + "business"; //change me by removing test
 let _LIKES_PATH = testPrefix + "likes";
 let _GROUPS_PATH = testPrefix + "group"; //change me by removing test
-let _BUSINESS_LOGOS_PATH = testPrefix + "BusinessLogo";
+let _BUSINESS_LOGOS_PATH = testPrefix + "businessLogo";
 let _PRODUCT_IMAGES_PATH = testPrefix + "productImages";
 let _IDEA_IMAGES_PATH = testPrefix + "ideaImages";
 let _PROFILE_IMAGES_PATH = testPrefix + "profileImage";
@@ -29,7 +29,7 @@ let _BASKET_PATH = testPrefix + "basket";
 // let _BUSINESSES_PATH = "business"; //change me by removing test
 // let _LIKES_PATH = "likes";
 // let _GROUPS_PATH = "group"; //change me by removing test
-// let _BUSINESS_LOGOS_PATH = "BusinessLogo";
+// let _BUSINESS_LOGOS_PATH = "businessLogo";
 // let _PRODUCT_IMAGES_PATH = "productImages";
 // let _IDEA_IMAGES_PATH = "ideaImages";
 // let _PROFILE_IMAGES_PATH = "profileImage";
@@ -356,11 +356,11 @@ export default {
     //newImage is of type Blob of File
     //see (https://firebase.google.com/docs/reference/js/firebase.storage.Reference?authuser=0#put)
     //see (https://developer.mozilla.org/en-US/docs/Web/API/File)
-    uploadProfProfileImage(uid, newImage, progressHandler, errorHandler, next){
+    uploadProfProfileImage(ref, uid, newImage, progressHandler, errorHandler, next){
         //1- upload the image of the profile.
         //2- add the profile to the database
         //get a reference for the image bucket (the placeholder where we will put the image into)
-        var imagesRef = this.profileImages.child(`${uid}/${Date.now() + Math.random()}`);
+        var imagesRef = ref.child(`${uid}/${Date.now() + Math.random()}`);
         //upload the image. This is a task that will run async. Notice that it accepts a file as in
         //browser API File (see https://developer.mozilla.org/en-US/docs/Web/API/File)
         var metadata = {
@@ -430,6 +430,7 @@ export default {
       //if we have a new image then upload it
       if (profileData.newImage) {
         this.uploadProfProfileImage(
+          this.businessLogos,
           uid,
           profileData.imageFile,
           progressHandler,
@@ -461,6 +462,7 @@ export default {
       //if we have a new image then upload it
       if (profileData.newImage) {
         this.uploadProfProfileImage(
+          this.profileImages,
           uid,
           profileData.imageFile,
           progressHandler,
@@ -584,7 +586,7 @@ export default {
         const file = image.file
         //const imageRef = this.productImages.child(`${uid}/${Date.now() + Math.random()}`);
         const imageRef = this.productImages
-          .child(`${uid}/p${i++}${productId}${Date.now() + Math.random()}`);
+          .child(`${uid}/${productId}/${i++}${Date.now() + Math.random()}`);
         var task = imageRef.put(file, { contentType: file.type });
         task.name = file.name;
         viewUploadProgress(0, task.name)
@@ -682,6 +684,18 @@ export default {
   */
   deleteProductImage(imageUrl, productId){
     console.log('FirebaseServices.deleteImage(): 1- deleting image from storage')
+    //imageUrl = "https://firebasestorage.googleapis.com/v0/b/bayty-246cc.appspot.com/o/test-productImages%2FZlocdwZeLvQuqMs6dXnE1V3eSpU2%2F9FZUpYpGKEOVASiGbIsC%2Fidea-bathroom.jpg?alt=media&token=edf40270-62d0-454d-88c6-ea54d880b7e1";
+
+    var thumbPre = "thumb_";
+    var path = imageUrl.substr(imageUrl.indexOf('%2F') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('%2F') + 3));
+	  var oldName = path.substr(path.lastIndexOf('%2F')+3);
+    path = path.replace(oldName, thumbPre + oldName);
+    path = path.replace("%2F", "/");
+    path = path.replace("%2F", "/");
+    //const storagePath = this.productImages.child(`ZlocdwZeLvQuqMs6dXnE1V3eSpU2/${productId}/${name}`);
+    const storagePath = this.productImages.child(`${path}`);
+    storagePath.delete();
+    //delete original image "large" using url
     return storage.refFromURL(imageUrl).delete()
       .then(() => {
         return this.getProduct(productId)
@@ -705,7 +719,7 @@ export default {
     var tasks = _.map(newImages, image => {
       const file = image.file
       const imageRef = this.ideaImages
-        .child(`${uid}/i${i++}${ideaId}${Date.now() + Math.random()}`);
+        .child(`${uid}/${ideaId}/${i++}${Date.now() + Math.random()}`);
       var task = imageRef.put(file, { contentType: file.type });
       task.name = file.name;
       viewUploadProgress(0, task.name)
@@ -827,16 +841,12 @@ export default {
   },
 
   addTimestamp(){
-    this.ideas.get().then(docs => {
+    this.products.get().then(docs => {
       docs.forEach(doc =>{
-        // console.log("doc.data().price " + doc.data().price)
-        // console.log("doc.data().price " + Number(doc.data().price))
-        this.professionals.doc(doc.data().owner).get().then(prof => {
-        var data = {
-          businessName: prof.data().name
-        }
-        this.ideas.doc(doc.id).update(data)
-      })
+        if (!doc.data().timestamp){
+          var timestamp = firebase.firestore.FieldValue.serverTimestamp()
+          this.products.doc(doc.id).update({timestamp: timestamp})
+      }
     })
     })
   }

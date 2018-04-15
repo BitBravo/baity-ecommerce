@@ -142,7 +142,7 @@ export class MyCart extends Component {
     // create a chat between user and business owner **later
     // fetch owners emails
     // send email msg with uesr email and product information
-    FirebaseServices.basket.child(this.props.currentUser.uid).set({'completed': true})
+    FirebaseServices.basket.child(this.props.currentUser.uid).update({'completed': false})
     this.props.updateCart(false,true)
     this.setState({completed: true});
   }
@@ -213,7 +213,7 @@ export class MyCart extends Component {
                   </Modal.Body>
                 </Modal>
               </div>
-              
+
             </Grid>
           ];
     };
@@ -221,4 +221,3 @@ export class MyCart extends Component {
 
 
 }
-

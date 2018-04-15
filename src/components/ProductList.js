@@ -72,13 +72,13 @@ class ProductList extends Component {
     //FirebaseServices.filterIndexing();
     //FirebaseServices.filterIndexingStyle();
     //FirebaseServices.addOwnerName()
-    FirestoreServices.addTimestamp()
+    //FirestoreServices.addTimestamp()
 
     hasMore = true;
     if (this.props.thisUserOnly){
       this.businessProducts(this.props)
     } else {
-      var ref = FirestoreServices.products
+      var ref = FirestoreServices.products.orderBy('timestamp', 'desc')
       this.firePaginator(ref);
     }
   }
@@ -157,6 +157,7 @@ class ProductList extends Component {
           state: "products",
           query: (ref) => {
             return ref.where('owner', '==', owner)
+                .orderBy('timestamp', 'desc')
                 .limit(3);
           },
           then(data) {
@@ -167,7 +168,7 @@ class ProductList extends Component {
           }
         });
     } else { // All products by a company
-        var ref = FirestoreServices.products.where("owner", "==", owner)
+        var ref = FirestoreServices.products.where("owner", "==", owner).orderBy('timestamp', 'desc')
         this.firePaginator(ref)
     }
   }
@@ -204,8 +205,8 @@ class ProductList extends Component {
     console.log("calling next()")
     if (!paginator.hasMore){
       hasMore = false;
-      console.log("next() Has no more")
-      return
+      console.log("next() Has no more");
+      return;
     }
     console.log("next() Has more")
     paginator.next()
@@ -309,6 +310,9 @@ class ProductList extends Component {
 
         : <div>{
               products.map((product, index) => {
+                console.log("large " + product.data().images[0].large);
+                console.log("thumbnail " + product.data().images[0].thumbnail);
+
               return <ProductBrief key={product.id} product={product.data()} />;
             })
           }</div>
