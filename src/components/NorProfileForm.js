@@ -26,8 +26,19 @@ import { app } from "../base";
 import FormUtils from './FormUtils'
 import bayty_icon from '../assets/img/bayty_icon1.png';
 import logo_placeholder from '../assets/img/logo-placeholder.jpg';
+import styled from 'styled-components';
 
 
+const UserImg=styled.img`
+width: 150px;
+height: 150px;
+border-radius: 50%; 
+display:block;
+margin:auto;
+@media only screen and (max-width: 767px) {
+width: 80px;
+height: 80px;
+}`;
 
 
 function FieldGroup({ id, label, help, validationState, firstTime, ...props }) {
@@ -111,6 +122,16 @@ const FIELDS = {
     helpMsg: "",
     value: ""
   },
+  homeImgUrl: {
+    type: 'image',
+    label: 'صورة الغلاف' ,
+    valid: false,
+    touched: false,
+    required: false,
+    errorMessage: "",
+    helpMsg: "",
+    value: ""
+  },
   email: {
     type: 'text',
     label: 'البريد الالكتروني',
@@ -138,6 +159,7 @@ class NorProfileForm extends Component {
     this.state = {
       FIELDS: fields,
       imgUrl: this.props.profile.imgUrl,//TODO: this should be part of the fields
+      homeImgUrl: this.props.profile.homeImgUrl,
       formStatusAlert: {
         alert: false,
         type: "info",
@@ -231,7 +253,14 @@ class NorProfileForm extends Component {
         imgErrorMessage: ''
       });
     }
-
+    reader.onloadend = () => {
+      this.setState({
+        imgFile: file,//of type File that can be directly uploaded to firebase storage using "put" method
+        homeImgUrl: reader.result,//of type Data URL for preview purposes only see (https://en.wikipedia.org/wiki/Data_URI_scheme & https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL)
+        imgError: false,
+        imgErrorMessage: ''
+      });
+    }
     reader.readAsDataURL(file)
   }
 
@@ -295,6 +324,9 @@ class NorProfileForm extends Component {
           profileData.imgUrl = this.state.imgUrl;
           profileData.imageFile = this.state.imgFile;
           profileData.newImage = this.state.imgUrl !== this.props.profile.imgUrl;
+          profileData.homeImgUrl = this.state.homeImgUrl;
+          profileData.imageHomeFile = this.state.imgFile;
+          profileData.newHomeImage = this.state.homeImgUrl !== this.props.profile.homeImgUrl;
           //update
           this.props.onSubmit(profileData,
             (error) => {
@@ -425,12 +457,40 @@ class NorProfileForm extends Component {
               </Alert>
             </Collapse>
           )}
+           <Row>
+            <Col lg={12} >
+
+              {this.state.homeImgUrl
+              ? <UserImg  src={this.state.homeImgUrl}   />
+              : <UserImg  src={logo_placeholder}   />
+              }
+
+            </Col>
+        
+           
+              <Col lg={12}>
+              <div style={{margin: '10px auto 30px', textAlign: 'center'}}>
+              <label   style={{cursor:'pointer'}}   htmlFor="profile_pic"><span style={{ color: 'green'}}>+&nbsp;</span>
+              {this.state.homeImgUrl && this.state.homeImgUrl.length > 0
+                ? "عدل صورة الغلاف "
+                : "أضف صورة الغلاف "
+              }
+              &nbsp;&nbsp;</label>
+              {this.state.imgError
+                ?<span className="help-block" style={{fontSize: '100%', color: 'red'}}>تقبل الصور من نوع JPEG/JPG وحجم أقل من 1 ميجابايت 1MB</span>
+                :<span className="help-block" style={{fontSize: '80%'}}>تقبل الصور من نوع JPEG/JPG/PNG وحجم أقل من 1 ميجابايت </span>
+              }
+              <input type="file" id="profile_pic" name="profile_pic"
+          accept="image/jpeg, image/png" style={{opacity: 0}} onChange={this.handleFileUpload.bind(this)} />
+              </div>
+              </Col>
+              </Row>
           <Row>
             <Col lg={12} >
 
               {this.state.imgUrl
-              ? <Image style={{borderRadius: '50%', width: '200px', height: '200px', margin: '5px auto'}} src={this.state.imgUrl}  alt="logo" circle responsive />
-              : <Image style={{borderRadius: '50%', width: '200px', height: '200px', margin: '5px auto'}} src={logo_placeholder} alt="logo" circle responsive />
+              ? <UserImg src={this.state.imgUrl}  alt="logo" />
+              : <UserImg src={logo_placeholder} alt="logo"  />
               }
 
             </Col>

@@ -276,6 +276,7 @@ export default {
           phone: profileData.phone,
           preview: profileData.preview,
           imgUrl: profileData.imgUrl,
+          homeImgUrl: profileData.homeImgUrl,
           businessName: profileData.businessName,
           types: profileData.types,
           website: profileData.website,
@@ -311,6 +312,7 @@ export default {
           country: 'Saudi Arabia',
           phone: profileData.phone,
           imgUrl: profileData.imgUrl,
+          homeImgUrl: profileData.homeImgUrl,
           name: profileData.name,
           email: profileData.email
         })
@@ -426,7 +428,73 @@ export default {
           }
         ); //updateTask.on
     },
+    uploadProfProfileHomeImage(uid, newImage, progressHandler, errorHandler, next){
+      //1- upload the image of the profile.
+      //2- add the profile to the database
+      //get a reference for the image bucket (the placeholder where we will put the image into)
+      var imagesRef = this.profileImages.child(`${uid}/${Date.now() + Math.random()}`);
+      //upload the image. This is a task that will run async. Notice that it accepts a file as in
+      //browser API File (see https://developer.mozilla.org/en-US/docs/Web/API/File)
+      var metadata = {
+        contentType: newImage.type
+      };
+      //The following will return a task that will execte async
+      var uploadTask = imagesRef.put(newImage, metadata);
+      // Register three observers:
+      // 1. 'state_changed' observer, called any time the state changes
+      // 2. Error observer, called on failure
+      // 3. Completion observer, called on successful completion
+      uploadTask.on(
+        "state_changed",
+        function(snapshot) {
+          // Observe state change events such as progress, pause, and resume
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          var progress = Math.round(
+            snapshot.bytesTransferred / snapshot.totalBytes * 100
+          );
+          progressHandler(progress);
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case firebase.storage.TaskState.PAUSED: // or 'paused'
+              console.log("Upload is paused");
+              break;
+            case firebase.storage.TaskState.RUNNING: // or 'running'
+              console.log("Upload is running");
+              break;
+          }
+        },
+        error => {
+          // Handle unsuccessful uploads
+          console.log("error uploading image of profile");
+          console.log(error);
+          // A full list of error codes is available at
+          // https://firebase.google.com/docs/storage/web/handle-errors
+          switch (error.code) {
+            case "storage/unauthorized":
+              // User doesn't have permission to access the object
+              break;
 
+            case "storage/canceled":
+              // User canceled the upload
+              break;
+
+            case "storage/unknown":
+              // Unknown error occurred, inspect error.serverResponse
+              break;
+          }
+          errorHandler(error.message);
+        },
+        //use arrow function so that you can access this.insertprof. See (https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback)
+        () => {
+          // Handle successful uploads on complete
+          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+          let homeImgUrl = uploadTask.snapshot.downloadURL;
+          console.log("upload sucessful and image URL is: " + homeImgUrl);
+          next(homeImgUrl);
+
+        }
+      ); //updateTask.on
+  },
     //Main method to update a professional profile
     updateProfProfile(uid, profileData, errorHandler, successHandler, progressHandler){
       console.log('FirebaseServices.updateProfProfile')
@@ -439,6 +507,35 @@ export default {
           errorHandler,
           (imgUrl) => {
               profileData.imgUrl = imgUrl
+              //update profile with new data and new image URL
+              this.updateProfProfileHelper(
+                profileData,
+                errorHandler,
+                successHandler
+              );
+          }
+        );
+      } else {
+        //no change to current image/image URL
+        //update profile with new data
+        this.updateProfProfileHelper(
+          profileData,
+          errorHandler,
+          successHandler
+        );
+      }
+    },
+    updateProfProfileHomeImg(uid, profileData, errorHandler, successHandler, progressHandler){
+      console.log('FirebaseServices.updateProfProfile')
+      //if we have a new image then upload it
+      if (profileData.newImage) {
+        this.uploadProfProfileHomeImage(
+          uid,
+          profileData.imageFile,
+          progressHandler,
+          errorHandler,
+          (homeImgUrl) => {
+              profileData.homeImgUrl = homeImgUrl
               //update profile with new data and new image URL
               this.updateProfProfileHelper(
                 profileData,
@@ -488,7 +585,35 @@ export default {
         );
       }
     },
-
+    updateNormalUserProfileHomeImg(uid, profileData, errorHandler, successHandler, progressHandler){
+      console.log('FirebaseServices.updateNormalProfile')
+      //if we have a new image then upload it
+      if (profileData.newImage) {
+        this.uploadProfProfileHomeImage(
+          uid,
+          profileData.imageFile,
+          progressHandler,
+          errorHandler,
+          (homeImgUrl) => {
+              profileData.homeImgUrl = homeImgUrl
+              //update profile with new data and new image URL
+              this.updateProfProfileHelper(
+                profileData,
+                errorHandler,
+                successHandler
+              );
+          }
+        );
+      } else {
+        //no change to current image/image URL
+        //update profile with new data
+        this.updateProfProfileHelper(
+          profileData,
+          errorHandler,
+          successHandler
+        );
+      }
+    },
     /*
       returns a product as a promise
     */

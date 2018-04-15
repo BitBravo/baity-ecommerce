@@ -140,7 +140,11 @@ class ProfileInfo extends Component{
       <Grid style={{backgroundColor:"white"}}>
       <Row  style={{display: 'flex', flexWrap: 'wrap'}}>
         <ImageCol sm={12}  lg={12}>
-          <PreviewImg  src={livingroom}     />
+        {this.state.profile.homeImgUrl
+        ? <PreviewImg  src={this.state.profile.homeImgUrl}  />
+        : <PreviewImg  src={livingroom} />
+        }
+          {/* <PreviewImg  src={livingroom}     /> */}
           <div style={{position: 'absolute',top: '10px',left: '30px',width:'25%'}}>
           {!this.props.user
             ?<Link to="/myprofprofile/">

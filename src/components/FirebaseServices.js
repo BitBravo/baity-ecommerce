@@ -33,6 +33,7 @@ let _BUSINESSES_PATH = testPrefix + "business"; //change me by removing test
 let _LIKES_PATH = testPrefix + "likes";
 let _GROUPS_PATH = testPrefix + "group"; //change me by removing test
 let _BUSINESS_LOGOS_PATH = testPrefix + "BusinessLogo";
+let _BUSINESS_HOMELOGOS_PATH = testPrefix + "BusinessHomeLogo";
 let _PRODUCT_IMAGES_PATH = testPrefix + "productImages";
 let _IDEA_IMAGES_PATH = testPrefix + "ideaImages";
 let _PROFILE_IMAGES_PATH = testPrefix + "profileImage";
@@ -91,6 +92,7 @@ let _REF_DEPARTMENT_IDEA = DB_BASE.child(_DEPARTMENT_IDEA_PATH)
 
 // Storage reference
 var _REF_BUSINESS_LOGO = STORAGE_BASE.child(_BUSINESS_LOGOS_PATH); //change me by removing test
+var _REF_BUSINESS_HOMELOGO = STORAGE_BASE.child(_BUSINESS_HOMELOGOS_PATH); //change me by removing test
 var _REF_PRODUCT_IMAGE = STORAGE_BASE.child(_PRODUCT_IMAGES_PATH); //change me by removing test
 var _REF_IDEA_IMAGE = STORAGE_BASE.child(_IDEA_IMAGES_PATH);
 var _REF_PROFILE_IMAGE = STORAGE_BASE.child(_PROFILE_IMAGES_PATH); //change me by removing test
@@ -132,6 +134,9 @@ export default {
   get BUSINESS_LOGOS_PATH() {
     return _BUSINESS_LOGOS_PATH;
   },
+  get BUSINESS_HOMELOGOS_PATH() {
+    return _BUSINESS_HOMELOGOS_PATH;
+  },
   get PRODUCT_IMAGES_PATH() {
     return _PRODUCT_IMAGES_PATH;
   },
@@ -170,6 +175,9 @@ export default {
   },
   get businessLogos() {
     return _REF_BUSINESS_LOGO;
+  },
+  get businessHomeLogos() {
+    return _REF_BUSINESS_HOMELOGO;
   },
   get profileImages() {
     return _REF_PROFILE_IMAGE;

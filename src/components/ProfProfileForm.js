@@ -124,6 +124,16 @@ const FIELDS = {
     helpMsg: "",
     value: ""
   },
+  profileHomeImg: {
+    type: 'image',
+    label: 'صورة ملف الشركة' ,
+    valid: false,
+    touched: false,
+    required: true,
+    errorMessage: "",
+    helpMsg: "",
+    value: ""
+  },
   preview: {
     type: 'textarea',
     label: 'نبذة عن الشركة',
@@ -184,7 +194,7 @@ const FIELDS = {
     label: 'نوع العمل',
     valid: false,
     touched: false,
-    required: true,
+    required: false,
     errorMessage: "",
     helpMsg: "",
     value: [],
@@ -195,7 +205,7 @@ const FIELDS = {
     label: 'التصنيف',
     valid: false,
     touched: false,
-    required: true,
+    required: false,
     errorMessage: "",
     helpMsg: "",
     value: [],
@@ -225,6 +235,7 @@ class ProfProfileForm extends Component {
     this.state = {
       FIELDS: fields,
       imgUrl: this.props.profile.imgUrl,//TODO: this should be part of the fields
+      homeImgUrl: this.props.profile.homeImgUrl,
       formStatusAlert: {
         alert: false,
         type: "info",
@@ -329,6 +340,14 @@ class ProfProfileForm extends Component {
         imgErrorMessage: ''
       });
     }
+    reader.onloadend = () => {
+      this.setState({
+        imgFile: file,//of type File that can be directly uploaded to firebase storage using "put" method
+        homeImgUrl: reader.result,//of type Data URL for preview purposes only see (https://en.wikipedia.org/wiki/Data_URI_scheme & https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL)
+        imgError: false,
+        imgErrorMessage: ''
+      });
+    }
 
     reader.readAsDataURL(file)
   }
@@ -394,6 +413,9 @@ class ProfProfileForm extends Component {
           profileData.imgUrl = this.state.imgUrl;
           profileData.imageFile = this.state.imgFile;
           profileData.newImage = this.state.imgUrl !== this.props.profile.imgUrl;
+          profileData.homeImgUrl = this.state.homeImgUrl;
+          profileData.imageHomeFile = this.state.imgFile;
+          profileData.newHomeImage = this.state.homeImgUrl !== this.props.profile.homeImgUrl;
           //update
           this.props.onSubmit(profileData,
             (error) => {
@@ -579,6 +601,34 @@ class ProfProfileForm extends Component {
               </Alert>
             </Collapse>
           )}
+            <Row>
+            <Col lg={12} >
+
+              {this.state.homeImgUrl
+              ? <UserImg  src={this.state.homeImgUrl}   />
+              : <UserImg  src={logo_placeholder}   />
+              }
+
+            </Col>
+        
+           
+              <Col lg={12}>
+              <div style={{margin: '10px auto 30px', textAlign: 'center'}}>
+              <label   style={{cursor:'pointer'}}   htmlFor="profile_pic"><span style={{ color: 'green'}}>+&nbsp;</span>
+              {this.state.homeImgUrl && this.state.homeImgUrl.length > 0
+                ? "عدل صورة صفحة الشركة"
+                : "أضف صورة صفحة الشركة"
+              }
+              &nbsp;&nbsp;</label>
+              {this.state.imgError
+                ?<span className="help-block" style={{fontSize: '100%', color: 'red'}}>تقبل الصور من نوع JPEG/JPG وحجم أقل من 1 ميجابايت 1MB</span>
+                :<span className="help-block" style={{fontSize: '80%'}}>تقبل الصور من نوع JPEG/JPG/PNG وحجم أقل من 1 ميجابايت </span>
+              }
+              <input type="file" id="profile_pic" name="profile_pic"
+          accept="image/jpeg, image/png" style={{opacity: 0}} onChange={this.handleFileUpload.bind(this)} />
+              </div>
+              </Col>
+              </Row>
           <Row>
             <Col lg={12} >
 
