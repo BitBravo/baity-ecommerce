@@ -85,11 +85,11 @@ const ImageContainer = styled.div`
               <PreviewImg
                 src={
                   product.images
-                    ? product.images[0].large
+                    ? product.images[0].thumbnail? product.images[0].thumbnail : product.images[0].large
                     : "http://via.placeholder.com/243x243"
                 }
-
               />
+              {console.log("thumbnail " + product.images[0].thumbnail)}
               {/* <img   src="http://via.placeholder.com/243x243" */}
             </Link>
             </ImageDiv>
@@ -112,7 +112,7 @@ const ImageContainer = styled.div`
               ... المزيد
               </Link>
             </p>
-          
+
           </PaddingDiv>
         </MyThumbnailDiv>
       </Col>
@@ -143,17 +143,16 @@ export class CBrief extends Component {
               <PreviewImg
                 src={
                   product.images
-                    ? product.images[0].large
+                    ? product.images[0].thumbnail? product.images[0].thumbnail : product.images[0].large
                     : "http://via.placeholder.com/243x243"
                 }
-
               />
               {/* <img   src="http://via.placeholder.com/243x243" */}
             </Link>
             </ImageDiv>
           </ImageContainer>
 
-        
+
 
     );
   }
