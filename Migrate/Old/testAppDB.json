@@ -1,0 +1,267 @@
+{
+  "testApp-business" : {
+    "-L76iSlPRkMEdlybcMdQ" : {
+      "addtionalServices" : [ "تصميم مطابخ", "تصميم صالون", "تصميم غرف نوم" ],
+      "businessName" : "أمل",
+      "categories" : [ "مطابخ" ],
+      "city" : "دومة الجندل",
+      "country" : "Saudi Arabia",
+      "dateCreated" : "1520548043.08239",
+      "email" : "hopeit99@gmail.com",
+      "id" : "-L76iSlPRkMEdlybcMdQ",
+      "imgUrl" : "https://firebasestorage.googleapis.com/v0/b/bayty-246cc.appspot.com/o/testApp-businessLogo%2F-L76iSlPRkMEdlybcMdQ.jpeg?alt=media&token=c9ad8438-1cb6-4db5-991f-8f24726ebdbe",
+      "owner" : "e2uxcuyki7PrtMuDjxASX050KuD2",
+      "phone" : "0554433221",
+      "preview" : "Still that Cute funny girl",
+      "types" : [ "استشاري" ],
+      "website" : "www.Amal.com"
+    },
+    "-L8-1BoNNgP4bBokGWmK" : {
+      "businessName" : "Lilac",
+      "categories" : [ "الأعمال الخشبية" ],
+      "city" : "مكة المكرمة",
+      "country" : "Saudi Arabia",
+      "dateCreated" : "1521492740.56369",
+      "email" : "work@work.com",
+      "id" : "-L8-1BoNNgP4bBokGWmK",
+      "imgUrl" : "https://firebasestorage.googleapis.com/v0/b/bayty-246cc.appspot.com/o/testApp-profileImage%2FL1YeXJoqMjTfYxJioTJZQ8j80gF3.jpeg?alt=media&token=1c1a363d-c856-4263-957d-2dbbc20815de",
+      "name" : "Sara",
+      "owner" : "L1YeXJoqMjTfYxJioTJZQ8j80gF3",
+      "phone" : "0567890127",
+      "preview" : "موقع متخصص لتصميم وصيانة المطابخ ودورات المياة ",
+      "types" : [ "متجر الكتروني" ],
+      "website" : "www.workedu"
+    }
+  },
+  "testApp-group" : {
+    "2iW9Tf6mjaSH6kUdORJHcx4OBzK2" : {
+      "group" : "normal"
+    },
+    "88BbOnBrhqUYii8DGKzGtI3kz8N2" : {
+      "group" : "normal"
+    },
+    "HlWo7EEAkAUJPSh3Wcb5HeVKu9Q2" : {
+      "group" : "normal"
+    },
+    "JkQKAoiBcXSJHC3M8LRgtNBPXT63" : {
+      "group" : "normal"
+    },
+    "L1YeXJoqMjTfYxJioTJZQ8j80gF3" : {
+      "group" : "prof"
+    },
+    "ZTPzGJbfYzNlPZAXyigCf1M28h92" : {
+      "group" : "normal"
+    },
+    "bFzObQtoPUVtg1jQXMYvvoGBl9I2" : {
+      "group" : "normal"
+    },
+    "e2uxcuyki7PrtMuDjxASX050KuD2" : {
+      "group" : "prof"
+    },
+    "f5oZX2Nv71asvCPk68pCPly1FYr2" : {
+      "group" : "normal"
+    }
+  },
+  "testApp-idea" : {
+    "-L7ISLEbgupRe1VQBdpr" : {
+      "city" : "دومة الجندل",
+      "city_department" : "دومة الجندل - صالة",
+      "dateCreated" : "1520744870.82312",
+      "department" : "صالة",
+      "desc" : "Flower in nature",
+      "id" : "-L7ISLEbgupRe1VQBdpr",
+      "images" : [ {
+        "large" : "https://firebasestorage.googleapis.com/v0/b/bayty-246cc.appspot.com/o/testApp-ideaImage%2Fe2uxcuyki7PrtMuDjxASX050KuD2%2F542437670861.jpg?alt=media&token=ea6529b3-d29d-4e07-abee-86ff799a4b0d"
+      } ],
+      "likes" : "2",
+      "name" : "flower",
+      "owner" : "e2uxcuyki7PrtMuDjxASX050KuD2",
+      "postType" : "idea"
+    },
+    "-L7R0cd9q9LapeQ8kjVw" : {
+      "city" : "دومة الجندل",
+      "city_department" : "دومة الجندل - مجلس",
+      "dateCreated" : "1520888611.88815",
+      "department" : "مجلس",
+      "desc" : "شلال في منتصف الصالون يضفي جمال وسحر على المكان",
+      "id" : "-L7R0cd9q9LapeQ8kjVw",
+      "images" : [ {
+        "large" : "https://firebasestorage.googleapis.com/v0/b/bayty-246cc.appspot.com/o/testApp-ideaImage%2Fe2uxcuyki7PrtMuDjxASX050KuD2%2F542581411932.jpg?alt=media&token=3c59c0dd-cecd-45f2-a63b-76fce5fa84e5"
+      } ],
+      "likes" : "1",
+      "name" : "Waterfall",
+      "owner" : "e2uxcuyki7PrtMuDjxASX050KuD2",
+      "postType" : "idea"
+    },
+    "-L7R0vQuBmzQJwPgSS3e" : {
+      "city" : "دومة الجندل",
+      "city_department" : "دومة الجندل - مطابخ",
+      "dateCreated" : "1520888689.1045",
+      "department" : "مطابخ",
+      "desc" : "نافورة توضع على أحد زوايا المطبخ ",
+      "id" : "-L7R0vQuBmzQJwPgSS3e",
+      "images" : [ {
+        "large" : "https://firebasestorage.googleapis.com/v0/b/bayty-246cc.appspot.com/o/testApp-ideaImage%2Fe2uxcuyki7PrtMuDjxASX050KuD2%2F542581489166.jpg?alt=media&token=c3ffd829-586e-4389-af53-dfd1078f8446"
+      } ],
+      "likes" : "1",
+      "name" : "fountine ",
+      "owner" : "e2uxcuyki7PrtMuDjxASX050KuD2",
+      "postType" : "idea"
+    },
+    "-L7R17RFzoak32VRlQhQ" : {
+      "city" : "دومة الجندل",
+      "city_department" : "دومة الجندل - دورات مياه",
+      "dateCreated" : "1520888742.32404",
+      "department" : "دورات مياه",
+      "desc" : "نبتة طبيعية تضفي رائحة زكية ",
+      "id" : "-L7R17RFzoak32VRlQhQ",
+      "images" : [ {
+        "large" : "https://firebasestorage.googleapis.com/v0/b/bayty-246cc.appspot.com/o/testApp-ideaImage%2Fe2uxcuyki7PrtMuDjxASX050KuD2%2F542581542368.jpg?alt=media&token=d1886a73-a426-466e-bc34-874a201f7332"
+      } ],
+      "likes" : "1",
+      "name" : "نبتة",
+      "owner" : "e2uxcuyki7PrtMuDjxASX050KuD2",
+      "postType" : "idea"
+    },
+    "-L83M9B_BcAwatHOo3J9" : {
+      "city" : "الرياض",
+      "city_department" : "الرياض - صالة",
+      "dateCreated" : "1521565318.5417",
+      "department" : "صالة",
+      "desc" : "Wow",
+      "id" : "-L83M9B_BcAwatHOo3J9",
+      "images" : [ {
+        "large" : "https://firebasestorage.googleapis.com/v0/b/bayty-246cc.appspot.com/o/testApp-ideaImage%2FL1YeXJoqMjTfYxJioTJZQ8j80gF3%2F543258118609.jpg?alt=media&token=4aa24381-f189-4901-bbc4-d88dbae3ed7f"
+      } ],
+      "likes" : "0",
+      "name" : "river",
+      "owner" : "L1YeXJoqMjTfYxJioTJZQ8j80gF3",
+      "postType" : "idea"
+    }
+  },
+  "testApp-likes" : {
+    "HlWo7EEAkAUJPSh3Wcb5HeVKu9Q2" : {
+      "-L76j4Xsxdv8AHUtYkYz" : "product"
+    },
+    "JkQKAoiBcXSJHC3M8LRgtNBPXT63" : {
+      "-L76j4Xsxdv8AHUtYkYz" : "product",
+      "-L7ISLEbgupRe1VQBdpr" : "idea"
+    },
+    "bFzObQtoPUVtg1jQXMYvvoGBl9I2" : {
+      "-L76j4Xsxdv8AHUtYkYz" : "product",
+      "-L7ISLEbgupRe1VQBdpr" : "idea",
+      "-L7R0cd9q9LapeQ8kjVw" : "idea",
+      "-L7R0vQuBmzQJwPgSS3e" : "idea",
+      "-L7R17RFzoak32VRlQhQ" : "idea"
+    },
+    "e2uxcuyki7PrtMuDjxASX050KuD2" : {
+      "-L76j4Xsxdv8AHUtYkYz" : "product"
+    }
+  },
+  "testApp-normal" : {
+    "2iW9Tf6mjaSH6kUdORJHcx4OBzK2" : {
+      "city" : "المدينة المنورة",
+      "country" : "Saudi Arabia",
+      "dateCreated" : "1520868927.53869",
+      "email" : "soso@soso.com",
+      "name" : "zzz",
+      "phone" : "0555555555",
+      "provider" : "Firebase",
+      "uid" : "2iW9Tf6mjaSH6kUdORJHcx4OBzK2",
+      "userGroup" : "normal"
+    },
+    "88BbOnBrhqUYii8DGKzGtI3kz8N2" : {
+      "city" : "الرياض",
+      "country" : "Saudi Arabia",
+      "dateCreated" : "1520617279.08595",
+      "email" : "amal@amal.com",
+      "name" : "Amal",
+      "phone" : "0534567880",
+      "provider" : "Firebase",
+      "uid" : "88BbOnBrhqUYii8DGKzGtI3kz8N2",
+      "userGroup" : "normal"
+    },
+    "HlWo7EEAkAUJPSh3Wcb5HeVKu9Q2" : {
+      "city" : "",
+      "country" : "Saudi Arabia",
+      "dateCreated" : "1521559348.75916",
+      "email" : "a@a.com",
+      "name" : "اماني",
+      "phone" : "0512345678",
+      "provider" : "Firebase",
+      "uid" : "HlWo7EEAkAUJPSh3Wcb5HeVKu9Q2",
+      "userGroup" : "normal"
+    },
+    "JkQKAoiBcXSJHC3M8LRgtNBPXT63" : {
+      "city" : "العيينة والجبيلة",
+      "country" : "Saudi Arabia",
+      "dateCreated" : "1520875681.01034",
+      "email" : "hanan@hhh.com",
+      "imgUrl" : "https://firebasestorage.googleapis.com/v0/b/bayty-246cc.appspot.com/o/testApp-profileImage%2FJkQKAoiBcXSJHC3M8LRgtNBPXT63.jpeg?alt=media&token=0b9416b5-2d1f-4573-ba63-4f07e654d89b",
+      "name" : "Hanan",
+      "phone" : "0505050505",
+      "provider" : "Firebase",
+      "uid" : "JkQKAoiBcXSJHC3M8LRgtNBPXT63",
+      "userGroup" : "normal"
+    },
+    "ZTPzGJbfYzNlPZAXyigCf1M28h92" : {
+      "city" : "الرياض",
+      "country" : "Saudi Arabia",
+      "dateCreated" : "1521481756.52226",
+      "email" : "soso@so.com",
+      "name" : "Sarah",
+      "phone" : "0554433221",
+      "provider" : "Firebase",
+      "uid" : "ZTPzGJbfYzNlPZAXyigCf1M28h92",
+      "userGroup" : "normal"
+    }
+  },
+  "testApp-product" : {
+    "-L76j4Xsxdv8AHUtYkYz" : {
+      "category" : "أخرى",
+      "city" : "دومة الجندل",
+      "city_department" : "دومة الجندل - أخرى",
+      "dateCreated" : "1520548204.81615",
+      "department" : "أخرى",
+      "desc" : "منظر بديع يطل على شلال ",
+      "height" : "10000",
+      "id" : "-L76j4Xsxdv8AHUtYkYz",
+      "images" : [ {
+        "large" : "https://firebasestorage.googleapis.com/v0/b/bayty-246cc.appspot.com/o/testApp-productImage%2Fe2uxcuyki7PrtMuDjxASX050KuD2%2F542241004874.jpg?alt=media&token=47e5db15-b297-47c7-a04f-587ac77cb184"
+      }, {
+        "large" : "https://firebasestorage.googleapis.com/v0/b/bayty-246cc.appspot.com/o/testApp-ideaImage%2Fe2uxcuyki7PrtMuDjxASX050KuD2%2F542581489166.jpg?alt=media&token=c3ffd829-586e-4389-af53-dfd1078f8446"
+      }, {
+        "large" : "https://firebasestorage.googleapis.com/v0/b/bayty-246cc.appspot.com/o/test-productImages%2FjqPWinX4KfRE83aRwLyluVl3E6g2%2F1521331379884.5388?alt=media&token=f23422a7-cd2a-439e-b497-0a6cdea64ba1"
+      } ],
+      "length" : "10000",
+      "likes" : "4",
+      "manufacturer" : "البديع",
+      "name" : "منظر خيالي",
+      "owner" : "e2uxcuyki7PrtMuDjxASX050KuD2",
+      "postType" : "product",
+      "price" : "1000000",
+      "serialNumber" : "none",
+      "width" : "100000"
+    }
+  },
+  "testApp-professional" : {
+    "L1YeXJoqMjTfYxJioTJZQ8j80gF3" : {
+      "businessId" : "-L8-1BoNNgP4bBokGWmK",
+      "dateCreated" : "1521492740.56369",
+      "email" : "work@work.com",
+      "name" : "Lilac",
+      "provider" : "Firebase",
+      "uid" : "L1YeXJoqMjTfYxJioTJZQ8j80gF3",
+      "userGroup" : "prof"
+    },
+    "e2uxcuyki7PrtMuDjxASX050KuD2" : {
+      "businessId" : "-L76iSlPRkMEdlybcMdQ",
+      "dateCreated" : "1520548043.08239",
+      "email" : "hopeit99@gmail.com",
+      "name" : "أمل",
+      "provider" : "Firebase",
+      "uid" : "e2uxcuyki7PrtMuDjxASX050KuD2",
+      "userGroup" : "prof"
+    }
+  }
+}

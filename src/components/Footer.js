@@ -7,8 +7,8 @@ import { LinkContainer } from "react-router-bootstrap";
 import { IndexLinkContainer } from 'react-router-bootstrap';
 import { Glyphicon ,Modal} from "react-bootstrap";
 import Homepage from '../assets/img/selected-homepage.png';
-import Idea from '../assets/img/Selected-idea.png';
-import Product from '../assets/img/Selected-product.png';
+import Idea from '../assets/img/selected-idea.png';
+import Product from '../assets/img/selected-product.png';
 import Profile from '../assets/img/Profile-icon.png';
 
 const MobileDiv = styled.div`
@@ -72,31 +72,31 @@ class Footer extends Component {
 <footer className="mopilefooter" fixed>
        <MobileDiv >
             <LinkContainer to="/" >
-            <span> 
+            <span>
               <IconImg src={Homepage}/>
              <UserName > الرئيسية </UserName>
             </span>
             </LinkContainer>
             <LinkContainer to="/productspage" >
-            <span> 
+            <span>
                <IconImg src={Product} />
                <UserName > المنتجات </UserName>
-            </span> 
+            </span>
             </LinkContainer>
             <LinkContainer to="/ideaspage" >
-            <span> 
+            <span>
                <IconImg src={Idea} />
                <UserName > الأفكار </UserName>
-            </span> 
+            </span>
             </LinkContainer>
-            
+
              {!this.props.authenticated ? (
                 <LinkContainer to="/login" activeClassName="active">
                     {/* <UserImg src={logo_placeholder}/> */}
-                  <span> 
+                  <span>
                     <IconImg src={Profile} />
                     <UserName > حسابي </UserName>
-                  </span> 
+                  </span>
                 </LinkContainer>
             ) : (
           <div>
