@@ -5,7 +5,7 @@ import { Image, Col, Thumbnail, Button, Card, Row } from "react-bootstrap";
 import Equalizer from "react-equalizer";
 import styled from 'styled-components'
 import {MdEventSeat} from 'react-icons/lib/md';
-import Product from '../assets/img/selected-product.png';
+import Product from '../assets/img/Selected-product.png';
 
 
 const IconImg = styled.img`
