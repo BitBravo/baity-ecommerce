@@ -22,7 +22,7 @@ import styled from 'styled-components'
 import { MdAddShoppingCart, MdEventSeat } from 'react-icons/lib/md';
 import FullHeart from '../assets/img/fullHeart.png';
 import EmptyHeart from '../assets/img/emptyHeart.png';
-import Product from '../assets/img/selected-product.png';
+import Product from '../assets/img/Selected-product.png';
 import Cart from '../assets/img/AddingtoCart.png';
 
 

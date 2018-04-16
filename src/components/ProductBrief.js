@@ -5,7 +5,7 @@ import { Image, Col, Thumbnail, Button, Card, Row } from "react-bootstrap";
 import Equalizer from "react-equalizer";
 import styled from 'styled-components'
 import {MdEventSeat} from 'react-icons/lib/md';
-import Product from '../assets/img/selected-product.png';
+import Product from '../assets/img/Selected-product.png';
 
 
 const IconImg = styled.img`
@@ -42,9 +42,12 @@ const MyThumbnailDiv = styled.div`
   }
 `
 
-const PreviewImg = styled.img`
-  width: 100%;
-  height: 100%;
+const PreviewImg = styled.div`
+
+
+width:100%;
+height:100%;
+
 `;
 
 const ImageDiv = styled.div`
@@ -82,12 +85,15 @@ const ImageContainer = styled.div`
           <ImageContainer>
             <ImageDiv>
             <Link to={`/${product.owner}/products/${product.id}`}>
-              <PreviewImg
-                src={
-                  product.images
-                    ? product.images[0].thumbnail? product.images[0].thumbnail : product.images[0].large
-                    : "http://via.placeholder.com/243x243"
-                }
+              <PreviewImg style={{background:`url(${product.images[0].thumbnail? product.images[0].thumbnail : product.images[0].large})`,
+                                  backgroundSize: "cover",
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundPosition: "center center"}}
+                // src={
+                //   product.images
+                //     ? product.images[0].thumbnail? product.images[0].thumbnail : product.images[0].large
+                //     : "http://via.placeholder.com/243x243"
+                // }
               />
               {console.log("thumbnail " + product.images[0].thumbnail)}
               {/* <img   src="http://via.placeholder.com/243x243" */}
