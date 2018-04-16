@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { IndexLinkContainer } from 'react-router-bootstrap';
 import { Glyphicon ,Modal} from "react-bootstrap";
-import Homepage from '../assets/img/selected-homepage.png';
-import Idea from '../assets/img/selected-idea.png';
+import Homepage from '../assets/img/Selected-homepage.png';
+import Idea from '../assets/img/Selected-idea.png';
 import Product from '../assets/img/selected-product.png';
 import Profile from '../assets/img/Profile-icon.png';
 
