@@ -117,7 +117,7 @@ class NormalProfileInfo extends Component{
         </Col>
         <Col xs={3} sm={4} md={3} lg={3} style={{paddingRight:'0'}}>
         {this.state.profile.imgUrl
-        ? <UserImg  src={this.state.profile.imgUrl}  />
+        ? <UserImg  src={this.state.profile.thumbUrl? this.state.profile.thumbUrl : this.state.profile.imgUrl}  />
         : <UserImg src={logo_placeholder} />
         }
       </Col>
