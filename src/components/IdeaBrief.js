@@ -68,6 +68,12 @@ class IdeaBrief extends Component {
   //src="http://via.placeholder.com/243x243"
   render() {
     const idea = this.props.idea;
+
+    var imgUrl;
+    idea.images
+    ? imgUrl = idea.images[0].thumbnail? idea.images[0].thumbnail : idea.images[0].large
+    : imgUrl = "http://via.placeholder.com/243x243"
+
     return (
 
       <Col xs={12} md={4} sm={6} style={{float:'right'}}>
@@ -75,14 +81,12 @@ class IdeaBrief extends Component {
           <ImageContainer>
             <ImageDiv>
             <Link to={`/${idea.owner}/ideas/${idea.id}`}>
-              <PreviewImg
-                src={
-                  idea.images
-                    ? idea.images[0].large
-                    : "http://via.placeholder.com/243x243"
-                }
+            <PreviewImg style={{background:`url(${imgUrl})`,
+                                backgroundSize: "cover",
+                                backgroundRepeat: "no-repeat",
+                                backgroundPosition: "center center"}}
+            />
 
-              />
               {/* <img   src="http://via.placeholder.com/243x243" */}
             </Link>
             </ImageDiv>

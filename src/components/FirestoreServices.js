@@ -681,23 +681,20 @@ export default {
 
   /*
     Given an image url and a product id this method will:
-    1- delete the image from the storage
+    1- delete the image and thumb from the storage
     2- delete the image from the product images
     returns: a promise reporesenting product images after deleting the given image
   */
   deleteProductImage(imageUrl, productId){
     console.log('FirebaseServices.deleteImage(): 1- deleting image from storage')
-    //imageUrl = "https://firebasestorage.googleapis.com/v0/b/bayty-246cc.appspot.com/o/test-productImages%2FZlocdwZeLvQuqMs6dXnE1V3eSpU2%2F9FZUpYpGKEOVASiGbIsC%2Fidea-bathroom.jpg?alt=media&token=edf40270-62d0-454d-88c6-ea54d880b7e1";
-
     var thumbPre = "thumb_";
     var path = imageUrl.substr(imageUrl.indexOf('%2F') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('%2F') + 3));
 	  var oldName = path.substr(path.lastIndexOf('%2F')+3);
     path = path.replace(oldName, thumbPre + oldName);
     path = path.replace("%2F", "/");
     path = path.replace("%2F", "/");
-    //const storagePath = this.productImages.child(`ZlocdwZeLvQuqMs6dXnE1V3eSpU2/${productId}/${name}`);
     const storagePath = this.productImages.child(`${path}`);
-    storagePath.delete();
+    this.deleteThumbnail(storagePath);
     //delete original image "large" using url
     return storage.refFromURL(imageUrl).delete()
       .then(() => {
@@ -713,6 +710,16 @@ export default {
       .catch(error => {
         console.log(`FirebaseServices.deleteImage(): can not delete image. error code: ${error.code}, error message:${error.message}`)
         throw error
+      })
+  },
+
+  deleteThumbnail(storagePath) {
+      storagePath.getDownloadURL().then({
+      onResolve(foundURL) {
+        storagePath.delete();
+      },onReject(error) {
+        console.log(error.code);
+      }
       })
   },
 
@@ -812,6 +819,16 @@ export default {
 
   deleteIdeaImage(imageUrl, ideaId){
     console.log('FirebaseServices.deleteImage(): 1- deleting image from storage')
+    var thumbPre = "thumb_";
+    var path = imageUrl.substr(imageUrl.indexOf('%2F') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('%2F') + 3));
+	  var oldName = path.substr(path.lastIndexOf('%2F')+3);
+    path = path.replace(oldName, thumbPre + oldName);
+    path = path.replace("%2F", "/");
+    path = path.replace("%2F", "/");
+    const storagePath = this.ideaImages.child(`${path}`);
+    //storagePath.delete();
+    this.deleteThumbnail(storagePath);
+    //delete original image "large" using url
     return storage.refFromURL(imageUrl).delete()
       .then(() => {
         return this.getIdea(ideaId)
