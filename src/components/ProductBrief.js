@@ -13,7 +13,7 @@ width:20px;
 height:20px;
 
 `
-
+//
 const PaddingDiv = styled.div`
   padding-right: 7px;
   padding-top: 0;
@@ -79,13 +79,19 @@ const ImageContainer = styled.div`
   //src="http://via.placeholder.com/243x243"
   render() {
     const product = this.props.product;
+
+    var imgUrl;
+    product.images
+    ? imgUrl = product.images[0].thumbnail? product.images[0].thumbnail : product.images[0].large
+    : imgUrl = "http://via.placeholder.com/243x243"
+
     return (
       <Col xs={12} md={4} sm={6} style={{float:'right'}} >
         <MyThumbnailDiv>
           <ImageContainer>
             <ImageDiv>
             <Link to={`/${product.owner}/products/${product.id}`}>
-              <PreviewImg style={{background:`url(${product.images[0].thumbnail? product.images[0].thumbnail : product.images[0].large})`,
+              <PreviewImg style={{background:`url(${imgUrl})`,
                                   backgroundSize: "cover",
                                   backgroundRepeat: "no-repeat",
                                   backgroundPosition: "center center"}}

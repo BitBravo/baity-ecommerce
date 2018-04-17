@@ -29,7 +29,7 @@ width:180px;
 `;
 const MoreButton = styled.button`
 background-color:transparent;
-border:1px solid rgb(26, 156, 142); 
+border:1px solid rgb(26, 156, 142);
 color:rgb(26, 156, 142);
   width:100px;
   height: 30px;
@@ -77,6 +77,7 @@ class IdeaList extends Component{
           state: "ideas",
           query: (ref) => {
             return ref.where('owner', '==', owner)
+              .orderBy('timestamp', 'desc')
               .limit(3);
           },
           then(data) {
@@ -87,7 +88,7 @@ class IdeaList extends Component{
           }
         });
       } else {
-       var ref = FirestoreServices.ideas.where("owner", "==", owner)
+       var ref = FirestoreServices.ideas.where("owner", "==", owner).orderBy('timestamp', 'desc');
        paginator = new FirestorePaginator(ref, {})
        paginator.on()
        .then((docs) =>
@@ -100,7 +101,7 @@ class IdeaList extends Component{
 
     }
   } else {
-    var ref = FirestoreServices.ideas
+    var ref = FirestoreServices.ideas.orderBy('timestamp', 'desc')
     paginator = new FirestorePaginator(ref, {})
     paginator.on()
     .then((docs) =>

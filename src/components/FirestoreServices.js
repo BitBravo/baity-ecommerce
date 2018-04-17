@@ -693,9 +693,8 @@ export default {
     path = path.replace(oldName, thumbPre + oldName);
     path = path.replace("%2F", "/");
     path = path.replace("%2F", "/");
-    //const storagePath = this.productImages.child(`ZlocdwZeLvQuqMs6dXnE1V3eSpU2/${productId}/${name}`);
     const storagePath = this.productImages.child(`${path}`);
-    storagePath.delete();
+    this.deleteThumbnail(storagePath);
     //delete original image "large" using url
     return storage.refFromURL(imageUrl).delete()
       .then(() => {
@@ -711,6 +710,16 @@ export default {
       .catch(error => {
         console.log(`FirebaseServices.deleteImage(): can not delete image. error code: ${error.code}, error message:${error.message}`)
         throw error
+      })
+  },
+
+  deleteThumbnail(storagePath) {
+      storagePath.getDownloadURL().then({
+      onResolve(foundURL) {
+        storagePath.delete();
+      },onReject(error) {
+        console.log(error.code);
+      }
       })
   },
 
@@ -817,7 +826,8 @@ export default {
     path = path.replace("%2F", "/");
     path = path.replace("%2F", "/");
     const storagePath = this.ideaImages.child(`${path}`);
-    storagePath.delete();
+    //storagePath.delete();
+    this.deleteThumbnail(storagePath);
     //delete original image "large" using url
     return storage.refFromURL(imageUrl).delete()
       .then(() => {

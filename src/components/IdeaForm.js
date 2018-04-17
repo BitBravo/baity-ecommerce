@@ -557,7 +557,7 @@ class IdeaForm extends Component {
          :<span> تحديث الفكرة </span>
         }
         </button>
-    
+
         <LinkContainer to="/myprofile" activeClassName="active">
           <button   >
         إلغاء
@@ -599,7 +599,8 @@ class IdeaForm extends Component {
                     ? <Link to="/newidea">
                         <Button onClick={this.resetState}>اضافة فكرة جديدة</Button>
                       </Link>
-                    : null
+                    : <Link to="/">
+                    </Link>
                 }
                 &nbsp;&nbsp;&nbsp;
                 <Link to="/">
@@ -619,9 +620,10 @@ class IdeaForm extends Component {
             </Modal.Body>
           }
         </Modal>
-
-        <MyProgressBar title='جاري اضافة الفكرة' progressBars={this.state.progressBars} />
-
+        { this.props.isNewIdea
+          ? <MyProgressBar title='جاري اضافة الفكرة' progressBars={this.state.progressBars} />
+          : <MyProgressBar title='جاري تحديث الفكرة' progressBars={this.state.progressBars} />
+        }
       </form>
     );
   }
