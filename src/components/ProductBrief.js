@@ -5,7 +5,7 @@ import { Image, Col, Thumbnail, Button, Card, Row } from "react-bootstrap";
 import Equalizer from "react-equalizer";
 import styled from 'styled-components'
 import {MdEventSeat} from 'react-icons/lib/md';
-import Product from '../assets/img/selected-product.png';
+import Product from '../assets/img/Selected-product.png';
 
 
 const IconImg = styled.img`
@@ -16,7 +16,7 @@ height:20px;
 height:12px;}
 
 `
-
+//
 const PaddingDiv = styled.div`
   padding-right: 7px;
   padding-top: 0;
@@ -57,9 +57,12 @@ const MyThumbnailDiv = styled.div`
   }
 `
 
-const PreviewImg = styled.img`
-  width: 100%;
-  height: 100%;
+const PreviewImg = styled.div`
+
+
+width:100%;
+height:100%;
+
 `;
 
 const ImageDiv = styled.div`
@@ -98,18 +101,27 @@ margin-top:5px;
   //src="http://via.placeholder.com/243x243"
   render() {
     const product = this.props.product;
+
+    var imgUrl;
+    product.images
+    ? imgUrl = product.images[0].thumbnail? product.images[0].thumbnail : product.images[0].large
+    : imgUrl = "http://via.placeholder.com/243x243"
+
     return (
       <MyThumbnailCol xs={6} md={4} sm={6} style={{float:'right'}} >
         <MyThumbnailDiv>
           <ImageContainer>
             <ImageDiv>
             <Link to={`/${product.owner}/products/${product.id}`}>
-              <PreviewImg
-                src={
-                  product.images
-                    ? product.images[0].thumbnail? product.images[0].thumbnail : product.images[0].large
-                    : "http://via.placeholder.com/243x243"
-                }
+              <PreviewImg style={{background:`url(${imgUrl})`,
+                                  backgroundSize: "cover",
+                                  backgroundRepeat: "no-repeat",
+                                  backgroundPosition: "center center"}}
+                // src={
+                //   product.images
+                //     ? product.images[0].thumbnail? product.images[0].thumbnail : product.images[0].large
+                //     : "http://via.placeholder.com/243x243"
+                // }
               />
               {console.log("thumbnail " + product.images[0].thumbnail)}
               {/* <img   src="http://via.placeholder.com/243x243" */}

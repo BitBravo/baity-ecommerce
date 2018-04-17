@@ -164,7 +164,7 @@ class ProfileInfo extends Component{
             <LogoutButton> تسجيل خروج <GoSignOut style={{fontSize:"17px",paddingRight:"3px"}}/></LogoutButton>
           </LinkContainer>
         }
-         <SocialDiv >  
+         <SocialDiv >
              <a href={`https://twitter.com/${this.state.profile.twitter}`} style={{color:'gray'}}><TiSocialTwitter className="icons"/></a>
              <a href={`https://www.facebook.com/${this.state.profile.facebook}`} style={{color:'gray'}}><TiSocialFacebook className="icons"/></a>
              <a href={`https://www.instagram.com/${this.state.profile.instagram}`} style={{color:'gray'}}><TiSocialInstagram className="icons"/></a>
@@ -177,7 +177,7 @@ class ProfileInfo extends Component{
         </Col>
           <Col xs={3} sm={4} md={3} lg={3} style={{paddingRight:'0'}}>
         {this.state.profile.imgUrl
-        ? <UserImg  src={this.state.profile.imgUrl}  />
+        ? <UserImg  src={this.state.profile.thumbUrl? this.state.profile.thumbUrl : this.state.profile.imgUrl}  />
         : <UserImg  src={logo_placeholder} />
         }
       </Col>

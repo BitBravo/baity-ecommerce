@@ -438,6 +438,7 @@ class ProductForm extends Component {
       return;
       console.log('start adding a new image')
     var newImage = {file: newImageFile, url: newImageDataURL}
+
     this.setState(
       {
         newImages: [...this.state.newImages, newImage]
@@ -539,7 +540,6 @@ class ProductForm extends Component {
               errorMsg: ''
             }
             let newState = {...this.state, progressBars: {}, submitStatus: submitStatus}
-
             this.setState(newState, () => {console.log('after successful form submission state is:'); console.log(this.state);})
 
           })
@@ -788,6 +788,7 @@ class ProductForm extends Component {
   render() {
     console.log(`${this.constructor.name}.render`);
     console.log(this.state)
+    console.log(this.state.submitStatus.showSubmitModal);
     return (
       <form>
           <div>
@@ -983,7 +984,7 @@ class ProductForm extends Component {
                     ? <Link to="/newproduct">
                         <Button onClick={this.resetState}>اضافة منتج جديد</Button>
                       </Link>
-                    : null
+                    : <Link to="/"></Link>
                 }
                 &nbsp;&nbsp;&nbsp;
                 <Link to="/">
@@ -1003,8 +1004,10 @@ class ProductForm extends Component {
             </Modal.Body>
           }
         </Modal>
-
-        <MyProgressBar title='جاري اضافة المنتج' progressBars={this.state.progressBars} />
+        { this.props.isNewProduct
+          ? <MyProgressBar title='جاري اضافة المنتج' progressBars={this.state.progressBars} />
+          : <MyProgressBar title='جاري تحديث المنتج' progressBars={this.state.progressBars} />
+        }
 
       </form>
     );
