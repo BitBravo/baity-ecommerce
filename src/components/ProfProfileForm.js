@@ -39,7 +39,14 @@ margin:auto;
 width: 80px;
 height: 80px;
 }`;
-
+const UserHomeImg=styled.img`
+width: 60%;
+height: 150px;
+display:block;
+margin:auto;
+@media only screen and (max-width: 767px) {
+height: 100px;
+}`;
 
 function FieldGroup({ id, label, help, validationState, firstTime, ...props }) {
   return (
@@ -242,13 +249,15 @@ class ProfProfileForm extends Component {
         alertMsg: "",
         showSuccessfulSubmit: false
       }
-    }
 
+    }
+  
     let fieldsWithValuesFromDB = _.reduce(this.state.FIELDS,
         (fieldsWithValuesFromDB, fieldData, fieldName) => { //result, value, key
 
       }, {});
-
+      this.handleLogoUpload = this.handleLogoUpload.bind(this);
+      this.handleHomeImgUpload = this.handleHomeImgUpload.bind(this);
     this.updateState = this.updateState.bind(this);
     this.renderInputField = this.renderInputField.bind(this);
     this.renderTextareaField = this.renderTextareaField.bind(this);
@@ -305,17 +314,19 @@ class ProfProfileForm extends Component {
     this.updateState(fieldInfo, name)
   }
 
-  handleFileUpload( e ) {
+  handleLogoUpload( e ) {
     e.preventDefault();
     if (!e.target.files.length > 0)//user canceled selecting a file
       return
-      this.setState({file: e.target.files[0]});
-    let reader = new FileReader();
-    // let file = e.target.files[0];
+      this.setState({ imgUrl: e.target.files[0] });
+
+       let reader = new FileReader();
+      let  imgUrl= e.target.files[0];
+      //  let file = e.target.files[0];
 
     let imageMaxSize = 1024 * 1024;//1MB
-    if (file.size > imageMaxSize){
-      var nBytes = file.size;
+    if (imgUrl.size > imageMaxSize){
+      var nBytes = imgUrl.size;
       var sOutput = nBytes + " bytes"
       for (var aMultiples = ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"], nMultiple = 0, nApprox = nBytes / 1024; nApprox > 1; nApprox /= 1024, nMultiple++) {
         sOutput = nApprox.toFixed(3) + " " + aMultiples[nMultiple];
@@ -325,7 +336,7 @@ class ProfProfileForm extends Component {
         imgErrorMessage: 'يجب أن يكون حجم الصورة أقل من ١ ميجابايت. حجم الملف الحالي هو: ' + sOutput
       })
       return;
-    } else if (!file.type.startsWith('image/jpeg') && !file.type.startsWith('image/png')){
+    } else if (!imgUrl.type.startsWith('image/jpeg') && !imgUrl.type.startsWith('image/png')){
       this.setState({
         imgError: true,
         imgErrorMessage: 'يجب أن يتم تحميل صورة من نوع JPEG/PNG'
@@ -333,21 +344,55 @@ class ProfProfileForm extends Component {
       return;
     }
       reader.onloadend = () => {
-        if (this.state.homeImgUrl){
+    
+        
           this.setState({
-            imgHomeFile:file,//of type File that can be directly uploaded to firebase storage using "put" method
-            homeImgUrl:reader.result,//of type Data URL for preview purposes only see (https://en.wikipedia.org/wiki/Data_URI_scheme & https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL)
-            imgError: false,
-            imgErrorMessage: ''});
-        }else {
-          this.setState({
-            imgFile:file,//of type File that can be directly uploaded to firebase storage using "put" method
+            imgFile:imgUrl,//of type File that can be directly uploaded to firebase storage using "put" method
             imgUrl: reader.result,
             imgError: false,
             imgErrorMessage: '' }
         );}
+  
+    reader.readAsDataURL(imgUrl)
+  }
+  handleHomeImgUpload( e ) {
+    e.preventDefault();
+    if (!e.target.files.length > 0)//user canceled selecting a file
+      return
+      this.setState({ homeImgUrl: e.target.files[0] });
+       let reader = new FileReader();
+      let  homeImgUrl= e.target.files[0]
+      //  let file = e.target.files[0];
+
+    let imageMaxSize = 1024 * 1024;//1MB
+    if (homeImgUrl.size > imageMaxSize){
+      var nBytes = homeImgUrl.size;
+      var sOutput = nBytes + " bytes"
+      for (var aMultiples = ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"], nMultiple = 0, nApprox = nBytes / 1024; nApprox > 1; nApprox /= 1024, nMultiple++) {
+        sOutput = nApprox.toFixed(3) + " " + aMultiples[nMultiple];
       }
-    reader.readAsDataURL(file)
+      this.setState({
+        imgError: true,
+        imgErrorMessage: 'يجب أن يكون حجم الصورة أقل من ١ ميجابايت. حجم الملف الحالي هو: ' + sOutput
+      })
+      return;
+    } else if (!homeImgUrl.type.startsWith('image/jpeg') && !homeImgUrl.type.startsWith('image/png')){
+      this.setState({
+        imgError: true,
+        imgErrorMessage: 'يجب أن يتم تحميل صورة من نوع JPEG/PNG'
+      })
+      return;
+    }
+      reader.onloadend = () => {
+     
+          this.setState({
+            imgHomeFile:homeImgUrl,//of type File that can be directly uploaded to firebase storage using "put" method
+            homeImgUrl:reader.result,//of type Data URL for preview purposes only see (https://en.wikipedia.org/wiki/Data_URI_scheme & https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL)
+            imgError: false,
+            imgErrorMessage: ''});
+      
+      }
+    reader.readAsDataURL(homeImgUrl)
   }
 
   validateFields(){
@@ -411,8 +456,8 @@ class ProfProfileForm extends Component {
           profileData.imageFile = this.state.imgFile;
           profileData.newImage = this.state.imgUrl !== this.props.profile.imgUrl;
           profileData.homeImgUrl = this.state.homeImgUrl;
-          profileData.imageFile = this.state.imgFile;
-          profileData.newImage = this.state.homeImgUrl !== this.props.profile.homeImgUrl;
+          profileData.imageHFile = this.state.imgHomeFile;
+          profileData.newHImage = this.state.homeImgUrl !== this.props.profile.homeImgUrl;
           //update
           this.props.onSubmit(profileData,
             (error) => {
@@ -602,8 +647,8 @@ class ProfProfileForm extends Component {
             <Col lg={12} >
 
               {this.state.homeImgUrl
-              ? <UserImg  src={this.state.homeImgUrl}   />
-              : <UserImg  src={logo_placeholder}   />
+              ? <UserHomeImg  src={this.state.homeImgUrl}   />
+              : <UserHomeImg  src={logo_placeholder}   />
               }
 
             </Col>
@@ -611,7 +656,7 @@ class ProfProfileForm extends Component {
            
               <Col lg={12}>
               <div style={{margin: '10px auto 30px', textAlign: 'center'}}>
-              <label   style={{cursor:'pointer'}}   htmlFor="profile_h_pic"><span style={{ color: 'green'}}>+&nbsp;</span>
+              <label   style={{cursor:'pointer'}}   htmlFor="profile_h_pic"><span style={{ color: 'green'}}>+&nbsp;</span> 
               {this.state.homeImgUrl && this.state.homeImgUrl.length > 0
                 ? "عدل صورة صفحة الشركة"
                 : "أضف صورة صفحة الشركة"
@@ -621,8 +666,8 @@ class ProfProfileForm extends Component {
                 ?<span className="help-block" style={{fontSize: '100%', color: 'red'}}>تقبل الصور من نوع JPEG/JPG وحجم أقل من 1 ميجابايت 1MB</span>
                 :<span className="help-block" style={{fontSize: '80%'}}>تقبل الصور من نوع JPEG/JPG/PNG وحجم أقل من 1 ميجابايت </span>
               }
-              <input type="file" id="profile_h_pic" name="profile_h_pic"
-          accept="image/jpeg, image/png" style={{opacity: 0}} onChange={this.handleFileUpload.bind(this)} />
+              <input type="file" id="profile_h_pic" name="homeImgUrl"
+          accept="image/jpeg, image/png" style={{opacity: 0}} onChange={this.handleHomeImgUpload} />
               </div>
               </Col>
               </Row>
@@ -649,8 +694,8 @@ class ProfProfileForm extends Component {
                 ?<span className="help-block" style={{fontSize: '100%', color: 'red'}}>تقبل الصور من نوع JPEG/JPG وحجم أقل من 1 ميجابايت 1MB</span>
                 :<span className="help-block" style={{fontSize: '80%'}}>تقبل الصور من نوع JPEG/JPG/PNG وحجم أقل من 1 ميجابايت </span>
               }
-              <input type="file" id="profile_pic" name="profile_pic" file={this.state.file}
-          accept="image/jpeg, image/png" style={{opacity: 0}} onChange={this.handleFileUpload.bind(this)} />
+              <input type="file" id="profile_pic" name="imgUrl" 
+          accept="image/jpeg, image/png" style={{opacity: 0}} onChange={this.handleLogoUpload} />
               </div>
               </Col>
               </Row>

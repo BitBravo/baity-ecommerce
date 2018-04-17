@@ -428,7 +428,7 @@ export default {
           }
         ); //updateTask.on
     },
-    uploadProfProfileHomeImage(uid, newImage, progressHandler, errorHandler, next){
+    uploadProfProfileHomeImage(uid, newHImage, progressHandler, errorHandler, next){
       //1- upload the image of the profile.
       //2- add the profile to the database
       //get a reference for the image bucket (the placeholder where we will put the image into)
@@ -436,10 +436,10 @@ export default {
       //upload the image. This is a task that will run async. Notice that it accepts a file as in
       //browser API File (see https://developer.mozilla.org/en-US/docs/Web/API/File)
       var metadata = {
-        contentType: newImage.type
+        contentType: newHImage.type
       };
       //The following will return a task that will execte async
-      var uploadTask = imagesRef.put(newImage, metadata);
+      var uploadTask = imagesRef.put(newHImage, metadata);
       // Register three observers:
       // 1. 'state_changed' observer, called any time the state changes
       // 2. Error observer, called on failure
@@ -590,16 +590,16 @@ export default {
     updateNormalUserProfileHomeImg(uid, profileData, errorHandler, successHandler, progressHandler){
       console.log('FirebaseServices.updateNormalProfile')
       //if we have a new image then upload it
-      if (profileData.newImage) {
+      if (profileData.newHImage) {
         this.uploadProfProfileHomeImage(
           uid,
-          profileData.imageFile,
+          profileData.imageHFile,
           progressHandler,
           errorHandler,
           (homeImgUrl) => {
               profileData.homeImgUrl = homeImgUrl
               //update profile with new data and new image URL
-              this.updateProfProfileHelper(
+              this.normalUserProfileHelper(
                 profileData,
                 errorHandler,
                 successHandler
@@ -609,7 +609,7 @@ export default {
       } else {
         //no change to current image/image URL
         //update profile with new data
-        this.updateProfProfileHelper(
+        this.normalUserProfileHelper(
           profileData,
           errorHandler,
           successHandler
