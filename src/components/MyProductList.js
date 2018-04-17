@@ -4,7 +4,7 @@ import {MdEventSeat} from 'react-icons/lib/md';
 import styled from 'styled-components'
 import { Grid, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Product from '../assets/img/Selected-product.png';
+import Product from '../assets/img/selected-product.png';
 
 
 const IconImg = styled.img`

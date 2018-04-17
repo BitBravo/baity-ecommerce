@@ -4,7 +4,7 @@ import {MdWeekend} from 'react-icons/lib/md';
 import styled from 'styled-components'
 import { Grid, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Idea from '../assets/img/Selected-idea.png';
+import Idea from '../assets/img/selected-idea.png';
 
 const IconImg = styled.img`
 width:40px;

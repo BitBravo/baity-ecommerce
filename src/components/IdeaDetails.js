@@ -9,7 +9,7 @@ import styled from 'styled-components'
 import FullHeart from '../assets/img/fullHeart.png';
 import EmptyHeart from '../assets/img/emptyHeart.png';
 import {MdAddShoppingCart,MdWeekend} from 'react-icons/lib/md';
-import Idea from '../assets/img/Selected-idea.png';
+import Idea from '../assets/img/selected-idea.png';
 
 
 const IconImg = styled.img`

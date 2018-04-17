@@ -134,7 +134,6 @@ margin-top:5px;
               ... المزيد
               </Link>
             </p>
-<<<<<<< HEAD
             <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
                 <p > من:
                   <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
@@ -142,9 +141,6 @@ margin-top:5px;
                   </Link>
                 </p>
               </div>
-=======
-
->>>>>>> 898d2580164af221dcbd162b6afc383aa705fd36
           </PaddingDiv>
         </MyThumbnailDiv>
       </MyThumbnailCol>

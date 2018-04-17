@@ -532,7 +532,7 @@ export default {
       if (profileData.newImage) {
         this.uploadProfProfileHomeImage(
           uid,
-          profileData.imageFile,
+          profileData.imageHomeFile,
           progressHandler,
           errorHandler,
           (homeImgUrl) => {

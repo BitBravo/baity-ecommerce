@@ -222,8 +222,8 @@ class NorProfileForm extends Component {
     e.preventDefault();
     if (!e.target.files.length > 0)//user canceled selecting a file
       return
-    let reader = new FileReader();
     let file = e.target.files[0];
+    let reader = new FileReader();
 
     let imageMaxSize = 1024 * 1024;//1MB
     if (file.size > imageMaxSize){
@@ -244,22 +244,15 @@ class NorProfileForm extends Component {
       })
       return;
     }
-
     reader.onloadend = () => {
       this.setState({
-        imgFile: file,//of type File that can be directly uploaded to firebase storage using "put" method
-        imgUrl: reader.result,//of type Data URL for preview purposes only see (https://en.wikipedia.org/wiki/Data_URI_scheme & https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL)
-        imgError: false,
-        imgErrorMessage: ''
-      });
-    }
-    reader.onloadend = () => {
-      this.setState({
-        imgFile: file,//of type File that can be directly uploaded to firebase storage using "put" method
-        homeImgUrl: reader.result,//of type Data URL for preview purposes only see (https://en.wikipedia.org/wiki/Data_URI_scheme & https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL)
-        imgError: false,
-        imgErrorMessage: ''
-      });
+            imgFile: file,//of type File that can be directly uploaded to firebase storage using "put" method
+            imgUrl: reader.result,//of type Data URL for preview purposes only see (https://en.wikipedia.org/wiki/Data_URI_scheme & https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL)
+            // imgFile: file,//of type File that can be directly uploaded to firebase storage using "put" method
+            // homeImgUrl: reader.result,
+            imgError: false,
+            imgErrorMessage: ''
+          });
     }
     reader.readAsDataURL(file)
   }
@@ -324,9 +317,9 @@ class NorProfileForm extends Component {
           profileData.imgUrl = this.state.imgUrl;
           profileData.imageFile = this.state.imgFile;
           profileData.newImage = this.state.imgUrl !== this.props.profile.imgUrl;
-          profileData.homeImgUrl = this.state.homeImgUrl;
-          profileData.imageHomeFile = this.state.imgFile;
-          profileData.newHomeImage = this.state.homeImgUrl !== this.props.profile.homeImgUrl;
+          // profileData.homeImgUrl = this.state.homeImgUrl;
+          // profileData.imageFile = this.state.imgFile;
+          // profileData.newImage = this.state.homeImgUrl !== this.props.profile.homeImgUrl;
           //update
           this.props.onSubmit(profileData,
             (error) => {
@@ -480,7 +473,7 @@ class NorProfileForm extends Component {
                 ?<span className="help-block" style={{fontSize: '100%', color: 'red'}}>تقبل الصور من نوع JPEG/JPG وحجم أقل من 1 ميجابايت 1MB</span>
                 :<span className="help-block" style={{fontSize: '80%'}}>تقبل الصور من نوع JPEG/JPG/PNG وحجم أقل من 1 ميجابايت </span>
               }
-              <input type="file" id="profile_pic" name="profile_pic"
+              <input type="file" id="home_profile_pic" name="home_profile_pic"
           accept="image/jpeg, image/png" style={{opacity: 0}} onChange={this.handleFileUpload.bind(this)} />
               </div>
               </Col>

@@ -5,7 +5,7 @@ import { Image, Col, Thumbnail, Button, Card, Row } from "react-bootstrap";
 import Equalizer from "react-equalizer";
 import styled from 'styled-components'
 import {MdWeekend} from 'react-icons/lib/md';
-import Idea from '../assets/img/Selected-idea.png';
+import Idea from '../assets/img/selected-idea.png';
 
 const IconImg = styled.img`
 width:20px;
