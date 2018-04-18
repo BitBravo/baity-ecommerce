@@ -255,18 +255,16 @@ class NorProfileForm extends Component {
       })
       return;
     }
-      reader.onloadend = () => {
-    
-        if(this.state.imgUrl){
-          this.setState({
-            imgFile:imgUrl,//of type File that can be directly uploaded to firebase storage using "put" method
-            imgUrl: reader.result,
-            imgError: false,
-            imgErrorMessage: '' }
-        );}}
-  
-    reader.readAsDataURL(imgUrl)
-  }
+    reader.onloadend = () => {
+      this.setState({
+        imgFile:imgUrl,//of type File that can be directly uploaded to firebase storage using "put" method
+        imgUrl: reader.result,
+        imgError: false,
+        imgErrorMessage: '' }
+    );}
+
+reader.readAsDataURL(imgUrl)
+}
   handleHomeImgUpload( e ) {
     e.preventDefault();
     if (!e.target.files.length > 0)//user canceled selecting a file
@@ -295,17 +293,18 @@ class NorProfileForm extends Component {
       })
       return;
     }
-      reader.onloadend = () => {
-        if(this.state.homeImgUrl){
-          this.setState({
-            imgHomeFile:homeImgUrl,//of type File that can be directly uploaded to firebase storage using "put" method
-            homeImgUrl:reader.result,//of type Data URL for preview purposes only see (https://en.wikipedia.org/wiki/Data_URI_scheme & https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL)
-            imgError: false,
-            imgErrorMessage: ''});}
-      
-      }
-    reader.readAsDataURL(homeImgUrl)
+    reader.onloadend = () => {
+     
+      this.setState({
+        imgHomeFile:homeImgUrl,//of type File that can be directly uploaded to firebase storage using "put" method
+        homeImgUrl:reader.result,//of type Data URL for preview purposes only see (https://en.wikipedia.org/wiki/Data_URI_scheme & https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL)
+        imgError: false,
+        imgErrorMessage: ''});
+  
   }
+reader.readAsDataURL(homeImgUrl)
+}
+
 
 
   validateFields(){

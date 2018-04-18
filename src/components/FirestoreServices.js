@@ -22,6 +22,8 @@ let _PROFILE_IMAGES_PATH = testPrefix + "profileImage";
 let _PROF_PATH = testPrefix + "professional";
 let _NORMAL_PATH = testPrefix + "normal";
 let _BASKET_PATH = testPrefix + "basket";
+let _BUSINESS_HOMEIMGS_PATH = testPrefix + "businessHomeImgs";
+let _PROFILE_HOMEIMGS_PATH = testPrefix + "profileHomeImages";
 
 /* DATABASE AND STORGAE REFERENCES FOR TESTING*/
 // let _PRODUCTS_PATH = "product"; //change me by removing test
@@ -54,7 +56,8 @@ var _REF_BUSINESS_LOGO = STORAGE_BASE.child(_BUSINESS_LOGOS_PATH); //change me b
 var _REF_PRODUCT_IMAGE = STORAGE_BASE.child(_PRODUCT_IMAGES_PATH); //change me by removing test
 var _REF_IDEA_IMAGE = STORAGE_BASE.child(_IDEA_IMAGES_PATH);
 var _REF_PROFILE_IMAGE = STORAGE_BASE.child(_PROFILE_IMAGES_PATH); //change me by removing test
-
+var _REF_BUSINESS_HOMEIMG = STORAGE_BASE.child(_BUSINESS_HOMEIMGS_PATH );
+var _REF_PROFILE_HOMEIMG =STORAGE_BASE.child(_PROFILE_HOMEIMGS_PATH);
 // We are exporting an nonymous object.
 // To import simply write:
 // import FirebaseServices from './FirebaseServices.js' (you can replace FirebaseServices with whatever you like)
@@ -79,6 +82,9 @@ export default {
   get BUSINESS_LOGOS_PATH() {
     return _BUSINESS_LOGOS_PATH;
   },
+  get BUSINESS_HOMEIMGS_PATH() {
+    return _BUSINESS_HOMEIMGS_PATH;
+  },
   get PRODUCT_IMAGES_PATH() {
     return _PRODUCT_IMAGES_PATH;
   },
@@ -87,6 +93,9 @@ export default {
   },
   get PROFILE_IMAGES_PATH() {
     return _PROFILE_IMAGES_PATH;
+  },
+  get PROFILE_HOMEIMGS_PATH() {
+    return _PROFILE_HOMEIMGS_PATH;
   },
   get PROF_PATH() {
     return _PROF_PATH;
@@ -117,6 +126,12 @@ export default {
   },
   get profileImages() {
     return _REF_PROFILE_IMAGE;
+  },
+  get businessHomeImgs() {
+    return _REF_BUSINESS_HOMEIMG;
+  },
+  get profileHomeImages() {
+    return _REF_PROFILE_HOMEIMG;
   },
   get professionals() {
     return _REF_PROF;
@@ -293,7 +308,8 @@ export default {
           console.log(profileData);
           errorHandler(error.message);
         });
-    } catch (error) {
+    } 
+    catch (error) {
       errorHandler(error);
     }
   },
@@ -314,7 +330,7 @@ export default {
           imgUrl: profileData.imgUrl,
           homeImgUrl: profileData.homeImgUrl,
           name: profileData.name,
-          email: profileData.email
+          // email: profileData.email
         })
         .then(() => {
           console.log("insert succeeded");
@@ -325,15 +341,17 @@ export default {
           console.log(profileData);
           errorHandler(error.message);
         });
-    } else {       console.log(normalUserProfileRef)
+    } else {       
+      console.log(normalUserProfileRef)
 
       normalUserProfileRef
         .update({
+          homeImgUrl: profileData.homeImgUrl,
           city: profileData.city,
           country: 'Saudi Arabia',
           phone: profileData.phone,
           name: profileData.name,
-          email: profileData.email
+          // email: profileData.email
         })
         .then(() => {
           console.log(profileData);
@@ -347,7 +365,8 @@ export default {
           errorHandler(error.message);
         });
     }
-  } catch (error) {
+  } 
+  catch (error) {
       errorHandler(error);
     }
 
@@ -426,7 +445,8 @@ export default {
             next(imgUrl);
 
           }
-        ); //updateTask.on
+         
+        ); //updateTask.on  
     },
     uploadProfProfileHomeImage(uid, newHImage, progressHandler, errorHandler, next){
       //1- upload the image of the profile.
@@ -494,6 +514,7 @@ export default {
 
         }
       ); //updateTask.on
+      console.log("iiiii");
   },
     //Main method to update a professional profile
     updateProfProfile(uid, profileData, errorHandler, successHandler, progressHandler){
@@ -525,14 +546,16 @@ export default {
           successHandler
         );
       }
+      
     },
     updateProfProfileHomeImg(uid, profileData, errorHandler, successHandler, progressHandler){
       console.log('FirebaseServices.updateProfProfile')
       //if we have a new image then upload it
-      if (profileData.newImage) {
+      if (profileData.newHImage) {
         this.uploadProfProfileHomeImage(
+          this.businessHomeImgs,
           uid,
-          profileData.imageHomeFile,
+          profileData.imageHFile,
           progressHandler,
           errorHandler,
           (homeImgUrl) => {
@@ -586,12 +609,14 @@ export default {
           successHandler
         );
       }
+      
     },
-    updateNormalUserProfileHomeImg(uid, profileData, errorHandler, successHandler, progressHandler){
-      console.log('FirebaseServices.updateNormalProfile')
+    updateNorProfileHomeImg(uid, profileData, errorHandler, successHandler, progressHandler){
+      console.log('FirebaseServices.updateProfProfile')
       //if we have a new image then upload it
       if (profileData.newHImage) {
         this.uploadProfProfileHomeImage(
+          this.profileHomeImages,
           uid,
           profileData.imageHFile,
           progressHandler,

@@ -126,17 +126,17 @@ const FIELDS = {
     label: 'لوقو الشركة' ,
     valid: false,
     touched: false,
-    required: true,
+    required: false,
     errorMessage: "",
     helpMsg: "",
     value: ""
   },
   homeImgUrl: {
     type: 'image',
-    label: 'صورة ملف الشركة' ,
+    label: ' صورة ملف الشركة' ,
     valid: false,
     touched: false,
-    required: true,
+    required: false,
     errorMessage: "",
     helpMsg: "",
     value: ""
@@ -198,10 +198,10 @@ const FIELDS = {
   },
   types: {
     type: 'checkbox',
-    label: 'نوع العمل',
+    label: ' نوع العمل * ',
     valid: false,
     touched: false,
-    required: false,
+    required: true,
     errorMessage: "",
     helpMsg: "",
     value: [],
@@ -209,10 +209,10 @@ const FIELDS = {
   },
   categories: {
     type: 'checkbox',
-    label: 'التصنيف',
+    label: ' التصنيف *',
     valid: false,
     touched: false,
-    required: false,
+    required: true,
     errorMessage: "",
     helpMsg: "",
     value: [],
@@ -344,8 +344,6 @@ class ProfProfileForm extends Component {
       return;
     }
       reader.onloadend = () => {
-    
-        
           this.setState({
             imgFile:imgUrl,//of type File that can be directly uploaded to firebase storage using "put" method
             imgUrl: reader.result,
@@ -477,7 +475,7 @@ class ProfProfileForm extends Component {
             formStatusAlert: {
               alert: true,
               type: "danger",
-              alertMsg: " عذرا ! يجب تعبئة النموذج كاملا مع الصورة بحيث تكون البيانات المعطاة صحيحة حسب المطلوب",
+              alertMsg: " عذرا ! يجب تعبئة المعلومات المطلوبة في النموذج مع الصورة بحيث تكون البيانات المعطاة صحيحة حسب المطلوب",
               showSuccessfulSubmit: false
             }
           })
