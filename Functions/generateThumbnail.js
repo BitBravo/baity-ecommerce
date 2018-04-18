@@ -152,11 +152,16 @@ exports = module.exports = functions.storage.object().onFinalize((object) => {
     return admin.firestore().collection(collectionId).doc(docId).get()
     .then((doc) => {
       console.log("doc images " + doc.data().images.length);
-      var newImages = doc.data().images.filter(url => !url.large.includes(fileName));
+      var otherImages = doc.data().images.filter(url => !url.large.includes(fileName));
       var image = doc.data().images.filter(url => url.large.includes(fileName));
-      console.log("newImages " + newImages.length);
+      console.log("otherImages " + otherImages.length);
       console.log("large Url " + image[0].large);
-      var images = [...newImages,{large: image, thumbnail: thumbFileUrl}];
-      return admin.firestore().collection(collectionId).doc(docId).set({images: images}, { merge: true })
+      if (otherImages.length < 1) {
+        var images = [{large: image[0].large, thumbnail: thumbFileUrl}];
+      }
+      else {
+        var images = [...otherImages,{large: image[0].large, thumbnail: thumbFileUrl}];
+      }
+      return admin.firestore().collection(collectionId).doc(docId).update({images: images})
   })}}).then(() => console.log('Thumbnail URLs saved to database.'));
 });
