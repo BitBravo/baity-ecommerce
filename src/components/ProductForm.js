@@ -355,8 +355,9 @@ class ProductForm extends Component {
   }
   /**
    * This will be called in one of two cases:
-   * 1- the product we are updating has been changed somewhere else so we need to update form data
-   * 2- the user clicked 'add new product' link so we need to clean up and prepare for adding a new product
+   * 1- the product we are updating been updated by the cloud functions to add thumbnail url, should be ignored
+   * 2- the product we are updating has been changed somewhere else so we need to update form data
+   * 3- the user clicked 'add new product' link so we need to clean up and prepare for adding a new product
    * @param {*} nextProps
    */
   componentWillReceiveProps(nextProps){
@@ -364,6 +365,9 @@ class ProductForm extends Component {
     console.log('nextProps')
     console.log(nextProps)
     //case 1
+    if(nextProps.isUpdated)
+      return
+    //case 2
     if (!nextProps.isNewProduct){
       var newImages = this.state.newImages;//preserve new images added to product
       console.log("The this.props.product.category " + this.props.product.category)
@@ -411,7 +415,7 @@ class ProductForm extends Component {
         this.setState(newState)
       })
     }
-    //case 2
+    //case 3
     else {
       this.resetState();
     }

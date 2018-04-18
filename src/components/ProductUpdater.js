@@ -72,7 +72,8 @@ function getStateForUpdateProduct(){
       showError: false,
       errorMsg: "error"
     },
-    isNewProduct: false
+    isNewProduct: false,
+    isUpdated: false
   };
 }
 
@@ -174,7 +175,10 @@ class ProductUpdater extends Component {
           })
     } else {
       return this.updateProduct(product)
-        .then(() => this.addImages(this.productId, newImages, formPercentageViewer))
+        .then(() => {
+          this.setState({isUpdated: true});
+          return this.addImages(this.productId, newImages, formPercentageViewer)
+        })
         .catch((error) => {
           console.log('could not update product or upload images');
           console.log(`ERROR: code: ${error.code}, message:${error.message}`);
@@ -196,7 +200,7 @@ class ProductUpdater extends Component {
         <ErrorMessage message={this.state.errorHandling.errorMsg.message}/>
 
       );
-    if (!this.state.loading && !this.state.showError)
+    if (!this.state.loading && !this.state.showError){
       return (
         <StyledProductForm>
               <ProductForm
@@ -205,9 +209,11 @@ class ProductUpdater extends Component {
                 onSubmit={this.handleSubmit.bind(this)}
                 currentUser={this.props.currentUser}
                 deleteImageFromDB={this.deleteImageFromDB.bind(this)}
+                isUpdated={this.state.isUpdated}
               />
         </StyledProductForm>
       );
+    }
   }
 }
 

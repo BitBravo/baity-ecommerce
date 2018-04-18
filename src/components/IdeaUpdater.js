@@ -72,7 +72,8 @@ function getStateForUpdateIdea(){
       showError: false,
       errorMsg: "error"
     },
-    isNewIdea: false
+    isNewIdea: false,
+    isUpdated: false
   };
 }
 
@@ -174,7 +175,10 @@ class IdeaUpdater extends Component {
           })
     } else {
       return this.updateIdea(idea)
-        .then(() => this.addImages(this.ideaId, newImages, formPercentageViewer))
+        .then(() => {
+          this.setState({isUpdated: true});
+          return this.addImages(this.ideaId, newImages, formPercentageViewer)
+        })
         .catch((error) => {
           console.log('could not update idea or upload images');
           console.log(`ERROR: code: ${error.code}, message:${error.message}`);
@@ -205,6 +209,7 @@ class IdeaUpdater extends Component {
                 onSubmit={this.handleSubmit.bind(this)}
                 currentUser={this.props.currentUser}
                 deleteImageFromDB={this.deleteImageFromDB.bind(this)}
+                isUpdated={this.state.isUpdated}
               />
         </StyledProductForm>
       );

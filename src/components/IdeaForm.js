@@ -161,15 +161,19 @@ class IdeaForm extends Component {
   }
   /**
    * This will be called in one of two cases:
-   * 1- the idea we are updating has been changed somewhere else so we need to update form data
-   * 2- the user clicked 'add new idea' link so we need to clean up and prepare for adding a new idea
+   * 1- the idea we are updating been updated by the cloud functions to add thumbnail url, should be ignored
+   * 2- the idea we are updating has been changed somewhere else so we need to update form data
+   * 3- the user clicked 'add new idea' link so we need to clean up and prepare for adding a new idea
    * @param {*} nextProps
    */
   componentWillReceiveProps(nextProps){
     console.log(`${this.constructor.name}.componentWillReceiveProps`);
     console.log('nextProps')
     console.log(nextProps)
-    //case 1
+    // case 1
+    if(nextProps.isUpdated)
+      return
+    //case 2
     if (!nextProps.isNewIdea){
       var newImages = this.state.newImages;//preserve new images added to idea
       this.setState(getInitState(), () => {
@@ -189,7 +193,7 @@ class IdeaForm extends Component {
         this.setState(newState)
       })
     }
-    //case 2
+    //case 3
     else {
       this.resetState();
     }
