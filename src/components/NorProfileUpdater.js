@@ -120,11 +120,12 @@ class NorProfileUpdater extends Component {
         <div
         className="loginreg"
         >
-
-              <NorProfileForm
-                profile={this.state.profile}
-                onSubmit={this.handleSubmit.bind(this)}
-              />
+     
+            <NorProfileForm
+            profile={this.state.profile}
+            onSubmit={this.handleSubmit.bind(this)}
+          />
+             
 
         {/* This modal is shown after product addition/form submission is finshed.
           Its content depends if the form submission was successful or failed.

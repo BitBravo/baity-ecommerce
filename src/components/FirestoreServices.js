@@ -319,6 +319,7 @@ export default {
   //provided by form/formUpdater
   normalUserProfileHelper(profileData, errorHandler, successHandler) {
     console.log('FirestoreServices.normalUserProfileHelper')
+   
     try {
       var normalUserProfileRef = this.normalUsers.doc(`${profileData.id}`);
       if (profileData.newImage) {
@@ -343,7 +344,7 @@ export default {
         });
     } else {       
       console.log(normalUserProfileRef)
-
+      
       normalUserProfileRef
         .update({
           homeImgUrl: profileData.homeImgUrl,
@@ -351,7 +352,8 @@ export default {
           country: 'Saudi Arabia',
           phone: profileData.phone,
           name: profileData.name,
-          // email: profileData.email
+          // email: profileData.email,
+         
         })
         .then(() => {
           console.log(profileData);
@@ -368,8 +370,7 @@ export default {
   } 
   catch (error) {
       errorHandler(error);
-    }
-
+    } 
   },
 
 
@@ -514,7 +515,6 @@ export default {
 
         }
       ); //updateTask.on
-      console.log("iiiii");
   },
     //Main method to update a professional profile
     updateProfProfile(uid, profileData, errorHandler, successHandler, progressHandler){
@@ -578,7 +578,7 @@ export default {
         );
       }
     },
-
+    
     //Main method to update a normal user profile
     updateNormalUserProfile(uid, profileData, errorHandler, successHandler, progressHandler){
       console.log('FirebaseServices.updateNormalProfile')

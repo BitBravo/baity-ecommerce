@@ -216,6 +216,7 @@ class NorProfileForm extends Component {
 
   }
 
+
   handleChange(e) {
     //name of the field
     const name = e.target.name;
