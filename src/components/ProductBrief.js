@@ -28,6 +28,10 @@ const PaddingDiv = styled.div`
     height: 110px;}
 `
 const MyThumbnailCol = styled(Col)`
+padding-left:10px;
+padding-right:10px;
+padding-bottom:10px;
+padding-top:10px;
 @media only screen and (max-width: 767px) {
   padding-left:5px;
   padding-right:5px;
@@ -83,10 +87,11 @@ const ImageContainer = styled.div`
 const DescriptionCol = styled(Col)`
 padding-right:0;
 padding-left:0;
-font-size:14px;
+font-size:100%;
 margin-top:5px;
+font-family: 'dinarm';
 @media only screen and (max-width: 767px) {
-  font-size:10px;
+  font-size:100%;
 `
 
  class ProductBrief extends Component {
@@ -131,27 +136,27 @@ margin-top:5px;
 
           <PaddingDiv >
           <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'35px'}}>
-            <DescriptionCol xs ={5}  >
+            <DescriptionCol xs ={5} md={4}  >
               <p style={{color:'rgb(26, 156, 142)',float:'left'}}>{product.price} ر.س</p>
              </DescriptionCol>
             <Link to={`/${product.owner}/products/${product.id}`} style={{color:'black',fontWeight:'900'}} >
-             <DescriptionCol xs ={6} style={{padding:'0 5px 0 0'}}>
-             <p > {product.name.substring(0,15)} </p>
+             <DescriptionCol xs ={6}md={7} style={{padding:'0 5px 0 0'}}>
+             <p style={{color:'black'}}> {product.name.substring(0,20)}... </p>
              </DescriptionCol></Link>
              <Col xs ={1}  style={{padding:'4px 0 0 0'}}>
              <IconImg src={Product} className="icons"/> </Col>
              </div>
-            <p >{product.desc.substring(0,75)}
+            <h6 style={{fontSize:'13px'}}>{product.desc.substring(0,50)}
               <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
               ... المزيد
               </Link>
-            </p>
-            <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
-                <p > من:
+            </h6>
+            <div style={{ display: 'inline-block', position: 'absolute', bottom: '0',fontSize:'10px' }}>
+                <h6 > من:
                   <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
                     {product.businessName}
                   </Link>
-                </p>
+                </h6>
               </div>
           </PaddingDiv>
         </MyThumbnailDiv>
@@ -160,42 +165,5 @@ margin-top:5px;
   }
 }
 
-// export default ProductBrief;
-
-
-export class CBrief extends Component {
-  constructor() {
-    super();
-    // this.updateproduct = this.updateproduct.bind(this);
-    this.state = {
-      product: {}
-    };
-  }
-
-  //src="http://via.placeholder.com/243x243"
-  render() {
-    const product = this.props.product;
-    return (
-
-          <ImageContainer>
-            <ImageDiv>
-            <Link to={`/${product.owner}/products/${product.id}`}>
-              <PreviewImg
-                src={
-                  product.images
-                    ? product.images[0].thumbnail? product.images[0].thumbnail : product.images[0].large
-                    : "http://via.placeholder.com/243x243"
-                }
-              />
-              {/* <img   src="http://via.placeholder.com/243x243" */}
-            </Link>
-            </ImageDiv>
-          </ImageContainer>
-
-
-
-    );
-  }
-}
 
 export default ProductBrief;

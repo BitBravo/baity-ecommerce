@@ -37,7 +37,8 @@ class ProductAdder extends Component {
         owner: this.props.currentUser.uid, //user id which is not yet implementd
         postType: "product",
         price: product.price.value,
-        width: product.width.value
+        width: product.width.value,
+        weight: product.weight.value
       })
       .then(() => {
         console.log('insesrt succeeded');

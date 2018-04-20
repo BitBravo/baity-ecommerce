@@ -6,10 +6,13 @@ import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { IndexLinkContainer } from 'react-router-bootstrap';
 import { Glyphicon ,Modal} from "react-bootstrap";
-import Homepage from '../assets/img/Selected-homepage.png';
-import Idea from '../assets/img/Selected-idea.png';
-import Product from '../assets/img/Selected-product.png';
+import Homepage from '../assets/img/Unselected-homepage.png';
+import Idea from '../assets/img/Unselected-idea.png';
+import Product from '../assets/img/UNselected-product.png';
 import Profile from '../assets/img/Profile-icon.png';
+import ActiveIdea from '../assets/img/Selected-idea.png';
+import ActiveHomepage from '../assets/img/Selected-homepage.png';
+import ActiveProduct from '../assets/img/Selected-product.png';
 
 const MobileDiv = styled.div`
 display: flex;
@@ -38,6 +41,7 @@ text-align:center;
 font-size:8px;
 padding:0;
 margin-bottom:1px;
+color:inherit;
 `
 
 class Footer extends Component {
@@ -71,27 +75,30 @@ class Footer extends Component {
 </footer>,
 <footer className="mopilefooter" fixed>
        <MobileDiv >
-            <LinkContainer to="/" >
+            <IndexLinkContainer to="/" activeClassName="activePage">
             <span>
-              <IconImg src={Homepage}/>
+            <IconImg src={Homepage} className="icons"/>
+              <IconImg src={ActiveHomepage} className="activeIcons"/>
              <UserName > الرئيسية </UserName>
             </span>
-            </LinkContainer>
-            <LinkContainer to="/productspage" >
+            </IndexLinkContainer>
+            <LinkContainer to="/productspage" activeClassName="activePage">
             <span>
-               <IconImg src={Product} />
+            <IconImg src={Product} className="icons"/>
+              <IconImg src={ActiveProduct} className="activeIcons"/>
                <UserName > المنتجات </UserName>
             </span>
             </LinkContainer>
-            <LinkContainer to="/ideaspage" >
+            <LinkContainer to="/ideaspage" activeClassName="activePage">
             <span>
-               <IconImg src={Idea} />
+            <IconImg src={Idea} className="icons"/>
+              <IconImg src={ActiveIdea} className="activeIcons"/>
                <UserName > الأفكار </UserName>
             </span>
             </LinkContainer>
 
              {!this.props.authenticated ? (
-                <LinkContainer to="/login" activeClassName="active">
+                <LinkContainer to="/login" activeClassName="activePage">
                     {/* <UserImg src={logo_placeholder}/> */}
                   <span>
                     <IconImg src={Profile} />
@@ -100,7 +107,7 @@ class Footer extends Component {
                 </LinkContainer>
             ) : (
           <div>
-              <LinkContainer to="/myprofile" activeClassName="active" style={{display:'block',marginLeft:'auto',marginRight:'auto',padding:'0'}} >
+              <LinkContainer to="/myprofile" activeClassName="activePage" style={{display:'block',marginLeft:'auto',marginRight:'auto',padding:'0'}} >
                <IconImg src={Profile} />
               </LinkContainer>
                     <UserName >

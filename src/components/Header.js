@@ -18,6 +18,9 @@ import Product from '../assets/img/UNselected-product.png';
 import Profile from '../assets/img/Profile-icon.png';
 import Cart from '../assets/img/Cart-icon.png';
 import {HeaderCart} from "./MyCart";
+import ActiveIdea from '../assets/img/Selected-idea.png';
+import ActiveHomepage from '../assets/img/Selected-homepage.png';
+import ActiveProduct from '../assets/img/Selected-product.png';
 
 
 
@@ -96,18 +99,18 @@ const Input = styled.input`
 
 class Header extends Component {
 
-  constructor( ) {
-    super( );
+  constructor(props ) {
+    super(props );
 
     this.state = {
       userName: "",
       firstTime: true,    
       show: false,
       currentUser:"",
-     
     };
   this.handleShow = this.handleShow.bind(this);
   this.handleHide = this.handleHide.bind(this);
+
   }
   handleShow() {
     this.setState({ show: true });
@@ -116,6 +119,7 @@ class Header extends Component {
   handleHide() {
     this.setState({ show: false });
   }
+ 
   componentWillMount() {
     // if (this.props.authenticated){
     //   if (this.props.group === "prof"){
@@ -220,15 +224,22 @@ class Header extends Component {
 
         {/* <Navbar.Collapse > */}
 
-        <MainNav  bsStyle="tabs" justified >
-            <IndexLinkContainer to="/" >
-              <NavItem> <IconImg src={Homepage} className="icons"/>الرئيسية</NavItem>
-            </IndexLinkContainer>
-            <LinkContainer to="/productspage" >
-              <NavItem> <IconImg src={Product} className="icons"/>المنتجات</NavItem>
+        <MainNav  bsStyle="tabs" justified>
+   
+            <IndexLinkContainer to="/" activeClassName="activePage">
+            <NavItem >
+            <IconImg src={ActiveHomepage} className="activeIcons"/>
+               <IconImg src={Homepage} className="icons"/>الرئيسية</NavItem>
+          </IndexLinkContainer>
+            <LinkContainer to="/productspage" activeClassName="activePage">
+              <NavItem > 
+              <IconImg src={ActiveProduct} className="activeIcons"/>
+                <IconImg src={Product} className="icons"/>المنتجات</NavItem>
             </LinkContainer>
-            <LinkContainer to="/ideaspage" >
-              <NavItem> <IconImg src={Idea} className="icons"/>الأفكار</NavItem>
+            <LinkContainer to="/ideaspage" activeClassName="activePage">
+              <NavItem > 
+              <IconImg src={ActiveIdea} className="activeIcons"/>
+                <IconImg src={Idea} className="icons"/>الأفكار</NavItem>
             </LinkContainer>
             </MainNav>
 

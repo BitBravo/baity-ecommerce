@@ -9,14 +9,18 @@
   src: url('./assets/fonts/ge-dinar-one/ge-dinar-one light.otf') format('opentype');
   unicode-range: U+0-2f, U+40-10FFFF;
   }
-  
+  @font-face {
+    font-family: 'dinarm';
+    src: url('./assets/fonts/ge-dinar-one/ge-dinar-one medium.otf') format('opentype');
+    unicode-range: U+0-2f, U+40-10FFFF;
+    }
 body {
   margin: 69px 0 100px 0 ; 
   padding:0 ;
   padding-top: 50px;
   direction: rtl;
   background: rgb(247, 247, 247);
-  font-family: 'dinar','Lato'; 
+  font-family: 'dinar','Lato','dinarm'; 
   background-image: url('./assets/img/background.jpeg')  ; 
 
   

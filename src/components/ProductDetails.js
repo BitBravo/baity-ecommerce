@@ -390,9 +390,10 @@ class ProductDetails extends Component {
               </PaddingDiv>
 
               <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
-                <h4 > من:
+                <h4 >من :&nbsp;
                   <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
                     {product.businessName}
+
                   </Link>
                 </h4>
               </div>

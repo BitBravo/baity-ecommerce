@@ -60,10 +60,6 @@ hr {
     border-width: 0.3px;
     color:rgb(194, 194, 194)
 }
-.icons { 
-    margin-left:5px;
-    margin-right: 2px;   
-}
 .userlogo{
     font-size: 25px;
     position: absolute;
@@ -108,7 +104,25 @@ hr {
     margin: 0;
     padding: 0;
 }
-
+.icons { 
+    margin-left:5px;
+    margin-right: 2px;   
+}
+.activePage .icons { 
+    display: none;
+    margin-left:5px;
+    margin-right: 2px;   
+}
+.activeIcons { 
+    display: none;
+    margin-left:5px;
+    margin-right: 2px;
+}
+.activePage .activeIcons { 
+    display: inline-block;
+    margin-left:5px;
+    margin-right: 2px;   
+}
 .navbar{
     font-weight: 1000;
     font-size: 16px;
@@ -117,11 +131,16 @@ hr {
     background: rgb(247, 247, 247);
     background-color: rgb(247, 247, 247);
 }
-
-  
-/* .navbar-default .navbar-nav > li  > a:active{
-    color: rgb(26, 156, 142); 
-} */
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: inherit;
+}
+.navbar-default .navbar-nav > li > a {
+    color: inherit;
+}
+.activePage{ 
+    background-color: rgb(222, 222, 222);
+    color: rgb(26, 156, 142);
+}
 .navbar-header{
     display: flex;
     flex-direction: row;  
@@ -551,9 +570,36 @@ margin-bottom: 10px;
                   height: 35px;
                   margin-top: 10px;
               } 
-              .icons{
-                  margin-bottom: 7px;
-              }
+              .activePage{ 
+                background-color: rgb(247, 247, 247);
+                color: rgb(26, 156, 142);
+            }
+              .icons { 
+                margin-bottom: 1px;
+  
+            }
+            .activePage .icons { 
+                display: none;
+      
+   
+            }
+            .activeIcons { 
+                display: none;
+          
+
+            }
+            .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+                color: inherit;
+            }
+            .navbar-default .navbar-nav > li > a {
+                color: inherit;
+            }
+            .activePage .activeIcons { 
+                display: inline-block;
+                margin-bottom: 1px;
+  
+            }
+             
               .carousel div {
                 height: 280px;
                 } 
