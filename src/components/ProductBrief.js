@@ -141,12 +141,12 @@ font-family: 'dinarm';
              </DescriptionCol>
             <Link to={`/${product.owner}/products/${product.id}`} style={{color:'black',fontWeight:'900'}} >
              <DescriptionCol xs ={6}md={7} style={{padding:'0 5px 0 0'}}>
-             <p style={{color:'black'}}> {product.name.substring(0,20)}... </p>
+             <p style={{color:'black'}}> {product.name} </p>
              </DescriptionCol></Link>
              <Col xs ={1}  style={{padding:'4px 0 0 0'}}>
              <IconImg src={Product} className="icons"/> </Col>
              </div>
-            <h6 style={{fontSize:'13px'}}>{product.desc.substring(0,50)}
+            <h6 >{product.desc.substring(0,150)}
               <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
               ... المزيد
               </Link>

@@ -6,8 +6,6 @@ import { app, base, database, storage } from "../base";
 import FirebaseServices from './FirebaseServices'
 import { Nav, Navbar, NavItem, NavbarBrand,NavDropdown,MenuItem,Glyphicon ,Modal,Col,Collapse,Row} from "react-bootstrap";
 import bayty_icon from '../assets/img/bayty_icon.png';
-import {GoSignIn,GoSignOut,GoHome} from 'react-icons/lib/go';
-import {MdPersonAdd,MdAddToPhotos,MdEventSeat,MdPersonOutline,MdWeekend} from 'react-icons/lib/md';
 import {TiUserAddOutline} from 'react-icons/lib/ti';
 import { IndexLinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components'
@@ -29,13 +27,20 @@ const MainNav=styled(Nav)`
   display:none;
 }
 `
+const Line= styled.hr`
+width:400%;
+margin:0 -1500px 0 0;
+ color:#e6e6e6;
+`
+
 const CartNo = styled.div`
 position:absolute;
-left:15px;
-top:5px;
+left:25px;
+top:7px;
 height:15px;
 width:15px;
 font-size:10px;
+line-height: 15px;
 color:white;
 text-align:center;
 background-color:red;
@@ -49,25 +54,20 @@ display:none;}
  width:35px;
  height:35px;
  border-radius: 50%;
-position:absolute;
-left:20px;
-top:10px;
+ position:absolute;
+ left:25px;
+ top:8px;
  `
-const UserLogo = styled.div`
-font-size: 10px;
-dispaly:inline-block;
-color:rgb(26, 156, 142);
-margin-top: -10px;
-@media only screen and (max-width: 767px) {
-margin:0;
-}
+const Logo = styled.img`
+width:32px;
+ height:28px;
 `
 const UserName = styled.p`
 display:inline;
 `
-const IconImg = styled.img`
-width:20px;
- height:20px;
+const PageIcon = styled.img`
+width:18px;
+ height:18px;
 ;`
 const Button=styled.button`
 height:30px;
@@ -88,7 +88,8 @@ color: rgb(26,156,142);
 }
 `
 const Input = styled.input`
- width:450px;
+ width:480px;
+ height:30px;
  margin:0;
  padding:0;
  @media only screen and (max-width: 767px) {
@@ -103,6 +104,7 @@ class Header extends Component {
     super(props );
 
     this.state = {
+      userImg:"",
       userName: "",
       firstTime: true,    
       show: false,
@@ -148,37 +150,33 @@ class Header extends Component {
           <Nav className="search">
           <NavItem >
             <div className="inner-addon right-addon">
-            <i   className="glyphicon glyphicon-search" ></i>
+            <i   className="glyphicon glyphicon-search" style={{fontSize:'10px',color:'gray'}} ></i>
                 <Input  id="search"  className="form-control" type="text"  placeholder="بحث عن منتجات أفكار ...."></Input>
                 </div>
                 </NavItem>
                 </Nav>
-             
-       
+               
                 {!this.props.authenticated ? (
                   <UserNav >
                     <NavItem style={{float: 'left' }}>
-                    <LinkContainer to="/login" activeClassName="active">
-                 
-                    <IconImg src={Profile} />
-                    </LinkContainer>
+                      <LinkContainer to="/login" activeClassName="active">
+                         <Logo src={Profile} />
+                      </LinkContainer>
                     </NavItem>
                     </UserNav>
-
             ) : (
               <UserNav >
-              <NavItem style={{float: 'left' }}>
-              <LinkContainer to="/myprofile" activeClassName="active">
+               <NavItem style={{float: 'left' }}>
+                 <LinkContainer to="/myprofile" activeClassName="active">
+                    <UserImg src={this.props.userImg}/>
+                     {/* <UserLogo > 
+                       <IconImg src={Profile} />
+                         <br/>
+                       <UserName >
+                          مرحبا ،  {this.props.userName}
+                       </UserName>
              
-              <UserLogo > <IconImg src={Profile} />
-              <br/>
-                    <UserName >
-                    مرحبا ،  {this.props.userName}
-                
-              </UserName>
-             
-              </UserLogo>
-
+                      </UserLogo> */}
               </LinkContainer>
            
               </NavItem>
@@ -201,46 +199,49 @@ class Header extends Component {
                   </Modal.Body>
                 </Modal>
             
-         <div  className="cartmenu">
+                <div  style={{float: 'left' }} className="cartmenu">
            <LinkContainer to="/mycart" activeClassName="active" style={{position:'relative',cursor: 'pointer'}}>
          <div style={{position:'relative'}}>
          {this.props.cart > 0 ?
           <CartNo>{this.props.cart}</CartNo>
           : null
          }
-          <IconImg src={Cart} className="shoppingcart"/>
+          <Logo src={Cart} className="shoppingcart"/>
           </div>
           </LinkContainer>
-          {/* {this.props.authenticated ?
+          {this.props.authenticated ?
           <div className="shorcartlist">
-          <HeaderCart currentUser={this.props.currentUser}  />
+          <HeaderCart currentUser={this.props.currentUser}    />
           <LinkContainer to="/mycart" >
             <Button>عرض السلة</Button>
             </LinkContainer>
-            </div>:null} */}
+            </div>:null}
           </div>
+         
+
         </Navbar.Header>
       
 
         {/* <Navbar.Collapse > */}
-
         <MainNav  bsStyle="tabs" justified>
-   
-            <IndexLinkContainer to="/" activeClassName="activePage">
-            <NavItem >
-            <IconImg src={ActiveHomepage} className="activeIcons"/>
-               <IconImg src={Homepage} className="icons"/>الرئيسية</NavItem>
-          </IndexLinkContainer>
-            <LinkContainer to="/productspage" activeClassName="activePage">
-              <NavItem > 
-              <IconImg src={ActiveProduct} className="activeIcons"/>
-                <IconImg src={Product} className="icons"/>المنتجات</NavItem>
-            </LinkContainer>
-            <LinkContainer to="/ideaspage" activeClassName="activePage">
-              <NavItem > 
-              <IconImg src={ActiveIdea} className="activeIcons"/>
-                <IconImg src={Idea} className="icons"/>الأفكار</NavItem>
-            </LinkContainer>
+        <Line style={{}}/>
+    
+                  <IndexLinkContainer to="/" activeClassName="activePage">
+                  <NavItem >
+                  <PageIcon src={ActiveHomepage} className="activeIcons"/>
+                    <PageIcon src={Homepage} className="icons"/>الرئيسية</NavItem>
+                </IndexLinkContainer>
+                  <LinkContainer to="/productspage" activeClassName="activePage">
+                    <NavItem > 
+                    <PageIcon src={ActiveProduct} className="activeIcons"/>
+                      <PageIcon src={Product} className="icons"/>المنتجات</NavItem>
+                  </LinkContainer>
+                  <LinkContainer to="/ideaspage" activeClassName="activePage">
+                    <NavItem > 
+                    <PageIcon src={ActiveIdea} className="activeIcons"/>
+                      <PageIcon src={Idea} className="icons"/>الأفكار</NavItem>
+                  </LinkContainer>
+
             </MainNav>
 
 

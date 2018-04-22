@@ -18,19 +18,19 @@ const MobileDiv = styled.div`
 display: flex;
 flex-wrap: wrap;
 justify-content: space-between;
-padding:0 4px 0 4px;}
+padding-left:7px;
+padding-right:7px;
+
+}
 `
 const IconImg = styled.img`
-width:25px;
- height:25px;
+width:22px;
+ height:22px;
 ;`
 const UserImg = styled.img`
-width:35px;
-height:35px;
+width:30px;
+height:30px;
 border-radius: 50%;
-position:absolute;
-left:20px;
-top:10px;
 `
 
 const UserName = styled.p`
@@ -48,6 +48,7 @@ class Footer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userImg:"",
 
       year: new Date().getFullYear()
     };
@@ -106,15 +107,14 @@ class Footer extends Component {
                   </span>
                 </LinkContainer>
             ) : (
-          <div>
-              <LinkContainer to="/myprofile" activeClassName="activePage" style={{display:'block',marginLeft:'auto',marginRight:'auto',padding:'0'}} >
-               <IconImg src={Profile} />
-              </LinkContainer>
-                    <UserName >
-           {this.props.userName.substring(0,13)}
-              </UserName>
 
-           </div>
+              <LinkContainer to="/myprofile" activeClassName="imgActivePage" 
+              // style={{display:'block',marginLeft:'auto',marginRight:'auto',padding:'0'}} 
+              >
+              <UserImg src={this.props.userImg}/>
+              </LinkContainer>
+                   
+
           )}
        </MobileDiv >
 

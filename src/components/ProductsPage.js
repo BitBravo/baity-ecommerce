@@ -20,11 +20,24 @@ import traditionalkitchen from '../assets/img/traditionalkitchen.jpg';
 import bedroom from '../assets/img/bedroom.jpg';
 import livingroom from '../assets/img/livingroom.jpg';
 import Categories from './Categories';
+import productPageCarosel from '../assets/img/productPageCarosel.jpg';
+import productPageCarosel2 from '../assets/img/productPageCarosel2.jpg';
+import mproductPageCarosel from '../assets/img/mProductPageCarosel.jpg';
+import mproductPageCarosel2 from '../assets/img/mProductPageCarosel2.jpg';
 
 const PreviewImg = styled.img`
   width: 100%;
   height: 100%;
-
+  @media only screen and (max-width: 767px) {
+display:none;}
+`;
+const MPreviewImg = styled.img`
+display:none;
+@media only screen and (max-width: 767px) {
+  display:block;
+  width: 100%;
+  height: 100%;
+  
 `;
 
 const ImageDiv = styled.div`
@@ -60,7 +73,7 @@ border-radius: 0;
 }
 `
 const Filter = styled.div`
-margin-top:20px;
+margin-top:10px;
 @media only screen and (max-width: 767px){
   position:fixed;
   margin-top:0;
@@ -87,7 +100,7 @@ const PaddingDiv = styled.div`
 const CarouselDiv = styled(Col)`
 padding-left:20px;
 padding-right:15px;
-margin-top:40px;
+
 @media only screen and (max-width: 767px) {
   padding:0;
 `
@@ -331,7 +344,6 @@ class ProductsPage extends Component {
           <Row style={{display: 'flex', flexWrap: 'wrap'}}>
             <Col sm={4} xs={12} style={{padding:'2px'}}>
           <Filter >
-
             <PaddingDiv>
             <div className="inner-addon left-addon ">
               <i className="glyphicon glyphicon-plus white plus"></i>
@@ -398,25 +410,22 @@ class ProductsPage extends Component {
         <div>
         <ImageContainer>
             <ImageDiv>
-              <PreviewImg  src= {traditionalkitchen} />
+              <PreviewImg  src= {productPageCarosel} />
+              <MPreviewImg  src= {mproductPageCarosel} />
+
         </ImageDiv>
         </ImageContainer>
-        <Carousel.Caption className="hero">
-          <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
-        </Carousel.Caption>
-
         </div>
       </Carousel.Item>
       <Carousel.Item>
         <div>
         <ImageContainer>
             <ImageDiv>
-              <PreviewImg  src= {livingroom}/>
+              <PreviewImg  src= {productPageCarosel2}/>
+              <MPreviewImg  src= {mproductPageCarosel2}/>
+
         </ImageDiv>
         </ImageContainer>
-        <Carousel.Caption className="hero">
-          <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
-        </Carousel.Caption>
         </div>
       </Carousel.Item>
       <Carousel.Item>
@@ -424,6 +433,7 @@ class ProductsPage extends Component {
       <ImageContainer>
             <ImageDiv>
               <PreviewImg src={bedroom}/>
+              <MPreviewImg src={bedroom}/>
 
         </ImageDiv>
         </ImageContainer>

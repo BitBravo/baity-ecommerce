@@ -10,7 +10,6 @@ import styled from 'styled-components'
 import {CBrief} from "./ProductBrief";
 
 
-
 const PreviewImg = styled.img`
   width: 100%;
   height: 100%;

@@ -97,6 +97,7 @@ class IdeaList extends Component{
            loading: false,
            firstTime: false
          })
+         
         )
 
     }

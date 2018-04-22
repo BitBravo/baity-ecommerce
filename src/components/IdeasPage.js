@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import traditionalkitchen from '../assets/img/traditionalkitchen.jpg';
 import bedroom from '../assets/img/bedroom.jpg';
 import livingroom from '../assets/img/livingroom.jpg';
+import productPageCarosel from '../assets/img/productPageCarosel.jpg';
 
 const PreviewImg = styled.img`
   width: 100%;
@@ -82,11 +83,10 @@ class IdeasPage extends Component {
          <div>
          <ImageContainer>
              <ImageDiv>
-               <PreviewImg  src= {traditionalkitchen} />
+               <PreviewImg  src= {productPageCarosel} />
          </ImageDiv>
          </ImageContainer>
          <Carousel.Caption className="hero">
-           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
          </Carousel.Caption>
          
          </div>
