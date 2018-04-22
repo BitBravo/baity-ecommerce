@@ -5,6 +5,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import firebase from "firebase";
 import { app, base, database, storage } from "../base";
 import FirestoreServices from './FirestoreServices';
+import CaroselImg from '../assets/img/CaroselImg.jpg'; 
 import livingroom from '../assets/img/livingroom.jpg';
 import styled from 'styled-components'
 import Loading from "./Loading";
@@ -96,7 +97,7 @@ class NormalProfileInfo extends Component{
         <ImageCol sm={12}  lg={12}>
         {this.state.profile.homeImgUrl
         ? <PreviewImg  src={this.state.profile.homeImgUrl}  />
-        : <PreviewImg  src={livingroom} />
+        : <PreviewImg  src={CaroselImg} />
         }
           {/* <PreviewImg  src={livingroom}     /> */}
           <div style={{position: 'absolute',top: '10px',left: '20px',width:'25%'}}>

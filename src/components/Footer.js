@@ -6,10 +6,12 @@ import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { IndexLinkContainer } from 'react-router-bootstrap';
 import { Glyphicon ,Modal} from "react-bootstrap";
+import logo_placeholder from '../assets/img/logo-placeholder.jpg';
 import Homepage from '../assets/img/Unselected-homepage.png';
 import Idea from '../assets/img/Unselected-idea.png';
 import Product from '../assets/img/UNselected-product.png';
-import Profile from '../assets/img/Profile-icon.png';
+import Profile from '../assets/img/Unselected-profile.png';
+import ActiveProfile from '../assets/img/Profile-icon.png';
 import ActiveIdea from '../assets/img/Selected-idea.png';
 import ActiveHomepage from '../assets/img/Selected-homepage.png';
 import ActiveProduct from '../assets/img/Selected-product.png';
@@ -101,8 +103,9 @@ class Footer extends Component {
              {!this.props.authenticated ? (
                 <LinkContainer to="/login" activeClassName="activePage">
                     {/* <UserImg src={logo_placeholder}/> */}
-                  <span>
-                    <IconImg src={Profile} />
+                  <span> 
+                    <IconImg src={ActiveProfile} className="activeIcons"/>
+                    <IconImg src={Profile} className="icons"/>
                     <UserName > حسابي </UserName>
                   </span>
                 </LinkContainer>
@@ -111,7 +114,10 @@ class Footer extends Component {
               <LinkContainer to="/myprofile" activeClassName="imgActivePage" 
               // style={{display:'block',marginLeft:'auto',marginRight:'auto',padding:'0'}} 
               >
-              <UserImg src={this.props.userImg}/>
+                 {this.props.userImg
+                   ?<UserImg src={this.props.userImg}/>
+                   :<UserImg src={logo_placeholder}/>
+                  }
               </LinkContainer>
                    
 

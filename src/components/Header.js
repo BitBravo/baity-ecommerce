@@ -13,7 +13,8 @@ import logo_placeholder from '../assets/img/logo-placeholder.jpg';
 import Homepage from '../assets/img/Unselected-homepage.png';
 import Idea from '../assets/img/Unselected-idea.png';
 import Product from '../assets/img/UNselected-product.png';
-import Profile from '../assets/img/Profile-icon.png';
+import Profile from '../assets/img/Unselected-profile.png';
+import ActiveProfile from '../assets/img/Profile-icon.png';
 import Cart from '../assets/img/Cart-icon.png';
 import {HeaderCart} from "./MyCart";
 import ActiveIdea from '../assets/img/Selected-idea.png';
@@ -162,15 +163,18 @@ class Header extends Component {
                 {!this.props.authenticated ? (
                   <UserNav >
                     <NavItem style={{float: 'left' }}>
-                      <LinkContainer to="/login" activeClassName="active">
-                         <Logo src={Profile} />
+                      <LinkContainer to="/login" activeClassName="activePage">
+                      <span>
+                         <Logo src={ActiveProfile} className="activeIcons"/>
+                         <Logo src={Profile} className="icons"/>
+                      </span>  
                       </LinkContainer>
                     </NavItem>
                     </UserNav>
             ) : (
               <UserNav >
                <NavItem style={{float: 'left' }}>
-                 <LinkContainer to="/myprofile" activeClassName="active">
+                 <LinkContainer to="/myprofile" activeClassName="imgActivePage">
                   {this.props.userImg
                    ?<UserImg src={this.props.userImg}/>
                    :<UserImg src={logo_placeholder}/>

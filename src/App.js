@@ -202,7 +202,6 @@ updateCart(add, remove) {
           currentUser: JSON.parse(window.localStorage.getItem(userStorageKey)),
           authenticated: true,
           group: window.localStorage.getItem(groupStorageKey),
-
           userImg: window.localStorage.getItem(userImgStorageKey),
         }
       )

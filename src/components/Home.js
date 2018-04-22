@@ -8,6 +8,7 @@ import bedroom from '../assets/img/bedroom.jpg';
 import livingroom from '../assets/img/livingroom.jpg'; 
 import styled from 'styled-components'
 import {CBrief} from "./ProductBrief";
+import CaroselImg from '../assets/img/CaroselImg.jpg'; 
 
 
 const PreviewImg = styled.img`
@@ -96,7 +97,7 @@ font-size: 35px;
         <div>
         <ImageContainer>
             <ImageDiv>
-              <PreviewImg  src= {traditionalkitchen} />
+              <PreviewImg  src= {CaroselImg} />
         </ImageDiv>
         </ImageContainer>
         <Carousel.Caption className="hero">

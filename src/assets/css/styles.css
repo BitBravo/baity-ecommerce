@@ -117,6 +117,9 @@ hr {
     margin-left:5px;
     margin-right: 2px;   
 }
+.imgActivePage{
+    border:solid rgb(26, 156, 142) 2px;
+}
 .navbar{
     color:rgb(95,96,93);;
     font-weight: 1000;

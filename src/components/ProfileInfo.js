@@ -6,6 +6,7 @@ import firebase from "firebase";
 import { app, base, database, storage } from "../base";
 import FirestoreServices from './FirestoreServices'
 import livingroom from '../assets/img/livingroom.jpg';
+import CaroselImg from '../assets/img/CaroselImg.jpg'; 
 import styled from 'styled-components'
 import Loading from "./Loading";
 import logo_placeholder from '../assets/img/logo-placeholder.jpg';
@@ -147,7 +148,7 @@ class ProfileInfo extends Component{
         <ImageCol sm={12}  lg={12}>
         {this.state.profile.homeImgUrl
         ? <PreviewImg  src={this.state.profile.homeImgUrl}  />
-        : <PreviewImg  src={livingroom} />
+        : <PreviewImg  src={CaroselImg} />
         }
           {/* <PreviewImg  src={livingroom}     /> */}
           <div style={{position: 'absolute',top: '10px',left: '30px',width:'25%'}}>
