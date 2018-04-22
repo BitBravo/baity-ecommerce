@@ -38,10 +38,10 @@ const PreviewImg = styled.img`
 
 `;
 const ImageCol=styled(Col)`
-height:400px;
+height:280px;
 padding:0;
 @media only screen and (max-width: 767px) {
-  height:250px;
+  height:200px;
 
   }
 `;
@@ -171,10 +171,11 @@ class ProfileInfo extends Component{
           </LinkContainer>
         }
          <SocialDiv >
-             {/* <a href={`${this.state.profile.website}`} style={{color:'gray'}}><Logo src={webicon}/></a> */}
              <a href={`https://twitter.com/${this.state.profile.twitter}`} style={{color:'gray'}}><TiSocialTwitter className="icons"/></a>
              <a href={`https://www.facebook.com/${this.state.profile.facebook}`} style={{color:'gray'}}><TiSocialFacebook className="icons"/></a>
              <a href={`https://www.instagram.com/${this.state.profile.instagram}`} style={{color:'gray'}}><TiSocialInstagram className="icons"/></a>
+             <a href={`${this.state.profile.website}`} style={{color:'gray'}}><Logo src={webicon}/></a>
+
          </SocialDiv>
         </Col>
         <Col xs={6} sm={6} md={7}lg={7} style={{padding:'0'}}>

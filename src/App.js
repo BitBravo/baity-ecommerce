@@ -32,6 +32,7 @@ class App extends Component {
       group: null,
       userName: "",
       basket: {},
+      userCart:"",
       cartCount: 0,
       userImg: "",
       owner:""
@@ -140,6 +141,7 @@ class App extends Component {
         authenticated: false,
         userName: "",
         cartCount: 0,
+        userCart:"",
         userImg:"",
         owner: ""
       })
@@ -154,7 +156,8 @@ getCart(user){
   //FirestoreServices.getBasket()
   FirebaseServices.basket.child(`${user.uid}/items`).once('value', snapshot => {
     console.log("val.childCount " + snapshot.numChildren());
-    this.setState({cartCount: snapshot.numChildren()})
+    this.setState({
+      cartCount: snapshot.numChildren()})
     return snapshot.numChildren()
 
     // if (doc.exist){

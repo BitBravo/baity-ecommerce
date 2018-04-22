@@ -37,10 +37,10 @@ const PreviewImg = styled.img`
 
 `;
 const ImageCol=styled(Col)`
-height:400px;
+height:280px;
 padding:0;
 @media only screen and (max-width: 767px) {
-  height:250px;
+  height:200px;
   }
 `;
 const UserImg=styled.img`
