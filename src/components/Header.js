@@ -60,8 +60,9 @@ display:none;}
  top:8px;
  `
 const Logo = styled.img`
-width:32px;
+ width:32px;
  height:28px;
+
 `
 const UserName = styled.p`
 display:inline;
@@ -162,11 +163,11 @@ class Header extends Component {
                
                 {!this.props.authenticated ? (
                   <UserNav >
-                    <NavItem style={{float: 'left' }}>
+                    <NavItem style={{float: 'left',fontSize: '8px'  }}>
                       <LinkContainer to="/login" activeClassName="activePage">
                       <span>
                          <Logo src={ActiveProfile} className="activeIcons"/>
-                         <Logo src={Profile} className="icons"/>
+                         <Logo src={Profile} className="icons"/>  
                       </span>  
                       </LinkContainer>
                     </NavItem>
