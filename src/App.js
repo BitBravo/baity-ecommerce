@@ -55,6 +55,18 @@ class App extends Component {
         console.log(value.group)
         
         if (value.group === "prof") {
+              owner = user.uid
+          var ref= FirestoreServices.businesses.where("owner", "==", owner)
+          .get()
+          .then(snapshot => {
+            snapshot.forEach(val => {
+              window.localStorage.setItem(userImgStorageKey, val.imgUrl);
+              this.setState({
+                userImg: val.data().imgUrl,
+                owner: owner
+              })
+            })
+          })
           console.log("value.group")
           FirestoreServices.readDBRecord('profUser', `${user.uid}`)
             .then(val => {
@@ -69,18 +81,7 @@ class App extends Component {
             })
             return this.getCart(user)
           })          
-          owner = user.uid
-          var ref= FirestoreServices.businesses.where("owner", "==", owner)
-          .get()
-          .then(snapshot => {
-            snapshot.forEach(val => {
-              window.localStorage.setItem(userImgStorageKey, val.imgUrl);
-              this.setState({
-                userImg: val.data().imgUrl,
-                owner: owner
-              })
-            })
-          })
+      
     
         }else if (value.group === "normal"){
           FirestoreServices.readDBRecord('normalUser', `${user.uid}`)

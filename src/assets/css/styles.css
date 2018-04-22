@@ -60,13 +60,7 @@ hr {
     border-width: 0.3px;
     color:rgb(194, 194, 194)
 }
-.userlogo{
-    font-size: 25px;
-    position: absolute;
-    top:15px;
-    left: 20px;
-    color:rgb(26, 156, 142)
-}
+
 
 .shoppingcart{
     margin-top: 10px;
@@ -151,6 +145,7 @@ hr {
     float: none; 
     width: 100%;
     background-color: rgb(255, 255, 254);
+    padding-left:70px;
 }
  
 
@@ -207,7 +202,7 @@ hr {
     float: right; 
 }
 .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand
-{margin: 0 0 0 50px;}
+{margin: 0 0 0 70px;}
 
 .shorcartlist{
     display: none;

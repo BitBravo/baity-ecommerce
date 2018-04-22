@@ -88,10 +88,13 @@ color: rgb(26,156,142);
 }
 `
 const Input = styled.input`
- width:480px;
+ width:550px;
  height:30px;
  margin:0;
  padding:0;
+ @media only screen and (max-width: 991px) {
+  width:350px;
+ }
  @media only screen and (max-width: 767px) {
   width:100%;
   height:30px;
@@ -168,7 +171,11 @@ class Header extends Component {
               <UserNav >
                <NavItem style={{float: 'left' }}>
                  <LinkContainer to="/myprofile" activeClassName="active">
-                    <UserImg src={this.props.userImg}/>
+                  {this.props.userImg
+                   ?<UserImg src={this.props.userImg}/>
+                   :<UserImg src={logo_placeholder}/>
+                  }
+                    
                      {/* <UserLogo > 
                        <IconImg src={Profile} />
                          <br/>

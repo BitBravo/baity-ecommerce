@@ -9,6 +9,7 @@ import livingroom from '../assets/img/livingroom.jpg';
 import styled from 'styled-components'
 import Loading from "./Loading";
 import logo_placeholder from '../assets/img/logo-placeholder.jpg';
+import webicon from '../assets/img/webicon.png';
 import {TiSocialTwitter,TiSocialInstagram,TiSocialFacebook,TiPhoneOutline} from 'react-icons/lib/ti';
 import {MdCall,MdSettings} from 'react-icons/lib/md';
 import {GoSignOut} from 'react-icons/lib/go';
@@ -65,6 +66,10 @@ font-size:20px;
 color:rgb(95,96,93);
 @media only screen and (max-width: 767px) {
   font-size:15px;}
+`
+const Logo = styled.img`
+width:15px;
+ height:15px;
 `
 const CloseButton=styled.button`
 position:absolute;
@@ -165,6 +170,7 @@ class ProfileInfo extends Component{
           </LinkContainer>
         }
          <SocialDiv >
+             {/* <a href={`${this.state.profile.website}`} style={{color:'gray'}}><Logo src={webicon}/></a> */}
              <a href={`https://twitter.com/${this.state.profile.twitter}`} style={{color:'gray'}}><TiSocialTwitter className="icons"/></a>
              <a href={`https://www.facebook.com/${this.state.profile.facebook}`} style={{color:'gray'}}><TiSocialFacebook className="icons"/></a>
              <a href={`https://www.instagram.com/${this.state.profile.instagram}`} style={{color:'gray'}}><TiSocialInstagram className="icons"/></a>
