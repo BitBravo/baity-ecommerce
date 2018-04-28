@@ -11,9 +11,12 @@ const IconImg = styled.img`
 width:20px;
 height:20px;
 @media only screen and (max-width: 767px) {
-  width:10px;
-  height:10px;}
-
+  width:15px;
+  height:15px;}
+  @media only screen and (max-width: 400px) {
+    width:12px;
+    height:12px;
+  }
 `
 
 const PaddingDiv = styled.div`
@@ -155,7 +158,7 @@ class IdeaBrief extends Component {
           </ImageContainer>
 
           <PaddingDiv>
-          <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'30px'}}>
+          <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'35px'}}>
 
             <Link to={`/${idea.owner}/ideas/${idea.id}`} style={{color:'black'}}>
             <Col xs ={11} style={{marginTop:'5px',paddingLeft:'0',paddingRight:'0'}}>
@@ -164,7 +167,7 @@ class IdeaBrief extends Component {
               </p>
               </Col>
              </Link>
-             <Col xs ={1}  style={{padding:'5px 0 0 0'}}>
+             <Col xs ={1}  style={{padding:'5px 0 15px 0'}}>
              <IconImg src={Idea} className="icons"/> 
              </Col>
 

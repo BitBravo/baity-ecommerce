@@ -12,8 +12,12 @@ const IconImg = styled.img`
 width:20px;
 height:20px;
 @media only screen and (max-width: 767px) {
-  width:10px;
-  height:10px;}
+  width:15px;
+  height:15px;}
+  @media only screen and (max-width: 400px) {
+    width:12px;
+    height:12px;
+  }
 
 `
 
