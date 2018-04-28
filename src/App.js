@@ -147,15 +147,15 @@ class App extends Component {
       })
     }
   }
-  
-
 getCart(user){
   console.log("val.childCount ");
 
   // get items in basket
   //FirestoreServices.getBasket()
   FirebaseServices.basket.child(`${user.uid}/items`).once('value', snapshot => {
+      // Listen for document metadata changes
     console.log("val.childCount " + snapshot.numChildren());
+
     this.setState({
       cartCount: snapshot.numChildren()})
     return snapshot.numChildren()
@@ -253,6 +253,7 @@ updateCart(add, remove) {
             cart={this.state.cartCount}
             setCurrentUser={this.setCurrentUser}
             userImg={this.state.userImg}
+            userCart={this.state.userCart}
           />
           <Main
             authenticated={this.state.authenticated}

@@ -12,26 +12,60 @@ const IconImg = styled.img`
 width:20px;
 height:20px;
 @media only screen and (max-width: 767px) {
-  width:12px;
-height:12px;}
+  width:10px;
+  height:10px;}
 
 `
-//
+
 const PaddingDiv = styled.div`
-  padding-right: 7px;
-  padding-top: 0;
-  padding-left: 7px;
-  padding-bottom: 10px;
-  height: 125px;
-  @media only screen and (max-width: 767px) {
-    font-size:10px;
-    height: 110px;}
+ font-size:95%;
+  padding-right: 5px;
+  padding-left: 5px;
+  height: 110px;
+  line-height:18px;
+  @media only screen and (max-width: 1199px) {
+   display:none;}
+`
+const MPaddingDiv = styled.div`
+  display:none;
+  @media only screen and (max-width: 1199px) {
+    line-height:18px;
+    font-size:90%;
+    padding: 0 5px 0 5px;
+    height: 110px;
+    display:block;}
+    @media only screen and (max-width: 623px) {
+      display:none; 
+    }
+`
+const SPaddingDiv = styled.div`
+  display:none;
+  @media only screen and (max-width: 623px) {
+    line-height:16px;
+    font-size:70%;
+    padding: 0 5px 0 5px;
+    height: 100px;
+    display:block;
+    }
+    @media only screen and (max-width: 500px) {
+      display:none;
+}
+`
+const XSPaddingDiv = styled.div`
+  display:none;
+    @media only screen and (max-width: 500px) {
+      display:block;
+      padding: 0 5px 0 5px;
+      line-height:16px;
+      font-size:60%;
+      height:90px;
+    }
 `
 const MyThumbnailCol = styled(Col)`
 padding-left:10px;
 padding-right:10px;
-padding-bottom:10px;
-padding-top:10px;
+padding-bottom:5px;
+padding-top:5px;
 @media only screen and (max-width: 767px) {
   padding-left:5px;
   padding-right:5px;
@@ -41,12 +75,13 @@ padding-top:10px;
 `
 
 const MyThumbnailDiv = styled.div`
+  font-size:15px;
   position: relative;
   box-shadow:0px 10px 10px rgb(233,233,233);
   background-color: #fff;
   transform: scale(1, 1);
   transition: transform 1s ease;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
   &:hover{
     box-shadow:0px 0px 10px #6A6A6A;
     border:1px solid #6A6A6A;
@@ -60,13 +95,9 @@ const MyThumbnailDiv = styled.div`
       margin-bottom: 20px;
   }
 `
-
 const PreviewImg = styled.div`
-
-
 width:100%;
 height:100%;
-
 `;
 
 const ImageDiv = styled.div`
@@ -76,7 +107,6 @@ const ImageDiv = styled.div`
   bottom: 0;
   right: 0;
   overflow: hidden;
-
 `;
 
 const ImageContainer = styled.div`
@@ -87,12 +117,10 @@ const ImageContainer = styled.div`
 const DescriptionCol = styled(Col)`
 padding-right:0;
 padding-left:0;
-font-size:100%;
 margin-top:5px;
 font-family: 'dinarm';
-@media only screen and (max-width: 767px) {
-  font-size:100%;
 `
+
 
  class ProductBrief extends Component {
   constructor() {
@@ -136,29 +164,140 @@ font-family: 'dinarm';
 
           <PaddingDiv >
           <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'35px'}}>
-            <DescriptionCol xs ={5} md={4}  >
-              <p style={{color:'rgb(26, 156, 142)',float:'left'}}>{product.price} ر.س</p>
+           
+             <DescriptionCol xs ={5} md={4}  >
+               <p style={{color:'rgb(26, 156, 142)',float:'left'}}>{product.price} ر.س</p>
              </DescriptionCol>
-            <Link to={`/${product.owner}/products/${product.id}`} style={{color:'black',fontWeight:'900'}} >
-             <DescriptionCol xs ={6}md={7} style={{padding:'0 5px 0 0'}}>
+           
+            <Link to={`/${product.owner}/products/${product.id}`} style={{color:'black'}} >
+             <DescriptionCol xs ={6}md={7}>
              <p style={{color:'black'}}> {product.name} </p>
-             </DescriptionCol></Link>
+             </DescriptionCol>
+             </Link>
+            
              <Col xs ={1}  style={{padding:'4px 0 0 0'}}>
              <IconImg src={Product} className="icons"/> </Col>
              </div>
-            <h6 >{product.desc.substring(0,150)}
+
+            <p >
+              {product.desc.substring(0,105)}
               <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
               ... المزيد
               </Link>
-            </h6>
-            <div style={{ display: 'inline-block', position: 'absolute', bottom: '0',fontSize:'10px' }}>
-                <h6 > من:
+              </p >
+           
+            <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
+                <p > من:
                   <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
                     {product.businessName}
                   </Link>
-                </h6>
-              </div>
+                </p>
+            </div>
+          
           </PaddingDiv>
+
+
+           <MPaddingDiv >
+          <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'35px'}}>
+           
+             <DescriptionCol xs ={5} md={4}  >
+               <p style={{color:'rgb(26, 156, 142)',float:'left'}}>{product.price} ر.س</p>
+             </DescriptionCol>
+           
+            <Link to={`/${product.owner}/products/${product.id}`} style={{color:'black'}} >
+             <DescriptionCol xs ={6}md={7}>
+             <p style={{color:'black'}}> {product.name.substring(0,22)} </p>
+             </DescriptionCol>
+             </Link>
+            
+             <Col xs ={1}  style={{padding:'5px 0 0 0'}}>
+             <IconImg src={Product} className="icons"/> </Col>
+             </div>
+
+            <p >
+              {product.desc.substring(0,90)}
+              <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
+              ... المزيد
+              </Link>
+              </p >
+           
+            <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
+                <p> من:
+                  <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
+                    {product.businessName}
+                  </Link>
+                </p>
+            </div>
+          
+          </MPaddingDiv>
+
+           <SPaddingDiv >
+          <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'30px'}}>
+           
+             <DescriptionCol xs ={5} md={4}  >
+               <p style={{color:'rgb(26, 156, 142)',float:'left'}}>{product.price} ر.س</p>
+             </DescriptionCol>
+           
+            <Link to={`/${product.owner}/products/${product.id}`} style={{color:'black'}} >
+             <DescriptionCol xs ={6}md={7}>
+             <p style={{color:'black',padding:'0 5px 0 0'}}> {product.name.substring(0,20)} </p>
+             </DescriptionCol>
+             </Link>
+            
+             <Col xs ={1}  style={{padding:'5px 0 0 0'}}>
+             <IconImg src={Product} className="icons"/> </Col>
+             </div>
+
+            <p >
+              {product.desc.substring(0,90)}
+              <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
+              ... المزيد
+              </Link>
+              </p >
+           
+            <div style={{ display: 'inline-block', position: 'absolute', bottom: '0'}}>
+                <p > من:
+                  <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
+                    {product.businessName}
+                  </Link>
+                </p>
+            </div>
+          
+          </SPaddingDiv>
+          
+          <XSPaddingDiv >
+          <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'30px'}}>
+           
+             <DescriptionCol xs ={5} md={4}  >
+               <p style={{color:'rgb(26, 156, 142)',float:'left'}}>{product.price} ر.س</p>
+             </DescriptionCol>
+           
+            <Link to={`/${product.owner}/products/${product.id}`} style={{color:'black'}} >
+             <DescriptionCol xs ={6}md={7}>
+             <p style={{color:'black',padding:'0 5px 0 0'}}> {product.name.substring(0,12)} </p>
+             </DescriptionCol>
+             </Link>
+            
+             <Col xs ={1}  style={{padding:'5px 0 0 0'}}>
+             <IconImg src={Product} className="icons"/> </Col>
+             </div>
+
+            <p >
+              {product.desc.substring(0,60)}
+              <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
+              ... المزيد
+              </Link>
+              </p >
+           
+            <div style={{ display: 'inline-block', position: 'absolute', bottom: '0'}}>
+                <p > من:
+                  <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
+                    {product.businessName}
+                  </Link>
+                </p>
+            </div>
+          
+          </XSPaddingDiv>
         </MyThumbnailDiv>
       </MyThumbnailCol>
     );

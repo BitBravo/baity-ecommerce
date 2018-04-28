@@ -114,6 +114,7 @@ class Header extends Component {
       firstTime: true,    
       show: false,
       currentUser:"",
+      userCart:""
     };
   this.handleShow = this.handleShow.bind(this);
   this.handleHide = this.handleHide.bind(this);
@@ -221,13 +222,13 @@ class Header extends Component {
           <Logo src={Cart} className="shoppingcart"/>
           </div>
           </LinkContainer>
-          {this.props.authenticated ?
+          {/* {this.props.authenticated ?
           <div className="shorcartlist">
-          <HeaderCart currentUser={this.props.currentUser}    />
+          <HeaderCart currentUser={this.props.currentUser}   />
           <LinkContainer to="/mycart" >
             <Button>عرض السلة</Button>
             </LinkContainer>
-            </div>:null}
+            </div>:null} */}
           </div>
          
 

@@ -24,16 +24,29 @@ import productPageCarosel from '../assets/img/productPageCarosel.jpg';
 import productPageCarosel2 from '../assets/img/productPageCarosel2.jpg';
 import mproductPageCarosel from '../assets/img/mProductPageCarosel.jpg';
 import mproductPageCarosel2 from '../assets/img/mProductPageCarosel2.jpg';
+import smproductPageCarosel from '../assets/img/SmallMopilesPimg.jpg';
 
 const PreviewImg = styled.img`
   width: 100%;
   height: 100%;
-  @media only screen and (max-width: 767px) {
+`;
+const DPreviewImg = styled.img`
+  width: 100%;
+  height: 100%;
+  @media only screen and (max-width: 375px) {
 display:none;}
 `;
 const MPreviewImg = styled.img`
 display:none;
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 375px) {
+  display:block;
+  width: 100%;
+  height: 100%;
+  
+`;
+const SMPreviewImg = styled.img`
+display:none;
+@media only screen and (max-width: 320px) {
   display:block;
   width: 100%;
   height: 100%;
@@ -98,7 +111,7 @@ const PaddingDiv = styled.div`
   z-index:1000;}
 `;
 const CarouselDiv = styled(Col)`
-padding-left:20px;
+padding-left:15px;
 padding-right:15px;
 
 @media only screen and (max-width: 767px) {
@@ -410,8 +423,9 @@ class ProductsPage extends Component {
         <div>
         <ImageContainer>
             <ImageDiv>
-              <PreviewImg  src= {productPageCarosel} />
+              <DPreviewImg  src= {productPageCarosel} />
               <MPreviewImg  src= {mproductPageCarosel} />
+              <SMPreviewImg  src= {smproductPageCarosel} />
 
         </ImageDiv>
         </ImageContainer>
@@ -421,7 +435,7 @@ class ProductsPage extends Component {
         <div>
         <ImageContainer>
             <ImageDiv>
-              <PreviewImg  src= {productPageCarosel2}/>
+              <DPreviewImg  src= {productPageCarosel2}/>
               <MPreviewImg  src= {mproductPageCarosel2}/>
 
         </ImageDiv>
@@ -432,14 +446,11 @@ class ProductsPage extends Component {
       <div>
       <ImageContainer>
             <ImageDiv>
-              <PreviewImg src={bedroom}/>
+              <DPreviewImg src={bedroom}/>
               <MPreviewImg src={bedroom}/>
 
         </ImageDiv>
         </ImageContainer>
-        <Carousel.Caption className="hero">
-          <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
-        </Carousel.Caption>
         </div>
       </Carousel.Item>
 

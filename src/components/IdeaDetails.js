@@ -89,11 +89,12 @@ height: 100%;
 `;
 
 const PaddingDiv = styled.div`
-  padding-right: 10px;
-  padding-top: 5px;
-  padding-left: 0;
-  @media only screen and (max-width: 991px) {
-    margin-bottom:50px;}
+font-size:15px;
+padding-right: 10px;
+padding-top: 5px;
+padding-left: 0;
+@media only screen and (max-width: 991px) {
+  font-size:13px;}
 `;
 const ImageCol=styled(Col)`
 border-left: 1.5px solid rgb(218, 218, 217);
@@ -101,10 +102,12 @@ border-left: 1.5px solid rgb(218, 218, 217);
   border:none;
 `;
 const DetailsCol =styled(Col)`
-padding :10px 5px 0 0;
+font-size:16px;
+padding :0 5px 0 0;
 margin :15px 0 0 0;
 position:relative;
 @media only screen and (max-width: 991px) {
+  font-size: 14px;
   margin:0;
 }
 `
@@ -273,16 +276,16 @@ class IdeaDetails extends Component {
             </ImageCol>
 
             <DetailsCol  xs={12} sm={12} md={4} lg={3}  >
-            <h4><IconImg src={Idea} className="icons"/>{idea.name}</h4>
+            <h4 style={{color:'black'}}><IconImg src={Idea} className="icons"/>{idea.name}</h4>
             <hr className='hidden-xs visible-md visible-lg' />
             <Link to={`/businessprofile/${idea.owner}`}style={{color:'rgb(26,156,142)'}}>
-            <button type="submit">
+            <button type="submit" >
                للتواصل
              </button>
                   </Link>
 
 
-            <PaddingDiv>
+            <PaddingDiv style={{marginBottom:'90px' }}>
             <h4 style={{display:'inline'}}>وصف الفكرة</h4>
             <h6 style={{color:'rgb(26,156,142)',float:'left',display:'inline',padding :'0 0 0 20px'}}>
             الاعجاب &nbsp;{idea.likes > 0 ? idea.likes : 0}
@@ -290,29 +293,36 @@ class IdeaDetails extends Component {
               <p > {idea.desc}</p>
               </PaddingDiv>
 
-            <div style={{display:'inline-block',position:'absolute',bottom:'0'}}>
-                  <h4 >من:&nbsp; 
-                  <Link to={`/businessprofile/${idea.owner}`}style={{color:'rgb(26,156,142)'}}>
-                  {idea.businessName}
-                  </Link>
-                </h4>
-                </div>
-               <div style={{display:'inline-block',position:'absolute',bottom:'0',left:'10px'}}>
-               <p>
+               <div >
+           
               {/* only idea owner can update a idea */}
               {
                 this.props.authenticated
                 ?this.props.currentUser.uid === this.state.idea.owner
-              ?<Link to={`/ideas/${idea.id}/updateIdea`}>
-                <button style={{width:'100%'}} >
+                ?<Link to={`/ideas/${idea.id}/updateIdea`} >
+                <button style={{position:'absolute',bottom:'0',left:'5px',width:'50%'}}>
                   تحديث بيانات الفكرة
                 </button>
               </Link>
-                : null
-              : null
+                : 
+                <div style={{position: 'absolute', bottom: '0',right:'5px'}}>
+                      <h4 >من:&nbsp; 
+                      <Link to={`/businessprofile/${idea.owner}`}style={{color:'rgb(26,156,142)'}}>
+                      {idea.businessName}
+                      </Link>
+                    </h4>
+                    </div>
+              : 
+              <div style={{position: 'absolute', bottom: '0',right:'5px'}}>
+                    <h4 >من:&nbsp; 
+                    <Link to={`/businessprofile/${idea.owner}`}style={{color:'rgb(26,156,142)'}}>
+                    {idea.businessName}
+                    </Link>
+                  </h4>
+                  </div>
 
               }
-            </p>
+        
             </div>
             </DetailsCol>
             </Row>

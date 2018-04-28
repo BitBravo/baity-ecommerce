@@ -171,10 +171,14 @@ class ProfileInfo extends Component{
           </LinkContainer>
         }
          <SocialDiv >
-             <a href={`https://twitter.com/${this.state.profile.twitter}`} style={{color:'gray'}}><TiSocialTwitter className="icons"/></a>
-             <a href={`https://www.facebook.com/${this.state.profile.facebook}`} style={{color:'gray'}}><TiSocialFacebook className="icons"/></a>
-             <a href={`https://www.instagram.com/${this.state.profile.instagram}`} style={{color:'gray'}}><TiSocialInstagram className="icons"/></a>
-             <a href={`${this.state.profile.website}`} style={{color:'gray'}}><Logo src={webicon}/></a>
+         {this.state.profile.twitter
+            ? <a href={`https://twitter.com/${this.state.profile.twitter}`} style={{color:'gray'}}><TiSocialTwitter className="icons"/></a>:null}
+         {this.state.profile.facebook
+            ?<a href={`https://www.facebook.com/${this.state.profile.facebook}`} style={{color:'gray'}}><TiSocialFacebook className="icons"/></a>:null}
+         {this.state.profile.instagram
+            ?<a href={`https://www.instagram.com/${this.state.profile.instagram}`} style={{color:'gray'}}><TiSocialInstagram className="icons"/></a>:null}
+         {this.state.profile.website
+            ? <a href={`${this.state.profile.website}`} style={{color:'gray'}}><Logo src={webicon}/></a>:null}
 
          </SocialDiv>
         </Col>
