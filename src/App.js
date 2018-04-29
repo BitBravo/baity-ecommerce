@@ -11,6 +11,7 @@ import "./App.css";
 const userStorageKey = storageKey + '_USER';
 const groupStorageKey = storageKey + '_GROUP';
 const userNameStorageKey = storageKey + '_USERNAME'; 
+const userImgStorageKey = storageKey + '_LOGO'; 
 // function createElement(Component, props) {
 //   var key = Math.floor(Math.random() * 1000); // some key that changes across route changes
 //   return <Component key={key} {...props} />;
@@ -22,8 +23,8 @@ const userNameStorageKey = storageKey + '_USERNAME';
 // The webapp contains Header then Main then Footer.
 // Main will render Home when we choose the root '/' path.
 class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     console.log(`${this.constructor.name}.constructor`);
     this.state = {
       authenticated: false,
@@ -31,7 +32,10 @@ class App extends Component {
       group: null,
       userName: "",
       basket: {},
+      userCart:"",
       cartCount: 0,
+      userImg: "",
+      owner:""
 
     }
     this.setCurrentUser = this.setCurrentUser.bind(this);
@@ -42,14 +46,29 @@ class App extends Component {
   // For more info on user management in firebase see:
   // (https://firebase.google.com/docs/auth/web/manage-users)
   setCurrentUser(user) {
+
     if (user) {
+      var owner;
       // cache user object to avoid firebase auth latency bug
       window.localStorage.setItem(userStorageKey, JSON.stringify(user));
       
       FirestoreServices.readDBRecord('group', user.uid).then( value => {
         console.log(value.group)
-
+        
         if (value.group === "prof") {
+              owner = user.uid
+          var ref= FirestoreServices.businesses.where("owner", "==", owner)
+          .get()
+          .then(snapshot => {
+            snapshot.forEach(val => {
+              window.localStorage.setItem(userImgStorageKey, val.imgUrl);
+              this.setState({
+                userImg: val.data().imgUrl,
+                owner: owner
+              })
+            })
+          })
+          console.log("value.group")
           FirestoreServices.readDBRecord('profUser', `${user.uid}`)
             .then(val => {
               //cache username value and group value
@@ -62,26 +81,31 @@ class App extends Component {
               userName: val.name,
             })
             return this.getCart(user)
-          })
+          })          
+      
+    
         }else if (value.group === "normal"){
           FirestoreServices.readDBRecord('normalUser', `${user.uid}`)
             .then(val => {
               //cache username value and group value
               window.localStorage.setItem(groupStorageKey, value.group);
               window.localStorage.setItem(userNameStorageKey, val.name);
+              window.localStorage.setItem(userImgStorageKey, val.imgUrl);
 
               this.setState({currentUser: user,
               authenticated: true,
               group: value.group,
               userName: val.name,
+              userImg: val.imgUrl,
               })
               var b = this.getCart(user)
               return b;
               })
 
         }
-      })
-
+      }
+    )
+  }
 
       /*
         // We can get the folloiwng information. See: (https://firebase.google.com/docs/auth/web/manage-users)
@@ -103,29 +127,37 @@ class App extends Component {
       */
 
 
-    } else {//No user is logged in
+ 
+    else { //No user is logged in
       // 1- clean up auth cache
       window.localStorage.removeItem(userStorageKey);
       window.localStorage.removeItem(groupStorageKey);
       window.localStorage.removeItem(userNameStorageKey);
+      window.localStorage.removeItem(userImgStorageKey);
+
       // 2- clean up state
       this.setState({
         currentUser: null,
         authenticated: false,
         userName: "",
         cartCount: 0,
+        userCart:"",
+        userImg:"",
+        owner: ""
       })
     }
   }
-
 getCart(user){
   console.log("val.childCount ");
 
   // get items in basket
   //FirestoreServices.getBasket()
   FirebaseServices.basket.child(`${user.uid}/items`).once('value', snapshot => {
+      // Listen for document metadata changes
     console.log("val.childCount " + snapshot.numChildren());
-    this.setState({cartCount: snapshot.numChildren()})
+
+    this.setState({
+      cartCount: snapshot.numChildren()})
     return snapshot.numChildren()
 
     // if (doc.exist){
@@ -173,7 +205,7 @@ updateCart(add, remove) {
           currentUser: JSON.parse(window.localStorage.getItem(userStorageKey)),
           authenticated: true,
           group: window.localStorage.getItem(groupStorageKey),
-          userName: window.localStorage.getItem(userNameStorageKey),
+          userImg: window.localStorage.getItem(userImgStorageKey),
         }
       )
     }
@@ -220,6 +252,8 @@ updateCart(add, remove) {
             userName={this.state.userName}
             cart={this.state.cartCount}
             setCurrentUser={this.setCurrentUser}
+            userImg={this.state.userImg}
+            userCart={this.state.userCart}
           />
           <Main
             authenticated={this.state.authenticated}
@@ -233,6 +267,8 @@ updateCart(add, remove) {
            currentUser={this.state.currentUser}
            group={this.state.group}
            userName={this.state.userName}
+           userImg={this.state.userImg}
+
            />
         </div>
       </BrowserRouter>

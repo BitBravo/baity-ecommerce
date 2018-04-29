@@ -83,7 +83,7 @@ export class HeaderCartList extends Component {
 
     return (
 
-          <div>
+          <div >
 
           {productIds.length < 1
           ? <h4 style={{textAlign:'center'}}>لم تقم باضافة منتجات، إبدأ الان</h4>

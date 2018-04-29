@@ -6,9 +6,11 @@ import firebase from "firebase";
 import { app, base, database, storage } from "../base";
 import FirestoreServices from './FirestoreServices'
 import livingroom from '../assets/img/livingroom.jpg';
+import CaroselImg from '../assets/img/CaroselImg.jpg'; 
 import styled from 'styled-components'
 import Loading from "./Loading";
 import logo_placeholder from '../assets/img/logo-placeholder.jpg';
+import webicon from '../assets/img/webicon.png';
 import {TiSocialTwitter,TiSocialInstagram,TiSocialFacebook,TiPhoneOutline} from 'react-icons/lib/ti';
 import {MdCall,MdSettings} from 'react-icons/lib/md';
 import {GoSignOut} from 'react-icons/lib/go';
@@ -36,10 +38,10 @@ const PreviewImg = styled.img`
 
 `;
 const ImageCol=styled(Col)`
-height:400px;
+height:280px;
 padding:0;
 @media only screen and (max-width: 767px) {
-  height:250px;
+  height:200px;
 
   }
 `;
@@ -65,6 +67,10 @@ font-size:20px;
 color:rgb(95,96,93);
 @media only screen and (max-width: 767px) {
   font-size:15px;}
+`
+const Logo = styled.img`
+width:15px;
+ height:15px;
 `
 const CloseButton=styled.button`
 position:absolute;
@@ -140,7 +146,11 @@ class ProfileInfo extends Component{
       <Grid style={{backgroundColor:"white"}}>
       <Row  style={{display: 'flex', flexWrap: 'wrap'}}>
         <ImageCol sm={12}  lg={12}>
-          <PreviewImg  src={livingroom}     />
+        {this.state.profile.homeImgUrl
+        ? <PreviewImg  src={this.state.profile.homeImgUrl}  />
+        : <PreviewImg  src={CaroselImg} />
+        }
+          {/* <PreviewImg  src={livingroom}     /> */}
           <div style={{position: 'absolute',top: '10px',left: '30px',width:'25%'}}>
           {!this.props.user
             ?<Link to="/myprofprofile/">
@@ -161,9 +171,15 @@ class ProfileInfo extends Component{
           </LinkContainer>
         }
          <SocialDiv >
-             <a href={`https://twitter.com/${this.state.profile.twitter}`} style={{color:'gray'}}><TiSocialTwitter className="icons"/></a>
-             <a href={`https://www.facebook.com/${this.state.profile.facebook}`} style={{color:'gray'}}><TiSocialFacebook className="icons"/></a>
-             <a href={`https://www.instagram.com/${this.state.profile.instagram}`} style={{color:'gray'}}><TiSocialInstagram className="icons"/></a>
+         {this.state.profile.twitter
+            ? <a href={`https://twitter.com/${this.state.profile.twitter}`} style={{color:'gray'}}><TiSocialTwitter className="icons"/></a>:null}
+         {this.state.profile.facebook
+            ?<a href={`https://www.facebook.com/${this.state.profile.facebook}`} style={{color:'gray'}}><TiSocialFacebook className="icons"/></a>:null}
+         {this.state.profile.instagram
+            ?<a href={`https://www.instagram.com/${this.state.profile.instagram}`} style={{color:'gray'}}><TiSocialInstagram className="icons"/></a>:null}
+         {this.state.profile.website
+            ? <a href={`${this.state.profile.website}`} style={{color:'gray'}}><Logo src={webicon}/></a>:null}
+
          </SocialDiv>
         </Col>
         <Col xs={6} sm={6} md={7}lg={7} style={{padding:'0'}}>

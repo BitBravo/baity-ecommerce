@@ -102,11 +102,12 @@ height: 100%;
 `;
 
 const PaddingDiv = styled.div`
+  font-size:15px;
   padding-right: 10px;
   padding-top: 5px;
   padding-left: 0;
   @media only screen and (max-width: 991px) {
-    margin-bottom:50px;}
+    font-size:13px;}
 `;
 const ImageCol = styled(Col) `
 border-left: 1.5px solid rgb(218, 218, 217);
@@ -122,12 +123,20 @@ position:relative;
 }
 `;
 const ProductName =styled.div`
-margin-bottom:5px;
+font-size:16px;
+color:black;
+margin-bottom:20px;
 @media only screen and (min-width: 992px) {
-margin-top:0;
 border-bottom:dotted 1px lightgray ;
 height:55px;
 }
+@media only screen and (max-width: 991px) {
+  margin-top:0;
+  margin-bottom:50px;
+  font-size: 14px;
+
+}
+
 `
 const Cartbutton = styled.button`
 height:30px;
@@ -350,10 +359,10 @@ class ProductDetails extends Component {
 
             <DetailsCol xs={12} sm={12} md={4} lg={3}  >
             <ProductName >
-              <Col xs={5} sm={5} md={5} lg={5} style={{ padding: '0 0 0 10px' }}>
+              <Col xs={5} sm={5} md={5} lg={4} style={{ padding: '0 0 0 10px' }}>
                 <h4 style={{ color: 'rgb(26,156,142)', float: 'left' }}>{product.price} ر.س </h4>
               </Col>
-              <Col xs={6} sm={6} md={6} lg={6} style={{ padding: '0' }}>
+              <Col xs={6} sm={6} md={6} lg={7} style={{ padding: '0 0 0 10px' }}>
                 <h4>{product.name}</h4>
               </Col>
               <Col xs ={1}  style={{padding:'7px 0 0 0'}}>
@@ -362,24 +371,24 @@ class ProductDetails extends Component {
               {this.props.currentUser
                 ? <button type="submit" onClick={ () => {this.addToCart();this.handleShow()}}>
                   اضافة للسلة
-               <IconImg src={Cart} style={{ marginRight: '15px' }} />
+               <IconImg src={Cart} style={{ marginRight: '25px' }} />
                 </button>
                 : <LinkContainer to="/login">
                   <button type="submit" onClick={ () => {this.addToCart();this.handleShow()}}>
                     اضافة للسلة
-               <IconImg src={Cart} style={{ marginRight: '15px' }} />
+               <IconImg src={Cart} style={{ marginRight: '25px' }} />
                   </button>
                 </LinkContainer>
               }
               <PaddingDiv>
-                <h4 style={{ display: 'inline' }}>وصف المنتج</h4>
+                <h4 style={{ display: 'inline'}}>وصف المنتج</h4>
                 <h6 style={{ color: 'rgb(26,156,142)', float: 'left', display: 'inline', padding: '0 0 0 20px' }}>
                 الاعجاب &nbsp;{product.likes > 0 ? product.likes : 0}
                 </h6>
-                <p > {product.desc}</p>
+                <p style={{marginTop:'10px' }}> {product.desc}</p>
               </PaddingDiv>
-              <PaddingDiv >
-                <h4>المواصفات</h4>
+              <PaddingDiv style={{marginBottom:'90px' }}>
+                <h4 style={{marginBottom:'10px' }}>المواصفات</h4>
                 <p >الصنف : {product.category}</p>
                 <p >القسم : {product.department}</p>
                 <p >الطول : {product.length} سم</p>
@@ -389,26 +398,35 @@ class ProductDetails extends Component {
                 <p >المدينة : {product.city}</p>
               </PaddingDiv>
 
-              <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
-                <h4 > من:
-                  <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
-                    {product.businessName}
-                  </Link>
-                </h4>
-              </div>
-              <div style={{ display: 'inline-block', position: 'absolute', bottom: '0', left: '10px' }}>
+              <div >
 
                 {/* only product owner can update a product */}
                 {this.props.authenticated
                   ? this.props.currentUser.uid === this.state.product.owner
                     ? <Link to={`/products/${product.id}/updateProduct`}>
-                      <button style={{ width: '100%' }} >
+                      <button style={{  width: '50%' , position: 'absolute', bottom: '0', left: '5px' }} >
                         تحديث بيانات المنتج
                 </button>
                     </Link>
-                    : null
+                    : 
+                    <div style={{ position: 'absolute', bottom: '0',right:'5px' }}>
+                      <h4 >من :&nbsp;
+                        <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
+                          {product.businessName}
+      
+                        </Link>
+                      </h4>
+                    </div>
 
-                  : null
+                  : 
+                  <div style={{  position: 'absolute', bottom: '0',right:'5px' }}>
+                    <h4 >من :&nbsp;
+                      <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
+                        {product.businessName}
+    
+                      </Link>
+                    </h4>
+                  </div>
                 }
               </div>
 

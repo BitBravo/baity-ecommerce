@@ -97,6 +97,7 @@ class IdeaList extends Component{
            loading: false,
            firstTime: false
          })
+         
         )
 
     }
@@ -212,7 +213,7 @@ next(){
             </Row>
           }
           <Row style={{display: 'flex', flexWrap: 'wrap'}}>
-          <Col xs={12}  lg={12} >
+          <Col xs={12}  lg={12} style={{padding:'0 5px 0 5px'}}>
           {ideaIds.length < 1
           ? <h4 style={{textAlign:'center'}}>{msg}</h4>
           : null}
@@ -231,7 +232,7 @@ next(){
       <Grid>
         <Row style={{display: 'flex', flexWrap: 'wrap'}}>
 
-        <Col xs={12} md={12}>
+        <Col xs={12} md={12}  style={{padding:'0 5px 0 5px'}}>
         <InfiniteScroll style={{overflow:'none'}}
           hasMore={hasMore}
           next={this.next}

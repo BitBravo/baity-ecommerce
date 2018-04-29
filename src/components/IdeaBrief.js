@@ -9,28 +9,93 @@ import Idea from '../assets/img/Selected-idea.png';
 
 const IconImg = styled.img`
 width:20px;
- height:20px;
+height:20px;
+@media only screen and (max-width: 767px) {
+  width:15px;
+  height:15px;}
+  @media only screen and (max-width: 400px) {
+    width:12px;
+    height:12px;
+  }
 `
+
 const PaddingDiv = styled.div`
+ font-size:95%;
   padding-right: 5px;
-  padding-top: 0;
-  padding-left: 0;
-  padding-bottom: 5px;
-  height: 125px;
+  padding-left: 5px;
+  height: 110px;
+  line-height:18px;
+  @media only screen and (max-width: 1199px) {
+    line-height:18px;
+    font-size:90%;
+    padding: 0 5px 0 5px;
+    height: 110px;
+    display:block;}
+    @media only screen and (max-width: 623px) {
+      line-height:16px;
+      font-size:70%;
+      padding: 0 5px 0 5px;
+      height: 100px;
+      display:block;
+      }
+      @media only screen and (max-width: 500px) {
+        display:block;
+        padding: 0 5px 0 5px;
+        line-height:16px;
+        font-size:60%;
+        height:90px;
+      }
+`
+const Description = styled.p`
+display:block;
+@media only screen and (max-width: 1199px) {
+  display:none;}
+
+  `
+const MDescription = styled.p`
+display:none;
+@media only screen and (max-width: 1199px) {
+  display:block;}
+  @media only screen and (max-width: 500px) {
+    display:none;}
+  `
+const SDescription = styled.p`
+display:none;
+@media only screen and (max-width: 500px) {
+  display:block;}
+`
+const MyThumbnailCol = styled(Col)`
+padding-left:10px;
+padding-right:10px;
+padding-bottom:5px;
+padding-top:5px;
+@media only screen and (max-width: 767px) {
+  padding-left:5px;
+  padding-right:5px;
+  padding-bottom:5px;
+  padding-top:5px;
+}
 `
 
 const MyThumbnailDiv = styled.div`
+  font-size:15px;
   position: relative;
   box-shadow:0px 10px 10px rgb(233,233,233);
   background-color: #fff;
   transform: scale(1, 1);
   transition: transform 1s ease;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
   &:hover{
     box-shadow:0px 0px 10px #6A6A6A;
     border:1px solid #6A6A6A;
     transition:all 0.5s ease-in-out;
     transform: scale(1.05, 1.05);
+  }
+  @media only screen and (max-width: 767px) {
+    &:hover{
+      transition:none;
+      transform: none;}
+      margin-bottom: 20px;
   }
 `
 
@@ -76,7 +141,7 @@ class IdeaBrief extends Component {
 
     return (
 
-      <Col xs={12} md={4} sm={6} style={{float:'right'}}>
+      <MyThumbnailCol xs={6} md={4} sm={6} style={{float:'right'}}>
         <MyThumbnailDiv>
           <ImageContainer>
             <ImageDiv>
@@ -103,26 +168,46 @@ class IdeaBrief extends Component {
           </ImageContainer>
 
           <PaddingDiv>
-            <Link to={`/${idea.owner}/ideas/${idea.id}`} style={{color:'black',fontWeight:'900'}}>
-            <Col xs ={12} md={12} style={{borderBottom:'dotted 1px lightgray',marginBottom:'10px'}} >
-              <h5><IconImg src={Idea} className="icons"/> {idea.name} </h5>
+          <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'35px'}}>
+
+            <Link to={`/${idea.owner}/ideas/${idea.id}`} style={{color:'black'}}>
+            <Col xs ={11} style={{marginTop:'5px',paddingLeft:'0',paddingRight:'0'}}>
+              <p style={{color:'black',fontFamily: 'dinarm',paddingRight:'1px'}}>
+              {idea.name}
+              </p>
               </Col>
              </Link>
-             <p className="flex-text text-muted">{idea.desc.substring(0,50)}
+             <Col xs ={1}  style={{padding:'5px 0 15px 0'}}>
+             <IconImg src={Idea} className="icons"/> 
+             </Col>
+
+             <Description className="flex-text text-muted">{idea.desc.substring(0,105)}
                <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${idea.owner}/ideas/${idea.id}`}>
                ... المزيد
                </Link>
-             </p>
+             </Description>
+             <MDescription className="flex-text text-muted">{idea.desc.substring(0,90)}
+               <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${idea.owner}/ideas/${idea.id}`}>
+               ... المزيد
+               </Link>
+             </MDescription>
+             <SDescription className="flex-text text-muted">{idea.desc.substring(0,60)}
+               <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${idea.owner}/ideas/${idea.id}`}>
+               ... المزيد
+               </Link>
+             </SDescription>
+            
              <div style={{display:'inline-block',position:'absolute',bottom:'0'}}>
-                  <h6 > من:
+                  <p > من:
                   <Link to={`/businessprofile/${idea.owner}`}style={{color:'rgb(26,156,142)'}}>
                   {idea.businessName}
                   </Link>
-                </h6>
+                </p>
+                </div>
                 </div>
           </PaddingDiv>
         </MyThumbnailDiv>
-      </Col>
+      </MyThumbnailCol>
 
     );
   }

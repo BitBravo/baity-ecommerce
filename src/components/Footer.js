@@ -6,28 +6,33 @@ import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { IndexLinkContainer } from 'react-router-bootstrap';
 import { Glyphicon ,Modal} from "react-bootstrap";
-import Homepage from '../assets/img/Selected-homepage.png';
-import Idea from '../assets/img/Selected-idea.png';
-import Product from '../assets/img/Selected-product.png';
-import Profile from '../assets/img/Profile-icon.png';
+import logo_placeholder from '../assets/img/logo-placeholder.jpg';
+import Homepage from '../assets/img/Unselected-homepage.png';
+import Idea from '../assets/img/Unselected-idea.png';
+import Product from '../assets/img/UNselected-product.png';
+import Profile from '../assets/img/Unselected-profile.png';
+import ActiveProfile from '../assets/img/Profile-icon.png';
+import ActiveIdea from '../assets/img/Selected-idea.png';
+import ActiveHomepage from '../assets/img/Selected-homepage.png';
+import ActiveProduct from '../assets/img/Selected-product.png';
 
 const MobileDiv = styled.div`
 display: flex;
 flex-wrap: wrap;
 justify-content: space-between;
-padding:0 4px 0 4px;}
+padding-left:7px;
+padding-right:7px;
+
+}
 `
 const IconImg = styled.img`
-width:25px;
- height:25px;
+width:22px;
+ height:22px;
 ;`
 const UserImg = styled.img`
-width:35px;
-height:35px;
+width:30px;
+height:30px;
 border-radius: 50%;
-position:absolute;
-left:20px;
-top:10px;
 `
 
 const UserName = styled.p`
@@ -38,12 +43,14 @@ text-align:center;
 font-size:8px;
 padding:0;
 margin-bottom:1px;
+color:inherit;
 `
 
 class Footer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userImg:"",
 
       year: new Date().getFullYear()
     };
@@ -71,43 +78,49 @@ class Footer extends Component {
 </footer>,
 <footer className="mopilefooter" fixed>
        <MobileDiv >
-            <LinkContainer to="/" >
+            <IndexLinkContainer to="/" activeClassName="activePage">
             <span>
-              <IconImg src={Homepage}/>
+            <IconImg src={Homepage} className="icons"/>
+              <IconImg src={ActiveHomepage} className="activeIcons"/>
              <UserName > الرئيسية </UserName>
             </span>
-            </LinkContainer>
-            <LinkContainer to="/productspage" >
+            </IndexLinkContainer>
+            <LinkContainer to="/productspage" activeClassName="activePage">
             <span>
-               <IconImg src={Product} />
+            <IconImg src={Product} className="icons"/>
+              <IconImg src={ActiveProduct} className="activeIcons"/>
                <UserName > المنتجات </UserName>
             </span>
             </LinkContainer>
-            <LinkContainer to="/ideaspage" >
+            <LinkContainer to="/ideaspage" activeClassName="activePage">
             <span>
-               <IconImg src={Idea} />
+            <IconImg src={Idea} className="icons"/>
+              <IconImg src={ActiveIdea} className="activeIcons"/>
                <UserName > الأفكار </UserName>
             </span>
             </LinkContainer>
 
              {!this.props.authenticated ? (
-                <LinkContainer to="/login" activeClassName="active">
+                <LinkContainer to="/login" activeClassName="activePage">
                     {/* <UserImg src={logo_placeholder}/> */}
-                  <span>
-                    <IconImg src={Profile} />
+                  <span> 
+                    <IconImg src={ActiveProfile} className="activeIcons"/>
+                    <IconImg src={Profile} className="icons"/>
                     <UserName > حسابي </UserName>
                   </span>
                 </LinkContainer>
             ) : (
-          <div>
-              <LinkContainer to="/myprofile" activeClassName="active" style={{display:'block',marginLeft:'auto',marginRight:'auto',padding:'0'}} >
-               <IconImg src={Profile} />
-              </LinkContainer>
-                    <UserName >
-           {this.props.userName.substring(0,13)}
-              </UserName>
 
-           </div>
+              <LinkContainer to="/myprofile" activeClassName="imgActivePage" 
+              // style={{display:'block',marginLeft:'auto',marginRight:'auto',padding:'0'}} 
+              >
+                 {this.props.userImg
+                   ?<UserImg src={this.props.userImg}/>
+                   :<UserImg src={logo_placeholder}/>
+                  }
+              </LinkContainer>
+                   
+
           )}
        </MobileDiv >
 

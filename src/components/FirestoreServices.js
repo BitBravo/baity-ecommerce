@@ -22,6 +22,8 @@ let _PROFILE_IMAGES_PATH = testPrefix + "profileImage";
 let _PROF_PATH = testPrefix + "professional";
 let _NORMAL_PATH = testPrefix + "normal";
 let _BASKET_PATH = testPrefix + "basket";
+let _BUSINESS_HOMEIMGS_PATH = testPrefix + "businessHomeImgs";
+let _PROFILE_HOMEIMGS_PATH = testPrefix + "profileHomeImages";
 
 /* DATABASE AND STORGAE REFERENCES FOR TESTING*/
 // let _PRODUCTS_PATH = "product"; //change me by removing test
@@ -54,7 +56,8 @@ var _REF_BUSINESS_LOGO = STORAGE_BASE.child(_BUSINESS_LOGOS_PATH); //change me b
 var _REF_PRODUCT_IMAGE = STORAGE_BASE.child(_PRODUCT_IMAGES_PATH); //change me by removing test
 var _REF_IDEA_IMAGE = STORAGE_BASE.child(_IDEA_IMAGES_PATH);
 var _REF_PROFILE_IMAGE = STORAGE_BASE.child(_PROFILE_IMAGES_PATH); //change me by removing test
-
+var _REF_BUSINESS_HOMEIMG = STORAGE_BASE.child(_BUSINESS_HOMEIMGS_PATH );
+var _REF_PROFILE_HOMEIMG =STORAGE_BASE.child(_PROFILE_HOMEIMGS_PATH);
 // We are exporting an nonymous object.
 // To import simply write:
 // import FirebaseServices from './FirebaseServices.js' (you can replace FirebaseServices with whatever you like)
@@ -79,6 +82,9 @@ export default {
   get BUSINESS_LOGOS_PATH() {
     return _BUSINESS_LOGOS_PATH;
   },
+  get BUSINESS_HOMEIMGS_PATH() {
+    return _BUSINESS_HOMEIMGS_PATH;
+  },
   get PRODUCT_IMAGES_PATH() {
     return _PRODUCT_IMAGES_PATH;
   },
@@ -87,6 +93,9 @@ export default {
   },
   get PROFILE_IMAGES_PATH() {
     return _PROFILE_IMAGES_PATH;
+  },
+  get PROFILE_HOMEIMGS_PATH() {
+    return _PROFILE_HOMEIMGS_PATH;
   },
   get PROF_PATH() {
     return _PROF_PATH;
@@ -117,6 +126,12 @@ export default {
   },
   get profileImages() {
     return _REF_PROFILE_IMAGE;
+  },
+  get businessHomeImgs() {
+    return _REF_BUSINESS_HOMEIMG;
+  },
+  get profileHomeImages() {
+    return _REF_PROFILE_HOMEIMG;
   },
   get professionals() {
     return _REF_PROF;
@@ -276,6 +291,7 @@ export default {
           phone: profileData.phone,
           preview: profileData.preview,
           imgUrl: profileData.imgUrl,
+          homeImgUrl: profileData.homeImgUrl,
           businessName: profileData.businessName,
           types: profileData.types,
           website: profileData.website,
@@ -292,7 +308,8 @@ export default {
           console.log(profileData);
           errorHandler(error.message);
         });
-    } catch (error) {
+    } 
+    catch (error) {
       errorHandler(error);
     }
   },
@@ -302,6 +319,7 @@ export default {
   //provided by form/formUpdater
   normalUserProfileHelper(profileData, errorHandler, successHandler) {
     console.log('FirestoreServices.normalUserProfileHelper')
+   
     try {
       var normalUserProfileRef = this.normalUsers.doc(`${profileData.id}`);
       if (profileData.newImage) {
@@ -311,8 +329,9 @@ export default {
           country: 'Saudi Arabia',
           phone: profileData.phone,
           imgUrl: profileData.imgUrl,
+          homeImgUrl: profileData.homeImgUrl,
           name: profileData.name,
-          email: profileData.email
+          // email: profileData.email
         })
         .then(() => {
           console.log("insert succeeded");
@@ -323,15 +342,18 @@ export default {
           console.log(profileData);
           errorHandler(error.message);
         });
-    } else {       console.log(normalUserProfileRef)
-
+    } else {       
+      console.log(normalUserProfileRef)
+      
       normalUserProfileRef
         .update({
+          homeImgUrl: profileData.homeImgUrl,
           city: profileData.city,
           country: 'Saudi Arabia',
           phone: profileData.phone,
           name: profileData.name,
-          email: profileData.email
+          // email: profileData.email,
+         
         })
         .then(() => {
           console.log(profileData);
@@ -345,10 +367,10 @@ export default {
           errorHandler(error.message);
         });
     }
-  } catch (error) {
+  } 
+  catch (error) {
       errorHandler(error);
-    }
-
+    } 
   },
 
 
@@ -424,9 +446,76 @@ export default {
             next(imgUrl);
 
           }
-        ); //updateTask.on
+         
+        ); //updateTask.on  
     },
+    uploadProfProfileHomeImage(uid, newHImage, progressHandler, errorHandler, next){
+      //1- upload the image of the profile.
+      //2- add the profile to the database
+      //get a reference for the image bucket (the placeholder where we will put the image into)
+      var imagesRef = this.profileImages.child(`${uid}/${Date.now() + Math.random()}`);
+      //upload the image. This is a task that will run async. Notice that it accepts a file as in
+      //browser API File (see https://developer.mozilla.org/en-US/docs/Web/API/File)
+      var metadata = {
+        contentType: newHImage.type
+      };
+      //The following will return a task that will execte async
+      var uploadTask = imagesRef.put(newHImage, metadata);
+      // Register three observers:
+      // 1. 'state_changed' observer, called any time the state changes
+      // 2. Error observer, called on failure
+      // 3. Completion observer, called on successful completion
+      uploadTask.on(
+        "state_changed",
+        function(snapshot) {
+          // Observe state change events such as progress, pause, and resume
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          var progress = Math.round(
+            snapshot.bytesTransferred / snapshot.totalBytes * 100
+          );
+          progressHandler(progress);
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case firebase.storage.TaskState.PAUSED: // or 'paused'
+              console.log("Upload is paused");
+              break;
+            case firebase.storage.TaskState.RUNNING: // or 'running'
+              console.log("Upload is running");
+              break;
+          }
+        },
+        error => {
+          // Handle unsuccessful uploads
+          console.log("error uploading image of profile");
+          console.log(error);
+          // A full list of error codes is available at
+          // https://firebase.google.com/docs/storage/web/handle-errors
+          switch (error.code) {
+            case "storage/unauthorized":
+              // User doesn't have permission to access the object
+              break;
 
+            case "storage/canceled":
+              // User canceled the upload
+              break;
+
+            case "storage/unknown":
+              // Unknown error occurred, inspect error.serverResponse
+              break;
+          }
+          errorHandler(error.message);
+        },
+        //use arrow function so that you can access this.insertprof. See (https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback)
+        () => {
+          // Handle successful uploads on complete
+          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+          let homeImgUrl = uploadTask.snapshot.downloadURL;
+          console.log("upload sucessful and image URL is: " + homeImgUrl);
+          next(homeImgUrl);
+
+        }
+      ); //updateTask.on
+  },
     //Main method to update a professional profile
     updateProfProfile(uid, profileData, errorHandler, successHandler, progressHandler){
       console.log('FirebaseServices.updateProfProfile')
@@ -457,8 +546,39 @@ export default {
           successHandler
         );
       }
+      
     },
-
+    updateProfProfileHomeImg(uid, profileData, errorHandler, successHandler, progressHandler){
+      console.log('FirebaseServices.updateProfProfile')
+      //if we have a new image then upload it
+      if (profileData.newHImage) {
+        this.uploadProfProfileHomeImage(
+          this.businessHomeImgs,
+          uid,
+          profileData.imageHFile,
+          progressHandler,
+          errorHandler,
+          (homeImgUrl) => {
+              profileData.homeImgUrl = homeImgUrl
+              //update profile with new data and new image URL
+              this.updateProfProfileHelper(
+                profileData,
+                errorHandler,
+                successHandler
+              );
+          }
+        );
+      } else {
+        //no change to current image/image URL
+        //update profile with new data
+        this.updateProfProfileHelper(
+          profileData,
+          errorHandler,
+          successHandler
+        );
+      }
+    },
+    
     //Main method to update a normal user profile
     updateNormalUserProfile(uid, profileData, errorHandler, successHandler, progressHandler){
       console.log('FirebaseServices.updateNormalProfile')
@@ -489,8 +609,38 @@ export default {
           successHandler
         );
       }
+      
     },
-
+    updateNorProfileHomeImg(uid, profileData, errorHandler, successHandler, progressHandler){
+      console.log('FirebaseServices.updateProfProfile')
+      //if we have a new image then upload it
+      if (profileData.newHImage) {
+        this.uploadProfProfileHomeImage(
+          this.profileHomeImages,
+          uid,
+          profileData.imageHFile,
+          progressHandler,
+          errorHandler,
+          (homeImgUrl) => {
+              profileData.homeImgUrl = homeImgUrl
+              //update profile with new data and new image URL
+              this.normalUserProfileHelper(
+                profileData,
+                errorHandler,
+                successHandler
+              );
+          }
+        );
+      } else {
+        //no change to current image/image URL
+        //update profile with new data
+        this.normalUserProfileHelper(
+          profileData,
+          errorHandler,
+          successHandler
+        );
+      }
+    },
     /*
       returns a product as a promise
     */

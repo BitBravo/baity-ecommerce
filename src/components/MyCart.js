@@ -37,7 +37,7 @@ height:40px;
 `
 const DropCart=styled.div`
 width: 250px;
-height:200px;
+max-height:300px;
  overflow-y:auto;
  overflow-x: hidden;
  padding-top:5px;

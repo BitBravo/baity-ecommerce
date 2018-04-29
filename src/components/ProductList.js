@@ -11,7 +11,6 @@ import styled from 'styled-components'
 import {MdEventSeat} from 'react-icons/lib/md';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Product from '../assets/img/AddingProduct.png';
-import {MyProductBrief} from "./ProductBrief";
 
 const IconImg = styled.img`
 width:20px;

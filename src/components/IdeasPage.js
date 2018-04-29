@@ -6,12 +6,35 @@ import styled from 'styled-components'
 import traditionalkitchen from '../assets/img/traditionalkitchen.jpg';
 import bedroom from '../assets/img/bedroom.jpg';
 import livingroom from '../assets/img/livingroom.jpg';
+import CaroselImg from '../assets/img/CaroselImg.jpg'; 
 
 const PreviewImg = styled.img`
   width: 100%;
   height: 100%;
- 
 `;
+const DPreviewImg = styled.img`
+  width: 100%;
+  height: 100%;
+  @media only screen and (max-width: 375px) {
+display:none;}
+`;
+const MPreviewImg = styled.img`
+display:none;
+@media only screen and (max-width: 375px) {
+  display:block;
+  width: 100%;
+  height: 100%;
+  
+`;
+const SMPreviewImg = styled.img`
+display:none;
+@media only screen and (max-width: 320px) {
+  display:block;
+  width: 100%;
+  height: 100%;
+  
+`;
+
 
 const ImageDiv = styled.div`
   position:  absolute;
@@ -59,8 +82,8 @@ const PaddingDiv = styled.div`
     padding-bottom: 10px;}
 `;
 const CarouselDiv = styled(Col)`
-padding-left:30px;
-padding-right:30px;
+padding-left:15px;
+padding-right:15px;
 @media only screen and (max-width: 767px) {
   padding-left:0;
   padding-right:0;
@@ -82,13 +105,9 @@ class IdeasPage extends Component {
          <div>
          <ImageContainer>
              <ImageDiv>
-               <PreviewImg  src= {traditionalkitchen} />
+             <PreviewImg  src= {CaroselImg}/>
          </ImageDiv>
          </ImageContainer>
-         <Carousel.Caption className="hero">
-           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
-         </Carousel.Caption>
-         
          </div>
        </Carousel.Item>
        <Carousel.Item>
@@ -98,9 +117,6 @@ class IdeasPage extends Component {
                <PreviewImg  src= {livingroom}/>
          </ImageDiv>
          </ImageContainer>
-         <Carousel.Caption className="hero">
-           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
-         </Carousel.Caption>
          </div>
        </Carousel.Item>
        <Carousel.Item>
@@ -108,12 +124,8 @@ class IdeasPage extends Component {
        <ImageContainer>
              <ImageDiv>
                <PreviewImg src={bedroom}/>
-      
          </ImageDiv>
          </ImageContainer>
-         <Carousel.Caption className="hero">
-           <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
-         </Carousel.Caption>
          </div>
        </Carousel.Item>
        

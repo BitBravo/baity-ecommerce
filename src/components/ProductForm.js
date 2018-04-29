@@ -276,6 +276,12 @@ function getInitState(){
           firstTime: true,
           formError: ""
         },
+        // weight: {
+        //   value: "",
+        //   valid: false,
+        //   firstTime: true,
+        //   formError: ""
+        // },
         price: {
           value: "",
           valid: false,
@@ -316,6 +322,7 @@ class ProductForm extends Component {
       this.state.height.value = this.props.product.height;
       this.state.length.value = this.props.product.length;
       this.state.width.value = this.props.product.width;
+      // this.state.weight.value = this.props.product.weight;
       this.state.price.value = this.props.product.price;
       this.state.name.valid = true;
       this.state.cat.valid = true;
@@ -326,6 +333,7 @@ class ProductForm extends Component {
       this.state.height.valid = true;
       this.state.length.valid = true;
       this.state.width.valid = true;
+      // this.state.weight.valid = true;
       this.state.price.valid = true;
       this.state.formValid = true
       this.state.imagesFromDB = [...this.props.product.images];//just URLs
@@ -403,6 +411,7 @@ class ProductForm extends Component {
           height: {...this.state.height, value: this.props.product.height, valid: true},
           length: {...this.state.length, value: this.props.product.length, valid: true},
           width: {...this.state.width, value: this.props.product.width, valid: true},
+          // weight: {...this.state.weight, value: this.props.product.weight, valid: true},
           price: {...this.state.price, value: this.props.product.price, valid: true},
           formValid: true,
           imagesFromDB: [...nextProps.product.images],
@@ -500,6 +509,7 @@ class ProductForm extends Component {
       name: this.state.name.value,
       price: this.state.price.value,
       width: this.state.width.value,
+      // weight: this.state.weight.value,
       factory: this.state.factory.value
     };
     //if new product add other non form properties
@@ -686,6 +696,15 @@ class ProductForm extends Component {
           ? ""
           : " يجب أن يكون عرض المنتج رقم أكبر من الصفر وأصغر من ١٠٠٠٠ سم";
         break;
+        // case "weight":
+        // let weight = !isNaN(value)
+        //   ? +value
+        //   : -1;
+        // valid = weight > 0 ;
+        // formError = valid
+        //   ? ""
+        //   : " يجب أن يكون وزن المنتج رقم أكبر من الصفر";
+        // break;
       case "height":
         let height = !isNaN(value)
           ? +value
@@ -738,6 +757,7 @@ class ProductForm extends Component {
           this.state.height.valid &&
           this.state.length.valid &&
           this.state.width.valid &&
+          // this.state.weight.valid &&
           this.state.price.valid &&
           (this.state.newImages.length > 0 || this.state.imagesFromDB.length > 0)
       },
@@ -880,6 +900,20 @@ class ProductForm extends Component {
             this.state.height.valid
           )}
         />
+        {/* <FieldGroup
+          id="formControlsProductWeight"
+          type="text"
+          label="الوزن"
+          placeholder="أدخل الوزن بال كم"
+          onChange={this.handleChange}
+          name="weight"
+          value={this.state.weight.value}
+          help={this.state.weight.formError}
+          validationState={this.validationState(
+            this.state.weight.firstTime,
+            this.state.weight.valid
+          )}
+        /> */}
         <FieldGroup
           id="formControlsProductFactory"
           type="text"

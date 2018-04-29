@@ -5,6 +5,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import firebase from "firebase";
 import { app, base, database, storage } from "../base";
 import FirestoreServices from './FirestoreServices';
+import CaroselImg from '../assets/img/CaroselImg.jpg'; 
 import livingroom from '../assets/img/livingroom.jpg';
 import styled from 'styled-components'
 import Loading from "./Loading";
@@ -36,10 +37,10 @@ const PreviewImg = styled.img`
 
 `;
 const ImageCol=styled(Col)`
-height:400px;
+height:280px;
 padding:0;
 @media only screen and (max-width: 767px) {
-  height:250px;
+  height:200px;
   }
 `;
 const UserImg=styled.img`
@@ -94,7 +95,11 @@ class NormalProfileInfo extends Component{
       <Grid style={{backgroundColor:"white"}}>
       <Row  style={{display: 'flex', flexWrap: 'wrap'}}>
         <ImageCol sm={12}  lg={12}>
-          <PreviewImg  src={livingroom}     />
+        {this.state.profile.homeImgUrl
+        ? <PreviewImg  src={this.state.profile.homeImgUrl}  />
+        : <PreviewImg  src={CaroselImg} />
+        }
+          {/* <PreviewImg  src={livingroom}     /> */}
           <div style={{position: 'absolute',top: '10px',left: '20px',width:'25%'}}>
             <Link to={`/updateprofile/`}>
               <SettingtButton>الاعدادات <MdSettings style={{fontSize:"17px",paddingRight:"3px"}}/></SettingtButton>
