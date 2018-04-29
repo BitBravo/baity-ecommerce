@@ -81,12 +81,22 @@ class IdeaBrief extends Component {
           <ImageContainer>
             <ImageDiv>
             <Link to={`/${idea.owner}/ideas/${idea.id}`}>
+            {
             <PreviewImg style={{background:`url(${imgUrl})`,
                                 backgroundSize: "cover",
                                 backgroundRepeat: "no-repeat",
                                 backgroundPosition: "center center"}}
             />
-
+          }
+          {
+          // <PreviewImg
+          //   src={
+          //     idea.images
+          //       ? idea.images[0].thumbnail? idea.images[0].thumbnail : idea.images[0].large
+          //       : "http://via.placeholder.com/243x243"
+          //   }
+          // />
+        }
               {/* <img   src="http://via.placeholder.com/243x243" */}
             </Link>
             </ImageDiv>
