@@ -17,6 +17,7 @@ position:absolute;
 top:50px;
 left: 20px;
 width: 17%;
+height: 40px;
 @media only screen and (max-width: 767px) {
   left: 20px;
   top:70px;
@@ -36,6 +37,8 @@ function MyProdutList(props) {
         </Link>
     </div>
     <hr style={{marginBottom: '30px'}}/>
+    </Col>
+    <Col xs={12}  lg={12} style= {{padding:'0'}} >
     <ProductList thisUserOnly={true} currentUser={props.currentUser}/>
     </Col>
          </Row>

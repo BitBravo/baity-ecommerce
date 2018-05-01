@@ -34,10 +34,18 @@ width:20px;
      font-size:10px;
    `;
 const Button = styled.button`
-  width:180px;
-  @media only screen and (max-width: 767px) {
-    height: 40px;
-    width:100%;
+font-size:15px;
+float:left;
+width:180px;
+height:40px;
+@media only screen and (max-width: 767px) {
+  font-size:12px;
+  height: 35px;
+  width:70%;}
+  @media only screen and (max-width: 500px) {
+    font-size:10px;
+    height: 30px;
+    width:90%;}
   `;
 
 var paginator;
@@ -249,15 +257,14 @@ class ProductList extends Component {
         {this.props.group === 'prof'
         ?<Row   style={{display: 'flex', flexWrap: 'wrap'}}>
         <Col xs={12}  lg={12} >
-        <hr style={{marginBottom: '30px'}}/>
-        <Col xs={5} md={3} lg={2} >
+        <Col xs={5} md={3} lg={2} style={{padding:"0 15px 0 0"}}>
           <Link to={`/newproduct`}>
             <Button>إضافة منتج<IconImg src={Product}/></Button>
           </Link>
           </Col>
           <Col xs={7} md={9} lg={10} >
           <Link to={`/myproducts`}>
-          <h2 style={{color:'rgb(26,156,142)'}}>{title}</h2>
+          <h3 style={{color:'rgb(26,156,142)',fontFamily: 'dinarm'}}>{title}</h3>
           </Link>
           </Col>
           </Col>
@@ -266,7 +273,7 @@ class ProductList extends Component {
 
         <Col xs={9} md={9} lg={10} >
         <Link  to={`/${this.state.owner}/products`}>
-          <h2 style={{color:'rgb(26,156,142)',padding:"0 10px 0 0"}}> المنتجات</h2>
+          <h3 style={{color:'rgb(26,156,142)',padding:"0 10px 0 0",fontFamily: 'dinarm'}}> المنتجات</h3>
           </Link >
           </Col>
          <Col xs={3} md={3} lg={2} style={{padding:"20px 10px 0 0"}} >

@@ -15,19 +15,25 @@ import {MdSettings} from 'react-icons/lib/md';
 import {GoSignOut} from 'react-icons/lib/go';
 
 
+
 const SettingtButton = styled.button`
+font-size:15px;
+float:left;
+width:150px;
+height:40px;
 @media only screen and (max-width: 767px) {
-  height: 30px;
+  height: 25px;
+  width:100px;
 `;
 const LogoutButton = styled.button`
-width:100%px;
+width:80%;
 height: 30px;
 padding:  0;
 background-color:transparent;
 border:1px solid rgb(26, 156, 142);
 color:rgb(26, 156, 142);
 @media only screen and (max-width: 767px) {
-  height: 30px;
+  height: 25px;
   width: 100%;
   font-size:10px;
 `;
@@ -100,7 +106,7 @@ class NormalProfileInfo extends Component{
         : <PreviewImg  src={CaroselImg} />
         }
           {/* <PreviewImg  src={livingroom}     /> */}
-          <div style={{position: 'absolute',top: '10px',left: '20px',width:'25%'}}>
+          <div style={{position: 'absolute',top: '10px',left: '10px',width:'25%'}}>
             <Link to={`/updateprofile/`}>
               <SettingtButton>الاعدادات <MdSettings style={{fontSize:"17px",paddingRight:"3px"}}/></SettingtButton>
             </Link>
