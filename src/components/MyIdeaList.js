@@ -14,6 +14,7 @@ position:absolute;
 top:50px;
 left: 20px;
 width: 17%;
+height: 40px;
 @media only screen and (max-width: 767px) {
   left: 20px;
   top:70px;
@@ -23,16 +24,18 @@ width: 17%;
 
 function MyIdeaList(props) {
     return (
-        <Grid Grid style={{backgroundColor:"white"}}>
-        <Row style={{display: 'flex', flexWrap: 'wrap'}}>
-       <Col sm={12}  lg={12}>
-        <div style={{height:'100px'}}>
-        <h1 style={{color:'rgb(26,156,142)'}}> <IconImg src={Idea} className="icons"/> أفكاري</h1>
+      <Grid style={{backgroundColor:"white"}}>
+      <Row   style={{display: 'flex', flexWrap: 'wrap'}}>
+      <Col xs={12}  lg={12} >
+      <div style={{height:'100px'}}>
+      <h1 style={{color:'rgb(26,156,142)'}}> <IconImg src={Idea} className="icons"/> أفكاري</h1>
         <Link to={`/newidea/`}>
               <Button>اضافة فكرة</Button>
             </Link>
         </div>
         <hr style={{marginBottom: '30px'}}/>
+        </Col>
+        <Col xs={12}  lg={12} style= {{padding:'0'}} >
         <IdeaList thisUserOnly={true} currentUser={props.currentUser}/>
         </Col>  
         </Row>

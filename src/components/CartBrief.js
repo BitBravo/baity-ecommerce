@@ -31,6 +31,27 @@ width:150px;
    height:100px;;
 }
 `
+const Description = styled.p`
+font-size:15px;
+dispaly:block;
+@media only screen and (max-width: 767px) {
+  display:none ;}
+`
+const Mdescription = styled.p`
+display:none;
+    @media only screen and (max-width: 767px) {
+      float:right;
+      font-size:13px;
+      display:block;}
+      @media only screen and (max-width: 550px) {
+        display:none;}
+`
+const Sdescription = styled.p`
+display:none;
+    @media only screen and (max-width: 550px) {
+      font-size:12px;
+      display:block;}
+`
 export class MainCartBrief extends Component {
 
   constructor() {
@@ -49,30 +70,42 @@ export class MainCartBrief extends Component {
     return(
         <Grid>
              <CartRow  >
-             <Col xs={4} sm={2}style={{ padding: '0 ' }} >
+             <Col xs={4} sm={2} md={2}style={{ padding: '0 ' }} >
              <Link to={`/${product.owner}/products/${product.id}`} >
             <ProductImg src={product.images[0].large}/></Link>
              </Col>
-             <Col xs={8} sm={10} style={{ padding: '0 ' }}>
+             <Col xs={8} sm={10} md={10} style={{ padding: '0 ' }}>
              <Col xs={6} sm={5} md={5} lg={5} style={{ padding: '0 10px 0 5px' }}>
-                <h4 style={{ color: 'rgb(26,156,142)', float: 'left' }}>{product.price} ر.س </h4>
+                <h5 style={{ color: 'rgb(26,156,142)', float: 'left' }}>{product.price} ر.س </h5>
               </Col>
-              <Col xs={6} sm={7} md={7} lg={7} style={{ padding: '0' }}>
+              <Col xs={6} sm={7} md={7} lg={7} style={{ padding: '5px 0' }}>
               <Link  style={{color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
-              <h5>{product.name}</h5></Link>
+              <Description style={{color:'rgb(26, 156, 142)'}}>{product.name}</Description>
+              <Mdescription style={{color:'rgb(26, 156, 142)'}}>{product.name}</Mdescription>
+              <Sdescription style={{color:'rgb(26, 156, 142)'}}>{product.name}</Sdescription></Link>
               </Col>
               <Col xs={12} style={{ padding: '0' }}>
-              <Col xs={4} sm={3} md={2} lg={2} style={{ padding: '0 10px 0 5px' }}>
+              <Col xs={4} sm={3} md={2} lg={4} style={{ padding: '0 10px 0 5px' }}>
                 <h6 style={{ color: 'rgb(26,156,142)', float: 'left' }}> الكمية :
                   {product.quantity}
                 </h6>
               </Col>
-              <Col xs={8} sm={9} md={10} lg={10} style={{ padding: '0'}}>
-              <p>{product.desc.substring(0,90)}
+              <Col xs={8} sm={9} md={10} lg={8} style={{ padding: '0'}}>
+              <Description>{product.desc.substring(0,200)}
               <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
               ... المزيد
               </Link>
-              </p>
+              </Description>
+              <Mdescription>{product.desc.substring(0,120)}
+              <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
+              ... المزيد
+              </Link>
+              </Mdescription>
+              <Sdescription>{product.desc.substring(0,40)}
+              <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
+              ... المزيد
+              </Link>
+              </Sdescription>
               </Col>
              </Col>
               <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>

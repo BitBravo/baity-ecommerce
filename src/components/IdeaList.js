@@ -19,13 +19,21 @@ width:20px;
  @media only screen and (max-width: 767px) {
   width:15px;
   height:15px;
-  margin-right:0px;
+  margin-right:2px;
  }`
 const Button = styled.button`
+font-size:15px;
+float:left;
 width:180px;
+height:40px;
 @media only screen and (max-width: 767px) {
-  height: 40px;
-  width:100%;
+  font-size:12px;
+  height: 35px;
+  width:70%;}
+  @media only screen and (max-width: 500px) {
+    font-size:10px;
+    height: 30px;
+    width:90%;}
 `;
 const MoreButton = styled.button`
 background-color:transparent;
@@ -187,14 +195,14 @@ next(){
         ?<Row   style={{display: 'flex', flexWrap: 'wrap'}}>
         <Col xs={12}  lg={12} >
 
-        <Col xs={5} md={3} lg={2} >
+        <Col xs={5} md={3} lg={2} style={{padding:"0 15px 0 0"}}>
         <Link to={`/newidea`}>
             <Button>إضافة فكرة<IconImg src={Idea} /></Button>
           </Link>
           </Col>
           <Col xs={7} md={9} lg={10} >
           <Link to={`/myideas`}>
-          <h2 style={{color:'rgb(26,156,142)'}}>{title}</h2>
+          <h3 style={{color:'rgb(26,156,142)',fontFamily: 'dinarm'}}>{title}</h3>
           </Link>
           </Col>
           </Col>
@@ -202,7 +210,7 @@ next(){
          :<Row style={{display: 'flex', flexWrap: 'wrap'}}>
          <Col xs={9} md={9} lg={10} >
            <Link  to={`/${this.state.owner}/ideas`}>
-           <h2 style={{color:'rgb(26,156,142)',padding:"10px"}}>{title} </h2>
+           <h3 style={{color:'rgb(26,156,142)',padding:"10px",fontFamily: 'dinarm'}}>{title} </h3>
            </Link >
            </Col>
           <Col xs={3} md={3} lg={2} style={{padding:"20px 10px 0 0"}} >
