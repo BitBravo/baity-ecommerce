@@ -843,7 +843,9 @@ export default {
 	  var oldName = path.substr(path.lastIndexOf('%2F')+3);
     path = path.replace(oldName, thumbPre + oldName);
     path = path.replace("%2F", "/");
-    path = path.replace("%2F", "/");
+    if (path.includes("%2F")){
+      path = path.replace("%2F", "/");
+    }
     const storagePath = this.productImages.child(`${path}`);
     this.deleteThumbnail(storagePath);
     //delete original image "large" using url
@@ -975,7 +977,9 @@ export default {
 	  var oldName = path.substr(path.lastIndexOf('%2F')+3);
     path = path.replace(oldName, thumbPre + oldName);
     path = path.replace("%2F", "/");
-    path = path.replace("%2F", "/");
+    if (path.includes("%2F")){
+      path = path.replace("%2F", "/");
+    }
     const storagePath = this.ideaImages.child(`${path}`);
     //storagePath.delete();
     this.deleteThumbnail(storagePath);
@@ -1020,8 +1024,14 @@ export default {
       }
     })
     })
+  },
+  copyImages(){
+    this.products.get().then(docs => {
+      docs.forEach(doc => {
+          this.products.doc(doc.id).update({images: doc.data().imagesTemp})
+      })
+    })
   }
-
   /**
    * This method is used to insert a new item into basket into DB
    */
