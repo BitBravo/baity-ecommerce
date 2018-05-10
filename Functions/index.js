@@ -31,6 +31,8 @@ admin.initializeApp({
 
 exports.generateThumbnail = require('./generateThumbnail');
 exports.onPurchaseComplete = require('./onPurchaseComplete');
+//exports.largeToThumbnail = require('./largeToThumbnail');
+
 
 //
 // // [START sendConfirmationEmails]
