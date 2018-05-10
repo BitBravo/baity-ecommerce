@@ -10,35 +10,36 @@ let STORAGE_BASE = storage.ref();
 /* DATABASE AND STORGAE REFERENCES FOR TESTING*/
 let testPrefix = "test-"; //change this to switch from test tables to production tables
 
-let _PRODUCTS_PATH = testPrefix + "product"; //change me by removing test
-let _IDEAS_PATH = testPrefix + "idea";
-let _BUSINESSES_PATH = testPrefix + "business"; //change me by removing test
-let _LIKES_PATH = testPrefix + "likes";
-let _GROUPS_PATH = testPrefix + "group"; //change me by removing test
-let _BUSINESS_LOGOS_PATH = testPrefix + "businessLogo";
-let _PRODUCT_IMAGES_PATH = testPrefix + "productImages";
-let _IDEA_IMAGES_PATH = testPrefix + "ideaImages";
-let _PROFILE_IMAGES_PATH = testPrefix + "profileImage";
-let _PROF_PATH = testPrefix + "professional";
-let _NORMAL_PATH = testPrefix + "normal";
-let _BASKET_PATH = testPrefix + "basket";
-let _BUSINESS_HOMEIMGS_PATH = testPrefix + "businessHomeImgs";
-let _PROFILE_HOMEIMGS_PATH = testPrefix + "profileHomeImages";
+// let _PRODUCTS_PATH = testPrefix + "product"; //change me by removing test
+// let _IDEAS_PATH = testPrefix + "idea";
+// let _BUSINESSES_PATH = testPrefix + "business"; //change me by removing test
+// let _LIKES_PATH = testPrefix + "likes";
+// let _GROUPS_PATH = testPrefix + "group"; //change me by removing test
+// let _BUSINESS_LOGOS_PATH = testPrefix + "businessLogo";
+// let _PRODUCT_IMAGES_PATH = testPrefix + "productImages";
+// let _IDEA_IMAGES_PATH = testPrefix + "ideaImages";
+// let _PROFILE_IMAGES_PATH = testPrefix + "profileImage";
+// let _PROF_PATH = testPrefix + "professional";
+// let _NORMAL_PATH = testPrefix + "normal";
+// let _BASKET_PATH = testPrefix + "basket";
+// let _BUSINESS_HOMEIMGS_PATH = testPrefix + "businessHomeImgs";
+// let _PROFILE_HOMEIMGS_PATH = testPrefix + "profileHomeImages";
 
 /* DATABASE AND STORGAE REFERENCES FOR TESTING*/
-// let _PRODUCTS_PATH = "product"; //change me by removing test
-// let _IDEAS_PATH = "idea";
-// let _BUSINESSES_PATH = "business"; //change me by removing test
-// let _LIKES_PATH = "likes";
-// let _GROUPS_PATH = "group"; //change me by removing test
-// let _BUSINESS_LOGOS_PATH = "businessLogo";
-// let _PRODUCT_IMAGES_PATH = "productImages";
-// let _IDEA_IMAGES_PATH = "ideaImages";
-// let _PROFILE_IMAGES_PATH = "profileImage";
-// let _PROF_PATH = "professional";
-// let _NORMAL_PATH = "normal";
-// let _BASKET_PATH = "basket";
-
+let _PRODUCTS_PATH = "product"; //change me by removing test
+let _IDEAS_PATH = "idea";
+let _BUSINESSES_PATH = "business"; //change me by removing test
+let _LIKES_PATH = "likes";
+let _GROUPS_PATH = "group"; //change me by removing test
+let _BUSINESS_LOGOS_PATH = "businessLogo";
+let _PRODUCT_IMAGES_PATH = "productImages";
+let _IDEA_IMAGES_PATH = "ideaImages";
+let _PROFILE_IMAGES_PATH = "profileImage";
+let _PROF_PATH = "professional";
+let _NORMAL_PATH = "normal";
+let _BASKET_PATH = "basket";
+let _BUSINESS_HOMEIMGS_PATH = "businessHomeImgs";
+let _PROFILE_HOMEIMGS_PATH = "profileHomeImages";
 
 // firestore references
 let _REF_BASE = DB_BASE;
@@ -308,7 +309,7 @@ export default {
           console.log(profileData);
           errorHandler(error.message);
         });
-    } 
+    }
     catch (error) {
       errorHandler(error);
     }
@@ -319,7 +320,7 @@ export default {
   //provided by form/formUpdater
   normalUserProfileHelper(profileData, errorHandler, successHandler) {
     console.log('FirestoreServices.normalUserProfileHelper')
-   
+
     try {
       var normalUserProfileRef = this.normalUsers.doc(`${profileData.id}`);
       if (profileData.newImage) {
@@ -342,9 +343,9 @@ export default {
           console.log(profileData);
           errorHandler(error.message);
         });
-    } else {       
+    } else {
       console.log(normalUserProfileRef)
-      
+
       normalUserProfileRef
         .update({
           homeImgUrl: profileData.homeImgUrl,
@@ -353,7 +354,7 @@ export default {
           phone: profileData.phone,
           name: profileData.name,
           // email: profileData.email,
-         
+
         })
         .then(() => {
           console.log(profileData);
@@ -367,10 +368,10 @@ export default {
           errorHandler(error.message);
         });
     }
-  } 
+  }
   catch (error) {
       errorHandler(error);
-    } 
+    }
   },
 
 
@@ -446,8 +447,8 @@ export default {
             next(imgUrl);
 
           }
-         
-        ); //updateTask.on  
+
+        ); //updateTask.on
     },
     uploadProfProfileHomeImage(uid, newHImage, progressHandler, errorHandler, next){
       //1- upload the image of the profile.
@@ -546,7 +547,7 @@ export default {
           successHandler
         );
       }
-      
+
     },
     updateProfProfileHomeImg(uid, profileData, errorHandler, successHandler, progressHandler){
       console.log('FirebaseServices.updateProfProfile')
@@ -578,7 +579,7 @@ export default {
         );
       }
     },
-    
+
     //Main method to update a normal user profile
     updateNormalUserProfile(uid, profileData, errorHandler, successHandler, progressHandler){
       console.log('FirebaseServices.updateNormalProfile')
@@ -609,7 +610,7 @@ export default {
           successHandler
         );
       }
-      
+
     },
     updateNorProfileHomeImg(uid, profileData, errorHandler, successHandler, progressHandler){
       console.log('FirebaseServices.updateProfProfile')
@@ -842,7 +843,9 @@ export default {
 	  var oldName = path.substr(path.lastIndexOf('%2F')+3);
     path = path.replace(oldName, thumbPre + oldName);
     path = path.replace("%2F", "/");
-    path = path.replace("%2F", "/");
+    if (path.includes("%2F")){
+      path = path.replace("%2F", "/");
+    }
     const storagePath = this.productImages.child(`${path}`);
     this.deleteThumbnail(storagePath);
     //delete original image "large" using url
@@ -974,7 +977,9 @@ export default {
 	  var oldName = path.substr(path.lastIndexOf('%2F')+3);
     path = path.replace(oldName, thumbPre + oldName);
     path = path.replace("%2F", "/");
-    path = path.replace("%2F", "/");
+    if (path.includes("%2F")){
+      path = path.replace("%2F", "/");
+    }
     const storagePath = this.ideaImages.child(`${path}`);
     //storagePath.delete();
     this.deleteThumbnail(storagePath);
@@ -1019,8 +1024,14 @@ export default {
       }
     })
     })
+  },
+  copyImages(){
+    this.products.get().then(docs => {
+      docs.forEach(doc => {
+          this.products.doc(doc.id).update({images: doc.data().imagesTemp})
+      })
+    })
   }
-
   /**
    * This method is used to insert a new item into basket into DB
    */

@@ -10,8 +10,8 @@ const os = require('os');
 const fs = require('fs');
 
 // Max height and width of the thumbnail in pixels.
-const THUMB_MAX_HEIGHT = 200;
-const THUMB_MAX_WIDTH = 200;
+const THUMB_MAX_HEIGHT = 400;
+const THUMB_MAX_WIDTH = 400;
 // Thumbnail prefix added to file names.
 const THUMB_PREFIX = 'thumb_';
 
@@ -119,7 +119,7 @@ exports = module.exports = functions.storage.object().onFinalize((object) => {
     console.log('The file has been downloaded to', tempLocalFile);
     // Generate a thumbnail using ImageMagick.
     return spawn('convert', [tempLocalFile, '-thumbnail', `${THUMB_MAX_WIDTH}x${THUMB_MAX_HEIGHT}>`,
-     '-background', `white`,'-gravity', 'center', tempLocalThumbFile],
+     '-background', `white`,'-gravity', 'center', '-extent', `${THUMB_MAX_WIDTH}x${THUMB_MAX_HEIGHT}`,  tempLocalThumbFile],
       {capture: ['stdout', 'stderr']});
   }).then(() => {
     console.log('Thumbnail created at', tempLocalThumbFile);

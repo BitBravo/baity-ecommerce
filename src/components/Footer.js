@@ -103,7 +103,7 @@ class Footer extends Component {
              {!this.props.authenticated ? (
                 <LinkContainer to="/login" activeClassName="activePage">
                     {/* <UserImg src={logo_placeholder}/> */}
-                  <span> 
+                  <span>
                     <IconImg src={ActiveProfile} className="activeIcons"/>
                     <IconImg src={Profile} className="icons"/>
                     <UserName > حسابي </UserName>
@@ -111,15 +111,16 @@ class Footer extends Component {
                 </LinkContainer>
             ) : (
 
-              <LinkContainer to="/myprofile" activeClassName="imgActivePage" 
-              // style={{display:'block',marginLeft:'auto',marginRight:'auto',padding:'0'}} 
+              <LinkContainer to="/myprofile" activeClassName="imgActivePage"
+              // style={{display:'block',marginLeft:'auto',marginRight:'auto',padding:'0'}}
               >
                  {this.props.userImg
                    ?<UserImg src={this.props.userImg}/>
                    :<UserImg src={logo_placeholder}/>
                   }
+
               </LinkContainer>
-                   
+
 
           )}
        </MobileDiv >

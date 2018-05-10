@@ -316,9 +316,6 @@ class ProductList extends Component {
 
         : <div>{
               products.map((product, index) => {
-                console.log("large " + product.data().images[0].large);
-                console.log("thumbnail " + product.data().images[0].thumbnail);
-
               return <ProductBrief key={product.id} product={product.data()} />;
             })
           }</div>

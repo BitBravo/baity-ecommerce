@@ -39,7 +39,7 @@ const MPaddingDiv = styled.div`
     height: 110px;
     display:block;}
     @media only screen and (max-width: 623px) {
-      display:none; 
+      display:none;
     }
 `
 const SPaddingDiv = styled.div`
@@ -160,7 +160,6 @@ font-family: 'dinarm';
                 //     : "http://via.placeholder.com/243x243"
                 // }
               />
-              {console.log("thumbnail " + product.images[0].thumbnail)}
               {/* <img   src="http://via.placeholder.com/243x243" */}
             </Link>
             </ImageDiv>
@@ -168,17 +167,17 @@ font-family: 'dinarm';
 
           <PaddingDiv >
           <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'35px'}}>
-           
+
              <DescriptionCol xs ={5} md={4}  >
                <p style={{color:'rgb(26, 156, 142)',float:'left'}}>{product.price} ر.س</p>
              </DescriptionCol>
-           
+
             <Link to={`/${product.owner}/products/${product.id}`} style={{color:'black'}} >
              <DescriptionCol xs ={6}md={7}>
              <p style={{color:'black'}}> {product.name} </p>
              </DescriptionCol>
              </Link>
-            
+
              <Col xs ={1}  style={{padding:'4px 0 0 0'}}>
              <IconImg src={Product} className="icons"/> </Col>
              </div>
@@ -189,7 +188,7 @@ font-family: 'dinarm';
               ... المزيد
               </Link>
               </p >
-           
+
             <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
                 <p > من:
                   <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
@@ -197,23 +196,23 @@ font-family: 'dinarm';
                   </Link>
                 </p>
             </div>
-          
+
           </PaddingDiv>
 
 
            <MPaddingDiv >
           <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'35px'}}>
-           
+
              <DescriptionCol xs ={5} md={4}  >
                <p style={{color:'rgb(26, 156, 142)',float:'left'}}>{product.price} ر.س</p>
              </DescriptionCol>
-           
+
             <Link to={`/${product.owner}/products/${product.id}`} style={{color:'black'}} >
              <DescriptionCol xs ={6}md={7}>
              <p style={{color:'black'}}> {product.name.substring(0,22)} </p>
              </DescriptionCol>
              </Link>
-            
+
              <Col xs ={1}  style={{padding:'5px 0 0 0'}}>
              <IconImg src={Product} className="icons"/> </Col>
              </div>
@@ -224,7 +223,7 @@ font-family: 'dinarm';
               ... المزيد
               </Link>
               </p >
-           
+
             <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
                 <p> من:
                   <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
@@ -232,22 +231,22 @@ font-family: 'dinarm';
                   </Link>
                 </p>
             </div>
-          
+
           </MPaddingDiv>
 
            <SPaddingDiv >
           <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'30px'}}>
-           
+
              <DescriptionCol xs ={5} md={4}  >
                <p style={{color:'rgb(26, 156, 142)',float:'left'}}>{product.price} ر.س</p>
              </DescriptionCol>
-           
+
             <Link to={`/${product.owner}/products/${product.id}`} style={{color:'black'}} >
              <DescriptionCol xs ={6}md={7}>
              <p style={{color:'black',padding:'0 5px 0 0'}}> {product.name.substring(0,20)} </p>
              </DescriptionCol>
              </Link>
-            
+
              <Col xs ={1}  style={{padding:'5px 0 0 0'}}>
              <IconImg src={Product} className="icons"/> </Col>
              </div>
@@ -258,7 +257,7 @@ font-family: 'dinarm';
               ... المزيد
               </Link>
               </p >
-           
+
             <div style={{ display: 'inline-block', position: 'absolute', bottom: '0'}}>
                 <p > من:
                   <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
@@ -266,22 +265,22 @@ font-family: 'dinarm';
                   </Link>
                 </p>
             </div>
-          
+
           </SPaddingDiv>
-          
+
           <XSPaddingDiv >
           <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'30px'}}>
-           
+
              <DescriptionCol xs ={5} md={4}  >
                <p style={{color:'rgb(26, 156, 142)',float:'left'}}>{product.price} ر.س</p>
              </DescriptionCol>
-           
+
             <Link to={`/${product.owner}/products/${product.id}`} style={{color:'black'}} >
              <DescriptionCol xs ={6}md={7}>
              <p style={{color:'black',padding:'0 5px 0 0'}}> {product.name.substring(0,12)} </p>
              </DescriptionCol>
              </Link>
-            
+
              <Col xs ={1}  style={{padding:'5px 0 0 0'}}>
              <IconImg src={Product} className="icons"/> </Col>
              </div>
@@ -292,7 +291,7 @@ font-family: 'dinarm';
               ... المزيد
               </Link>
               </p >
-           
+
             <div style={{ display: 'inline-block', position: 'absolute', bottom: '0'}}>
                 <p > من:
                   <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
@@ -300,7 +299,7 @@ font-family: 'dinarm';
                   </Link>
                 </p>
             </div>
-          
+
           </XSPaddingDiv>
         </MyThumbnailDiv>
       </MyThumbnailCol>
