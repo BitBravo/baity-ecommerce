@@ -36,6 +36,7 @@ const ImageDiv = styled.div`
 const ImageContainer = styled.div`
 width: 100%;
 height: 100%;
+height:395px;
 
 `;
 const Button = styled.button`
@@ -68,7 +69,7 @@ font-size: 35px;
   <div>
 
     <div >
-  <Carousel indicators={false}>
+  <Carousel controls={false}>
       <Carousel.Item>
         <div>
           <ImageContainer>

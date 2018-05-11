@@ -22,9 +22,18 @@ import livingroom from '../assets/img/livingroom.jpg';
 import Categories from './Categories';
 import productPageCarosel from '../assets/img/productPageCarosel.jpg';
 import productPageCarosel2 from '../assets/img/productPageCarosel2.jpg';
+import productPageCarosel3 from '../assets/img/productPageCarosel3.jpg';
+import productPageCarosel4 from '../assets/img/productPageCarosel4.jpg';
+import productPageCarosel5 from '../assets/img/productPageCarosel5.jpg';
+import productPageCarosel6 from '../assets/img/productPageCarosel6.jpg';
 import mproductPageCarosel from '../assets/img/mProductPageCarosel.jpg';
 import mproductPageCarosel2 from '../assets/img/mProductPageCarosel2.jpg';
+import mproductPageCarosel3 from '../assets/img/mProductPageCarosel3.jpg';
+import mproductPageCarosel4 from '../assets/img/mProductPageCarosel4.jpg';
+import mproductPageCarosel5 from '../assets/img/mProductPageCarosel5.jpg';
+import mproductPageCarosel6 from '../assets/img/mProductPageCarosel6.jpg';
 import smproductPageCarosel from '../assets/img/SmallMopilesPimg.jpg';
+import smproductPageCarosel2 from '../assets/img/SmallMopilesPimg2.jpg';
 
 const PreviewImg = styled.img`
   width: 100%;
@@ -68,6 +77,7 @@ const ImageDiv = styled.div`
 const ImageContainer = styled.div`
 width: 100%;
 height: 100%;
+height:300px
 `;
 const Select = styled.select`
 background-color: rgb(26, 156, 142);
@@ -86,7 +96,7 @@ border-radius: 0;
 }
 `
 const Filter = styled.div`
-margin-top:10px;
+margin-top:-5px;
 @media only screen and (max-width: 767px){
   position:fixed;
   margin-top:0;
@@ -113,9 +123,10 @@ const PaddingDiv = styled.div`
 const CarouselDiv = styled(Col)`
 padding-left:15px;
 padding-right:15px;
-
+margin-top:17px;
 @media only screen and (max-width: 767px) {
   padding:0;
+  margin-top:33px;
 `
 
 const DepartmentList = [
@@ -418,10 +429,10 @@ class ProductsPage extends Component {
 
 <CarouselDiv sm={8} xs={12} >
 
-  <Carousel  indicators={false}>
-      <Carousel.Item>
-        <div>
-        <ImageContainer>
+  <Carousel   controls={false} >
+      <Carousel.Item > 
+        <div >
+        <ImageContainer >
             <ImageDiv>
               <DPreviewImg  src= {productPageCarosel} />
               <MPreviewImg  src= {mproductPageCarosel} />
@@ -437,23 +448,60 @@ class ProductsPage extends Component {
             <ImageDiv>
               <DPreviewImg  src= {productPageCarosel2}/>
               <MPreviewImg  src= {mproductPageCarosel2}/>
+              <SMPreviewImg  src= {smproductPageCarosel2} />
 
         </ImageDiv>
         </ImageContainer>
         </div>
       </Carousel.Item>
-      <Carousel.Item>
-      <div>
-      <ImageContainer>
+      <Carousel.Item > 
+        <div >
+        <ImageContainer >
             <ImageDiv>
-              <DPreviewImg src={bedroom}/>
-              <MPreviewImg src={bedroom}/>
+              <DPreviewImg  src= {productPageCarosel3} />
+              <MPreviewImg  src= {mproductPageCarosel3} />
+              <SMPreviewImg  src= {smproductPageCarosel} />
 
         </ImageDiv>
         </ImageContainer>
         </div>
       </Carousel.Item>
+      <Carousel.Item > 
+        <div >
+        <ImageContainer >
+            <ImageDiv>
+              <DPreviewImg  src= {productPageCarosel4} />
+              <MPreviewImg  src= {mproductPageCarosel4} />
+              <SMPreviewImg  src= {smproductPageCarosel} />
 
+        </ImageDiv>
+        </ImageContainer>
+        </div>
+      </Carousel.Item>
+      <Carousel.Item > 
+        <div >
+        <ImageContainer >
+            <ImageDiv>
+              <DPreviewImg  src= {productPageCarosel5} />
+              <MPreviewImg  src= {mproductPageCarosel5} />
+              <SMPreviewImg  src= {smproductPageCarosel} />
+
+        </ImageDiv>
+        </ImageContainer>
+        </div>
+      </Carousel.Item>
+      <Carousel.Item > 
+        <div >
+        <ImageContainer >
+            <ImageDiv>
+              <DPreviewImg  src= {productPageCarosel6} />
+              <MPreviewImg  src= {mproductPageCarosel6} />
+              <SMPreviewImg  src= {smproductPageCarosel} />
+
+        </ImageDiv>
+        </ImageContainer>
+        </div>
+      </Carousel.Item>
     </Carousel>
  </CarouselDiv>
    </Row>

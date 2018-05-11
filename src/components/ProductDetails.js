@@ -80,7 +80,6 @@ const PreviewImg = styled.img`
     left: 0;
     right: 0;
     bottom: 0;
-
 `;
 
 const ImageDiv = styled.div`
@@ -97,7 +96,7 @@ const ImageDiv = styled.div`
 
 const ImageContainer = styled.div`
 width: 100%;
-height: 100%;
+height:70vh;
 
 `;
 
