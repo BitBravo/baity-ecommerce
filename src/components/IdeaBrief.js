@@ -18,36 +18,45 @@ height:20px;
     height:12px;
   }
 `
+const IdeaNameCol = styled(Col)`
+border-bottom:dotted 1px lightgray;
+height:28px;
+margin-top:3px;
+@media only screen and (max-width: 500px) {
+  height:18px;
 
+}
+`
 const PaddingDiv = styled.div`
  font-size:95%;
-  padding-right: 5px;
-  padding-left: 5px;
-  height: 110px;
-  line-height:18px;
+ padding: 5px 5px 0 5px;
+  height: 120px;
+  line-height:22px;
   @media only screen and (max-width: 1199px) {
-    line-height:18px;
+    line-height:22px;
     font-size:90%;
-    padding: 0 5px 0 5px;
-    height: 110px;
+    padding: 5px 5px 0 5px;
+    height: 120px;
     display:block;}
     @media only screen and (max-width: 623px) {
       line-height:16px;
       font-size:70%;
-      padding: 0 5px 0 5px;
+      padding: 5px 5px 0 5px;
       height: 100px;
       display:block;
       }
       @media only screen and (max-width: 500px) {
         display:block;
-        padding: 0 5px 0 5px;
-        line-height:16px;
+        padding: 5px 5px 0 5px;
+        line-height:13px;
         font-size:60%;
-        height:90px;
+        height:80px;
       }
 `
 const Description = styled.p`
 display:block;
+padding-top:40px;
+padding-bottom:10px;
 @media only screen and (max-width: 1199px) {
   display:none;}
 
@@ -55,15 +64,21 @@ display:block;
 const MDescription = styled.p`
 display:none;
 @media only screen and (max-width: 1199px) {
-  display:block;}
+  display:block;
+  padding-top:40px;
+  padding-bottom:10px;}
   @media only screen and (max-width: 500px) {
     display:none;}
   `
 const SDescription = styled.p`
 display:none;
 @media only screen and (max-width: 500px) {
-  display:block;}
+  display:block;
+  padding-top:27px;
+  padding-bottom:3px;
+}
 `
+
 const MyThumbnailCol = styled(Col)`
 padding-left:10px;
 padding-right:10px;
@@ -168,19 +183,16 @@ class IdeaBrief extends Component {
           </ImageContainer>
 
           <PaddingDiv>
-          <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'35px'}}>
-
             <Link to={`/${idea.owner}/ideas/${idea.id}`} style={{color:'black'}}>
-            <Col xs ={11} style={{marginTop:'5px',paddingLeft:'0',paddingRight:'0'}}>
+            <IdeaNameCol xs ={11} style={{paddingLeft:'0',paddingRight:'0'}}>
               <p style={{color:'black',fontFamily: 'dinarm',paddingRight:'1px'}}>
               {idea.name}
               </p>
-              </Col>
+              </IdeaNameCol>
              </Link>
-             <Col xs ={1}  style={{padding:'5px 0 15px 0'}}>
+             <IdeaNameCol xs ={1}  style={{padding:'0 0 15px 0'}}>
              <IconImg src={Idea} className="icons"/> 
-             </Col>
-
+             </IdeaNameCol>
              <Description className="flex-text text-muted">{idea.desc.substring(0,105)}
                <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${idea.owner}/ideas/${idea.id}`}>
                ... المزيد
@@ -204,7 +216,7 @@ class IdeaBrief extends Component {
                   </Link>
                 </p>
                 </div>
-                </div>
+            
           </PaddingDiv>
         </MyThumbnailDiv>
       </MyThumbnailCol>

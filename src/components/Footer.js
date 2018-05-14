@@ -26,8 +26,8 @@ padding-right:7px;
 }
 `
 const IconImg = styled.img`
-width:22px;
- height:22px;
+width:25px;
+ height:25px;
 ;`
 const UserImg = styled.img`
 width:30px;
@@ -40,7 +40,7 @@ display:block;
 margin-left:auto;
 margin-right:auto;
 text-align:center;
-font-size:8px;
+font-size:10px;
 padding:0;
 margin-bottom:1px;
 color:inherit;

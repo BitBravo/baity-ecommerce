@@ -110,8 +110,8 @@ hr {
     padding: 0;
 }
 .icons { 
+    display: inline-block;
     margin-left:7px;
- 
 }
 .activePage .icons { 
     display: none;
@@ -124,6 +124,7 @@ hr {
 .activePage .activeIcons { 
     display: inline-block;
     margin-left:7px;
+    
 }
 .imgActivePage{
     border:solid rgb(26, 156, 142) 2px;
@@ -592,14 +593,14 @@ margin-bottom: 10px;
               .activePage{ 
                 background-color: rgb(247, 247, 247);
                 color: rgb(26, 156, 142);
+                text-align: center;
             }
               .icons { 
-                margin:0 0 1px 0;
-  
+                margin:0 0 1px 0 ;
             }
             .activePage .icons { 
                 display: none;
-      
+              
    
             }
             .activeIcons { 
@@ -615,7 +616,9 @@ margin-bottom: 10px;
             }
             .activePage .activeIcons { 
                 display: inline-block;
-                margin:0 0 1px 0;
+                margin:0 0 1px 0 ;
+
+
             }
             
             .imgActivePage{
@@ -664,6 +667,7 @@ margin-bottom: 10px;
                 height: auto;
                 width: 100%;
                 background-color: rgb(247,247,247);
+                text-align: center;
             }
               .rightglyphicon{
               

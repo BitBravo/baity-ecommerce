@@ -25,18 +25,18 @@ const PaddingDiv = styled.div`
  font-size:95%;
   padding-right: 5px;
   padding-left: 5px;
-  height: 110px;
-  line-height:18px;
+  height: 120px;
+  line-height:22px;
   @media only screen and (max-width: 1199px) {
    display:none;}
 `
 const MPaddingDiv = styled.div`
   display:none;
   @media only screen and (max-width: 1199px) {
-    line-height:18px;
+    line-height:20px;
     font-size:90%;
     padding: 0 5px 0 5px;
-    height: 110px;
+    height: 120px;
     display:block;}
     @media only screen and (max-width: 623px) {
       display:none;
@@ -60,9 +60,9 @@ const XSPaddingDiv = styled.div`
     @media only screen and (max-width: 500px) {
       display:block;
       padding: 0 5px 0 5px;
-      line-height:16px;
+      line-height:13px;
       font-size:60%;
-      height:90px;
+      height:80px;
     }
 `
 const MyThumbnailCol = styled(Col)`
@@ -121,7 +121,7 @@ const ImageContainer = styled.div`
 const DescriptionCol = styled(Col)`
 padding-right:0;
 padding-left:0;
-margin-top:5px;
+padding-top:5px;
 font-family: 'dinarm';
 `
 
@@ -168,12 +168,12 @@ font-family: 'dinarm';
           <PaddingDiv >
           <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'35px'}}>
 
-             <DescriptionCol xs ={5} md={4}  >
+             <DescriptionCol xs ={5} md={3}  >
                <p style={{color:'rgb(26, 156, 142)',float:'left'}}>{product.price} ر.س</p>
              </DescriptionCol>
 
             <Link to={`/${product.owner}/products/${product.id}`} style={{color:'black'}} >
-             <DescriptionCol xs ={6}md={7}>
+             <DescriptionCol xs ={6} md={8}>
              <p style={{color:'black'}}> {product.name} </p>
              </DescriptionCol>
              </Link>
@@ -182,7 +182,7 @@ font-family: 'dinarm';
              <IconImg src={Product} className="icons"/> </Col>
              </div>
 
-            <p >
+            <p style={{paddingTop:'10px',paddingBottom:'10px'}}>
               {product.desc.substring(0,105)}
               <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
               ... المزيد
@@ -217,7 +217,7 @@ font-family: 'dinarm';
              <IconImg src={Product} className="icons"/> </Col>
              </div>
 
-            <p >
+            <p style={{paddingTop:'10px',paddingBottom:'10px'}}>
               {product.desc.substring(0,90)}
               <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
               ... المزيد
@@ -251,7 +251,7 @@ font-family: 'dinarm';
              <IconImg src={Product} className="icons"/> </Col>
              </div>
 
-            <p >
+            <p style={{paddingTop:'5px'}}>
               {product.desc.substring(0,90)}
               <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
               ... المزيد
@@ -269,7 +269,7 @@ font-family: 'dinarm';
           </SPaddingDiv>
 
           <XSPaddingDiv >
-          <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'30px'}}>
+          <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'23px'}}>
 
              <DescriptionCol xs ={5} md={4}  >
                <p style={{color:'rgb(26, 156, 142)',float:'left'}}>{product.price} ر.س</p>
@@ -285,7 +285,7 @@ font-family: 'dinarm';
              <IconImg src={Product} className="icons"/> </Col>
              </div>
 
-            <p >
+            <p style={{paddingTop:'3px'}}>
               {product.desc.substring(0,60)}
               <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
               ... المزيد
