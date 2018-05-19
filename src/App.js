@@ -58,8 +58,7 @@ class App extends Component {
         if (value.group === "prof") {
               owner = user.uid
           var ref= FirestoreServices.businesses.where("owner", "==", owner)
-          .get()
-          .then(snapshot => {
+          .onSnapshot(snapshot => {
             snapshot.forEach(val => {
               window.localStorage.setItem(userImgStorageKey, val.imgUrl);
               this.setState({
@@ -85,22 +84,29 @@ class App extends Component {
       
     
         }else if (value.group === "normal"){
-          FirestoreServices.readDBRecord('normalUser', `${user.uid}`)
-            .then(val => {
-              //cache username value and group value
-              window.localStorage.setItem(groupStorageKey, value.group);
-              window.localStorage.setItem(userNameStorageKey, val.name);
+          var ref= FirestoreServices.normalUsers.where("uid" , "==", `${user.uid}`)
+          .onSnapshot(snapshot => {
+            snapshot.forEach(val => {
               window.localStorage.setItem(userImgStorageKey, val.imgUrl);
+              this.setState({
+                userImg: val.data().imgUrl
+              })
+            })
+          })
+          FirestoreServices.readDBRecord('normalUser', `${user.uid}`)
+          .then(val => {
+              //cache username value and group value
+              window.localStorage.setItem(groupStorageKey, val.group);
+              window.localStorage.setItem(userNameStorageKey, val.name);
 
               this.setState({currentUser: user,
               authenticated: true,
-              group: value.group,
+              group: val.group,
               userName: val.name,
-              userImg: val.imgUrl,
               })
               var b = this.getCart(user)
               return b;
-              })
+            })
 
         }
       }
@@ -134,7 +140,7 @@ class App extends Component {
       window.localStorage.removeItem(groupStorageKey);
       window.localStorage.removeItem(userNameStorageKey);
       window.localStorage.removeItem(userImgStorageKey);
-
+      
       // 2- clean up state
       this.setState({
         currentUser: null,
@@ -144,18 +150,15 @@ class App extends Component {
         userCart:"",
         userImg:"",
         owner: ""
-      })
+            })
     }
   }
 getCart(user){
-  console.log("val.childCount ");
-
   // get items in basket
   //FirestoreServices.getBasket()
   FirebaseServices.basket.child(`${user.uid}/items`).once('value', snapshot => {
       // Listen for document metadata changes
     console.log("val.childCount " + snapshot.numChildren());
-
     this.setState({
       cartCount: snapshot.numChildren()})
     return snapshot.numChildren()
@@ -253,7 +256,6 @@ updateCart(add, remove) {
             cart={this.state.cartCount}
             setCurrentUser={this.setCurrentUser}
             userImg={this.state.userImg}
-            userCart={this.state.userCart}
           />
           <Main
             authenticated={this.state.authenticated}

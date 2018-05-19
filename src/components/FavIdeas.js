@@ -169,7 +169,7 @@ class FavIdeas extends Component {
         ? <div><h2 style={{color:'rgb(26,156,142)'}}>الأفكار المفضلة</h2>
           <h5> ليس لديك أفكار مفضلة </h5> </div>
         : <div>
-          <Col xs={2} md={3} lg={2} style={{margin: '20px 0 0 0'}} >
+          <Col xs={2} md={3} lg={2} style={{margin: '10px 0 0 0'}} >
           <Link to={`/favideas`}>
             <Button>المزيد</Button>
           </Link>

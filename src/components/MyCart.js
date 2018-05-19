@@ -241,10 +241,12 @@ export class HeaderCart extends Component {
       errorHandling: {
         showError: false,
         errorMsg: ""},
-      show: false
+       show: false,
+
     };
     this.handleShow = this.handleShow.bind(this);
     this.handleHide = this.handleHide.bind(this);
+
   }
 
 
@@ -275,7 +277,7 @@ fetchItems() {
   //     var productIds = Object.keys(this.state.basket)
   //     console.log(productIds)
     var ref = FirebaseServices.basket.child(`${this.props.currentUser.uid}/items`)
-    ref.once('value',snapshot => {
+    ref.on('value',snapshot => {
       console.log("data fetching ")
 
       if(snapshot.val() !== null) {
@@ -311,8 +313,8 @@ fetchItems() {
     // onFailure(error) {
     // this.setState({errorHandling: {showError: true, errorMsg: error}});
     // }
-
 }
+
 
 handleSubmit(event) {
   // create a chat between user and business owner **later
@@ -353,7 +355,9 @@ render(){
             <DropCart >
             <p style={{ textAlign:'center'}}>سلة التسوق</p>
             <hr/>
-            <HeaderCartList products={this.state.products}/>
+            <HeaderCartList products={this.state.products}            
+             
+              />
            <h4 style={{ textAlign:'center'}}> المجموع :
         <span style={{ color: 'rgb(26,156,142)'}}> {subtotal} ر.س </span>
            </h4>

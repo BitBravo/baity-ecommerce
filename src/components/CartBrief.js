@@ -158,7 +158,9 @@ export class HeaderCartBrief extends Component {
              <Link  style={{color:'rgb(26, 156, 142)'}} to={`/${product.owner}/products/${product.id}`}>
              <p style={{fontSize:'12px' }}>{product.name}</p></Link>
              <p style={{ color: 'rgb(26,156,142)',fontSize:'14px' }}>{product.price} ر.س </p>
-
+             <p style={{ color: 'rgb(26,156,142)' ,fontSize:'8px'}}> الكمية :
+                  {product.quantity}
+                </p>
               </Col>
               <hr/>
               </Row>
