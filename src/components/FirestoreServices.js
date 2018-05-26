@@ -1026,9 +1026,9 @@ export default {
     })
   },
   copyImages(){
-    this.products.get().then(docs => {
+    this.ideas.get().then(docs => {
       docs.forEach(doc => {
-          this.products.doc(doc.id).update({images: doc.data().imagesTemp})
+          this.ideas.doc(doc.id).update({images: doc.data().imagesTemp})
       })
     })
   }
