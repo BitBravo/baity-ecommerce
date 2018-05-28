@@ -1015,16 +1015,42 @@ export default {
     return this.basket.doc(userId)
   },
 
-  addTimestamp(){
-    this.products.get().then(docs => {
+  changeName(){
+
+    var products = [
+      "ECONUf43GjfpZFXLAqd3w3TKQQT2",
+      "J30bLPDhmhhy7S2CNSNU7GIBBEp2",
+      "VCihVE2tqgai8FCv9aGgOByngu13",
+      "VWdagt88uSR46Q1RpVIu1cj9lZa2",
+      "hkwx4mbEX2SaitJM0aJFsCscCi62",
+      "i0G2KljDtuMsh16Pkj1qWsoi6tL2",
+      "rWsYPMSCl1Vfakh1WzeKRiPb9Bj2",
+      "sxz9BQfKw6OVPpWSYde2qAxTHbW2",
+      "yk72ULZjMyMeCaTMjpFykZwVh0J3",
+      "BpkD9nm1uGV3HBU4T1aiaG2Omds2",
+      "K3a3AptvQXT8fwOTBHO6BiVCcrx2",
+      "YaoU6h4IH7W13pw9kEhI9pm5C2V2",
+    ]
+    products.forEach( i => {
+    this.professional.collection(i).get().then( doc => {
+
+      console.log(i)
+      console.log(doc.data().businessName)
+      //this.professionals.doc(i).update({businessName: "بيتي"})
+      })
+    })
+    this.products.where("owner", == , i).get().then(docs => {
       docs.forEach(doc =>{
-        if (!doc.data().timestamp){
-          var timestamp = firebase.firestore.FieldValue.serverTimestamp()
-          this.products.doc(doc.id).update({timestamp: timestamp})
-      }
+        this.products.doc(i).update({businessName: "بيتي"})
+        this.products.doc(i).update({oldOwner: doc.data().owner})
+        this.products.doc(i).update({owner: ""})
+
+
     })
     })
+
   },
+  
   copyImages(){
     this.products.get().then(docs => {
       docs.forEach(doc => {
