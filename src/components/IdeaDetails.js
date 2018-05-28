@@ -275,9 +275,8 @@ class IdeaDetails extends Component {
               }
 
          </LikeDiv>
-         {idea.owner === "VWdagt88uSR46Q1RpVIu1cj9lZa2"
-          ? <TagDiv>هذه الفكرة للعرض</TagDiv>
-          : null}
+         {/*VWdagt88uSR46Q1RpVIu1cj9lZa2*/}
+         {/* <TagDiv>هذه الفكرة للعرض</TagDiv> */}
 
               </Carousel.Item>
             </Carousel >

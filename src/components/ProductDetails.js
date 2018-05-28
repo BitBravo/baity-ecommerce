@@ -354,10 +354,9 @@ class ProductDetails extends Component {
                     }
                   </LikeDiv>
                   {product.price === 0
-                   ? <TagDiv>هذا المنتج للعرض</TagDiv>
-                   : null}
-
-
+                  ? <TagDiv>هذا المنتج للعرض</TagDiv>
+                  : null
+                }
                 </Carousel.Item>
 
               </Carousel >
