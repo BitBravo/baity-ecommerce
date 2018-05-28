@@ -48,6 +48,21 @@ color: transparent;
 -webkit-text-stroke-width: 2px;
 -webkit-text-stroke-color: rgb(75, 75, 75);
 `;
+const TagDiv = styled.span`
+position: absolute;
+bottom:0;
+right: 0;
+font-size:20px;
+background-color:rgb(26,156,142);
+color: white;
+width: 150px;
+height: 30px;
+text-align:center;
+@media only screen and (max-width: 767px) {
+  font-size:10px;
+  width: 80px;
+  height: 20px;}
+`;
 const ImgGallaryThumb = styled.div`
   }
 `;
@@ -260,6 +275,8 @@ class IdeaDetails extends Component {
               }
 
          </LikeDiv>
+         <TagDiv>هذه الفكرة للعرض</TagDiv>
+
               </Carousel.Item>
             </Carousel >
             <div className="product-slider">
