@@ -177,10 +177,8 @@ font-family: 'dinarm';
             </Link>
             </ImageDiv>
           </ImageContainer>
-          {product.price > 0
-                  ?null
-                  :<TagDiv> المنتج للعرض</TagDiv>
-                }
+         <TagDiv> المنتج للعرض</TagDiv>
+               
           <PaddingDiv >
           <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'35px'}}>
 
