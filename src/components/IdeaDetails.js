@@ -275,7 +275,8 @@ class IdeaDetails extends Component {
               }
 
          </LikeDiv>
-         <TagDiv>هذه الفكرة للعرض</TagDiv>
+
+         {/* <TagDiv>هذه الفكرة للعرض</TagDiv> */}
 
               </Carousel.Item>
             </Carousel >
