@@ -7,6 +7,18 @@ import styled from 'styled-components'
 import {MdEventSeat} from 'react-icons/lib/md';
 import Product from '../assets/img/Selected-product.png';
 
+const TagDiv = styled.span`
+position: absolute;
+top:5px;
+right: 0;
+font-size:10px;
+background-color:rgb(26,156,142);
+color: white;
+width: 70px;
+height: 18px;
+text-align:center;
+
+`;
 
 const IconImg = styled.img`
 width:20px;
@@ -148,6 +160,7 @@ font-family: 'dinarm';
       <MyThumbnailCol xs={6} md={4} sm={6} style={{float:'right'}} >
         <MyThumbnailDiv>
           <ImageContainer>
+         
             <ImageDiv>
             <Link to={`/${product.owner}/products/${product.id}`}>
               <PreviewImg style={{background:`url(${imgUrl})`,
@@ -164,7 +177,10 @@ font-family: 'dinarm';
             </Link>
             </ImageDiv>
           </ImageContainer>
-
+          {product.price > 0
+                  ?null
+                  :<TagDiv> المنتج للعرض</TagDiv>
+                }
           <PaddingDiv >
           <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'35px'}}>
 

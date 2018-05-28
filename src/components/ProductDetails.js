@@ -353,8 +353,10 @@ class ProductDetails extends Component {
                       : <UnLikeIcon glyph="heart" onClick={this.like.bind(this)} />
                     }
                   </LikeDiv>
-                  <TagDiv>هذا المنتج للعرض</TagDiv>
-
+                  {product.price > 0
+                  ?null
+                  :<TagDiv>هذا المنتج للعرض</TagDiv>
+                }
                 </Carousel.Item>
 
               </Carousel >
