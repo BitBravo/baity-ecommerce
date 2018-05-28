@@ -1032,28 +1032,29 @@ export default {
       "YaoU6h4IH7W13pw9kEhI9pm5C2V2",
     ]
 
-  //   products.forEach( i => {
-  //   // this.professionals.doc(i).get().then( doc => {
-  //   //
-  //   //   console.log(i)
-  //   //   console.log(doc.data().name)
-  //   //   this.professionals.doc(i).update({name: "بيتي"})
-  //   //   })
-  //   //var i = "VWdagt88uSR46Q1RpVIu1cj9lZa2"
-  //   this.ideas.where("owner", "==" , i).get().then(docs => {
-  //     if (docs.empty) {
-  //       return
-  //     }
-  //     docs.forEach(doc =>{
-  //       //this.ideas.doc(doc.id).update({businessName: "بيتي"})
-  //       //this.ideas.doc(doc.id).update({oldOwner: doc.data().owner})
-  //       this.ideas.doc(doc.id).update({owner: "VWdagt88uSR46Q1RpVIu1cj9lZa2"})
-  //     })
-  //   })
-  // })
+    products.forEach( i => {
+    // this.professionals.doc(i).get().then( doc => {
+    //
+    //   console.log(i)
+    //   console.log(doc.data().name)
+    //   this.professionals.doc(i).update({name: "بيتي"})
+    //   })
+    //var i = "VWdagt88uSR46Q1RpVIu1cj9lZa2"
+    this.ideas.where("owner", "==" , i).get().then(docs => {
+      if (docs.empty) {
+        return
+      }
+      docs.forEach(doc =>{
+        //this.ideas.doc(doc.id).update({businessName: "بيتي"})
+        //this.ideas.doc(doc.id).update({oldOwner: doc.data().owner})
+        this.ideas.doc(doc.id).update({owner: "VWdagt88uSR46Q1RpVIu1cj9lZa2"})
+      })
+    })
+  })
 
 
   },
+
   copyImages(){
     this.ideas.get().then(docs => {
       docs.forEach(doc => {

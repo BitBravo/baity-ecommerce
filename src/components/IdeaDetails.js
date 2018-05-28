@@ -48,6 +48,21 @@ color: transparent;
 -webkit-text-stroke-width: 2px;
 -webkit-text-stroke-color: rgb(75, 75, 75);
 `;
+const TagDiv = styled.span`
+position: absolute;
+bottom:0;
+right: 0;
+font-size:20px;
+background-color:rgb(26,156,142);
+color: white;
+width: 150px;
+height: 30px;
+text-align:center;
+@media only screen and (max-width: 767px) {
+  font-size:10px;
+  width: 80px;
+  height: 20px;}
+`;
 const ImgGallaryThumb = styled.div`
   }
 `;
@@ -260,6 +275,10 @@ class IdeaDetails extends Component {
               }
 
          </LikeDiv>
+         {idea.owner === "VWdagt88uSR46Q1RpVIu1cj9lZa2"
+          ? <TagDiv>هذه الفكرة للعرض</TagDiv>
+          : null}
+
               </Carousel.Item>
             </Carousel >
             <div className="product-slider">
@@ -295,7 +314,7 @@ class IdeaDetails extends Component {
               </PaddingDiv>
 
                <div >
-           
+
               {/* only idea owner can update a idea */}
               {
                 this.props.authenticated
@@ -305,17 +324,17 @@ class IdeaDetails extends Component {
                   تحديث بيانات الفكرة
                 </button>
               </Link>
-                : 
+                :
                 <div style={{position: 'absolute', bottom: '0',right:'5px'}}>
-                      <h4 >من:&nbsp; 
+                      <h4 >من:&nbsp;
                       <Link to={`/businessprofile/${idea.owner}`}style={{color:'rgb(26,156,142)'}}>
                       {idea.businessName}
                       </Link>
                     </h4>
                     </div>
-              : 
+              :
               <div style={{position: 'absolute', bottom: '0',right:'5px'}}>
-                    <h4 >من:&nbsp; 
+                    <h4 >من:&nbsp;
                     <Link to={`/businessprofile/${idea.owner}`}style={{color:'rgb(26,156,142)'}}>
                     {idea.businessName}
                     </Link>
@@ -323,7 +342,7 @@ class IdeaDetails extends Component {
                   </div>
 
               }
-        
+
             </div>
             </DetailsCol>
             </Row>

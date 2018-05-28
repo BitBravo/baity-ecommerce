@@ -79,6 +79,7 @@ class ProductList extends Component {
     //FirebaseServices.filterIndexing();
     //FirebaseServices.filterIndexingStyle();
     //FirebaseServices.addOwnerName()
+    //FirestoreServices.changeName()
 
     hasMore = true;
     if (this.props.thisUserOnly){
