@@ -819,7 +819,7 @@ export default {
         //combine new images with current images from DB into 'images' property of product
         images = product.images? [...images, ...product.images]: images;
         var productRef = this.products.doc(productId);
-        productRef.update({imagesLarge: images})
+        productRef.update({images: images})
       })
       .catch(error => {
         console.log(`FirebaseServices.addProductImages: error while adding product images for product ${productId}`)
@@ -840,16 +840,19 @@ export default {
     console.log('FirebaseServices.deleteImage(): 1- deleting image from storage')
     var thumbPre = "thumb_";
     var path = imageUrl.substr(imageUrl.indexOf('%2F') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('%2F') + 3));
-	  var oldName = path.substr(path.lastIndexOf('%2F')+3);
-    path = path.replace(oldName, thumbPre + oldName);
     path = path.replace("%2F", "/");
     if (path.includes("%2F")){
       path = path.replace("%2F", "/");
     }
-    const storagePath = this.productImages.child(`${path}`);
-    this.deleteThumbnail(storagePath);
+    var name = path.substr(path.lastIndexOf('/')+1);
+    var thumbPath = path.replace(name, thumbPre + name);
+
+    const thumbStoragePath = this.productImages.child(`${thumbPath}`);
+    const largeStoragePath = this.productImages.child(`${path}`);
+
+    this.deleteThumbnail(thumbStoragePath);
     //delete original image "large" using url
-    return storage.refFromURL(imageUrl).delete()
+    return this.deleteThumbnail(largeStoragePath)
       .then(() => {
         return this.getProduct(productId)
       })
@@ -867,11 +870,11 @@ export default {
   },
 
   deleteThumbnail(storagePath) {
-      storagePath.getDownloadURL().then({
+      return storagePath.getDownloadURL().then({
       onResolve(foundURL) {
-        storagePath.delete();
+        return storagePath.delete();
       },onReject(error) {
-        console.log(error.code);
+        return (error.code);
       }
       })
   },
@@ -959,7 +962,7 @@ export default {
         //combine new images with current images from DB into 'images' property of idea
         images = idea.images? [...images, ...idea.images]: images;
         var ideaRef = this.ideas.doc(ideaId);
-        ideaRef.update({imagesLarge: images})
+        ideaRef.update({images: images})
       })
       .catch(error => {
         console.log(`FirebaseServices.addIdeaImages: error while adding idea images for idea ${ideaId}`)
@@ -974,17 +977,21 @@ export default {
     console.log('FirebaseServices.deleteImage(): 1- deleting image from storage')
     var thumbPre = "thumb_";
     var path = imageUrl.substr(imageUrl.indexOf('%2F') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('%2F') + 3));
-	  var oldName = path.substr(path.lastIndexOf('%2F')+3);
-    path = path.replace(oldName, thumbPre + oldName);
     path = path.replace("%2F", "/");
     if (path.includes("%2F")){
       path = path.replace("%2F", "/");
     }
-    const storagePath = this.ideaImages.child(`${path}`);
+    var name = path.substr(path.lastIndexOf('/')+1);
+    var thumbPath = path.replace(name, thumbPre + name);
+
+    const thumbStoragePath = this.ideaImages.child(`${thumbPath}`);
+    const largeStoragePath = this.ideaImages.child(`${path}`);
     //storagePath.delete();
-    this.deleteThumbnail(storagePath);
+    this.deleteThumbnail(thumbStoragePath);
     //delete original image "large" using url
-    return storage.refFromURL(imageUrl).delete()
+    return this.deleteThumbnail(largeStoragePath)
+
+    //return storage.refFromURL(imageUrl).delete()
       .then(() => {
         return this.getIdea(ideaId)
       })
@@ -1013,55 +1020,51 @@ export default {
 
   getBasketRef(userId){
     return this.basket.doc(userId)
-  },
+  }
 
-  changeName(){
-
-    var products = [
-      "ECONUf43GjfpZFXLAqd3w3TKQQT2",
-      "J30bLPDhmhhy7S2CNSNU7GIBBEp2",
-      "VCihVE2tqgai8FCv9aGgOByngu13",
-      "VWdagt88uSR46Q1RpVIu1cj9lZa2",
-      "hkwx4mbEX2SaitJM0aJFsCscCi62",
-      "i0G2KljDtuMsh16Pkj1qWsoi6tL2",
-      "rWsYPMSCl1Vfakh1WzeKRiPb9Bj2",
-      "sxz9BQfKw6OVPpWSYde2qAxTHbW2",
-      "yk72ULZjMyMeCaTMjpFykZwVh0J3",
-      "BpkD9nm1uGV3HBU4T1aiaG2Omds2",
-      "K3a3AptvQXT8fwOTBHO6BiVCcrx2",
-      "YaoU6h4IH7W13pw9kEhI9pm5C2V2",
-    ]
-
+  // changeName(){
+  //
+  //   var products = [
+  //     "ECONUf43GjfpZFXLAqd3w3TKQQT2",
+  //     "J30bLPDhmhhy7S2CNSNU7GIBBEp2",
+  //     "VCihVE2tqgai8FCv9aGgOByngu13",
+  //     "VWdagt88uSR46Q1RpVIu1cj9lZa2",
+  //     "hkwx4mbEX2SaitJM0aJFsCscCi62",
+  //     "i0G2KljDtuMsh16Pkj1qWsoi6tL2",
+  //     "rWsYPMSCl1Vfakh1WzeKRiPb9Bj2",
+  //     "sxz9BQfKw6OVPpWSYde2qAxTHbW2",
+  //     "yk72ULZjMyMeCaTMjpFykZwVh0J3",
+  //     "BpkD9nm1uGV3HBU4T1aiaG2Omds2",
+  //     "K3a3AptvQXT8fwOTBHO6BiVCcrx2",
+  //     "YaoU6h4IH7W13pw9kEhI9pm5C2V2",
+  //   ]
   //   products.forEach( i => {
-  //   // this.professionals.doc(i).get().then( doc => {
-  //   //
-  //   //   console.log(i)
-  //   //   console.log(doc.data().name)
-  //   //   this.professionals.doc(i).update({name: "بيتي"})
-  //   //   })
-  //   //var i = "VWdagt88uSR46Q1RpVIu1cj9lZa2"
-  //   this.ideas.where("owner", "==" , i).get().then(docs => {
-  //     if (docs.empty) {
-  //       return
-  //     }
-  //     docs.forEach(doc =>{
-  //       //this.ideas.doc(doc.id).update({businessName: "بيتي"})
-  //       //this.ideas.doc(doc.id).update({oldOwner: doc.data().owner})
-  //       this.ideas.doc(doc.id).update({owner: "VWdagt88uSR46Q1RpVIu1cj9lZa2"})
+  //   this.professional.collection(i).get().then( doc => {
+  //
+  //     console.log(i)
+  //     console.log(doc.data().businessName)
+  //     //this.professionals.doc(i).update({businessName: "بيتي"})
   //     })
   //   })
-  // })
-
-
-  },
-
-  copyImages(){
-    this.ideas.get().then(docs => {
-      docs.forEach(doc => {
-          this.ideas.doc(doc.id).update({images: doc.data().imagesTemp})
-      })
-    })
-  }
+  //   this.products.where("owner", == , i).get().then(docs => {
+  //     docs.forEach(doc =>{
+  //       this.products.doc(i).update({businessName: "بيتي"})
+  //       this.products.doc(i).update({oldOwner: doc.data().owner})
+  //       this.products.doc(i).update({owner: ""})
+  //
+  //
+  //   })
+  //   })
+  //
+  // },
+  //
+  // copyImages(){
+  //   this.products.get().then(docs => {
+  //     docs.forEach(doc => {
+  //         this.products.doc(doc.id).update({images: doc.data().imagesTemp})
+  //     })
+  //   })
+  // }
   /**
    * This method is used to insert a new item into basket into DB
    */
