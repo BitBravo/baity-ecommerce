@@ -163,7 +163,8 @@ font-family: 'dinarm';
 
             <ImageDiv>
             <Link to={`/${product.owner}/products/${product.id}`}>
-              <PreviewImg style={{background:`url(${imgUrl})`,
+              <PreviewImg
+              style={{background:`url(${imgUrl})`,
                                   backgroundSize: "cover",
                                   backgroundRepeat: "no-repeat",
                                   backgroundPosition: "center center"}}

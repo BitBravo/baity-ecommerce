@@ -819,7 +819,7 @@ export default {
         //combine new images with current images from DB into 'images' property of product
         images = product.images? [...images, ...product.images]: images;
         var productRef = this.products.doc(productId);
-        productRef.update({images: images})
+        productRef.update({imagesLarge: images})
       })
       .catch(error => {
         console.log(`FirebaseServices.addProductImages: error while adding product images for product ${productId}`)
@@ -959,7 +959,7 @@ export default {
         //combine new images with current images from DB into 'images' property of idea
         images = idea.images? [...images, ...idea.images]: images;
         var ideaRef = this.ideas.doc(ideaId);
-        ideaRef.update({images: images})
+        ideaRef.update({imagesLarge: images})
       })
       .catch(error => {
         console.log(`FirebaseServices.addIdeaImages: error while adding idea images for idea ${ideaId}`)

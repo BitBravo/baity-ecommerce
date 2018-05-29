@@ -153,7 +153,6 @@ class IdeaBrief extends Component {
     idea.images
     ? imgUrl = idea.images[0].thumbnail? idea.images[0].thumbnail : idea.images[0].large
     : imgUrl = "http://via.placeholder.com/243x243"
-    imgUrl = idea.imagesTemp[0].thumbnail
     return (
 
       <MyThumbnailCol xs={6} md={4} sm={6} style={{float:'right'}}>
