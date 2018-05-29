@@ -1013,51 +1013,51 @@ export default {
 
   getBasketRef(userId){
     return this.basket.doc(userId)
-  },
-
-  changeName(){
-
-    var products = [
-      "ECONUf43GjfpZFXLAqd3w3TKQQT2",
-      "J30bLPDhmhhy7S2CNSNU7GIBBEp2",
-      "VCihVE2tqgai8FCv9aGgOByngu13",
-      "VWdagt88uSR46Q1RpVIu1cj9lZa2",
-      "hkwx4mbEX2SaitJM0aJFsCscCi62",
-      "i0G2KljDtuMsh16Pkj1qWsoi6tL2",
-      "rWsYPMSCl1Vfakh1WzeKRiPb9Bj2",
-      "sxz9BQfKw6OVPpWSYde2qAxTHbW2",
-      "yk72ULZjMyMeCaTMjpFykZwVh0J3",
-      "BpkD9nm1uGV3HBU4T1aiaG2Omds2",
-      "K3a3AptvQXT8fwOTBHO6BiVCcrx2",
-      "YaoU6h4IH7W13pw9kEhI9pm5C2V2",
-    ]
-    products.forEach( i => {
-    this.professional.collection(i).get().then( doc => {
-
-      console.log(i)
-      console.log(doc.data().businessName)
-      //this.professionals.doc(i).update({businessName: "بيتي"})
-      })
-    })
-    this.products.where("owner", == , i).get().then(docs => {
-      docs.forEach(doc =>{
-        this.products.doc(i).update({businessName: "بيتي"})
-        this.products.doc(i).update({oldOwner: doc.data().owner})
-        this.products.doc(i).update({owner: ""})
-
-
-    })
-    })
-
-  },
-  
-  copyImages(){
-    this.products.get().then(docs => {
-      docs.forEach(doc => {
-          this.products.doc(doc.id).update({images: doc.data().imagesTemp})
-      })
-    })
   }
+
+  // changeName(){
+  //
+  //   var products = [
+  //     "ECONUf43GjfpZFXLAqd3w3TKQQT2",
+  //     "J30bLPDhmhhy7S2CNSNU7GIBBEp2",
+  //     "VCihVE2tqgai8FCv9aGgOByngu13",
+  //     "VWdagt88uSR46Q1RpVIu1cj9lZa2",
+  //     "hkwx4mbEX2SaitJM0aJFsCscCi62",
+  //     "i0G2KljDtuMsh16Pkj1qWsoi6tL2",
+  //     "rWsYPMSCl1Vfakh1WzeKRiPb9Bj2",
+  //     "sxz9BQfKw6OVPpWSYde2qAxTHbW2",
+  //     "yk72ULZjMyMeCaTMjpFykZwVh0J3",
+  //     "BpkD9nm1uGV3HBU4T1aiaG2Omds2",
+  //     "K3a3AptvQXT8fwOTBHO6BiVCcrx2",
+  //     "YaoU6h4IH7W13pw9kEhI9pm5C2V2",
+  //   ]
+  //   products.forEach( i => {
+  //   this.professional.collection(i).get().then( doc => {
+  //
+  //     console.log(i)
+  //     console.log(doc.data().businessName)
+  //     //this.professionals.doc(i).update({businessName: "بيتي"})
+  //     })
+  //   })
+  //   this.products.where("owner", == , i).get().then(docs => {
+  //     docs.forEach(doc =>{
+  //       this.products.doc(i).update({businessName: "بيتي"})
+  //       this.products.doc(i).update({oldOwner: doc.data().owner})
+  //       this.products.doc(i).update({owner: ""})
+  //
+  //
+  //   })
+  //   })
+  //
+  // },
+  //
+  // copyImages(){
+  //   this.products.get().then(docs => {
+  //     docs.forEach(doc => {
+  //         this.products.doc(doc.id).update({images: doc.data().imagesTemp})
+  //     })
+  //   })
+  // }
   /**
    * This method is used to insert a new item into basket into DB
    */
