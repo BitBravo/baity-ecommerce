@@ -153,7 +153,6 @@ class IdeaBrief extends Component {
     idea.images
     ? imgUrl = idea.images[0].thumbnail? idea.images[0].thumbnail : idea.images[0].large
     : imgUrl = "http://via.placeholder.com/243x243"
-
     return (
 
       <MyThumbnailCol xs={6} md={4} sm={6} style={{float:'right'}}>
@@ -191,7 +190,7 @@ class IdeaBrief extends Component {
               </IdeaNameCol>
              </Link>
              <IdeaNameCol xs ={1}  style={{padding:'0 0 15px 0'}}>
-             <IconImg src={Idea} className="icons"/> 
+             <IconImg src={Idea} className="icons"/>
              </IdeaNameCol>
              <Description className="flex-text text-muted">{idea.desc.substring(0,105)}
                <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${idea.owner}/ideas/${idea.id}`}>
@@ -208,7 +207,7 @@ class IdeaBrief extends Component {
                ... المزيد
                </Link>
              </SDescription>
-            
+
              <div style={{display:'inline-block',position:'absolute',bottom:'0'}}>
                   <p > من:
                   <Link to={`/businessprofile/${idea.owner}`}style={{color:'rgb(26,156,142)'}}>
@@ -216,7 +215,7 @@ class IdeaBrief extends Component {
                   </Link>
                 </p>
                 </div>
-            
+
           </PaddingDiv>
         </MyThumbnailDiv>
       </MyThumbnailCol>

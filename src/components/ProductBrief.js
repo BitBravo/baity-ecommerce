@@ -160,10 +160,11 @@ font-family: 'dinarm';
       <MyThumbnailCol xs={6} md={4} sm={6} style={{float:'right'}} >
         <MyThumbnailDiv>
           <ImageContainer>
-         
+
             <ImageDiv>
             <Link to={`/${product.owner}/products/${product.id}`}>
-              <PreviewImg style={{background:`url(${imgUrl})`,
+              <PreviewImg
+              style={{background:`url(${imgUrl})`,
                                   backgroundSize: "cover",
                                   backgroundRepeat: "no-repeat",
                                   backgroundPosition: "center center"}}
@@ -177,8 +178,12 @@ font-family: 'dinarm';
             </Link>
             </ImageDiv>
           </ImageContainer>
-         <TagDiv> المنتج للعرض</TagDiv>
-               
+          {product.price > 0
+          ?null
+          :<TagDiv> المنتج للعرض</TagDiv>
+          }
+
+
           <PaddingDiv >
           <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'35px'}}>
 

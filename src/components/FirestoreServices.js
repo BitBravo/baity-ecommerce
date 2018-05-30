@@ -10,36 +10,36 @@ let STORAGE_BASE = storage.ref();
 /* DATABASE AND STORGAE REFERENCES FOR TESTING*/
 let testPrefix = "test-"; //change this to switch from test tables to production tables
 
-let _PRODUCTS_PATH = testPrefix + "product"; //change me by removing test
-let _IDEAS_PATH = testPrefix + "idea";
-let _BUSINESSES_PATH = testPrefix + "business"; //change me by removing test
-let _LIKES_PATH = testPrefix + "likes";
-let _GROUPS_PATH = testPrefix + "group"; //change me by removing test
-let _BUSINESS_LOGOS_PATH = testPrefix + "businessLogo";
-let _PRODUCT_IMAGES_PATH = testPrefix + "productImages";
-let _IDEA_IMAGES_PATH = testPrefix + "ideaImages";
-let _PROFILE_IMAGES_PATH = testPrefix + "profileImage";
-let _PROF_PATH = testPrefix + "professional";
-let _NORMAL_PATH = testPrefix + "normal";
-let _BASKET_PATH = testPrefix + "basket";
-let _BUSINESS_HOMEIMGS_PATH = testPrefix + "businessHomeImgs";
-let _PROFILE_HOMEIMGS_PATH = testPrefix + "profileHomeImages";
+// let _PRODUCTS_PATH = testPrefix + "product"; //change me by removing test
+// let _IDEAS_PATH = testPrefix + "idea";
+// let _BUSINESSES_PATH = testPrefix + "business"; //change me by removing test
+// let _LIKES_PATH = testPrefix + "likes";
+// let _GROUPS_PATH = testPrefix + "group"; //change me by removing test
+// let _BUSINESS_LOGOS_PATH = testPrefix + "businessLogo";
+// let _PRODUCT_IMAGES_PATH = testPrefix + "productImages";
+// let _IDEA_IMAGES_PATH = testPrefix + "ideaImages";
+// let _PROFILE_IMAGES_PATH = testPrefix + "profileImage";
+// let _PROF_PATH = testPrefix + "professional";
+// let _NORMAL_PATH = testPrefix + "normal";
+// let _BASKET_PATH = testPrefix + "basket";
+// let _BUSINESS_HOMEIMGS_PATH = testPrefix + "businessHomeImgs";
+// let _PROFILE_HOMEIMGS_PATH = testPrefix + "profileHomeImages";
 
 /* DATABASE AND STORGAE REFERENCES FOR TESTING*/
-// let _PRODUCTS_PATH = "product"; //change me by removing test
-// let _IDEAS_PATH = "idea";
-// let _BUSINESSES_PATH = "business"; //change me by removing test
-// let _LIKES_PATH = "likes";
-// let _GROUPS_PATH = "group"; //change me by removing test
-// let _BUSINESS_LOGOS_PATH = "businessLogo";
-// let _PRODUCT_IMAGES_PATH = "productImages";
-// let _IDEA_IMAGES_PATH = "ideaImages";
-// let _PROFILE_IMAGES_PATH = "profileImage";
-// let _PROF_PATH = "professional";
-// let _NORMAL_PATH = "normal";
-// let _BASKET_PATH = "basket";
-// let _BUSINESS_HOMEIMGS_PATH = "businessHomeImgs";
-// let _PROFILE_HOMEIMGS_PATH = "profileHomeImages";
+let _PRODUCTS_PATH = "product"; //change me by removing test
+let _IDEAS_PATH = "idea";
+let _BUSINESSES_PATH = "business"; //change me by removing test
+let _LIKES_PATH = "likes";
+let _GROUPS_PATH = "group"; //change me by removing test
+let _BUSINESS_LOGOS_PATH = "businessLogo";
+let _PRODUCT_IMAGES_PATH = "productImages";
+let _IDEA_IMAGES_PATH = "ideaImages";
+let _PROFILE_IMAGES_PATH = "profileImage";
+let _PROF_PATH = "professional";
+let _NORMAL_PATH = "normal";
+let _BASKET_PATH = "basket";
+let _BUSINESS_HOMEIMGS_PATH = "businessHomeImgs";
+let _PROFILE_HOMEIMGS_PATH = "profileHomeImages";
 
 // firestore references
 let _REF_BASE = DB_BASE;
@@ -840,16 +840,19 @@ export default {
     console.log('FirebaseServices.deleteImage(): 1- deleting image from storage')
     var thumbPre = "thumb_";
     var path = imageUrl.substr(imageUrl.indexOf('%2F') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('%2F') + 3));
-	  var oldName = path.substr(path.lastIndexOf('%2F')+3);
-    path = path.replace(oldName, thumbPre + oldName);
     path = path.replace("%2F", "/");
     if (path.includes("%2F")){
       path = path.replace("%2F", "/");
     }
-    const storagePath = this.productImages.child(`${path}`);
-    this.deleteThumbnail(storagePath);
+    var name = path.substr(path.lastIndexOf('/')+1);
+    var thumbPath = path.replace(name, thumbPre + name);
+
+    const thumbStoragePath = this.productImages.child(`${thumbPath}`);
+    const largeStoragePath = this.productImages.child(`${path}`);
+
+    this.deleteThumbnail(thumbStoragePath);
     //delete original image "large" using url
-    return storage.refFromURL(imageUrl).delete()
+    return this.deleteThumbnail(largeStoragePath)
       .then(() => {
         return this.getProduct(productId)
       })
@@ -867,11 +870,11 @@ export default {
   },
 
   deleteThumbnail(storagePath) {
-      storagePath.getDownloadURL().then({
+      return storagePath.getDownloadURL().then({
       onResolve(foundURL) {
-        storagePath.delete();
+        return storagePath.delete();
       },onReject(error) {
-        console.log(error.code);
+        return (error.code);
       }
       })
   },
@@ -974,17 +977,21 @@ export default {
     console.log('FirebaseServices.deleteImage(): 1- deleting image from storage')
     var thumbPre = "thumb_";
     var path = imageUrl.substr(imageUrl.indexOf('%2F') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('%2F') + 3));
-	  var oldName = path.substr(path.lastIndexOf('%2F')+3);
-    path = path.replace(oldName, thumbPre + oldName);
     path = path.replace("%2F", "/");
     if (path.includes("%2F")){
       path = path.replace("%2F", "/");
     }
-    const storagePath = this.ideaImages.child(`${path}`);
+    var name = path.substr(path.lastIndexOf('/')+1);
+    var thumbPath = path.replace(name, thumbPre + name);
+
+    const thumbStoragePath = this.ideaImages.child(`${thumbPath}`);
+    const largeStoragePath = this.ideaImages.child(`${path}`);
     //storagePath.delete();
-    this.deleteThumbnail(storagePath);
+    this.deleteThumbnail(thumbStoragePath);
     //delete original image "large" using url
-    return storage.refFromURL(imageUrl).delete()
+    return this.deleteThumbnail(largeStoragePath)
+
+    //return storage.refFromURL(imageUrl).delete()
       .then(() => {
         return this.getIdea(ideaId)
       })

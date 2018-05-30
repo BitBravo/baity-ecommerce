@@ -40,11 +40,11 @@ const STORAGE_PROF_REF = "businessLogo";
 const STORAGE_NORMAL_REF = "profileImage";
 
 /**
- * When an image is uploaded in the Storage bucket We generate a thumbnail automatically using
- * ImageMagick.
- * After the thumbnail has been generated and uploaded to Cloud Storage,
- * we write the public URL to the Firebase Realtime Database.
- */
+* When an image is uploaded in the Storage bucket We generate a thumbnail automatically using
+* ImageMagick.
+* After the thumbnail has been generated and uploaded to Cloud Storage,
+* we write the public URL to the Firebase Realtime Database.
+*/
 exports = module.exports = functions.storage.object().onFinalize((object) => {
   // File and directory paths.
   const filePath = object.name;
@@ -74,21 +74,21 @@ exports = module.exports = functions.storage.object().onFinalize((object) => {
   var  collectionId, docId;
   switch (pathTokens[0]) {
     case STORAGE_PRODUCT_REF:
-      collectionId = PRODUCT_REF; docId = pathTokens[2]; isProfileImage = false; break;
+    collectionId = PRODUCT_REF; docId = pathTokens[2]; isProfileImage = false; break;
     case STORAGE_IDEA_REF:
-      collectionId = IDEA_REF; docId = pathTokens[2]; isProfileImage = false; break;
+    collectionId = IDEA_REF; docId = pathTokens[2]; isProfileImage = false; break;
     case STORAGE_PROF_REF:
-      collectionId = PROF_REF; docId = pathTokens[1]; isProfileImage = true; break;
+    collectionId = PROF_REF; docId = pathTokens[1]; isProfileImage = true; break;
     case STORAGE_NORMAL_REF:
-      collectionId = NORMAL_REF; docId = pathTokens[1]; isProfileImage = true; break;
+    collectionId = NORMAL_REF; docId = pathTokens[1]; isProfileImage = true; break;
     case TEST_STORAGE_PRODUCT_REF:
-      collectionId = TEST_PRODUCT_REF; docId = pathTokens[2]; isProfileImage = false; break;
+    collectionId = TEST_PRODUCT_REF; docId = pathTokens[2]; isProfileImage = false; break;
     case TEST_STORAGE_IDEA_REF:
-      collectionId = TEST_IDEA_REF; docId = pathTokens[2]; isProfileImage = false; break;
+    collectionId = TEST_IDEA_REF; docId = pathTokens[2]; isProfileImage = false; break;
     case TEST_STORAGE_PROF_REF:
-      collectionId = TEST_PROF_REF; docId = pathTokens[1]; isProfileImage = true; break;
+    collectionId = TEST_PROF_REF; docId = pathTokens[1]; isProfileImage = true; break;
     case TEST_STORAGE_NORMAL_REF:
-      collectionId = TEST_NORMAL_REF; docId = pathTokens[1]; isProfileImage = true; break;
+    collectionId = TEST_NORMAL_REF; docId = pathTokens[1]; isProfileImage = true; break;
   }
   // // from fileName get doc id, index, and collection (procudt, prof,...)
   // // p: product, i: idea, n: normal, l: business logo
@@ -119,8 +119,8 @@ exports = module.exports = functions.storage.object().onFinalize((object) => {
     console.log('The file has been downloaded to', tempLocalFile);
     // Generate a thumbnail using ImageMagick.
     return spawn('convert', [tempLocalFile, '-thumbnail', `${THUMB_MAX_WIDTH}x${THUMB_MAX_HEIGHT}>`,
-     '-background', `white`,'-gravity', 'center', '-extent', `${THUMB_MAX_WIDTH}x${THUMB_MAX_HEIGHT}`,  tempLocalThumbFile],
-      {capture: ['stdout', 'stderr']});
+    '-quality', '90%', '-background', `white`,'-gravity', 'center', '-extent', `${THUMB_MAX_WIDTH}x${THUMB_MAX_HEIGHT}`,  tempLocalThumbFile],
+    {capture: ['stdout', 'stderr']});
   }).then(() => {
     console.log('Thumbnail created at', tempLocalThumbFile);
     // Uploading the Thumbnail.
@@ -147,22 +147,33 @@ exports = module.exports = functions.storage.object().onFinalize((object) => {
     const fileUrl = originalResult[0];
     // Add the URLs to the Database
     if (isProfileImage) {
-      return admin.firestore().collection(collectionId).doc(docId).set({thumbUrl: thumbFileUrl}, { merge: true });
+      return admin.firestore().collection(collectionId).doc(docId).update({thumbUrl: thumbFileUrl}, { merge: true });
     }else {
-    return admin.firestore().collection(collectionId).doc(docId).get()
-    .then((doc) => {
-      console.log("doc images " + doc.data().images.length);
-      var otherImages = doc.data().images.filter(url => !url.large.includes(fileName));
-      var image = doc.data().images.filter(url => url.large.includes(fileName));
-      console.log("otherImages " + otherImages.length);
-      console.log("large Url " + image[0].large);
-      var images;
-      if (otherImages.length < 1) {
-        images = [{large: image[0].large, thumbnail: thumbFileUrl}];
-      }
-      else {
-        images = [...otherImages,{large: image[0].large, thumbnail: thumbFileUrl}];
-      }
-      return admin.firestore().collection(collectionId).doc(docId).update({images: images})
-  })}}).then(() => console.log('Thumbnail URLs saved to database.'));
+      var productRef = admin.firestore().collection(collectionId).doc(docId)
+      return admin.firestore().runTransaction((transaction) => {
+      return transaction.get(productRef).then((doc) => {
+          console.log("img name " + fileName);
+          var imageUrls = {large: fileUrl, thumbnail: thumbFileUrl};
+          var images;
+          if (doc.data().images)
+            images = [...doc.data().images, imageUrls];
+          else
+            images = [imageUrls];
+          return transaction.update(productRef, {images: images});
+        }).catch(error => console.log("error " + error))
+      })
+    }
+  }).then(() => console.log('Thumbnail URLs saved to database.')); // closing then((results)
 });
+
+// function getName(largeUrl, thumbs) {
+//   var imgPath = largeUrl.substr(largeUrl.indexOf('%2F') + 3, (largeUrl.indexOf('?')) - (largeUrl.indexOf('%2F') + 3));
+//   imgPath = imgPath.replace("%2F", "/");
+//   imgPath = imgPath.replace("%2F", "/");
+//   var name = imgPath.substr(imgPath.lastIndexOf('/')+1);
+//   console.log("large name " + name);
+//   var thumbUrl = thumbs.filter(url => url.thumbnail.includes(name));
+//   console.log("thumbUrl " + thumbUrl[0].thumbnail);
+//
+//   return thumbUrl[0].thumbnail;
+// }

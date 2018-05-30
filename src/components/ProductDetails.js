@@ -353,9 +353,9 @@ class ProductDetails extends Component {
                       : <UnLikeIcon glyph="heart" onClick={this.like.bind(this)} />
                     }
                   </LikeDiv>
-                  {product.price > 0
-                  ?null
-                  :<TagDiv>هذا المنتج للعرض</TagDiv>
+                  {product.price === 0
+                  ? <TagDiv>هذا المنتج للعرض</TagDiv>
+                  : null
                 }
                 </Carousel.Item>
 
@@ -427,22 +427,22 @@ class ProductDetails extends Component {
                         تحديث بيانات المنتج
                 </button>
                     </Link>
-                    : 
+                    :
                     <div style={{ position: 'absolute', bottom: '0',right:'5px' }}>
                       <h4 >من :&nbsp;
                         <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
                           {product.businessName}
-      
+
                         </Link>
                       </h4>
                     </div>
 
-                  : 
+                  :
                   <div style={{  position: 'absolute', bottom: '0',right:'5px' }}>
                     <h4 >من :&nbsp;
                       <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
                         {product.businessName}
-    
+
                       </Link>
                     </h4>
                   </div>

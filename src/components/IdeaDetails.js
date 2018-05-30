@@ -275,7 +275,7 @@ class IdeaDetails extends Component {
               }
 
          </LikeDiv>
-
+         {/*VWdagt88uSR46Q1RpVIu1cj9lZa2*/}
          {/* <TagDiv>هذه الفكرة للعرض</TagDiv> */}
 
               </Carousel.Item>
@@ -313,7 +313,7 @@ class IdeaDetails extends Component {
               </PaddingDiv>
 
                <div >
-           
+
               {/* only idea owner can update a idea */}
               {
                 this.props.authenticated
@@ -323,17 +323,17 @@ class IdeaDetails extends Component {
                   تحديث بيانات الفكرة
                 </button>
               </Link>
-                : 
+                :
                 <div style={{position: 'absolute', bottom: '0',right:'5px'}}>
-                      <h4 >من:&nbsp; 
+                      <h4 >من:&nbsp;
                       <Link to={`/businessprofile/${idea.owner}`}style={{color:'rgb(26,156,142)'}}>
                       {idea.businessName}
                       </Link>
                     </h4>
                     </div>
-              : 
+              :
               <div style={{position: 'absolute', bottom: '0',right:'5px'}}>
-                    <h4 >من:&nbsp; 
+                    <h4 >من:&nbsp;
                     <Link to={`/businessprofile/${idea.owner}`}style={{color:'rgb(26,156,142)'}}>
                     {idea.businessName}
                     </Link>
@@ -341,7 +341,7 @@ class IdeaDetails extends Component {
                   </div>
 
               }
-        
+
             </div>
             </DetailsCol>
             </Row>
