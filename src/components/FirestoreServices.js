@@ -10,36 +10,36 @@ let STORAGE_BASE = storage.ref();
 /* DATABASE AND STORGAE REFERENCES FOR TESTING*/
 let testPrefix = "test-"; //change this to switch from test tables to production tables
 
-// let _PRODUCTS_PATH = testPrefix + "product"; //change me by removing test
-// let _IDEAS_PATH = testPrefix + "idea";
-// let _BUSINESSES_PATH = testPrefix + "business"; //change me by removing test
-// let _LIKES_PATH = testPrefix + "likes";
-// let _GROUPS_PATH = testPrefix + "group"; //change me by removing test
-// let _BUSINESS_LOGOS_PATH = testPrefix + "businessLogo";
-// let _PRODUCT_IMAGES_PATH = testPrefix + "productImages";
-// let _IDEA_IMAGES_PATH = testPrefix + "ideaImages";
-// let _PROFILE_IMAGES_PATH = testPrefix + "profileImage";
-// let _PROF_PATH = testPrefix + "professional";
-// let _NORMAL_PATH = testPrefix + "normal";
-// let _BASKET_PATH = testPrefix + "basket";
-// let _BUSINESS_HOMEIMGS_PATH = testPrefix + "businessHomeImgs";
-// let _PROFILE_HOMEIMGS_PATH = testPrefix + "profileHomeImages";
+let _PRODUCTS_PATH = testPrefix + "product"; //change me by removing test
+let _IDEAS_PATH = testPrefix + "idea";
+let _BUSINESSES_PATH = testPrefix + "business"; //change me by removing test
+let _LIKES_PATH = testPrefix + "likes";
+let _GROUPS_PATH = testPrefix + "group"; //change me by removing test
+let _BUSINESS_LOGOS_PATH = testPrefix + "businessLogo";
+let _PRODUCT_IMAGES_PATH = testPrefix + "productImages";
+let _IDEA_IMAGES_PATH = testPrefix + "ideaImages";
+let _PROFILE_IMAGES_PATH = testPrefix + "profileImage";
+let _PROF_PATH = testPrefix + "professional";
+let _NORMAL_PATH = testPrefix + "normal";
+let _BASKET_PATH = testPrefix + "basket";
+let _BUSINESS_HOMEIMGS_PATH = testPrefix + "businessHomeImgs";
+let _PROFILE_HOMEIMGS_PATH = testPrefix + "profileHomeImages";
 
 /* DATABASE AND STORGAE REFERENCES FOR TESTING*/
-let _PRODUCTS_PATH = "product"; //change me by removing test
-let _IDEAS_PATH = "idea";
-let _BUSINESSES_PATH = "business"; //change me by removing test
-let _LIKES_PATH = "likes";
-let _GROUPS_PATH = "group"; //change me by removing test
-let _BUSINESS_LOGOS_PATH = "businessLogo";
-let _PRODUCT_IMAGES_PATH = "productImages";
-let _IDEA_IMAGES_PATH = "ideaImages";
-let _PROFILE_IMAGES_PATH = "profileImage";
-let _PROF_PATH = "professional";
-let _NORMAL_PATH = "normal";
-let _BASKET_PATH = "basket";
-let _BUSINESS_HOMEIMGS_PATH = "businessHomeImgs";
-let _PROFILE_HOMEIMGS_PATH = "profileHomeImages";
+// let _PRODUCTS_PATH = "product"; //change me by removing test
+// let _IDEAS_PATH = "idea";
+// let _BUSINESSES_PATH = "business"; //change me by removing test
+// let _LIKES_PATH = "likes";
+// let _GROUPS_PATH = "group"; //change me by removing test
+// let _BUSINESS_LOGOS_PATH = "businessLogo";
+// let _PRODUCT_IMAGES_PATH = "productImages";
+// let _IDEA_IMAGES_PATH = "ideaImages";
+// let _PROFILE_IMAGES_PATH = "profileImage";
+// let _PROF_PATH = "professional";
+// let _NORMAL_PATH = "normal";
+// let _BASKET_PATH = "basket";
+// let _BUSINESS_HOMEIMGS_PATH = "businessHomeImgs";
+// let _PROFILE_HOMEIMGS_PATH = "profileHomeImages";
 
 // firestore references
 let _REF_BASE = DB_BASE;
