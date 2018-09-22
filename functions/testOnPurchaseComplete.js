@@ -13,19 +13,20 @@ const mailTransport = nodemailer.createTransport({
 // company name to include in the emails
 const APP_NAME = 'Baity';
 /* DATABASE REFERENCES FOR TESTING */
-// const PROF_REF = '/test-professional/';
-// const BASKET_REF = '/test-basket/';
-// const BASKET_ARCHIVE_REF = '/test-basketArchive/';
-// const NORMAL_REF = 'test-normal';
-// const PRODUCT_REF =  '/test-product/';
+const PROF_REF = '/test-professional/';
+const BASKET_REF = '/test-basket/';
+const BASKET_ARCHIVE_REF = '/test-basketArchive/';
+const NORMAL_REF = 'test-normal';
+const BUSINESS_REF = 'test-business/';
+const PRODUCT_REF =  '/test-product/';
 
 /* DATABASE REFERENCES FOR PRODUCTION */
-const PROF_REF = 'professional/';
-const BASKET_REF = '/basket/';
-const BASKET_ARCHIVE_REF = '/basketArchive/';
-const NORMAL_REF = 'normal';
-const BUSINESS_REF = 'business/';
-const PRODUCT_REF =  'product/';
+// const PROF_REF = 'professional/';
+// const BASKET_REF = '/basket/';
+// const BASKET_ARCHIVE_REF = '/basketArchive/';
+// const NORMAL_REF = 'normal';
+// const BUSINESS_REF = 'business/';
+// const PRODUCT_REF =  'product/';
 
 var userEmail = "";
 var userPhone = "";
@@ -35,24 +36,32 @@ var userPhone = "";
  * Sends an email to normal user (buyier) and professional users(sellers).
  */
 // [START onUpdateTrigger]
-exports = module.exports = functions.database.ref('/basket/{id}/completed').onCreate((snap, context) => {
+exports = module.exports = functions.database.ref('/test-basket/{id}/completed').onCreate((snap, context) => {
   // [END onUpdateTrigger]
   // [START eventAttributes]
-  console.log("Sending purchase emails...");
-  const snapshot = snap.val();
-  /* PRODUCTION - The id of the user clicking 'اتمام العملية' recived as a parameter */
   const userId = context.params.id;
+  // if (! event.data.exists()){
+  //   return
+  // }
+  //const val = snapshot.data(); // The user basket
+  /* PRODUCTION - The id of the user clicking 'اتمام العملية' recived as a parameter */
   console.log("event.params.id " + context.params.id);
-  console.log(snap.toJSON());
+  //console.log("event.data() " + event.data());
+  console.log("event.data " + snap.val());
+
+  const snapshot = snap.val();
+
   /* TESTING - we should provid an Id as the emulator does not recive the actual id*/
   //const userId = "E0xeGw1dZfgEspNSRYRRepB7jMi2";
 
-
+  // if (!snapshot.changed('completed')) {
+  //   return null;
+  // }
   var ref;
-  if (snapshot['group'] === "normal") {
+  if (snapshot.group === "normal") {
     ref = NORMAL_REF
   }else{
-    ref = PROF_REF
+    ref = BUSINESS_REF
   }
 
 // get normal user email

@@ -31,6 +31,8 @@ admin.initializeApp({
 
 exports.generateThumbnail = require('./generateThumbnail');
 exports.onPurchaseComplete = require('./onPurchaseComplete');
+exports.testOnPurchaseComplete = require('./testOnPurchaseComplete');
+
 //exports.largeToThumbnail = require('./largeToThumbnail');
 
 

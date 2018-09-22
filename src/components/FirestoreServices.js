@@ -1,6 +1,7 @@
 import { app, base, database, storage, db } from "../base";
 import firebase from "firebase";
 import _ from 'lodash'
+import FirebaseServices from './FirebaseServices'
 
 let DB_BASE = db;
 //The following is the sotrage object.
@@ -24,8 +25,10 @@ let _NORMAL_PATH = testPrefix + "normal";
 let _BASKET_PATH = testPrefix + "basket";
 let _BUSINESS_HOMEIMGS_PATH = testPrefix + "businessHomeImgs";
 let _PROFILE_HOMEIMGS_PATH = testPrefix + "profileHomeImages";
+let _PRODUCT_ARCHIVE_PATH = testPrefix + "productArchive";
+let _IDEA_ARCHIVE_PATH = testPrefix + "ideaArchive";
 
-/* DATABASE AND STORGAE REFERENCES FOR TESTING*/
+/* DATABASE AND STORGAE REFERENCES FOR DEPLOYMENT*/
 // let _PRODUCTS_PATH = "product"; //change me by removing test
 // let _IDEAS_PATH = "idea";
 // let _BUSINESSES_PATH = "business"; //change me by removing test
@@ -40,6 +43,8 @@ let _PROFILE_HOMEIMGS_PATH = testPrefix + "profileHomeImages";
 // let _BASKET_PATH = "basket";
 // let _BUSINESS_HOMEIMGS_PATH = "businessHomeImgs";
 // let _PROFILE_HOMEIMGS_PATH = "profileHomeImages";
+// let _PRODUCT_ARCHIVE_PATH = "productArchive";
+// let _IDEA_ARCHIVE_PATH = "ideaArchive";
 
 // firestore references
 let _REF_BASE = DB_BASE;
@@ -51,6 +56,9 @@ let _REF_GROUP = DB_BASE.collection(_GROUPS_PATH); //change me by removing test
 let _REF_PROF = DB_BASE.collection(_PROF_PATH)
 let _REF_NORMAL = DB_BASE.collection(_NORMAL_PATH)
 let _REF_BASKET = DB_BASE.collection(_BASKET_PATH)
+let _REF_PRODUCT_ARCHIVE = DB_BASE.collection(_PRODUCT_ARCHIVE_PATH);
+let _REF_IDEA_ARCHIVE = DB_BASE.collection(_IDEA_ARCHIVE_PATH);
+
 
 // Storage reference
 var _REF_BUSINESS_LOGO = STORAGE_BASE.child(_BUSINESS_LOGOS_PATH); //change me by removing test
@@ -68,8 +76,14 @@ export default {
   get PRODUCTS_PATH() {
     return _PRODUCTS_PATH;
   },
+  get PRODUCT_ARCHIVE_PATH() {
+    return _PRODUCT_ARCHIVE_PATH;
+  },
   get IDEAS_PATH() {
     return _IDEAS_PATH;
+  },
+  get IDEA_ARCHIVE_PATH() {
+    return _IDEA_ARCHIVE_PATH;
   },
   get BUSINESSES_PATH() {
     return _BUSINESSES_PATH;
@@ -113,8 +127,14 @@ export default {
   get products() {
     return _REF_PRODUCT;
   },
+  get productsArchive() {
+    return _REF_PRODUCT_ARCHIVE;
+  },
   get ideas() {
     return _REF_IDEA;
+  },
+  get ideasArchive() {
+    return _REF_IDEA_ARCHIVE;
   },
   get groups() {
     return _REF_GROUP;
@@ -1020,7 +1040,74 @@ export default {
 
   getBasketRef(userId){
     return this.basket.doc(userId)
-  }
+  },
+
+// This method will
+// 1. delete the product reference from the likes node in Firebase
+// 2. delete the product reference from the basket node in Firebase
+// 3. move the product to productArcive collectin in Firestore
+// 4. delete the product form the product collection
+// NOTE: images in the storage will not be affected
+  deleteProduct(productId){
+
+    var promises = [];
+    promises.push(FirebaseServices.deleteProductFromBaskets(productId))
+    promises.push(FirebaseServices.deleteLikesForProduct(productId))
+
+    var productRef = this.getProductRef(productId);
+    var productNewRef = this.productsArchive.doc(productId);
+
+    return Promise.all(promises).then(function() {
+      return db.runTransaction((transaction) => {
+          return transaction.get(productRef)
+          .then((doc) => {
+            console.log("Product detailes - transaction()");
+            if (doc.exists) {
+              console.log("Product found");
+              console.log(doc.data());
+              var product = doc.data();
+              var timestamp = firebase.firestore.FieldValue.serverTimestamp()
+              product = {...product, dateDeleted: timestamp};
+              transaction.set(productNewRef, product);}
+            })
+          .then(() => {
+            transaction.update(productRef, {test: "test"});
+          })
+          //return post;
+        });
+    });
+
+  },
+
+  deleteIdea(ideaId){
+
+    var promises = [];
+    promises.push(FirebaseServices.deleteLikesForIdea(ideaId))
+
+    var ideaRef = this.getIdeaRef(ideaId);
+    var ideaNewRef = this.ideasArchive.doc(ideaId);
+
+    return Promise.all(promises).then(function() {
+      return db.runTransaction((transaction) => {
+          return transaction.get(ideaRef)
+          .then((doc) => {
+            console.log("idea detailes - transaction()");
+            if (doc.exists) {
+              console.log("idea found");
+              console.log(doc.data());
+              var idea = doc.data();
+              var timestamp = firebase.firestore.FieldValue.serverTimestamp()
+              idea = {...idea, dateDeleted: timestamp};
+              transaction.set(ideaNewRef, idea);}
+            })
+          .then(() => {
+            transaction.update(ideaRef, {test: "test"});
+          })
+        });
+    });
+
+  },
+
 
   // changeName(){
   //
@@ -1058,13 +1145,14 @@ export default {
   //
   // },
   //
-  // copyImages(){
-  //   this.products.get().then(docs => {
-  //     docs.forEach(doc => {
-  //         this.products.doc(doc.id).update({images: doc.data().imagesTemp})
-  //     })
-  //   })
-  // }
+  copyImages(){
+    this.products.get().then(docs => {
+      docs.forEach(doc => {
+        var p = '' + doc.data().price
+          this.products.doc(doc.id).update({price: p})
+      })
+    })
+  }
   /**
    * This method is used to insert a new item into basket into DB
    */

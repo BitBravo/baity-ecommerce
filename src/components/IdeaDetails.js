@@ -104,6 +104,15 @@ height:70vh;
 
 `;
 
+const CloseButton=styled.button`
+position:absolute;
+top:0px;
+left:5px;
+width:30px;
+height:30px;
+background-color:white;
+color:black;`
+
 const PaddingDiv = styled.div`
 font-size:15px;
 padding-right: 10px;
@@ -141,12 +150,19 @@ class IdeaDetails extends Component {
         showError: false, errorMsg: 'error'
       },
       index: 0,
-      liked: false
+      liked: false,
+      deletionStatus: {
+        showDeleteModal: false,
+        deletionSuccessful: false,
+        errorMsg: ''
+      }
     };
   }
 
   componentWillMount() {
     this.thumbImage.bind(this);
+    this.archiveIdea = this.archiveIdea.bind(this)
+
     const authenticated = this.props.authenticated
     this.ideasRef = base.bindDoc(`${FirestoreServices.IDEAS_PATH}/${this.ideaId}`, {
       context: this,
@@ -229,6 +245,37 @@ class IdeaDetails extends Component {
     }
   }
 
+  archiveIdea(){
+    this.setState({ loading: true })
+    FirestoreServices.deleteIdea(this.state.idea.id)
+    .then(() => {
+      //show success popup
+      let deletionStatus = {
+        showDeleteModal: true,
+        deletionSuccessful: true,
+        errorMsg: ''
+      }
+      let newState = {...this.state, loading: false, deletionStatus: deletionStatus}
+
+      this.setState(newState, () => {console.log('after successful idea deletion state is:'); console.log(this.state);})
+
+    })
+    .catch(error => {
+      //show failure popup
+      let deletionStatus = {
+        showDeleteModal: true,
+        deletionSuccessful: false,
+        errorMsg: `حدث خطأ غير معروف. نرجو ابلاغ الصيانة بالخطأ التالي:
+          ERROR: could not delete idea. error code: ${error.code}, error message:${error.message}`
+      }
+      let newState = {...this.state, loading: false, deletionStatus: deletionStatus}
+
+      this.setState(newState)
+
+    })
+
+  }
+
   render() {
 
     const idea = this.state.idea;
@@ -252,12 +299,42 @@ class IdeaDetails extends Component {
         </Modal>
       </div>
     );
+    if (this.state.deletionStatus.showDeleteModal)
+      return (
+        <div>
+        { this.state.deletionStatus.deletionSuccessful
+          ? <Modal show={true} style={{ top: 100 }}>
+          <Modal.Header>تم حذف الفكرة بنجاح</Modal.Header>
+              <Modal.Body>
+              <Link to="/">
+                <Button>العودة للصفحة الرئيسية</Button>
+              </Link>
+              </Modal.Body>
+              </Modal>
+          :
+            <Modal show={true} style={{ top: 100 }} onHide={this.handleHide} style={{ top: 250 }}>
+              <Modal.Header>
+                <CloseButton onClick={this.handleHide}>X</CloseButton>
+                حدث خطأ غير معروف
+              </Modal.Header>
+              <Modal.Body>
+
+              <Alert bsStyle="danger">
+                {this.state.deletionStatus.errorMsg}
+              </Alert>
+            </Modal.Body>
+            </Modal>
+          }
+        </div>
+      );
   if (!this.state.loading && !this.state.showError)
       return(
 
         <Grid >
           <Row style={{display: 'flex', flexWrap: 'wrap'}} className="productdetails">
              <ImageCol  xs={12} sm={12} md={8} lg={9}  style={{padding:'0'}}>
+             <button type="submit" onClick={ () => {this.archiveIdea();}}>
+             deleteIdea </button>
             <Carousel    indicators={false} wrap={false}>
              <Carousel.Item>
                <ImageContainer>

@@ -141,7 +141,7 @@ export class MyCart extends Component {
     // create a chat between user and business owner **later
     // fetch owners emails
     // send email msg with uesr email and product information
-    FirebaseServices.basket.child(this.props.currentUser.uid).update({'completed': false})
+    FirebaseServices.basket.child(this.props.currentUser.uid).update({'completed': {'isCompleted': true, 'group':`${this.props.group}`, 'contactMethod': "email"}})
     this.props.updateCart(false,true)
     this.setState({completed: true});
   }
@@ -178,7 +178,7 @@ export class MyCart extends Component {
       return [
         <Grid key="one">
           <h2 style={{ textAlign:'center',color: 'rgb(26,156,142)'}}>سلة التسوق</h2>
-          {this.state.total > 0 ?
+          {this.state.total > 0 /* this.state.basket.length*/ ?
             <Row style={{ display: 'flex', flexWrap: 'wrap', boxShadow: '5px 5px 5px #d7d7d7' }} >
             <MainCartList products={this.state.products} removefromCart={this.removefromCart}/>
             <Col xs={12} style={{ background:'white' }}>
@@ -355,8 +355,8 @@ render(){
             <DropCart >
             <p style={{ textAlign:'center'}}>سلة التسوق</p>
             <hr/>
-            <HeaderCartList products={this.state.products}            
-             
+            <HeaderCartList products={this.state.products}
+
               />
            <h4 style={{ textAlign:'center'}}> المجموع :
         <span style={{ color: 'rgb(26,156,142)'}}> {subtotal} ر.س </span>

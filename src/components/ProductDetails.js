@@ -184,7 +184,12 @@ class ProductDetails extends Component {
         },
         index: 0,
         liked: false,
-        show: false
+        show: false,
+        deletionStatus: {
+          showDeleteModal: false,
+          deletionSuccessful: false,
+          errorMsg: ''
+        }
       };
     this.handleShow = this.handleShow.bind(this);
     this.handleHide = this.handleHide.bind(this);
@@ -205,6 +210,7 @@ class ProductDetails extends Component {
     this.addToCart = this.addToCart.bind(this)
     const authenticated = this.props.authenticated
 
+    this.archiveProduct = this.archiveProduct.bind(this)
 
     this.productsRef = base.bindDoc(`${FirestoreServices.PRODUCTS_PATH}/${this.productId}`, {
       context: this,
@@ -270,7 +276,7 @@ class ProductDetails extends Component {
 
       return db.runTransaction((transaction) => {
           return transaction.get(productRef).then((doc) => {
-          console.log("Prudoct detailes - transaction()")
+          console.log("Product detailes - transaction()")
           if (doc.exists) {
            var post = doc.data()
               if (!like) {
@@ -307,10 +313,42 @@ class ProductDetails extends Component {
     }
   }
 
+  archiveProduct(){
+    this.setState({ loading: true })
+    FirestoreServices.deleteProduct(this.state.product.id)
+    .then(() => {
+      //show success popup
+      let deletionStatus = {
+        showDeleteModal: true,
+        deletionSuccessful: true,
+        errorMsg: ''
+      }
+      let newState = {...this.state, loading: false, deletionStatus: deletionStatus}
+
+      this.setState(newState, () => {console.log('after successful product deletion state is:'); console.log(this.state);})
+
+    })
+    .catch(error => {
+      //show failure popup
+      let deletionStatus = {
+        showDeleteModal: true,
+        deletionSuccessful: false,
+        errorMsg: `حدث خطأ غير معروف. نرجو ابلاغ الصيانة بالخطأ التالي:
+          ERROR: could not delete product. error code: ${error.code}, error message:${error.message}`
+      }
+      let newState = {...this.state, loading: false, deletionStatus: deletionStatus}
+
+      this.setState(newState)
+
+    })
+
+  }
+
   render() {
 
     const product = this.state.product;
     console.log(product.id)
+
     const { nextIcon, prevIcon } = this.state;
     if (this.state.loading && !this.state.errorHandling.showError)
       return <Loading />;
@@ -331,12 +369,42 @@ class ProductDetails extends Component {
           </Modal>
         </div>
       );
+    if (this.state.deletionStatus.showDeleteModal)
+      return (
+        <div>
+        { this.state.deletionStatus.deletionSuccessful
+          ? <Modal show={true} style={{ top: 100 }}>
+          <Modal.Header>تم حذف المنتج بنجاح</Modal.Header>
+              <Modal.Body>
+              <Link to="/">
+                <Button>العودة للصفحة الرئيسية</Button>
+              </Link>
+              </Modal.Body>
+              </Modal>
+          :
+            <Modal show={true} style={{ top: 100 }} onHide={this.handleHide} style={{ top: 250 }}>
+              <Modal.Header>
+                <CloseButton onClick={this.handleHide}>X</CloseButton>
+                حدث خطأ غير معروف
+              </Modal.Header>
+              <Modal.Body>
+
+              <Alert bsStyle="danger">
+                {this.state.deletionStatus.errorMsg}
+              </Alert>
+            </Modal.Body>
+            </Modal>
+          }
+        </div>
+      );
     if (!this.state.loading && !this.state.showError)
       return (
 
         <Grid >
           <Row style={{ display: 'flex', flexWrap: 'wrap' }} className="productdetails">
             <ImageCol xs={12} sm={12} md={8} lg={9} style={{ padding: '0' }}>
+            <button type="submit" onClick={ () => {this.archiveProduct();}}>
+            deleteProduct </button>
 
               <Carousel indicators={false} wrap={false}>
                 <Carousel.Item>
@@ -418,7 +486,6 @@ class ProductDetails extends Component {
               </PaddingDiv>
 
               <div >
-
                 {/* only product owner can update a product */}
                 {this.props.authenticated
                   ? this.props.currentUser.uid === this.state.product.owner

@@ -197,6 +197,7 @@ class Main extends Component {
             component={MyCart}
             currentUser={this.props.currentUser}
             updateCart={this.props.updateCart}
+            group={this.props.group}
           />
 
           <Route
