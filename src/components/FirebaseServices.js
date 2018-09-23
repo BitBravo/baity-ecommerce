@@ -1020,6 +1020,49 @@ uploadIdeaImages(newImages, viewUploadProgress, uid){
       });
   },
 
+  getBasketsWithProduct(productID){
+    this.basket.once('value')
+      .then(dataSnapshot => {
+      })
+      .catch(error => {
+          console.log(`FirebaseServices.readDBRecord: error reading entry from DB`)
+          console.log(`ERROR: code: ${error.code}, message:${error.message}`)
+      })
+  },
+
+  deleteProductFromBaskets(productId){
+    return this.basket.orderByChild(`items/${productId}/quantity`).startAt(1)
+    .once('value')
+    .then(snapshot => {
+      const customersIds = Object.keys(snapshot.val());
+      console.log(snapshot.val());
+      customersIds.map( customerId => this.basket.child(`${customerId}/items/${productId}`).remove())
+    })
+    .catch(error => console.log(`ERROR: code: ${error.code}, message:${error.message}`))
+  },
+
+  deleteLikesForProduct(productId){
+    return this.likes.orderByChild(`products/${productId}`).equalTo("product")
+    .once('value')
+    .then(snapshot => {
+      const customersIds = Object.keys(snapshot.val());
+      console.log(snapshot.val());
+      customersIds.map( customerId => this.likes.child(`${customerId}/products/${productId}`).remove())
+    })
+    .catch(error => console.log(`ERROR: code: ${error.code}, message:${error.message}`))
+  },
+
+  deleteLikesForIdea(ideaId){
+    return this.likes.orderByChild(`ideas/${ideaId}`).equalTo("idea")
+    .once('value')
+    .then(snapshot => {
+      const customersIds = Object.keys(snapshot.val());
+      console.log(snapshot.val());
+      customersIds.map( customerId => this.likes.child(`${customerId}/ideas/${ideaId}`).remove())
+    })
+    .catch(error => console.log(`ERROR: code: ${error.code}, message:${error.message}`))
+  },
+
   indexing() {
     this.professionals.once('value')
       .then(dataSnapshot => {

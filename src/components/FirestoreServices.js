@@ -1,6 +1,7 @@
 import { app, base, database, storage, db } from "../base";
 import firebase from "firebase";
 import _ from 'lodash'
+import FirebaseServices from './FirebaseServices'
 
 let DB_BASE = db;
 //The following is the sotrage object.
@@ -24,8 +25,10 @@ let _NORMAL_PATH = testPrefix + "normal";
 let _BASKET_PATH = testPrefix + "basket";
 let _BUSINESS_HOMEIMGS_PATH = testPrefix + "businessHomeImgs";
 let _PROFILE_HOMEIMGS_PATH = testPrefix + "profileHomeImages";
+let _PRODUCT_ARCHIVE_PATH = testPrefix + "productArchive";
+let _IDEA_ARCHIVE_PATH = testPrefix + "ideaArchive";
 
-/* DATABASE AND STORGAE REFERENCES FOR TESTING*/
+/* DATABASE AND STORGAE REFERENCES FOR DEPLOYMENT*/
 // let _PRODUCTS_PATH = "product"; //change me by removing test
 // let _IDEAS_PATH = "idea";
 // let _BUSINESSES_PATH = "business"; //change me by removing test
@@ -40,6 +43,8 @@ let _PROFILE_HOMEIMGS_PATH = testPrefix + "profileHomeImages";
 // let _BASKET_PATH = "basket";
 // let _BUSINESS_HOMEIMGS_PATH = "businessHomeImgs";
 // let _PROFILE_HOMEIMGS_PATH = "profileHomeImages";
+// let _PRODUCT_ARCHIVE_PATH = "productArchive";
+// let _IDEA_ARCHIVE_PATH = "ideaArchive";
 
 // firestore references
 let _REF_BASE = DB_BASE;
@@ -51,6 +56,9 @@ let _REF_GROUP = DB_BASE.collection(_GROUPS_PATH); //change me by removing test
 let _REF_PROF = DB_BASE.collection(_PROF_PATH)
 let _REF_NORMAL = DB_BASE.collection(_NORMAL_PATH)
 let _REF_BASKET = DB_BASE.collection(_BASKET_PATH)
+let _REF_PRODUCT_ARCHIVE = DB_BASE.collection(_PRODUCT_ARCHIVE_PATH);
+let _REF_IDEA_ARCHIVE = DB_BASE.collection(_IDEA_ARCHIVE_PATH);
+
 
 // Storage reference
 var _REF_BUSINESS_LOGO = STORAGE_BASE.child(_BUSINESS_LOGOS_PATH); //change me by removing test
@@ -68,8 +76,14 @@ export default {
   get PRODUCTS_PATH() {
     return _PRODUCTS_PATH;
   },
+  get PRODUCT_ARCHIVE_PATH() {
+    return _PRODUCT_ARCHIVE_PATH;
+  },
   get IDEAS_PATH() {
     return _IDEAS_PATH;
+  },
+  get IDEA_ARCHIVE_PATH() {
+    return _IDEA_ARCHIVE_PATH;
   },
   get BUSINESSES_PATH() {
     return _BUSINESSES_PATH;
@@ -113,8 +127,14 @@ export default {
   get products() {
     return _REF_PRODUCT;
   },
+  get productsArchive() {
+    return _REF_PRODUCT_ARCHIVE;
+  },
   get ideas() {
     return _REF_IDEA;
+  },
+  get ideasArchive() {
+    return _REF_IDEA_ARCHIVE;
   },
   get groups() {
     return _REF_GROUP;
@@ -840,16 +860,19 @@ export default {
     console.log('FirebaseServices.deleteImage(): 1- deleting image from storage')
     var thumbPre = "thumb_";
     var path = imageUrl.substr(imageUrl.indexOf('%2F') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('%2F') + 3));
-	  var oldName = path.substr(path.lastIndexOf('%2F')+3);
-    path = path.replace(oldName, thumbPre + oldName);
     path = path.replace("%2F", "/");
     if (path.includes("%2F")){
       path = path.replace("%2F", "/");
     }
-    const storagePath = this.productImages.child(`${path}`);
-    this.deleteThumbnail(storagePath);
+    var name = path.substr(path.lastIndexOf('/')+1);
+    var thumbPath = path.replace(name, thumbPre + name);
+
+    const thumbStoragePath = this.productImages.child(`${thumbPath}`);
+    const largeStoragePath = this.productImages.child(`${path}`);
+
+    this.deleteThumbnail(thumbStoragePath);
     //delete original image "large" using url
-    return storage.refFromURL(imageUrl).delete()
+    return this.deleteThumbnail(largeStoragePath)
       .then(() => {
         return this.getProduct(productId)
       })
@@ -867,11 +890,11 @@ export default {
   },
 
   deleteThumbnail(storagePath) {
-      storagePath.getDownloadURL().then({
+      return storagePath.getDownloadURL().then({
       onResolve(foundURL) {
-        storagePath.delete();
+        return storagePath.delete();
       },onReject(error) {
-        console.log(error.code);
+        return (error.code);
       }
       })
   },
@@ -974,17 +997,21 @@ export default {
     console.log('FirebaseServices.deleteImage(): 1- deleting image from storage')
     var thumbPre = "thumb_";
     var path = imageUrl.substr(imageUrl.indexOf('%2F') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('%2F') + 3));
-	  var oldName = path.substr(path.lastIndexOf('%2F')+3);
-    path = path.replace(oldName, thumbPre + oldName);
     path = path.replace("%2F", "/");
     if (path.includes("%2F")){
       path = path.replace("%2F", "/");
     }
-    const storagePath = this.ideaImages.child(`${path}`);
+    var name = path.substr(path.lastIndexOf('/')+1);
+    var thumbPath = path.replace(name, thumbPre + name);
+
+    const thumbStoragePath = this.ideaImages.child(`${thumbPath}`);
+    const largeStoragePath = this.ideaImages.child(`${path}`);
     //storagePath.delete();
-    this.deleteThumbnail(storagePath);
+    this.deleteThumbnail(thumbStoragePath);
     //delete original image "large" using url
-    return storage.refFromURL(imageUrl).delete()
+    return this.deleteThumbnail(largeStoragePath)
+
+    //return storage.refFromURL(imageUrl).delete()
       .then(() => {
         return this.getIdea(ideaId)
       })
@@ -1015,46 +1042,114 @@ export default {
     return this.basket.doc(userId)
   },
 
-  changeName(){
+// This method will
+// 1. delete the product reference from the likes node in Firebase
+// 2. delete the product reference from the basket node in Firebase
+// 3. move the product to productArcive collectin in Firestore
+// 4. delete the product form the product collection
+// NOTE: images in the storage will not be affected
+  deleteProduct(productId){
 
-    var products = [
-      "ECONUf43GjfpZFXLAqd3w3TKQQT2",
-      "J30bLPDhmhhy7S2CNSNU7GIBBEp2",
-      "VCihVE2tqgai8FCv9aGgOByngu13",
-      "VWdagt88uSR46Q1RpVIu1cj9lZa2",
-      "hkwx4mbEX2SaitJM0aJFsCscCi62",
-      "i0G2KljDtuMsh16Pkj1qWsoi6tL2",
-      "rWsYPMSCl1Vfakh1WzeKRiPb9Bj2",
-      "sxz9BQfKw6OVPpWSYde2qAxTHbW2",
-      "yk72ULZjMyMeCaTMjpFykZwVh0J3",
-      "BpkD9nm1uGV3HBU4T1aiaG2Omds2",
-      "K3a3AptvQXT8fwOTBHO6BiVCcrx2",
-      "YaoU6h4IH7W13pw9kEhI9pm5C2V2",
-    ]
-    // products.forEach( i => {
-    // this.professional.collection(i).get().then( doc => {
+    var promises = [];
+    promises.push(FirebaseServices.deleteProductFromBaskets(productId))
+    promises.push(FirebaseServices.deleteLikesForProduct(productId))
 
-    //   console.log(i)
-    //   console.log(doc.data().businessName)
-    //   //this.professionals.doc(i).update({businessName: "بيتي"})
-    //   })
-    // })
-    // this.products.where("owner", == , i).get().then(docs => {
-    //   docs.forEach(doc =>{
-    //     this.products.doc(i).update({businessName: "بيتي"})
-    //     this.products.doc(i).update({oldOwner: doc.data().owner})
-    //     this.products.doc(i).update({owner: ""})
+    var productRef = this.getProductRef(productId);
+    var productNewRef = this.productsArchive.doc(productId);
 
-
-    // })
-    // })
+    return Promise.all(promises).then(function() {
+      return db.runTransaction((transaction) => {
+          return transaction.get(productRef)
+          .then((doc) => {
+            console.log("Product detailes - transaction()");
+            if (doc.exists) {
+              console.log("Product found");
+              console.log(doc.data());
+              var product = doc.data();
+              var timestamp = firebase.firestore.FieldValue.serverTimestamp()
+              product = {...product, dateDeleted: timestamp};
+              transaction.set(productNewRef, product);}
+            })
+          .then(() => {
+            transaction.update(productRef, {test: "test"});
+          })
+          //return post;
+        });
+    });
 
   },
-  
+
+  deleteIdea(ideaId){
+
+    var promises = [];
+    promises.push(FirebaseServices.deleteLikesForIdea(ideaId))
+
+    var ideaRef = this.getIdeaRef(ideaId);
+    var ideaNewRef = this.ideasArchive.doc(ideaId);
+
+    return Promise.all(promises).then(function() {
+      return db.runTransaction((transaction) => {
+          return transaction.get(ideaRef)
+          .then((doc) => {
+            console.log("idea detailes - transaction()");
+            if (doc.exists) {
+              console.log("idea found");
+              console.log(doc.data());
+              var idea = doc.data();
+              var timestamp = firebase.firestore.FieldValue.serverTimestamp()
+              idea = {...idea, dateDeleted: timestamp};
+              transaction.set(ideaNewRef, idea);}
+            })
+          .then(() => {
+            transaction.update(ideaRef, {test: "test"});
+          })
+        });
+    });
+
+  },
+
+
+  // changeName(){
+  //
+  //   var products = [
+  //     "ECONUf43GjfpZFXLAqd3w3TKQQT2",
+  //     "J30bLPDhmhhy7S2CNSNU7GIBBEp2",
+  //     "VCihVE2tqgai8FCv9aGgOByngu13",
+  //     "VWdagt88uSR46Q1RpVIu1cj9lZa2",
+  //     "hkwx4mbEX2SaitJM0aJFsCscCi62",
+  //     "i0G2KljDtuMsh16Pkj1qWsoi6tL2",
+  //     "rWsYPMSCl1Vfakh1WzeKRiPb9Bj2",
+  //     "sxz9BQfKw6OVPpWSYde2qAxTHbW2",
+  //     "yk72ULZjMyMeCaTMjpFykZwVh0J3",
+  //     "BpkD9nm1uGV3HBU4T1aiaG2Omds2",
+  //     "K3a3AptvQXT8fwOTBHO6BiVCcrx2",
+  //     "YaoU6h4IH7W13pw9kEhI9pm5C2V2",
+  //   ]
+  //   products.forEach( i => {
+  //   this.professional.collection(i).get().then( doc => {
+  //
+  //     console.log(i)
+  //     console.log(doc.data().businessName)
+  //     //this.professionals.doc(i).update({businessName: "بيتي"})
+  //     })
+  //   })
+  //   this.products.where("owner", == , i).get().then(docs => {
+  //     docs.forEach(doc =>{
+  //       this.products.doc(i).update({businessName: "بيتي"})
+  //       this.products.doc(i).update({oldOwner: doc.data().owner})
+  //       this.products.doc(i).update({owner: ""})
+  //
+  //
+  //   })
+  //   })
+  //
+  // },
+  //
   copyImages(){
     this.products.get().then(docs => {
       docs.forEach(doc => {
-          this.products.doc(doc.id).update({images: doc.data().imagesTemp})
+        var p = '' + doc.data().price
+          this.products.doc(doc.id).update({price: p})
       })
     })
   }
