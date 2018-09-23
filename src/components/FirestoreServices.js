@@ -1087,7 +1087,7 @@ export default {
               transaction.set(productNewRef, product);}
             })
           .then(() => {
-            transaction.update(productRef, {test: "test"});
+            transaction.delete(productRef);
           })
           //return post;
         });
@@ -1117,7 +1117,7 @@ export default {
               transaction.set(ideaNewRef, idea);}
             })
           .then(() => {
-            transaction.update(ideaRef, {test: "test"});
+            transaction.delete(ideaRef);
           })
         });
     });

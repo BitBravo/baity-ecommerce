@@ -189,7 +189,7 @@ export class MyCart extends Component {
            <h4 style={{ textAlign:'left'}}> المجموع : &nbsp;&nbsp;
            <span style={{ color: 'rgb(26,156,142)'}}> {total} ر.س </span></h4>
            {total > 0
-           ?<Button onClick={this.handleShow}>اتمام العملية</Button>
+           ?<Button onClick={this.handleShow}>إرسال الطلب للبائعين</Button>
            :null}
             </Col>
              </Row>
