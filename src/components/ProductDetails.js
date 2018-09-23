@@ -403,8 +403,7 @@ class ProductDetails extends Component {
         <Grid >
           <Row style={{ display: 'flex', flexWrap: 'wrap' }} className="productdetails">
             <ImageCol xs={12} sm={12} md={8} lg={9} style={{ padding: '0' }}>
-            <button type="submit" onClick={ () => {this.archiveProduct();}}>
-            deleteProduct </button>
+           
 
               <Carousel indicators={false} wrap={false}>
                 <Carousel.Item>
@@ -489,11 +488,16 @@ class ProductDetails extends Component {
                 {/* only product owner can update a product */}
                 {this.props.authenticated
                   ? this.props.currentUser.uid === this.state.product.owner
-                    ? <Link to={`/products/${product.id}/updateProduct`}>
-                      <button style={{  width: '50%' , position: 'absolute', bottom: '0', left: '5px' }} >
-                        تحديث بيانات المنتج
-                </button>
-                    </Link>
+                    ? <div>
+                        <button style={{  width: '45%' , position: 'absolute', bottom: '0', right: '5px' }} 
+                                         type="submit" onClick={ () => {this.archiveProduct();}}>
+                          حذف المنتج </button>
+                        <Link to={`/products/${product.id}/updateProduct`}>
+                          <button style={{  width: '45%' , position: 'absolute', bottom: '0', left: '5px' }} >
+                           تحديث بيانات المنتج
+                           </button>
+                         </Link>
+                       </div>
                     :
                     <div style={{ position: 'absolute', bottom: '0',right:'5px' }}>
                       <h4 >من :&nbsp;
@@ -515,7 +519,7 @@ class ProductDetails extends Component {
                   </div>
                 }
               </div>
-
+            
               <div>
                 <Modal
                   show={this.state.show}
