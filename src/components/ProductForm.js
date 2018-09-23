@@ -535,6 +535,7 @@ class ProductForm extends Component {
         // 1- callback for notifying us about success
         // 2- callback for notifying us about failure
         // 3- callback for notifying us about progress of submission
+        // selectedImg add to onSubmit
         this.props.onSubmit(
           product, this.state.newImages,
           // progress bar updater callback

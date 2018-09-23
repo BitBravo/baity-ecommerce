@@ -59,6 +59,8 @@ let _REF_BASKET = DB_BASE.collection(_BASKET_PATH)
 let _REF_PRODUCT_ARCHIVE = DB_BASE.collection(_PRODUCT_ARCHIVE_PATH);
 let _REF_IDEA_ARCHIVE = DB_BASE.collection(_IDEA_ARCHIVE_PATH);
 
+// this is to be set later be product and idea
+var selectedImg = "";
 
 // Storage reference
 var _REF_BUSINESS_LOGO = STORAGE_BASE.child(_BUSINESS_LOGOS_PATH); //change me by removing test
@@ -759,10 +761,12 @@ export default {
       var tasks = _.map(newImages, image => {
         const file = image.file
         //const imageRef = this.productImages.child(`${uid}/${Date.now() + Math.random()}`);
+        const name = `${i++}${Date.now() + Math.random()}`
         const imageRef = this.productImages
-          .child(`${uid}/${productId}/${i++}${Date.now() + Math.random()}`);
+          .child(`${uid}/${productId}/${name}`);
         var task = imageRef.put(file, { contentType: file.type });
         task.name = file.name;
+        //this.selectedImg = {oldName: file.name, newName: name}
         viewUploadProgress(0, task.name)
 
         // Register an upload task observer to observe state change events such as progress, pause, and resume
@@ -838,7 +842,9 @@ export default {
         console.log("product" + product)
         //combine new images with current images from DB into 'images' property of product
         images = product.images? [...images, ...product.images]: images;
+        //coverImage = images.filter( image => this.getImgNameFromURL(image.large) === this.selectedImg )
         var productRef = this.products.doc(productId);
+        //productRef.update({images: images, coverImage: coverImage})
         productRef.update({images: images})
       })
       .catch(error => {
@@ -1026,6 +1032,16 @@ export default {
         console.log(`FirebaseServices.deleteImage(): can not delete image. error code: ${error.code}, error message:${error.message}`)
         throw error
       })
+  },
+
+  getImgNameFromURL(imageUrl){
+    var path = imageUrl.substr(imageUrl.indexOf('%2F') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('%2F') + 3));
+    path = path.replace("%2F", "/");
+    if (path.includes("%2F")){
+      path = path.replace("%2F", "/");
+    }
+    var name = path.substr(path.lastIndexOf('/')+1);
+    return name;
   },
 
   /*

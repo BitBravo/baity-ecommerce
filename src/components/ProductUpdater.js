@@ -149,7 +149,7 @@ class ProductUpdater extends Component {
     console.log(`${this.constructor.name}.componentWillUpdate`);
   }
 
-
+//addImages(productId, newImages, selectedImg, formPercentageViewer){
   addImages(productId, newImages, formPercentageViewer){
     return FirestoreServices.addProductImages(productId, newImages, formPercentageViewer, this.props.currentUser.uid)
   }
@@ -164,6 +164,7 @@ class ProductUpdater extends Component {
     return FirestoreServices.updateProduct(newProductData, this.productId);//returns a promise resolved with product ID
   }
 
+//  handleSubmit(product, newImages, selectedImg, formPercentageViewer) {
   handleSubmit(product, newImages, formPercentageViewer) {
     if (this.state.isNewProduct) {
       return this.addProduct(product)
