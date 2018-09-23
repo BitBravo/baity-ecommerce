@@ -1031,23 +1031,23 @@ export default {
       "K3a3AptvQXT8fwOTBHO6BiVCcrx2",
       "YaoU6h4IH7W13pw9kEhI9pm5C2V2",
     ]
-    products.forEach( i => {
-    this.professional.collection(i).get().then( doc => {
+    // products.forEach( i => {
+    // this.professional.collection(i).get().then( doc => {
 
-      console.log(i)
-      console.log(doc.data().businessName)
-      //this.professionals.doc(i).update({businessName: "بيتي"})
-      })
-    })
-    this.products.where("owner", == , i).get().then(docs => {
-      docs.forEach(doc =>{
-        this.products.doc(i).update({businessName: "بيتي"})
-        this.products.doc(i).update({oldOwner: doc.data().owner})
-        this.products.doc(i).update({owner: ""})
+    //   console.log(i)
+    //   console.log(doc.data().businessName)
+    //   //this.professionals.doc(i).update({businessName: "بيتي"})
+    //   })
+    // })
+    // this.products.where("owner", == , i).get().then(docs => {
+    //   docs.forEach(doc =>{
+    //     this.products.doc(i).update({businessName: "بيتي"})
+    //     this.products.doc(i).update({oldOwner: doc.data().owner})
+    //     this.products.doc(i).update({owner: ""})
 
 
-    })
-    })
+    // })
+    // })
 
   },
   
