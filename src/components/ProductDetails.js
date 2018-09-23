@@ -185,6 +185,7 @@ class ProductDetails extends Component {
         index: 0,
         liked: false,
         show: false,
+        show1: false,
         deletionStatus: {
           showDeleteModal: false,
           deletionSuccessful: false,
@@ -193,15 +194,23 @@ class ProductDetails extends Component {
       };
     this.handleShow = this.handleShow.bind(this);
     this.handleHide = this.handleHide.bind(this);
+    this.handleShow1 = this.handleShow1.bind(this);
+    this.handleHide1 = this.handleHide1.bind(this);
+
   }
 
 
   handleShow() {
     this.setState({ show: true });
   }
-
+  handleShow1() {
+    this.setState({ show1: true });
+  }
   handleHide() {
     this.setState({ show: false });
+  }
+  handleHide1() {
+    this.setState({ show1: false });
   }
 
 
@@ -490,7 +499,7 @@ class ProductDetails extends Component {
                   ? this.props.currentUser.uid === this.state.product.owner
                     ? <div>
                         <button style={{  width: '45%' , position: 'absolute', bottom: '0', right: '5px' }} 
-                                         type="submit" onClick={ () => {this.archiveProduct();}}>
+                                         type="submit" onClick={ () => {this.handleShow1();}}>
                           حذف المنتج </button>
                         <Link to={`/products/${product.id}/updateProduct`}>
                           <button style={{  width: '45%' , position: 'absolute', bottom: '0', left: '5px' }} >
@@ -536,6 +545,25 @@ class ProductDetails extends Component {
                     </div>
                     <div style={{display:'inline-block',marginRight: '20px'}}>
                       <Cartbutton onClick={this.handleHide}>اكمال التسوق</Cartbutton>
+                      </div>
+                  </Modal.Body>
+                </Modal>
+              </div>
+              <div>
+                <Modal
+                  show={this.state.show1}
+                  onHide={this.handleHide1} style={{ top: 250 }}>
+                 <Modal.Header>
+                  <CloseButton onClick={this.handleHide1}>X</CloseButton>
+                       هل تريد فعلا حذف المنتج؟             
+                   </Modal.Header>
+                  <Modal.Body style={{display:'inline-block'}}>
+                  <div style={{display:'inline-block'}}>
+                      <button style={{height:'30px',width:'50px'}} type="submit" onClick={ () => {this.archiveProduct();}} >
+                      نعم</button>
+                    </div>
+                    <div style={{display:'inline-block',marginRight: '20px',width:'50px'}}>
+                      <Cartbutton onClick={this.handleHide1}>لا </Cartbutton>
                       </div>
                   </Modal.Body>
                 </Modal>

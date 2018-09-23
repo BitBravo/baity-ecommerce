@@ -136,6 +136,14 @@ position:relative;
   margin:0;
 }
 `
+const Cartbutton = styled.button`
+height:30px;
+width:100%;
+background-color:white;
+color:rgb(95,96,93);
+border:solid 0.5px #cccccc;
+
+`
 
 class IdeaDetails extends Component {
   constructor(props) {
@@ -146,6 +154,7 @@ class IdeaDetails extends Component {
     this.state = {
       idea: {},
       loading: true,
+      show: false,
       errorHandling: {
         showError: false, errorMsg: 'error'
       },
@@ -157,7 +166,17 @@ class IdeaDetails extends Component {
         errorMsg: ''
       }
     };
+    this.handleShow = this.handleShow.bind(this);
+    this.handleHide = this.handleHide.bind(this);
   }
+
+  handleShow() {
+    this.setState({ show: true });
+  }
+  handleHide() {
+    this.setState({ show: false });
+  }
+
 
   componentWillMount() {
     this.thumbImage.bind(this);
@@ -333,8 +352,7 @@ class IdeaDetails extends Component {
         <Grid >
           <Row style={{display: 'flex', flexWrap: 'wrap'}} className="productdetails">
              <ImageCol  xs={12} sm={12} md={8} lg={9}  style={{padding:'0'}}>
-             <button type="submit" onClick={ () => {this.archiveIdea();}}>
-             deleteIdea </button>
+            
             <Carousel    indicators={false} wrap={false}>
              <Carousel.Item>
                <ImageContainer>
@@ -395,11 +413,16 @@ class IdeaDetails extends Component {
               {
                 this.props.authenticated
                 ?this.props.currentUser.uid === this.state.idea.owner
-                ?<Link to={`/ideas/${idea.id}/updateIdea`} >
-                <button style={{position:'absolute',bottom:'0',left:'5px',width:'50%'}}>
+                ?<div>
+                  <button style={{  width: '45%' , position: 'absolute', bottom: '0', right: '5px' }} 
+                      type="submit" onClick={ () => {this.handleShow();}}>
+                  حذف الفكرة </button>
+                     <Link to={`/ideas/${idea.id}/updateIdea`} >
+                <button style={{position:'absolute',bottom:'0',left:'5px',width:'45%'}}>
                   تحديث بيانات الفكرة
                 </button>
               </Link>
+              </div>
                 :
                 <div style={{position: 'absolute', bottom: '0',right:'5px'}}>
                       <h4 >من:&nbsp;
@@ -418,8 +441,26 @@ class IdeaDetails extends Component {
                   </div>
 
               }
-
             </div>
+            <div>
+                <Modal
+                  show={this.state.show}
+                  onHide={this.handleHide} style={{ top: 250 }}>
+                 <Modal.Header>
+                  <CloseButton onClick={this.handleHide}>X</CloseButton>
+                  هل تريد فعلا حذف الفكرة؟             
+                  </Modal.Header>
+                  <Modal.Body style={{display:'inline-block'}}>
+                  <div style={{display:'inline-block'}}>
+                      <button style={{height:'30px',width:'50px'}} type="submit" onClick={ () => {this.archiveIdea();}} >
+                      نعم</button>
+                    </div>
+                    <div style={{display:'inline-block',marginRight: '20px',width:'50px'}}>
+                      <Cartbutton onClick={this.handleHide}>لا </Cartbutton>
+                      </div>
+                  </Modal.Body>
+                </Modal>
+              </div>
             </DetailsCol>
             </Row>
             </Grid>
