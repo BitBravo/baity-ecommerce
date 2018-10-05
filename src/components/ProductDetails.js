@@ -218,7 +218,6 @@ class ProductDetails extends Component {
     this.thumbImage.bind(this);
     this.addToCart = this.addToCart.bind(this)
     const authenticated = this.props.authenticated
-
     this.archiveProduct = this.archiveProduct.bind(this)
 
     this.productsRef = base.bindDoc(`${FirestoreServices.PRODUCTS_PATH}/${this.productId}`, {
@@ -412,7 +411,7 @@ class ProductDetails extends Component {
         <Grid >
           <Row style={{ display: 'flex', flexWrap: 'wrap' }} className="productdetails">
             <ImageCol xs={12} sm={12} md={8} lg={9} style={{ padding: '0' }}>
-           
+
 
               <Carousel indicators={false} wrap={false}>
                 <Carousel.Item>
@@ -498,7 +497,7 @@ class ProductDetails extends Component {
                 {this.props.authenticated
                   ? this.props.currentUser.uid === this.state.product.owner
                     ? <div>
-                        <button style={{  width: '45%' , position: 'absolute', bottom: '0', right: '5px' }} 
+                        <button style={{  width: '45%' , position: 'absolute', bottom: '0', right: '5px' }}
                                          type="submit" onClick={ () => {this.handleShow1();}}>
                           حذف المنتج </button>
                         <Link to={`/products/${product.id}/updateProduct`}>
@@ -528,7 +527,7 @@ class ProductDetails extends Component {
                   </div>
                 }
               </div>
-            
+
               <div>
                 <Modal
                   show={this.state.show}
@@ -555,7 +554,7 @@ class ProductDetails extends Component {
                   onHide={this.handleHide1} style={{ top: 250 }}>
                  <Modal.Header>
                   <CloseButton onClick={this.handleHide1}>X</CloseButton>
-                       هل تريد فعلا حذف المنتج؟             
+                       هل تريد فعلا حذف المنتج؟
                    </Modal.Header>
                   <Modal.Body style={{display:'inline-block'}}>
                   <div style={{display:'inline-block'}}>
