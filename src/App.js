@@ -245,9 +245,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(`${this.constructor.name}.render`);
-    //console.log("current user in App")
-    //console.log(this.state.currentUser)
     return (
       <BrowserRouter>
         <div style={{ margin: "0 auto" }}>
@@ -260,7 +257,7 @@ class App extends Component {
             setCurrentUser={this.setCurrentUser}
             userImg={this.state.userImg}
           />
-          {/* <Main
+          <Main
             authenticated={this.state.authenticated}
             currentUser={this.state.currentUser}
             group={this.state.group}
@@ -273,8 +270,7 @@ class App extends Component {
             group={this.state.group}
             userName={this.state.userName}
             userImg={this.state.userImg}
-
-          /> */}
+          />
         </div>
       </BrowserRouter>
     );

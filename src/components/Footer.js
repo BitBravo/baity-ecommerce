@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import baityfooter from '../assets/img/baityfooter.png';
-import {TiSocialTwitter,TiSocialInstagram,TiSocialFacebook,TiMail} from 'react-icons/lib/ti';
+import { TiSocialTwitter, TiSocialInstagram, TiSocialFacebook, TiMail } from 'react-icons/lib/ti';
 import styled from 'styled-components'
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { IndexLinkContainer } from 'react-router-bootstrap';
-import { Glyphicon ,Modal} from "react-bootstrap";
+import { Glyphicon, Modal } from "react-bootstrap";
 import logo_placeholder from '../assets/img/logo-placeholder.jpg';
 import Homepage from '../assets/img/Unselected-homepage.png';
 import Idea from '../assets/img/Unselected-idea.png';
@@ -50,7 +50,7 @@ class Footer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userImg:"",
+      userImg: "",
 
       year: new Date().getFullYear()
     };
@@ -61,71 +61,68 @@ class Footer extends Component {
 
   render() {
     return ([
-
-
-<footer className="myfooter" fixed>
-  <h4  style={{display:'inline-block'}}> {this.state.year} جميع الحقوق محفوظة <span> <img  src={baityfooter}/></span></h4>
-  <h6 style={{display:'inline-block', paddingRight:'20px'}}>
-       <a style={{color:'white'}}>
-        <TiMail className="icons"/></a>
-        <a style={{color:'white'}} href="https://twitter.com/baity_sa">
-        <TiSocialTwitter className="icons"/></a>
-        <a style={{color:'white'}}href="https://www.instagram.com/baity_sa/">
-        <TiSocialInstagram className="icons"/></a>
-        <a style={{color:'white'}} href="https://www.facebook.com/profile.php?id=100025094470933">
-       <TiSocialFacebook className="icons"/></a>
-   </h6>
-</footer>,
-<footer className="mopilefooter" fixed>
-       <MobileDiv >
-            <IndexLinkContainer to="/" activeClassName="activePage">
+      <footer className="myfooter" key="pc" fixed="true">
+        <h4 style={{ display: 'inline-block' }}> {this.state.year} جميع الحقوق محفوظة <span> <img src={baityfooter} /></span></h4>
+        <h6 style={{ display: 'inline-block', paddingRight: '20px' }}>
+          <a style={{ color: 'white' }}>
+            <TiMail className="icons" /></a>
+          <a style={{ color: 'white' }} href="https://twitter.com/baity_sa">
+            <TiSocialTwitter className="icons" /></a>
+          <a style={{ color: 'white' }} href="https://www.instagram.com/baity_sa/">
+            <TiSocialInstagram className="icons" /></a>
+          <a style={{ color: 'white' }} href="https://www.facebook.com/profile.php?id=100025094470933">
+            <TiSocialFacebook className="icons" /></a>
+        </h6>
+      </footer>,
+      <footer className="mopilefooter" key="mobile" fixed="true">
+        <MobileDiv >
+          <IndexLinkContainer to="/" activeClassName="activePage">
             <span>
-            <IconImg src={Homepage} className="icons"/>
-              <IconImg src={ActiveHomepage} className="activeIcons"/>
-             <UserName > الرئيسية </UserName>
+              <IconImg src={Homepage} className="icons" />
+              <IconImg src={ActiveHomepage} className="activeIcons" />
+              <UserName > الرئيسية </UserName>
             </span>
-            </IndexLinkContainer>
-            <LinkContainer to="/productspage" activeClassName="activePage">
+          </IndexLinkContainer>
+          <LinkContainer to="/productspage" activeClassName="activePage">
             <span>
-            <IconImg src={Product} className="icons"/>
-              <IconImg src={ActiveProduct} className="activeIcons"/>
-               <UserName > المنتجات </UserName>
+              <IconImg src={Product} className="icons" />
+              <IconImg src={ActiveProduct} className="activeIcons" />
+              <UserName > المنتجات </UserName>
             </span>
+          </LinkContainer>
+          <LinkContainer to="/ideaspage" activeClassName="activePage">
+            <span>
+              <IconImg src={Idea} className="icons" />
+              <IconImg src={ActiveIdea} className="activeIcons" />
+              <UserName > الأفكار </UserName>
+            </span>
+          </LinkContainer>
+
+          {!this.props.authenticated ? (
+            <LinkContainer to="/login" activeClassName="activePage">
+              {/* <UserImg src={logo_placeholder}/> */}
+              <span>
+                <IconImg src={ActiveProfile} className="activeIcons" />
+                <IconImg src={Profile} className="icons" />
+                <UserName > حسابي </UserName>
+              </span>
             </LinkContainer>
-            <LinkContainer to="/ideaspage" activeClassName="activePage">
-            <span>
-            <IconImg src={Idea} className="icons"/>
-              <IconImg src={ActiveIdea} className="activeIcons"/>
-               <UserName > الأفكار </UserName>
-            </span>
-            </LinkContainer>
-
-             {!this.props.authenticated ? (
-                <LinkContainer to="/login" activeClassName="activePage">
-                    {/* <UserImg src={logo_placeholder}/> */}
-                  <span>
-                    <IconImg src={ActiveProfile} className="activeIcons"/>
-                    <IconImg src={Profile} className="icons"/>
-                    <UserName > حسابي </UserName>
-                  </span>
-                </LinkContainer>
-            ) : (
+          ) : (
 
               <LinkContainer to="/myprofile" activeClassName="imgActivePage"
               // style={{display:'block',marginLeft:'auto',marginRight:'auto',padding:'0'}}
               >
-                 {this.props.userImg
-                   ?<UserImg src={this.props.userImg}/>
-                   :<UserImg src={logo_placeholder}/>
-                  }
+                {this.props.userImg
+                  ? <UserImg src={this.props.userImg} />
+                  : <UserImg src={logo_placeholder} />
+                }
 
               </LinkContainer>
 
 
-          )}
-       </MobileDiv >
-
-</footer>
+            )}
+        </MobileDiv >
+      </footer>
     ]
     );
   }

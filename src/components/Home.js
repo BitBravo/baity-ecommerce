@@ -1,14 +1,14 @@
-import React ,{ Component } from "react";
+import React, { Component } from "react";
 import { app, base } from "../base";
-import { Image,Carousel,Panel } from "react-bootstrap";
+import { Image, Carousel, Panel } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import ProductList from './ProductList';
 import traditionalkitchen from '../assets/img/traditionalkitchen.jpg';
 import bedroom from '../assets/img/bedroom.jpg';
-import livingroom from '../assets/img/livingroom.jpg'; 
+import livingroom from '../assets/img/livingroom.jpg';
 import styled from 'styled-components'
-import {CBrief} from "./ProductBrief";
-import CaroselImg from '../assets/img/CaroselImg.jpg'; 
+import { CBrief } from "./ProductBrief";
+import CaroselImg from '../assets/img/CaroselImg.jpg';
 
 
 const PreviewImg = styled.img`
@@ -51,100 +51,95 @@ font-size: 35px;
   margin-top:20px;
 }
  `
- export class Home extends Component {
+export class Home extends Component {
   constructor() {
     super();
     this.state = {
       products: {}
     };
   }
+
   render() {
     const products = this.state.products
     const productIds = Object.keys(products)
-
-
- 
-   return (
-
-  <div>
-
-    <div >
-  <Carousel controls={false}>
-      <Carousel.Item>
-        <div>
-          <ImageContainer>
-            <ImageDiv>
-           
-              <PreviewImg  src={bedroom}/>
-     
-        </ImageDiv>
-        </ImageContainer>
-        <Carousel.Caption className="hero">
-          <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
-         
-          {!this.props.authenticated ?
-          (<LinkContainer to="/login" >
-            
-            <Button>
-              ابدأ معنا
-              </Button>
-              </LinkContainer>)
-            :<div></div> }
-        </Carousel.Caption>
-        
-        </div>
-      </Carousel.Item>
-      <Carousel.Item>
-        <div>
-        <ImageContainer>
-            <ImageDiv>
-              <PreviewImg  src= {CaroselImg} />
-        </ImageDiv>
-        </ImageContainer>
-        <Carousel.Caption className="hero">
-          <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
-         
-          {!this.props.authenticated ? 
-            <LinkContainer to="/login" >
-              
-              <Button>
-                ابدأ معنا
-                </Button>
-                </LinkContainer>
-         :<div></div> }
-        </Carousel.Caption>
-        </div>
-      </Carousel.Item>
-      <Carousel.Item>
+    return (
       <div>
-      <ImageContainer>
-            <ImageDiv>
-              <PreviewImg  src= {livingroom}/>
-        </ImageDiv>
-        </ImageContainer>
+        <div >
+          <Carousel controls={false}>
+            <Carousel.Item>
+              <div>
+                <ImageContainer>
+                  <ImageDiv>
 
-        <Carousel.Caption className="hero">
-          <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
-         
-          {!this.props.authenticated ? 
-         <LinkContainer to="/login" >
-              
-         <Button>
-           ابدأ معنا
-           </Button>
-           </LinkContainer>
-          :<div></div> 
-          }
-        </Carousel.Caption>
+                    <PreviewImg src={bedroom} />
+
+                  </ImageDiv>
+                </ImageContainer>
+                <Carousel.Caption className="hero">
+                  <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
+
+                  {!this.props.authenticated ?
+                    (<LinkContainer to="/login" >
+
+                      <Button>
+                        ابدأ معنا
+                      </Button>
+                    </LinkContainer>)
+                    : <div></div>}
+                </Carousel.Caption>
+
+              </div>
+            </Carousel.Item>
+            <Carousel.Item>
+              <div>
+                <ImageContainer>
+                  <ImageDiv>
+                    <PreviewImg src={CaroselImg} />
+                  </ImageDiv>
+                </ImageContainer>
+                <Carousel.Caption className="hero">
+                  <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
+
+                  {!this.props.authenticated ?
+                    <LinkContainer to="/login" >
+
+                      <Button>
+                        ابدأ معنا
+                </Button>
+                    </LinkContainer>
+                    : <div></div>}
+                </Carousel.Caption>
+              </div>
+            </Carousel.Item>
+            <Carousel.Item>
+              <div>
+                <ImageContainer>
+                  <ImageDiv>
+                    <PreviewImg src={livingroom} />
+                  </ImageDiv>
+                </ImageContainer>
+
+                <Carousel.Caption className="hero">
+                  <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
+
+                  {!this.props.authenticated ?
+                    <LinkContainer to="/login" >
+                      <Button>
+                        ابدأ معنا
+                      </Button>
+                    </LinkContainer>
+                    : <div></div>
+                  }
+                </Carousel.Caption>
+              </div>
+            </Carousel.Item>
+          </Carousel>
         </div>
-      </Carousel.Item>
-      
-    </Carousel>
-   </div>
+        <ProductList thisUserOnly={false} />
+      </div>
 
-    <ProductList thisUserOnly={false}/>
-  </div>
-  
-       );}}
+    );
+  }
+}
 
 export default Home;
