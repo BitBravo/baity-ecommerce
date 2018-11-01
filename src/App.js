@@ -10,8 +10,8 @@ import "./App.css";
 
 const userStorageKey = storageKey + '_USER';
 const groupStorageKey = storageKey + '_GROUP';
-const userNameStorageKey = storageKey + '_USERNAME'; 
-const userImgStorageKey = storageKey + '_LOGO'; 
+const userNameStorageKey = storageKey + '_USERNAME';
+const userImgStorageKey = storageKey + '_LOGO';
 // function createElement(Component, props) {
 //   var key = Math.floor(Math.random() * 1000); // some key that changes across route changes
 //   return <Component key={key} {...props} />;
@@ -32,10 +32,10 @@ class App extends Component {
       group: null,
       userName: "",
       basket: {},
-      userCart:"",
+      userCart: "",
       cartCount: 0,
       userImg: "",
-      owner:""
+      owner: ""
 
     }
     this.setCurrentUser = this.setCurrentUser.bind(this);
@@ -51,22 +51,23 @@ class App extends Component {
       var owner;
       // cache user object to avoid firebase auth latency bug
       window.localStorage.setItem(userStorageKey, JSON.stringify(user));
-      
-      FirestoreServices.readDBRecord('group', user.uid).then( value => {
+
+      FirestoreServices.readDBRecord('group', user.uid).then(value => {
+        console.log(value)
         console.log(value.group)
-        
+
         if (value.group === "prof") {
-              owner = user.uid
-          var ref= FirestoreServices.businesses.where("owner", "==", owner)
-          .onSnapshot(snapshot => {
-            snapshot.forEach(val => {
-              window.localStorage.setItem(userImgStorageKey, val.imgUrl);
-              this.setState({
-                userImg: val.data().imgUrl,
-                owner: owner
+          owner = user.uid
+          var ref = FirestoreServices.businesses.where("owner", "==", owner)
+            .onSnapshot(snapshot => {
+              snapshot.forEach(val => {
+                window.localStorage.setItem(userImgStorageKey, val.imgUrl);
+                this.setState({
+                  userImg: val.data().imgUrl,
+                  owner: owner
+                })
               })
             })
-          })
           console.log("value.group")
           FirestoreServices.readDBRecord('profUser', `${user.uid}`)
             .then(val => {
@@ -74,35 +75,37 @@ class App extends Component {
               window.localStorage.setItem(groupStorageKey, value.group);
               window.localStorage.setItem(userNameStorageKey, val.name);
 
-              this.setState({currentUser: user,
-              authenticated: true,
-              group: value.group,
-              userName: val.name,
-            })
-            return this.getCart(user)
-          })          
-      
-    
-        }else if (value.group === "normal"){
-          var ref= FirestoreServices.normalUsers.where("uid" , "==", `${user.uid}`)
-          .onSnapshot(snapshot => {
-            snapshot.forEach(val => {
-              window.localStorage.setItem(userImgStorageKey, val.imgUrl);
               this.setState({
-                userImg: val.data().imgUrl
+                currentUser: user,
+                authenticated: true,
+                group: value.group,
+                userName: val.name,
+              })
+              return this.getCart(user)
+            })
+
+
+        } else if (value.group === "normal") {
+          var ref = FirestoreServices.normalUsers.where("uid", "==", `${user.uid}`)
+            .onSnapshot(snapshot => {
+              snapshot.forEach(val => {
+                window.localStorage.setItem(userImgStorageKey, val.imgUrl);
+                this.setState({
+                  userImg: val.data().imgUrl
+                })
               })
             })
-          })
           FirestoreServices.readDBRecord('normalUser', `${user.uid}`)
-          .then(val => {
+            .then(val => {
               //cache username value and group value
               window.localStorage.setItem(groupStorageKey, val.group);
               window.localStorage.setItem(userNameStorageKey, val.name);
 
-              this.setState({currentUser: user,
-              authenticated: true,
-              group: val.group,
-              userName: val.name,
+              this.setState({
+                currentUser: user,
+                authenticated: true,
+                group: val.group,
+                userName: val.name,
               })
               var b = this.getCart(user)
               return b;
@@ -110,85 +113,87 @@ class App extends Component {
 
         }
       }
-    )
-  }
+      )
+    }
 
-      /*
-        // We can get the folloiwng information. See: (https://firebase.google.com/docs/auth/web/manage-users)
-        name = user.displayName;
-        email = user.email;
-        photoUrl = user.photoURL;
-        emailVerified = user.emailVerified;
-        uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
-                          // this value to authenticate with your backend server, if
-                          // you have one. Use User.getToken() instead.
-        // This is the information for providers (email&password, facebook, google, ...etc)
-        user.providerData.forEach(function (profile) {
-          console.log("Sign-in provider: " + profile.providerId);
-          console.log("  Provider-specific UID: " + profile.uid);
-          console.log("  Name: " + profile.displayName);
-          console.log("  Email: " + profile.email);
-          console.log("  Photo URL: " + profile.photoURL);
-        });
-      */
+    /*
+      // We can get the folloiwng information. See: (https://firebase.google.com/docs/auth/web/manage-users)
+      name = user.displayName;
+      email = user.email;
+      photoUrl = user.photoURL;
+      emailVerified = user.emailVerified;
+      uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
+                        // this value to authenticate with your backend server, if
+                        // you have one. Use User.getToken() instead.
+      // This is the information for providers (email&password, facebook, google, ...etc)
+      user.providerData.forEach(function (profile) {
+        console.log("Sign-in provider: " + profile.providerId);
+        console.log("  Provider-specific UID: " + profile.uid);
+        console.log("  Name: " + profile.displayName);
+        console.log("  Email: " + profile.email);
+        console.log("  Photo URL: " + profile.photoURL);
+      });
+    */
 
 
- 
+
     else { //No user is logged in
       // 1- clean up auth cache
       window.localStorage.removeItem(userStorageKey);
       window.localStorage.removeItem(groupStorageKey);
       window.localStorage.removeItem(userNameStorageKey);
       window.localStorage.removeItem(userImgStorageKey);
-      
+
       // 2- clean up state
       this.setState({
         currentUser: null,
         authenticated: false,
         userName: "",
         cartCount: 0,
-        userCart:"",
-        userImg:"",
+        userCart: "",
+        userImg: "",
         owner: ""
-            })
+      })
     }
   }
-getCart(user){
-  // get items in basket
-  //FirestoreServices.getBasket()
-  FirebaseServices.basket.child(`${user.uid}/items`).once('value', snapshot => {
+
+  getCart(user) {
+    // get items in basket
+    //FirestoreServices.getBasket()
+    FirebaseServices.basket.child(`${user.uid}/items`).once('value', snapshot => {
       // Listen for document metadata changes
-    console.log("val.childCount " + snapshot.numChildren());
-    this.setState({
-      cartCount: snapshot.numChildren()})
-    return snapshot.numChildren()
+      console.log("val.childCount " + snapshot.numChildren());
+      this.setState({
+        cartCount: snapshot.numChildren()
+      })
+      return snapshot.numChildren()
 
-    // if (doc.exist){
-    //   const currentCount = doc.exists ? doc.data().count : 0
-    //   var count = Object.keys(doc.data().items)
-    //   console.log("val.childCount " + count.length);
-    //
-    //   this.setState({cartCount: count.length})
-    //   return docs.size
-    // }
-  })
-}
-
-updateCart(add, remove) {
-  var newCount = 0
-  if (remove)
-    this.setState({cartCount: newCount})
-  else {
-    if(add){
-      newCount = this.state.cartCount + 1
-      console.log("Item added")
-    }else {
-      newCount = this.state.cartCount - 1
-      console.log("Item removed")
-    }
-    this.setState({cartCount: newCount})
+      // if (doc.exist){
+      //   const currentCount = doc.exists ? doc.data().count : 0
+      //   var count = Object.keys(doc.data().items)
+      //   console.log("val.childCount " + count.length);
+      //
+      //   this.setState({cartCount: count.length})
+      //   return docs.size
+      // }
+    })
   }
-}
+
+  updateCart(add, remove) {
+    var newCount = 0
+    if (remove)
+      this.setState({ cartCount: newCount })
+    else {
+      if (add) {
+        newCount = this.state.cartCount + 1
+        console.log("Item added")
+      } else {
+        newCount = this.state.cartCount - 1
+        console.log("Item removed")
+      }
+      this.setState({ cartCount: newCount })
+    }
+  }
   // method to update basket
 
   componentWillMount() {
@@ -198,13 +203,11 @@ updateCart(add, remove) {
     // a problem when a logged in user refreshes his page, we need to cache the auth
     // data in the local browser storage to retrieve it synchronously before
     // rendering the component
-    if (window.localStorage.getItem(userStorageKey)){
-      console.log('user from local sotrage')
-      console.log(window.localStorage.getItem(userStorageKey))
+    if (window.localStorage.getItem(userStorageKey)) {
       console.log('user from local storage after parse')
       console.log(JSON.parse(window.localStorage.getItem(userStorageKey)))
       this.setState(
-        { 
+        {
           currentUser: JSON.parse(window.localStorage.getItem(userStorageKey)),
           authenticated: true,
           group: window.localStorage.getItem(groupStorageKey),
@@ -228,16 +231,16 @@ updateCart(add, remove) {
     this.removeAuthListener();
   }
 
-  componentDidMount(){
+  componentDidMount() {
     console.log(`${this.constructor.name}.componentDidMount`);
   }
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     console.log(`${this.constructor.name}.componentWillReceiveProps`);
     console.log('nextProps')
     console.log(nextProps)
   }
 
-  componentWillUpdate(){
+  componentWillUpdate() {
     console.log(`${this.constructor.name}.componentWillUpdate`);
   }
 
@@ -257,7 +260,7 @@ updateCart(add, remove) {
             setCurrentUser={this.setCurrentUser}
             userImg={this.state.userImg}
           />
-          <Main
+          {/* <Main
             authenticated={this.state.authenticated}
             currentUser={this.state.currentUser}
             group={this.state.group}
@@ -265,13 +268,13 @@ updateCart(add, remove) {
             setCurrentUser={this.setCurrentUser}
           />
           <Footer
-           authenticated={this.state.authenticated}
-           currentUser={this.state.currentUser}
-           group={this.state.group}
-           userName={this.state.userName}
-           userImg={this.state.userImg}
+            authenticated={this.state.authenticated}
+            currentUser={this.state.currentUser}
+            group={this.state.group}
+            userName={this.state.userName}
+            userImg={this.state.userImg}
 
-           />
+          /> */}
         </div>
       </BrowserRouter>
     );

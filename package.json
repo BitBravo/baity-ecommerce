@@ -6,6 +6,7 @@
     "@google-cloud/storage": "^1.6.0",
     "bootstrap": "^3.3.7",
     "child-process-promise": "^2.2.1",
+    "env-cmd": "^8.0.2",
     "firebase": "^4.11.0",
     "firebase-admin": "^5.11.0",
     "firebase-paginator": "^1.1.2",
@@ -35,8 +36,10 @@
     "validator": "^9.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start:dev": "env-cmd .env.dev react-scripts start",
+    "build:dev": "env-cmd .env.dev react-scripts build",
+    "start": "env-cmd .env.prod react-scripts start",
+    "build": "env-cmd .env.prod react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "deploy": "firebase deploy"

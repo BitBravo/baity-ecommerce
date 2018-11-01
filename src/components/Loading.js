@@ -12,12 +12,11 @@ Notice that we use a progress bar when we are waiting for
 a write/update operation.
 */
 
-const Loading = (props) => {
-  return <div style={{ textAlign: "center",  top: "25%", left: "50%" }} {...props}>
-  <h3>Loading...</h3>
-  <div style={{display: 'inline-block'}}><Spinner style={{ textAlign: "center"}}/></div>
-  
-</div>
-}
+const Loading = (props) => (
+  <div style={{ textAlign: "center", top: "25%", left: "50%" }} {...props}>
+    <h3>Loading...</h3>
+    <div style={{ display: 'inline-block' }}><Spinner style={{ textAlign: "center" }} /></div>
+  </div>
+)
 
 export default Loading;
