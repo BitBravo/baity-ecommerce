@@ -92,7 +92,7 @@ class ProductList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("componentWillReceiveProps - Product List")
+    console.log(`${this.constructor.name} => nextProps`)
     console.log(nextProps)
     // filter options will be recived as props
     if (nextProps.filter) {
@@ -298,7 +298,7 @@ class ProductList extends Component {
     } else {
 
       return (
-        <div style={{ paddingTop: "30px" }}>
+        <div style={{ paddingTop: "0px" }}>
           <Grid>
             <Row style={{ display: 'flex', flexWrap: 'wrap' }}>
 

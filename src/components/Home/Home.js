@@ -1,14 +1,17 @@
 import React, { Component } from "react";
-import { app, base } from "../base";
+import { app, base } from "../../base";
 import { Image, Carousel, Panel } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import ProductList from './ProductList';
-import traditionalkitchen from '../assets/img/traditionalkitchen.jpg';
-import bedroom from '../assets/img/bedroom.jpg';
-import livingroom from '../assets/img/livingroom.jpg';
+import ProductList from '../ProductList';
+import CarouselMenu from '../../commons/CarouselMenu';
+import traditionalkitchen from 'assets/img/traditionalkitchen.jpg';
+import bedroom from 'assets/img/bedroom.jpg';
+import livingroom from 'assets/img/livingroom.jpg';
 import styled from 'styled-components'
-import { CBrief } from "./ProductBrief";
-import CaroselImg from '../assets/img/CaroselImg.jpg';
+import { CBrief } from "../ProductBrief";
+import CaroselImg from 'assets/img/CaroselImg.jpg';
+
+import './styles.css'
 
 
 const PreviewImg = styled.img`
@@ -60,8 +63,6 @@ export class Home extends Component {
   }
 
   render() {
-    const products = this.state.products
-    const productIds = Object.keys(products)
     return (
       <div>
         <div >
@@ -134,6 +135,16 @@ export class Home extends Component {
               </div>
             </Carousel.Item>
           </Carousel>
+        </div>
+        <div className='container carousel-containter-block'>
+          <div className='carousel-containter carousel-1'>
+            <p className='curousle-title'>Hello world1</p>
+            <CarouselMenu />
+          </div>
+          <div className='carousel-containter carousel-2'>
+            <p className='curousle-title'>hello world2</p>
+            <CarouselMenu />
+          </div>
         </div>
         <ProductList thisUserOnly={false} />
       </div>
