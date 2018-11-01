@@ -3,7 +3,7 @@ import { Switch, Route, Redirect, Link } from "react-router-dom";
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { app, base } from "../base";
-import FirebaseServices from './FirebaseServices';
+import FirebaseServices from '../services/FirebaseServices';
 import ProductList from "./ProductList";
 import IdeaList from "./IdeaList";
 import ProfileInfo from "./ProfileInfo";
@@ -33,57 +33,57 @@ import _ from 'lodash'
 import MyProgressBar from './MyProgressBar'
 
 class MyAccount extends Component {
-  constructor(){
+  constructor() {
     super();
   }
 
-  componentWillMount(){
+  componentWillMount() {
 
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
 
   }
 
-  render(){
+  render() {
     return (
       <div>
-      {this.props.group === "prof"?
-      <div>
-         <ProfileInfo currentUser={this.props.currentUser}/>
-         <ProductList
-          thisUserOnly={true}
-          shortList={true}
-          currentUser={this.props.currentUser}
-          group={this.props.group}
-         />
-         <IdeaList
-          thisUserOnly={true}
-          shortList={true}
-          currentUser={this.props.currentUser}
-          group={this.props.group}
-         />
-       </div>
-       : <div>
-          <NormalProfileInfo currentUser={this.props.currentUser}/>
-          <FavProducts
-           shortList={true}
-           currentUser={this.props.currentUser}
-           group={this.props.group}
-          />
-          <FavIdeas
-           shortList={true}
-           currentUser={this.props.currentUser}
-           group={this.props.group}
-          />
-        </div>
-      }
+        {this.props.group === "prof" ?
+          <div>
+            <ProfileInfo currentUser={this.props.currentUser} />
+            <ProductList
+              thisUserOnly={true}
+              shortList={true}
+              currentUser={this.props.currentUser}
+              group={this.props.group}
+            />
+            <IdeaList
+              thisUserOnly={true}
+              shortList={true}
+              currentUser={this.props.currentUser}
+              group={this.props.group}
+            />
+          </div>
+          : <div>
+            <NormalProfileInfo currentUser={this.props.currentUser} />
+            <FavProducts
+              shortList={true}
+              currentUser={this.props.currentUser}
+              group={this.props.group}
+            />
+            <FavIdeas
+              shortList={true}
+              currentUser={this.props.currentUser}
+              group={this.props.group}
+            />
+          </div>
+        }
 
 
 
 
-     </div>
-  );
+      </div>
+    );
   }
 }
 

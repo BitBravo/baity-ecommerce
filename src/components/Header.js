@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import firebase from "firebase";
 import { app, base, database, storage } from "../base";
-import FirebaseServices from './FirebaseServices'
+import FirebaseServices from '../services/FirebaseServices'
 import { Nav, Navbar, NavItem, NavbarBrand, NavDropdown, MenuItem, Glyphicon, Modal, Col, Collapse, Row } from "react-bootstrap";
 import bayty_icon from '../assets/img/bayty_icon.png';
 import { TiUserAddOutline } from 'react-icons/lib/ti';

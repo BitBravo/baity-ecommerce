@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Grid, Row, Col } from "react-bootstrap";
 import { app, base } from "../base";
-import FirebaseServices from './FirebaseServices'
-import FirestoreServices from './FirestoreServices'
-import FirestorePaginator from './FirestorePaginator'
+import FirebaseServices from '../services/FirebaseServices'
+import FirestoreServices from 'services/FirestoreServices'
+import FirestorePaginator from 'services/FirestorePaginator'
 import IdeaBrief from "./IdeaBrief";
 import Loading from './Loading'
 import { MdWeekend } from 'react-icons/lib/md';

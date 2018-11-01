@@ -3,13 +3,13 @@ import { app, base } from "../../base";
 import { Image, Carousel, Panel } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import ProductList from '../ProductList';
-import CarouselMenu from '../../commons/CarouselMenu';
 import traditionalkitchen from 'assets/img/traditionalkitchen.jpg';
 import bedroom from 'assets/img/bedroom.jpg';
 import livingroom from 'assets/img/livingroom.jpg';
 import styled from 'styled-components'
 import { CBrief } from "../ProductBrief";
 import CaroselImg from 'assets/img/CaroselImg.jpg';
+import CarouselBanner from 'components/CarouselBanner';
 
 import './styles.css'
 
@@ -138,12 +138,10 @@ export class Home extends Component {
         </div>
         <div className='container carousel-containter-block'>
           <div className='carousel-containter carousel-1'>
-            <p className='curousle-title'>Hello world1</p>
-            <CarouselMenu />
+            <CarouselBanner {...{ city: 'LonDon' }} />
           </div>
           <div className='carousel-containter carousel-2'>
-            <p className='curousle-title'>hello world2</p>
-            <CarouselMenu />
+            <CarouselBanner param={{ city: 'Los Angeles' }} />
           </div>
         </div>
         <ProductList thisUserOnly={false} />

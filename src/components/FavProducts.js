@@ -2,15 +2,15 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Grid, Row, Col } from "react-bootstrap";
 import { app, base } from "../base";
-import FirestoreServices from './FirestoreServices'
-import FirebaseServices from './FirebaseServices'
+import FirestoreServices from 'services/FirestoreServices'
+import FirebaseServices from '../services/FirebaseServices'
 import ProductBrief from "./ProductBrief";
 import Loading from './Loading'
-import {MdEventSeat} from 'react-icons/lib/md';
+import { MdEventSeat } from 'react-icons/lib/md';
 import styled from 'styled-components'
-import FirebasePaginator from './firebase-pag';
+import FirebasePaginator from 'services/firebase-pag';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import {MyProductBrief} from "./ProductBrief";
+import { MyProductBrief } from "./ProductBrief";
 
 const Button = styled.button`
 background-color:transparent;
@@ -23,7 +23,7 @@ color:rgb(26, 156, 142);
     width:40px;
     font-size:10px;
   `;
-  const NextButton= styled.button`
+const NextButton = styled.button`
   background-color:black;
   opacity: 0.7;
   position:absolute;
@@ -36,7 +36,7 @@ color:rgb(26, 156, 142);
   font-size: 50px;
   color:white;
   `
-  const G=styled.div`
+const G = styled.div`
   display: block;
     text-align: start;
     float: none;
@@ -53,7 +53,7 @@ color:rgb(26, 156, 142);
     overflow-y:hidden;
 
   `
-  const F=styled.div`
+const F = styled.div`
   text-align: left;
   float: none;
   position: absolute;
@@ -87,7 +87,7 @@ class FavProducts extends Component {
   }
 
   likedProducts(val) {
-    if(val){
+    if (val) {
       const productIds = Object.keys(val);
       var productsList = {}
       console.log("the list contines" + productIds)
@@ -95,14 +95,14 @@ class FavProducts extends Component {
         FirestoreServices.products.doc(id).get().then((snapshot) => {
           console.log(snapshot.data())
           var products = [...this.state.products, snapshot.data()]
-          this.setState({products: products, loading: false, empty: false})
+          this.setState({ products: products, loading: false, empty: false })
 
         });
 
       });
-    }else {
-      this.setState({loading: false, empty: true})
-  }
+    } else {
+      this.setState({ loading: false, empty: true })
+    }
   }
 
   componentWillMount() {
@@ -110,10 +110,10 @@ class FavProducts extends Component {
     this.firebasePaginatorFiltering1 = this.firebasePaginatorFiltering.bind(this, ref)
     this.forwardFiltring = this.forwardFiltring.bind(this)
 
-      if(this.props.shortList){
-        FirebaseServices.likes.child(`${this.props.currentUser.uid}/products`).limitToLast(3).once("value", function (snapshot) {
-          console.log(snapshot.val())
-        }).then(snapshot => this.likedProducts(snapshot.val()));
+    if (this.props.shortList) {
+      FirebaseServices.likes.child(`${this.props.currentUser.uid}/products`).limitToLast(3).once("value", function (snapshot) {
+        console.log(snapshot.val())
+      }).then(snapshot => this.likedProducts(snapshot.val()));
     } else {
       // this.userLikesRef = FirebaseServices.readDBRecord('likes', `${this.props.currentUser.uid}/products`)
       // .then(val => this.likedProducts(val))
@@ -144,17 +144,17 @@ class FavProducts extends Component {
     var list = []
     if (this.state.extraProducts.length < 1) {
       list = arr.slice()
-    }else {
+    } else {
       list = [...this.state.extraProducts, ...arr.slice()]
     }
-    this.setState({extraProducts: list, loading: false})
+    this.setState({ extraProducts: list, loading: false })
   }
 
   firebasePaginatorFiltering() {
-    var handler = ( () => {
+    var handler = (() => {
       var productIds = (Object.keys(paginator.collection))
       console.log(productIds.length)
-      if (productIds.length > 0){
+      if (productIds.length > 0) {
         var newProducts = {}
         const listPromises = productIds.map(id => {
           return FirestoreServices.products.doc(id).get().then(snapshot => {
@@ -165,93 +165,93 @@ class FavProducts extends Component {
 
         const results = Promise.all(listPromises)
         results.then((snapshot) => {
-          this.setState({products: newProducts, empty: false})
+          this.setState({ products: newProducts, empty: false })
           this.listToArray();
 
         })//results.then
       } //newProductIds.length
-  })
+    })
     paginator.on('value', handler);
   }
 
-  forwardFiltring(){
+  forwardFiltring() {
     paginator.previous()
-    .then()
+      .then()
   }
 
   render() {
     const products = this.state.products;
     const productIds = Object.keys(products);
 
-      if (this.state.loading)
-      return(
-       <Loading/>
-      )
-    else if (this.props.shortList){
+    if (this.state.loading)
       return (
-        <Grid style={{backgroundColor:"white"}}>
-        <Row   style={{display: 'flex', flexWrap: 'wrap',borderBottom: "1px dotted lightgray"}}>
-        <Col xs={12}  lg={12} >
-        <hr style={{marginBottom: '30px'}}/>
-         {this.state.empty
-         ? <div><h2 style={{color:'rgb(26,156,142)'}}>المنتجات المفضلة</h2>
-            <h5 > ليس لديك منتجات مفضلة </h5> </div>
-         : <div>
-            <Col xs={2} md={3} lg={2} style={{margin: '10px 0 0 0'}} >
-          <Link to={`/favproducts`}>
-            <Button>المزيد</Button>
-          </Link>
-          </Col>
-          <Col xs={10} md={9} lg={10} >
-           <Link to={`/favproducts`}>
-          <h2 style={{color:'rgb(26,156,142)'}}>المنتجات المفضلة</h2>
-          </Link>
-          </Col>
-          </div>
-        }
-        {/* <G>
+        <Loading />
+      )
+    else if (this.props.shortList) {
+      return (
+        <Grid style={{ backgroundColor: "white" }}>
+          <Row style={{ display: 'flex', flexWrap: 'wrap', borderBottom: "1px dotted lightgray" }}>
+            <Col xs={12} lg={12} >
+              <hr style={{ marginBottom: '30px' }} />
+              {this.state.empty
+                ? <div><h2 style={{ color: 'rgb(26,156,142)' }}>المنتجات المفضلة</h2>
+                  <h5 > ليس لديك منتجات مفضلة </h5> </div>
+                : <div>
+                  <Col xs={2} md={3} lg={2} style={{ margin: '10px 0 0 0' }} >
+                    <Link to={`/favproducts`}>
+                      <Button>المزيد</Button>
+                    </Link>
+                  </Col>
+                  <Col xs={10} md={9} lg={10} >
+                    <Link to={`/favproducts`}>
+                      <h2 style={{ color: 'rgb(26,156,142)' }}>المنتجات المفضلة</h2>
+                    </Link>
+                  </Col>
+                </div>
+              }
+              {/* <G>
         <F > */}
-            {productIds.map(id => {
-              const product = products[id];
-              return <ProductBrief key={id} product={product} />;
-            })}
+              {productIds.map(id => {
+                const product = products[id];
+                return <ProductBrief key={id} product={product} />;
+              })}
 
-        {/* </F>
+              {/* </F>
         </G>  */}
-          </Col>
+            </Col>
           </Row>
 
         </Grid>
-    );
-  } else {
-    var newProducts = this.state.extraProducts.slice()
-    return (
-      <Grid Grid style={{backgroundColor:"white"}}>
-        <Row style={{display: 'flex', flexWrap: 'wrap'}}>
+      );
+    } else {
+      var newProducts = this.state.extraProducts.slice()
+      return (
+        <Grid Grid style={{ backgroundColor: "white" }}>
+          <Row style={{ display: 'flex', flexWrap: 'wrap' }}>
 
-       <Col xs={12}  lg={12}>
-       <InfiniteScroll style={{overflow:'none'}}
-          hasMore={!paginator.isLastPage}
-          next={ this.forwardFiltring}
-        >
-        <div style={{height:'70px'}}>
-        <h2 style={{color:'rgb(26,156,142)',textAlign:'center'}}> <MdEventSeat className="icons" style={{color:'rgb(26,156,142)'}}/>  منتجاتي المفضلة</h2>
-        </div>
-        <hr style={{marginBottom: '30px'}}/>
-        {newProducts.length < 1
-        ? <h5> ليس لديك منتجات مفضلة </h5>
-        : null}
-        {newProducts.map((product, index) => {
-          return <ProductBrief key={product.id} product={product} />;
-        })}
-         </InfiniteScroll>
+            <Col xs={12} lg={12}>
+              <InfiniteScroll style={{ overflow: 'none' }}
+                hasMore={!paginator.isLastPage}
+                next={this.forwardFiltring}
+              >
+                <div style={{ height: '70px' }}>
+                  <h2 style={{ color: 'rgb(26,156,142)', textAlign: 'center' }}> <MdEventSeat className="icons" style={{ color: 'rgb(26,156,142)' }} />  منتجاتي المفضلة</h2>
+                </div>
+                <hr style={{ marginBottom: '30px' }} />
+                {newProducts.length < 1
+                  ? <h5> ليس لديك منتجات مفضلة </h5>
+                  : null}
+                {newProducts.map((product, index) => {
+                  return <ProductBrief key={product.id} product={product} />;
+                })}
+              </InfiniteScroll>
 
-         </Col>
-         </Row>
+            </Col>
+          </Row>
 
-       </Grid>
-  );
-  }
+        </Grid>
+      );
+    }
   }
 }
 

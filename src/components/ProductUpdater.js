@@ -3,7 +3,7 @@ import { Modal, Alert, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import firebase from "firebase";
 import { app, base, database, storage } from "../base";
-import FirestoreServices from './FirestoreServices'
+import FirestoreServices from 'services/FirestoreServices'
 import Loading from "./Loading";
 import styled from 'styled-components'
 

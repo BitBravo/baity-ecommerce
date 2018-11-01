@@ -1,0 +1,20 @@
+.slick-slide>div {
+    margin: 0px 20px;
+}
+
+.carousel-item {
+    min-width: 170px;
+    min-height: 170px;
+    background-color: greenyellow;
+}
+
+.carousel-title-container {
+    width: 86%;
+    margin: 0px auto;
+}
+
+.carousel-title {
+    padding-top: 16px;
+    font-size: 17px;
+    margin-bottom: 3px;
+}

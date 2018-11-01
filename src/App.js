@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import { app, storageKey } from "./base"
-import Header from "./components/Header";
-import Main from "./components/Main";
-import Footer from "./components/Footer";
-import FirebaseServices from "./components/FirebaseServices";
-import FirestoreServices from "./components/FirestoreServices";
+import Header from "components/Header";
+import Main from "components/Main";
+import Footer from "components/Footer";
+import FirebaseServices from "services/FirebaseServices";
+import FirestoreServices from "services/FirestoreServices";
 import "./App.css";
 
 const userStorageKey = storageKey + '_USER';

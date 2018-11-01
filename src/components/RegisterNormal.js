@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import {LinkContainer}  from "react-router-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 import {
   FormGroup,
   ControlLabel,
@@ -17,7 +17,7 @@ import {
   Row,
   Col
 } from "react-bootstrap";
-import FirestoreServices from "./FirestoreServices";
+import FirestoreServices from "services/FirestoreServices";
 import Loading from "./Loading";
 import { app } from "../base";
 import FormUtils from './FormUtils'
@@ -140,7 +140,7 @@ class RegisterNormal extends Component {
 
   //converts indian digits into arabic ١ -> 1, ٢ -> 2 ...etc
   parseArabic(str) {
-    var result = str.replace(/[٠١٢٣٤٥٦٧٨٩]/g, function(d) {
+    var result = str.replace(/[٠١٢٣٤٥٦٧٨٩]/g, function (d) {
       return d.charCodeAt(0) - 1632;
     });
     // .replace(/[۰۱۲۳۴۵۶۷۸۹]/g, function(d) {
@@ -270,31 +270,31 @@ class RegisterNormal extends Component {
               //Note that user.uid is unique
               if (user && user.email) {
 
-                  // add user to DB
-                  FirestoreServices.createNormalUser(user, phoneNo, userName)
-                  .then( () => {
+                // add user to DB
+                FirestoreServices.createNormalUser(user, phoneNo, userName)
+                  .then(() => {
                     this.registerForm.reset(); //this works only cause this is not controlled
 
                     //Should we set the user here or just listen to auth.onAuthStateChanged in App.js
                     //this.props.setCurrentUser(user);
-                    app.auth().currentUser.sendEmailVerification().then(function() {
+                    app.auth().currentUser.sendEmailVerification().then(function () {
                       // Email sent.
-                      }, function(error) {
+                    }, function (error) {
                       // An error happened.
-                      });
+                    });
                     this.setState({ redirect: true });
                   })
-                  .catch( error => {
+                  .catch(error => {
                     //User is registered into firebase.auth in DB but not in firebase.database 'users'/'group'
                     //This should be very rare and currently we just report an error without handling it
                     console.log('adding user to DB failed');
-                    this.setState({ loading: false}, () =>
-                        this.reportError("حدث خطأ داخلي في النظام" + " User is signed up but not added to DB. Here is firestore error: " + error.code + " " + error.message));
+                    this.setState({ loading: false }, () =>
+                      this.reportError("حدث خطأ داخلي في النظام" + " User is signed up but not added to DB. Here is firestore error: " + error.code + " " + error.message));
 
                   })
               }
             })
-            .catch( error => {
+            .catch(error => {
               // Handle Errors here.
               var errorCode = error.code;
               var errorMessage = error.message;
@@ -323,9 +323,9 @@ class RegisterNormal extends Component {
               } else {
                 this.reportError(
                   "حدث خطأ غير معروف. نرجو ابلاغ الصيانة: " +
-                    errorCode +
-                    "  " +
-                    errorMessage
+                  errorCode +
+                  "  " +
+                  errorMessage
                 );
               }
               this.setState(
@@ -350,153 +350,153 @@ class RegisterNormal extends Component {
     return (
       <div className="loginreg">
 
-      <form onSubmit={event => this.authWithEmailPassword(event)}
-        ref={form => { this.registerForm = form; }}  >
+        <form onSubmit={event => this.authWithEmailPassword(event)}
+          ref={form => { this.registerForm = form; }}  >
 
-      <div className="loginregtitle">
-      <img className="img-responsive" src={bayty_icon}/>
-        <h2 style={{color:'rgb(26,156,142)'}} >التسجيل </h2>
-        </div>
-        {loading ? (
-          <Loading />
-        ) : (
-          <Collapse in={this.state.formStatusAlert.alert}>
-            <Alert bsStyle={this.state.formStatusAlert.type}>
-              {this.state.formStatusAlert.alertMsg
-                .split(",")
-                .filter(msg => msg.length > 0)
-                .map(msg => <div key={msg}>- {msg}</div>)}
-            </Alert>
-          </Collapse>
-        )}
-        <Row>
-
-
-
-
-     <Col sm={6}  md={6} lg={6} className={"col-lg-push-6; col-sm-push-6"}>
-          <FieldGroup
-            id="inputEmail"
-            type="email"
-            label="البريد الالكتروني"
-            placeholder="عنوان البريد الالكتروني"
-            inputRef={input => {
-              this.emailInput = input;
-            }}
-            name="email"
-            help={
-              this.state.formValidationStatus.email.firstTime ||
-              this.state.formValidationStatus.email.valid
-                ? "نقدر خصوصية عملائنا ولن يتم مشاركة البريد الالكتروني مع أي جهة أخرى"
-                : this.state.formValidationStatus.email.errorMessage
-            }
-            validationState={this.validationState(
-              this.state.formValidationStatus.email.firstTime,
-              this.state.formValidationStatus.email.valid
+          <div className="loginregtitle">
+            <img className="img-responsive" src={bayty_icon} />
+            <h2 style={{ color: 'rgb(26,156,142)' }} >التسجيل </h2>
+          </div>
+          {loading ? (
+            <Loading />
+          ) : (
+              <Collapse in={this.state.formStatusAlert.alert}>
+                <Alert bsStyle={this.state.formStatusAlert.type}>
+                  {this.state.formStatusAlert.alertMsg
+                    .split(",")
+                    .filter(msg => msg.length > 0)
+                    .map(msg => <div key={msg}>- {msg}</div>)}
+                </Alert>
+              </Collapse>
             )}
-          />
-          </Col>
-          <Col sm={6}  md={6} lg={6} className={"col-lg-pull-6; col-sm-pull-6"}>
-          <FieldGroup
-            id="inputUserName"
-            type="text"
-            label="الاسم"
-            placeholder="الاسم"
-            inputRef={input => {
-              this.userNameInput = input;
-            }}
-            name="userName"
-            help={
-              this.state.formValidationStatus.userName.firstTime ||
-              this.state.formValidationStatus.userName.valid
-                ? null
-                : this.state.formValidationStatus.userName.errorMessage
-            }
-            validationState={this.validationState(
-              this.state.formValidationStatus.userName.firstTime,
-              this.state.formValidationStatus.userName.valid
-            )}
-          />
- </Col>
+          <Row>
+
+
+
+
+            <Col sm={6} md={6} lg={6} className={"col-lg-push-6; col-sm-push-6"}>
+              <FieldGroup
+                id="inputEmail"
+                type="email"
+                label="البريد الالكتروني"
+                placeholder="عنوان البريد الالكتروني"
+                inputRef={input => {
+                  this.emailInput = input;
+                }}
+                name="email"
+                help={
+                  this.state.formValidationStatus.email.firstTime ||
+                    this.state.formValidationStatus.email.valid
+                    ? "نقدر خصوصية عملائنا ولن يتم مشاركة البريد الالكتروني مع أي جهة أخرى"
+                    : this.state.formValidationStatus.email.errorMessage
+                }
+                validationState={this.validationState(
+                  this.state.formValidationStatus.email.firstTime,
+                  this.state.formValidationStatus.email.valid
+                )}
+              />
+            </Col>
+            <Col sm={6} md={6} lg={6} className={"col-lg-pull-6; col-sm-pull-6"}>
+              <FieldGroup
+                id="inputUserName"
+                type="text"
+                label="الاسم"
+                placeholder="الاسم"
+                inputRef={input => {
+                  this.userNameInput = input;
+                }}
+                name="userName"
+                help={
+                  this.state.formValidationStatus.userName.firstTime ||
+                    this.state.formValidationStatus.userName.valid
+                    ? null
+                    : this.state.formValidationStatus.userName.errorMessage
+                }
+                validationState={this.validationState(
+                  this.state.formValidationStatus.userName.firstTime,
+                  this.state.formValidationStatus.userName.valid
+                )}
+              />
+            </Col>
           </Row>
-        <Row>
+          <Row>
 
-         <Col  sm={6} md={6} lg={6} className={"col-lg-push-6; col-sm-push-6"}>
-          <FieldGroup
-            id="inputPassword"
-            type="password"
-            label="كلمة السر"
-            placeholder="كلمة السر"
-            inputRef={input => {
-              this.passwordInput = input;
-            }}
-            name="password"
-            help={
-              this.state.formValidationStatus.password1.firstTime ||
-              this.state.formValidationStatus.password1.valid
-                ? "كلمة السر خليط من الحروف اللاتينية والأرقام بطول لا يقل عن ٨ أحرف"
-                : this.state.formValidationStatus.password1.errorMessage
-            }
-            validationState={this.validationState(
-              this.state.formValidationStatus.password1.firstTime,
-              this.state.formValidationStatus.password1.valid
-            )}
-          />
-</Col>
-<Col sm={6}  md={6} lg={6} className={"col-lg-pull-6; col-sm-pull-6"}>
-     <FieldGroup
-            id="inputPassword2"
-            type="password"
-            label="تأكيد كلمة السر"
-            placeholder="تأكيد كلمة السر"
-            inputRef={input => {
-              this.password2Input = input;
-            }}
-            name="password2"
-            help={
-              this.state.formValidationStatus.password2.firstTime ||
-              this.state.formValidationStatus.password2.valid
-                ? "يجب أن تتطابق كلمتي السر"
-                : this.state.formValidationStatus.password2.errorMessage
-            }
-            validationState={this.validationState(
-              this.state.formValidationStatus.password2.firstTime,
-              this.state.formValidationStatus.password2.valid
-            )}
-          />
-          </Col>
-</Row>
+            <Col sm={6} md={6} lg={6} className={"col-lg-push-6; col-sm-push-6"}>
+              <FieldGroup
+                id="inputPassword"
+                type="password"
+                label="كلمة السر"
+                placeholder="كلمة السر"
+                inputRef={input => {
+                  this.passwordInput = input;
+                }}
+                name="password"
+                help={
+                  this.state.formValidationStatus.password1.firstTime ||
+                    this.state.formValidationStatus.password1.valid
+                    ? "كلمة السر خليط من الحروف اللاتينية والأرقام بطول لا يقل عن ٨ أحرف"
+                    : this.state.formValidationStatus.password1.errorMessage
+                }
+                validationState={this.validationState(
+                  this.state.formValidationStatus.password1.firstTime,
+                  this.state.formValidationStatus.password1.valid
+                )}
+              />
+            </Col>
+            <Col sm={6} md={6} lg={6} className={"col-lg-pull-6; col-sm-pull-6"}>
+              <FieldGroup
+                id="inputPassword2"
+                type="password"
+                label="تأكيد كلمة السر"
+                placeholder="تأكيد كلمة السر"
+                inputRef={input => {
+                  this.password2Input = input;
+                }}
+                name="password2"
+                help={
+                  this.state.formValidationStatus.password2.firstTime ||
+                    this.state.formValidationStatus.password2.valid
+                    ? "يجب أن تتطابق كلمتي السر"
+                    : this.state.formValidationStatus.password2.errorMessage
+                }
+                validationState={this.validationState(
+                  this.state.formValidationStatus.password2.firstTime,
+                  this.state.formValidationStatus.password2.valid
+                )}
+              />
+            </Col>
+          </Row>
 
-<Row>
-<Col  sm={6} md={6} lg={6} className={"col-lg-push-6; col-sm-push-6"}>
-          <FieldGroup  pullright
-            id="inputPhoneNo"
-            type="text"
-            label="رقم الجوال"
-            placeholder="05XXXXXXXX"
-            inputRef={input => {
-              this.phoneNoInput = input;
-            }}
-            name="phoneNo"
-            help={
-              this.state.formValidationStatus.phoneNo.firstTime ||
-              this.state.formValidationStatus.phoneNo.valid
-                ? null
-                : this.state.formValidationStatus.phoneNo.errorMessage
-            }
-            validationState={this.validationState(
-              this.state.formValidationStatus.phoneNo.firstTime,
-              this.state.formValidationStatus.phoneNo.valid
-            )}
-          />
-          </Col>
+          <Row>
+            <Col sm={6} md={6} lg={6} className={"col-lg-push-6; col-sm-push-6"}>
+              <FieldGroup pullright
+                id="inputPhoneNo"
+                type="text"
+                label="رقم الجوال"
+                placeholder="05XXXXXXXX"
+                inputRef={input => {
+                  this.phoneNoInput = input;
+                }}
+                name="phoneNo"
+                help={
+                  this.state.formValidationStatus.phoneNo.firstTime ||
+                    this.state.formValidationStatus.phoneNo.valid
+                    ? null
+                    : this.state.formValidationStatus.phoneNo.errorMessage
+                }
+                validationState={this.validationState(
+                  this.state.formValidationStatus.phoneNo.firstTime,
+                  this.state.formValidationStatus.phoneNo.valid
+                )}
+              />
+            </Col>
           </Row>
           <button type="submit" >
             تسجيل
           </button>
           <LinkContainer to="/" activeClassName="active">
-          <button>
-            إلغاء
+            <button>
+              إلغاء
           </button>
           </LinkContainer>
         </form>

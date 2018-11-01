@@ -19,8 +19,8 @@ import {
   Col,
   Image
 } from "react-bootstrap";
-import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
-import FirebaseServices from "./FirebaseServices";
+import { Checkbox, CheckboxGroup } from 'react-checkbox-group';
+import FirebaseServices from "../services/FirebaseServices";
 import Loading from "./Loading";
 import { app } from "../base";
 import FormUtils from './FormUtils'
@@ -29,7 +29,7 @@ import logo_placeholder from '../assets/img/logo-placeholder.jpg';
 import styled from 'styled-components';
 
 
-const UserImg=styled.img`
+const UserImg = styled.img`
 width: 150px;
 height: 150px;
 border-radius: 50%; 
@@ -39,7 +39,7 @@ margin:auto;
 width: 80px;
 height: 80px;
 }`;
-const UserHomeImg=styled.img`
+const UserHomeImg = styled.img`
 width: 60%;
 height: 150px;
 display:block;
@@ -62,16 +62,16 @@ function FieldGroup({ id, label, help, validationState, firstTime, ...props }) {
 
 const SelectGroup = ({ id, label, selectedOption, ...props }) => (
   <FormGroup controlId={id}>
-  <hr/>
+    <hr />
     <ControlLabel>{label} </ControlLabel>
-   
+
     <FormControl
       componentClass="select"
       placeholder={props.placeholder}
       name={props.name}
       value={selectedOption}
       onChange={props.onChange}
-    
+
     >
       {props.options.map(opt => {
         return (
@@ -105,8 +105,8 @@ const FIELDS = {
     errorMessage: "",
     helpMsg: "",
     value: "الرياض",
-    options: FormUtils.BusinessProfileOptions.cities.map( (city) => {
-      return {key: city.id, value: city.name_ar};
+    options: FormUtils.BusinessProfileOptions.cities.map((city) => {
+      return { key: city.id, value: city.name_ar };
     })
   },
   phone: {
@@ -123,7 +123,7 @@ const FIELDS = {
   },
   logo: {
     type: 'image',
-    label: 'لوقو الشركة' ,
+    label: 'لوقو الشركة',
     valid: false,
     touched: false,
     required: false,
@@ -133,7 +133,7 @@ const FIELDS = {
   },
   homeImgUrl: {
     type: 'image',
-    label: ' صورة ملف الشركة' ,
+    label: ' صورة ملف الشركة',
     valid: false,
     touched: false,
     required: false,
@@ -229,13 +229,13 @@ const FIELDS = {
     value: ""
   }
 
-  
+
 }
 
 class ProfProfileForm extends Component {
   constructor(args) {
     super(args);
-    let fields = {...FIELDS}
+    let fields = { ...FIELDS }
     _.forEach(fields, (fieldData, fieldName) => { //element value, element key in object
       fieldData.value = this.props.profile[fieldName] || ''
     });
@@ -251,13 +251,13 @@ class ProfProfileForm extends Component {
       }
 
     }
-  
+
     let fieldsWithValuesFromDB = _.reduce(this.state.FIELDS,
-        (fieldsWithValuesFromDB, fieldData, fieldName) => { //result, value, key
+      (fieldsWithValuesFromDB, fieldData, fieldName) => { //result, value, key
 
       }, {});
-      this.handleLogoUpload = this.handleLogoUpload.bind(this);
-      this.handleHomeImgUpload = this.handleHomeImgUpload.bind(this);
+    this.handleLogoUpload = this.handleLogoUpload.bind(this);
+    this.handleHomeImgUpload = this.handleHomeImgUpload.bind(this);
     this.updateState = this.updateState.bind(this);
     this.renderInputField = this.renderInputField.bind(this);
     this.renderTextareaField = this.renderTextareaField.bind(this);
@@ -275,21 +275,21 @@ class ProfProfileForm extends Component {
 
 
   //updates data for one field
-  updateState(fieldInfo, fieldName){
-    let newStateFields = {FIELDS: {...this.state.FIELDS}};
+  updateState(fieldInfo, fieldName) {
+    let newStateFields = { FIELDS: { ...this.state.FIELDS } };
     newStateFields.FIELDS[fieldName] = fieldInfo
     this.setState(newStateFields)
   }
 
-  validateField(name, value){
-    let fieldData = {...this.state.FIELDS[name]};
+  validateField(name, value) {
+    let fieldData = { ...this.state.FIELDS[name] };
 
 
     //update state
     fieldData.value = value;
     fieldData.touched = true;
     if (FIELDS[name].onChangeValidation)
-      fieldData.valid = FIELDS[name].onChangeValidation(value)? true: false;
+      fieldData.valid = FIELDS[name].onChangeValidation(value) ? true : false;
     else
       fieldData.valid = true;
     return fieldData;
@@ -309,23 +309,23 @@ class ProfProfileForm extends Component {
   handleCheckboxChange(...args) {
     const name = args[2]
     const value = args[0]//an array of selected options
-    let fieldInfo = {...this.state.FIELDS[name]};
+    let fieldInfo = { ...this.state.FIELDS[name] };
     fieldInfo.value = value
     this.updateState(fieldInfo, name)
   }
 
-  handleLogoUpload( e ) {
+  handleLogoUpload(e) {
     e.preventDefault();
     if (!e.target.files.length > 0)//user canceled selecting a file
       return
-      this.setState({ imgUrl: e.target.files[0] });
+    this.setState({ imgUrl: e.target.files[0] });
 
-       let reader = new FileReader();
-      let  imgUrl= e.target.files[0];
-      //  let file = e.target.files[0];
+    let reader = new FileReader();
+    let imgUrl = e.target.files[0];
+    //  let file = e.target.files[0];
 
     let imageMaxSize = 1024 * 1024;//1MB
-    if (imgUrl.size > imageMaxSize){
+    if (imgUrl.size > imageMaxSize) {
       var nBytes = imgUrl.size;
       var sOutput = nBytes + " bytes"
       for (var aMultiples = ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"], nMultiple = 0, nApprox = nBytes / 1024; nApprox > 1; nApprox /= 1024, nMultiple++) {
@@ -336,34 +336,36 @@ class ProfProfileForm extends Component {
         imgErrorMessage: 'يجب أن يكون حجم الصورة أقل من ١ ميجابايت. حجم الملف الحالي هو: ' + sOutput
       })
       return;
-    } else if (!imgUrl.type.startsWith('image/jpeg') && !imgUrl.type.startsWith('image/png')){
+    } else if (!imgUrl.type.startsWith('image/jpeg') && !imgUrl.type.startsWith('image/png')) {
       this.setState({
         imgError: true,
         imgErrorMessage: 'يجب أن يتم تحميل صورة من نوع JPEG/PNG'
       })
       return;
     }
-      reader.onloadend = () => {
-          this.setState({
-            imgFile:imgUrl,//of type File that can be directly uploaded to firebase storage using "put" method
-            imgUrl: reader.result,
-            imgError: false,
-            imgErrorMessage: '' }
-        );}
-  
+    reader.onloadend = () => {
+      this.setState({
+        imgFile: imgUrl,//of type File that can be directly uploaded to firebase storage using "put" method
+        imgUrl: reader.result,
+        imgError: false,
+        imgErrorMessage: ''
+      }
+      );
+    }
+
     reader.readAsDataURL(imgUrl)
   }
-  handleHomeImgUpload( e ) {
+  handleHomeImgUpload(e) {
     e.preventDefault();
     if (!e.target.files.length > 0)//user canceled selecting a file
       return
-      this.setState({ homeImgUrl: e.target.files[0] });
-       let reader = new FileReader();
-      let  homeImgUrl= e.target.files[0]
-      //  let file = e.target.files[0];
+    this.setState({ homeImgUrl: e.target.files[0] });
+    let reader = new FileReader();
+    let homeImgUrl = e.target.files[0]
+    //  let file = e.target.files[0];
 
     let imageMaxSize = 1024 * 1024;//1MB
-    if (homeImgUrl.size > imageMaxSize){
+    if (homeImgUrl.size > imageMaxSize) {
       var nBytes = homeImgUrl.size;
       var sOutput = nBytes + " bytes"
       for (var aMultiples = ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"], nMultiple = 0, nApprox = nBytes / 1024; nApprox > 1; nApprox /= 1024, nMultiple++) {
@@ -374,71 +376,72 @@ class ProfProfileForm extends Component {
         imgErrorMessage: 'يجب أن يكون حجم الصورة أقل من ١ ميجابايت. حجم الملف الحالي هو: ' + sOutput
       })
       return;
-    } else if (!homeImgUrl.type.startsWith('image/jpeg') && !homeImgUrl.type.startsWith('image/png')){
+    } else if (!homeImgUrl.type.startsWith('image/jpeg') && !homeImgUrl.type.startsWith('image/png')) {
       this.setState({
         imgError: true,
         imgErrorMessage: 'يجب أن يتم تحميل صورة من نوع JPEG/PNG'
       })
       return;
     }
-      reader.onloadend = () => {
-     
-          this.setState({
-            imgHomeFile:homeImgUrl,//of type File that can be directly uploaded to firebase storage using "put" method
-            homeImgUrl:reader.result,//of type Data URL for preview purposes only see (https://en.wikipedia.org/wiki/Data_URI_scheme & https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL)
-            imgError: false,
-            imgErrorMessage: ''});
-      
-      }
+    reader.onloadend = () => {
+
+      this.setState({
+        imgHomeFile: homeImgUrl,//of type File that can be directly uploaded to firebase storage using "put" method
+        homeImgUrl: reader.result,//of type Data URL for preview purposes only see (https://en.wikipedia.org/wiki/Data_URI_scheme & https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL)
+        imgError: false,
+        imgErrorMessage: ''
+      });
+
+    }
     reader.readAsDataURL(homeImgUrl)
   }
 
-  validateFields(){
-     //first validate field, set valid properties and error messages
-     let newValidationState = _.reduce(this.state.FIELDS,
+  validateFields() {
+    //first validate field, set valid properties and error messages
+    let newValidationState = _.reduce(this.state.FIELDS,
       (newState, fieldData, fieldName) => { //result, value, key
         let newFieldData = this.validateField(fieldName, fieldData.value);
         newState[fieldName] = newFieldData;
         return newState;
       },
       {});
-      return newValidationState;
+    return newValidationState;
   }
-  validateForm(){
+  validateForm() {
     //then compute form validation
-    let formValid  = _.reduce(this.state.FIELDS,
-                          (formValid, field) => { //result, value, key
+    let formValid = _.reduce(this.state.FIELDS,
+      (formValid, field) => { //result, value, key
 
-                            if (field.type === 'checkbox' && field.required)
-                              return formValid && field.value.length > 0;
-                            //field not required and empty so ignore
-                            else if (['text', 'tel', 'textarea'].includes(field.type) && !field.required && field.value.length === 0)
-                              return formValid;
-                            //field not touched and has value (from DB), it is valid
-                            else if(!field.touched && field.value && field.value.length > 0)
-                              return formValid;
-                            else
-                              return formValid && (field.valid || !field.required);
-                          },
-                          true);
+        if (field.type === 'checkbox' && field.required)
+          return formValid && field.value.length > 0;
+        //field not required and empty so ignore
+        else if (['text', 'tel', 'textarea'].includes(field.type) && !field.required && field.value.length === 0)
+          return formValid;
+        //field not touched and has value (from DB), it is valid
+        else if (!field.touched && field.value && field.value.length > 0)
+          return formValid;
+        else
+          return formValid && (field.valid || !field.required);
+      },
+      true);
     return formValid;
   }
 
-  packageDataForSubmission(){
+  packageDataForSubmission() {
     var profileData = _.reduce(this.state.FIELDS,
-                  (profileData, fieldData, fieldName) => {
-                    profileData[fieldName] = fieldData.value;
-                    return profileData
-                  }, {});
+      (profileData, fieldData, fieldName) => {
+        profileData[fieldName] = fieldData.value;
+        return profileData
+      }, {});
     return profileData;
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    this.setState( {FIELDS: this.validateFields()},//first validate fields to touch all of them
-      this.setState({formValid: this.validateForm()}, () => {
+    this.setState({ FIELDS: this.validateFields() },//first validate fields to touch all of them
+      this.setState({ formValid: this.validateForm() }, () => {
 
-        if (this.state.formValid){
+        if (this.state.formValid) {
           //remove any error messages in the form
           this.setState({
             formStatusAlert: {
@@ -489,57 +492,57 @@ class ProfProfileForm extends Component {
 
   //outputs validatin state of a field (valid, not valid, neutral since it is not touched yet)
   validationState(touched, validFlag, required, value) {
-    if (!touched || (!required && (value === undefined || value.length === 0) )) return null;
+    if (!touched || (!required && (value === undefined || value.length === 0))) return null;
     else if (validFlag) return "success";
     else return "error";
   }
 
   renderInputField(fieldConfig, fieldName) {
     return (<FieldGroup
-    key={fieldName}
-    name={fieldName}
-    componentClass='input'
-    type={fieldConfig.type || null}
-    label={fieldConfig.label}
-    placeholder={fieldConfig.placeholder || null}
-    onChange={this.handleChange}
-    value={this.state.FIELDS[fieldName].value || ''}
-    help={
-      !fieldConfig.touched || (!fieldConfig.required && (fieldConfig.value === undefined || fieldConfig.value.length === 0) ) ||
-      fieldConfig.valid
-        ? fieldConfig.helpMsg || ''
-        : fieldConfig.errorMessage || ''
-    }
-    validationState={this.validationState(
-      fieldConfig.touched,
-      fieldConfig.valid,
-      fieldConfig.required,
-      fieldConfig.value
-    )}
-  />);
+      key={fieldName}
+      name={fieldName}
+      componentClass='input'
+      type={fieldConfig.type || null}
+      label={fieldConfig.label}
+      placeholder={fieldConfig.placeholder || null}
+      onChange={this.handleChange}
+      value={this.state.FIELDS[fieldName].value || ''}
+      help={
+        !fieldConfig.touched || (!fieldConfig.required && (fieldConfig.value === undefined || fieldConfig.value.length === 0)) ||
+          fieldConfig.valid
+          ? fieldConfig.helpMsg || ''
+          : fieldConfig.errorMessage || ''
+      }
+      validationState={this.validationState(
+        fieldConfig.touched,
+        fieldConfig.valid,
+        fieldConfig.required,
+        fieldConfig.value
+      )}
+    />);
   }
   renderTextareaField(fieldConfig, fieldName) {
     return (<FieldGroup
-    key={fieldName}
-    name={fieldName}
-    componentClass='textarea'
-    label={fieldConfig.label}
-    placeholder={fieldConfig.placeholder || ''}
-    onChange={this.handleChange}
-    value={this.state.FIELDS[fieldName].value || ''}
-    help={
-      !fieldConfig.touched || (!fieldConfig.required && (fieldConfig.value === undefined || fieldConfig.value.length === 0 )) ||
-      fieldConfig.valid
-        ? fieldConfig.helpMsg || ''
-        : fieldConfig.errorMessage || ''
-    }
-    validationState={this.validationState(
-      fieldConfig.touched,
-      fieldConfig.valid,
-      fieldConfig.required,
-      fieldConfig.value
-    )}
-  />);
+      key={fieldName}
+      name={fieldName}
+      componentClass='textarea'
+      label={fieldConfig.label}
+      placeholder={fieldConfig.placeholder || ''}
+      onChange={this.handleChange}
+      value={this.state.FIELDS[fieldName].value || ''}
+      help={
+        !fieldConfig.touched || (!fieldConfig.required && (fieldConfig.value === undefined || fieldConfig.value.length === 0)) ||
+          fieldConfig.valid
+          ? fieldConfig.helpMsg || ''
+          : fieldConfig.errorMessage || ''
+      }
+      validationState={this.validationState(
+        fieldConfig.touched,
+        fieldConfig.valid,
+        fieldConfig.required,
+        fieldConfig.value
+      )}
+    />);
   }
   renderSelectField(fieldConfig, fieldName) {
     return (<SelectGroup
@@ -554,32 +557,32 @@ class ProfProfileForm extends Component {
   }
   renderCheckboxFieldGroup(fieldConfig, fieldName) {
     return (
-      <FormGroup key={'formGroup'+fieldName}>
-        <ControlLabel key={'label'+fieldName} className="border-bottom-1" >
+      <FormGroup key={'formGroup' + fieldName}>
+        <ControlLabel key={'label' + fieldName} className="border-bottom-1" >
           {fieldConfig.label}
         </ControlLabel>
-      
-        <CheckboxGroup  
-        key={'formgroup'+fieldName}
 
-        name={fieldName}
-        value={this.state.FIELDS[fieldName].value}
-        onChange={this.handleCheckboxChange}>
-          <Row style={{display: 'flex', flexWrap: 'wrap'}} key={'row'+fieldName}>
-          {
-            fieldConfig.options.map((checkbox) => {
-              return (
-                  <Col key={"Col"+checkbox[0]} xs={6} sm={4}>
+        <CheckboxGroup
+          key={'formgroup' + fieldName}
+
+          name={fieldName}
+          value={this.state.FIELDS[fieldName].value}
+          onChange={this.handleCheckboxChange}>
+          <Row style={{ display: 'flex', flexWrap: 'wrap' }} key={'row' + fieldName}>
+            {
+              fieldConfig.options.map((checkbox) => {
+                return (
+                  <Col key={"Col" + checkbox[0]} xs={6} sm={4}>
                     <label className="form-check-label"><Checkbox value={checkbox[1]} key={checkbox[0]} />
-                      {'  ' +checkbox[1]}
+                      {'  ' + checkbox[1]}
                     </label>
                   </Col>
-              )
-            })
-          }
+                )
+              })
+            }
           </Row>
         </CheckboxGroup>
-    
+
       </FormGroup>
 
     );
@@ -592,13 +595,13 @@ class ProfProfileForm extends Component {
   */
   renderField(fieldConfig, fieldName) {
 
-    if (['text', 'tel'].includes(fieldConfig.type)){
-      return this.renderInputField(fieldConfig, fieldName )
-    } else if(fieldConfig.type === 'textarea') {
-      return this.renderTextareaField(fieldConfig, fieldName )
-    } else if(fieldConfig.type === 'select') {
-      return this.renderSelectField(fieldConfig, fieldName )
-    } else if(fieldConfig.type === 'checkbox') {
+    if (['text', 'tel'].includes(fieldConfig.type)) {
+      return this.renderInputField(fieldConfig, fieldName)
+    } else if (fieldConfig.type === 'textarea') {
+      return this.renderTextareaField(fieldConfig, fieldName)
+    } else if (fieldConfig.type === 'select') {
+      return this.renderSelectField(fieldConfig, fieldName)
+    } else if (fieldConfig.type === 'checkbox') {
       return this.renderCheckboxFieldGroup(fieldConfig, fieldName)
     }
 
@@ -622,81 +625,81 @@ class ProfProfileForm extends Component {
     return (
       <div>
         <form
-        onSubmit={event => this.authWithEmailPassword(event)}
+          onSubmit={event => this.authWithEmailPassword(event)}
           ref={form => {
             this.profForm = form;
           }}
         >
           <div className="loginregtitle">
             <img src={bayty_icon} />
-            <h2 style={{color:'rgb(26,156,142)'}}>بيانات الحساب</h2>
+            <h2 style={{ color: 'rgb(26,156,142)' }}>بيانات الحساب</h2>
           </div>
-          { loading ? (
+          {loading ? (
             <Loading />
           ) : (
-            <Collapse in={this.state.formStatusAlert.alert}>
-              <Alert bsStyle={this.state.formStatusAlert.type}>
-                {this.state.formStatusAlert.alertMsg
+              <Collapse in={this.state.formStatusAlert.alert}>
+                <Alert bsStyle={this.state.formStatusAlert.type}>
+                  {this.state.formStatusAlert.alertMsg
                   }
-              </Alert>
-            </Collapse>
-          )}
-            <Row>
+                </Alert>
+              </Collapse>
+            )}
+          <Row>
             <Col lg={12} >
 
               {this.state.homeImgUrl
-              ? <UserHomeImg  src={this.state.homeImgUrl}   />
-              : <UserHomeImg  src={logo_placeholder}   />
+                ? <UserHomeImg src={this.state.homeImgUrl} />
+                : <UserHomeImg src={logo_placeholder} />
               }
 
             </Col>
-        
-           
-              <Col lg={12}>
-              <div style={{margin: '10px auto 30px', textAlign: 'center'}}>
-              <label   style={{cursor:'pointer'}}   htmlFor="profile_h_pic"><span style={{ color: 'green'}}>+&nbsp;</span> 
-              {this.state.homeImgUrl && this.state.homeImgUrl.length > 0
-                ? "عدل صورة صفحة الشركة"
-                : "أضف صورة صفحة الشركة"
-              }
-              &nbsp;&nbsp;</label>
-              {this.state.imgError
-                ?<span className="help-block" style={{fontSize: '100%', color: 'red'}}>تقبل الصور من نوع JPEG/JPG وحجم أقل من 1 ميجابايت 1MB</span>
-                :<span className="help-block" style={{fontSize: '80%'}}>تقبل الصور من نوع JPEG/JPG/PNG وحجم أقل من 1 ميجابايت </span>
-              }
-              <input type="file" id="profile_h_pic" name="homeImgUrl"
-          accept="image/jpeg, image/png" style={{opacity: 0}} onChange={this.handleHomeImgUpload} />
+
+
+            <Col lg={12}>
+              <div style={{ margin: '10px auto 30px', textAlign: 'center' }}>
+                <label style={{ cursor: 'pointer' }} htmlFor="profile_h_pic"><span style={{ color: 'green' }}>+&nbsp;</span>
+                  {this.state.homeImgUrl && this.state.homeImgUrl.length > 0
+                    ? "عدل صورة صفحة الشركة"
+                    : "أضف صورة صفحة الشركة"
+                  }
+                  &nbsp;&nbsp;</label>
+                {this.state.imgError
+                  ? <span className="help-block" style={{ fontSize: '100%', color: 'red' }}>تقبل الصور من نوع JPEG/JPG وحجم أقل من 1 ميجابايت 1MB</span>
+                  : <span className="help-block" style={{ fontSize: '80%' }}>تقبل الصور من نوع JPEG/JPG/PNG وحجم أقل من 1 ميجابايت </span>
+                }
+                <input type="file" id="profile_h_pic" name="homeImgUrl"
+                  accept="image/jpeg, image/png" style={{ opacity: 0 }} onChange={this.handleHomeImgUpload} />
               </div>
-              </Col>
-              </Row>
+            </Col>
+          </Row>
           <Row>
             <Col lg={12} >
 
               {this.state.imgUrl
-              ? <UserImg  src={this.state.imgUrl}   />
-              : <UserImg  src={logo_placeholder}   />
+                ? <UserImg src={this.state.imgUrl} />
+                : <UserImg src={logo_placeholder} />
               }
 
             </Col>
-        
-           
-              <Col lg={12}>
-              <div style={{margin: '10px auto 30px', textAlign: 'center'}}>
-              <label   style={{cursor:'pointer'}}   htmlFor="profile_pic"><span style={{ color: 'green'}}>+&nbsp;</span>
-              {this.state.imgUrl && this.state.imgUrl.length > 0
-                ? "عدل شعار الشركة"
-                : "أضف شعار الشركة"
-              }
-              &nbsp;&nbsp;</label>
-              {this.state.imgError
-                ?<span className="help-block" style={{fontSize: '100%', color: 'red'}}>تقبل الصور من نوع JPEG/JPG وحجم أقل من 1 ميجابايت 1MB</span>
-                :<span className="help-block" style={{fontSize: '80%'}}>تقبل الصور من نوع JPEG/JPG/PNG وحجم أقل من 1 ميجابايت </span>
-              }
-              <input type="file" id="profile_pic" name="imgUrl" 
-          accept="image/jpeg, image/png" style={{opacity: 0}} onChange={this.handleLogoUpload} />
+
+
+            <Col lg={12}>
+              <div style={{ margin: '10px auto 30px', textAlign: 'center' }}>
+                <label style={{ cursor: 'pointer' }} htmlFor="profile_pic"><span style={{ color: 'green' }}>+&nbsp;</span>
+                  {this.state.imgUrl && this.state.imgUrl.length > 0
+                    ? "عدل شعار الشركة"
+                    : "أضف شعار الشركة"
+                  }
+                  &nbsp;&nbsp;</label>
+                {this.state.imgError
+                  ? <span className="help-block" style={{ fontSize: '100%', color: 'red' }}>تقبل الصور من نوع JPEG/JPG وحجم أقل من 1 ميجابايت 1MB</span>
+                  : <span className="help-block" style={{ fontSize: '80%' }}>تقبل الصور من نوع JPEG/JPG/PNG وحجم أقل من 1 ميجابايت </span>
+                }
+                <input type="file" id="profile_pic" name="imgUrl"
+                  accept="image/jpeg, image/png" style={{ opacity: 0 }} onChange={this.handleLogoUpload} />
               </div>
-              </Col>
-              </Row>
+            </Col>
+          </Row>
 
 
 

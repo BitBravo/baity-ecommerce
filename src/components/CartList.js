@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { app, base } from "../base";
-import FirebaseServices from './FirebaseServices'
+import FirebaseServices from '../services/FirebaseServices'
 import { MainCartBrief, HeaderCartBrief } from "./CartBrief";
 
 import styled from 'styled-components'

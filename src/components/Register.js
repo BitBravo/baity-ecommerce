@@ -16,7 +16,7 @@ import {
   Row,
   Col
 } from "react-bootstrap";
-import FirestoreServices from "./FirestoreServices";
+import FirestoreServices from "services/FirestoreServices";
 import Loading from "./Loading";
 import { app } from "../base";
 import FormUtils from './FormUtils'

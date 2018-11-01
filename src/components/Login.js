@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
 import { LinkContainer } from "react-router-bootstrap";
-import { Collapse, Alert, Modal,Col,Row } from "react-bootstrap"
+import { Collapse, Alert, Modal, Col, Row } from "react-bootstrap"
 import { app } from '../base'
 import bayty_icon from '../assets/img/bayty_icon1.png';
 import { CSSTransition } from 'react-transition-group'
 import styled from 'styled-components'
 import PasswordResetter from "./PasswordResetter"
-import FirestoreServices from "./FirestoreServices";
+import FirestoreServices from "services/FirestoreServices";
 
 
 
@@ -96,7 +96,7 @@ class Login extends Component {
         if (providers.length === 0) {
           // create user
           this.reportError('الايميل المستخدم غير مسجل مسبقا.', true)
-        //} else if (providers.indexOf("password") === -1) {
+          //} else if (providers.indexOf("password") === -1) {
           // this means the user is registered using SSO so point him to SSO singin
         } else {
           console.log("fetchProvidersForEmail")
@@ -146,51 +146,51 @@ class Login extends Component {
     return (
 
 
-      <div style={{ height:'100vh'}} className="loginreg">
-        <form    onSubmit={(event) => this.authWithEmailPassword(event)}
+      <div style={{ height: '100vh' }} className="loginreg">
+        <form onSubmit={(event) => this.authWithEmailPassword(event)}
           ref={(form) => { this.loginForm = form }}>
 
-         <div className="loginregtitle">
-         <img src={bayty_icon}  />
-      <h2 style={{color:'rgb(26,156,142)'}}>تسجيل الدخول </h2>
-      </div>
-      <Collapse in={this.state.formStatusAlert.alert}>
-          <Alert
-            bsStyle={this.state.formStatusAlert.type}
-          >
-            {this.state.formStatusAlert.alertMsg}
-            {this.state.formStatusAlert.showRegisterLink
-            ? <Link to="/registration">  انقر هنا للتسجيل كمستخدم جديد </Link>
-            :null
-            }
-          </Alert>
-        </Collapse>
-      <Row>
-      <Col lg= {12} sm={12}>
-      </Col>
-      <Col sm={12}  lg={12} >
-          <div className="form-group" >
-           <input id="inputEmail"  name="email" type="email" ref={(input) => {this.emailInput = input}} placeholder="عنوان البريد الالكتروني"></input>
+          <div className="loginregtitle">
+            <img src={bayty_icon} />
+            <h2 style={{ color: 'rgb(26,156,142)' }}>تسجيل الدخول </h2>
           </div>
-          </Col>
+          <Collapse in={this.state.formStatusAlert.alert}>
+            <Alert
+              bsStyle={this.state.formStatusAlert.type}
+            >
+              {this.state.formStatusAlert.alertMsg}
+              {this.state.formStatusAlert.showRegisterLink
+                ? <Link to="/registration">  انقر هنا للتسجيل كمستخدم جديد </Link>
+                : null
+              }
+            </Alert>
+          </Collapse>
+          <Row>
+            <Col lg={12} sm={12}>
+            </Col>
+            <Col sm={12} lg={12} >
+              <div className="form-group" >
+                <input id="inputEmail" name="email" type="email" ref={(input) => { this.emailInput = input }} placeholder="عنوان البريد الالكتروني"></input>
+              </div>
+            </Col>
 
-      <Col sm={12}  lg={12}>
-          <div className="form-group">
-            <input id="inputPassword" name="password" type="password" ref={(input) => {this.passwordInput = input}} placeholder="كلمة السر"></input>
-          </div>
-          </Col>
+            <Col sm={12} lg={12}>
+              <div className="form-group">
+                <input id="inputPassword" name="password" type="password" ref={(input) => { this.passwordInput = input }} placeholder="كلمة السر"></input>
+              </div>
+            </Col>
           </Row>
           <div className="form-group">
-          <button type="submit" >تسجيل دخول</button>
+            <button type="submit" >تسجيل دخول</button>
 
-          <LinkContainer to="/resetpassword" activeClassName="active" style={{cursor:"pointer"}}>
-          <p><span style={{cursor:"pointer"}}> نسيت كلمة المرور؟ </span></p>
-          </LinkContainer>
+            <LinkContainer to="/resetpassword" activeClassName="active" style={{ cursor: "pointer" }}>
+              <p><span style={{ cursor: "pointer" }}> نسيت كلمة المرور؟ </span></p>
+            </LinkContainer>
 
-          <p > <span style={{color:"black"}}>ليس لديك حساب؟</span>
-          <LinkContainer to="/registration" activeClassName="active" style={{cursor:"pointer"}}>
-          <span >&nbsp; قم بالتسجيل</span>
-          </LinkContainer></p>
+            <p > <span style={{ color: "black" }}>ليس لديك حساب؟</span>
+              <LinkContainer to="/registration" activeClassName="active" style={{ cursor: "pointer" }}>
+                <span >&nbsp; قم بالتسجيل</span>
+              </LinkContainer></p>
           </div>
 
         </form>

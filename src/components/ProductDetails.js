@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { app, base, db } from "../base";
-import FirebaseServices from './FirebaseServices'
-import FirestoreServices from './FirestoreServices'
+import FirebaseServices from 'services/FirebaseServices'
+import FirestoreServices from 'services/FirestoreServices'
 import {
   Image,
   Alert,
@@ -51,12 +51,12 @@ border-radius: 50%;
   left: 30px;
 }
 `
-const LikeIcon = styled(Glyphicon) `
+const LikeIcon = styled(Glyphicon)`
 cursor:pointer;
 color:rgb(26,156,142);
 
 `;
-const UnLikeIcon = styled(Glyphicon) `
+const UnLikeIcon = styled(Glyphicon)`
 cursor:pointer;
 color: transparent;
 -webkit-text-stroke-width: 2px;
@@ -124,12 +124,12 @@ const PaddingDiv = styled.div`
   @media only screen and (max-width: 991px) {
     font-size:13px;}
 `;
-const ImageCol = styled(Col) `
+const ImageCol = styled(Col)`
 border-left: 1.5px solid rgb(218, 218, 217);
 @media only screen and (max-width: 991px) {
   border:none;
 `;
-const DetailsCol = styled(Col) `
+const DetailsCol = styled(Col)`
 padding :0 5px 0 0;
 margin :15px 0 0 0;
 position:relative;
@@ -137,7 +137,7 @@ position:relative;
   margin:0;
 }
 `;
-const ProductName =styled.div`
+const ProductName = styled.div`
 font-size:16px;
 color:black;
 margin-bottom:20px;
@@ -161,7 +161,7 @@ color:rgb(95,96,93);
 border:solid 0.5px #cccccc;
 
 `
-const CloseButton=styled.button`
+const CloseButton = styled.button`
 position:absolute;
 top:0px;
 left:5px;
@@ -282,11 +282,11 @@ class ProductDetails extends Component {
           like = true;
         }
 
-      return db.runTransaction((transaction) => {
+        return db.runTransaction((transaction) => {
           return transaction.get(productRef).then((doc) => {
-          console.log("Product detailes - transaction()")
-          if (doc.exists) {
-           var post = doc.data()
+            console.log("Product detailes - transaction()")
+            if (doc.exists) {
+              var post = doc.data()
               if (!like) {
                 var newLikes = post.likes - 1;
                 transaction.update(productRef, { likes: newLikes });
@@ -307,48 +307,48 @@ class ProductDetails extends Component {
   addToCart() {
     if (this.props.currentUser) {
       FirebaseServices.insertItem(this.state.product, this.props.currentUser.uid)
-      .then(quantity => {
-        console.log("quantity " + quantity);
+        .then(quantity => {
+          console.log("quantity " + quantity);
 
-        // update the cart in the header by calling the updateCart method passed from app
-        (quantity === 1 ? this.props.updateCart(true,false) : null);
-        console.log("Item added");
-      })
-      .catch(error =>
-        console.log("not able to add item - "+ error));
-    }else {
+          // update the cart in the header by calling the updateCart method passed from app
+          (quantity === 1 ? this.props.updateCart(true, false) : null);
+          console.log("Item added");
+        })
+        .catch(error =>
+          console.log("not able to add item - " + error));
+    } else {
       console.log("not Register")
     }
   }
 
-  archiveProduct(){
+  archiveProduct() {
     this.setState({ loading: true })
     FirestoreServices.deleteProduct(this.state.product.id)
-    .then(() => {
-      //show success popup
-      let deletionStatus = {
-        showDeleteModal: true,
-        deletionSuccessful: true,
-        errorMsg: ''
-      }
-      let newState = {...this.state, loading: false, deletionStatus: deletionStatus}
+      .then(() => {
+        //show success popup
+        let deletionStatus = {
+          showDeleteModal: true,
+          deletionSuccessful: true,
+          errorMsg: ''
+        }
+        let newState = { ...this.state, loading: false, deletionStatus: deletionStatus }
 
-      this.setState(newState, () => {console.log('after successful product deletion state is:'); console.log(this.state);})
+        this.setState(newState, () => { console.log('after successful product deletion state is:'); console.log(this.state); })
 
-    })
-    .catch(error => {
-      //show failure popup
-      let deletionStatus = {
-        showDeleteModal: true,
-        deletionSuccessful: false,
-        errorMsg: `حدث خطأ غير معروف. نرجو ابلاغ الصيانة بالخطأ التالي:
+      })
+      .catch(error => {
+        //show failure popup
+        let deletionStatus = {
+          showDeleteModal: true,
+          deletionSuccessful: false,
+          errorMsg: `حدث خطأ غير معروف. نرجو ابلاغ الصيانة بالخطأ التالي:
           ERROR: could not delete product. error code: ${error.code}, error message:${error.message}`
-      }
-      let newState = {...this.state, loading: false, deletionStatus: deletionStatus}
+        }
+        let newState = { ...this.state, loading: false, deletionStatus: deletionStatus }
 
-      this.setState(newState)
+        this.setState(newState)
 
-    })
+      })
 
   }
 
@@ -380,16 +380,16 @@ class ProductDetails extends Component {
     if (this.state.deletionStatus.showDeleteModal)
       return (
         <div>
-        { this.state.deletionStatus.deletionSuccessful
-          ? <Modal show={true} style={{ top: 100 }}>
-          <Modal.Header>تم حذف المنتج بنجاح</Modal.Header>
+          {this.state.deletionStatus.deletionSuccessful
+            ? <Modal show={true} style={{ top: 100 }}>
+              <Modal.Header>تم حذف المنتج بنجاح</Modal.Header>
               <Modal.Body>
-              <Link to="/">
-                <Button>العودة للصفحة الرئيسية</Button>
-              </Link>
+                <Link to="/">
+                  <Button>العودة للصفحة الرئيسية</Button>
+                </Link>
               </Modal.Body>
-              </Modal>
-          :
+            </Modal>
+            :
             <Modal show={true} style={{ top: 100 }} onHide={this.handleHide} style={{ top: 250 }}>
               <Modal.Header>
                 <CloseButton onClick={this.handleHide}>X</CloseButton>
@@ -397,10 +397,10 @@ class ProductDetails extends Component {
               </Modal.Header>
               <Modal.Body>
 
-              <Alert bsStyle="danger">
-                {this.state.deletionStatus.errorMsg}
-              </Alert>
-            </Modal.Body>
+                <Alert bsStyle="danger">
+                  {this.state.deletionStatus.errorMsg}
+                </Alert>
+              </Modal.Body>
             </Modal>
           }
         </div>
@@ -429,15 +429,15 @@ class ProductDetails extends Component {
                     }
                   </LikeDiv>
                   {product.price === 0
-                  ? <TagDiv>هذا المنتج للعرض</TagDiv>
-                  : null
-                }
+                    ? <TagDiv>هذا المنتج للعرض</TagDiv>
+                    : null
+                  }
                 </Carousel.Item>
 
               </Carousel >
 
 
-              <div className="product-slider" style={{borderBottom:'dotted 1px lightgray '}}>
+              <div className="product-slider" style={{ borderBottom: 'dotted 1px lightgray ' }}>
                 <div id="thumbcarousel1" className="carousel1 slide" >
                   <ImgGallaryThumb className="item">
                     {product.images.map((obj, index) => {
@@ -452,37 +452,37 @@ class ProductDetails extends Component {
             </ImageCol>
 
             <DetailsCol xs={12} sm={12} md={4} lg={3}  >
-            <ProductName >
-              <Col xs={5} sm={5} md={5} lg={4} style={{ padding: '0 0 0 10px' }}>
-                <h4 style={{ color: 'rgb(26,156,142)', float: 'left' }}>{product.price} ر.س </h4>
-              </Col>
-              <Col xs={6} sm={6} md={6} lg={7} style={{ padding: '0 0 0 10px' }}>
-                <h4>{product.name}</h4>
-              </Col>
-              <Col xs ={1}  style={{padding:'7px 0 0 0'}}>
-             <IconImg src={Product} className="icons"/> </Col>
-         </ProductName>
+              <ProductName >
+                <Col xs={5} sm={5} md={5} lg={4} style={{ padding: '0 0 0 10px' }}>
+                  <h4 style={{ color: 'rgb(26,156,142)', float: 'left' }}>{product.price} ر.س </h4>
+                </Col>
+                <Col xs={6} sm={6} md={6} lg={7} style={{ padding: '0 0 0 10px' }}>
+                  <h4>{product.name}</h4>
+                </Col>
+                <Col xs={1} style={{ padding: '7px 0 0 0' }}>
+                  <IconImg src={Product} className="icons" /> </Col>
+              </ProductName>
               {this.props.currentUser
-                ? <button type="submit" onClick={ () => {this.addToCart();this.handleShow()}}>
+                ? <button type="submit" onClick={() => { this.addToCart(); this.handleShow() }}>
                   اضافة للسلة
                <IconImg src={Cart} style={{ marginRight: '25px' }} />
                 </button>
                 : <LinkContainer to="/login">
-                  <button type="submit" onClick={ () => {this.addToCart();this.handleShow()}}>
+                  <button type="submit" onClick={() => { this.addToCart(); this.handleShow() }}>
                     اضافة للسلة
                <IconImg src={Cart} style={{ marginRight: '25px' }} />
                   </button>
                 </LinkContainer>
               }
               <PaddingDiv>
-                <h4 style={{ display: 'inline'}}>وصف المنتج</h4>
+                <h4 style={{ display: 'inline' }}>وصف المنتج</h4>
                 <h6 style={{ color: 'rgb(26,156,142)', float: 'left', display: 'inline', padding: '0 0 0 20px' }}>
-                الاعجاب &nbsp;{product.likes > 0 ? product.likes : 0}
+                  الاعجاب &nbsp;{product.likes > 0 ? product.likes : 0}
                 </h6>
-                <p style={{marginTop:'10px' }}> {product.desc}</p>
+                <p style={{ marginTop: '10px' }}> {product.desc}</p>
               </PaddingDiv>
-              <PaddingDiv style={{marginBottom:'90px' }}>
-                <h4 style={{marginBottom:'10px' }}>المواصفات</h4>
+              <PaddingDiv style={{ marginBottom: '90px' }}>
+                <h4 style={{ marginBottom: '10px' }}>المواصفات</h4>
                 <p >الصنف : {product.category}</p>
                 <p >القسم : {product.department}</p>
                 <p >الطول : {product.length} سم</p>
@@ -497,17 +497,17 @@ class ProductDetails extends Component {
                 {this.props.authenticated
                   ? this.props.currentUser.uid === this.state.product.owner
                     ? <div>
-                        <button style={{  width: '45%' , position: 'absolute', bottom: '0', right: '5px' }}
-                                         type="submit" onClick={ () => {this.handleShow1();}}>
-                          حذف المنتج </button>
-                        <Link to={`/products/${product.id}/updateProduct`}>
-                          <button style={{  width: '45%' , position: 'absolute', bottom: '0', left: '5px' }} >
-                           تحديث بيانات المنتج
+                      <button style={{ width: '45%', position: 'absolute', bottom: '0', right: '5px' }}
+                        type="submit" onClick={() => { this.handleShow1(); }}>
+                        حذف المنتج </button>
+                      <Link to={`/products/${product.id}/updateProduct`}>
+                        <button style={{ width: '45%', position: 'absolute', bottom: '0', left: '5px' }} >
+                          تحديث بيانات المنتج
                            </button>
-                         </Link>
-                       </div>
+                      </Link>
+                    </div>
                     :
-                    <div style={{ position: 'absolute', bottom: '0',right:'5px' }}>
+                    <div style={{ position: 'absolute', bottom: '0', right: '5px' }}>
                       <h4 >من :&nbsp;
                         <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
                           {product.businessName}
@@ -517,7 +517,7 @@ class ProductDetails extends Component {
                     </div>
 
                   :
-                  <div style={{  position: 'absolute', bottom: '0',right:'5px' }}>
+                  <div style={{ position: 'absolute', bottom: '0', right: '5px' }}>
                     <h4 >من :&nbsp;
                       <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
                         {product.businessName}
@@ -532,19 +532,19 @@ class ProductDetails extends Component {
                 <Modal
                   show={this.state.show}
                   onHide={this.handleHide} style={{ top: 250 }}>
-                 <Modal.Header>
-                  <CloseButton onClick={this.handleHide}>X</CloseButton>
+                  <Modal.Header>
+                    <CloseButton onClick={this.handleHide}>X</CloseButton>
                     تمت اضافة المنتج الى سلتك
                   </Modal.Header>
-                  <Modal.Body style={{display:'inline-block'}}>
-                  <div style={{display:'inline-block'}}>
-                    <Link to="/mycart">
-                      <button style={{height:'30px'}} >عرض سلة التسوق</button>
-                    </Link>
+                  <Modal.Body style={{ display: 'inline-block' }}>
+                    <div style={{ display: 'inline-block' }}>
+                      <Link to="/mycart">
+                        <button style={{ height: '30px' }} >عرض سلة التسوق</button>
+                      </Link>
                     </div>
-                    <div style={{display:'inline-block',marginRight: '20px'}}>
+                    <div style={{ display: 'inline-block', marginRight: '20px' }}>
                       <Cartbutton onClick={this.handleHide}>اكمال التسوق</Cartbutton>
-                      </div>
+                    </div>
                   </Modal.Body>
                 </Modal>
               </div>
@@ -552,18 +552,18 @@ class ProductDetails extends Component {
                 <Modal
                   show={this.state.show1}
                   onHide={this.handleHide1} style={{ top: 250 }}>
-                 <Modal.Header>
-                  <CloseButton onClick={this.handleHide1}>X</CloseButton>
-                       هل تريد فعلا حذف المنتج؟
+                  <Modal.Header>
+                    <CloseButton onClick={this.handleHide1}>X</CloseButton>
+                    هل تريد فعلا حذف المنتج؟
                    </Modal.Header>
-                  <Modal.Body style={{display:'inline-block'}}>
-                  <div style={{display:'inline-block'}}>
-                      <button style={{height:'30px',width:'50px'}} type="submit" onClick={ () => {this.archiveProduct();}} >
-                      نعم</button>
+                  <Modal.Body style={{ display: 'inline-block' }}>
+                    <div style={{ display: 'inline-block' }}>
+                      <button style={{ height: '30px', width: '50px' }} type="submit" onClick={() => { this.archiveProduct(); }} >
+                        نعم</button>
                     </div>
-                    <div style={{display:'inline-block',marginRight: '20px',width:'50px'}}>
+                    <div style={{ display: 'inline-block', marginRight: '20px', width: '50px' }}>
                       <Cartbutton onClick={this.handleHide1}>لا </Cartbutton>
-                      </div>
+                    </div>
                   </Modal.Body>
                 </Modal>
               </div>

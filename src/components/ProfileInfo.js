@@ -4,7 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
 import firebase from "firebase";
 import { app, base, database, storage } from "../base";
-import FirestoreServices from './FirestoreServices'
+import FirestoreServices from 'services/FirestoreServices'
 import livingroom from '../assets/img/livingroom.jpg';
 import CaroselImg from '../assets/img/CaroselImg.jpg'; 
 import styled from 'styled-components'
