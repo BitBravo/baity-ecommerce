@@ -678,6 +678,40 @@ export default {
     return this.products.doc(productId)
   },
 
+
+  // Get products by single or multi query
+  // Example :
+  //   Single Query => param = [fieldName, operator, value]
+  //   Multi Query => param = [[fieldName1, operator1, value1], [fieldName2, operator2, value2]]
+  //   No Query to get all products
+
+  getProductsQuery(params) {
+    let productQueryRef = this.products;
+    if (typeof params === 'object' && params.length) {
+      if (typeof params[0] === 'object') {
+        params.map(param => {
+          productQueryRef = productQueryRef.where(param[0], param[1], param[2]);
+        })
+      } else {
+        productQueryRef = productQueryRef.where(params[0], params[1], params[2]);
+      }
+    }
+
+    return productQueryRef
+      .get()
+      .then(function (querySnapshot) {
+        let products_array = []
+        querySnapshot.forEach((item, i) => {
+          products_array.push(item.data())
+          return products_array;
+        });
+        return products_array
+      })
+      .catch(function (error) {
+        console.log("Error getting documents: ", error);
+        return false;
+      });
+  },
   /*
     returns an idea as a promise
   */

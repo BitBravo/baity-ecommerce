@@ -196,7 +196,6 @@ class ProductDetails extends Component {
     this.handleHide = this.handleHide.bind(this);
     this.handleShow1 = this.handleShow1.bind(this);
     this.handleHide1 = this.handleHide1.bind(this);
-
   }
 
 

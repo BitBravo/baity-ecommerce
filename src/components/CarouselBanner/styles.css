@@ -25,5 +25,19 @@
 
 .slick-next {
     right: -40px;
-    ;
+}
+
+.carousel-item {
+    position: relative;
+}
+
+.carousel-item>a {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.carousel-item>a>div {
+    width: 100%;
+    height: 100%;
 }

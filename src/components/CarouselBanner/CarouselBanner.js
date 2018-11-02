@@ -4,25 +4,27 @@ import FirestoreServices from 'services/FirestoreServices'
 
 import './styles.css'
 
-
+const Elements = () => {
+  console.log(this.props.product)
+}
 export class CarouselBanner extends Component {
   constructor(props) {
     super();
     this.state = {
-      products: {}
+      products: []
     };
   }
+
   componentWillMount() {
-    console.log(this.props.city)
-    let ref = FirestoreServices.products.where(`city== ${this.props.city}`).orderBy('timestamp', 'desc')
-
-
+    console.log(this.props)
+    FirestoreServices.getProductsQuery()
+      .then(products => this.setState({ products }))
   }
+
   render() {
     return (
-      <CarouselMenu products={this.products} />
+      <CarouselMenu {...{ products: this.state.products, title: this.props.title }} />
     );
   }
 }
-
 export default CarouselBanner;

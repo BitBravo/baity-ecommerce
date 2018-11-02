@@ -25,7 +25,6 @@ const userImgStorageKey = storageKey + '_LOGO';
 class App extends Component {
   constructor() {
     super();
-    console.log(`${this.constructor.name}.constructor`);
     this.state = {
       authenticated: false,
       currentUser: null,
@@ -40,13 +39,11 @@ class App extends Component {
     }
     this.setCurrentUser = this.setCurrentUser.bind(this);
     this.getCart = this.getCart.bind(this)
-    //this.updateCart = this.updateCart.bind(this);
   }
 
   // For more info on user management in firebase see:
   // (https://firebase.google.com/docs/auth/web/manage-users)
   setCurrentUser(user) {
-
     if (user) {
       var owner;
       // cache user object to avoid firebase auth latency bug
@@ -227,13 +224,9 @@ class App extends Component {
   }
 
   componentWillUnmount() {
-    console.log(`${this.constructor.name}.componentWillUnmount`);
     this.removeAuthListener();
   }
 
-  componentDidMount() {
-    console.log(`${this.constructor.name}.componentDidMount`);
-  }
   componentWillReceiveProps(nextProps) {
     console.log(`${this.constructor.name}.componentWillReceiveProps`);
     console.log('nextProps')
