@@ -1,11 +1,13 @@
 .slick-slide>div {
-    margin: 0px 20px;
+    margin: 0px 3px;
+    /* text-align: center; */
 }
 
 .carousel-item {
-    min-width: 170px;
+    width: 170px !important;
     min-height: 170px;
-    background-color: greenyellow;
+    display: inherit !important;
+    margin: 0px auto;
 }
 
 .carousel-title-container {
@@ -17,4 +19,21 @@
     padding-top: 16px;
     font-size: 17px;
     margin-bottom: 3px;
+}
+
+.gray-center {
+    padding-top: 142px;
+    color: #464242;
+    font-weight: 500;
+    font-size: 17px;
+    text-align: center;
+}
+
+.white-right {
+    padding-top: 142px;
+    color: white;
+    font-weight: 500;
+    font-size: 17px;
+    text-align: right;
+    padding-right: 10px;
 }

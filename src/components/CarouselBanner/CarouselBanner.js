@@ -11,19 +11,19 @@ export class CarouselBanner extends Component {
   constructor(props) {
     super();
     this.state = {
-      products: []
+      items: []
     };
   }
 
   componentWillMount() {
-    console.log(this.props)
-    FirestoreServices.getProductsQuery()
-      .then(products => this.setState({ products }))
+    console.log(this.props.category)
+    FirestoreServices.getDataQuery(this.props.category, ['banner', '==', true])
+      .then(items => this.setState({ items }))
   }
 
   render() {
     return (
-      <CarouselMenu {...{ products: this.state.products, title: this.props.title }} />
+      <CarouselMenu {...{ items: this.state.items, title: this.props.title }} />
     );
   }
 }

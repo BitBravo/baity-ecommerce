@@ -138,10 +138,10 @@ export class Home extends Component {
         </div>
         <div className='container carousel-containter-block'>
           <div className='carousel-containter carousel-1'>
-            <CarouselBanner {...{ city: 'LonDon', title: 'First Banner' }} />
+            <CarouselBanner {...{ category: 'product', banner: 'true', title: 'اختر منتجات منزلك' }} />
           </div>
           <div className='carousel-containter carousel-2'>
-            <CarouselBanner {...{ city: 'Los Angeles', title: 'Second Banner' }} />
+            <CarouselBanner {...{ category: 'idea', banner: 'true', title: "اكتشف تصاميم مبتكرة" }} />
           </div>
         </div>
         <ProductList thisUserOnly={false} />
