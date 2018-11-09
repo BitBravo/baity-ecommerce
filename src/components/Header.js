@@ -246,7 +246,7 @@ class Header extends Component {
               <PageIcon src={ActiveHomepage} className="activeIcons" />
               <PageIcon src={Homepage} className="icons" />الرئيسية</NavItem>
           </IndexLinkContainer>
-          <LinkContainer to="/productspage" activeClassName="activePage">
+          <LinkContainer to="/productspages" activeClassName="activePage">
             <NavItem >
               <PageIcon src={ActiveProduct} className="activeIcons" />
               <PageIcon src={Product} className="icons" />المنتجات</NavItem>

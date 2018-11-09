@@ -247,7 +247,17 @@ class Main extends Component {
               );
             }}
           />
-
+          <Route
+            exact
+            path="/productspages"
+            render={props => {
+              return (
+                <ProductsPage
+                  {...props}
+                />
+              );
+            }}
+          />
           <Route
             exact
             path="/ideaspage"

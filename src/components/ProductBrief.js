@@ -150,7 +150,6 @@ class ProductBrief extends Component {
   //src="http://via.placeholder.com/243x243"
   render() {
     const product = this.props.product;
-    console.log(product)
     var imgUrl;
     product.images
       ? imgUrl = product.images[0].thumbnail ? product.images[0].thumbnail : product.images[0].large
@@ -166,9 +165,9 @@ class ProductBrief extends Component {
                 <PreviewImg
                   style={{
                     background: `url(${imgUrl})`,
-                    backgroundSize: "cover",
+                    backgroundSize: "contain",
                     backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center center"
+                    backgroundPosition: "center center",
                   }}
                 // src={
                 //   product.images
@@ -204,7 +203,6 @@ class ProductBrief extends Component {
             </div>
 
             <p style={{ paddingTop: '10px', paddingBottom: '10px' }}>
-              {console.log(product)}
               {product.desc ? product.desc.substring(0, 105) : ''}
               <Link style={{ display: 'inline', color: 'rgb(26, 156, 142)' }} to={`/${product.owner}/products/${product.id}`}>
                 ... المزيد

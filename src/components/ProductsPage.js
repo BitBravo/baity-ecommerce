@@ -237,7 +237,8 @@ class ProductsPage extends Component {
 
   constructor(props) {
     super(props);
-    this.departmentId = this.props.match.params.id
+    console.log(props)
+    this.departmentId = this.props.match.params.id;
     this.state = {
       value: "",
       filter: [],

@@ -83,6 +83,11 @@ class ProductList extends Component {
     } else {
       var ref = FirestoreServices.products.orderBy('timestamp', 'desc')
       this.firePaginator(ref);
+      // FirestoreServices.getDataQuery('product')
+      //   .then(products => {
+      //     this.setState({ products: products })
+      //     this.setState({ loading: false })
+      //   })
     }
   }
 
@@ -104,13 +109,22 @@ class ProductList extends Component {
         if (nextProps.filter.length < 1) {
           // reset the product list by deleting all from the extraProducts
 
-          var ref = FirestoreServices.products.orderBy('timestamp', 'desc')
-
-          this.firePaginator(ref);
+          // var ref = FirestoreServices.products.orderBy('timestamp', 'desc')
+          FirestoreServices.getDataQuery('product')
+            .then(products => this.setState({ products: products }))
+          // this.firePaginator(ref);
         }
       }
     } else if (nextProps.thisUserOnly)
       this.businessProducts(nextProps)
+    else {
+      FirestoreServices.getDataQuery('product')
+        .then(items => {
+          this.setState({ 'products': items });
+          this.setState({ loading: false })
+          console.log(items)
+        })
+    }
   }
 
   createQuery(filter) {
@@ -247,7 +261,7 @@ class ProductList extends Component {
   render() {
     const products = this.state.products
     const productIds = Object.keys(products)
-
+    console.log(products)
     var msg;
     var title;
     if (this.props.user) {
