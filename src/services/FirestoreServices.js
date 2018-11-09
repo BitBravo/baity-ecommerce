@@ -41,6 +41,7 @@ let _PROFILE_IMAGES_PATH = "profileImage";
 let _PROF_PATH = "professional";
 let _NORMAL_PATH = "normal";
 let _BASKET_PATH = "basket";
+let _CAROUSEL_BANNER_PATH = "carousel-banner";
 let _BUSINESS_HOMEIMGS_PATH = "businessHomeImgs";
 let _PROFILE_HOMEIMGS_PATH = "profileHomeImages";
 let _PRODUCT_ARCHIVE_PATH = "productArchive";
@@ -51,6 +52,7 @@ let _REF_BASE = DB_BASE;
 let _REF_PRODUCT = DB_BASE.collection(_PRODUCTS_PATH); //change me by removing test
 let _REF_IDEA = DB_BASE.collection(_IDEAS_PATH);
 let _REF_BUSINESS = DB_BASE.collection(_BUSINESSES_PATH); //change me by removing test
+let _REF_CAROUSEL = DB_BASE.collection(_CAROUSEL_BANNER_PATH);
 let _REF_USER_LIKES = DB_BASE.collection(_LIKES_PATH);
 let _REF_GROUP = DB_BASE.collection(_GROUPS_PATH); //change me by removing test
 let _REF_PROF = DB_BASE.collection(_PROF_PATH)
@@ -98,6 +100,9 @@ export default {
   },
   get BUSINESS_LOGOS_PATH() {
     return _BUSINESS_LOGOS_PATH;
+  },
+  get CAROUSEL_BANNER_PATH() {
+    return _CAROUSEL_BANNER_PATH;
   },
   get BUSINESS_HOMEIMGS_PATH() {
     return _BUSINESS_HOMEIMGS_PATH;
@@ -174,7 +179,9 @@ export default {
   get likes() {
     return _REF_USER_LIKES;
   },
-
+  get carouselBanner() {
+    return _REF_CAROUSEL;
+  },
   /*
     Given the entry type (product, idea, ...etc) and entry ID
     returns the entry value (product, idea, ...etc)from the DB
@@ -204,6 +211,9 @@ export default {
         break;
       case 'basket':
         ref = this.basket.doc(entryId);
+        break;
+      case 'carousel-banner':
+        ref = this.carouselBanner.doc(entryId);
         break;
     }
     return ref.get()
@@ -634,6 +644,7 @@ export default {
     }
 
   },
+
   updateNorProfileHomeImg(uid, profileData, errorHandler, successHandler, progressHandler) {
     console.log('FirebaseServices.updateProfProfile')
     //if we have a new image then upload it
@@ -708,6 +719,9 @@ export default {
         break;
       case 'basket':
         ref = this.basket;
+        break;
+      case 'carousel-banner':
+        ref = this.carouselBanner;
         break;
       default:
         ref = this.products;

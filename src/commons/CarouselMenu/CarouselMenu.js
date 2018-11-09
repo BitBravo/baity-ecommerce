@@ -9,14 +9,27 @@ import './styles.css';
 export default class CarouselMenu extends Component {
   constructor(props) {
     super();
+    this.loadFlag = false;
     this.state = {
       oldProps: ''
     }
   }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps === this.state.oldProps) {
+      this.loadFlag = true;
+    } else {
+      this.setState({ oldProps: nextProps })
+    }
+  }
   shouldComponentUpdate() {
+    // console.log(this.props)
+
     if (this.props === this.state.oldProps) {
+      console.log('========================================')
+
       return false;
     } else {
+      console.log('--------------------------------------')
       this.setState({ oldProps: this.props })
       return true;
     }

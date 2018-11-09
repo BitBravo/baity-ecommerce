@@ -243,7 +243,6 @@ class Main extends Component {
               return (
                 <ProductsPage
                 />
-
               );
             }}
           />
