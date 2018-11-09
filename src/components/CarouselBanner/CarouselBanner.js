@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, Carousel, Panel } from "react-bootstrap";
+import { Carousel } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import bedroom from 'assets/img/bedroom.jpg';
 import FirestoreServices from 'services/FirestoreServices'
@@ -63,7 +63,6 @@ export class CarouselBanner extends Component {
   }
 
   render() {
-    console.log(this.state.carouselItems)
     return (
       <Carousel
         controls={false}
@@ -76,7 +75,7 @@ export class CarouselBanner extends Component {
                 <div>
                   <ImageContainer>
                     <ImageDiv>
-                      <PreviewImg src={item.image} />
+                      <PreviewImg src={item.image || bedroom} />
                     </ImageDiv>
                   </ImageContainer>
                   <Carousel.Caption className="hero">

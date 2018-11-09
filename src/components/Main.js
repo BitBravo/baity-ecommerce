@@ -238,7 +238,7 @@ class Main extends Component {
 
           <Route
             exact
-            path="/productspage"
+            path="/productspage/:departmentId"
             render={props => {
               return (
                 <ProductsPage

@@ -19,27 +19,18 @@ export default class CarouselMenu extends Component {
       this.loadFlag = true;
     } else {
       this.setState({ oldProps: nextProps })
+      this.loadFlag = false;
     }
   }
   shouldComponentUpdate() {
-    // console.log(this.props)
-
-    if (this.props === this.state.oldProps) {
-      console.log('========================================')
-
-      return false;
-    } else {
-      console.log('--------------------------------------')
-      this.setState({ oldProps: this.props })
-      return true;
-    }
+    if (this.loadFlag) return false;
+    else return true;
   }
 
   render() {
     const settings = {
       speed: 500,
-      autoplaySpeed: 3000,
-      // autoplay: true,
+      autoplay: false,
       slidesToShow: this.props.items.length > 5 ? 5 : this.props.items.length,
       slidesToScroll: 1,
       rows: 1,
@@ -79,31 +70,36 @@ export default class CarouselMenu extends Component {
         }
       ]
     };
-    const itemTitleClassName = this.props.title === 'اختر منتجات منزلك' ? 'gray-center' : 'white-right';
-    console.log(itemTitleClassName)
+    const { items, title } = this.state.oldProps;
+    const itemTitleClassName = title === 'اختر منتجات منزلك' ? 'gray-center' : 'white-right';
+    console.log(items)
     return (
       <div>
         <div className='carousel-title-container'>
-          <p className='carousel-title'>{this.props.title}</p>
+          <p className='carousel-title'>{title}</p>
         </div>
         <Slider {...settings}>
-          {this.props.items.map(item => (
-            <div className='carousel-item' key={item.id}>
-              <Link to={`/${item.owner}/products/${item.id}`}>
-                <div
-                  style={{
-                    background: `url(${item.images[0].large})`,
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center center"
-                  }}
-                >
-                  <p className={itemTitleClassName}>${item.businessName}</p>
+          {
+            items ?
+              items.map(item => (
+                <div className='carousel-item' key={item.departmentId}>
+                  <Link to={`/productspage/${item.departmentId}`}>
+                    <div
+                      style={{
+                        background: `url(${item.image})`,
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "center center"
+                      }}
+                    >
+                      <p className={itemTitleClassName}>${item.title}</p>
+                    </div>
+                  </Link>
                 </div>
-                {/* <img   src="http://via.placeholder.com/243x243" */}
-              </Link>
-            </div>
-          ))}
+              ))
+              :
+              `Didn't configurate the product discovery option by Administrator yet`
+          }
         </Slider>
       </div>
     );

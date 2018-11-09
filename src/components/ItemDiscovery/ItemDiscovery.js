@@ -16,19 +16,15 @@ export class ItemDiscovery extends Component {
   }
 
   componentWillMount() {
-    FirestoreServices.getDataQuery(this.props.category, ['banner', '==', true])
+    FirestoreServices.getDataQuery(this.props.collection)
       .then(items => {
         this.setState({ items })
-        // console.log(this.state.items)
       });
-    // .then(items => this.setState({ items }));
-    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
   }
 
   render() {
-    console.log(this.state.items)
     return (
-      <CarouselMenu {...{ items: this.state.items, title: this.state.items }} />
+      <CarouselMenu {...{ items: this.state.items, title: this.props.title }} />
     );
   }
 }
