@@ -4,10 +4,12 @@
 }
 
 .carousel-item {
-    width: 170px !important;
+    width: 180px !important;
     min-height: 170px;
     display: inherit !important;
     margin: 0px auto;
+    padding-top: 15px;
+    background-color: #e6e3e3;
 }
 
 .carousel-title-container {
@@ -22,7 +24,7 @@
 }
 
 .gray-center {
-    padding-top: 142px;
+    margin-top: 17px;
     color: #464242;
     font-weight: 500;
     font-size: 17px;
@@ -30,7 +32,7 @@
 }
 
 .white-right {
-    padding-top: 142px;
+    margin-top: 17px;
     color: white;
     font-weight: 500;
     font-size: 17px;

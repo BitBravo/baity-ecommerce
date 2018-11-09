@@ -92,8 +92,8 @@ export default class CarouselMenu extends Component {
                         backgroundPosition: "center center"
                       }}
                     >
-                      <p className={itemTitleClassName}>${item.title}</p>
                     </div>
+                    <p className={itemTitleClassName}>{item.title}</p>
                   </Link>
                 </div>
               ))
