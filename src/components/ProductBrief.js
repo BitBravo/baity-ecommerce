@@ -150,6 +150,7 @@ class ProductBrief extends Component {
   //src="http://via.placeholder.com/243x243"
   render() {
     const product = this.props.product;
+    console.log(product)
     var imgUrl;
     product.images
       ? imgUrl = product.images[0].thumbnail ? product.images[0].thumbnail : product.images[0].large
@@ -203,7 +204,8 @@ class ProductBrief extends Component {
             </div>
 
             <p style={{ paddingTop: '10px', paddingBottom: '10px' }}>
-              {product.desc.substring(0, 105)}
+              {console.log(product)}
+              {product.desc ? product.desc.substring(0, 105) : ''}
               <Link style={{ display: 'inline', color: 'rgb(26, 156, 142)' }} to={`/${product.owner}/products/${product.id}`}>
                 ... المزيد
               </Link>
@@ -229,7 +231,7 @@ class ProductBrief extends Component {
 
               <Link to={`/${product.owner}/products/${product.id}`} style={{ color: 'black' }} >
                 <DescriptionCol xs={6} md={7}>
-                  <p style={{ color: 'black' }}> {product.name.substring(0, 22)} </p>
+                  <p style={{ color: 'black' }}> {product.name} </p>
                 </DescriptionCol>
               </Link>
 
@@ -238,7 +240,7 @@ class ProductBrief extends Component {
             </div>
 
             <p style={{ paddingTop: '10px', paddingBottom: '10px' }}>
-              {product.desc.substring(0, 90)}
+              {product.desc}
               <Link style={{ display: 'inline', color: 'rgb(26, 156, 142)' }} to={`/${product.owner}/products/${product.id}`}>
                 ... المزيد
               </Link>
@@ -263,7 +265,7 @@ class ProductBrief extends Component {
 
               <Link to={`/${product.owner}/products/${product.id}`} style={{ color: 'black' }} >
                 <DescriptionCol xs={6} md={7}>
-                  <p style={{ color: 'black', padding: '0 5px 0 0' }}> {product.name.substring(0, 20)} </p>
+                  <p style={{ color: 'black', padding: '0 5px 0 0' }}> {product.name} </p>
                 </DescriptionCol>
               </Link>
 
@@ -272,7 +274,7 @@ class ProductBrief extends Component {
             </div>
 
             <p style={{ paddingTop: '5px' }}>
-              {product.desc.substring(0, 90)}
+              {product.desc}
               <Link style={{ display: 'inline', color: 'rgb(26, 156, 142)' }} to={`/${product.owner}/products/${product.id}`}>
                 ... المزيد
               </Link>
@@ -297,7 +299,7 @@ class ProductBrief extends Component {
 
               <Link to={`/${product.owner}/products/${product.id}`} style={{ color: 'black' }} >
                 <DescriptionCol xs={6} md={7}>
-                  <p style={{ color: 'black', padding: '0 5px 0 0' }}> {product.name.substring(0, 12)} </p>
+                  <p style={{ color: 'black', padding: '0 5px 0 0' }}> {product.name} </p>
                 </DescriptionCol>
               </Link>
 
@@ -306,7 +308,7 @@ class ProductBrief extends Component {
             </div>
 
             <p style={{ paddingTop: '3px' }}>
-              {product.desc.substring(0, 60)}
+              {product.desc}
               <Link style={{ display: 'inline', color: 'rgb(26, 156, 142)' }} to={`/${product.owner}/products/${product.id}`}>
                 ... المزيد
               </Link>

@@ -43,6 +43,7 @@ let _NORMAL_PATH = "normal";
 let _BASKET_PATH = "basket";
 let _CAROUSEL_BANNER_PATH = "carousel-banner";
 let _PRODUCTS_DISCOVERY_PATH = "product-discovery";
+let _PRODUCTS_DEPARTMENT_PATH = "product-specification";
 let _BUSINESS_HOMEIMGS_PATH = "businessHomeImgs";
 let _PROFILE_HOMEIMGS_PATH = "profileHomeImages";
 let _PRODUCT_ARCHIVE_PATH = "productArchive";
@@ -55,6 +56,7 @@ let _REF_IDEA = DB_BASE.collection(_IDEAS_PATH);
 let _REF_BUSINESS = DB_BASE.collection(_BUSINESSES_PATH); //change me by removing test
 let _REF_CAROUSEL = DB_BASE.collection(_CAROUSEL_BANNER_PATH);
 let _REF_PRODUCTS_DISCOVERY = DB_BASE.collection(_PRODUCTS_DISCOVERY_PATH);
+let _REF_PRODUCTS_DEPARTMENT = DB_BASE.collection(_PRODUCTS_DEPARTMENT_PATH);
 let _REF_USER_LIKES = DB_BASE.collection(_LIKES_PATH);
 let _REF_GROUP = DB_BASE.collection(_GROUPS_PATH); //change me by removing test
 let _REF_PROF = DB_BASE.collection(_PROF_PATH)
@@ -108,6 +110,9 @@ export default {
   },
   get PRODUCTS_DISCOVERY_PATH() {
     return _PRODUCTS_DISCOVERY_PATH;
+  },
+  get PRODUCTS_DEPARTMENT_PATH() {
+    return _PRODUCTS_DEPARTMENT_PATH;
   },
   get BUSINESS_HOMEIMGS_PATH() {
     return _BUSINESS_HOMEIMGS_PATH;
@@ -190,6 +195,9 @@ export default {
   get productDiscovery() {
     return _REF_PRODUCTS_DISCOVERY;
   },
+  get productDepartment() {
+    return _REF_PRODUCTS_DEPARTMENT;
+  },
   /*
     Given the entry type (product, idea, ...etc) and entry ID
     returns the entry value (product, idea, ...etc)from the DB
@@ -225,6 +233,9 @@ export default {
         break;
       case 'product-discovery':
         ref = this.productDiscovery.doc(entryId);
+        break;
+      case 'product-specification':
+        ref = this.productDepartment.doc(entryId);
         break;
     }
     return ref.get()

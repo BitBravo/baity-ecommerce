@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Grid, Row, Col } from "react-bootstrap";
 import { app, base } from "../base";
-import FirebaseServices from 'services/FirebaseServices'
 import FirestoreServices from 'services/FirestoreServices'
 import FirestorePaginator from 'services/FirestorePaginator'
 import ProductBrief from "./ProductBrief";
@@ -93,13 +92,11 @@ class ProductList extends Component {
 
   componentWillReceiveProps(nextProps) {
     console.log(`${this.constructor.name} => nextProps`)
-    console.log(nextProps)
     // filter options will be recived as props
     if (nextProps.filter) {
       if (nextProps.filter.length > 0) {
         this.setState({ loading: true }) // start loading indcator
         var filterValues = nextProps.filter
-        console.log("filters: " + filterValues.length)
         //  var ref = FirestoreServices.products
         this.createQuery(filterValues);
       } else {
@@ -114,27 +111,43 @@ class ProductList extends Component {
       }
     } else if (nextProps.thisUserOnly)
       this.businessProducts(nextProps)
-
   }
 
   createQuery(filter) {
-    var ref = FirestoreServices.products
-    if (filter[0].value !== "") {
-      console.log("filter 0 " + filter[0].value)
-      ref = ref.where(filter[0].key, "==", filter[0].value)
+    let query = [];
+    if (filter[0].value) {
+      query.push([filter[0].key, '==', filter[0].value])
     }
-    if (filter[1].value !== "") {
-      console.log("filter 1 " + filter[1].value)
-      ref = ref.where(filter[1].key, "==", filter[1].value)
+    if (filter[1].value) {
+      query.push([filter[1].key, '==', filter[1].value])
     }
-    if (filter[2].value !== "") {
-      console.log("filter 2 " + filter[2].value)
-      ref = ref.where(filter[2].key, "==", filter[2].value)
+    if (filter[2].value) {
+      query.push([filter[2].key, '==', filter[2].value])
     }
-    console.log("filter 3" + filter[3].value)
-    ref = this.setRangeFilter(ref, filter[3]).orderBy('timestamp', 'desc')
-    console.log(ref)
-    this.firePaginator(ref);
+    console.log(query)
+    FirestoreServices.getDataQuery('product', query)
+      .then(items => {
+        this.setState({ 'products': items });
+        this.setState({ loading: false })
+        console.log(items)
+      })
+    // var ref = FirestoreServices.products
+    // if (filter[0].value !== "") {
+    //   console.log("filter 0 " + filter[0].value)
+    //   ref = ref.where(filter[0].key, "==", filter[0].value)
+    // }
+    // if (filter[1].value !== "") {
+    //   console.log("filter 1 " + filter[1].value)
+    //   ref = ref.where(filter[1].key, "==", filter[1].value)
+    // }
+    // if (filter[2].value !== "") {
+    //   console.log("filter 2 " + filter[2].value)
+    //   ref = ref.where(filter[2].key, "==", filter[2].value)
+    // }
+    // console.log("filter 3" + filter[3].value)
+    // ref = this.setRangeFilter(ref, filter[3]).orderBy('timestamp', 'desc')
+    // console.log(ref)
+    // this.firePaginator(ref);
   }
 
   setRangeFilter(ref, filter) {
@@ -314,7 +327,7 @@ class ProductList extends Component {
 
                     : <div>{
                       products.map((product, index) => {
-                        return <ProductBrief key={product.id} product={product.data()} />;
+                        return <ProductBrief key={index} product={product} />;
                       })
                     }</div>
                   }

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { DropdownButton,
+import {
+  DropdownButton,
   MenuItem,
   Col,
   Row,
@@ -15,6 +16,7 @@ import { DropdownButton,
   FormControl
 } from "react-bootstrap";
 import ProductList from './ProductList';
+import FirestoreServices from 'services/FirestoreServices'
 import styled from 'styled-components'
 import traditionalkitchen from '../assets/img/traditionalkitchen.jpg';
 import bedroom from '../assets/img/bedroom.jpg';
@@ -189,14 +191,17 @@ const SelectGroup = ({ id, label, selectedOption, ...props }) => (
   </FormGroup>
 );
 
-const DepOption = (list) => (
-  DepartmentList.map(opt => {
-    return (
-      <option key={opt} value={opt}>
-        {opt}
-      </option>
-    );
+const DepOption = ({ list }) => (
+  list ?
+    list.map(opt => {
+      return (
+        <option key={opt} value={opt}>
+          {opt}
+        </option>
+      );
     })
+    :
+    ''
 )
 
 const StyleOption = (list) => (
@@ -206,7 +211,7 @@ const StyleOption = (list) => (
         {opt}
       </option>
     );
-    })
+  })
 )
 
 const PriceOption = (list) => (
@@ -216,7 +221,7 @@ const PriceOption = (list) => (
         {opt}
       </option>
     );
-    })
+  })
 )
 
 var CategoriesOption = (list) => (
@@ -226,52 +231,64 @@ var CategoriesOption = (list) => (
         {opt}
       </option>
     );
-    })
+  })
 )
-
 class ProductsPage extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.departmentId = this.props.match.params.id
     this.state = {
       value: "",
       filter: [],
       dept: "",
       cat: "",
       price: "",
-      priceRange: {upper: "", lower:""},
-      style: ""
+      priceRange: { upper: "", lower: "" },
+      style: "",
+      departments: []
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.setFilter = this.setFilter.bind(this);
     this.getList = this.getList.bind(this);
   }
-
+  componentDidMount() {
+    let filter = this.setFilter();
+    filter[0] = { key: 'department', value: this.departmentId };
+    this.setState({
+      dept: this.departmentId
+    });
+    this.setState({ filter: filter });
+  }
+  componentWillMount() {
+    FirestoreServices.readDBRecord('product-specification', 'filters')
+      .then(filters => this.setState({ departments: filters.department }));
+  }
   handleChange(event) {
-    if(event.target.id === "category") {
-      if (this.state.dept === ""){
+    if (event.target.id === "category") {
+      if (this.state.dept === "") {
         this.setState({
           cat: "",
         });
         return;
       }
-    }else if(event.target.id === "department"){
-    if (event.target.value === "")
-      this.setState({
-        cat: "",
-      });
+    } else if (event.target.id === "department") {
+      if (event.target.value === "")
+        this.setState({
+          cat: "",
+        });
     }
-    var obj={upper: "", lower:""};
+    var obj = { upper: "", lower: "" };
     switch (event.target.id) {
       case 'price':
         switch (event.target.value) {
-          case 'أقل من 100': obj = {upper: 100, lower: ""}; break;
-          case '100-500': obj = {upper: 500, lower: 100}; break;
-          case '500-1000': obj = {upper: 1000, lower: 500}; break;
-          case '1000-3000': obj = {upper: 3000, lower: 1000}; break;
-          case '3000-5000': obj = {upper: 5000, lower: 3000}; break;
-          case 'أعلى من 5000': obj = {upper: "", lower: 5000}; break;
+          case 'أقل من 100': obj = { upper: 100, lower: "" }; break;
+          case '100-500': obj = { upper: 500, lower: 100 }; break;
+          case '500-1000': obj = { upper: 1000, lower: 500 }; break;
+          case '1000-3000': obj = { upper: 3000, lower: 1000 }; break;
+          case '3000-5000': obj = { upper: 5000, lower: 3000 }; break;
+          case 'أعلى من 5000': obj = { upper: "", lower: 5000 }; break;
         }; break;
       default: obj = event.target.value;
     }
@@ -279,34 +296,34 @@ class ProductsPage extends Component {
     //filter = this.setFilter(filter, filterType, filterValue)
     switch (event.target.id) {
       case "department":
-        filter[0] = {key:'department', value: event.target.value};
-        if(event.target.value === "") filter[2] = {key:'category', value: ""};
+        filter[0] = { key: 'department', value: event.target.value };
+        if (event.target.value === "") filter[2] = { key: 'category', value: "" };
         this.setState({
-            dept: event.target.value
-          }); break;
+          dept: event.target.value
+        }); break;
       case "style":
-        filter[1] = {key:'style', value: event.target.value}
+        filter[1] = { key: 'style', value: event.target.value }
         this.setState({
-            style: event.target.value
-          }); break;
+          style: event.target.value
+        }); break;
       case "category":
-        filter[2] = {key:'category', value: event.target.value}
+        filter[2] = { key: 'category', value: event.target.value }
         this.setState({
           cat: event.target.value,
         }); break;
       case "price":
-        filter[3] = {key:'price', value: obj}
+        filter[3] = { key: 'price', value: obj }
         this.setState({
           price: event.target.value,
           priceRange: obj
         }); break;
 
     }
-    this.setState({filter: filter});
+    this.setState({ filter: filter });
 
   }
 
-  getList(){
+  getList() {
     if (this.state.dept === "")
       categoryList = ["حدد القسم أولا"]
     else {
@@ -325,22 +342,22 @@ class ProductsPage extends Component {
         case "غرف أطفال": CategoryList = Categories.CategoryListKids; break;
         case "مكاتب منزلية": CategoryList = Categories.CategoryListOffice; break;
         default:
-        break;
+          break;
       }
       categoryList = CategoryList;
     }
   }
 
-  setFilter(){
+  setFilter() {
     var filter = [];
     console.log("dept " + this.state.dept)
     console.log("style " + this.state.style)
     console.log("price " + this.state.priceRange)
 
-    filter.push({key:'department', value: this.state.dept})
-    filter.push({key:'style', value: this.state.style})
-    filter.push({key:'category', value: this.state.cat})
-    filter.push({key:'price', value: this.state.priceRange})
+    filter.push({ key: 'department', value: this.state.dept })
+    filter.push({ key: 'style', value: this.state.style })
+    filter.push({ key: 'category', value: this.state.cat })
+    filter.push({ key: 'price', value: this.state.priceRange })
     return filter;
   }
 
@@ -362,157 +379,156 @@ class ProductsPage extends Component {
 
 
   render() {
+    console.log(this.state.departments)
     return (
       <div>
         <Grid>
-          <Row style={{display: 'flex', flexWrap: 'wrap'}}>
-            <Col sm={4} xs={12} style={{padding:'2px'}}>
-          <Filter >
-            <PaddingDiv>
-            <div className="inner-addon left-addon ">
-              <i className="glyphicon glyphicon-plus white plus"></i>
-                <Select name="selectThis" id="department" onChange={this.handleChange} value={this.state.dept}>
-                  <option value="">القسم</option>
-                  <DepOption list={DepartmentList} />
-                </Select>
-            </div>
-            </PaddingDiv>
+          <Row style={{ display: 'flex', flexWrap: 'wrap' }}>
+            <Col sm={4} xs={12} style={{ padding: '2px' }}>
+              <Filter >
+                <PaddingDiv>
+                  <div className="inner-addon left-addon ">
+                    <i className="glyphicon glyphicon-plus white plus"></i>
+                    <Select name="selectThis" id="department" onChange={this.handleChange} value={this.state.dept}>
+                      <option value="">القسم</option>
+                      <DepOption list={this.state.departments} />
+                    </Select>
+                  </div>
+                </PaddingDiv>
 
-            <PaddingDiv>
-            <div className="inner-addon left-addon ">
-              <i className="glyphicon glyphicon-plus white plus"></i>
-                <Select name="selectThis" id="category" onChange={this.handleChange} value={this.state.cat}>
-                  <option value="">التصنيف</option>
-                  {this.state.dept === ""
-                  ? <option value="">حدد القسم أولا</option>
-                  : <CategoriesOption list={this.getList()} />
-                  }
-                </Select>
-            </div>
-            </PaddingDiv>
+                <PaddingDiv>
+                  <div className="inner-addon left-addon ">
+                    <i className="glyphicon glyphicon-plus white plus"></i>
+                    <Select name="selectThis" id="category" onChange={this.handleChange} value={this.state.cat}>
+                      <option value="">التصنيف</option>
+                      {this.state.dept === ""
+                        ? <option value="">حدد القسم أولا</option>
+                        : <CategoriesOption list={this.getList()} />
+                      }
+                    </Select>
+                  </div>
+                </PaddingDiv>
 
-            <PaddingDiv>
-            <div className="inner-addon left-addon ">
-              <i className="glyphicon glyphicon-plus white plus"></i>
-                <Select name="selectThis" id="price" onChange={this.handleChange} value={this.state.price}>
-                  <option value="">السعر</option>
-                  <PriceOption list={Price} />
-                </Select>
-            </div>
-            </PaddingDiv>
+                <PaddingDiv>
+                  <div className="inner-addon left-addon ">
+                    <i className="glyphicon glyphicon-plus white plus"></i>
+                    <Select name="selectThis" id="price" onChange={this.handleChange} value={this.state.price}>
+                      <option value="">السعر</option>
+                      <PriceOption list={Price} />
+                    </Select>
+                  </div>
+                </PaddingDiv>
 
                 {
-          //       <PaddingDiv>
-          //       <div className="inner-addon left-addon ">
-          // <i className="glyphicon glyphicon-plus white plus"  ></i>
-          //       <Select name="selectThis" id="selectThis">
-          //           <option value="">بلد الصنع</option>
-          //           <option value=".option1">Option 1</option>
-          //           <option value=".option2">Option 2</option>
-          //           <option value=".option3">Option 3</option>
-          //           <option value=".option4">Option 4</option>
-          //       </Select>
-          //       </div>
-          //       </PaddingDiv>
-              }
+                  //       <PaddingDiv>
+                  //       <div className="inner-addon left-addon ">
+                  // <i className="glyphicon glyphicon-plus white plus"  ></i>
+                  //       <Select name="selectThis" id="selectThis">
+                  //           <option value="">بلد الصنع</option>
+                  //           <option value=".option1">Option 1</option>
+                  //           <option value=".option2">Option 2</option>
+                  //           <option value=".option3">Option 3</option>
+                  //           <option value=".option4">Option 4</option>
+                  //       </Select>
+                  //       </div>
+                  //       </PaddingDiv>
+                }
                 <PaddingDiv>
-                <div className="inner-addon left-addon ">
-          <i className="glyphicon glyphicon-plus white plus" ></i>
-          <Select name="selectThis" id="style" onChange={this.handleChange} value={this.state.style}>
-                    <option value="">الطراز</option>
-                    <StyleOption list={Style} />
-                </Select>
-                </div>
+                  <div className="inner-addon left-addon ">
+                    <i className="glyphicon glyphicon-plus white plus" ></i>
+                    <Select name="selectThis" id="style" onChange={this.handleChange} value={this.state.style}>
+                      <option value="">الطراز</option>
+                      <StyleOption list={Style} />
+                    </Select>
+                  </div>
                 </PaddingDiv>
-       </Filter>
-   </Col>
+              </Filter>
+            </Col>
 
-<CarouselDiv sm={8} xs={12} >
+            <CarouselDiv sm={8} xs={12} >
 
-  <Carousel   controls={false} >
-      <Carousel.Item > 
-        <div >
-        <ImageContainer >
-            <ImageDiv>
-              <DPreviewImg  src= {productPageCarosel} />
-              <MPreviewImg  src= {mproductPageCarosel} />
-              <SMPreviewImg  src= {smproductPageCarosel} />
+              <Carousel controls={false} >
+                <Carousel.Item >
+                  <div >
+                    <ImageContainer >
+                      <ImageDiv>
+                        <DPreviewImg src={productPageCarosel} />
+                        <MPreviewImg src={mproductPageCarosel} />
+                        <SMPreviewImg src={smproductPageCarosel} />
 
-        </ImageDiv>
-        </ImageContainer>
-        </div>
-      </Carousel.Item>
-      <Carousel.Item>
-        <div>
-        <ImageContainer>
-            <ImageDiv>
-              <DPreviewImg  src= {productPageCarosel2}/>
-              <MPreviewImg  src= {mproductPageCarosel2}/>
-              <SMPreviewImg  src= {smproductPageCarosel2} />
+                      </ImageDiv>
+                    </ImageContainer>
+                  </div>
+                </Carousel.Item>
+                <Carousel.Item>
+                  <div>
+                    <ImageContainer>
+                      <ImageDiv>
+                        <DPreviewImg src={productPageCarosel2} />
+                        <MPreviewImg src={mproductPageCarosel2} />
+                        <SMPreviewImg src={smproductPageCarosel2} />
 
-        </ImageDiv>
-        </ImageContainer>
-        </div>
-      </Carousel.Item>
-      <Carousel.Item > 
-        <div >
-        <ImageContainer >
-            <ImageDiv>
-              <DPreviewImg  src= {productPageCarosel3} />
-              <MPreviewImg  src= {mproductPageCarosel3} />
-              <SMPreviewImg  src= {smproductPageCarosel} />
+                      </ImageDiv>
+                    </ImageContainer>
+                  </div>
+                </Carousel.Item>
+                <Carousel.Item >
+                  <div >
+                    <ImageContainer >
+                      <ImageDiv>
+                        <DPreviewImg src={productPageCarosel3} />
+                        <MPreviewImg src={mproductPageCarosel3} />
+                        <SMPreviewImg src={smproductPageCarosel} />
 
-        </ImageDiv>
-        </ImageContainer>
-        </div>
-      </Carousel.Item>
-      <Carousel.Item > 
-        <div >
-        <ImageContainer >
-            <ImageDiv>
-              <DPreviewImg  src= {productPageCarosel4} />
-              <MPreviewImg  src= {mproductPageCarosel4} />
-              <SMPreviewImg  src= {smproductPageCarosel} />
+                      </ImageDiv>
+                    </ImageContainer>
+                  </div>
+                </Carousel.Item>
+                <Carousel.Item >
+                  <div >
+                    <ImageContainer >
+                      <ImageDiv>
+                        <DPreviewImg src={productPageCarosel4} />
+                        <MPreviewImg src={mproductPageCarosel4} />
+                        <SMPreviewImg src={smproductPageCarosel} />
 
-        </ImageDiv>
-        </ImageContainer>
-        </div>
-      </Carousel.Item>
-      <Carousel.Item > 
-        <div >
-        <ImageContainer >
-            <ImageDiv>
-              <DPreviewImg  src= {productPageCarosel5} />
-              <MPreviewImg  src= {mproductPageCarosel5} />
-              <SMPreviewImg  src= {smproductPageCarosel} />
+                      </ImageDiv>
+                    </ImageContainer>
+                  </div>
+                </Carousel.Item>
+                <Carousel.Item >
+                  <div >
+                    <ImageContainer >
+                      <ImageDiv>
+                        <DPreviewImg src={productPageCarosel5} />
+                        <MPreviewImg src={mproductPageCarosel5} />
+                        <SMPreviewImg src={smproductPageCarosel} />
 
-        </ImageDiv>
-        </ImageContainer>
-        </div>
-      </Carousel.Item>
-      <Carousel.Item > 
-        <div >
-        <ImageContainer >
-            <ImageDiv>
-              <DPreviewImg  src= {productPageCarosel6} />
-              <MPreviewImg  src= {mproductPageCarosel6} />
-              <SMPreviewImg  src= {smproductPageCarosel} />
+                      </ImageDiv>
+                    </ImageContainer>
+                  </div>
+                </Carousel.Item>
+                <Carousel.Item >
+                  <div >
+                    <ImageContainer >
+                      <ImageDiv>
+                        <DPreviewImg src={productPageCarosel6} />
+                        <MPreviewImg src={mproductPageCarosel6} />
+                        <SMPreviewImg src={smproductPageCarosel} />
 
-        </ImageDiv>
-        </ImageContainer>
-        </div>
-      </Carousel.Item>
-    </Carousel>
- </CarouselDiv>
-   </Row>
-   </Grid>
-    {console.log("filter " + Object.keys(this.state.filter))}
-    {console.log("filter " + Object.values(this.state.filter))}
-   <ProductList thisUserOnly={false} filter={this.state.filter}/>
+                      </ImageDiv>
+                    </ImageContainer>
+                  </div>
+                </Carousel.Item>
+              </Carousel>
+            </CarouselDiv>
+          </Row>
+        </Grid>
+        <ProductList thisUserOnly={false} filter={this.state.filter} />
+      </div>
 
+    );
+  }
+}
 
-	</div>
-
-  );}}
-
-  export default ProductsPage;
+export default ProductsPage;

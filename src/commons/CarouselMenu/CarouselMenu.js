@@ -8,7 +8,7 @@ import './styles.css';
 
 export default class CarouselMenu extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.loadFlag = false;
     this.state = {
       oldProps: ''
@@ -70,7 +70,7 @@ export default class CarouselMenu extends Component {
         }
       ]
     };
-    const { items, title } = this.state.oldProps;
+    const { items, title } = this.state.oldProps || { items: '' };
     const itemTitleClassName = title === 'اختر منتجات منزلك' ? 'gray-center' : 'white-right';
     console.log(items)
     return (
@@ -98,7 +98,7 @@ export default class CarouselMenu extends Component {
                 </div>
               ))
               :
-              `Didn't configurate the product discovery option by Administrator yet`
+              ''
           }
         </Slider>
       </div>
