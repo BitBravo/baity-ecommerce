@@ -83,11 +83,11 @@ class ProductList extends Component {
     } else {
       var ref = FirestoreServices.products.orderBy('timestamp', 'desc')
       this.firePaginator(ref);
-      // FirestoreServices.getDataQuery('product')
-      //   .then(products => {
-      //     this.setState({ products: products })
-      //     this.setState({ loading: false })
-      //   })
+      FirestoreServices.getDataQuery('product')
+        .then(products => {
+          this.setState({ products: products })
+          this.setState({ loading: false })
+        })
     }
   }
 
