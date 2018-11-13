@@ -4,6 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import bedroom from 'assets/img/bedroom.jpg';
 import FirestoreServices from 'services/FirestoreServices'
 import styled from 'styled-components'
+import CarouselEditModal from 'components/CarouselEditModal'
 import './styles.css'
 
 
@@ -64,34 +65,41 @@ export class CarouselBanner extends Component {
 
   render() {
     return (
-      <Carousel
-        controls={false}
-        interval={5000}
-      >
-        {
-          this.state.carouselItems.map((item, index) => {
-            return (
-              <Carousel.Item key={index}>
-                <div>
-                  <ImageContainer>
-                    <ImageDiv>
-                      <PreviewImg src={item.image || bedroom} />
-                    </ImageDiv>
-                  </ImageContainer>
-                  <Carousel.Caption className="hero">
-                    <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
-                    <LinkContainer to={item.link || '/login'}>
-                      <Button>
-                        {item.linkTitle || "Let's start with us"}
-                      </Button>
-                    </LinkContainer>
-                  </Carousel.Caption>
-                </div>
-              </Carousel.Item>
-            )
-          })
-        }
-      </Carousel>
+      <div>
+
+        <Carousel
+          controls={false}
+          interval={5000}
+        >
+          {
+            this.state.carouselItems.map((item, index) => {
+              return (
+                <Carousel.Item key={index}>
+                  <LinkContainer to={'/ssss' || '/#'}>
+                    <div>
+                      <ImageContainer>
+                        <ImageDiv>
+                          <PreviewImg src={item.image || bedroom} />
+                        </ImageDiv>
+                      </ImageContainer>
+                      <Carousel.Caption className="hero">
+                        <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
+                        <LinkContainer to={item.link || '/login'}>
+                          <Button>
+                            {item.linkTitle || "Let's start with us"}
+                          </Button>
+                        </LinkContainer>
+                      </Carousel.Caption>
+                    </div>
+                  </LinkContainer>
+
+                </Carousel.Item>
+              )
+            })
+          }
+        </Carousel>
+        <CarouselEditModal items={this.state.carouselItems} />
+      </div>
     );
   }
 }

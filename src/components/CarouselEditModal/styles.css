@@ -1,0 +1,104 @@
+.modal-tool {
+    border-image: none;
+    color: inherit;
+    margin-bottom: 0;
+    padding: 14px 0px 7px;
+    height: 48px;
+    display: initial;
+}
+
+.carousel-modal-content {
+    background-color: #ddd;
+    color: inherit;
+    padding: 9px 3px 15px 0px;
+    border-color: #ddd;
+    border-image: none;
+    border-style: solid solid none;
+}
+
+.carousel-edit-modal {
+    position: absolute;
+    top: 140px;
+    right: 40px;
+    z-index: 1;
+}
+
+.modal-tool>button {
+    width: 70px;
+    margin-left: 9px;
+    height: initial;
+    outline: none;
+    background-color: #f5f5f5;
+    color: gray;
+    font-size: 19px;
+    padding: 5px 0px;
+}
+
+.carousel-modal-content>.row>div {
+    height: 100%;
+    padding: 0px;
+    border-right: 6px solid #ddd;
+}
+
+.carousel-modal-content input {
+    border: navajowhite;
+    height: 100%;
+    text-align: left;
+    padding: 7px;
+}
+
+.carousel-modal-content button {
+    text-align: center;
+    height: 100%;
+    margin: 0px;
+    font-size: 13px;
+    outline: none;
+    background-color: #6d6d6d
+}
+
+button:active {
+    background-color: #afaeae
+}
+
+.carousel-edit-modal .line-number {
+    font-weight: 900;
+    font-size: 17px;
+    padding-top: 5px !important;
+    text-align: center;
+}
+
+.carousel-edit-modal .imageInfo {
+    background-color: white;
+    padding-top: 5px !important;
+    text-align: left;
+    direction: ltr;
+}
+
+.carousel-edit-modal .productId {
+    padding: 0px 4px 0px 4px;
+    direction: ltr;
+}
+
+.carousel-modal-content .row {
+    margin: 4px 0px 0px 0px;
+    height: 32px;
+    background-color: gainsboro;
+}
+
+.editBtn-area {
+    position: absolute;
+    width: 100%;
+    top: 36px;
+    text-align: center;
+}
+
+.editBtn-area button {
+    width: 70px;
+    height: initial;
+    font-size: 20px;
+    padding: 4px;
+    text-align: center;
+    outline: none;
+    background-color: white;
+    color: gray;
+}

@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import { Link } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Row, Col } from "react-bootstrap";
 
 import './styles.css';
 
@@ -74,7 +75,7 @@ export default class CarouselMenu extends Component {
     const itemTitleClassName = title === 'اختر منتجات منزلك' ? 'gray-center' : 'white-right';
     console.log(items)
     return (
-      <div>
+      <div className="item-discovery-session">
         <div className='carousel-title-container'>
           <p className='carousel-title'>{title}</p>
         </div>
@@ -95,12 +96,38 @@ export default class CarouselMenu extends Component {
                     </div>
                     <p className={itemTitleClassName}>{item.title}</p>
                   </Link>
+                  <div className="editBtn-area">
+                    <button className="editBtn">
+                      Edit
+                    </button>
+                  </div>
                 </div>
               ))
               :
               ''
           }
         </Slider>
+        <div className="item-discovery-edit-modal">
+          <div className="departmentList">
+            <select>
+              <option value="volvo">First</option>
+              <option value="saab">Saab</option>
+              <option value="mercedes">Mercedes</option>
+              <option value="audi">Audi</option>
+            </select>
+          </div>
+          <div className="imageInfo">
+            <input type="text"></input>
+          </div>
+          <div className="toolbar">
+            <Col md={5} mdOffset={1}>
+              <button>Chane</button>
+            </Col>
+            <Col md={5}>
+              <button>Save</button>
+            </Col>
+          </div>
+        </div>
       </div>
     );
   }
