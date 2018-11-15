@@ -56,12 +56,26 @@ export class CarouselBanner extends Component {
     };
   }
 
-  componentWillMount() {
-    FirestoreServices.getDataQuery('carousel-banner')
-      .then(items => {
-        this.setState({ carouselItems: items })
-      });
+  getCarouselData() {
+    FirestoreServices.readDBRecord('admin', 'logo').then(items => {
+      items.carousel.map((item, index) => {
+        if (item.productId) {
+          FirestoreServices.readDBRecord('product', item.productId)
+            .then((product) => {
+              items.carousel[index].owner = product.owner;
+            })
+            .catch((err) => items.carousel[index].owner = null)
+        }
+      })
+      this.setState({ carouselItems: items.carousel })
+      console.log(items)
+    });
   }
+
+  componentWillMount() {
+    this.getCarouselData();
+  }
+
 
   render() {
     return (
@@ -75,7 +89,7 @@ export class CarouselBanner extends Component {
             this.state.carouselItems.map((item, index) => {
               return (
                 <Carousel.Item key={index}>
-                  <LinkContainer to={'/ssss' || '/#'}>
+                  <LinkContainer to={`/${item.owner}/products/${item.productId}` || '/#'}>
                     <div>
                       <ImageContainer>
                         <ImageDiv>
@@ -84,10 +98,8 @@ export class CarouselBanner extends Component {
                       </ImageContainer>
                       <Carousel.Caption className="hero">
                         <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
-                        <LinkContainer to={item.link || '/login'}>
-                          <Button>
-                            {item.linkTitle || "Let's start with us"}
-                          </Button>
+                        <LinkContainer to='/registration'>
+                          <Button>إبدأ معنا</Button>
                         </LinkContainer>
                       </Carousel.Caption>
                     </div>
@@ -98,7 +110,7 @@ export class CarouselBanner extends Component {
             })
           }
         </Carousel>
-        <CarouselEditModal items={this.state.carouselItems} />
+        <CarouselEditModal items={this.state.carouselItems} onUpdate={(e) => this.getCarouselData(e)} />
       </div>
     );
   }

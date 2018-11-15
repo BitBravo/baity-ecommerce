@@ -48,6 +48,7 @@ let _BUSINESS_HOMEIMGS_PATH = "businessHomeImgs";
 let _PROFILE_HOMEIMGS_PATH = "profileHomeImages";
 let _PRODUCT_ARCHIVE_PATH = "productArchive";
 let _IDEA_ARCHIVE_PATH = "ideaArchive";
+let _ADMIN_DATA_PATH = "admin";
 
 // firestore references
 let _REF_BASE = DB_BASE;
@@ -64,6 +65,7 @@ let _REF_NORMAL = DB_BASE.collection(_NORMAL_PATH)
 let _REF_BASKET = DB_BASE.collection(_BASKET_PATH)
 let _REF_PRODUCT_ARCHIVE = DB_BASE.collection(_PRODUCT_ARCHIVE_PATH);
 let _REF_IDEA_ARCHIVE = DB_BASE.collection(_IDEA_ARCHIVE_PATH);
+let _REF_ADMIN_DATA = DB_BASE.collection(_ADMIN_DATA_PATH);
 
 // this is to be set later be product and idea
 var selectedImg = "";
@@ -128,6 +130,9 @@ export default {
   },
   get PROFILE_HOMEIMGS_PATH() {
     return _PROFILE_HOMEIMGS_PATH;
+  },
+  get ADMIN_DATA_PATH() {
+    return _ADMIN_DATA_PATH;
   },
   get PROF_PATH() {
     return _PROF_PATH;
@@ -198,6 +203,9 @@ export default {
   get productDepartment() {
     return _REF_PRODUCTS_DEPARTMENT;
   },
+  get adminData() {
+    return _REF_ADMIN_DATA;
+  },
   /*
     Given the entry type (product, idea, ...etc) and entry ID
     returns the entry value (product, idea, ...etc)from the DB
@@ -236,6 +244,9 @@ export default {
         break;
       case 'product-specification':
         ref = this.productDepartment.doc(entryId);
+        break;
+      case 'admin':
+        ref = this.adminData.doc(entryId);
         break;
     }
     return ref.get()
@@ -792,6 +803,10 @@ export default {
     return this.ideas.doc(ideaId)
   },
 
+  saveAdminData(entryId, data) {
+    let adminRef = this.adminData.doc(entryId);
+    return adminRef.update(data).then(() => true)
+  },
   /**
    * This method is used to insert a new product into DB
    * product: is an object that contains all product properties with new values
