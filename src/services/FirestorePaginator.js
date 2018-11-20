@@ -1,5 +1,3 @@
-import FirestoreServices from './FirestoreServices'
-
 function FirestorePaginator(ref, defaults) {
   var paginator = this;
   var dafaults = defaults || {};

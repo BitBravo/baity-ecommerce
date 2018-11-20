@@ -19,15 +19,14 @@ const Spinner = styled.div`
 `
 
 const Loading = (props) => {
-  return <div style={{ textAlign: "center",  marginTop: "27%", marginLeft: "auto", marginRight: "auto" }} {...props}>
-  
-  <div style={{display: 'inline-block'}}><Spinner style={{ textAlign: "center"}}/></div>
-  
-</div>
+  return <div style={{ textAlign: "center", marginTop: "27%", marginLeft: "auto", marginRight: "auto" }} {...props}>
+
+    <div style={{ display: 'inline-block' }}><Spinner style={{ textAlign: "center" }} /></div>
+
+  </div>
 }
 
 const DeleteButton = styled(MdClose)`
-  
   width:20px;
   height:20px;
   position: absolute;
@@ -43,11 +42,6 @@ const DeleteButton = styled(MdClose)`
   }
 `;
 
-const ConfirmDeleteButton = styled(Button)`
-  display:block;
-  position: absolute;
-  top: 50px;
-`
 const DialogDiv = styled.div`
   position:  absolute;
   top: 0;
@@ -61,15 +55,14 @@ const DialogDiv = styled.div`
 const ButtonsDiv = styled.div`
   margin: 20%  auto;
   width: 70%; 
-  
 `
 
 const ConfirmDeleteDialog = (props) => (
   <DialogDiv>
     <ButtonsDiv>
-      <p style={{color: 'white', fontWeight: 'bold', fontSize: 'large'}}>هل تود حذف الصورة</p>
-      <Button style={{width: '100%', fontWeight: 'bold', fontSize: 'large'}} bsStyle="danger" onClick={props.onConfirm}>نعم</Button>
-      <Button style={{width: '100%', fontWeight: 'bold', fontSize: 'large'}} onClick={props.onCancel}>لا</Button>
+      <p style={{ color: 'white', fontWeight: 'bold', fontSize: 'large' }}>هل تود حذف الصورة</p>
+      <Button style={{ width: '100%', fontWeight: 'bold', fontSize: 'large' }} bsStyle="danger" onClick={props.onConfirm}>نعم</Button>
+      <Button style={{ width: '100%', fontWeight: 'bold', fontSize: 'large' }} onClick={props.onCancel}>لا</Button>
     </ButtonsDiv>
   </DialogDiv>
 )
@@ -77,9 +70,9 @@ const ConfirmDeleteDialog = (props) => (
 const ErrorDialog = (props) => (
   <DialogDiv>
     <ButtonsDiv>
-      <p style={{color: 'white', fontWeight: 'bold', fontSize: 'large'}}>نأسف لفشل عملية حذف الصورة. هل تود المحاولة مرة أخرى؟</p>
-      <Button style={{width: '100%', fontWeight: 'bold', fontSize: 'large'}} bsStyle="danger" onClick={props.onClickYes}>نعم</Button>
-      <Button style={{width: '100%', fontWeight: 'bold', fontSize: 'large'}} onClick={props.onClickNo}>لا</Button>
+      <p style={{ color: 'white', fontWeight: 'bold', fontSize: 'large' }}>نأسف لفشل عملية حذف الصورة. هل تود المحاولة مرة أخرى؟</p>
+      <Button style={{ width: '100%', fontWeight: 'bold', fontSize: 'large' }} bsStyle="danger" onClick={props.onClickYes}>نعم</Button>
+      <Button style={{ width: '100%', fontWeight: 'bold', fontSize: 'large' }} onClick={props.onClickNo}>لا</Button>
     </ButtonsDiv>
   </DialogDiv>
 )
@@ -111,30 +104,30 @@ const ImageContainer = styled.div`
 `;
 
 class ImagePreview extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       loading: false,
-      confirmDelete: false, 
+      confirmDelete: false,
       error: null
     }
   }
 
-  handleImageSelect(){
+  handleImageSelect() {
     console.log('image click and URL is')
     this.props.onImageSelect(this.props.url);
   }
 
-  handleImageDelete(){
-    if (this.props.fromDB){
-      this.setState({confirmDelete: false}, () => this.setState({loading: true}, 
+  handleImageDelete() {
+    if (this.props.fromDB) {
+      this.setState({ confirmDelete: false }, () => this.setState({ loading: true },
         () => {
           this.props.onImageDelete(this.props.url, /*fromDB*/ true)
-          .then(() => this.setState({loading: false}))
-          .catch(error => {
-            console.log(`ImagePreview.handleImageDelete: Error found, type: ${error.type}, message: ${error.message}`)
-            this.setState({loading: false}, () => this.setState({error: error}))
-          })
+            .then(() => this.setState({ loading: false }))
+            .catch(error => {
+              console.log(`ImagePreview.handleImageDelete: Error found, type: ${error.type}, message: ${error.message}`)
+              this.setState({ loading: false }, () => this.setState({ error: error }))
+            })
         })
       )
     } else {
@@ -142,38 +135,38 @@ class ImagePreview extends Component {
     }
   }
 
-  handleConfirmButtonClick(){
+  handleConfirmButtonClick() {
     this.handleImageDelete();
   }
 
-  handleImageDeleteButtonClick(){
-    this.setState({confirmDelete: true});
+  handleImageDeleteButtonClick() {
+    this.setState({ confirmDelete: true });
   }
 
-  handleCancelButtonClick(){
-    this.setState({confirmDelete: false});
+  handleCancelButtonClick() {
+    this.setState({ confirmDelete: false });
   }
 
   render() {
     return (
       <ImageContainer>
-        {this.state.loading?
+        {this.state.loading ?
           <ImageDiv>
             <Loading />
           </ImageDiv>
           :
           <ImageDiv>
-            <PreviewImg   src={this.props.url} 
-                  className="img-responsive "
-                  onClick={this.handleImageSelect.bind(this)}
-                  />
+            <PreviewImg src={this.props.url}
+              className="img-responsive "
+              onClick={this.handleImageSelect.bind(this)}
+            />
             {this.state.confirmDelete
-              ?<ConfirmDeleteDialog  onConfirm={this.handleConfirmButtonClick.bind(this)} onCancel={this.handleCancelButtonClick.bind(this)}/>
+              ? <ConfirmDeleteDialog onConfirm={this.handleConfirmButtonClick.bind(this)} onCancel={this.handleCancelButtonClick.bind(this)} />
               : this.state.error
-                ? <ErrorDialog 
-                        onClickYes={() => this.setState({error: null}, this.handleConfirmButtonClick.bind(this))} 
-                        onClickNo={() => this.setState({error: null})} />
-                : <DeleteButton onClick={this.handleImageDeleteButtonClick.bind(this)}/>
+                ? <ErrorDialog
+                  onClickYes={() => this.setState({ error: null }, this.handleConfirmButtonClick.bind(this))}
+                  onClickNo={() => this.setState({ error: null })} />
+                : <DeleteButton onClick={this.handleImageDeleteButtonClick.bind(this)} />
             }
           </ImageDiv>
         }

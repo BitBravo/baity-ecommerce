@@ -41,7 +41,8 @@ const PaddingDiv = styled.div`
   line-height:22px;
   @media only screen and (max-width: 1199px) {
    display:none;}
-`
+`;
+
 const MPaddingDiv = styled.div`
   display:none;
   @media only screen and (max-width: 1199px) {
@@ -53,7 +54,8 @@ const MPaddingDiv = styled.div`
     @media only screen and (max-width: 623px) {
       display:none;
     }
-`
+`;
+
 const SPaddingDiv = styled.div`
   display:none;
   @media only screen and (max-width: 623px) {
@@ -66,7 +68,8 @@ const SPaddingDiv = styled.div`
     @media only screen and (max-width: 500px) {
       display:none;
 }
-`
+`;
+
 const XSPaddingDiv = styled.div`
   display:none;
     @media only screen and (max-width: 500px) {
@@ -76,7 +79,8 @@ const XSPaddingDiv = styled.div`
       font-size:60%;
       height:80px;
     }
-`
+`;
+
 const MyThumbnailCol = styled(Col)`
 padding-left:10px;
 padding-right:10px;
@@ -88,7 +92,7 @@ padding-top:5px;
   padding-bottom:5px;
   padding-top:5px;
 }
-`
+`;
 
 const MyThumbnailDiv = styled.div`
   font-size:15px;
@@ -110,7 +114,7 @@ const MyThumbnailDiv = styled.div`
       transform: none;}
       margin-bottom: 20px;
   }
-`
+`;
 const PreviewImg = styled.div`
 width:100%;
 height:100%;
@@ -130,13 +134,13 @@ const ImageContainer = styled.div`
   padding-top: 100%;
   position: relative;
 `;
+
 const DescriptionCol = styled(Col)`
 padding-right:0;
 padding-left:0;
 padding-top:5px;
 font-family: 'dinarm';
-`
-
+`;
 
 class ProductBrief extends Component {
   constructor() {
@@ -159,7 +163,6 @@ class ProductBrief extends Component {
       <MyThumbnailCol xs={6} md={4} sm={6} style={{ float: 'right' }} >
         <MyThumbnailDiv>
           <ImageContainer>
-
             <ImageDiv>
               <Link to={`/${product.owner}/products/${product.id}`}>
                 <PreviewImg
@@ -184,22 +187,19 @@ class ProductBrief extends Component {
             : <TagDiv> المنتج للعرض</TagDiv>
           }
 
-
           <PaddingDiv >
             <div style={{ marginTop: '0', borderBottom: 'dotted 1px lightgray ', height: '35px' }}>
-
               <DescriptionCol xs={5} md={3}  >
                 <p style={{ color: 'rgb(26, 156, 142)', float: 'left' }}>{product.price} ر.س</p>
               </DescriptionCol>
-
               <Link to={`/${product.owner}/products/${product.id}`} style={{ color: 'black' }} >
                 <DescriptionCol xs={6} md={8}>
                   <p style={{ color: 'black' }}> {product.name} </p>
                 </DescriptionCol>
               </Link>
-
               <Col xs={1} style={{ padding: '4px 0 0 0' }}>
-                <IconImg src={Product} className="icons" /> </Col>
+                <IconImg src={Product} className="icons" />
+              </Col>
             </div>
 
             <p style={{ paddingTop: '10px', paddingBottom: '10px' }}>
@@ -216,9 +216,7 @@ class ProductBrief extends Component {
                 </Link>
               </p>
             </div>
-
           </PaddingDiv>
-
 
           <MPaddingDiv >
             <div style={{ marginTop: '0', borderBottom: 'dotted 1px lightgray ', height: '35px' }}>
@@ -234,7 +232,8 @@ class ProductBrief extends Component {
               </Link>
 
               <Col xs={1} style={{ padding: '5px 0 0 0' }}>
-                <IconImg src={Product} className="icons" /> </Col>
+                <IconImg src={Product} className="icons" />
+              </Col>
             </div>
 
             <p style={{ paddingTop: '10px', paddingBottom: '10px' }}>
@@ -256,7 +255,6 @@ class ProductBrief extends Component {
 
           <SPaddingDiv >
             <div style={{ marginTop: '0', borderBottom: 'dotted 1px lightgray ', height: '30px' }}>
-
               <DescriptionCol xs={5} md={4}  >
                 <p style={{ color: 'rgb(26, 156, 142)', float: 'left' }}>{product.price} ر.س</p>
               </DescriptionCol>
@@ -319,7 +317,6 @@ class ProductBrief extends Component {
                 </Link>
               </p>
             </div>
-
           </XSPaddingDiv>
         </MyThumbnailDiv>
       </MyThumbnailCol>

@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { app, base, db } from "../base";
+import { base, db } from "../base";
 import FirebaseServices from 'services/FirebaseServices'
 import FirestoreServices from 'services/FirestoreServices'
 import {
   Image,
   Alert,
   Col,
-  Thumbnail,
   Button,
   Modal,
   Row,
@@ -17,11 +16,7 @@ import {
 } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import Loading from './Loading';
-import Equalizer from "react-equalizer";
 import styled from 'styled-components'
-import { MdAddShoppingCart, MdEventSeat } from 'react-icons/lib/md';
-import FullHeart from '../assets/img/fullHeart.png';
-import EmptyHeart from '../assets/img/emptyHeart.png';
 import Product from '../assets/img/Selected-product.png';
 import Cart from '../assets/img/AddingtoCart.png';
 
@@ -50,18 +45,19 @@ border-radius: 50%;
   font-size:30px;
   left: 30px;
 }
-`
+`;
 const LikeIcon = styled(Glyphicon)`
 cursor:pointer;
 color:rgb(26,156,142);
-
 `;
+
 const UnLikeIcon = styled(Glyphicon)`
 cursor:pointer;
 color: transparent;
 -webkit-text-stroke-width: 2px;
 -webkit-text-stroke-color: rgb(75, 75, 75);
 `;
+
 const TagDiv = styled.span`
 position: absolute;
 bottom:0;
@@ -79,10 +75,8 @@ text-align:center;
 `;
 
 const ImgGallaryThumb = styled.div`
-
 `;
 const PrevImgGallaryThumb = styled.div`
-
 `;
 
 const PreviewImg = styled.img`
@@ -113,7 +107,6 @@ const ImageDiv = styled.div`
 const ImageContainer = styled.div`
 width: 100%;
 height:70vh;
-
 `;
 
 const PaddingDiv = styled.div`
@@ -124,11 +117,13 @@ const PaddingDiv = styled.div`
   @media only screen and (max-width: 991px) {
     font-size:13px;}
 `;
+
 const ImageCol = styled(Col)`
 border-left: 1.5px solid rgb(218, 218, 217);
 @media only screen and (max-width: 991px) {
   border:none;
 `;
+
 const DetailsCol = styled(Col)`
 padding :0 5px 0 0;
 margin :15px 0 0 0;
@@ -137,6 +132,7 @@ position:relative;
   margin:0;
 }
 `;
+
 const ProductName = styled.div`
 font-size:16px;
 color:black;
@@ -149,18 +145,17 @@ height:55px;
   margin-top:0;
   margin-bottom:50px;
   font-size: 14px;
-
 }
+`;
 
-`
 const Cartbutton = styled.button`
 height:30px;
 width:100%;
 background-color:white;
 color:rgb(95,96,93);
 border:solid 0.5px #cccccc;
+`;
 
-`
 const CloseButton = styled.button`
 position:absolute;
 top:0px;
@@ -168,7 +163,7 @@ left:5px;
 width:30px;
 height:30px;
 background-color:white;
-color:black;`
+color:black;`;
 
 class ProductDetails extends Component {
   constructor(props) {
@@ -198,27 +193,27 @@ class ProductDetails extends Component {
     this.handleHide1 = this.handleHide1.bind(this);
   }
 
-
   handleShow() {
     this.setState({ show: true });
   }
+
   handleShow1() {
     this.setState({ show1: true });
   }
+
   handleHide() {
     this.setState({ show: false });
   }
+
   handleHide1() {
     this.setState({ show1: false });
   }
-
 
   componentWillMount() {
     this.thumbImage.bind(this);
     this.addToCart = this.addToCart.bind(this)
     const authenticated = this.props.authenticated
     this.archiveProduct = this.archiveProduct.bind(this)
-
     this.productsRef = base.bindDoc(`${FirestoreServices.PRODUCTS_PATH}/${this.productId}`, {
       context: this,
       state: 'product',
@@ -260,6 +255,7 @@ class ProductDetails extends Component {
     if (this.state.index > 0)
       this.setState({ index: (this.state.index - 1) });
   }
+
   thumbImage(thumbIndex) {
     this.setState({ index: thumbIndex });
   }
@@ -297,7 +293,6 @@ class ProductDetails extends Component {
               }
             }
           })
-          //return post;
         });
       })
     }
@@ -331,9 +326,7 @@ class ProductDetails extends Component {
           errorMsg: ''
         }
         let newState = { ...this.state, loading: false, deletionStatus: deletionStatus }
-
         this.setState(newState, () => { console.log('after successful product deletion state is:'); console.log(this.state); })
-
       })
       .catch(error => {
         //show failure popup
@@ -344,18 +337,12 @@ class ProductDetails extends Component {
           ERROR: could not delete product. error code: ${error.code}, error message:${error.message}`
         }
         let newState = { ...this.state, loading: false, deletionStatus: deletionStatus }
-
         this.setState(newState)
-
       })
-
   }
 
   render() {
-
     const product = this.state.product;
-    console.log(product.id)
-
     const { nextIcon, prevIcon } = this.state;
     if (this.state.loading && !this.state.errorHandling.showError)
       return <Loading />;
@@ -406,12 +393,9 @@ class ProductDetails extends Component {
       );
     if (!this.state.loading && !this.state.showError)
       return (
-
         <Grid >
           <Row style={{ display: 'flex', flexWrap: 'wrap' }} className="productdetails">
             <ImageCol xs={12} sm={12} md={8} lg={9} style={{ padding: '0' }}>
-
-
               <Carousel indicators={false} wrap={false}>
                 <Carousel.Item>
                   <ImageContainer>
@@ -432,9 +416,7 @@ class ProductDetails extends Component {
                     : null
                   }
                 </Carousel.Item>
-
               </Carousel >
-
 
               <div className="product-slider" style={{ borderBottom: 'dotted 1px lightgray ' }}>
                 <div id="thumbcarousel1" className="carousel1 slide" >
@@ -447,7 +429,6 @@ class ProductDetails extends Component {
                   </ImgGallaryThumb>
                 </div>
               </div >
-
             </ImageCol>
 
             <DetailsCol xs={12} sm={12} md={4} lg={3}  >
@@ -514,7 +495,6 @@ class ProductDetails extends Component {
                         </Link>
                       </h4>
                     </div>
-
                   :
                   <div style={{ position: 'absolute', bottom: '0', right: '5px' }}>
                     <h4 >من :&nbsp;
@@ -566,7 +546,6 @@ class ProductDetails extends Component {
                   </Modal.Body>
                 </Modal>
               </div>
-
             </DetailsCol>
           </Row>
         </Grid>

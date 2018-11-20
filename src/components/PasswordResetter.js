@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
-import { Redirect, Link } from 'react-router-dom'
-import { LinkContainer } from "react-router-bootstrap";
-import { Collapse, Alert, Modal,Col,Row, Button } from "react-bootstrap"
+import { Link } from 'react-router-dom'
+import { Collapse, Alert, Modal, Col, Row, Button } from "react-bootstrap"
 import { app } from '../base'
 import bayty_icon from '../assets/img/bayty_icon1.png';
-import { CSSTransition } from 'react-transition-group'
-import styled from 'styled-components'
 import FaCheckCircleO from 'react-icons/lib/fa/check-circle-o'
 
 
@@ -54,7 +51,7 @@ class PasswordResetter extends Component {
     });
   }
 
-  resetPassword(event){
+  resetPassword(event) {
     event.preventDefault()
 
     const email = this.emailInput.value
@@ -64,7 +61,7 @@ class PasswordResetter extends Component {
         if (providers.length === 0) {
           // create user
           this.reportError('الايميل المستخدم غير مسجل مسبقا.', true)
-        //} else if (providers.indexOf("password") === -1) {
+          //} else if (providers.indexOf("password") === -1) {
           // this means the user is registered using SSO so point him to SSO singin
         } else {
           // sign in with email/password and return user object on success
@@ -87,51 +84,51 @@ class PasswordResetter extends Component {
       return (
         <Modal
           show={true}
-          style={{top: 300}}
+          style={{ top: 300 }}
         >
           <Modal.Header >
-            <Modal.Title id="contained-modal-title"><FaCheckCircleO style={{color: 'green', width: '30px', height: '30px'}}/>  تم ارسال ايميل لاستعادة كلمة المرور</Modal.Title>
+            <Modal.Title id="contained-modal-title"><FaCheckCircleO style={{ color: 'green', width: '30px', height: '30px' }} />  تم ارسال ايميل لاستعادة كلمة المرور</Modal.Title>
           </Modal.Header>
-            <Modal.Body>
-              <Link to="/">
-                <Button style={{margin: 'auto', display: 'block'}}>العودة للصفحة الرئيسية</Button>
-              </Link>
-            </Modal.Body>
+          <Modal.Body>
+            <Link to="/">
+              <Button style={{ margin: 'auto', display: 'block' }}>العودة للصفحة الرئيسية</Button>
+            </Link>
+          </Modal.Body>
         </Modal>
       );
     else
       return (
         <div className="loginreg">
-          <form    onSubmit={(event) => this.resetPassword(event)}
+          <form onSubmit={(event) => this.resetPassword(event)}
             ref={(form) => { this.loginForm = form }}>
 
-           <div className="loginregtitle">
-           <img src={bayty_icon}  />
-        <h2 style={{color:'rgb(26,156,142)'}}>استعادة كلمة المرور </h2>
-        </div>
-        <Collapse in={this.state.formStatusAlert.alert}>
-            <Alert
-              bsStyle={this.state.formStatusAlert.type}
-            >
-              {this.state.formStatusAlert.alertMsg}
-              {this.state.formStatusAlert.showRegisterLink
-              ? <Link to="/register">  انقر هنا للتسجيل كمستخدم جديد </Link>
-              :null
-              }
-            </Alert>
-          </Collapse>
-        <Row>
-        <Col lg= {12} sm={12}>
-        </Col>
-        <Col sm={12}  lg={12} >
-            <div className="form-group" >
-             <input id="inputEmail"  name="email" type="email" ref={(input) => {this.emailInput = input}} placeholder="عنوان البريد الالكتروني"></input>
+            <div className="loginregtitle">
+              <img src={bayty_icon} alt='' />
+              <h2 style={{ color: 'rgb(26,156,142)' }}>استعادة كلمة المرور </h2>
             </div>
-          </Col>
-          </Row>
+            <Collapse in={this.state.formStatusAlert.alert}>
+              <Alert
+                bsStyle={this.state.formStatusAlert.type}
+              >
+                {this.state.formStatusAlert.alertMsg}
+                {this.state.formStatusAlert.showRegisterLink
+                  ? <Link to="/register">  انقر هنا للتسجيل كمستخدم جديد </Link>
+                  : null
+                }
+              </Alert>
+            </Collapse>
+            <Row>
+              <Col lg={12} sm={12}>
+              </Col>
+              <Col sm={12} lg={12} >
+                <div className="form-group" >
+                  <input id="inputEmail" name="email" type="email" ref={(input) => { this.emailInput = input }} placeholder="عنوان البريد الالكتروني"></input>
+                </div>
+              </Col>
+            </Row>
 
             <div className="form-group">
-            <button type="submit" >ارسال</button>
+              <button type="submit" >ارسال</button>
             </div>
 
           </form>

@@ -5,14 +5,8 @@ import {
   ControlLabel,
   FormControl,
   HelpBlock,
-  Popover,
-  Button,
-  OverlayTrigger,
-  Fade,
   Collapse,
   Alert,
-  Modal,
-  ProgressBar,
   Row,
   Col
 } from "react-bootstrap";
@@ -22,9 +16,6 @@ import { app } from "../base";
 import FormUtils from './FormUtils'
 import bayty_icon from '../assets/img/bayty_icon1.png';
 import { LinkContainer } from "react-router-bootstrap";
-import styled from 'styled-components'
-
-
 
 /*
 This is the registration form for professional users.
@@ -67,7 +58,6 @@ Here is how a firebase.auth().user object looks like:
 };
 
 */
-
 
 function FieldGroup({ id, label, help, validationState, firstTime, ...props }) {
   return (
@@ -188,7 +178,6 @@ class Register extends Component {
       errorMessage: ""
     };
 
-
     if (password1 !== password2) {
       formValidationStatus.password1.valid = formValidationStatus.password2.valid = false;
       formValidationStatus.password1.firstTime = formValidationStatus.password2.firstTime = false;
@@ -246,7 +235,6 @@ class Register extends Component {
     const password2 = this.password2Input.value;
     const coName = this.coNameInput.value;
     const phoneNo = this.phoneNoInput.value; //this.parseArabic(this.phoneNoInput.value);
-
     //and assuming everything is valid
     let formValidationStatus = { ...this.formValidationStatus };
     this.resetValidation(formValidationStatus);
@@ -355,10 +343,8 @@ class Register extends Component {
     }
     return (
       <div className="loginreg">
-
         <form onSubmit={event => this.authWithEmailPassword(event)}
           ref={form => { this.registerForm = form; }}  >
-
           <div className="loginregtitle">
             <img className="img-responsive" src={bayty_icon} />
             <h2 style={{ color: 'rgb(26,156,142)' }} >التسجيل </h2>
@@ -376,10 +362,6 @@ class Register extends Component {
               </Collapse>
             )}
           <Row>
-
-
-
-
             <Col sm={12} md={12} lg={12} >
               <FieldGroup
                 id="inputEmail"
@@ -426,7 +408,6 @@ class Register extends Component {
             </Col>
           </Row>
           <Row>
-
             <Col sm={12} md={12} lg={12}>
               <FieldGroup
                 id="inputPassword"

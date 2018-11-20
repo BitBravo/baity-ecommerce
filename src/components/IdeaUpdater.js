@@ -1,20 +1,10 @@
 import React, { Component } from "react";
 import { Modal, Alert, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import firebase from "firebase";
-import { app, base, database, storage } from "../base";
+import { base } from "../base";
 import FirestoreServices from 'services/FirestoreServices'
 import Loading from "./Loading";
 import styled from 'styled-components'
-
-
-import {
-  FormGroup,
-  ControlLabel,
-  FormControl,
-  HelpBlock,
-  Panel
-} from "react-bootstrap";
 import IdeaForm from "./IdeaForm";
 
 const StyledProductForm = styled.div`
@@ -38,21 +28,21 @@ visibility: visible !important;
 
 const ErrorMessage = (props) =>
   <div>
-  <Modal show={true} style={{ top: 300 }}>
-    <Modal.Header>حدث خطأ غير معروف</Modal.Header>
-    <Modal.Body>
+    <Modal show={true} style={{ top: 300 }}>
+      <Modal.Header>حدث خطأ غير معروف</Modal.Header>
+      <Modal.Body>
 
         <Alert bsStyle="danger">
           {props.message}
         </Alert>
         <Link to="/">
-        <Button>العودة للصفحة الرئيسية</Button>
+          <Button>العودة للصفحة الرئيسية</Button>
         </Link>
-    </Modal.Body>
-  </Modal>
+      </Modal.Body>
+    </Modal>
   </div>
 
-function getStateForNewIdea(){
+function getStateForNewIdea() {
   return {
     isNewIdea: true,
     idea: null,
@@ -64,7 +54,7 @@ function getStateForNewIdea(){
   }
 }
 
-function getStateForUpdateIdea(){
+function getStateForUpdateIdea() {
   return {
     idea: {},
     loading: true,
@@ -82,7 +72,7 @@ class IdeaUpdater extends Component {
     super(props);
     console.log(`${this.constructor.name}.constructor`);
     //if we updating an existing idea
-    if (this.props.match.params.id){
+    if (this.props.match.params.id) {
       this.ideaId = this.props.match.params.id;
 
       this.state = getStateForUpdateIdea();
@@ -98,7 +88,7 @@ class IdeaUpdater extends Component {
 
   componentWillMount() {
     console.log(`${this.constructor.name}.componentWillMount`);
-    if (!this.state.isNewIdea){
+    if (!this.state.isNewIdea) {
       this.ideasRef = base.bindDoc(`${FirestoreServices.IDEAS_PATH}/${this.ideaId}`, {
         context: this,
         state: "idea",
@@ -112,9 +102,9 @@ class IdeaUpdater extends Component {
     }
     //add owner to product
     FirestoreServices.readDBRecord('profUser', this.props.currentUser.uid)
-    .then(val => {
-      console.log(val.name)
-      this.name = val.name
+      .then(val => {
+        console.log(val.name)
+        this.name = val.name
       })
   }
 
@@ -123,21 +113,16 @@ class IdeaUpdater extends Component {
     !this.state.isNewIdea && this.ideasRef && base.removeBinding(this.ideasRef);
   }
 
-
-  componentDidMount(){
-    console.log(`${this.constructor.name}.componentDidMount`);
-  }
-
   /**
    * This should be called if user clicked on 'add new idea' while viewing the form.
    * Not sure if there is another case where this method will be called
    */
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     console.log(`${this.constructor.name}.componentWillReceiveProps`);
     console.log('nextProps')
     console.log(nextProps)
     //if there is no id in the url (which means a new idea)
-    if (!nextProps.match.params.id){
+    if (!nextProps.match.params.id) {
       //since updating current idea was inturrupted,
       !this.state.isNewIdea && this.ideasRef && base.removeBinding(this.ideasRef);
       this.ideaId = undefined
@@ -145,38 +130,38 @@ class IdeaUpdater extends Component {
     }
   }
 
-  componentWillUpdate(){
+  componentWillUpdate() {
     console.log(`${this.constructor.name}.componentWillUpdate`);
   }
 
 
-  addImages(ideaId, newImages, formPercentageViewer){
+  addImages(ideaId, newImages, formPercentageViewer) {
     return FirestoreServices.addIdeaImages(ideaId, newImages, formPercentageViewer, this.props.currentUser.uid)
   }
 
-  addIdea(idea){
+  addIdea(idea) {
     //add owner to idea
-    idea = {...idea, owner: this.props.currentUser.uid,  businessName: this.name};
+    idea = { ...idea, owner: this.props.currentUser.uid, businessName: this.name };
     return FirestoreServices.insertIdea(idea);//returns a promise resolved with idea ID
   }
 
-  updateIdea(newIdeaData){
+  updateIdea(newIdeaData) {
     return FirestoreServices.updateIdea(newIdeaData, this.ideaId);//returns a promise resolved with idea ID
   }
 
   handleSubmit(idea, newImages, formPercentageViewer) {
     if (this.state.isNewIdea) {
       return this.addIdea(idea)
-          .then((ideaId) => this.addImages(ideaId, newImages, formPercentageViewer))
-          .catch((error) => {
-            console.log('could not insert idea or upload images');
-            console.log(`ERROR: code: ${error.code}, message:${error.message}`);
-            throw error
-          })
+        .then((ideaId) => this.addImages(ideaId, newImages, formPercentageViewer))
+        .catch((error) => {
+          console.log('could not insert idea or upload images');
+          console.log(`ERROR: code: ${error.code}, message:${error.message}`);
+          throw error
+        })
     } else {
       return this.updateIdea(idea)
         .then(() => {
-          this.setState({isUpdated: true});
+          this.setState({ isUpdated: true });
           return this.addImages(this.ideaId, newImages, formPercentageViewer)
         })
         .catch((error) => {
@@ -187,7 +172,7 @@ class IdeaUpdater extends Component {
     }
   }
 
-  deleteImageFromDB(imageUrl){
+  deleteImageFromDB(imageUrl) {
     return FirestoreServices.deleteIdeaImage(imageUrl, this.ideaId)
   }
 
@@ -197,20 +182,20 @@ class IdeaUpdater extends Component {
       return <Loading />;
     if (this.state.errorHandling.showError)
       return (
-        <ErrorMessage message={this.state.errorHandling.errorMsg.message}/>
+        <ErrorMessage message={this.state.errorHandling.errorMsg.message} />
 
       );
     if (!this.state.loading && !this.state.showError)
       return (
         <StyledProductForm>
-              <IdeaForm
-                isNewIdea={this.state.isNewIdea}
-                idea={this.state.idea}
-                onSubmit={this.handleSubmit.bind(this)}
-                currentUser={this.props.currentUser}
-                deleteImageFromDB={this.deleteImageFromDB.bind(this)}
-                isUpdated={this.state.isUpdated}
-              />
+          <IdeaForm
+            isNewIdea={this.state.isNewIdea}
+            idea={this.state.idea}
+            onSubmit={this.handleSubmit.bind(this)}
+            currentUser={this.props.currentUser}
+            deleteImageFromDB={this.deleteImageFromDB.bind(this)}
+            isUpdated={this.state.isUpdated}
+          />
         </StyledProductForm>
       );
   }

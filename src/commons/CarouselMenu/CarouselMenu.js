@@ -41,7 +41,7 @@ export default class CarouselMenu extends Component {
   }
 
   editDiscovery = (e, index) => {
-    const leftMargin = e.target.getClientRects()[0].left - 100;
+    const leftMargin = e.target.getClientRects()[0].left - 400;
     let modalStatus = {};
     const { items } = this.state.oldProps;
     modalStatus.departmentId = items ? items[index].departmentId : 'None';

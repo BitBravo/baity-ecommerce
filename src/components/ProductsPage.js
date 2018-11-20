@@ -1,14 +1,7 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import {
-  DropdownButton,
-  MenuItem,
   Col,
   Row,
-  ButtonToolbar,
-  NavDropdown,
-  Button,
-  Image,
   Carousel,
   Grid,
   FormGroup,
@@ -18,9 +11,6 @@ import {
 import ProductList from './ProductList';
 import FirestoreServices from 'services/FirestoreServices'
 import styled from 'styled-components'
-import traditionalkitchen from '../assets/img/traditionalkitchen.jpg';
-import bedroom from '../assets/img/bedroom.jpg';
-import livingroom from '../assets/img/livingroom.jpg';
 import Categories from './Categories';
 import productPageCarosel from '../assets/img/productPageCarosel.jpg';
 import productPageCarosel2 from '../assets/img/productPageCarosel2.jpg';
@@ -37,10 +27,6 @@ import mproductPageCarosel6 from '../assets/img/mProductPageCarosel6.jpg';
 import smproductPageCarosel from '../assets/img/SmallMopilesPimg.jpg';
 import smproductPageCarosel2 from '../assets/img/SmallMopilesPimg2.jpg';
 
-const PreviewImg = styled.img`
-  width: 100%;
-  height: 100%;
-`;
 const DPreviewImg = styled.img`
   width: 100%;
   height: 100%;
@@ -131,21 +117,6 @@ margin-top:17px;
   margin-top:33px;
 `
 
-const DepartmentList = [
-  "صالات",
-  "مجالس",
-  "غرف النوم",
-  "مطابخ وأواني",
-  "غرف الطعام",
-  "دورات المياه",
-  "الأثاث",
-  "المخازن",
-  "جلسات خارجية",
-  "أرضيات",
-  "غرف أطفال",
-  "مكاتب منزلية"
-];
-
 const Style = [
   "كلاسيكي",
   "معاصر",
@@ -169,27 +140,6 @@ const Price = [
 ];
 
 var categoryList = ["حدد القسم أولا"];
-
-const SelectGroup = ({ id, label, selectedOption, ...props }) => (
-  <FormGroup controlId={id}>
-    <ControlLabel>{label}</ControlLabel>
-    <FormControl
-      componentClass="select"
-      placeholder={props.placeholder}
-      name={props.name}
-      value={selectedOption}
-      onChange={props.onChange}
-    >
-      {props.options.map(opt => {
-        return (
-          <option key={opt} value={opt}>
-            {opt}
-          </option>
-        );
-      })}
-    </FormControl>
-  </FormGroup>
-);
 
 const DepOption = ({ list }) => (
   list ?

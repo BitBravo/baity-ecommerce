@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Grid, Row, Col } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
-import { app, base } from "../base";
+import { base } from "../base";
 import FirebaseServices from 'services/FirebaseServices'
 import FirestoreServices from 'services/FirestoreServices'
 import IdeaBrief from "./IdeaBrief";
@@ -24,17 +23,6 @@ color:rgb(26, 156, 142);
     font-size:10px;
   `;
 
-// const Button = styled.button`
-// position:absolute;
-// top:50px;
-// left: 20px;
-// width: 17%;
-// @media only screen and (max-width: 767px) {
-//   left: 20px;
-//   top:70px;
-//   width: 40%;
-//   height: 40px;
-// `;
 const PAGE_SIZE = 12;
 var options = {
   pageSize: PAGE_SIZE,
@@ -64,7 +52,6 @@ class FavIdeas extends Component {
           var ideas = [...this.state.ideas, snapshot.data()]
           this.setState({ ideas: ideas, loading: false, empty: false })
         });
-
       });
     } else {
       this.setState({ loading: false, empty: true })
@@ -80,8 +67,6 @@ class FavIdeas extends Component {
       FirebaseServices.likes.child(`${this.props.currentUser.uid}/ideas`).limitToLast(3).once("value", function (snapshot) {
         console.log(snapshot.val())
       }).then(snapshot => this.likedIdeas(snapshot.val()));
-
-
     } else {
       // this.userLikesRef = FirebaseServices.readDBRecord('likes', `${this.props.currentUser.uid}/ideas`)
       // .then(val => this.likedIdeas(val))
@@ -89,8 +74,6 @@ class FavIdeas extends Component {
       paginator = new FirebasePaginator(ref, options)
       this.firebasePaginatorFiltering()
     }
-
-
   }
 
   componentWillUnmount() {
@@ -138,8 +121,8 @@ class FavIdeas extends Component {
           this.setState({ ideas: newIdeas, empty: false })
           this.listToArray();
 
-        })//results.then
-      } //newIdeaIds.length
+        })
+      }
     })
     paginator.on('value', handler);
   }
@@ -149,12 +132,9 @@ class FavIdeas extends Component {
       .then()
   }
 
-
   render() {
     const ideas = this.state.ideas;
     const ideaIds = Object.keys(ideas);
-
-
 
     if (this.state.loading)
       return (
@@ -181,12 +161,10 @@ class FavIdeas extends Component {
                   </Col>
                 </div>
               }
-
               {ideaIds.map(id => {
                 const idea = ideas[id];
                 return <IdeaBrief key={id} idea={idea} />;
               })}
-
             </Col>
           </Row>
         </Grid>
@@ -196,7 +174,6 @@ class FavIdeas extends Component {
       return (
         <Grid Grid style={{ backgroundColor: "white" }}>
           <Row style={{ display: 'flex', flexWrap: 'wrap' }}>
-
             <Col xs={12} md={12} lg={12}>
               <InfiniteScroll style={{ overflow: 'none' }}
                 hasMore={!paginator.isLastPage}
@@ -213,10 +190,8 @@ class FavIdeas extends Component {
                   return <IdeaBrief key={idea.id} idea={idea} />;
                 })}
               </InfiniteScroll>
-
             </Col>
           </Row>
-
         </Grid>
       );
     }

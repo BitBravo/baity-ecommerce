@@ -1,28 +1,18 @@
 import React, { Component } from "react";
 import ReactDOM from 'react-dom'
-import { Redirect, Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import _ from 'lodash'
 import {
   FormGroup,
   ControlLabel,
   FormControl,
   HelpBlock,
-  Popover,
-  Button,
-  OverlayTrigger,
-  Fade,
   Collapse,
   Alert,
-  Modal,
-  ProgressBar,
   Row,
-  Col,
-  Image
+  Col
 } from "react-bootstrap";
-import { Checkbox, CheckboxGroup } from 'react-checkbox-group';
-import FirebaseServices from "../services/FirebaseServices";
 import Loading from "./Loading";
-import { app } from "../base";
 import FormUtils from './FormUtils'
 import bayty_icon from '../assets/img/bayty_icon1.png';
 import logo_placeholder from '../assets/img/logo-placeholder.jpg';
@@ -39,6 +29,7 @@ margin:auto;
 width: 80px;
 height: 80px;
 }`;
+
 const UserHomeImg = styled.img`
 width: 60%;
 height: 150px;
@@ -58,7 +49,6 @@ function FieldGroup({ id, label, help, validationState, firstTime, ...props }) {
     </FormGroup>
   );
 }
-
 
 const SelectGroup = ({ id, label, selectedOption, ...props }) => (
   <FormGroup controlId={id}>
@@ -158,7 +148,6 @@ class NorProfileForm extends Component {
 
     this.authWithEmailPassword = this.authWithEmailPassword.bind(this)
 
-
     let fields = { ...FIELDS }
     _.forEach(fields, (fieldData, fieldName) => { //element value, element key in object
       fieldData.value = this.props.profile[fieldName] || ''
@@ -177,7 +166,6 @@ class NorProfileForm extends Component {
 
     let fieldsWithValuesFromDB = _.reduce(this.state.FIELDS,
       (fieldsWithValuesFromDB, fieldData, fieldName) => { //result, value, key
-
       }, {});
     this.handleLogoUpload = this.handleLogoUpload.bind(this);
     this.handleHomeImgUpload = this.handleHomeImgUpload.bind(this);
@@ -192,8 +180,6 @@ class NorProfileForm extends Component {
     this.validateFields = this.validateFields.bind(this)
   }
 
-
-
   //updates data for one field
   updateState(fieldInfo, fieldName) {
     let newStateFields = { FIELDS: { ...this.state.FIELDS } };
@@ -203,8 +189,6 @@ class NorProfileForm extends Component {
 
   validateField(name, value) {
     let fieldData = { ...this.state.FIELDS[name] };
-
-
     //update state
     fieldData.value = value;
     fieldData.touched = true;
@@ -213,9 +197,7 @@ class NorProfileForm extends Component {
     else
       fieldData.valid = true;
     return fieldData;
-
   }
-
 
   handleChange(e) {
     //name of the field
@@ -262,8 +244,7 @@ class NorProfileForm extends Component {
         imgUrl: reader.result,
         imgError: false,
         imgErrorMessage: ''
-      }
-      );
+      });
     }
 
     reader.readAsDataURL(imgUrl)
@@ -297,19 +278,15 @@ class NorProfileForm extends Component {
       return;
     }
     reader.onloadend = () => {
-
       this.setState({
         imgHomeFile: homeImgUrl,//of type File that can be directly uploaded to firebase storage using "put" method
         homeImgUrl: reader.result,//of type Data URL for preview purposes only see (https://en.wikipedia.org/wiki/Data_URI_scheme & https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL)
         imgError: false,
         imgErrorMessage: ''
       });
-
     }
     reader.readAsDataURL(homeImgUrl)
   }
-
-
 
   validateFields() {
     //first validate field, set valid properties and error messages
@@ -322,12 +299,11 @@ class NorProfileForm extends Component {
       {});
     return newValidationState;
   }
+
   validateForm() {
     //then compute form validation
     let formValid = _.reduce(this.state.FIELDS,
       (formValid, field) => { //result, value, key
-
-
         //field not required and empty so ignore
         if (['text', 'tel', 'textarea'].includes(field.type) && !field.required && field.value.length === 0)
           return formValid;
@@ -354,7 +330,6 @@ class NorProfileForm extends Component {
     e.preventDefault();
     this.setState({ FIELDS: this.validateFields() },//first validate fields to touch all of them
       this.setState({ formValid: this.validateForm() }, () => {
-
         if (this.state.formValid) {
           //remove any error messages in the form
           this.setState({
@@ -402,8 +377,6 @@ class NorProfileForm extends Component {
     );
   }
 
-
-
   //outputs validatin state of a field (valid, not valid, neutral since it is not touched yet)
   validationState(touched, validFlag, required, value) {
     if (!touched || (!required && (value === undefined || value.length === 0))) return null;
@@ -447,7 +420,6 @@ class NorProfileForm extends Component {
     />);
   }
 
-
   /*
     render the field in a form based on an object that
     describes the fields info. Note that currently we
@@ -460,7 +432,6 @@ class NorProfileForm extends Component {
     } else if (fieldConfig.type === 'select') {
       return this.renderSelectField(fieldConfig, fieldName)
     }
-
   }
 
   authWithEmailPassword(event) {
@@ -478,6 +449,7 @@ class NorProfileForm extends Component {
         <Redirect to={from} />
       )
     }
+
     return (
       <div>
         <form
@@ -505,15 +477,11 @@ class NorProfileForm extends Component {
             )}
           <Row>
             <Col lg={12} >
-
               {this.state.homeImgUrl
                 ? <UserHomeImg src={this.state.homeImgUrl} />
                 : <UserHomeImg src={logo_placeholder} />
               }
-
             </Col>
-
-
             <Col lg={12}>
               <div style={{ margin: '10px auto 30px', textAlign: 'center' }}>
                 <label style={{ cursor: 'pointer' }} htmlFor="profile_h_pic"><span style={{ color: 'green' }}>+&nbsp;</span>
@@ -533,12 +501,10 @@ class NorProfileForm extends Component {
           </Row>
           <Row>
             <Col lg={12} >
-
               {this.state.imgUrl
                 ? <UserImg src={this.state.imgUrl} alt="logo" />
                 : <UserImg src={logo_placeholder} alt="logo" />
               }
-
             </Col>
           </Row>
           <Row>
@@ -559,14 +525,10 @@ class NorProfileForm extends Component {
               </div>
             </Col>
           </Row>
-
-
-
           {
             _.map(this.state.FIELDS, this.renderField.bind(this))
 
           }
-
           {/* <Row>
             <Col
               sm={6}
@@ -574,7 +536,6 @@ class NorProfileForm extends Component {
               lg={6}
               className={"col-lg-push-6; col-sm-push-6"}
             >
-
             </Col>
           </Row> */}
           <button type="submit" onClick={this.handleSubmit}>حفظ التغييرات</button>

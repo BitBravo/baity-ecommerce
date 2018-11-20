@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "bayty-246cc"
+    "default": "bayty-246cc",
+    "development": "baity-test"
   }
 }

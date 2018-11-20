@@ -1,13 +1,9 @@
 import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
 import { LinkContainer } from "react-router-bootstrap";
-import { Collapse, Alert, Modal, Col, Row } from "react-bootstrap"
+import { Collapse, Alert, Col, Row } from "react-bootstrap"
 import { app } from '../base'
 import bayty_icon from '../assets/img/bayty_icon1.png';
-import { CSSTransition } from 'react-transition-group'
-import styled from 'styled-components'
-import PasswordResetter from "./PasswordResetter"
-import FirestoreServices from "services/FirestoreServices";
 
 
 
@@ -144,8 +140,6 @@ class Login extends Component {
     }
 
     return (
-
-
       <div style={{ height: '100vh' }} className="loginreg">
         <form onSubmit={(event) => this.authWithEmailPassword(event)}
           ref={(form) => { this.loginForm = form }}>
@@ -192,10 +186,8 @@ class Login extends Component {
                 <span >&nbsp; قم بالتسجيل</span>
               </LinkContainer></p>
           </div>
-
         </form>
       </div>
-
     )
   }
 }

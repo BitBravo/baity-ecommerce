@@ -1,14 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { app, base, db } from "../base";
+import { base, db } from "../base";
 import FirebaseServices from 'services/FirebaseServices'
 import FirestoreServices from 'services/FirestoreServices'
-import { Image, Alert, Col, Thumbnail, Button, Modal, Row, Grid, Carousel, Glyphicon } from "react-bootstrap";
+import { Image, Alert, Col, Button, Modal, Row, Grid, Carousel, Glyphicon } from "react-bootstrap";
 import Loading from './Loading';
 import styled from 'styled-components'
-import FullHeart from '../assets/img/fullHeart.png';
-import EmptyHeart from '../assets/img/emptyHeart.png';
-import { MdAddShoppingCart, MdWeekend } from 'react-icons/lib/md';
 import Idea from '../assets/img/Selected-idea.png';
 
 
@@ -173,10 +170,10 @@ class IdeaDetails extends Component {
   handleShow() {
     this.setState({ show: true });
   }
+
   handleHide() {
     this.setState({ show: false });
   }
-
 
   componentWillMount() {
     this.thumbImage.bind(this);
@@ -221,6 +218,7 @@ class IdeaDetails extends Component {
     if (this.state.index > 0)
       this.setState({ index: (this.state.index - 1) });
   }
+
   thumbImage(thumbIndex) {
     this.setState({ index: thumbIndex });
   }
@@ -275,7 +273,6 @@ class IdeaDetails extends Component {
           errorMsg: ''
         }
         let newState = { ...this.state, loading: false, deletionStatus: deletionStatus }
-
         this.setState(newState, () => { console.log('after successful idea deletion state is:'); console.log(this.state); })
 
       })
@@ -290,15 +287,11 @@ class IdeaDetails extends Component {
         let newState = { ...this.state, loading: false, deletionStatus: deletionStatus }
 
         this.setState(newState)
-
       })
-
   }
 
   render() {
-
     const idea = this.state.idea;
-
     if (this.state.loading && !this.state.errorHandling.showError)
       return <Loading />;
     if (this.state.errorHandling.showError)
@@ -348,7 +341,6 @@ class IdeaDetails extends Component {
       );
     if (!this.state.loading && !this.state.showError)
       return (
-
         <Grid >
           <Row style={{ display: 'flex', flexWrap: 'wrap' }} className="productdetails">
             <ImageCol xs={12} sm={12} md={8} lg={9} style={{ padding: '0' }}>
@@ -363,16 +355,13 @@ class IdeaDetails extends Component {
                   <Glyphicon className="leftglyphicon" onClick={this.nextImage.bind(this)} glyph="chevron-left" />
                   <Glyphicon className="rightglyphicon" onClick={this.prevImage.bind(this)} glyph="chevron-right" />
                   <LikeDiv>
-
                     {this.state.liked
                       ? <LikeIcon glyph="heart" onClick={this.like.bind(this)} />
                       : <UnLikeIcon glyph="heart" onClick={this.like.bind(this)} />
                     }
-
                   </LikeDiv>
                   {/*VWdagt88uSR46Q1RpVIu1cj9lZa2*/}
                   {/* <TagDiv>هذه الفكرة للعرض</TagDiv> */}
-
                 </Carousel.Item>
               </Carousel >
               <div className="product-slider">
@@ -398,7 +387,6 @@ class IdeaDetails extends Component {
              </button>
               </Link>
 
-
               <PaddingDiv style={{ marginBottom: '90px' }}>
                 <h4 style={{ display: 'inline' }}>وصف الفكرة</h4>
                 <h6 style={{ color: 'rgb(26,156,142)', float: 'left', display: 'inline', padding: '0 0 0 20px' }}>
@@ -408,8 +396,6 @@ class IdeaDetails extends Component {
               </PaddingDiv>
 
               <div >
-
-                {/* only idea owner can update a idea */}
                 {
                   this.props.authenticated
                     ? this.props.currentUser.uid === this.state.idea.owner
@@ -420,13 +406,13 @@ class IdeaDetails extends Component {
                         <Link to={`/ideas/${idea.id}/updateIdea`} >
                           <button style={{ position: 'absolute', bottom: '0', left: '5px', width: '45%' }}>
                             تحديث بيانات الفكرة
-                </button>
+                          </button>
                         </Link>
                       </div>
                       :
                       <div style={{ position: 'absolute', bottom: '0', right: '5px' }}>
                         <h4 >من:&nbsp;
-                      <Link to={`/businessprofile/${idea.owner}`} style={{ color: 'rgb(26,156,142)' }}>
+                          <Link to={`/businessprofile/${idea.owner}`} style={{ color: 'rgb(26,156,142)' }}>
                             {idea.businessName}
                           </Link>
                         </h4>
@@ -434,12 +420,11 @@ class IdeaDetails extends Component {
                     :
                     <div style={{ position: 'absolute', bottom: '0', right: '5px' }}>
                       <h4 >من:&nbsp;
-                    <Link to={`/businessprofile/${idea.owner}`} style={{ color: 'rgb(26,156,142)' }}>
+                        <Link to={`/businessprofile/${idea.owner}`} style={{ color: 'rgb(26,156,142)' }}>
                           {idea.businessName}
                         </Link>
                       </h4>
                     </div>
-
                 }
               </div>
               <div>
@@ -464,9 +449,6 @@ class IdeaDetails extends Component {
             </DetailsCol>
           </Row>
         </Grid>
-
-
-
       );
   }
 }

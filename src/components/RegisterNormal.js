@@ -6,14 +6,8 @@ import {
   ControlLabel,
   FormControl,
   HelpBlock,
-  Popover,
-  Button,
-  OverlayTrigger,
-  Fade,
   Collapse,
   Alert,
-  Modal,
-  ProgressBar,
   Row,
   Col
 } from "react-bootstrap";
@@ -290,7 +284,6 @@ class RegisterNormal extends Component {
                     console.log('adding user to DB failed');
                     this.setState({ loading: false }, () =>
                       this.reportError("حدث خطأ داخلي في النظام" + " User is signed up but not added to DB. Here is firestore error: " + error.code + " " + error.message));
-
                   })
               }
             })
@@ -349,7 +342,6 @@ class RegisterNormal extends Component {
     }
     return (
       <div className="loginreg">
-
         <form onSubmit={event => this.authWithEmailPassword(event)}
           ref={form => { this.registerForm = form; }}  >
 
@@ -370,10 +362,6 @@ class RegisterNormal extends Component {
               </Collapse>
             )}
           <Row>
-
-
-
-
             <Col sm={6} md={6} lg={6} className={"col-lg-push-6; col-sm-push-6"}>
               <FieldGroup
                 id="inputEmail"
@@ -420,7 +408,6 @@ class RegisterNormal extends Component {
             </Col>
           </Row>
           <Row>
-
             <Col sm={6} md={6} lg={6} className={"col-lg-push-6; col-sm-push-6"}>
               <FieldGroup
                 id="inputPassword"

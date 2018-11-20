@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import baityfooter from '../assets/img/baityfooter.png';
 import { TiSocialTwitter, TiSocialInstagram, TiSocialFacebook, TiMail } from 'react-icons/lib/ti';
 import styled from 'styled-components'
-import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { IndexLinkContainer } from 'react-router-bootstrap';
-import { Glyphicon, Modal } from "react-bootstrap";
 import logo_placeholder from '../assets/img/logo-placeholder.jpg';
 import Homepage from '../assets/img/Unselected-homepage.png';
 import Idea from '../assets/img/Unselected-idea.png';
@@ -51,16 +49,12 @@ class Footer extends Component {
     super(props);
     this.state = {
       userImg: "",
-
       year: new Date().getFullYear()
     };
-
   }
 
-
-
   render() {
-    return ([
+    return [
       <footer className="myfooter" key="pc" fixed="true">
         <h4 style={{ display: 'inline-block' }}> {this.state.year} جميع الحقوق محفوظة <span> <img src={baityfooter} /></span></h4>
         <h6 style={{ display: 'inline-block', paddingRight: '20px' }}>
@@ -108,7 +102,6 @@ class Footer extends Component {
               </span>
             </LinkContainer>
           ) : (
-
               <LinkContainer to="/myprofile" activeClassName="imgActivePage"
               // style={{display:'block',marginLeft:'auto',marginRight:'auto',padding:'0'}}
               >
@@ -116,15 +109,11 @@ class Footer extends Component {
                   ? <UserImg src={this.props.userImg} />
                   : <UserImg src={logo_placeholder} />
                 }
-
               </LinkContainer>
-
-
             )}
         </MobileDiv >
       </footer>
     ]
-    );
   }
 }
 

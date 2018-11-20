@@ -1,12 +1,8 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { app, base } from "../base";
+import { base } from "../base";
 import FirebaseServices from './FirebaseServices'
-import { Image, Col, Grid, Thumbnail, Button, Card, Row } from "react-bootstrap";
-import Equalizer from "react-equalizer";
+import { Col, Grid, Row } from "react-bootstrap";
 import ProductBrief from "./ProductBrief";
-import styled from 'styled-components'
-import {MdEventSeat} from 'react-icons/lib/md';
 import Loading from './Loading'
 
 
@@ -19,7 +15,8 @@ class Basket extends Component {
       loading: true,
       errorHandling: {
         showError: false,
-        errorMsg: ""}
+        errorMsg: ""
+      }
     };
   }
 
@@ -41,12 +38,12 @@ class Basket extends Component {
 
         const results = Promise.all(listPromises)
         results.then((snapshot) => {
-          this.setState({products: newProducts, loading: false})
+          this.setState({ products: newProducts, loading: false })
           console.log("newProducts " + newProducts.length)
         })
       },
       onFailure(error) {
-      this.setState({errorHandling: {showError: true, errorMsg: error}});
+        this.setState({ errorHandling: { showError: true, errorMsg: error } });
       }
     })
   }
@@ -61,32 +58,33 @@ class Basket extends Component {
     console.log("products.length " + productIds.length)
 
     if (this.state.loading)
-      return(
-       <Loading />
+      return (
+        <Loading />
       )
     else {
-    return (
-       <div style={{paddingTop: "30px"}}>
-      <Grid>
-        <Row style={{display: 'flex', flexWrap: 'wrap'}}>
+      return (
+        <div style={{ paddingTop: "30px" }}>
+          <Grid>
+            <Row style={{ display: 'flex', flexWrap: 'wrap' }}>
 
-        <Col xs={12} md={12}>
-        {productIds.length < 1
-        ? <h4 style={{textAlign:'center'}}>لم تقم باضافة منتجات، إبدأ الان</h4>
-        : <div>{
-              productIds.map(id => {
-                const product = products[id];
-              return <ProductBrief key={id} product={product} />;
-            })
-          }</div>
-        }
-               </Col>
+              <Col xs={12} md={12}>
+                {productIds.length < 1
+                  ? <h4 style={{ textAlign: 'center' }}>لم تقم باضافة منتجات، إبدأ الان</h4>
+                  : <div>{
+                    productIds.map(id => {
+                      const product = products[id];
+                      return <ProductBrief key={id} product={product} />;
+                    })
+                  }</div>
+                }
+              </Col>
 
-        </Row>
+            </Row>
 
-      </Grid>
-    </div>
-  );}
+          </Grid>
+        </div>
+      );
+    }
   }
 }
 export default Basket;

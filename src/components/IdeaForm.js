@@ -4,26 +4,17 @@ import {
   ControlLabel,
   FormControl,
   HelpBlock,
-  Popover,
   Button,
-  OverlayTrigger,
-  Fade,
   Collapse,
-  Alert, Modal, ProgressBar
+  Alert, Modal
 } from "react-bootstrap";
-import ImageUploader from "./ImageUploader";
 import { Link } from "react-router-dom";
 import { LinkContainer } from 'react-router-bootstrap'
 import FaCheckCircleO from 'react-icons/lib/fa/check-circle-o'
 import FaTimesCircleO from 'react-icons/lib/fa/times-circle-o'
-import bayty_icon from '../assets/img/bayty_icon.png';
 import ImagePreviewsContainer from './ImagePreviewsContainer'
-import styled from 'styled-components'
 import _ from 'lodash'
 import MyProgressBar from './MyProgressBar'
-
-
-
 
 function FieldGroup({ id, label, help, validationState, firstTime, ...props }) {
   return (
@@ -35,7 +26,6 @@ function FieldGroup({ id, label, help, validationState, firstTime, ...props }) {
     </FormGroup>
   );
 }
-
 
 const SelectGroup = ({ id, label, selectedOption, ...props }) => (
   <FormGroup controlId={id}>
@@ -58,9 +48,6 @@ const SelectGroup = ({ id, label, selectedOption, ...props }) => (
   </FormGroup>
 );
 
-
-
-
 const DepartmentList = [
   "صالات",
   "مجالس",
@@ -76,56 +63,49 @@ const DepartmentList = [
   "مكاتب منزلية"
 ];
 
-
-
-
-function getInitState(){
-    return {
-        newImages: [], //image files
-        imagesFromDB: [],
-        name: {
-          value: "",
-          valid: false,
-          //indicates if it is the first time to edit the field. If so do not show validation error msgs
-          firstTime: true,
-          formError: ""
-        },
-        dept: {
-          value: DepartmentList[0],
-          valid: false,
-          firstTime: true,
-          formError: ""
-        },
-        desc: {
-          value: "",
-          valid: false,
-          firstTime: true,
-          formError: ""
-        },
-        formValid: false,
-        formStatusAlert: {
-          alert: false,
-          type: "info", //indicates that we should show an alert msg due to form invalid
-          alertMsg: "", //message shown when form can not be submitted cause form is not valid
-        },
-        progressBars: {},
-        submitStatus: {
-          showSubmitModal: false,
-          submitSuccessful: false,
-          errorMsg: ''
-        }
-      };
+function getInitState() {
+  return {
+    newImages: [], //image files
+    imagesFromDB: [],
+    name: {
+      value: "",
+      valid: false,
+      //indicates if it is the first time to edit the field. If so do not show validation error msgs
+      firstTime: true,
+      formError: ""
+    },
+    dept: {
+      value: DepartmentList[0],
+      valid: false,
+      firstTime: true,
+      formError: ""
+    },
+    desc: {
+      value: "",
+      valid: false,
+      firstTime: true,
+      formError: ""
+    },
+    formValid: false,
+    formStatusAlert: {
+      alert: false,
+      type: "info", //indicates that we should show an alert msg due to form invalid
+      alertMsg: "", //message shown when form can not be submitted cause form is not valid
+    },
+    progressBars: {},
+    submitStatus: {
+      showSubmitModal: false,
+      submitSuccessful: false,
+      errorMsg: ''
+    }
+  };
 }
 
 class IdeaForm extends Component {
   constructor(props) {
     super(props);
     console.log(`${this.constructor.name}.constructor`);
-
-    this.state = {...getInitState()};
-    console.log('after copying initState, state is: ')
-    console.log(this.state)
-    //if we are updating a idea then show its data in the form otherwise show an empty form
+    this.state = { ...getInitState() };
     if (!this.props.isNewIdea) {
       this.state.name.value = this.props.idea.name;
       this.state.dept.value = this.props.idea.department;
@@ -136,8 +116,6 @@ class IdeaForm extends Component {
       this.state.formValid = true
       this.state.imagesFromDB = [...this.props.idea.images];//just URLs
     }
-    console.log('after adding data from DB, state is: ')
-    console.log(this.state)
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.validateForm = this.validateForm.bind(this);
@@ -148,15 +126,12 @@ class IdeaForm extends Component {
     this.addImage = this.addImage.bind(this);
     this.deleteImage = this.deleteImage.bind(this);
     this.packageIdea = this.packageIdea.bind(this);
-    console.log('at the end of constructor state is: ')
-    console.log(this.state)
   }
 
-
-  componentWillMount(){
+  componentWillMount() {
     console.log(`${this.constructor.name}.componentWillMount`);
   }
-  componentDidMount(){
+  componentDidMount() {
     console.log(`${this.constructor.name}.componentDidMount`);
   }
   /**
@@ -166,22 +141,22 @@ class IdeaForm extends Component {
    * 3- the user clicked 'add new idea' link so we need to clean up and prepare for adding a new idea
    * @param {*} nextProps
    */
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     console.log(`${this.constructor.name}.componentWillReceiveProps`);
-    console.log('nextProps')
     console.log(nextProps)
     // case 1
-    if(nextProps.isUpdated)
+    if (nextProps.isUpdated)
       return
     //case 2
-    if (!nextProps.isNewIdea){
+    if (!nextProps.isNewIdea) {
       var newImages = this.state.newImages;//preserve new images added to idea
       this.setState(getInitState(), () => {
-        var newState = {...this.state,
+        var newState = {
+          ...this.state,
           newImages: newImages,
-          name: {...this.state.name, value: this.props.idea.name, valid: true},
-          dept: {...this.state.dept, value: this.props.idea.department, valid: true},
-          desc: {...this.state.desc, value: this.props.idea.desc, valid: true},
+          name: { ...this.state.name, value: this.props.idea.name, valid: true },
+          dept: { ...this.state.dept, value: this.props.idea.department, valid: true },
+          desc: { ...this.state.desc, value: this.props.idea.desc, valid: true },
           formValid: true,
           imagesFromDB: [...nextProps.idea.images],
           formStatusAlert: {
@@ -198,28 +173,21 @@ class IdeaForm extends Component {
       this.resetState();
     }
   }
-  componentWillUnmount(){
-    console.log(`${this.constructor.name}.componentWillUnmount`);
-  }
-  componentWillUpdate(){
-    console.log(`${this.constructor.name}.componentWillUpdate`);
-  }
-
 
   /*
     This method adds an image to this.state.newImages to be added later
     to the database upon idea upload/addition/update.
     This works for single image.
   */
-  addImage(newImageFile, newImageDataURL){
+  addImage(newImageFile, newImageDataURL) {
     //allow one image only and overwrite previous one
     //IT IS IMPORTANT that validateForm runs after this call to setState
     //is finished. see (https://reactjs.org/docs/state-and-lifecycle.html)
     console.log('before starting adding a new image')
-    if (_.findIndex(this.state.newImages, [ 'url', newImageDataURL] ) != -1)
+    if (_.findIndex(this.state.newImages, ['url', newImageDataURL]) != -1)
       return;
-      console.log('start adding a new image')
-    var newImage = {file: newImageFile, url: newImageDataURL}
+    console.log('start adding a new image')
+    var newImage = { file: newImageFile, url: newImageDataURL }
     this.setState(
       {
         newImages: [...this.state.newImages, newImage]
@@ -233,16 +201,16 @@ class IdeaForm extends Component {
   1- has been added during current session but not inserted into database yet (fromDB false)
   2- has been downloaded from DB (fromDB true)
   */
-  deleteImage(imageDataURL, fromDB){
-    if (fromDB ){
-      if (this.state.imagesFromDB.length > 1){
+  deleteImage(imageDataURL, fromDB) {
+    if (fromDB) {
+      if (this.state.imagesFromDB.length > 1) {
         return this.props.deleteImageFromDB(imageDataURL)
           .then((imagesFromDB) => {
             console.log('imagesFromDB')
             console.log(imagesFromDB)
             this.setState({
-                imagesFromDB: [...imagesFromDB],
-              }, () => this.validateForm()
+              imagesFromDB: [...imagesFromDB],
+            }, () => this.validateForm()
             )
           })
           .catch((error) => {
@@ -251,20 +219,20 @@ class IdeaForm extends Component {
       } else {
         //now we catch this in imagePreviewsContainer so we need to remove this code
         return new Promise((resolve, reject) => {
-          reject({type: 'idea error', message: 'لا بد أن يكون عدد الصور للفكرة واحدة على الأقل'})
+          reject({ type: 'idea error', message: 'لا بد أن يكون عدد الصور للفكرة واحدة على الأقل' })
         })
       }
     } else {
       var newImages = [...this.state.newImages];
       _.remove(newImages, (image) => image.url === imageDataURL);
       this.setState({
-          newImages: [...newImages],
-        }, () => this.validateForm()
+        newImages: [...newImages],
+      }, () => this.validateForm()
       )
     }
   }
 
-  packageIdea(){
+  packageIdea() {
     var idea;
     //package form fields for either new or update
     idea = {
@@ -274,7 +242,8 @@ class IdeaForm extends Component {
     };
     //if new idea add other non form properties
     if (this.props.isNewIdea) {
-      idea = {...idea,
+      idea = {
+        ...idea,
         city: "الرياض",
         dateCreated: Date.now(),
         likes: 0,
@@ -304,7 +273,7 @@ class IdeaForm extends Component {
               percentage: 0,
               name: name
             };
-            this.setState({ progressBars: { ...progressBars } } );
+            this.setState({ progressBars: { ...progressBars } });
           })
           .then(() => {
             //show success popup
@@ -313,9 +282,9 @@ class IdeaForm extends Component {
               submitSuccessful: true,
               errorMsg: ''
             }
-            let newState = {...this.state, progressBars: {}, submitStatus: submitStatus}
+            let newState = { ...this.state, progressBars: {}, submitStatus: submitStatus }
 
-            this.setState(newState, () => {console.log('after successful form submission state is:'); console.log(this.state);})
+            this.setState(newState, () => { console.log('after successful form submission state is:'); console.log(this.state); })
 
           })
           .catch(error => {
@@ -326,13 +295,11 @@ class IdeaForm extends Component {
               errorMsg: `حدث خطأ غير معروف. نرجو ابلاغ الصيانة بالخطأ التالي:
                 ERROR: could not insert/update idea or upload images. error code: ${error.code}, error message:${error.message}`
             }
-            let newState = {...this.state, progressBars: {}, submitStatus: submitStatus}
+            let newState = { ...this.state, progressBars: {}, submitStatus: submitStatus }
 
             this.setState(newState)
 
           })
-
-
 
         // //Now we have asked firebase to submit and we will wait for above call async.
         // //Let us show a progress bar to the user while waiting
@@ -352,7 +319,7 @@ class IdeaForm extends Component {
             type: "danger",
             alertMsg:
               " عذرا ! يجب تعبئة النموذج كاملا مع الصورة بحيث تكون البيانات المعطاة صحيحة حسب المطلوب",
-              showSuccessfulSubmit: false
+            showSuccessfulSubmit: false
           }
         });
     } catch (err) {
@@ -365,30 +332,28 @@ class IdeaForm extends Component {
         {
           progressBars: {}
         }, () => this.setState(
-            {
-              submitStatus: {
-                showSubmitModal: true,
-                submitSuccessful: false,
-                errorMsg: 'حدث خطأ غير معروف. نرجو ابلاغ الصيانة بالخطأ التالي: ' + err
-              }
+          {
+            submitStatus: {
+              showSubmitModal: true,
+              submitSuccessful: false,
+              errorMsg: 'حدث خطأ غير معروف. نرجو ابلاغ الصيانة بالخطأ التالي: ' + err
             }
-          )
+          }
+        )
       );
     }
   }
 
   //converts indian digits into arabic ١ -> 1, ٢ -> 2 ...etc
   parseArabic(str) {
-
-    var result =  str
-                      .replace(/[٠١٢٣٤٥٦٧٨٩]/g, function(d) {
-                        return d.charCodeAt(0) - 1632;
-                      });
-                      // .replace(/[۰۱۲۳۴۵۶۷۸۹]/g, function(d) {
-                      //   return d.charCodeAt(0) - 1776;
-                      // })
+    var result = str
+      .replace(/[٠١٢٣٤٥٦٧٨٩]/g, function (d) {
+        return d.charCodeAt(0) - 1632;
+      });
+    // .replace(/[۰۱۲۳۴۵۶۷۸۹]/g, function(d) {
+    //   return d.charCodeAt(0) - 1776;
+    // })
     return result;
-
   }
 
   //Here we do all validations we would like
@@ -405,8 +370,6 @@ class IdeaForm extends Component {
     let firstTime = false;
     let valid = false;
     let formError = "";
-
-
 
     switch (name) {
       case "name":
@@ -500,14 +463,12 @@ class IdeaForm extends Component {
     console.log(this.state)
     return (
       <form>
-
-          <div>
-              {this.props.isNewIdea
-                ?<h3 style={{color:'rgb(26,156,142)'}}>اضافة فكرة جديدة</h3>
-                :<h3 style={{color:'rgb(26,156,142)'}}> تحديث الفكرة </h3>
-                }
-
-          </div>
+        <div>
+          {this.props.isNewIdea
+            ? <h3 style={{ color: 'rgb(26,156,142)' }}>اضافة فكرة جديدة</h3>
+            : <h3 style={{ color: 'rgb(26,156,142)' }}> تحديث الفكرة </h3>
+          }
+        </div>
         <ImagePreviewsContainer
           imagesFromDB={this.state.imagesFromDB}
           newImages={this.state.newImages}
@@ -555,16 +516,16 @@ class IdeaForm extends Component {
           selectedOption={this.state.dept.value}
         />
 
-       <button type="submit" onClick={this.handleSubmit}  >
-        {this.props.isNewIdea
-         ?<span> أضف الفكرة </span>
-         :<span> تحديث الفكرة </span>
-        }
+        <button type="submit" onClick={this.handleSubmit}  >
+          {this.props.isNewIdea
+            ? <span> أضف الفكرة </span>
+            : <span> تحديث الفكرة </span>
+          }
         </button>
 
         <LinkContainer to="/myprofile" activeClassName="active">
           <button   >
-        إلغاء
+            إلغاء
           </button>
         </LinkContainer>
         <Collapse in={this.state.formStatusAlert.alert}>
@@ -576,22 +537,22 @@ class IdeaForm extends Component {
           </Alert>
         </Collapse>
 
-          {/* This modal is shown after idea addition/form submission is finshed.
+        {/* This modal is shown after idea addition/form submission is finshed.
           Its content depends if the form submission was successful or failed.
           if successful it will ask if user wants to add another new idea or go to main page.
           If failed it will show error message and ask user to go to home pgae  */}
         <Modal
           show={this.state.submitStatus.showSubmitModal}
-          style={{top: 300}}
+          style={{ top: 300 }}
         >
-        <Modal.Header >
-            { this.state.submitStatus.submitSuccessful
+          <Modal.Header >
+            {this.state.submitStatus.submitSuccessful
               ? this.props.isNewIdea
-                  ? <Modal.Title id="contained-modal-title"><FaCheckCircleO style={{color: 'green', width: '30px', height: '30px'}}/>  تمت اضافة الفكرة بنجاح</Modal.Title>
-                  : <Modal.Title id="contained-modal-title"><FaCheckCircleO style={{color: 'green', width: '30px', height: '30px'}}/>  تمت تحديث الفكرة بنجاح</Modal.Title>
+                ? <Modal.Title id="contained-modal-title"><FaCheckCircleO style={{ color: 'green', width: '30px', height: '30px' }} />  تمت اضافة الفكرة بنجاح</Modal.Title>
+                : <Modal.Title id="contained-modal-title"><FaCheckCircleO style={{ color: 'green', width: '30px', height: '30px' }} />  تمت تحديث الفكرة بنجاح</Modal.Title>
               : this.props.isNewIdea
-                  ? <Modal.Title id="contained-modal-title"><FaTimesCircleO style={{color: 'red', width: '30px', height: '30px'}}/>  يوجد خطأ في اضافة الفكرة</Modal.Title>
-                  : <Modal.Title id="contained-modal-title"><FaTimesCircleO style={{color: 'red', width: '30px', height: '30px'}}/>  يوجد خطأ في تحديث الفكرة</Modal.Title>
+                ? <Modal.Title id="contained-modal-title"><FaTimesCircleO style={{ color: 'red', width: '30px', height: '30px' }} />  يوجد خطأ في اضافة الفكرة</Modal.Title>
+                : <Modal.Title id="contained-modal-title"><FaTimesCircleO style={{ color: 'red', width: '30px', height: '30px' }} />  يوجد خطأ في تحديث الفكرة</Modal.Title>
             }
           </Modal.Header>
           {
@@ -599,32 +560,32 @@ class IdeaForm extends Component {
               ?
               <Modal.Body>
                 &nbsp;&nbsp;
-                { this.props.isNewIdea
-                    ? <Link to="/newidea">
-                        <Button onClick={this.resetState}>اضافة فكرة جديدة</Button>
-                      </Link>
-                    : <Link to="/">
-                    </Link>
+                {this.props.isNewIdea
+                  ? <Link to="/newidea">
+                    <Button onClick={this.resetState}>اضافة فكرة جديدة</Button>
+                  </Link>
+                  : <Link to="/">
+                  </Link>
                 }
                 &nbsp;&nbsp;&nbsp;
                 <Link to="/">
-                <Button>العودة للصفحة الرئيسية</Button>
+                  <Button>العودة للصفحة الرئيسية</Button>
                 </Link>
               </Modal.Body>
-            :
-            <Modal.Body>
-            <Alert
-              bsStyle='danger'
-            >
-              {this.state.submitStatus.errorMsg}
-            </Alert>
-            <Link to="/">
-                <Button>العودة للصفحة الرئيسية</Button>
+              :
+              <Modal.Body>
+                <Alert
+                  bsStyle='danger'
+                >
+                  {this.state.submitStatus.errorMsg}
+                </Alert>
+                <Link to="/">
+                  <Button>العودة للصفحة الرئيسية</Button>
                 </Link>
-            </Modal.Body>
+              </Modal.Body>
           }
         </Modal>
-        { this.props.isNewIdea
+        {this.props.isNewIdea
           ? <MyProgressBar title='جاري اضافة الفكرة' progressBars={this.state.progressBars} />
           : <MyProgressBar title='جاري تحديث الفكرة' progressBars={this.state.progressBars} />
         }

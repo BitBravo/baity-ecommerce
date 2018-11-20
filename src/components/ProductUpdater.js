@@ -1,20 +1,10 @@
 import React, { Component } from "react";
 import { Modal, Alert, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import firebase from "firebase";
-import { app, base, database, storage } from "../base";
+import { base } from "../base";
 import FirestoreServices from 'services/FirestoreServices'
 import Loading from "./Loading";
 import styled from 'styled-components'
-
-
-import {
-  FormGroup,
-  ControlLabel,
-  FormControl,
-  HelpBlock,
-  Panel
-} from "react-bootstrap";
 import ProductForm from "./ProductForm";
 
 const StyledProductForm = styled.div`
@@ -38,21 +28,21 @@ visibility: visible !important;
 
 const ErrorMessage = (props) =>
   <div>
-  <Modal show={true} style={{ top: 300 }}>
-    <Modal.Header>حدث خطأ غير معروف</Modal.Header>
-    <Modal.Body>
+    <Modal show={true} style={{ top: 300 }}>
+      <Modal.Header>حدث خطأ غير معروف</Modal.Header>
+      <Modal.Body>
 
         <Alert bsStyle="danger">
           {props.message}
         </Alert>
         <Link to="/">
-        <Button>العودة للصفحة الرئيسية</Button>
+          <Button>العودة للصفحة الرئيسية</Button>
         </Link>
-    </Modal.Body>
-  </Modal>
+      </Modal.Body>
+    </Modal>
   </div>
 
-function getStateForNewProduct(){
+function getStateForNewProduct() {
   return {
     isNewProduct: true,
     product: null,
@@ -64,7 +54,7 @@ function getStateForNewProduct(){
   }
 }
 
-function getStateForUpdateProduct(){
+function getStateForUpdateProduct() {
   return {
     product: {},
     loading: true,
@@ -80,11 +70,9 @@ function getStateForUpdateProduct(){
 class ProductUpdater extends Component {
   constructor(props) {
     super(props);
-    console.log(`${this.constructor.name}.constructor`);
     //if we updating an existing product
-    if (this.props.match.params.id){
+    if (this.props.match.params.id) {
       this.productId = this.props.match.params.id;
-
       this.state = getStateForUpdateProduct();
     } else {
       this.state = getStateForNewProduct();
@@ -97,8 +85,7 @@ class ProductUpdater extends Component {
   }
 
   componentWillMount() {
-    console.log(`${this.constructor.name}.componentWillMount`);
-    if (!this.state.isNewProduct){
+    if (!this.state.isNewProduct) {
       this.productsRef = base.bindDoc(`${FirestoreServices.PRODUCTS_PATH}/${this.productId}`, {
         context: this,
         state: "product",
@@ -112,9 +99,9 @@ class ProductUpdater extends Component {
     }
     //add owner to product
     FirestoreServices.readDBRecord('profUser', this.props.currentUser.uid)
-    .then(val => {
-      console.log(val.name)
-      this.name = val.name
+      .then(val => {
+        console.log(val.name)
+        this.name = val.name
       })
   }
 
@@ -123,8 +110,7 @@ class ProductUpdater extends Component {
     !this.state.isNewProduct && this.productsRef && base.removeBinding(this.productsRef);
   }
 
-
-  componentDidMount(){
+  componentDidMount() {
     console.log(`${this.constructor.name}.componentDidMount`);
   }
 
@@ -132,12 +118,12 @@ class ProductUpdater extends Component {
    * This should be called if user clicked on 'add new product' while viewing the form.
    * Not sure if there is another case where this method will be called
    */
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     console.log(`${this.constructor.name}.componentWillReceiveProps`);
     console.log('nextProps')
     console.log(nextProps)
     //if there is no id in the url (which means a new product)
-    if (!nextProps.match.params.id){
+    if (!nextProps.match.params.id) {
       //since updating current product was inturrupted,
       !this.state.isNewProduct && this.productsRef && base.removeBinding(this.productsRef);
       this.productId = undefined
@@ -145,39 +131,34 @@ class ProductUpdater extends Component {
     }
   }
 
-  componentWillUpdate(){
-    console.log(`${this.constructor.name}.componentWillUpdate`);
-  }
-
-//addImages(productId, newImages, selectedImg, formPercentageViewer){
-  addImages(productId, newImages, formPercentageViewer){
+  //addImages(productId, newImages, selectedImg, formPercentageViewer){
+  addImages(productId, newImages, formPercentageViewer) {
     return FirestoreServices.addProductImages(productId, newImages, formPercentageViewer, this.props.currentUser.uid)
   }
 
-  addProduct(product){
-    product = {...product, owner: this.props.currentUser.uid, businessName: this.name};
+  addProduct(product) {
+    product = { ...product, owner: this.props.currentUser.uid, businessName: this.name };
     return FirestoreServices.insertProduct(product);//returns a promise resolved with product ID
   }
 
-
-  updateProduct(newProductData){
+  updateProduct(newProductData) {
     return FirestoreServices.updateProduct(newProductData, this.productId);//returns a promise resolved with product ID
   }
 
-//  handleSubmit(product, newImages, selectedImg, formPercentageViewer) {
+  //  handleSubmit(product, newImages, selectedImg, formPercentageViewer) {
   handleSubmit(product, newImages, formPercentageViewer) {
     if (this.state.isNewProduct) {
       return this.addProduct(product)
-          .then((productId) => this.addImages(productId, newImages, formPercentageViewer))
-          .catch((error) => {
-            console.log('could not insert product or upload images');
-            console.log(`ERROR: code: ${error.code}, message:${error.message}`);
-            throw error
-          })
+        .then((productId) => this.addImages(productId, newImages, formPercentageViewer))
+        .catch((error) => {
+          console.log('could not insert product or upload images');
+          console.log(`ERROR: code: ${error.code}, message:${error.message}`);
+          throw error
+        })
     } else {
       return this.updateProduct(product)
         .then(() => {
-          this.setState({isUpdated: true});
+          this.setState({ isUpdated: true });
           return this.addImages(this.productId, newImages, formPercentageViewer)
         })
         .catch((error) => {
@@ -188,30 +169,28 @@ class ProductUpdater extends Component {
     }
   }
 
-  deleteImageFromDB(imageUrl){
+  deleteImageFromDB(imageUrl) {
     return FirestoreServices.deleteProductImage(imageUrl, this.productId)
   }
 
   render() {
-    console.log(`${this.constructor.name}.render`);
     if (this.state.loading && !this.state.errorHandling.showError)
       return <Loading />;
     if (this.state.errorHandling.showError)
       return (
-        <ErrorMessage message={this.state.errorHandling.errorMsg.message}/>
-
+        <ErrorMessage message={this.state.errorHandling.errorMsg.message} />
       );
-    if (!this.state.loading && !this.state.showError){
+    if (!this.state.loading && !this.state.showError) {
       return (
         <StyledProductForm>
-              <ProductForm
-                isNewProduct={this.state.isNewProduct}
-                product={this.state.product}
-                onSubmit={this.handleSubmit.bind(this)}
-                currentUser={this.props.currentUser}
-                deleteImageFromDB={this.deleteImageFromDB.bind(this)}
-                isUpdated={this.state.isUpdated}
-              />
+          <ProductForm
+            isNewProduct={this.state.isNewProduct}
+            product={this.state.product}
+            onSubmit={this.handleSubmit.bind(this)}
+            currentUser={this.props.currentUser}
+            deleteImageFromDB={this.deleteImageFromDB.bind(this)}
+            isUpdated={this.state.isUpdated}
+          />
         </StyledProductForm>
       );
     }

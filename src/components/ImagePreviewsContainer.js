@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
-import { Grid, Row, Col, Panel, Collapse, Alert} from 'react-bootstrap'
+import { Row, Col, Panel, Collapse, Alert } from 'react-bootstrap'
 import ImagePreview from './ImagePreview'
 import styled from 'styled-components'
 import MdAddAPhoto from 'react-icons/lib/md/add-a-photo'
 import _ from 'lodash'
-
-
 
 const FlexRow = styled(Row)`
   display: flex;
@@ -14,23 +11,21 @@ const FlexRow = styled(Row)`
   text-align: center;
 `;
 
-
-const ErrorMessages = ({reportError, errorMessages}) => (
-  
-    errorMessages.map( 
-      (errorMsg) => 
-        <Collapse key={errorMsg} in={reportError}>
-          <Alert bsStyle={"danger"}>
-                  {errorMsg}
-          </Alert>
-        </Collapse>
-    )
-  
+const ErrorMessages = ({ reportError, errorMessages }) => (
+  errorMessages.map(
+    (errorMsg) =>
+      <Collapse key={errorMsg} in={reportError}>
+        <Alert bsStyle={"danger"}>
+          {errorMsg}
+        </Alert>
+      </Collapse>
+  )
 );
 
 const MainImage = styled.img`
   width: 100%;
 `;
+
 const MainImageContainer = styled.div`
   margin-left: auto;
   margin-right: auto;
@@ -42,24 +37,23 @@ const MainImageContainer = styled.div`
   overflow: hidden;
 `;
 
-const LargeImagePreview = ({mainImageDataURL}) => (
+const LargeImagePreview = ({ mainImageDataURL }) => (
   <Collapse in={mainImageDataURL !== ''}>
     <MainImageContainer>
-      <MainImage src={mainImageDataURL}/>
+      <MainImage src={mainImageDataURL} />
     </MainImageContainer>
   </Collapse>
 );
 
 const AddImageIcon = styled(MdAddAPhoto)`
-  
   position:relative;
-  
 `;
 const FileInputContainer = styled.div`
   width: 100%;
   padding-top: 100%; /* 1:1 Aspect Ratio */
   position: relative;
 `;
+
 const FileInputDiv = styled.div`
   position:  absolute;
   top: 0;
@@ -77,14 +71,14 @@ const FileInputDiv = styled.div`
   }
 `;
 
-const FileInput = ({handleFileUpload}) => (
+const FileInput = ({ handleFileUpload }) => (
   <FileInputContainer>
     <FileInputDiv>
-    <label style={{width: '100%'}} htmlFor="image">
-      <input type="file" name="image" id="image" multiple accept=".jpg, .jpeg, .png" style={{display:'none'}} onChange={handleFileUpload}/>
-      <AddImageIcon size={130}/>
-      <p><a>أضف صورة</a></p>
-    </label>
+      <label style={{ width: '100%' }} htmlFor="image">
+        <input type="file" name="image" id="image" multiple accept=".jpg, .jpeg, .png" style={{ display: 'none' }} onChange={handleFileUpload} />
+        <AddImageIcon size={130} />
+        <p><a>أضف صورة</a></p>
+      </label>
     </FileInputDiv>
   </FileInputContainer>
 );
@@ -105,18 +99,18 @@ class ImagePreviewsContainer extends Component {
    * changed by someone else. In both cases we need to remove error messages
    * @param {*} nextProps 
    */
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     this.setState({
       imgError: false,
       imgErrorMessages: []
     });
   }
 
-  handleFileUpload( e ) {
+  handleFileUpload(e) {
     e.preventDefault();
     if (!e.target.files.length > 0)//user canceled selecting a file
-      return  
-    
+      return
+
     //remove previous error messages
     this.setState({
       imgError: false,
@@ -126,9 +120,9 @@ class ImagePreviewsContainer extends Component {
     _.map(e.target.files, (file) => {
       let reader = new FileReader();
       let imageMaxSize = 1024 * 1024;//1MB
-      if (file.size > imageMaxSize){ 
+      if (file.size > imageMaxSize) {
         var nBytes = file.size;
-        var sOutput = nBytes + " bytes" 
+        var sOutput = nBytes + " bytes"
         for (var aMultiples = ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"], nMultiple = 0, nApprox = nBytes / 1024; nApprox > 1; nApprox /= 1024, nMultiple++) {
           sOutput = nApprox.toFixed(3) + " " + aMultiples[nMultiple];
         }
@@ -138,7 +132,7 @@ class ImagePreviewsContainer extends Component {
           imgErrorMessages: [...this.state.imgErrorMessages, errorMsg]
         })
         return;
-      } else if (!file.type.startsWith('image/jpeg') && !file.type.startsWith('image/png')){
+      } else if (!file.type.startsWith('image/jpeg') && !file.type.startsWith('image/png')) {
         let errorMsg = 'خطأ في الملف ' + file.name + '. يجب أن يتم تحميل صورة من نوع JPEG/PNG'
         this.setState({
           imgError: true,
@@ -156,18 +150,17 @@ class ImagePreviewsContainer extends Component {
       }
 
       reader.readAsDataURL(file)
-  });
+    });
   }
 
-  handleImageSelect(imageDataURL){
-    this.setState({mainImageDataURL: imageDataURL})
+  handleImageSelect(imageDataURL) {
+    this.setState({ mainImageDataURL: imageDataURL })
   }
 
-  handleDeleteImage(imageDataURL, fromDB){
-    if(!fromDB || (this.props.imagesFromDB.length > 1)){
-      if(this.state.mainImageDataURL === imageDataURL)
-        this.setState({mainImageDataURL: ''})
-      
+  handleDeleteImage(imageDataURL, fromDB) {
+    if (!fromDB || (this.props.imagesFromDB.length > 1)) {
+      if (this.state.mainImageDataURL === imageDataURL)
+        this.setState({ mainImageDataURL: '' })
       return this.props.onImageDelete(imageDataURL, fromDB);
     } else {
       this.setState({
@@ -175,44 +168,42 @@ class ImagePreviewsContainer extends Component {
         imgErrorMessages: ['لا بد أن يكون عدد الصور للمنتج واحدة على الأقل']
       })
       return new Promise((resolve, reject) => {
-        reject({type: 'product error', message: 'لا بد أن يكون عدد الصور للمنتج واحدة على الأقل'})
+        reject({ type: 'product error', message: 'لا بد أن يكون عدد الصور للمنتج واحدة على الأقل' })
       })
     }
   }
 
-  
-
-  render(){
+  render() {
     return (
       <Panel>
-        <ErrorMessages reportError={this.state.imgError } errorMessages={this.state.imgErrorMessages || []}/>
-        <LargeImagePreview mainImageDataURL={this.state.mainImageDataURL}/>
+        <ErrorMessages reportError={this.state.imgError} errorMessages={this.state.imgErrorMessages || []} />
+        <LargeImagePreview mainImageDataURL={this.state.mainImageDataURL} />
         <FlexRow>
-          <Col xs={12} sm={6} md={4}lg={3} >
-            <FileInput handleFileUpload={this.handleFileUpload.bind(this)}/>
+          <Col xs={12} sm={6} md={4} lg={3} >
+            <FileInput handleFileUpload={this.handleFileUpload.bind(this)} />
           </Col>
           {
-            this.props.imagesFromDB.map( 
+            this.props.imagesFromDB.map(
               (image) => (
-                
+
                 <Col xs={12} sm={6} md={4} lg={3} key={image.large} >
                   <ImagePreview url={image.large} fromDB={true} onImageSelect={this.handleImageSelect.bind(this)}
-                  onImageDelete={this.handleDeleteImage.bind(this)}/>
+                    onImageDelete={this.handleDeleteImage.bind(this)} />
                 </Col>
               )
             )
           }
           {
-            this.props.newImages.map( 
-              (image) => ( 
+            this.props.newImages.map(
+              (image) => (
                 <Col xs={12} sm={6} md={4} lg={3} key={image.url} >
                   <ImagePreview url={image.url} fromDB={false} onImageSelect={this.handleImageSelect.bind(this)}
-                  onImageDelete={this.handleDeleteImage.bind(this)}/>
+                    onImageDelete={this.handleDeleteImage.bind(this)} />
                 </Col>
               )
             )
           }
-      </FlexRow>
+        </FlexRow>
       </Panel>
     )
   }

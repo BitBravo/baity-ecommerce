@@ -8,9 +8,6 @@ let DB_BASE = db;
 //IMPORTANT: you can not use the following storge object as bucket root reference. To get the bucket root reference use storage.ref().
 let STORAGE_BASE = storage.ref();
 
-/* DATABASE AND STORGAE REFERENCES FOR TESTING*/
-let testPrefix = "test-"; //change this to switch from test tables to production tables
-
 // let _PRODUCTS_PATH = testPrefix + "product"; //change me by removing test
 // let _IDEAS_PATH = testPrefix + "idea";
 // let _BUSINESSES_PATH = testPrefix + "business"; //change me by removing test
@@ -51,7 +48,6 @@ let _IDEA_ARCHIVE_PATH = "ideaArchive";
 let _ADMIN_DATA_PATH = "admin";
 
 // firestore references
-let _REF_BASE = DB_BASE;
 let _REF_PRODUCT = DB_BASE.collection(_PRODUCTS_PATH); //change me by removing test
 let _REF_IDEA = DB_BASE.collection(_IDEAS_PATH);
 let _REF_BUSINESS = DB_BASE.collection(_BUSINESSES_PATH); //change me by removing test
@@ -68,7 +64,6 @@ let _REF_IDEA_ARCHIVE = DB_BASE.collection(_IDEA_ARCHIVE_PATH);
 let _REF_ADMIN_DATA = DB_BASE.collection(_ADMIN_DATA_PATH);
 
 // this is to be set later be product and idea
-var selectedImg = "";
 
 // Storage reference
 var _REF_BUSINESS_LOGO = STORAGE_BASE.child(_BUSINESS_LOGOS_PATH); //change me by removing test
@@ -248,6 +243,8 @@ export default {
       case 'admin':
         ref = this.adminData.doc(entryId);
         break;
+      default:
+        ref = this.products.doc(entryId);
     }
     return ref.get()
       .then(doc => doc.data())

@@ -1,13 +1,6 @@
 import React, { Component } from "react";
 import firebase from "firebase";
-import { app, database, storage } from "../base";
-import {
-  FormGroup,
-  ControlLabel,
-  FormControl,
-  HelpBlock,
-  Panel
-} from "react-bootstrap";
+import { database, storage } from "../base";
 import ProductForm from "./ProductForm";
 
 class ProductAdder extends Component {
@@ -40,20 +33,16 @@ class ProductAdder extends Component {
         width: product.width.value,
         weight: product.weight.value
       })
-      .then(() => {
-        console.log('insesrt succeeded');
-        formSuccessViewer();
-      })
-      .catch( (error) => {
-        console.log('could not insert following product: ');
-        console.log(product);
-        console.log(`ERROR: code: ${error.code}, message:${error.message}`);
-        formErrorViewer(error.message);
-      });
+        .then(() => {
+          console.log('insesrt succeeded');
+          formSuccessViewer();
+        })
+        .catch((error) => {
+          console.log(`ERROR: code: ${error.code}, message:${error.message}`);
+          formErrorViewer(error.message);
+        });
       // formSuccessViewer();
     } catch (error) {
-      console.log('could not insert following product: ');
-      console.log(product);
       console.log(`ERROR: code: ${error.code}, message:${error.message}`);
       formErrorViewer(error);
     }
@@ -61,7 +50,6 @@ class ProductAdder extends Component {
 
   handleSubmit(formData, formErrorViewer, formSuccessViewer, formPercentageViewer) {
     //value should be the value of state of the ProductForm
-
     //1- upload the image of the product.
     //2- add the product to the database
     //Check (https://firebase.google.com/docs/storage/web/upload-files) &
@@ -84,7 +72,7 @@ class ProductAdder extends Component {
       // 3. Completion observer, called on successful completion
       uploadTask.on(
         "state_changed",
-        function(snapshot) {
+        function (snapshot) {
           // Observe state change events such as progress, pause, and resume
           // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
           var progress = Math.round(snapshot.bytesTransferred / snapshot.totalBytes * 100);
@@ -134,11 +122,9 @@ class ProductAdder extends Component {
 
   render() {
     return (
-     
-          <div className="productAdding">
-            <ProductForm  currentUser={this.props.currentUser} isNewProduct={true} onSubmit={this.handleSubmit.bind(this)} />
-          </div>
-   
+      <div className="productAdding">
+        <ProductForm currentUser={this.props.currentUser} isNewProduct={true} onSubmit={this.handleSubmit.bind(this)} />
+      </div>
     );
   }
 }

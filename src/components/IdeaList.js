@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Grid, Row, Col } from "react-bootstrap";
-import { app, base } from "../base";
-import FirebaseServices from '../services/FirebaseServices'
+import { base } from "../base";
 import FirestoreServices from 'services/FirestoreServices'
 import FirestorePaginator from 'services/FirestorePaginator'
 import IdeaBrief from "./IdeaBrief";
 import Loading from './Loading'
-import { MdWeekend } from 'react-icons/lib/md';
 import styled from 'styled-components'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Idea from '../assets/img/AddingIdea.png';
@@ -35,6 +33,7 @@ height:40px;
     height: 30px;
     width:90%;}
 `;
+
 const MoreButton = styled.button`
 background-color:transparent;
 border:1px solid rgb(26, 156, 142);
@@ -46,7 +45,6 @@ color:rgb(26, 156, 142);
     width:40px;
     font-size:10px;
   `;
-var options = {};
 
 var paginator;
 var hasMore = true;
@@ -121,13 +119,11 @@ class IdeaList extends Component {
           })
         )
     }
-
   }
 
   componentWillUnmount() {
     this.ideasRef && base.removeBinding(this.ideasRef);
   }
-
 
   listToArray() {
     // const ideas = this.state.ideas
@@ -140,15 +136,11 @@ class IdeaList extends Component {
     // });
     // var list = [...this.state.extraIdeas, ...arr.slice()]
     // this.setState({extraIdeas: list, loading: false})
-
   }
 
   next() {
-    console.log("calling next()")
     if (!paginator.hasMore) {
       hasMore = false;
-      console.log("next() Has no more")
-      return
     }
     console.log("next() Has more")
     paginator.next()
@@ -232,7 +224,6 @@ class IdeaList extends Component {
             </Col>
           </Row>
         </Grid>
-
       );
     } else {
       return (

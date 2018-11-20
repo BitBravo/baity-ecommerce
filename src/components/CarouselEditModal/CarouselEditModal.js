@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Row, Col } from "react-bootstrap";
 import FirestoreServices from 'services/FirestoreServices'
+import { FaFileImageO, FaRecycle } from 'react-icons/lib/fa';
 
 import './styles.css'
 
@@ -36,6 +37,7 @@ export class CarouselEditModal extends Component {
   }
 
   clearAction = (i) => {
+    console.log(i)
     let { carouselItems } = this.state;
     if (carouselItems[i]) {
       carouselItems[i].image = '';
@@ -44,8 +46,9 @@ export class CarouselEditModal extends Component {
     }
   }
 
-  importAction = (i) => {
-    console.log(i);
+  importAction = (event, index) => {
+    // const fileURL = URL.createObjectURL(event.target.files[0])
+    console.log(event, index);
   }
 
   saveFormData = (e) => {
@@ -65,9 +68,9 @@ export class CarouselEditModal extends Component {
     FirestoreServices.saveAdminData('logo', data).then((res) => {
       if (res) {
         this.props.onUpdate()
-        this.setState({
-          modalFlag: false,
-        });
+        // this.setState({
+        //   modalFlag: false,
+        // });
       }
     })
   }
@@ -78,6 +81,7 @@ export class CarouselEditModal extends Component {
     console.log(data)
     return (
       <Row>
+
         <Col className="carousel-edit-modal" xl={5} lg={5} md={5} sm={6}>
           <div className="modal-tool">
             <button onClick={this.modalShow}>
@@ -91,6 +95,8 @@ export class CarouselEditModal extends Component {
               ''
             }
           </div>
+
+          <FaRecycle />
           {this.state.modalFlag ?
             <div className="carousel-modal-content" ref={el => this.curouselForm = el} key={1}>
               {
@@ -99,7 +105,13 @@ export class CarouselEditModal extends Component {
                     <Col className="line-number" md={1}>{index + 1}</Col>
                     <Col className="imageInfo" md={4}><input type="text" placeholder='Add photo' name='image' value={data[index] ? data[index].image : ''} onChange={(e) => this.dataChange(e, index)}></input></Col>
                     <Col className="productId" md={3}><input type="text" placeholder='Enter product id' name='productId' value={data[index] ? data[index].productId : ''} onChange={(e) => this.dataChange(e, index)}></input></Col>
-                    <Col md={2}><button onClick={this.getValue} onClick={(e) => this.importAction(index)}>Import</button></Col>
+                    {/* <Col md={2}><button onClick={this.getValue} onClick={(e) => this.importAction(index)}>Import</button></Col> */}
+                    <Col md={2} onClick={(e) => this.importAction(null, index)}>
+                      <input type="file" name={index} id="file" className="inputfile" onChange={this.importAction} />
+                      <label htmlFor="file">
+                        Import
+                      </label>
+                    </Col>
                     <Col md={2}><button onClick={(e) => this.clearAction(index)}>Clear</button></Col>
                   </Row>
                 ))

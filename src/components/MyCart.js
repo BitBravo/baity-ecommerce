@@ -1,19 +1,15 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { app, base, DBBase } from "../base";
+import { base } from "../base";
 import FirestoreServices from 'services/FirestoreServices'
 import FirebaseServices from '../services/FirebaseServices'
 import { MainCartList, HeaderCartList } from './CartList';
-import { MainCartBrief, HeaderCartBrief } from "./CartBrief";
 import styled from 'styled-components'
 import {
   Col,
   Modal,
   Row,
   Grid,
-  Glyphicon
 } from "react-bootstrap";
-import logo_placeholder from '../assets/img/logo-placeholder.jpg';
 import Loading from './Loading'
 
 const Cartbutton = styled.button`
@@ -52,7 +48,6 @@ export class MyCart extends Component {
     this.deleteItem = this.deleteItem.bind(this)
     this.fetchItems = this.fetchItems.bind(this)
 
-
     this.state = {
       basket: {},
       products: {},
@@ -70,7 +65,6 @@ export class MyCart extends Component {
     this.handleHide = this.handleHide.bind(this);
   }
 
-
   handleShow() {
     this.setState({ show: true });
   }
@@ -78,7 +72,6 @@ export class MyCart extends Component {
   handleHide() {
     this.setState({ show: false });
   }
-
 
   componentWillMount() {
     this.fetchItems()
@@ -154,13 +147,11 @@ export class MyCart extends Component {
   deleteItem(id) {
     delete this.state.basket[id]
     this.setState({ basket: this.state.basket })
-
     FirebaseServices.basket.child(`${this.props.currentUser.uid}/items/${id}`).remove()
     // for some reason calling fetch will not cause the page to rerender
     this.fetchItems()
     this.props.updateCart(false, false)
   }
-
 
   render() {
     var subtotal = this.state.total
@@ -175,7 +166,7 @@ export class MyCart extends Component {
       return (
         <h2 style={{ textAlign: 'center', color: 'rgb(26,156,142)' }}>تم إرسال الطلب للبائعين، شكرا لتسوقكم معنا</h2>
       )
-    else {
+    else
       return [
         <Grid key="one">
           <h2 style={{ textAlign: 'center', color: 'rgb(26,156,142)' }}>سلة التسوق</h2>
@@ -195,8 +186,6 @@ export class MyCart extends Component {
               </Col>
             </Row>
             : <h4 style={{ textAlign: 'center' }}>لم تقم باضافة منتجات، إبدأ الان</h4>
-
-
           }
           <div>
             <Modal
@@ -206,31 +195,23 @@ export class MyCart extends Component {
                 سيتم ارسال بيانات تواصلك للبائع لخدمتك
                   </Modal.Header>
               <Modal.Body>
-
                 <Cartbutton onClick={() => { this.handleShow(); this.handleSubmit() }}>تأكيد</Cartbutton>
-
                 <p style={{ color: 'rgb(26, 156, 142)' }}>ارسال الايميل فقط</p>
               </Modal.Body>
             </Modal>
           </div>
-
         </Grid>
       ];
-    };
   }
-
-
 }
 
 export class HeaderCart extends Component {
-
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this)
     this.removefromCart = this.removefromCart.bind(this)
     this.deleteItem = this.deleteItem.bind(this)
     this.fetchItems = this.fetchItems.bind(this)
-
 
     this.state = {
       basket: {},
@@ -248,17 +229,15 @@ export class HeaderCart extends Component {
     };
     this.handleShow = this.handleShow.bind(this);
     this.handleHide = this.handleHide.bind(this);
-
   }
-
 
   handleShow() {
     this.setState({ show: true });
   }
+
   handleHide() {
     this.setState({ show: false });
   }
-
 
   componentWillMount() {
     this.fetchItems()
@@ -317,7 +296,6 @@ export class HeaderCart extends Component {
     // }
   }
 
-
   handleSubmit(event) {
     // create a chat between user and business owner **later
     // fetch owners emails
@@ -341,32 +319,24 @@ export class HeaderCart extends Component {
     this.props.updateCart(false, false)
   }
 
-
   render() {
     var subtotal = this.state.total
     var vat = Number((subtotal * 0.05).toFixed(2))
-    var total = subtotal + vat
 
     if (this.state.loading)
       return (
         <Loading />
       )
-
     else {
       return (
         <DropCart >
           <p style={{ textAlign: 'center' }}>سلة التسوق</p>
           <hr />
-          <HeaderCartList products={this.state.products}
-
-          />
+          <HeaderCartList products={this.state.products} />
           <h4 style={{ textAlign: 'center' }}> المجموع :
             <span style={{ color: 'rgb(26,156,142)' }}> {subtotal} ر.س </span>
           </h4>
         </DropCart>
-
-
-
       );
     };
   }

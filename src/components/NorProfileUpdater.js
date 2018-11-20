@@ -1,21 +1,12 @@
 import React, { Component } from "react";
 import { Modal, Alert, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import firebase from "firebase";
-import { app, base, database, storage } from "../base";
 import FirestoreServices from 'services/FirestoreServices'
-import Loading from "./Loading";
-
-import {
-  FormGroup,
-  ControlLabel,
-  FormControl,
-  HelpBlock,
-  Panel, ProgressBar
-} from "react-bootstrap";
-import NorProfileForm from "./NorProfileForm";
+import { ProgressBar } from "react-bootstrap";
 import FaCheckCircleO from 'react-icons/lib/fa/check-circle-o'
 import FaTimesCircleO from 'react-icons/lib/fa/times-circle-o'
+import NorProfileForm from "./NorProfileForm";
+import Loading from "./Loading";
 
 class NorProfileUpdater extends Component {
   constructor(props) {

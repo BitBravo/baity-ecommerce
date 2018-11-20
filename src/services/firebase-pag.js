@@ -1,10 +1,10 @@
-var isBrowser = typeof global != 'object' || typeof global.process != 'object';
+var isBrowser = typeof global !== 'object' || typeof global.process !== 'object';
 
-function FirebasePaginator(ref, defaults) {
+function FirebasePaginator(ref, defaultsValue) {
   var paginator = this;
-  var defaults = defaults || {};
+  var defaults = defaultsValue || {};
   var pageSize = defaults.pageSize ? parseInt(defaults.pageSize, 10) : 10;
-  console.log("pageSize " +pageSize)
+  console.log("pageSize " + pageSize)
   var isFinite = defaults.finite ? defaults.finite : false;
   var retainLastPage = defaults.retainLastPage || false;
   var auth = defaults.auth;
@@ -12,11 +12,11 @@ function FirebasePaginator(ref, defaults) {
   this.ref = ref;
 
   // Events
-  this.listen = function(callback) {
+  this.listen = function (callback) {
     paginator.allEventHandler = callback;
   };
   var events = {};
-  var fire = function(eventName, payload) {
+  var fire = function (eventName, payload) {
     if (typeof paginator.allEventHandler === 'function') {
       paginator.allEventHandler.call(paginator, eventName, payload);
     }
@@ -32,7 +32,7 @@ function FirebasePaginator(ref, defaults) {
     }
   };
 
-  this.on = function(eventName, callback) {
+  this.on = function (eventName, callback) {
     if (!events[eventName]) {
       events[eventName] = {
         queue: [],
@@ -41,7 +41,7 @@ function FirebasePaginator(ref, defaults) {
     events[eventName].queue.push(callback);
   };
 
-  this.off = function(eventName, callback) {
+  this.off = function (eventName, callback) {
     if (events[eventName] && events[eventName].queue) {
       var queue = events[eventName].queue;
       var i = queue.length;
@@ -53,9 +53,9 @@ function FirebasePaginator(ref, defaults) {
     }
   };
 
-  this.once = function(eventName, callback) {
-    return new Promise(function(resolve, reject) {
-      var handler = function(payload) {
+  this.once = function (eventName, callback) {
+    return new Promise(function (resolve, reject) {
+      var handler = function (payload) {
         paginator.off(eventName, handler);
         if (typeof callback === 'function') {
           try {
@@ -77,7 +77,7 @@ function FirebasePaginator(ref, defaults) {
   if (!isFinite) {
     // infinite pagination
 
-    var setPage = function(cursor, isForward, isLastPage) {
+    var setPage = function (cursor, isForward, isLastPage) {
       this.ref = ref.orderByKey();
       console.log("cursor " + cursor)
       console.log()
@@ -100,13 +100,13 @@ function FirebasePaginator(ref, defaults) {
       }
 
       return this.ref.once('value').then(
-        function(snap) {
+        function (snap) {
           var keys = [];
           var collection = {};
 
           cursor = undefined;
 
-          snap.forEach(function(childSnap) {
+          snap.forEach(function (childSnap) {
             keys.push(childSnap.key);
             if (!cursor) {
               cursor = childSnap.key;
@@ -145,25 +145,25 @@ function FirebasePaginator(ref, defaults) {
       );
     }.bind(this);
 
-    setPage().then(function() {
+    setPage().then(function () {
       fire('ready', paginator);
     }); // bootstrap the list
 
-    this.reset = function() {
-      return setPage().then(function() {
+    this.reset = function () {
+      return setPage().then(function () {
         return fire('reset');
       });
     };
 
-    this.previous = function() {
+    this.previous = function () {
       return setPage(this.cursor).then(
-        function() {
+        function () {
           return fire('previous');
         }.bind(this)
       );
     };
 
-    this.next = function() {
+    this.next = function () {
       var cursor;
       if (this.keys && this.keys.length) {
         console.log("keys " + this.keys)
@@ -171,7 +171,7 @@ function FirebasePaginator(ref, defaults) {
         //cursor = this.keys[0]; // by Asma
 
       }
-      return setPage(cursor, true).then(function() {
+      return setPage(cursor, true).then(function () {
         return fire('next');
       });
     };
@@ -181,17 +181,17 @@ function FirebasePaginator(ref, defaults) {
     if (auth) {
       queryPath += '&auth=' + auth;
     }
-    var getKeys = function() {
+    var getKeys = function () {
       if (isBrowser) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
           var request = new XMLHttpRequest();
-          request.onreadystatechange = function() {
+          request.onreadystatechange = function () {
             if (request.readyState === 4) {
-              try{
-              var response = JSON.parse(request.responseText);
-            }catch (error){
-              console.log("error " + error)
-            }
+              try {
+                var response = JSON.parse(request.responseText);
+              } catch (error) {
+                console.log("error " + error)
+              }
               if (request.status === 200) {
                 resolve(Object.keys(response || {}));
               } else {
@@ -205,14 +205,14 @@ function FirebasePaginator(ref, defaults) {
         });
       } else {
         var axios = require('axios');
-        return axios.get(queryPath).then(function(res) {
+        return axios.get(queryPath).then(function (res) {
           return Object.keys(res.data || {});
         });
       }
     };
 
     this.goToPage = function goToPage(pageNumber) {
-      pageNumber = Math.min(this.pageCount, Math.max(1, parseInt(pageNumber)));
+      pageNumber = Math.min(this.pageCount, Math.max(1, parseInt(pageNumber, 10)));
       if (Object.keys(this.pages || {}).length) {
         // Null check for empty collections
         paginator.page = this.pages[pageNumber];
@@ -226,11 +226,11 @@ function FirebasePaginator(ref, defaults) {
         paginator.ref = ref.orderByKey().limitToLast(pageSize);
       }
 
-      return this.ref.once('value').then(function(snap) {
+      return this.ref.once('value').then(function (snap) {
         var collection = snap.val();
         var keys = [];
 
-        snap.forEach(function(childSnap) {
+        snap.forEach(function (childSnap) {
           keys.push(childSnap.key);
         });
 
@@ -246,9 +246,9 @@ function FirebasePaginator(ref, defaults) {
       });
     };
 
-    this.reset = function() {
+    this.reset = function () {
       return getKeys()
-        .then(function(keys) {
+        .then(function (keys) {
           var orderedKeys = keys.sort();
           var keysLength = orderedKeys.length;
           var cursors = [];
@@ -279,37 +279,37 @@ function FirebasePaginator(ref, defaults) {
 
           return pages;
         })
-        .catch(function(err) {
+        .catch(function (err) {
           console.log('finite reset pagination error', err);
         });
     };
 
     this.reset() // Refresh keys and go to first page.
-      .then(function() {
+      .then(function () {
         return paginator.goToPage(1);
       })
-      .then(function() {
+      .then(function () {
         fire('ready', paginator);
       });
 
-    this.previous = function() {
-      return this.goToPage(Math.min(this.pageCount, this.pageNumber + 1)).then(function() {
+    this.previous = function () {
+      return this.goToPage(Math.min(this.pageCount, this.pageNumber + 1)).then(function () {
         return fire('previous');
       });
     }.bind(paginator);
 
-    this.next = function() {
-      return this.goToPage(Math.max(1, this.pageNumber - 1)).then(function() {
+    this.next = function () {
+      return this.goToPage(Math.max(1, this.pageNumber - 1)).then(function () {
         return fire('next');
       });
     }.bind(paginator);
   }
 }
 
-if (typeof window == 'object') {
+if (typeof window === 'object') {
   window.FirebasePaginator = FirebasePaginator;
 }
 
-if (typeof module == 'object') {
+if (typeof module === 'object') {
   module.exports = FirebasePaginator;
 }

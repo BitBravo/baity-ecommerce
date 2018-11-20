@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { app, base } from "../base";
-import { Image, Col, Thumbnail, Button, Card, Row } from "react-bootstrap";
-import Equalizer from "react-equalizer";
+import { Col } from "react-bootstrap";
 import styled from 'styled-components'
-import {MdWeekend} from 'react-icons/lib/md';
 import Idea from '../assets/img/Selected-idea.png';
 
 const IconImg = styled.img`
@@ -114,7 +111,6 @@ const MyThumbnailDiv = styled.div`
   }
 `
 
-
 const PreviewImg = styled.img`
   width: 100%;
   height: 100%;
@@ -137,6 +133,7 @@ const ImageContainer = styled.div`
   padding-top: 100%;
   position: relative;
 `;
+
 class IdeaBrief extends Component {
   constructor() {
     super();
@@ -148,78 +145,76 @@ class IdeaBrief extends Component {
   //src="http://via.placeholder.com/243x243"
   render() {
     const idea = this.props.idea;
-
     var imgUrl;
     idea.images
-    ? imgUrl = idea.images[0].thumbnail? idea.images[0].thumbnail : idea.images[0].large
-    : imgUrl = "http://via.placeholder.com/243x243"
+      ? imgUrl = idea.images[0].thumbnail ? idea.images[0].thumbnail : idea.images[0].large
+      : imgUrl = "http://via.placeholder.com/243x243"
     return (
-
-      <MyThumbnailCol xs={6} md={4} sm={6} style={{float:'right'}}>
+      <MyThumbnailCol xs={6} md={4} sm={6} style={{ float: 'right' }}>
         <MyThumbnailDiv>
           <ImageContainer>
             <ImageDiv>
-            <Link to={`/${idea.owner}/ideas/${idea.id}`}>
-            {
-            <PreviewImg style={{background:`url(${imgUrl})`,
-                                backgroundSize: "cover",
-                                backgroundRepeat: "no-repeat",
-                                backgroundPosition: "center center"}}
-            />
-          }
-          {
-          // <PreviewImg
-          //   src={
-          //     idea.images
-          //       ? idea.images[0].thumbnail? idea.images[0].thumbnail : idea.images[0].large
-          //       : "http://via.placeholder.com/243x243"
-          //   }
-          // />
-        }
-              {/* <img   src="http://via.placeholder.com/243x243" */}
-            </Link>
+              <Link to={`/${idea.owner}/ideas/${idea.id}`}>
+                {
+                  <PreviewImg style={{
+                    background: `url(${imgUrl})`,
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center center"
+                  }}
+                  />
+                }
+                {
+                  // <PreviewImg
+                  //   src={
+                  //     idea.images
+                  //       ? idea.images[0].thumbnail? idea.images[0].thumbnail : idea.images[0].large
+                  //       : "http://via.placeholder.com/243x243"
+                  //   }
+                  // />
+                }
+                {/* <img   src="http://via.placeholder.com/243x243" */}
+              </Link>
             </ImageDiv>
           </ImageContainer>
 
           <PaddingDiv>
-            <Link to={`/${idea.owner}/ideas/${idea.id}`} style={{color:'black'}}>
-            <IdeaNameCol xs ={11} style={{paddingLeft:'0',paddingRight:'0'}}>
-              <p style={{color:'black',fontFamily: 'dinarm',paddingRight:'1px'}}>
-              {idea.name}
-              </p>
-              </IdeaNameCol>
-             </Link>
-             <IdeaNameCol xs ={1}  style={{padding:'0 0 15px 0'}}>
-             <IconImg src={Idea} className="icons"/>
-             </IdeaNameCol>
-             <Description className="flex-text text-muted">{idea.desc.substring(0,105)}
-               <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${idea.owner}/ideas/${idea.id}`}>
-               ... المزيد
-               </Link>
-             </Description>
-             <MDescription className="flex-text text-muted">{idea.desc.substring(0,90)}
-               <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${idea.owner}/ideas/${idea.id}`}>
-               ... المزيد
-               </Link>
-             </MDescription>
-             <SDescription className="flex-text text-muted">{idea.desc.substring(0,60)}
-               <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${idea.owner}/ideas/${idea.id}`}>
-               ... المزيد
-               </Link>
-             </SDescription>
-
-             <div style={{display:'inline-block',position:'absolute',bottom:'0'}}>
-                  <p > من:
-                  <Link to={`/businessprofile/${idea.owner}`}style={{color:'rgb(26,156,142)'}}>
-                  {idea.businessName}
-                  </Link>
+            <Link to={`/${idea.owner}/ideas/${idea.id}`} style={{ color: 'black' }}>
+              <IdeaNameCol xs={11} style={{ paddingLeft: '0', paddingRight: '0' }}>
+                <p style={{ color: 'black', fontFamily: 'dinarm', paddingRight: '1px' }}>
+                  {idea.name}
                 </p>
-                </div>
+              </IdeaNameCol>
+            </Link>
+            <IdeaNameCol xs={1} style={{ padding: '0 0 15px 0' }}>
+              <IconImg src={Idea} className="icons" />
+            </IdeaNameCol>
+            <Description className="flex-text text-muted">{idea.desc.substring(0, 105)}
+              <Link style={{ display: 'inline', color: 'rgb(26, 156, 142)' }} to={`/${idea.owner}/ideas/${idea.id}`}>
+                ... المزيد
+               </Link>
+            </Description>
+            <MDescription className="flex-text text-muted">{idea.desc.substring(0, 90)}
+              <Link style={{ display: 'inline', color: 'rgb(26, 156, 142)' }} to={`/${idea.owner}/ideas/${idea.id}`}>
+                ... المزيد
+               </Link>
+            </MDescription>
+            <SDescription className="flex-text text-muted">{idea.desc.substring(0, 60)}
+              <Link style={{ display: 'inline', color: 'rgb(26, 156, 142)' }} to={`/${idea.owner}/ideas/${idea.id}`}>
+                ... المزيد
+               </Link>
+            </SDescription>
 
+            <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
+              <p > من:
+                  <Link to={`/businessprofile/${idea.owner}`} style={{ color: 'rgb(26,156,142)' }}>
+                  {idea.businessName}
+                </Link>
+              </p>
+            </div>
           </PaddingDiv>
         </MyThumbnailDiv>
       </MyThumbnailCol>
-
     );
   }
 }

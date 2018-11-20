@@ -1,20 +1,12 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import firebase from "firebase";
-import { app, base, database, storage } from "../base";
-import FirebaseServices from '../services/FirebaseServices'
-import { Nav, Navbar, NavItem, NavbarBrand, NavDropdown, MenuItem, Glyphicon, Modal, Col, Collapse, Row } from "react-bootstrap";
-import bayty_icon from '../assets/img/bayty_icon.png';
-import { TiUserAddOutline } from 'react-icons/lib/ti';
+import { Nav, Navbar, NavItem, Modal } from "react-bootstrap";
 import { IndexLinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components'
 import logo_placeholder from '../assets/img/logo-placeholder.jpg';
 import Homepage from '../assets/img/Unselected-homepage.png';
 import Idea from '../assets/img/Unselected-idea.png';
 import Product from '../assets/img/UNselected-product.png';
-import Profile from '../assets/img/Unselected-profile.png';
-import ActiveProfile from '../assets/img/Profile-icon.png';
 import Cart from '../assets/img/Cart-icon.png';
 import { HeaderCart } from "./MyCart";
 import ActiveIdea from '../assets/img/Selected-idea.png';
@@ -64,9 +56,6 @@ const Logo = styled.img`
  height:28px;
 
 `
-const UserName = styled.p`
-display:inline;
-`
 const PageIcon = styled.img`
 width:18px;
  height:18px;
@@ -107,7 +96,6 @@ class Header extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       userImg: "",
       userName: "",
@@ -118,8 +106,8 @@ class Header extends Component {
     };
     this.handleShow = this.handleShow.bind(this);
     this.handleHide = this.handleHide.bind(this);
-
   }
+
   handleShow() {
     this.setState({ show: true });
   }
@@ -181,7 +169,6 @@ class Header extends Component {
                       ? <UserImg src={this.props.userImg} />
                       : <UserImg src={logo_placeholder} />
                     }
-
                     {/* <UserLogo > 
                        <IconImg src={Profile} />
                          <br/>
@@ -191,7 +178,6 @@ class Header extends Component {
              
                       </UserLogo> */}
                   </LinkContainer>
-
                 </NavItem>
               </UserNav>
             )}
@@ -232,15 +218,11 @@ class Header extends Component {
                 </LinkContainer>
               </div> : null}
           </div>
-
-
         </Navbar.Header>
-
 
         {/* <Navbar.Collapse > */}
         <MainNav bsStyle="tabs" justified>
           <Line style={{}} />
-
           <IndexLinkContainer to="/" activeClassName="activePage">
             <NavItem >
               <PageIcon src={ActiveHomepage} className="activeIcons" />
@@ -256,14 +238,9 @@ class Header extends Component {
               <PageIcon src={ActiveIdea} className="activeIcons" />
               <PageIcon src={Idea} className="icons" />الأفكار</NavItem>
           </LinkContainer>
-
         </MainNav>
-
-
         {/* </Navbar.Collapse > */}
-
       </Navbar>
-
     );
   }
 }
