@@ -6,7 +6,7 @@ import { ProgressBar } from "react-bootstrap";
 import FaCheckCircleO from 'react-icons/lib/fa/check-circle-o'
 import FaTimesCircleO from 'react-icons/lib/fa/times-circle-o'
 import NorProfileForm from "./NorProfileForm";
-import Loading from "./Loading";
+import Loading from "commons/Loading";
 
 class NorProfileUpdater extends Component {
   constructor(props) {

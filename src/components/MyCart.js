@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { base } from "../base";
+import { base } from "config/base";
 import FirestoreServices from 'services/FirestoreServices'
 import FirebaseServices from '../services/FirebaseServices'
-import { MainCartList, HeaderCartList } from './CartList';
+import { MainCartList, HeaderCartList } from './IdeaList.6/CartList';
 import styled from 'styled-components'
 import {
   Col,
@@ -10,7 +10,7 @@ import {
   Row,
   Grid,
 } from "react-bootstrap";
-import Loading from './Loading'
+import Loading from 'commons/Loading'
 
 const Cartbutton = styled.button`
 display:block;

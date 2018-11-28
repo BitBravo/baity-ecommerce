@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Modal, Alert, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { base } from "../base";
+import { base } from "config/base";
 import FirestoreServices from 'services/FirestoreServices'
-import Loading from "./Loading";
+import Loading from "commons/Loading";
 
 import { ProgressBar } from "react-bootstrap";
 import ProfProfileForm from "./ProfProfileForm";

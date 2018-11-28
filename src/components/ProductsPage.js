@@ -12,20 +12,20 @@ import ProductList from './ProductList';
 import FirestoreServices from 'services/FirestoreServices'
 import styled from 'styled-components'
 import Categories from './Categories';
-import productPageCarosel from '../assets/img/productPageCarosel.jpg';
-import productPageCarosel2 from '../assets/img/productPageCarosel2.jpg';
-import productPageCarosel3 from '../assets/img/productPageCarosel3.jpg';
-import productPageCarosel4 from '../assets/img/productPageCarosel4.jpg';
-import productPageCarosel5 from '../assets/img/productPageCarosel5.jpg';
-import productPageCarosel6 from '../assets/img/productPageCarosel6.jpg';
-import mproductPageCarosel from '../assets/img/mProductPageCarosel.jpg';
-import mproductPageCarosel2 from '../assets/img/mProductPageCarosel2.jpg';
-import mproductPageCarosel3 from '../assets/img/mProductPageCarosel3.jpg';
-import mproductPageCarosel4 from '../assets/img/mProductPageCarosel4.jpg';
-import mproductPageCarosel5 from '../assets/img/mProductPageCarosel5.jpg';
-import mproductPageCarosel6 from '../assets/img/mProductPageCarosel6.jpg';
-import smproductPageCarosel from '../assets/img/SmallMopilesPimg.jpg';
-import smproductPageCarosel2 from '../assets/img/SmallMopilesPimg2.jpg';
+import productPageCarosel from 'assets/img/productPageCarosel.jpg';
+import productPageCarosel2 from 'assets/img/productPageCarosel2.jpg';
+import productPageCarosel3 from 'assets/img/productPageCarosel3.jpg';
+import productPageCarosel4 from 'assets/img/productPageCarosel4.jpg';
+import productPageCarosel5 from 'assets/img/productPageCarosel5.jpg';
+import productPageCarosel6 from 'assets/img/productPageCarosel6.jpg';
+import mproductPageCarosel from 'assets/img/mProductPageCarosel.jpg';
+import mproductPageCarosel2 from 'assets/img/mProductPageCarosel2.jpg';
+import mproductPageCarosel3 from 'assets/img/mProductPageCarosel3.jpg';
+import mproductPageCarosel4 from 'assets/img/mProductPageCarosel4.jpg';
+import mproductPageCarosel5 from 'assets/img/mProductPageCarosel5.jpg';
+import mproductPageCarosel6 from 'assets/img/mProductPageCarosel6.jpg';
+import smproductPageCarosel from 'assets/img/SmallMopilesPimg.jpg';
+import smproductPageCarosel2 from 'assets/img/SmallMopilesPimg2.jpg';
 
 const DPreviewImg = styled.img`
   width: 100%;

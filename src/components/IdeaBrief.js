@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Col } from "react-bootstrap";
 import styled from 'styled-components'
-import Idea from '../assets/img/Selected-idea.png';
+import Idea from 'assets/img/Selected-idea.png';
 
 const IconImg = styled.img`
 width:20px;

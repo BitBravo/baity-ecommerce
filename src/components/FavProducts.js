@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Grid, Row, Col } from "react-bootstrap";
-import { base } from "../base";
+import { base } from "config/base";
 import FirestoreServices from 'services/FirestoreServices'
 import FirebaseServices from '../services/FirebaseServices'
 import ProductBrief from "./ProductBrief";
-import Loading from './Loading'
+import Loading from 'commons/Loading'
 import { MdEventSeat } from 'react-icons/lib/md';
 import styled from 'styled-components'
 import FirebasePaginator from 'services/firebase-pag';

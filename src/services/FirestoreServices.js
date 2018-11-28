@@ -1,12 +1,12 @@
-import { storage, db } from "../base";
-import firebase from "firebase";
-import _ from 'lodash'
-import FirebaseServices from './FirebaseServices'
+import firebase from 'firebase';
+import _ from 'lodash';
+import { storage, db } from 'config/base';
+import FirebaseServices from './FirebaseServices';
 
-let DB_BASE = db;
-//The following is the sotrage object.
-//IMPORTANT: you can not use the following storge object as bucket root reference. To get the bucket root reference use storage.ref().
-let STORAGE_BASE = storage.ref();
+const DB_BASE = db;
+// The following is the sotrage object.
+// IMPORTANT: you can not use the following storge object as bucket root reference. To get the bucket root reference use storage.ref().
+const STORAGE_BASE = storage.ref();
 
 // let _PRODUCTS_PATH = testPrefix + "product"; //change me by removing test
 // let _IDEAS_PATH = testPrefix + "idea";
@@ -25,53 +25,53 @@ let STORAGE_BASE = storage.ref();
 // let _PRODUCT_ARCHIVE_PATH = testPrefix + "productArchive";
 // let _IDEA_ARCHIVE_PATH = testPrefix + "ideaArchive";
 
-/* DATABASE AND STORGAE REFERENCES FOR DEPLOYMENT*/
-let _PRODUCTS_PATH = "product"; //change me by removing test
-let _IDEAS_PATH = "idea";
-let _BUSINESSES_PATH = "business"; //change me by removing test
-let _LIKES_PATH = "likes";
-let _GROUPS_PATH = "group"; //change me by removing test
-let _BUSINESS_LOGOS_PATH = "businessLogo";
-let _PRODUCT_IMAGES_PATH = "productImages";
-let _IDEA_IMAGES_PATH = "ideaImages";
-let _PROFILE_IMAGES_PATH = "profileImage";
-let _PROF_PATH = "professional";
-let _NORMAL_PATH = "normal";
-let _BASKET_PATH = "basket";
-let _CAROUSEL_BANNER_PATH = "carousel-banner";
-let _PRODUCTS_DISCOVERY_PATH = "product-discovery";
-let _PRODUCTS_DEPARTMENT_PATH = "product-specification";
-let _BUSINESS_HOMEIMGS_PATH = "businessHomeImgs";
-let _PROFILE_HOMEIMGS_PATH = "profileHomeImages";
-let _PRODUCT_ARCHIVE_PATH = "productArchive";
-let _IDEA_ARCHIVE_PATH = "ideaArchive";
-let _ADMIN_DATA_PATH = "admin";
+/* DATABASE AND STORGAE REFERENCES FOR DEPLOYMENT */
+const _PRODUCTS_PATH = 'product'; // change me by removing test
+const _IDEAS_PATH = 'idea';
+const _BUSINESSES_PATH = 'business'; // change me by removing test
+const _LIKES_PATH = 'likes';
+const _GROUPS_PATH = 'group'; // change me by removing test
+const _BUSINESS_LOGOS_PATH = 'businessLogo';
+const _PRODUCT_IMAGES_PATH = 'productImages';
+const _IDEA_IMAGES_PATH = 'ideaImages';
+const _PROFILE_IMAGES_PATH = 'profileImage';
+const _PROF_PATH = 'professional';
+const _NORMAL_PATH = 'normal';
+const _BASKET_PATH = 'basket';
+const _CAROUSEL_BANNER_PATH = 'carousel-banner';
+const _PRODUCTS_DISCOVERY_PATH = 'product-discovery';
+const _PRODUCTS_DEPARTMENT_PATH = 'product-specification';
+const _BUSINESS_HOMEIMGS_PATH = 'businessHomeImgs';
+const _PROFILE_HOMEIMGS_PATH = 'profileHomeImages';
+const _PRODUCT_ARCHIVE_PATH = 'productArchive';
+const _IDEA_ARCHIVE_PATH = 'ideaArchive';
+const _ADMIN_DATA_PATH = 'admin';
 
 // firestore references
-let _REF_PRODUCT = DB_BASE.collection(_PRODUCTS_PATH); //change me by removing test
-let _REF_IDEA = DB_BASE.collection(_IDEAS_PATH);
-let _REF_BUSINESS = DB_BASE.collection(_BUSINESSES_PATH); //change me by removing test
-let _REF_CAROUSEL = DB_BASE.collection(_CAROUSEL_BANNER_PATH);
-let _REF_PRODUCTS_DISCOVERY = DB_BASE.collection(_PRODUCTS_DISCOVERY_PATH);
-let _REF_PRODUCTS_DEPARTMENT = DB_BASE.collection(_PRODUCTS_DEPARTMENT_PATH);
-let _REF_USER_LIKES = DB_BASE.collection(_LIKES_PATH);
-let _REF_GROUP = DB_BASE.collection(_GROUPS_PATH); //change me by removing test
-let _REF_PROF = DB_BASE.collection(_PROF_PATH)
-let _REF_NORMAL = DB_BASE.collection(_NORMAL_PATH)
-let _REF_BASKET = DB_BASE.collection(_BASKET_PATH)
-let _REF_PRODUCT_ARCHIVE = DB_BASE.collection(_PRODUCT_ARCHIVE_PATH);
-let _REF_IDEA_ARCHIVE = DB_BASE.collection(_IDEA_ARCHIVE_PATH);
-let _REF_ADMIN_DATA = DB_BASE.collection(_ADMIN_DATA_PATH);
+const _REF_PRODUCT = DB_BASE.collection(_PRODUCTS_PATH); // change me by removing test
+const _REF_IDEA = DB_BASE.collection(_IDEAS_PATH);
+const _REF_BUSINESS = DB_BASE.collection(_BUSINESSES_PATH); // change me by removing test
+const _REF_CAROUSEL = DB_BASE.collection(_CAROUSEL_BANNER_PATH);
+const _REF_PRODUCTS_DISCOVERY = DB_BASE.collection(_PRODUCTS_DISCOVERY_PATH);
+const _REF_PRODUCTS_DEPARTMENT = DB_BASE.collection(_PRODUCTS_DEPARTMENT_PATH);
+const _REF_USER_LIKES = DB_BASE.collection(_LIKES_PATH);
+const _REF_GROUP = DB_BASE.collection(_GROUPS_PATH); // change me by removing test
+const _REF_PROF = DB_BASE.collection(_PROF_PATH);
+const _REF_NORMAL = DB_BASE.collection(_NORMAL_PATH);
+const _REF_BASKET = DB_BASE.collection(_BASKET_PATH);
+const _REF_PRODUCT_ARCHIVE = DB_BASE.collection(_PRODUCT_ARCHIVE_PATH);
+const _REF_IDEA_ARCHIVE = DB_BASE.collection(_IDEA_ARCHIVE_PATH);
+const _REF_ADMIN_DATA = DB_BASE.collection(_ADMIN_DATA_PATH);
 
 // this is to be set later be product and idea
 
 // Storage reference
-var _REF_BUSINESS_LOGO = STORAGE_BASE.child(_BUSINESS_LOGOS_PATH); //change me by removing test
-var _REF_PRODUCT_IMAGE = STORAGE_BASE.child(_PRODUCT_IMAGES_PATH); //change me by removing test
-var _REF_IDEA_IMAGE = STORAGE_BASE.child(_IDEA_IMAGES_PATH);
-var _REF_PROFILE_IMAGE = STORAGE_BASE.child(_PROFILE_IMAGES_PATH); //change me by removing test
-var _REF_BUSINESS_HOMEIMG = STORAGE_BASE.child(_BUSINESS_HOMEIMGS_PATH);
-var _REF_PROFILE_HOMEIMG = STORAGE_BASE.child(_PROFILE_HOMEIMGS_PATH);
+const _REF_BUSINESS_LOGO = STORAGE_BASE.child(_BUSINESS_LOGOS_PATH); // change me by removing test
+const _REF_PRODUCT_IMAGE = STORAGE_BASE.child(_PRODUCT_IMAGES_PATH); // change me by removing test
+const _REF_IDEA_IMAGE = STORAGE_BASE.child(_IDEA_IMAGES_PATH);
+const _REF_PROFILE_IMAGE = STORAGE_BASE.child(_PROFILE_IMAGES_PATH); // change me by removing test
+const _REF_BUSINESS_HOMEIMG = STORAGE_BASE.child(_BUSINESS_HOMEIMGS_PATH);
+const _REF_PROFILE_HOMEIMG = STORAGE_BASE.child(_PROFILE_HOMEIMGS_PATH);
 // We are exporting an nonymous object.
 // To import simply write:
 // import FirebaseServices from './FirebaseServices.js' (you can replace FirebaseServices with whatever you like)
@@ -208,7 +208,7 @@ export default {
     an error from DB
   */
   readDBRecord(entryType, entryId) {
-    var ref;
+    let ref;
     switch (entryType) {
       case 'product':
         ref = this.products.doc(entryId);
@@ -248,104 +248,104 @@ export default {
     }
     return ref.get()
       .then(doc => doc.data())
-      .catch(error => {
-        console.log(`FirestoreServices.readDBRecord: error reading entry of type ${entryType} with id (${entryId}) from DB`)
-        console.log(`ERROR: code: ${error.code}, message:${error.message}`)
-        throw error
+      .catch((error) => {
+        console.log(`FirestoreServices.readDBRecord: error reading entry of type ${entryType} with id (${entryId}) from DB`);
+        console.log(`ERROR: code: ${error.code}, message:${error.message}`);
+        throw error;
       });
   },
 
-  //create a professional user (i.e., business user) along with the group and business entry (but not the business details)
+  // create a professional user (i.e., business user) along with the group and business entry (but not the business details)
   // user is the object from firebase.auth.
   createProfUser(user, phoneNo, coName) {
-    var businessId = this.businesses.doc().id;
-    let group = "prof";
-    let dateCreated = Date.now();
-    let businessObj = {
+    const businessId = this.businesses.doc().id;
+    const group = 'prof';
+    const dateCreated = Date.now();
+    const businessObj = {
       owner: user.uid,
       email: user.email,
       phone: phoneNo,
-      country: "Saudi Arabia",
+      country: 'Saudi Arabia',
       businessName: coName,
-      dateCreated: dateCreated,
+      dateCreated,
       id: businessId,
-      city: "الرياض"
-    }
-    let userObj = {
-      businessId: businessId,
+      city: 'الرياض',
+    };
+    const userObj = {
+      businessId,
       uid: user.uid,
-      provider: user.providerData[0].providerId, //assuming a user has only one provider. Change me to user forEach and search using the email
+      provider: user.providerData[0].providerId, // assuming a user has only one provider. Change me to user forEach and search using the email
       email: user.email,
       // phone: phoneNo,
       name: coName,
-      dateCreated: dateCreated,
+      dateCreated,
       // country: "Saudi Arabia",
       // city: "", //we get it later on from profile
-      userGroup: group
+      userGroup: group,
     };
 
     // Get a new write batch
-    var batch = db.batch();
+    const batch = db.batch();
 
-    var profRef = this.professionals.doc(user.uid);
+    const profRef = this.professionals.doc(user.uid);
     batch.set(profRef, userObj);
 
-    var groupRef = this.groups.doc(user.uid);
-    batch.set(groupRef, { group: group });
+    const groupRef = this.groups.doc(user.uid);
+    batch.set(groupRef, { group });
 
-    var businessRef = this.businesses.doc(businessId);
+    const businessRef = this.businesses.doc(businessId);
     batch.set(businessRef, businessObj);
 
     // add user to database and to group and to business simultaniously and atomically
     return batch.commit();
   },
 
-  //create a normal user along with the group and business entry
+  // create a normal user along with the group and business entry
   // user is the object from firebase.auth.
   createNormalUser(user, phoneNo, userName) {
-    let group = "normal";
-    let dateCreated = Date.now();
-    let userObj = {
+    const group = 'normal';
+    const dateCreated = Date.now();
+    const userObj = {
       uid: user.uid,
-      provider: user.providerData[0].providerId, //assuming a user has only one provider. Change me to user forEach and search using the email
+      provider: user.providerData[0].providerId, // assuming a user has only one provider. Change me to user forEach and search using the email
       email: user.email,
       phone: phoneNo,
       name: userName,
-      dateCreated: dateCreated,
-      country: "Saudi Arabia",
-      city: "الرياض", //we get it later on from profile
-      userGroup: group
+      dateCreated,
+      country: 'Saudi Arabia',
+      city: 'الرياض', // we get it later on from profile
+      userGroup: group,
     };
 
     // Get a new write batch
-    var batch = db.batch();
+    const batch = db.batch();
 
-    var userRef = this.normalUsers.doc(user.uid);
+    const userRef = this.normalUsers.doc(user.uid);
     batch.set(userRef, userObj);
 
-    var groupRef = this.groups.doc(user.uid);
-    batch.set(groupRef, { group: group });
+    const groupRef = this.groups.doc(user.uid);
+    batch.set(groupRef, { group });
 
     // add user to database and to group simultaniously and atomically
     return batch.commit();
   },
 
-  //takes user id for a professional user
-  //returns the business id for the professional user
+  // takes user id for a professional user
+  // returns the business id for the professional user
   getProfessionalUserBusinessId(userId, handler, failHandler) {
-    console.log(userId)
+    console.log(userId);
     this.professionals.doc(userId).get().then((snapshot) => {
       handler((snapshot.data().businessId || ''));
-    }).catch((error) => { failHandler(error) });
+    }).catch((error) => { failHandler(error); });
   },
 
-  //update the profile for a professional user where new data is
-  //stored at profileData. error and success handlers are
-  //provided by form/formUpdater
+  // update the profile for a professional user where new data is
+  // stored at profileData. error and success handlers are
+  // provided by form/formUpdater
   updateProfProfileHelper(profileData, errorHandler, successHandler) {
-    console.log('FirestoreServices.updateProfProfileHelper')
+    console.log('FirestoreServices.updateProfProfileHelper');
     try {
-      var businessProfileRef = this.businesses.doc(`${profileData.id}`);
+      const businessProfileRef = this.businesses.doc(`${profileData.id}`);
       businessProfileRef
         .update({
           categories: profileData.categories,
@@ -360,31 +360,30 @@ export default {
           website: profileData.website,
           twitter: profileData.twitter,
           facebook: profileData.facebook,
-          instagram: profileData.instagram
+          instagram: profileData.instagram,
         })
         .then(() => {
-          console.log("insesrt succeeded");
+          console.log('insesrt succeeded');
           successHandler();
         })
-        .catch(error => {
-          console.log("could not insert profile");
+        .catch((error) => {
+          console.log('could not insert profile');
           console.log(profileData);
           errorHandler(error.message);
         });
-    }
-    catch (error) {
+    } catch (error) {
       errorHandler(error);
     }
   },
 
-  //update the profile for a normal user where new data is
-  //stored at profileData. error and success handlers are
-  //provided by form/formUpdater
+  // update the profile for a normal user where new data is
+  // stored at profileData. error and success handlers are
+  // provided by form/formUpdater
   normalUserProfileHelper(profileData, errorHandler, successHandler) {
-    console.log('FirestoreServices.normalUserProfileHelper')
+    console.log('FirestoreServices.normalUserProfileHelper');
 
     try {
-      var normalUserProfileRef = this.normalUsers.doc(`${profileData.id}`);
+      const normalUserProfileRef = this.normalUsers.doc(`${profileData.id}`);
       if (profileData.newImage) {
         normalUserProfileRef
           .update({
@@ -397,16 +396,16 @@ export default {
             // email: profileData.email
           })
           .then(() => {
-            console.log("insert succeeded");
+            console.log('insert succeeded');
             successHandler();
           })
-          .catch(error => {
-            console.log("could not insert profile");
+          .catch((error) => {
+            console.log('could not insert profile');
             console.log(profileData);
             errorHandler(error.message);
           });
       } else {
-        console.log(normalUserProfileRef)
+        console.log(normalUserProfileRef);
 
         normalUserProfileRef
           .update({
@@ -421,168 +420,167 @@ export default {
           .then(() => {
             console.log(profileData);
 
-            console.log("insert succeeded");
+            console.log('insert succeeded');
             successHandler();
           })
-          .catch(error => {
-            console.log("could not insert profile");
+          .catch((error) => {
+            console.log('could not insert profile');
             console.log(profileData);
             errorHandler(error.message);
           });
       }
-    }
-    catch (error) {
+    } catch (error) {
       errorHandler(error);
     }
   },
 
 
-  //upload a logo image for a professional user profile.
-  //newImage is the file object from an HTML file input.
-  //next is called after the upload is finished (usually
-  //to update the profile itself)
-  //newImage is of type Blob of File
-  //see (https://firebase.google.com/docs/reference/js/firebase.storage.Reference?authuser=0#put)
-  //see (https://developer.mozilla.org/en-US/docs/Web/API/File)
+  // upload a logo image for a professional user profile.
+  // newImage is the file object from an HTML file input.
+  // next is called after the upload is finished (usually
+  // to update the profile itself)
+  // newImage is of type Blob of File
+  // see (https://firebase.google.com/docs/reference/js/firebase.storage.Reference?authuser=0#put)
+  // see (https://developer.mozilla.org/en-US/docs/Web/API/File)
   uploadProfProfileImage(ref, uid, newImage, progressHandler, errorHandler, next) {
-    //1- upload the image of the profile.
-    //2- add the profile to the database
-    //get a reference for the image bucket (the placeholder where we will put the image into)
-    var imagesRef = ref.child(`${uid}/${Date.now() + Math.random()}`);
-    //upload the image. This is a task that will run async. Notice that it accepts a file as in
-    //browser API File (see https://developer.mozilla.org/en-US/docs/Web/API/File)
-    var metadata = {
-      contentType: newImage.type
+    // 1- upload the image of the profile.
+    // 2- add the profile to the database
+    // get a reference for the image bucket (the placeholder where we will put the image into)
+    const imagesRef = ref.child(`${uid}/${Date.now() + Math.random()}`);
+    // upload the image. This is a task that will run async. Notice that it accepts a file as in
+    // browser API File (see https://developer.mozilla.org/en-US/docs/Web/API/File)
+    const metadata = {
+      contentType: newImage.type,
     };
-    //The following will return a task that will execte async
-    var uploadTask = imagesRef.put(newImage, metadata);
+    // The following will return a task that will execte async
+    const uploadTask = imagesRef.put(newImage, metadata);
     // Register three observers:
     // 1. 'state_changed' observer, called any time the state changes
     // 2. Error observer, called on failure
     // 3. Completion observer, called on successful completion
     uploadTask.on(
-      "state_changed",
-      function (snapshot) {
+      'state_changed',
+      (snapshot) => {
         // Observe state change events such as progress, pause, and resume
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        var progress = Math.round(
-          snapshot.bytesTransferred / snapshot.totalBytes * 100
+        const progress = Math.round(
+          snapshot.bytesTransferred / snapshot.totalBytes * 100,
         );
         progressHandler(progress);
-        console.log("Upload is " + progress + "% done");
+        console.log(`Upload is ${progress}% done`);
         switch (snapshot.state) {
           case firebase.storage.TaskState.PAUSED: // or 'paused'
-            console.log("Upload is paused");
+            console.log('Upload is paused');
             break;
           case firebase.storage.TaskState.RUNNING: // or 'running'
-            console.log("Upload is running");
+            console.log('Upload is running');
             break;
         }
       },
-      error => {
+      (error) => {
         // Handle unsuccessful uploads
-        console.log("error uploading image of profile");
+        console.log('error uploading image of profile');
         console.log(error);
         // A full list of error codes is available at
         // https://firebase.google.com/docs/storage/web/handle-errors
         switch (error.code) {
-          case "storage/unauthorized":
+          case 'storage/unauthorized':
             // User doesn't have permission to access the object
             break;
 
-          case "storage/canceled":
+          case 'storage/canceled':
             // User canceled the upload
             break;
 
-          case "storage/unknown":
+          case 'storage/unknown':
             // Unknown error occurred, inspect error.serverResponse
             break;
         }
         errorHandler(error.message);
       },
-      //use arrow function so that you can access this.insertprof. See (https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback)
+      // use arrow function so that you can access this.insertprof. See (https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback)
       () => {
         // Handle successful uploads on complete
         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-        let imgUrl = uploadTask.snapshot.downloadURL;
-        console.log("upload sucessful and image URL is: " + imgUrl);
+        const imgUrl = uploadTask.snapshot.downloadURL;
+        console.log(`upload sucessful and image URL is: ${imgUrl}`);
         next(imgUrl);
 
-      }
+      },
 
-    ); //updateTask.on
+    ); // updateTask.on
   },
   uploadProfProfileHomeImage(uid, newHImage, progressHandler, errorHandler, next) {
-    //1- upload the image of the profile.
-    //2- add the profile to the database
-    //get a reference for the image bucket (the placeholder where we will put the image into)
-    var imagesRef = this.profileImages.child(`${uid}/${Date.now() + Math.random()}`);
-    //upload the image. This is a task that will run async. Notice that it accepts a file as in
-    //browser API File (see https://developer.mozilla.org/en-US/docs/Web/API/File)
-    var metadata = {
-      contentType: newHImage.type
+    // 1- upload the image of the profile.
+    // 2- add the profile to the database
+    // get a reference for the image bucket (the placeholder where we will put the image into)
+    const imagesRef = this.profileImages.child(`${uid}/${Date.now() + Math.random()}`);
+    // upload the image. This is a task that will run async. Notice that it accepts a file as in
+    // browser API File (see https://developer.mozilla.org/en-US/docs/Web/API/File)
+    const metadata = {
+      contentType: newHImage.type,
     };
-    //The following will return a task that will execte async
-    var uploadTask = imagesRef.put(newHImage, metadata);
+    // The following will return a task that will execte async
+    const uploadTask = imagesRef.put(newHImage, metadata);
     // Register three observers:
     // 1. 'state_changed' observer, called any time the state changes
     // 2. Error observer, called on failure
     // 3. Completion observer, called on successful completion
     uploadTask.on(
-      "state_changed",
-      function (snapshot) {
+      'state_changed',
+      (snapshot) => {
         // Observe state change events such as progress, pause, and resume
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        var progress = Math.round(
-          snapshot.bytesTransferred / snapshot.totalBytes * 100
+        const progress = Math.round(
+          snapshot.bytesTransferred / snapshot.totalBytes * 100,
         );
         progressHandler(progress);
-        console.log("Upload is " + progress + "% done");
+        console.log(`Upload is ${progress}% done`);
         switch (snapshot.state) {
           case firebase.storage.TaskState.PAUSED: // or 'paused'
-            console.log("Upload is paused");
+            console.log('Upload is paused');
             break;
           case firebase.storage.TaskState.RUNNING: // or 'running'
-            console.log("Upload is running");
+            console.log('Upload is running');
             break;
         }
       },
-      error => {
+      (error) => {
         // Handle unsuccessful uploads
-        console.log("error uploading image of profile");
+        console.log('error uploading image of profile');
         console.log(error);
         // A full list of error codes is available at
         // https://firebase.google.com/docs/storage/web/handle-errors
         switch (error.code) {
-          case "storage/unauthorized":
+          case 'storage/unauthorized':
             // User doesn't have permission to access the object
             break;
 
-          case "storage/canceled":
+          case 'storage/canceled':
             // User canceled the upload
             break;
 
-          case "storage/unknown":
+          case 'storage/unknown':
             // Unknown error occurred, inspect error.serverResponse
             break;
         }
         errorHandler(error.message);
       },
-      //use arrow function so that you can access this.insertprof. See (https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback)
+      // use arrow function so that you can access this.insertprof. See (https://stackoverflow.com/questions/20279484/how-to-access-the-correct-this-inside-a-callback)
       () => {
         // Handle successful uploads on complete
         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-        let homeImgUrl = uploadTask.snapshot.downloadURL;
-        console.log("upload sucessful and image URL is: " + homeImgUrl);
+        const homeImgUrl = uploadTask.snapshot.downloadURL;
+        console.log(`upload sucessful and image URL is: ${homeImgUrl}`);
         next(homeImgUrl);
 
-      }
-    ); //updateTask.on
+      },
+    ); // updateTask.on
   },
-  //Main method to update a professional profile
+  // Main method to update a professional profile
   updateProfProfile(uid, profileData, errorHandler, successHandler, progressHandler) {
-    console.log('FirebaseServices.updateProfProfile')
-    //if we have a new image then upload it
+    console.log('FirebaseServices.updateProfProfile');
+    // if we have a new image then upload it
     if (profileData.newImage) {
       this.uploadProfProfileImage(
         this.businessLogos,
@@ -591,29 +589,29 @@ export default {
         progressHandler,
         errorHandler,
         (imgUrl) => {
-          profileData.imgUrl = imgUrl
-          //update profile with new data and new image URL
+          profileData.imgUrl = imgUrl;
+          // update profile with new data and new image URL
           this.updateProfProfileHelper(
             profileData,
             errorHandler,
-            successHandler
+            successHandler,
           );
-        }
+        },
       );
     } else {
-      //no change to current image/image URL
-      //update profile with new data
+      // no change to current image/image URL
+      // update profile with new data
       this.updateProfProfileHelper(
         profileData,
         errorHandler,
-        successHandler
+        successHandler,
       );
     }
 
   },
   updateProfProfileHomeImg(uid, profileData, errorHandler, successHandler, progressHandler) {
-    console.log('FirebaseServices.updateProfProfile')
-    //if we have a new image then upload it
+    console.log('FirebaseServices.updateProfProfile');
+    // if we have a new image then upload it
     if (profileData.newHImage) {
       this.uploadProfProfileHomeImage(
         this.businessHomeImgs,
@@ -622,30 +620,30 @@ export default {
         progressHandler,
         errorHandler,
         (homeImgUrl) => {
-          profileData.homeImgUrl = homeImgUrl
-          //update profile with new data and new image URL
+          profileData.homeImgUrl = homeImgUrl;
+          // update profile with new data and new image URL
           this.updateProfProfileHelper(
             profileData,
             errorHandler,
-            successHandler
+            successHandler,
           );
-        }
+        },
       );
     } else {
-      //no change to current image/image URL
-      //update profile with new data
+      // no change to current image/image URL
+      // update profile with new data
       this.updateProfProfileHelper(
         profileData,
         errorHandler,
-        successHandler
+        successHandler,
       );
     }
   },
 
-  //Main method to update a normal user profile
+  // Main method to update a normal user profile
   updateNormalUserProfile(uid, profileData, errorHandler, successHandler, progressHandler) {
-    console.log('FirebaseServices.updateNormalProfile')
-    //if we have a new image then upload it
+    console.log('FirebaseServices.updateNormalProfile');
+    // if we have a new image then upload it
     if (profileData.newImage) {
       this.uploadProfProfileImage(
         this.profileImages,
@@ -654,30 +652,30 @@ export default {
         progressHandler,
         errorHandler,
         (imgUrl) => {
-          profileData.imgUrl = imgUrl
-          //update profile with new data and new image URL
+          profileData.imgUrl = imgUrl;
+          // update profile with new data and new image URL
           this.normalUserProfileHelper(
             profileData,
             errorHandler,
-            successHandler
+            successHandler,
           );
-        }
+        },
       );
     } else {
-      //no change to current image/image URL
-      //update profile with new data
+      // no change to current image/image URL
+      // update profile with new data
       this.normalUserProfileHelper(
         profileData,
         errorHandler,
-        successHandler
+        successHandler,
       );
     }
 
   },
 
   updateNorProfileHomeImg(uid, profileData, errorHandler, successHandler, progressHandler) {
-    console.log('FirebaseServices.updateProfProfile')
-    //if we have a new image then upload it
+    console.log('FirebaseServices.updateProfProfile');
+    // if we have a new image then upload it
     if (profileData.newHImage) {
       this.uploadProfProfileHomeImage(
         this.profileHomeImages,
@@ -686,22 +684,22 @@ export default {
         progressHandler,
         errorHandler,
         (homeImgUrl) => {
-          profileData.homeImgUrl = homeImgUrl
-          //update profile with new data and new image URL
+          profileData.homeImgUrl = homeImgUrl;
+          // update profile with new data and new image URL
           this.normalUserProfileHelper(
             profileData,
             errorHandler,
-            successHandler
+            successHandler,
           );
-        }
+        },
       );
     } else {
-      //no change to current image/image URL
-      //update profile with new data
+      // no change to current image/image URL
+      // update profile with new data
       this.normalUserProfileHelper(
         profileData,
         errorHandler,
-        successHandler
+        successHandler,
       );
     }
   },
@@ -709,14 +707,14 @@ export default {
     returns a product as a promise
   */
   getProduct(productId) {
-    return this.readDBRecord('product', productId).catch(error => {
-      console.log(`FirebaseServices.getProduct: can not read product ${productId} from DB`)
+    return this.readDBRecord('product', productId).catch((error) => {
+      console.log(`FirebaseServices.getProduct: can not read product ${productId} from DB`);
       throw error;
-    })
+    });
   },
 
   getProductRef(productId) {
-    return this.products.doc(productId)
+    return this.products.doc(productId);
   },
 
 
@@ -762,9 +760,9 @@ export default {
 
     if (typeof params === 'object' && params.length) {
       if (typeof params[0] === 'object') {
-        params.map(param => {
+        params.map((param) => {
           ref = ref.where(param[0], param[1], param[2]);
-        })
+        });
       } else {
         ref = ref.where(params[0], params[1], params[2]);
       }
@@ -772,16 +770,16 @@ export default {
 
     return ref
       .get()
-      .then(function (querySnapshot) {
-        let data_array = []
+      .then((querySnapshot) => {
+        const data_array = [];
         querySnapshot.forEach((item, i) => {
-          data_array.push(item.data())
+          data_array.push(item.data());
           return data_array;
         });
-        return data_array
+        return data_array;
       })
-      .catch(function (error) {
-        console.log("Error getting documents: ", error);
+      .catch((error) => {
+        console.log('Error getting documents: ', error);
         return false;
       });
   },
@@ -790,19 +788,19 @@ export default {
     returns an idea as a promise
   */
   getIdea(ideaId) {
-    return this.readDBRecord('idea', ideaId).catch(error => {
-      console.log(`FirebaseServices.getIdea: can not read idea ${ideaId} from DB`)
+    return this.readDBRecord('idea', ideaId).catch((error) => {
+      console.log(`FirebaseServices.getIdea: can not read idea ${ideaId} from DB`);
       throw error;
-    })
+    });
   },
 
   getIdeaRef(ideaId) {
-    return this.ideas.doc(ideaId)
+    return this.ideas.doc(ideaId);
   },
 
   saveAdminData(entryId, data) {
-    let adminRef = this.adminData.doc(entryId);
-    return adminRef.update(data).then(() => true)
+    const adminRef = this.adminData.doc(entryId);
+    return adminRef.update(data).then(() => true);
   },
   /**
    * This method is used to insert a new product into DB
@@ -815,13 +813,13 @@ export default {
     //   product = {...product, id: newProductRef.key};
     //   newProductRef.set(product).then( () => newProductRef.key);
     // })
-    var newProductRef = this.products.doc();
-    var id = newProductRef.id
-    var timestamp = firebase.firestore.FieldValue.serverTimestamp()
-    product = { ...product, id: id, timestamp: timestamp };
+    const newProductRef = this.products.doc();
+    const id = newProductRef.id;
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+    product = { ...product, id, timestamp };
     return newProductRef.set(product).then(() => id)
-      .catch(error => {
-        console.log(`error inserting product: ${product} in DB`)
+      .catch((error) => {
+        console.log(`error inserting product: ${product} in DB`);
         throw error;
       });
   },
@@ -834,7 +832,7 @@ export default {
    * returns: non-null promise containing void that resolves when update on server is complete
    */
   updateProduct(newProductData, productId) {
-    var productRef = this.getProductRef(productId);
+    const productRef = this.getProductRef(productId);
     return productRef.update(newProductData);
   },
 
@@ -844,13 +842,13 @@ export default {
     //   idea = {...product, id: newIdeaRef.key};
     //   newIdeaRef.set(idea).then( () => newIdeaRef.key);
     // })
-    var newIdeaRef = this.ideas.doc();
-    var id = newIdeaRef.id
-    var timestamp = firebase.firestore.FieldValue.serverTimestamp()
-    idea = { ...idea, id: id, timestamp: timestamp };
+    const newIdeaRef = this.ideas.doc();
+    const id = newIdeaRef.id;
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+    idea = { ...idea, id, timestamp };
     return newIdeaRef.set(idea).then(() => id)
-      .catch(error => {
-        console.log(`error inserting idea: ${idea} in DB`)
+      .catch((error) => {
+        console.log(`error inserting idea: ${idea} in DB`);
         throw error;
       });
   },
@@ -863,75 +861,75 @@ export default {
    * returns: non-null promise containing void that resolves when update on server is complete
    */
   updateIdea(newIdeaData, ideaId) {
-    var ideaRef = this.getIdeaRef(ideaId);
+    const ideaRef = this.getIdeaRef(ideaId);
     return ideaRef.update(newIdeaData);
   },
 
   uploadProductImages(newImages, viewUploadProgress, uid, productId) {
-    var i = 0;
-    //get list of upload tasks from firebase SDK (this will immediatly start upload)
-    var tasks = _.map(newImages, image => {
-      const file = image.file
-      //const imageRef = this.productImages.child(`${uid}/${Date.now() + Math.random()}`);
-      const name = `${i++}${Date.now() + Math.random()}`
+    let i = 0;
+    // get list of upload tasks from firebase SDK (this will immediatly start upload)
+    const tasks = _.map(newImages, (image) => {
+      const file = image.file;
+      // const imageRef = this.productImages.child(`${uid}/${Date.now() + Math.random()}`);
+      const name = `${i++}${Date.now() + Math.random()}`;
       const imageRef = this.productImages
         .child(`${uid}/${productId}/${name}`);
-      var task = imageRef.put(file, { contentType: file.type });
+      const task = imageRef.put(file, { contentType: file.type });
       task.name = file.name;
-      //this.selectedImg = {oldName: file.name, newName: name}
-      viewUploadProgress(0, task.name)
+      // this.selectedImg = {oldName: file.name, newName: name}
+      viewUploadProgress(0, task.name);
 
       // Register an upload task observer to observe state change events such as progress, pause, and resume
-      task.on("state_changed", snapshot => {
+      task.on('state_changed', (snapshot) => {
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        var progress = Math.round(
-          snapshot.bytesTransferred / snapshot.totalBytes * 100
+        const progress = Math.round(
+          snapshot.bytesTransferred / snapshot.totalBytes * 100,
         );
-        //update progress viewer
-        viewUploadProgress(progress, task.name)
+        // update progress viewer
+        viewUploadProgress(progress, task.name);
 
-        //additionl logging
+        // additionl logging
         console.log(
-          "Upload of file " + task.name + " is " + progress + "% done"
+          `Upload of file ${task.name} is ${progress}% done`,
         );
         switch (snapshot.state) {
           case firebase.storage.TaskState.PAUSED: // or 'paused'
-            console.log("Upload of file " + task.name + " is paused");
+            console.log(`Upload of file ${task.name} is paused`);
             break;
           case firebase.storage.TaskState.RUNNING: // or 'running'
-            console.log("Upload of  file " + task.name + " is running");
+            console.log(`Upload of  file ${task.name} is running`);
             break;
         }
       });
       return task;
     });
-    //Wait for all upload tasks to finish then obtain links (URLs) to uploaded files
+    // Wait for all upload tasks to finish then obtain links (URLs) to uploaded files
     return Promise.all(tasks)
-      .then(snapshots => {
+      .then((snapshots) => {
         const urls = snapshots.map(snapshot => snapshot.downloadURL);
-        return urls
+        return urls;
       })
-      .then(urls => {
-        var images = urls.map(imageUrl => ({ large: imageUrl }))
-        console.log(images)
+      .then((urls) => {
+        const images = urls.map(imageUrl => ({ large: imageUrl }));
+        console.log(images);
         return images;
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle unsuccessful uploads
-        console.log("error uploading file");
+        console.log('error uploading file');
         console.log(`ERROR: code: ${error.code}, message:${error.message}`);
         // A full list of error codes is available at
         // https://firebase.google.com/docs/storage/web/handle-errors
         switch (error.code) {
-          case "storage/unauthorized":
+          case 'storage/unauthorized':
             // User doesn't have permission to access the object
             break;
 
-          case "storage/canceled":
+          case 'storage/canceled':
             // User canceled the upload
             break;
 
-          case "storage/unknown":
+          case 'storage/unknown':
             // Unknown error occurred, inspect error.serverResponse
             break;
         }
@@ -948,23 +946,21 @@ export default {
   */
   addProductImages(productId, newImages, viewUploadProgress, uid) {
     return this.uploadProductImages(newImages, viewUploadProgress, uid, productId)
-      .then(images => {
-        return this.getProduct(productId)
-          .then(product => {
-            console.log("product" + product)
-            //combine new images with current images from DB into 'images' property of product
-            images = product.images ? [...images, ...product.images] : images;
-            //coverImage = images.filter( image => this.getImgNameFromURL(image.large) === this.selectedImg )
-            var productRef = this.products.doc(productId);
-            //productRef.update({images: images, coverImage: coverImage})
-            productRef.update({ images: images })
-          })
-          .catch(error => {
-            console.log(`FirebaseServices.addProductImages: error while adding product images for product ${productId}`)
-            console.log(`ERROR: code: ${error.code}, message:${error.message}`);
-            throw error
-          })
-      })
+      .then(images => this.getProduct(productId)
+        .then((product) => {
+          console.log(`product${product}`);
+          // combine new images with current images from DB into 'images' property of product
+          images = product.images ? [...images, ...product.images] : images;
+          // coverImage = images.filter( image => this.getImgNameFromURL(image.large) === this.selectedImg )
+          const productRef = this.products.doc(productId);
+          // productRef.update({images: images, coverImage: coverImage})
+          productRef.update({ images });
+        })
+        .catch((error) => {
+          console.log(`FirebaseServices.addProductImages: error while adding product images for product ${productId}`);
+          console.log(`ERROR: code: ${error.code}, message:${error.message}`);
+          throw error;
+        }));
 
   },
 
@@ -975,109 +971,108 @@ export default {
     returns: a promise reporesenting product images after deleting the given image
   */
   deleteProductImage(imageUrl, productId) {
-    console.log('FirebaseServices.deleteImage(): 1- deleting image from storage')
-    var thumbPre = "thumb_";
-    var path = imageUrl.substr(imageUrl.indexOf('%2F') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('%2F') + 3));
-    path = path.replace("%2F", "/");
-    if (path.includes("%2F")) {
-      path = path.replace("%2F", "/");
+    console.log('FirebaseServices.deleteImage(): 1- deleting image from storage');
+    const thumbPre = 'thumb_';
+    let path = imageUrl.substr(imageUrl.indexOf('%2F') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('%2F') + 3));
+    path = path.replace('%2F', '/');
+    if (path.includes('%2F')) {
+      path = path.replace('%2F', '/');
     }
-    var name = path.substr(path.lastIndexOf('/') + 1);
-    var thumbPath = path.replace(name, thumbPre + name);
+    const name = path.substr(path.lastIndexOf('/') + 1);
+    const thumbPath = path.replace(name, thumbPre + name);
 
     const thumbStoragePath = this.productImages.child(`${thumbPath}`);
     const largeStoragePath = this.productImages.child(`${path}`);
 
     this.deleteThumbnail(thumbStoragePath);
-    //delete original image "large" using url
+    // delete original image "large" using url
     return this.deleteThumbnail(largeStoragePath)
-      .then(() => {
-        return this.getProduct(productId)
-      })
+      .then(() => this.getProduct(productId))
       .then((product) => {
-        console.log('FirebaseServices.deleteImage(): 2- image deleted from storage. Start updating product')
-        var images = product.images;
-        images = images.filter(image => image.large !== imageUrl)
-        var productRef = this.getProductRef(productId)
-        return productRef.update({ images: images }).then(() => { return images });
+        console.log('FirebaseServices.deleteImage(): 2- image deleted from storage. Start updating product');
+        let images = product.images;
+        images = images.filter(image => image.large !== imageUrl);
+        const productRef = this.getProductRef(productId);
+        return productRef.update({ images }).then(() => images);
       })
-      .catch(error => {
-        console.log(`FirebaseServices.deleteImage(): can not delete image. error code: ${error.code}, error message:${error.message}`)
-        throw error
-      })
+      .catch((error) => {
+        console.log(`FirebaseServices.deleteImage(): can not delete image. error code: ${error.code}, error message:${error.message}`);
+        throw error;
+      });
   },
 
   deleteThumbnail(storagePath) {
     return storagePath.getDownloadURL().then({
       onResolve(foundURL) {
         return storagePath.delete();
-      }, onReject(error) {
+      },
+      onReject(error) {
         return (error.code);
-      }
-    })
+      },
+    });
   },
 
   uploadIdeaImages(newImages, viewUploadProgress, uid, ideaId) {
-    var i = 0;
-    //get list of upload tasks from firebase SDK (this will immediatly start upload)
-    var tasks = _.map(newImages, image => {
-      const file = image.file
+    let i = 0;
+    // get list of upload tasks from firebase SDK (this will immediatly start upload)
+    const tasks = _.map(newImages, (image) => {
+      const file = image.file;
       const imageRef = this.ideaImages
         .child(`${uid}/${ideaId}/${i++}${Date.now() + Math.random()}`);
-      var task = imageRef.put(file, { contentType: file.type });
+      const task = imageRef.put(file, { contentType: file.type });
       task.name = file.name;
-      viewUploadProgress(0, task.name)
+      viewUploadProgress(0, task.name);
 
       // Register an upload task observer to observe state change events such as progress, pause, and resume
-      task.on("state_changed", snapshot => {
+      task.on('state_changed', (snapshot) => {
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        var progress = Math.round(
-          snapshot.bytesTransferred / snapshot.totalBytes * 100
+        const progress = Math.round(
+          snapshot.bytesTransferred / snapshot.totalBytes * 100,
         );
-        //update progress viewer
-        viewUploadProgress(progress, task.name)
+        // update progress viewer
+        viewUploadProgress(progress, task.name);
 
-        //additionl logging
+        // additionl logging
         console.log(
-          "Upload of file " + task.name + " is " + progress + "% done"
+          `Upload of file ${task.name} is ${progress}% done`,
         );
         switch (snapshot.state) {
           case firebase.storage.TaskState.PAUSED: // or 'paused'
-            console.log("Upload of file " + task.name + " is paused");
+            console.log(`Upload of file ${task.name} is paused`);
             break;
           case firebase.storage.TaskState.RUNNING: // or 'running'
-            console.log("Upload of  file " + task.name + " is running");
+            console.log(`Upload of  file ${task.name} is running`);
             break;
         }
       });
       return task;
     });
-    //Wait for all upload tasks to finish then obtain links (URLs) to uploaded files
+    // Wait for all upload tasks to finish then obtain links (URLs) to uploaded files
     return Promise.all(tasks)
-      .then(snapshots => {
+      .then((snapshots) => {
         const urls = snapshots.map(snapshot => snapshot.downloadURL);
-        return urls
+        return urls;
       })
-      .then(urls => {
-        var images = urls.map(imageUrl => ({ large: imageUrl }))
+      .then((urls) => {
+        const images = urls.map(imageUrl => ({ large: imageUrl }));
         return images;
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle unsuccessful uploads
-        console.log("error uploading file");
+        console.log('error uploading file');
         console.log(`ERROR: code: ${error.code}, message:${error.message}`);
         // A full list of error codes is available at
         // https://firebase.google.com/docs/storage/web/handle-errors
         switch (error.code) {
-          case "storage/unauthorized":
+          case 'storage/unauthorized':
             // User doesn't have permission to access the object
             break;
 
-          case "storage/canceled":
+          case 'storage/canceled':
             // User canceled the upload
             break;
 
-          case "storage/unknown":
+          case 'storage/unknown':
             // Unknown error occurred, inspect error.serverResponse
             break;
         }
@@ -1094,65 +1089,61 @@ export default {
   */
   addIdeaImages(ideaId, newImages, viewUploadProgress, uid) {
     return this.uploadIdeaImages(newImages, viewUploadProgress, uid, ideaId)
-      .then(images => {
-        return this.getIdea(ideaId)
-          .then(idea => {
-            //combine new images with current images from DB into 'images' property of idea
-            images = idea.images ? [...images, ...idea.images] : images;
-            var ideaRef = this.ideas.doc(ideaId);
-            ideaRef.update({ images: images })
-          })
-          .catch(error => {
-            console.log(`FirebaseServices.addIdeaImages: error while adding idea images for idea ${ideaId}`)
-            console.log(`ERROR: code: ${error.code}, message:${error.message}`);
-            throw error
-          })
-      })
+      .then(images => this.getIdea(ideaId)
+        .then((idea) => {
+          // combine new images with current images from DB into 'images' property of idea
+          images = idea.images ? [...images, ...idea.images] : images;
+          const ideaRef = this.ideas.doc(ideaId);
+          ideaRef.update({ images });
+        })
+        .catch((error) => {
+          console.log(`FirebaseServices.addIdeaImages: error while adding idea images for idea ${ideaId}`);
+          console.log(`ERROR: code: ${error.code}, message:${error.message}`);
+          throw error;
+        }));
 
   },
 
   deleteIdeaImage(imageUrl, ideaId) {
-    console.log('FirebaseServices.deleteImage(): 1- deleting image from storage')
-    var thumbPre = "thumb_";
-    var path = imageUrl.substr(imageUrl.indexOf('%2F') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('%2F') + 3));
-    path = path.replace("%2F", "/");
-    if (path.includes("%2F")) {
-      path = path.replace("%2F", "/");
+    console.log('FirebaseServices.deleteImage(): 1- deleting image from storage');
+    const thumbPre = 'thumb_';
+    let path = imageUrl.substr(imageUrl.indexOf('%2F') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('%2F') + 3));
+    path = path.replace('%2F', '/');
+    if (path.includes('%2F')) {
+      path = path.replace('%2F', '/');
     }
-    var name = path.substr(path.lastIndexOf('/') + 1);
-    var thumbPath = path.replace(name, thumbPre + name);
+    const name = path.substr(path.lastIndexOf('/') + 1);
+    const thumbPath = path.replace(name, thumbPre + name);
 
     const thumbStoragePath = this.ideaImages.child(`${thumbPath}`);
     const largeStoragePath = this.ideaImages.child(`${path}`);
-    //storagePath.delete();
+    // storagePath.delete();
     this.deleteThumbnail(thumbStoragePath);
-    //delete original image "large" using url
+    // delete original image "large" using url
     return this.deleteThumbnail(largeStoragePath)
 
-      //return storage.refFromURL(imageUrl).delete()
-      .then(() => {
-        return this.getIdea(ideaId)
-      })
+      // return storage.refFromURL(imageUrl).delete()
+      .then(() => this.getIdea(ideaId))
       .then((idea) => {
-        console.log('FirebaseServices.deleteImage(): 2- image deleted from storage. Start updating idea')
-        var images = idea.images;
-        images = images.filter(image => image.large !== imageUrl)
-        var ideaRef = this.getIdeaRef(ideaId)
-        return ideaRef.update({ images: images }).then(() => { return images });
+        console.log('FirebaseServices.deleteImage(): 2- image deleted from storage. Start updating idea');
+        let images = idea.images;
+        images = images.filter(image => image.large !== imageUrl);
+        const ideaRef = this.getIdeaRef(ideaId);
+        return ideaRef.update({ images }).then(() => images);
       })
-      .catch(error => {
-        console.log(`FirebaseServices.deleteImage(): can not delete image. error code: ${error.code}, error message:${error.message}`)
-        throw error
-      })
+      .catch((error) => {
+        console.log(`FirebaseServices.deleteImage(): can not delete image. error code: ${error.code}, error message:${error.message}`);
+        throw error;
+      });
   },
 
   getImgNameFromURL(imageUrl) {
-    var path = imageUrl.substr(imageUrl.indexOf('%2F') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('%2F') + 3));
-    path = path.replace("%2F", "/");
-    if (path.includes("%2F")) {
-      path = path.replace("%2F", "/");
+    let path = imageUrl.substr(imageUrl.indexOf('%2F') + 3, (imageUrl.indexOf('?')) - (imageUrl.indexOf('%2F') + 3));
+    path = path.replace('%2F', '/');
+    if (path.includes('%2F')) {
+      path = path.replace('%2F', '/');
     }
-    var name = path.substr(path.lastIndexOf('/') + 1);
+    const name = path.substr(path.lastIndexOf('/') + 1);
     return name;
   },
 
@@ -1160,14 +1151,14 @@ export default {
     returns a basket as a promise
   */
   getBasket(userId) {
-    return this.readDBRecord('basket', userId).catch(error => {
-      console.log(`FirebaseServices.getBasket: can not read idea ${userId} from DB`)
+    return this.readDBRecord('basket', userId).catch((error) => {
+      console.log(`FirebaseServices.getBasket: can not read idea ${userId} from DB`);
       throw error;
-    })
+    });
   },
 
   getBasketRef(userId) {
-    return this.basket.doc(userId)
+    return this.basket.doc(userId);
   },
 
   // This method will
@@ -1178,77 +1169,71 @@ export default {
   // NOTE: images in the storage will not be affected
   deleteProduct(productId) {
 
-    var promises = [];
-    promises.push(FirebaseServices.deleteProductFromBaskets(productId))
-    promises.push(FirebaseServices.deleteLikesForProduct(productId))
+    const promises = [];
+    promises.push(FirebaseServices.deleteProductFromBaskets(productId));
+    promises.push(FirebaseServices.deleteLikesForProduct(productId));
 
-    var productRef = this.getProductRef(productId);
-    var productNewRef = this.productsArchive.doc(productId);
+    const productRef = this.getProductRef(productId);
+    const productNewRef = this.productsArchive.doc(productId);
 
-    return Promise.all(promises).then(function () {
-      return db.runTransaction((transaction) => {
-        return transaction.get(productRef)
-          .then((doc) => {
-            console.log("Product detailes - transaction()");
-            if (doc.exists) {
-              console.log("Product found");
-              console.log(doc.data());
-              var product = doc.data();
-              var timestamp = firebase.firestore.FieldValue.serverTimestamp()
-              product = { ...product, dateDeleted: timestamp };
-              transaction.set(productNewRef, product);
-            }
-          })
-          .then(() => {
-            transaction.delete(productRef);
-          })
-        //return post;
-      });
-    });
+    return Promise.all(promises).then(() => db.runTransaction(transaction =>
+      transaction.get(productRef)
+        .then((doc) => {
+          console.log('Product detailes - transaction()');
+          if (doc.exists) {
+            console.log('Product found');
+            console.log(doc.data());
+            let product = doc.data();
+            const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+            product = { ...product, dateDeleted: timestamp };
+            transaction.set(productNewRef, product);
+          }
+        })
+        .then(() => {
+          transaction.delete(productRef);
+        }),
+      // return post;
+    ));
 
   },
 
   copyProduct() {
 
-    var productRef = this.getProductRef("Q680nz6mpVhA35XwDLRW");
-    productRef.get().then(doc => {
-      var product = doc.data();
-      var newProductRef = this.products.doc();
-      var id = newProductRef.id
-      var productNewRef = this.products.doc(id);
-      product = { ...product, id: id };
-      newProductRef.set(product).then(() => id)
-    })
+    const productRef = this.getProductRef('Q680nz6mpVhA35XwDLRW');
+    productRef.get().then((doc) => {
+      let product = doc.data();
+      const newProductRef = this.products.doc();
+      const id = newProductRef.id;
+      const productNewRef = this.products.doc(id);
+      product = { ...product, id };
+      newProductRef.set(product).then(() => id);
+    });
 
   },
 
   deleteIdea(ideaId) {
 
-    var promises = [];
-    promises.push(FirebaseServices.deleteLikesForIdea(ideaId))
+    const promises = [];
+    promises.push(FirebaseServices.deleteLikesForIdea(ideaId));
 
-    var ideaRef = this.getIdeaRef(ideaId);
-    var ideaNewRef = this.ideasArchive.doc(ideaId);
+    const ideaRef = this.getIdeaRef(ideaId);
+    const ideaNewRef = this.ideasArchive.doc(ideaId);
 
-    return Promise.all(promises).then(function () {
-      return db.runTransaction((transaction) => {
-        return transaction.get(ideaRef)
-          .then((doc) => {
-            console.log("idea detailes - transaction()");
-            if (doc.exists) {
-              console.log("idea found");
-              console.log(doc.data());
-              var idea = doc.data();
-              var timestamp = firebase.firestore.FieldValue.serverTimestamp()
-              idea = { ...idea, dateDeleted: timestamp };
-              transaction.set(ideaNewRef, idea);
-            }
-          })
-          .then(() => {
-            transaction.delete(ideaRef);
-          })
-      });
-    });
+    return Promise.all(promises).then(() => db.runTransaction(transaction => transaction.get(ideaRef)
+      .then((doc) => {
+        console.log('idea detailes - transaction()');
+        if (doc.exists) {
+          console.log('idea found');
+          console.log(doc.data());
+          let idea = doc.data();
+          const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+          idea = { ...idea, dateDeleted: timestamp };
+          transaction.set(ideaNewRef, idea);
+        }
+      })
+      .then(() => {
+        transaction.delete(ideaRef);
+      })));
 
   },
 
@@ -1290,13 +1275,13 @@ export default {
   // },
   //
   copyImages() {
-    this.products.get().then(docs => {
-      docs.forEach(doc => {
-        var p = '' + doc.data().price
-        this.products.doc(doc.id).update({ price: p })
-      })
-    })
-  }
+    this.products.get().then((docs) => {
+      docs.forEach((doc) => {
+        const p = `${doc.data().price}`;
+        this.products.doc(doc.id).update({ price: p });
+      });
+    });
+  },
   /**
    * This method is used to insert a new item into basket into DB
    */

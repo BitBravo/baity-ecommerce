@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Col, Row, Carousel, Grid } from "react-bootstrap";
-import IdeaList from './IdeaList';
+import IdeaList from './IdeaList/IdeaList';
 import styled from 'styled-components'
-import bedroom from '../assets/img/bedroom.jpg';
-import livingroom from '../assets/img/livingroom.jpg';
-import CaroselImg from '../assets/img/CaroselImg.jpg';
+import bedroom from 'assets/img/bedroom.jpg';
+import livingroom from 'assets/img/livingroom.jpg';
+import CaroselImg from 'assets/img/CaroselImg.jpg';
 
 const PreviewImg = styled.img`
   width: 100%;

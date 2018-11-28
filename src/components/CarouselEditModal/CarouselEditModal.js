@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { Row, Col } from "react-bootstrap";
-import FirestoreServices from 'services/FirestoreServices'
+import React, { Component } from 'react';
+import { Row, Col } from 'react-bootstrap';
+import FirestoreServices from 'services/FirestoreServices';
 import { FaFileImageO, FaRecycle } from 'react-icons/lib/fa';
 
-import './styles.css'
+import './styles.css';
 
 
 export class CarouselEditModal extends Component {
@@ -13,15 +13,19 @@ export class CarouselEditModal extends Component {
       carouselItems: [],
       modalFlag: false,
     };
+    this.dataChange = this.dataChange.bind(this);
+    this.modalShow = this.modalShow.bind(this);
+    this.clearAction = this.clearAction.bind(this);
+    this.importAction = this.importAction.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     console.log(nextProps.items);
-    this.setState({ carouselItems: nextProps.items })
+    this.setState({ carouselItems: nextProps.items });
   }
 
-  dataChange = (e, index) => {
-    let { carouselItems } = this.state;
+  dataChange(e, index) {
+    const { carouselItems } = this.state;
 
     if (!carouselItems[index]) {
       carouselItems[index] = { image: '', productId: '' };
@@ -30,15 +34,15 @@ export class CarouselEditModal extends Component {
     this.setState({ carouselItems });
   }
 
-  modalShow = () => {
+  modalShow() {
     const { modalFlag } = this.state;
     if (modalFlag) this.setState({ modalFlag: false });
     else this.setState({ modalFlag: true });
   }
 
-  clearAction = (i) => {
-    console.log(i)
-    let { carouselItems } = this.state;
+  clearAction(i) {
+    console.log(i);
+    const { carouselItems } = this.state;
     if (carouselItems[i]) {
       carouselItems[i].image = '';
       carouselItems[i].productId = '';
@@ -46,39 +50,39 @@ export class CarouselEditModal extends Component {
     }
   }
 
-  importAction = (event, index) => {
-    // const fileURL = URL.createObjectURL(event.target.files[0])
-    console.log(event, index);
-  }
-
-  saveFormData = (e) => {
+  saveFormData() {
     let { carouselItems } = this.state;
-    let errorFlag = carouselItems.find((item, index) => {
+    const errorFlag = carouselItems.find((item, index) => {
       if (item.productId && !item.image) {
         alert(`Please add the ${index + 1}th Carousel Image`);
         return true;
       }
-    })
+    });
 
     if (errorFlag) return;
-    carouselItems = carouselItems.filter((item) => item.image !== '');
+    carouselItems = carouselItems.filter(item => item.image !== '');
 
-    let data = {};
+    const data = {};
     data.carousel = carouselItems;
     FirestoreServices.saveAdminData('logo', data).then((res) => {
       if (res) {
-        this.props.onUpdate()
+        this.props.onUpdate();
         // this.setState({
         //   modalFlag: false,
         // });
       }
-    })
+    });
+  }
+
+  importAction(event, index) {
+    // const fileURL = URL.createObjectURL(event.target.files[0])
+    console.log(event, index);
   }
 
   render() {
     const emptyData = [1, 2, 3, 4, 5];
     const data = this.state.carouselItems;
-    console.log(data)
+    console.log(data);
     return (
       <Row>
 
@@ -98,21 +102,21 @@ export class CarouselEditModal extends Component {
 
           <FaRecycle />
           {this.state.modalFlag ?
-            <div className="carousel-modal-content" ref={el => this.curouselForm = el} key={1}>
+            <div className="carousel-modal-content" ref={(el) => { this.curouselForm = el; }} key={1}>
               {
                 emptyData.map((item, index) => (
                   <Row key={index}>
                     <Col className="line-number" md={1}>{index + 1}</Col>
-                    <Col className="imageInfo" md={4}><input type="text" placeholder='Add photo' name='image' value={data[index] ? data[index].image : ''} onChange={(e) => this.dataChange(e, index)}></input></Col>
-                    <Col className="productId" md={3}><input type="text" placeholder='Enter product id' name='productId' value={data[index] ? data[index].productId : ''} onChange={(e) => this.dataChange(e, index)}></input></Col>
+                    <Col className="imageInfo" md={4}><input type="text" placeholder="Add photo" name="image" value={data[index] ? data[index].image : ''} onChange={e => this.dataChange(e, index)} /></Col>
+                    <Col className="productId" md={3}><input type="text" placeholder="Enter product id" name="productId" value={data[index] ? data[index].productId : ''} onChange={e => this.dataChange(e, index)} /></Col>
                     {/* <Col md={2}><button onClick={this.getValue} onClick={(e) => this.importAction(index)}>Import</button></Col> */}
-                    <Col md={2} onClick={(e) => this.importAction(null, index)}>
+                    <Col md={2} onClick={e => this.importAction(e, index)} >
                       <input type="file" name={index} id="file" className="inputfile" onChange={this.importAction} />
                       <label htmlFor="file">
                         Import
                       </label>
                     </Col>
-                    <Col md={2}><button onClick={(e) => this.clearAction(index)}>Clear</button></Col>
+                    <Col md={2}><button onClick={e => this.clearAction(index)}>Clear</button></Col>
                   </Row>
                 ))
               }

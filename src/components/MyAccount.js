@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ProductList from "./ProductList";
-import IdeaList from "./IdeaList";
+import IdeaList from "./IdeaList/IdeaList";
 import ProfileInfo from "./ProfileInfo";
 import NormalProfileInfo from "./NormalProfileInfo";
 import FavProducts from "./FavProducts";

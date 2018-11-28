@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { Grid, Modal, Col, Row } from "react-bootstrap"
 import { LinkContainer } from "react-router-bootstrap";
 import { Link } from "react-router-dom";
-import { base } from "../base";
+import { base } from "config/base";
 import FirestoreServices from 'services/FirestoreServices'
-import CaroselImg from '../assets/img/CaroselImg.jpg';
+import CaroselImg from 'assets/img/CaroselImg.jpg';
 import styled from 'styled-components'
-import logo_placeholder from '../assets/img/logo-placeholder.jpg';
-import webicon from '../assets/img/webicon.png';
+import logo_placeholder from 'assets/img/logo-placeholder.jpg';
+import webicon from 'assets/img/webicon.png';
 import { TiSocialTwitter, TiSocialInstagram, TiSocialFacebook, TiPhoneOutline } from 'react-icons/lib/ti';
 import { MdSettings } from 'react-icons/lib/md';
 import { GoSignOut } from 'react-icons/lib/go';

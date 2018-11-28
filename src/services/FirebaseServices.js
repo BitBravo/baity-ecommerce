@@ -1,4 +1,4 @@
-import { database, storage } from "../base";
+import { database, storage } from "config/base";
 import firebase from "firebase";
 import _ from 'lodash'
 

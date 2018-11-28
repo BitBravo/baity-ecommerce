@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { app, base } from "../base";
+import { app, base } from "config/base";
 import { Image, Col, Thumbnail, Button, Card, Row } from "react-bootstrap";
 import Equalizer from "react-equalizer";
 import styled from 'styled-components'
 import { MdEventSeat } from 'react-icons/lib/md';
-import Product from '../assets/img/Selected-product.png';
+import Product from 'assets/img/Selected-product.png';
 
 const TagDiv = styled.span`
 position: absolute;

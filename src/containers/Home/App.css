@@ -1,0 +1,11 @@
+.publish-layout {
+  /* direction: rtl; */
+}
+
+.publish-layout .navbar .navbar-nav {
+  height: 50px;
+}
+
+.publish-layout .loginreg {
+  margin-top: 100px;
+}

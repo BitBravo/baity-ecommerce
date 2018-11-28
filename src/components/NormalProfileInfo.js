@@ -3,9 +3,9 @@ import { Grid, Col, Row } from "react-bootstrap"
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import FirestoreServices from 'services/FirestoreServices';
-import CaroselImg from '../assets/img/CaroselImg.jpg';
+import CaroselImg from 'assets/img/CaroselImg.jpg';
 import styled from 'styled-components'
-import logo_placeholder from '../assets/img/logo-placeholder.jpg';
+import logo_placeholder from 'assets/img/logo-placeholder.jpg';
 import { TiSocialTwitter, TiSocialInstagram, TiSocialFacebook } from 'react-icons/lib/ti';
 import { MdSettings } from 'react-icons/lib/md';
 import { GoSignOut } from 'react-icons/lib/go';

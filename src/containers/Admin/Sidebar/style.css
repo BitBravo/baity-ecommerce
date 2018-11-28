@@ -1,0 +1,53 @@
+.admin-layout .sidebar {
+  /* margin-top: 81px !important; */
+  top: unset !important;
+}
+
+.admin-layout .sidebar .nav {
+  margin-top: 0px;
+  padding-right: 0;
+}
+
+.admin-layout .sidebar-wrapper {
+  background-color: #00a395;
+}
+
+.admin-layout .sidebar .nav li:hover {
+  background-color: black !important;
+  opacity: 0.4;
+}
+
+.admin-layout .sidebar .nav .active {
+  background-color: #484848ad !important;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+.admin-layout .sidebar .nav p {
+  margin: 0;
+  padding-right: 0;
+  line-height: 30px;
+  font-weight: 600;
+  color: white;
+  font-size: 21px;
+  text-transform: unset;
+  font-family: coolvetica;
+  text-align: left;
+}
+
+.admin-layout .sidebar .nav li a {
+  padding-left: 30px;
+}
+
+.admin-layout .nav>li>a:hover,
+.admin-layout .nav>li>a:focus {
+  text-decoration: none;
+  background-color: transparent;
+}
+
+.admin-layout .sidebar .nav li>a {
+  color: #FFFFFF;
+  margin: 0px;
+  opacity: .86;
+  border-radius: 4px;
+}

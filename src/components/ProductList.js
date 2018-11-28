@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Grid, Row, Col } from "react-bootstrap";
-import { app, base } from "../base";
+import { app, base } from "config/base";
 import FirestoreServices from 'services/FirestoreServices'
 import FirestorePaginator from 'services/FirestorePaginator'
 import ProductBrief from "./ProductBrief";
-import Loading from './Loading'
+import Loading from 'commons/Loading'
 import styled from 'styled-components'
 import InfiniteScroll from 'react-infinite-scroll-component';
-import Product from '../assets/img/AddingProduct.png';
+import Product from 'assets/img/AddingProduct.png';
 
 const IconImg = styled.img`
 width:20px;

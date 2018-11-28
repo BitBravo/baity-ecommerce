@@ -12,10 +12,10 @@ import {
   Row,
   Col
 } from "react-bootstrap";
-import Loading from "./Loading";
+import Loading from "commons/Loading";
 import FormUtils from './FormUtils'
-import bayty_icon from '../assets/img/bayty_icon1.png';
-import logo_placeholder from '../assets/img/logo-placeholder.jpg';
+import bayty_icon from 'assets/img/bayty_icon1.png';
+import logo_placeholder from 'assets/img/logo-placeholder.jpg';
 import styled from 'styled-components';
 
 

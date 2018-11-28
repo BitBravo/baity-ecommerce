@@ -1,29 +1,26 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import CarouselMenu from 'commons/CarouselMenu';
-import FirestoreServices from 'services/FirestoreServices'
+import FirestoreServices from 'services/FirestoreServices';
 
-import './styles.css'
+import './styles.css';
 
 export class ItemDiscovery extends Component {
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
-      items: []
+      items: [],
     };
+    this.getDiscoveryData = this.getDiscoveryData.bind(this);
   }
 
   componentWillMount() {
     this.getDiscoveryData();
   }
 
-  getDiscoveryData = () => {
-    // FirestoreServices.getDataQuery(this.props.collection)
-    //   .then(items => {
-    //     this.setState({ items })
-    //   });
+  getDiscoveryData() {
     FirestoreServices.readDBRecord('admin', 'product-discovery')
-      .then(items => {
-        this.setState({ items: items.discoveryList })
+      .then((items) => {
+        this.setState({ items: items.discoveryList });
       });
   }
 

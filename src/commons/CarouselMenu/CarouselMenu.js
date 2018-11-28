@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Slider from "react-slick";
-import { Link } from "react-router-dom";
-import FirestoreServices from 'services/FirestoreServices'
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { Row, Col } from "react-bootstrap";
+import Slider from 'react-slick';
+import { Link } from 'react-router-dom';
+import FirestoreServices from 'services/FirestoreServices';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import { Row, Col } from 'react-bootstrap';
 
 import './styles.css';
 
@@ -18,69 +18,73 @@ export default class CarouselMenu extends Component {
       editModalFalg: false,
       modalStatus: {},
       modalLeft: '200px',
-    }
+    };
+
+    this.editDiscovery = this.editDiscovery.bind(this);
+    this.onEditModal = this.onEditModal.bind(this);
+    this.onSaveAction = this.onSaveAction.bind(this);
+    this.onChangeAction = this.onChangeAction.bind(this);
+  }
+
+  componentWillMount() {
+    FirestoreServices.readDBRecord('product-specification', 'filters')
+      .then(filters => this.setState({ filters: filters.department }));
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps === this.state.oldProps) {
       this.loadFlag = true;
     } else {
-      this.setState({ oldProps: nextProps })
+      this.setState({ oldProps: nextProps });
       this.loadFlag = false;
     }
   }
 
   shouldComponentUpdate() {
     if (this.loadFlag) return false;
-    else return true;
+    return true;
   }
 
-  componentWillMount() {
-    FirestoreServices.readDBRecord('product-specification', 'filters')
-      .then(filters => this.setState({ filters: filters.department }))
-  }
-
-  editDiscovery = (e, index) => {
-    const leftMargin = e.target.getClientRects()[0].left - 400;
-    let modalStatus = {};
-    const { items } = this.state.oldProps;
-    modalStatus.departmentId = items ? items[index].departmentId : 'None';
-    modalStatus.image = items ? items[index].image : 'None';
-    modalStatus.selectedId = index;
-    this.setState({ editModalFalg: true, modalLeft: `${leftMargin}px`, modalStatus });
-  }
-
-  onEditModal = (e) => {
+  onEditModal(e) {
     const { modalStatus } = this.state;
     if (e.target.name === 'dapartment') {
       modalStatus.departmentId = e.target.value;
-    }
-    else {
+    } else {
       modalStatus.image = e.target.value;
     }
-    this.setState({ modalStatus })
+    this.setState({ modalStatus });
   }
 
-  onSaveAction = () => {
-    let resultData = {};
-    let itemDatas = this.state.oldProps.items;
+  onSaveAction() {
+    const resultData = {};
+    const itemDatas = this.state.oldProps.items;
     const { modalStatus } = this.state;
 
-    let otherRows = itemDatas.filter(item => item.departmentId !== this.state.modalStatus.departmentId) || [];
+    const otherRows = itemDatas.filter(item => item.departmentId !== this.state.modalStatus.departmentId) || [];
     otherRows.push(modalStatus);
-    resultData['discoveryList'] = otherRows;
+    resultData.discoveryList = otherRows;
 
     FirestoreServices.saveAdminData('product-discovery', resultData).then((res) => {
       if (res) {
         this.props.onRefresh();
       }
-    })
+    });
     this.setState({ editModalFalg: false });
   }
 
-  onChangeAction = () => {
-    console.log('onChangeAction')
+  onChangeAction() {
+    console.log('onChangeAction');
     this.setState({ editModalFalg: false });
+  }
+
+  editDiscovery(e, index) {
+    const leftMargin = e.target.getClientRects()[0].left - 400;
+    const modalStatus = {};
+    const { items } = this.state.oldProps;
+    modalStatus.departmentId = items ? items[index].departmentId : 'None';
+    modalStatus.image = items ? items[index].image : 'None';
+    modalStatus.selectedId = index;
+    this.setState({ editModalFalg: true, modalLeft: `${leftMargin}px`, modalStatus });
   }
 
   render() {
@@ -101,59 +105,58 @@ export default class CarouselMenu extends Component {
           settings: {
             slidesToShow: 4,
             slidesToScroll: 1,
-          }
+          },
         },
         {
           breakpoint: 800,
           settings: {
             slidesToShow: 3,
             slidesToScroll: 1,
-          }
+          },
         },
         {
           breakpoint: 600,
           settings: {
             slidesToShow: 2,
             slidesToScroll: 1,
-          }
+          },
         },
         {
           breakpoint: 480,
           settings: {
             slidesToShow: 1,
-            slidesToScroll: 1
-          }
-        }
-      ]
+            slidesToScroll: 1,
+          },
+        },
+      ],
     };
-    let { items, title } = this.state.oldProps || { items: [] };
+    const { items, title } = this.state.oldProps || { items: [] };
     const itemTitleClassName = title === 'اختر منتجات منزلك' ? 'gray-center' : 'white-right';
     const departments = this.state.filters;
     // console.log(items)
     return (
       <div className="item-discovery-session">
-        <div className='carousel-title-container'>
-          <p className='carousel-title'>{title}</p>
+        <div className="carousel-title-container">
+          <p className="carousel-title">{title}</p>
         </div>
         <Slider {...settings}>
           {
             departments ?
               departments.map((department, index) => (
-                <div className='carousel-item' key={department}>
+                <div className="carousel-item" key={department}>
                   <Link to={`/productspage/${items[index] ? items[index].departmentId : department}`}>
                     <div
                       style={{
                         background: `url(${items[index] ? items[index].image : 'none'})`,
-                        backgroundSize: "cover",
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "center center"
+                        backgroundSize: 'cover',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center center',
                       }}
-                    >
-                    </div>
+                    />
                     <p className={itemTitleClassName}>{items[index] ? items[index].departmentId : department}</p>
                   </Link>
                   <div className="editBtn-area">
-                    <button className="editBtn" onClick={(e) => { this.editDiscovery(e, index) }}>
+                    <button className="editBtn" onClick={(e) => { this.editDiscovery(e, index); }}>
                       Edit
                     </button>
                   </div>
@@ -166,12 +169,12 @@ export default class CarouselMenu extends Component {
         {this.state.editModalFalg ?
           <div className="item-discovery-edit-modal" style={{ left: this.state.modalLeft }}>
             <div className="departmentList">
-              <select name='dapartment' value={this.state.modalStatus.departmentId} onChange={this.onEditModal}>
-                <option value='None'>None</option>
+              <select name="dapartment" value={this.state.modalStatus.departmentId} onChange={this.onEditModal}>
+                <option value="None">None</option>
                 {
                   departments ?
                     departments.map(department =>
-                      <option value={department} key={department}>{department}</option>
+                      <option value={department} key={department}>{department}</option>,
                     )
                     :
                     ''
@@ -180,7 +183,7 @@ export default class CarouselMenu extends Component {
               </select>
             </div>
             <div className="imageInfo">
-              <input type="text" name='image' value={this.state.modalStatus.image} onChange={this.onEditModal}></input>
+              <input type="text" name="image" value={this.state.modalStatus.image} onChange={this.onEditModal} />
             </div>
             <div className="toolbar">
               <Col md={5} mdOffset={1}>

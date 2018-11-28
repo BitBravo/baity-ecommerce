@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { Carousel } from "react-bootstrap";
-import { LinkContainer } from "react-router-bootstrap";
+import React, { Component } from 'react';
+import { Carousel } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import bedroom from 'assets/img/bedroom.jpg';
-import FirestoreServices from 'services/FirestoreServices'
-import styled from 'styled-components'
-import CarouselEditModal from 'components/CarouselEditModal'
-import './styles.css'
+import FirestoreServices from 'services/FirestoreServices';
+import styled from 'styled-components';
+import CarouselEditModal from 'components/CarouselEditModal';
+import './styles.css';
 
 
 const PreviewImg = styled.img`
@@ -34,7 +34,6 @@ const ImageContainer = styled.div`
 width: 100%;
 height: 100%;
 height:395px;
-
 `;
 const Button = styled.button`
 width:30%;
@@ -47,35 +46,34 @@ height:40px;
 font-size: 25px;
 margin-top:20px;
 }
-`
+`;
 export class CarouselBanner extends Component {
   constructor() {
     super();
     this.state = {
-      carouselItems: []
+      carouselItems: [],
     };
-  }
-
-  getCarouselData() {
-    FirestoreServices.readDBRecord('admin', 'logo').then(items => {
-      items.carousel.map((item, index) => {
-        if (item.productId) {
-          FirestoreServices.readDBRecord('product', item.productId)
-            .then((product) => {
-              items.carousel[index].owner = product.owner;
-            })
-            .catch((err) => items.carousel[index].owner = null)
-        }
-      })
-      this.setState({ carouselItems: items.carousel })
-      console.log(items)
-    });
   }
 
   componentWillMount() {
     this.getCarouselData();
   }
 
+  getCarouselData() {
+    FirestoreServices.readDBRecord('admin', 'logo').then((items) => {
+      items.carousel.map((item, index) => {
+        if (item.productId) {
+          FirestoreServices.readDBRecord('product', item.productId)
+            .then((product) => {
+              items.carousel[index].owner = product.owner;
+            })
+            .catch((err) => { items.carousel[index].owner = null; });
+        }
+      });
+      this.setState({ carouselItems: items.carousel });
+      console.log(items);
+    });
+  }
 
   render() {
     return (
@@ -86,31 +84,29 @@ export class CarouselBanner extends Component {
           interval={5000}
         >
           {
-            this.state.carouselItems.map((item, index) => {
-              return (
-                <Carousel.Item key={index}>
-                  <LinkContainer to={`/${item.owner}/products/${item.productId}` || '/#'}>
-                    <div>
-                      <ImageContainer>
-                        <ImageDiv>
-                          <PreviewImg src={item.image || bedroom} />
-                        </ImageDiv>
-                      </ImageContainer>
-                      <Carousel.Caption className="hero">
-                        <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
-                        <LinkContainer to='/registration'>
-                          <Button>إبدأ معنا</Button>
-                        </LinkContainer>
-                      </Carousel.Caption>
-                    </div>
-                  </LinkContainer>
+            this.state.carouselItems.map((item, index) => (
+              <Carousel.Item key={index}>
+                <LinkContainer to={`/${item.owner}/products/${item.productId}` || '/#'}>
+                  <div>
+                    <ImageContainer>
+                      <ImageDiv>
+                        <PreviewImg src={item.image || bedroom} />
+                      </ImageDiv>
+                    </ImageContainer>
+                    <Carousel.Caption className="hero">
+                      <h2>غير مزاجك واجعل منزلك أكثر جاذبية </h2>
+                      <LinkContainer to="/registration">
+                        <Button>إبدأ معنا</Button>
+                      </LinkContainer>
+                    </Carousel.Caption>
+                  </div>
+                </LinkContainer>
 
-                </Carousel.Item>
-              )
-            })
+              </Carousel.Item>
+            ))
           }
         </Carousel>
-        <CarouselEditModal items={this.state.carouselItems} onUpdate={(e) => this.getCarouselData(e)} />
+        <CarouselEditModal items={this.state.carouselItems} onUpdate={e => this.getCarouselData(e)} />
       </div>
     );
   }

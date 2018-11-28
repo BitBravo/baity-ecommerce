@@ -1,0 +1,46 @@
+.admin-layout .admin-header {
+  width: 100%;
+  height: 80px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-bottom: 5px solid rgba(99, 95, 94, 0.24);
+  position: fixed;
+  z-index: 1;
+  background-color: white;
+  direction: ltr;
+}
+
+.admin-layout .company-name p {
+  text-align: center;
+  font-family: coolvetica;
+  font-size: 40px;
+  font-weight: 500;
+  padding: 8px;
+  color: #3a3838;
+}
+
+.admin-layout .company-logo {
+  text-align: center;
+}
+
+.admin-layout .company-admin {
+  text-align: right;
+  right: 39px;
+  font-family: coolvetica;
+  font-size: 20px;
+}
+
+.admin-layout .user-avater {
+  margin-left: 4px;
+  padding-bottom: 5px;
+}
+
+.admin-layout .company-admin span {
+  color: #3a3838;
+  font-family: coolvetica;
+  font-size: 20px;
+}
