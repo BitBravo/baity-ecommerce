@@ -135,5 +135,5 @@ button:active {
 }
 
 .inputfile+label {
-  /* cursor: pointer; */
+  cursor: pointer;
 }

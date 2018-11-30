@@ -159,7 +159,8 @@ export class MyCart extends Component {
     var subtotal = this.state.total
     var vat = Number((subtotal * 0.05).toFixed(2))
     var total = subtotal + vat
-
+    console.log('MyCart page')
+    console.log(this.props)
     if (this.state.loading)
       return (
         <Loading />
@@ -250,7 +251,6 @@ export class HeaderCart extends Component {
   }
 
   fetchItems() {
-    console.log(this.props)
     // var path = FirebaseServices.BASKET_PATH + `/${this.props.currentUser.uid}/items`
     // console.log("path " + path)
     // this.basketRef = DBBase.bindToState(path, {
@@ -325,6 +325,8 @@ export class HeaderCart extends Component {
   render() {
     var subtotal = this.state.total
     var vat = Number((subtotal * 0.05).toFixed(2))
+    console.log('HeaderCart page')
+    console.log(this.props)
 
     if (this.state.loading)
       return (

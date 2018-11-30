@@ -1,41 +1,26 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import { Nav, Navbar, NavItem, NavbarBrand, Modal } from "react-bootstrap";
+import firebase from "firebase";
+import { app, base, database, storage } from "../base";
+import FirebaseServices from './FirebaseServices'
+import { Nav, Navbar, NavItem, NavbarBrand, NavDropdown, MenuItem, Glyphicon, Modal, Col, Collapse, Row } from "react-bootstrap";
+import bayty_icon from '../assets/img/bayty_icon.png';
+import { TiUserAddOutline } from 'react-icons/lib/ti';
 import { IndexLinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components'
-import logo_placeholder from 'assets/img/logo-placeholder.jpg';
-import Homepage from 'assets/img/Unselected-homepage.png';
-import Idea from 'assets/img/Unselected-idea.png';
-import Product from 'assets/img/UNselected-product.png';
-import Cart from 'assets/img/Cart-icon.png';
-import { HeaderCart } from "views/MyCart";
-import ActiveIdea from 'assets/img/Selected-idea.png';
-import ActiveHomepage from 'assets/img/Selected-homepage.png';
-import ActiveProduct from 'assets/img/Selected-product.png';
-import bayty_icon from 'assets/img/bayty_icon.png';
-import ActiveProfile from 'assets/img/Profile-icon.png';
-import Profile from 'assets/img/Unselected-profile.png';
-import FirebaseServices from 'services/FirebaseServices';
-import FirestoreServices from 'services/FirestoreServices';
-// import React, { Component } from "react";
-// import { Link } from "react-router-dom";
-// import { LinkContainer } from "react-router-bootstrap";
-// import firebase from "firebase";
-// import { app, base, database, storage } from "../base";
-// import FirebaseServices from './FirebaseServices'
-// import { Nav, Navbar, NavItem, NavbarBrand,NavDropdown,MenuItem,Glyphicon ,Modal,Col,Collapse,Row} from "react-bootstrap";
-// import {TiUserAddOutline} from 'react-icons/lib/ti';
-// import { IndexLinkContainer } from 'react-router-bootstrap';
-// import styled from 'styled-components'
-// import logo_placeholder from '../assets/img/logo-placeholder.jpg';
-// import Homepage from '../assets/img/Unselected-homepage.png';
-// import Idea from '../assets/img/Unselected-idea.png';
-// import Product from '../assets/img/UNselected-product.png';
-// import Cart from '../assets/img/Cart-icon.png';
-// import {HeaderCart} from "./MyCart";
-// import ActiveIdea from '../assets/img/Selected-idea.png';
-// import ActiveHomepage from '../assets/img/Selected-homepage.png';
-// import ActiveProduct from '../assets/img/Selected-product.png';
+import logo_placeholder from '../assets/img/logo-placeholder.jpg';
+import Homepage from '../assets/img/Unselected-homepage.png';
+import Idea from '../assets/img/Unselected-idea.png';
+import Product from '../assets/img/UNselected-product.png';
+import Profile from '../assets/img/Unselected-profile.png';
+import ActiveProfile from '../assets/img/Profile-icon.png';
+import Cart from '../assets/img/Cart-icon.png';
+import { HeaderCart } from "./MyCart";
+import ActiveIdea from '../assets/img/Selected-idea.png';
+import ActiveHomepage from '../assets/img/Selected-homepage.png';
+import ActiveProduct from '../assets/img/Selected-product.png';
+
 
 
 const MainNav = styled(Nav)`
@@ -79,6 +64,9 @@ const Logo = styled.img`
  height:28px;
 
 `
+const UserName = styled.p`
+display:inline;
+`
 const PageIcon = styled.img`
 width:18px;
  height:18px;
@@ -115,10 +103,12 @@ const Input = styled.input`
 }
  `
 
+
 class Header extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       userImg: "",
       userName: "",
@@ -129,8 +119,8 @@ class Header extends Component {
     };
     this.handleShow = this.handleShow.bind(this);
     this.handleHide = this.handleHide.bind(this);
-  }
 
+  }
   handleShow() {
     this.setState({ show: true });
   }
@@ -140,22 +130,21 @@ class Header extends Component {
   }
 
   componentWillMount() {
-    if (this.props.authenticated) {
-      if (this.props.group === "prof") {
-        FirestoreServices.readDBRecord('profUser', `${this.props.currentUser.uid}`)
-          .then(val => {
-            this.setState({ userName: val.name, firstTime: false })
-          })
-      } else {
-        FirestoreServices.readDBRecord('normalUser', `${this.props.currentUser.uid}`)
-          .then(val =>
-            this.setState({ userName: val.name, firstTime: false }))
-      }
-    }
+    // if (this.props.authenticated){
+    //   if (this.props.group === "prof"){
+    //     FirebaseServices.readDBRecord('profUser', `${this.props.currentUser.uid}`)
+    //       .then(val => {
+    //         this.setState({userName: val.name, firstTime: false})})
+    //   }else {
+    //     FirebaseServices.readDBRecord('normalUser', `${this.props.currentUser.uid}`)
+    //       .then(val =>
+    //           this.setState({userName: val.name, firstTime: false}))
+    //   }
+    // }
   }
 
   render() {
-    console.log(this.props)
+
     return (
       <Navbar fixedTop collapseOnSelect  >
         <Navbar.Header  >
@@ -189,19 +178,21 @@ class Header extends Component {
               <UserNav >
                 <NavItem style={{ float: 'left' }}>
                   <LinkContainer to="/myprofile" activeClassName="imgActivePage">
-                    {this.props.userImg && this.props.userImg !== "undefined"
+                    {this.props.userImg
                       ? <UserImg src={this.props.userImg} />
-                      :
-                      <UserImg src={logo_placeholder} />
+                      : <UserImg src={logo_placeholder} />
                     }
-                    {/* <UserLogo >
-                      <IconImg src={Profile} />
-                      <br />
-                      <UserName >
-                        مرحبا ،  {this.props.userName}
-                      </UserName>
-                    </UserLogo> */}
+
+                    {/* <UserLogo > 
+                       <IconImg src={Profile} />
+                         <br/>
+                       <UserName >
+                          مرحبا ،  {this.props.userName}
+                       </UserName>
+             
+                      </UserLogo> */}
                   </LinkContainer>
+
                 </NavItem>
               </UserNav>
             )}
@@ -223,18 +214,16 @@ class Header extends Component {
           </Modal>
 
           <div style={{ float: 'left' }} className="cartmenu">
+            <LinkContainer to="/mycart" activeClassName="active" style={{ position: 'relative', cursor: 'pointer' }}>
+              <div style={{ position: 'relative' }}>
+                {this.props.cart > 0 ?
+                  <CartNo>{this.props.cart}</CartNo>
+                  : null
+                }
+                <Logo src={Cart} className="shoppingcart" />
+              </div>
+            </LinkContainer>
             {this.props.authenticated ?
-              <LinkContainer to="/mycart" activeClassName="active" style={{ position: 'relative', cursor: 'pointer' }}>
-                <div style={{ position: 'relative' }}>
-                  {this.props.cart > 0 ?
-                    <CartNo>{this.props.cart}</CartNo>
-                    : null
-                  }
-                  <Logo src={Cart} className="shoppingcart" />
-                </div>
-              </LinkContainer>
-              : null}
-            {/* {this.props.authenticated ?
               <div className="shorcartlist">
                 <HeaderCart currentUser={this.props.currentUser}
                   basket={this.props.basket}
@@ -242,20 +231,23 @@ class Header extends Component {
                 <LinkContainer to="/mycart" >
                   <Button>عرض السلة</Button>
                 </LinkContainer>
-              </div>
-              : null} */}
+              </div> : null}
           </div>
+
+
         </Navbar.Header>
 
+
         {/* <Navbar.Collapse > */}
-        <MainNav bsStyle="tabs" justified className="itemNav">
+        <MainNav bsStyle="tabs" justified>
           <Line style={{}} />
+
           <IndexLinkContainer to="/" activeClassName="activePage">
             <NavItem >
               <PageIcon src={ActiveHomepage} className="activeIcons" />
               <PageIcon src={Homepage} className="icons" />الرئيسية</NavItem>
           </IndexLinkContainer>
-          <LinkContainer to="/productspages" activeClassName="activePage">
+          <LinkContainer to="/productspage" activeClassName="activePage">
             <NavItem >
               <PageIcon src={ActiveProduct} className="activeIcons" />
               <PageIcon src={Product} className="icons" />المنتجات</NavItem>
@@ -265,9 +257,14 @@ class Header extends Component {
               <PageIcon src={ActiveIdea} className="activeIcons" />
               <PageIcon src={Idea} className="icons" />الأفكار</NavItem>
           </LinkContainer>
+
         </MainNav>
+
+
         {/* </Navbar.Collapse > */}
+
       </Navbar>
+
     );
   }
 }

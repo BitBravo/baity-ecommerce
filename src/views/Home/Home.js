@@ -9,9 +9,16 @@ import './styles.css'
 export class Home extends Component {
 
   render() {
-    const { state: { authenticated, admin } } = this.props
+    const {
+      adminRoute,
+      state: {
+        authenticated, admin
+      }
+    } = this.props;
+
     console.log(authenticated ? 'User Autenticated successfully' : 'None Authenticated');
     console.log(admin ? 'Admin Homepage' : 'Public Homepage');
+    console.log(this.props)
     return (
       <div>
         <div >
@@ -19,7 +26,7 @@ export class Home extends Component {
             this.props.authenticated ?
               ''
               :
-              <CarouselBanner adminFlag={admin} />
+              <CarouselBanner adminFlag={admin} adminRoute={adminRoute} />
           }
         </div>
 

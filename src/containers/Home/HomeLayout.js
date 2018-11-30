@@ -22,6 +22,7 @@ class HomeLayout extends Component {
       <div style={{ margin: '0 auto' }} className="publish-layout">
         <Header
           {...userData}
+          adminRoute={adminRoute}
           className="header"
         />
         <div className="main-content">
@@ -29,6 +30,7 @@ class HomeLayout extends Component {
         </div>
         <Footer
           {...userData}
+          {...adminRoute}
         />
       </div>
     );
