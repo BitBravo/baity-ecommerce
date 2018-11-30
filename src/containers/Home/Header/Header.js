@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import { Nav, Navbar, NavItem, Modal } from "react-bootstrap";
+import { Nav, Navbar, NavItem, NavbarBrand, Modal } from "react-bootstrap";
 import { IndexLinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components'
 import logo_placeholder from 'assets/img/logo-placeholder.jpg';
@@ -12,7 +12,29 @@ import { HeaderCart } from "views/MyCart";
 import ActiveIdea from 'assets/img/Selected-idea.png';
 import ActiveHomepage from 'assets/img/Selected-homepage.png';
 import ActiveProduct from 'assets/img/Selected-product.png';
+import bayty_icon from 'assets/img/bayty_icon.png';
+import ActiveProfile from 'assets/img/Profile-icon.png';
+import Profile from 'assets/img/Unselected-profile.png';
 
+// import React, { Component } from "react";
+// import { Link } from "react-router-dom";
+// import { LinkContainer } from "react-router-bootstrap";
+// import firebase from "firebase";
+// import { app, base, database, storage } from "../base";
+// import FirebaseServices from './FirebaseServices'
+// import { Nav, Navbar, NavItem, NavbarBrand,NavDropdown,MenuItem,Glyphicon ,Modal,Col,Collapse,Row} from "react-bootstrap";
+// import {TiUserAddOutline} from 'react-icons/lib/ti';
+// import { IndexLinkContainer } from 'react-router-bootstrap';
+// import styled from 'styled-components'
+// import logo_placeholder from '../assets/img/logo-placeholder.jpg';
+// import Homepage from '../assets/img/Unselected-homepage.png';
+// import Idea from '../assets/img/Unselected-idea.png';
+// import Product from '../assets/img/UNselected-product.png';
+// import Cart from '../assets/img/Cart-icon.png';
+// import {HeaderCart} from "./MyCart";
+// import ActiveIdea from '../assets/img/Selected-idea.png';
+// import ActiveHomepage from '../assets/img/Selected-homepage.png';
+// import ActiveProduct from '../assets/img/Selected-product.png';
 
 
 const MainNav = styled(Nav)`
@@ -117,17 +139,18 @@ class Header extends Component {
   }
 
   componentWillMount() {
-    // if (this.props.authenticated){
-    //   if (this.props.group === "prof"){
-    //     FirebaseServices.readDBRecord('profUser', `${this.props.currentUser.uid}`)
-    //       .then(val => {
-    //         this.setState({userName: val.name, firstTime: false})})
-    //   }else {
-    //     FirebaseServices.readDBRecord('normalUser', `${this.props.currentUser.uid}`)
-    //       .then(val =>
-    //           this.setState({userName: val.name, firstTime: false}))
-    //   }
-    // }
+    if (this.props.authenticated) {
+      if (this.props.group === "prof") {
+        FirebaseServices.readDBRecord('profUser', `${this.props.currentUser.uid}`)
+          .then(val => {
+            this.setState({ userName: val.name, firstTime: false })
+          })
+      } else {
+        FirebaseServices.readDBRecord('normalUser', `${this.props.currentUser.uid}`)
+          .then(val =>
+            this.setState({ userName: val.name, firstTime: false }))
+      }
+    }
   }
 
   render() {
