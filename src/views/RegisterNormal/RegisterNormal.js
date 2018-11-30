@@ -14,7 +14,7 @@ import {
 import FirestoreServices from "services/FirestoreServices";
 import Loading from "commons/Loading";
 import { app } from "config/base";
-import FormUtils from './FormUtils'
+import FormUtils from 'components/FormUtils'
 import bayty_icon from 'assets/img/bayty_icon1.png';
 
 /*
@@ -456,7 +456,7 @@ class RegisterNormal extends Component {
 
           <Row>
             <Col sm={6} md={6} lg={6} className={"col-lg-push-6; col-sm-push-6"}>
-              <FieldGroup pullright
+              <FieldGroup pullright="true"
                 id="inputPhoneNo"
                 type="text"
                 label="رقم الجوال"

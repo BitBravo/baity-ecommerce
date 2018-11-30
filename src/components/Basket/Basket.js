@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { base } from "../base";
-import FirebaseServices from './FirebaseServices'
+import { base } from "config/base";
+import FirebaseServices from 'services/FirebaseServices'
 import { Col, Grid, Row } from "react-bootstrap";
-import ProductBrief from "./ProductBrief";
-import Loading from './Loading'
+import ProductBrief from "components/ProductBrief";
+import Loading from 'commons/Loading'
 
 
 class Basket extends Component {

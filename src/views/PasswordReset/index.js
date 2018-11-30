@@ -1,3 +1,3 @@
-import ItemDiscovery from './ItemDiscovery'
+import PasswordResetter from './PasswordResetter'
 
-export default ItemDiscovery
+export default PasswordResetter

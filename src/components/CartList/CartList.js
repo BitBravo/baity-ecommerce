@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { MainCartBrief, HeaderCartBrief } from "../CartBrief";
 import styled from 'styled-components'
 import { Col } from 'react-bootstrap';
-
+import { MainCartBrief, HeaderCartBrief } from "components/CartBrief";
 
 const ProductImg = styled.img`
 height:100px;

@@ -129,13 +129,12 @@ class Login extends Component {
   }
 
   render() {
-    console.log(this.props)
     const { from } = this.props.location.state || { from: { pathname: '/' } }
     const { redirect } = this.state
 
     if (redirect) {
       return (
-        <Redirect to={from} />
+        <Redirect to={from.pathname} />
       )
     }
 

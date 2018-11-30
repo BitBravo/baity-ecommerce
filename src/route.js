@@ -1,32 +1,39 @@
 import React, { Component } from 'react';
 import Loadable from 'react-loadable';
 
-import Home from 'components/Home';
-import ProductsPage from 'components/ProductsPage';
-import IdeasPage from 'components/IdeasPage';
-import Register from 'components/Register';
-import RegisterNormal from 'components/RegisterNormal';
-import ProductDetails from 'components/ProductDetails';
-import ProductUpdater from 'components/ProductUpdater';
-import MyProductList from 'components/MyProductList';
-import IdeaDetails from 'components/IdeaDetails';
-import IdeaUpdater from 'components/IdeaUpdater';
-import MyIdeaList from 'components/MyIdeaList';
-import MyAccount from 'components/MyAccount';
-import ProfProfileUpdater from 'components/ProfProfileUpdater';
-import NorProfileUpdater from 'components/NorProfileUpdater';
-import Registration from 'components/Registration';
-import FavProducts from 'components/FavProducts';
-import FavIdeas from 'components/FavIdeas';
-import BusinessProfile from 'components/BusinessProfile';
-import PasswordResetter from 'components/PasswordResetter';
-import BusinessIdeas from 'components/BusinessIdeas';
-import BusinessProducts from 'components/BusinessProducts';
+import Home from 'views/Home';
+import { MyCart } from 'views/MyCart';
+
 import Login from 'views/Login';
 import Logout from 'views/Logout';
+import Registration from 'views/Registration';
+import RegisterPro from 'views/RegisterPro';
+import RegisterNormal from 'views/RegisterNormal';
+import PasswordReset from 'views/PasswordReset';
+
+import IdeasPage from 'views/IdeasPage';
+import IdeaDetails from 'views/IdeaDetails';
+import BusinessIdeas from 'views/BusinessIdeas';
+import MyIdeaList from 'views/MyIdeaList';
+import FavIdeas from 'views/FavIdeas';
+import IdeaUpdater from 'views/IdeaUpdater';
+
+import ProductsPage from 'views/ProductsPage';
+import ProductDetails from 'views/ProductDetails';
+import BusinessProducts from 'views/BusinessProducts';
+import MyProductList from 'views/MyProductList';
+import FavProducts from 'views/FavProducts';
+import ProductUpdater from 'views/ProductUpdater';
+
+
+// user profile pages
+import MyAccount from 'views/MyAccount';
+import BusinessProfile from 'views/BusinessProfile';
+import ProfProfileUpdater from 'views/ProfProfileUpdater';
+import NorProfileUpdater from 'views/NorProfileUpdater';
+
 import Page404 from 'views/Page404';
 import Page500 from 'views/Page500';
-import { MyCart } from 'components/MyCart';
 
 const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>
 
@@ -58,7 +65,7 @@ export const routes = {
       layout: DefaultLayout
     },
     {
-      component: Register,
+      component: RegisterPro,
       path: '/registerProf',
       layout: DefaultLayout
     },
@@ -68,7 +75,7 @@ export const routes = {
       layout: DefaultLayout
     },
     {
-      component: PasswordResetter,
+      component: PasswordReset,
       path: '/resetpassword',
       layout: DefaultLayout
     },

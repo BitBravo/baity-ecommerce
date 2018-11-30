@@ -4,7 +4,7 @@ import { Grid, Row, Col } from "react-bootstrap";
 import { base } from "config/base";
 import FirestoreServices from 'services/FirestoreServices'
 import FirestorePaginator from 'services/FirestorePaginator'
-import IdeaBrief from "../IdeaBrief";
+import IdeaBrief from "components/IdeaBrief";
 import Loading from 'commons/Loading'
 import styled from 'styled-components'
 import InfiniteScroll from 'react-infinite-scroll-component';

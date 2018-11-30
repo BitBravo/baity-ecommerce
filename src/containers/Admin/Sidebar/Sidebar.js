@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 
-import sideBarData from "config/sideBar";
+import sideBarData from "config/sidebar";
 // import imagine from "assets/img/sidebar-3.jpg";
 // import logo from "assets/img/reactlogo.png";
 // import dashboardRoutes from "routes/dashboard.js";

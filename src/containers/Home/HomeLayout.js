@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom'; // eslint-disable-line
-import Header from 'components/Header';
-import Footer from 'components/Footer';
+import Header from './Header';
+import Footer from './Footer';
 import FirebaseServices from 'services/FirebaseServices';
 import FirestoreServices from 'services/FirestoreServices';
 import { app, storageKey } from 'config/base';

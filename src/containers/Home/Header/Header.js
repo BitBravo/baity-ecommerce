@@ -3,15 +3,15 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Nav, Navbar, NavItem, Modal } from "react-bootstrap";
 import { IndexLinkContainer } from 'react-router-bootstrap';
 import styled from 'styled-components'
-import logo_placeholder from '../assets/img/logo-placeholder.jpg';
-import Homepage from '../assets/img/Unselected-homepage.png';
-import Idea from '../assets/img/Unselected-idea.png';
-import Product from '../assets/img/UNselected-product.png';
-import Cart from '../assets/img/Cart-icon.png';
-import { HeaderCart } from "./MyCart";
-import ActiveIdea from '../assets/img/Selected-idea.png';
-import ActiveHomepage from '../assets/img/Selected-homepage.png';
-import ActiveProduct from '../assets/img/Selected-product.png';
+import logo_placeholder from 'assets/img/logo-placeholder.jpg';
+import Homepage from 'assets/img/Unselected-homepage.png';
+import Idea from 'assets/img/Unselected-idea.png';
+import Product from 'assets/img/UNselected-product.png';
+import Cart from 'assets/img/Cart-icon.png';
+import { HeaderCart } from "views/MyCart";
+import ActiveIdea from 'assets/img/Selected-idea.png';
+import ActiveHomepage from 'assets/img/Selected-homepage.png';
+import ActiveProduct from 'assets/img/Selected-product.png';
 
 
 

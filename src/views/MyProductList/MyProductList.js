@@ -1,5 +1,5 @@
 import React from "react";
-import ProductList from "../ProductList";
+import ProductList from "views/ProductList";
 import styled from 'styled-components'
 import { Grid, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ProductList from '../ProductList';
+import ProductList from 'views/ProductList';
 import styled from 'styled-components'
 import CarouselBanner from 'components/CarouselBanner';
 import ItemDiscovery from 'components/ItemDiscovery';

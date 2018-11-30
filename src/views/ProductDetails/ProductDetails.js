@@ -422,7 +422,7 @@ class ProductDetails extends Component {
                 <div id="thumbcarousel1" className="carousel1 slide" >
                   <ImgGallaryThumb className="item">
                     {product.images.map((obj, index) => {
-                      return <PrevImgGallaryThumb className="thumb " >
+                      return <PrevImgGallaryThumb className="thumb" key={index} >
                         <Image src={obj.large} onClick={() => { return this.setState({ index: index }) }} />
                       </PrevImgGallaryThumb>
                     })}
