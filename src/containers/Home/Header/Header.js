@@ -131,52 +131,52 @@ class Header extends Component {
   }
 
   render() {
-
     return (
       <Navbar fixedTop collapseOnSelect  >
         <Navbar.Header  >
-          {/* <NavbarBrand>
+          <NavbarBrand>
             <IndexLinkContainer to="/" style={{ cursor: "pointer" }}>
               <img src={bayty_icon} />
             </IndexLinkContainer>
-          </NavbarBrand> */}
+          </NavbarBrand>
           {/* desktop search bar */}
-          {/* <Nav className="search">
+          <Nav className="search">
             <NavItem >
               <div className="inner-addon right-addon">
                 <i className="glyphicon glyphicon-search" style={{ fontSize: '10px', color: 'gray' }} ></i>
                 <Input id="search" className="form-control" type="text" placeholder="بحث عن منتجات أفكار ...."></Input>
               </div>
             </NavItem>
-          </Nav> */}
+          </Nav>
 
           {!this.props.authenticated ? (
             <UserNav >
-              {/* <NavItem style={{ float: 'left', fontSize: '8px' }}>
+              <NavItem style={{ float: 'left', fontSize: '8px' }}>
                 <LinkContainer to="/login" activeClassName="activePage">
                   <span>
                     <Logo src={ActiveProfile} className="activeIcons" />
                     <Logo src={Profile} className="icons" />
                   </span>
                 </LinkContainer>
-              </NavItem> */}
+              </NavItem>
             </UserNav>
           ) : (
               <UserNav >
                 <NavItem style={{ float: 'left' }}>
                   <LinkContainer to="/myprofile" activeClassName="imgActivePage">
-                    {this.props.userImg
+                    {this.props.userImg && this.props.userImg !== "undefined"
                       ? <UserImg src={this.props.userImg} />
-                      : <UserImg src={logo_placeholder} />
+                      :
+                      <UserImg src={logo_placeholder} />
                     }
-                    {/* <UserLogo > 
-                       <IconImg src={Profile} />
-                         <br/>
-                       <UserName >
-                          مرحبا ،  {this.props.userName}
-                       </UserName>
-             
-                      </UserLogo> */}
+                    <UserLogo >
+                      <IconImg src={Profile} />
+                      <br />
+                      <UserName >
+                        مرحبا ،  {this.props.userName}
+                      </UserName>
+
+                    </UserLogo>
                   </LinkContainer>
                 </NavItem>
               </UserNav>
@@ -221,7 +221,7 @@ class Header extends Component {
         </Navbar.Header>
 
         {/* <Navbar.Collapse > */}
-        <MainNav bsStyle="tabs" justified>
+        <MainNav bsStyle="tabs" justified className="itemNav">
           <Line style={{}} />
           <IndexLinkContainer to="/" activeClassName="activePage">
             <NavItem >

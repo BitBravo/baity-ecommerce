@@ -9,6 +9,7 @@ const userStorageKey = `${storageKey}_USER`;
 const groupStorageKey = `${storageKey}_GROUP`;
 const userNameStorageKey = `${storageKey}_USERNAME`;
 const userImgStorageKey = `${storageKey}_LOGO`;
+const userRoleStorageKey = `${storageKey}_Role`;
 
 const AppRoute = ({ component: Component, layout: Layout, parent: _Parent, ...rest }) => {
   return (
@@ -16,32 +17,32 @@ const AppRoute = ({ component: Component, layout: Layout, parent: _Parent, ...re
       {...rest}
       render={props => (
         <Layout>
-          <Component {...props}  {..._Parent} />
+          <Component {...props}  {..._Parent} adminRoute={false} />
         </Layout>
       )} />
   )
 }
 
 
-const AuthRoute = ({ component: Component, layout: Layout, parent: _Parent, adminFlag, ...rest }) => {
+const AuthRoute = ({ component: Component, layout: Layout, parent: _Parent, adminRoute, ...rest }) => {
   const {
     state: {
       authenticated: authFlag,
+      admin,
     },
   } = _Parent;
 
-  const userRole = adminFlag ? 'admin' : 'user';
-  console.log(authFlag, userRole, adminFlag)
+  console.log(`User Role => auth: ${authFlag}, admin: ${admin}, AdminRoute: ${adminRoute}`)
   return (
     <Route
       {...rest}
       render={props => (
         <Layout>
-          {authFlag === "admin" || authFlag === userRole ?
-            <Component {...props} {..._Parent} />
+          {authFlag && (admin || !adminRoute) ?
+            <Component {...props} {..._Parent} adminRoute={adminRoute} />
             :
             <Redirect
-              to={{ pathname: '/login', state: { from: props.location } }}
+              to={{ pathname: '/login', state: { from: props.location, adminRoute } }}
             />
           }
         </Layout>
@@ -56,29 +57,32 @@ class App extends Component {
     super();
     this.state = {
       authenticated: false,
+      admin: false,
+      userName: '',
+      userImg: '',
       currentUser: null,
       group: null,
-      userName: '',
       cartCount: 0,
-      userImg: '',
       owner: '',
     };
     this.setCurrentUser = this.setCurrentUser.bind(this);
     this.getCart = this.getCart.bind(this);
+    this.clearLocalUserData = this.clearLocalUserData.bind(this);
   }
 
 
   componentWillMount() {
-    console.log(`${this.constructor.name}.componentWillMount`);
+    console.log('Route Running... (app)');
 
     if (window.localStorage.getItem(userStorageKey)) {
-      console.log('user from local storage after parse');
+      console.log('Parse user data from Storage ...');
       console.log(JSON.parse(window.localStorage.getItem(userStorageKey)));
       this.setState(
         {
           currentUser: JSON.parse(window.localStorage.getItem(userStorageKey)),
           authenticated: true,
           group: window.localStorage.getItem(groupStorageKey),
+          admin: window.localStorage.getItem(userRoleStorageKey),
           userImg: window.localStorage.getItem(userImgStorageKey),
         },
       );
@@ -87,16 +91,15 @@ class App extends Component {
     // For more info on firebase Auth object check the "user lifecycle" in:
     // (https://firebase.google.com/docs/auth/users)
     // Note that: app.auth() is short for firebase.auth(app)
-    this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
-      console.log('user from firebase auth');
-      console.log(user);
-      this.setCurrentUser(user);
-    });
+    // this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
+    //   console.log('user from firebase auth');
+    //   console.log(user);
+    //   this.setCurrentUser(user);
+    // });
   }
 
   componentWillReceiveProps(nextProps) {
     console.log(`${this.constructor.name}.componentWillReceiveProps`);
-    console.log('nextProps');
     console.log(nextProps);
   }
 
@@ -106,15 +109,19 @@ class App extends Component {
 
   // For more info on user management in firebase see:
   // (https://firebase.google.com/docs/auth/web/manage-users)
-  setCurrentUser(user) {
+  setCurrentUser(user, admin) {
+    console.log('set current user function')
     if (user) {
+      this.setState({ authenticated: true, admin })
+      console.log('param updated')
       let owner;
       // cache user object to avoid firebase auth latency bug
       window.localStorage.setItem(userStorageKey, JSON.stringify(user));
+      window.localStorage.setItem(userRoleStorageKey, admin);
+
 
       FirestoreServices.readDBRecord('group', user.uid).then((value) => {
-        console.log(value);
-        console.log(value.group);
+        console.log(`User Group Data=> ${JSON.stringify(value)}`);
 
         if (value.group === 'prof') {
           owner = user.uid;
@@ -128,7 +135,7 @@ class App extends Component {
                 });
               });
             });
-          console.log('value.group');
+
           FirestoreServices.readDBRecord('profUser', `${user.uid}`)
             .then((val) => {
               // cache username value and group value
@@ -143,8 +150,6 @@ class App extends Component {
               });
               return this.getCart(user);
             });
-
-
         } else if (value.group === 'normal') {
           FirestoreServices.normalUsers.where('uid', '==', `${user.uid}`)
             .onSnapshot((snapshot) => {
@@ -171,46 +176,38 @@ class App extends Component {
               return b;
             });
         }
+        return true;
+      }).catch((err) => {
+        console.log('Get User Group ERROR')
+        console.log(err)
       });
     } else {
-
-      /*
-        // We can get the folloiwng information. See: (https://firebase.google.com/docs/auth/web/manage-users)
-        name = user.displayName;
-        email = user.email;
-        photoUrl = user.photoURL;
-        emailVerified = user.emailVerified;
-        uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
-                          // this value to authenticate with your backend server, if
-                          // you have one. Use User.getToken() instead.
-        // This is the information for providers (email&password, facebook, google, ...etc)
-        user.providerData.forEach(function (profile) {
-          console.log("Sign-in provider: " + profile.providerId);
-          console.log("  Provider-specific UID: " + profile.uid);
-          console.log("  Name: " + profile.displayName);
-          console.log("  Email: " + profile.email);
-          console.log("  Photo URL: " + profile.photoURL);
-        });
-      */
-
       // No user is logged in
-      // 1- clean up auth cache
-      window.localStorage.removeItem(userStorageKey);
-      window.localStorage.removeItem(groupStorageKey);
-      window.localStorage.removeItem(userNameStorageKey);
-      window.localStorage.removeItem(userImgStorageKey);
-
-      // 2- clean up state
-      this.setState({
-        currentUser: null,
-        authenticated: false,
-        userName: 'sssss',
-        cartCount: 0,
-        userCart: '',
-        userImg: '',
-        owner: '',
-      });
+      this.clearLocalUserData();
     }
+  }
+
+  clearLocalUserData() {
+    console.log('Local auth cache clearn up...')
+    // 1- clean up auth cache
+    window.localStorage.removeItem(userStorageKey);
+    window.localStorage.removeItem(groupStorageKey);
+    window.localStorage.removeItem(userNameStorageKey);
+    window.localStorage.removeItem(userImgStorageKey);
+    window.localStorage.removeItem(userRoleStorageKey);
+
+
+    // 2- clean up state
+    this.setState({
+      currentUser: null,
+      authenticated: false,
+      admin: false,
+      userName: '',
+      cartCount: 0,
+      userCart: '',
+      userImg: '',
+      owner: '',
+    });
   }
 
   getCart(user) {
@@ -251,9 +248,7 @@ class App extends Component {
     }
   }
 
-
   render() {
-    console.log(routes)
     return (
       <BrowserRouter>
         <Switch>
@@ -268,12 +263,12 @@ class App extends Component {
                   }
                   case 'authRoutes': {
                     return routes[routeName].map((routeProps) => (
-                      <AuthRoute exact path={routeProps.path} {...routeProps} parent={this} adminFlag={false} />
+                      <AuthRoute exact path={routeProps.path} {...routeProps} parent={this} adminRoute={false} />
                     ))
                   }
                   case 'adminRoute': {
                     return routes[routeName].map((routeProps) => (
-                      <AuthRoute exact path={routeProps.path} {...routeProps} parent={this} adminFlag={true} />
+                      <AuthRoute exact path={routeProps.path} {...routeProps} parent={this} adminRoute={true} />
                     ))
                   }
                 }

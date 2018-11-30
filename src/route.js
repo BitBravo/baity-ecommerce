@@ -80,9 +80,24 @@ export const routes = {
       layout: DefaultLayout
     },
     {
+      component: ProductsPage,
+      path: '/productspages',
+      layout: DefaultLayout,
+    },
+    {
+      component: ProductsPage,
+      path: '/productspage/:id',
+      layout: DefaultLayout,
+    },
+    {
       component: ProductDetails,
       path: '/:owner/products/:id',
       layout: DefaultLayout
+    },
+    {
+      component: IdeasPage,
+      path: '/ideaspage',
+      layout: DefaultLayout,
     },
     {
       component: IdeaDetails,
@@ -124,19 +139,6 @@ export const routes = {
     {
       component: MyProductList,
       path: '/myproducts',
-      layout: DefaultLayout,
-    }, {
-      component: ProductsPage,
-      path: '/productspage/:id',
-      layout: DefaultLayout,
-    },
-    {
-      component: ProductsPage,
-      path: '/productspages',
-      layout: DefaultLayout,
-    }, {
-      component: IdeasPage,
-      path: '/ideaspage',
       layout: DefaultLayout,
     },
     {
@@ -186,8 +188,8 @@ export const routes = {
   ],
   adminRoute: [
     {
-      component: Login,
-      path: '/admlogin',
+      component: Home,
+      path: '/admin',
       layout: AdminLayout,
     },
     {

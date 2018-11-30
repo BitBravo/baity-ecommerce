@@ -85,6 +85,8 @@ class ProductUpdater extends Component {
   }
 
   componentWillMount() {
+    const { state: { currentUser } } = this.props;
+    console.log(currentUser)
     if (!this.state.isNewProduct) {
       this.productsRef = base.bindDoc(`${FirestoreServices.PRODUCTS_PATH}/${this.productId}`, {
         context: this,
@@ -98,7 +100,7 @@ class ProductUpdater extends Component {
       });
     }
     //add owner to product
-    FirestoreServices.readDBRecord('profUser', this.props.currentUser.uid)
+    FirestoreServices.readDBRecord('profUser', currentUser.uid)
       .then(val => {
         console.log(val.name)
         this.name = val.name

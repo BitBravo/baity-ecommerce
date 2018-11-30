@@ -33,6 +33,7 @@
   text-transform: unset;
   font-family: coolvetica;
   text-align: left;
+  letter-spacing: 1px;
 }
 
 .admin-layout .sidebar .nav li a {
@@ -50,4 +51,8 @@
   margin: 0px;
   opacity: .86;
   border-radius: 4px;
+}
+
+.admin-layout .main-panel {
+  margin-top: 75px;
 }

@@ -87,7 +87,8 @@ class IdeaUpdater extends Component {
   }
 
   componentWillMount() {
-    console.log(`${this.constructor.name}.componentWillMount`);
+    const { state: { currentUser } } = this.props;
+
     if (!this.state.isNewIdea) {
       this.ideasRef = base.bindDoc(`${FirestoreServices.IDEAS_PATH}/${this.ideaId}`, {
         context: this,
@@ -101,7 +102,7 @@ class IdeaUpdater extends Component {
       });
     }
     //add owner to product
-    FirestoreServices.readDBRecord('profUser', this.props.currentUser.uid)
+    FirestoreServices.readDBRecord('profUser', currentUser.uid)
       .then(val => {
         console.log(val.name)
         this.name = val.name

@@ -82,6 +82,8 @@ export class MyCart extends Component {
   }
 
   fetchItems() {
+    const { state: { currentUser } } = this.props;
+
     // var path = FirebaseServices.BASKET_PATH + `/${this.props.currentUser.uid}/items`
     // console.log("path " + path)
     // this.basketRef = DBBase.bindToState(path, {
@@ -91,7 +93,7 @@ export class MyCart extends Component {
     //     console.log("DBBase data: " + data)
     //     var productIds = Object.keys(this.state.basket)
     //     console.log(productIds)
-    var ref = FirebaseServices.basket.child(`${this.props.currentUser.uid}/items`)
+    var ref = FirebaseServices.basket.child(`${currentUser.uid}/items`)
     ref.once('value', snapshot => {
       console.log("data fetching ")
 
@@ -248,6 +250,7 @@ export class HeaderCart extends Component {
   }
 
   fetchItems() {
+    console.log(this.props)
     // var path = FirebaseServices.BASKET_PATH + `/${this.props.currentUser.uid}/items`
     // console.log("path " + path)
     // this.basketRef = DBBase.bindToState(path, {

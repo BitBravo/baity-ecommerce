@@ -172,7 +172,11 @@ class ProductList extends Component {
   }
 
   businessProducts(props) {
+
     console.log("BusinessProducts")
+    console.log(this.props)
+    const { currentUser } = this.props;
+    if (!currentUser) return;
     var owner;
     if (props.user) {
       owner = props.currentUser

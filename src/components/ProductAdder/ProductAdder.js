@@ -11,6 +11,8 @@ class ProductAdder extends Component {
   }
 
   insertProduct(product, imgDownloadURL, formErrorViewer, formSuccessViewer) {
+    const { state: { currentUser } } = this.props;
+
     try {
       var postListRef = database.ref("testProducts");
       var newPostRef = postListRef.push();
@@ -27,7 +29,7 @@ class ProductAdder extends Component {
         length: product.length.value,
         likes: "0",
         name: product.name.value,
-        owner: this.props.currentUser.uid, //user id which is not yet implementd
+        owner: currentUser.uid, //user id which is not yet implementd
         postType: "product",
         price: product.price.value,
         width: product.width.value,
@@ -121,9 +123,11 @@ class ProductAdder extends Component {
   }
 
   render() {
+    const { state: { currentUser } } = this.props;
+
     return (
       <div className="productAdding">
-        <ProductForm currentUser={this.props.currentUser} isNewProduct={true} onSubmit={this.handleSubmit.bind(this)} />
+        <ProductForm currentUser={currentUser} isNewProduct={true} onSubmit={this.handleSubmit.bind(this)} />
       </div>
     );
   }

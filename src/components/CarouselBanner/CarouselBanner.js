@@ -48,8 +48,8 @@ margin-top:20px;
 }
 `;
 export class CarouselBanner extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       carouselItems: [],
     };
@@ -76,9 +76,10 @@ export class CarouselBanner extends Component {
   }
 
   render() {
+    const { adminFlag } = this.props;
+    console.log(adminFlag)
     return (
       <div>
-
         <Carousel
           controls={false}
           interval={5000}
@@ -106,7 +107,12 @@ export class CarouselBanner extends Component {
             ))
           }
         </Carousel>
-        <CarouselEditModal items={this.state.carouselItems} onUpdate={e => this.getCarouselData(e)} />
+        {
+          adminFlag ?
+            <CarouselEditModal items={this.state.carouselItems} onUpdate={e => this.getCarouselData(e)} />
+            :
+            ''
+        }
       </div>
     );
   }

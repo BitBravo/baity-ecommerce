@@ -21,7 +21,9 @@ class Basket extends Component {
   }
 
   componentWillMount() {
-    var path = FirebaseServices.BASKET_PATH + `/${this.props.currentUser.uid}`
+    const { state: { currentUser } } = this.props;
+
+    var path = FirebaseServices.BASKET_PATH + `/${currentUser.uid}`
     this.basketRef = base.bindToState(path, {
       context: this,
       state: "basket",

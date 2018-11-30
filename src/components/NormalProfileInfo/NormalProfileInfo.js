@@ -79,7 +79,11 @@ class NormalProfileInfo extends Component {
   }
 
   componentWillMount() {
-    FirestoreServices.readDBRecord('normalUser', this.props.currentUser.uid)
+    console.log(this.props)
+    const { currentUser } = this.props;
+    if (!currentUser) return;
+
+    FirestoreServices.readDBRecord('normalUser', currentUser.uid)
       .then(value => this.setState({
         loading: false,
         profile: value

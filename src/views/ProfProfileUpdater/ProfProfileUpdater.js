@@ -39,7 +39,9 @@ class ProfProfileUpdater extends Component {
   }
 
   componentWillMount() {
-    FirestoreServices.getProfessionalUserBusinessId(this.props.currentUser.uid,
+    const { state: { currentUser } } = this.props;
+
+    FirestoreServices.getProfessionalUserBusinessId(currentUser.uid,
       (businessId) => {
         if (businessId === '') {
           this.setState({ errorHandling: { showError: true, errorMsg: { message: 'خطأ داخلي: لم يتم العثور على الشركة ' } } });

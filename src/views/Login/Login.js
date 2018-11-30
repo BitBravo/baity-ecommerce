@@ -4,49 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Collapse, Alert, Col, Row } from "react-bootstrap"
 import { app } from 'config/base'
 import bayty_icon from 'assets/img/bayty_icon1.png';
-
-
-
-/*
-
-This form uses firebase email/password authentication.
-Here is how a firebase.auth().user object looks like:
- {
-  uid: "3YG2PxiXSleAspmGa0Mqzi5cBCC2",
-  displayName: null,
-  photoURL: null,
-  email: "testpro6@baity.com",
-  emailVerified: false,
-  phoneNumber: null,
-  isAnonymous: false,
-  providerData: [
-    {
-      uid: "testpro6@baity.com",
-      displayName: null,
-      photoURL: null,
-      email: "testpro6@baity.com",
-      phoneNumber: null,
-      providerId: "password"
-    }
-  ],
-  apiKey: "AIzaSyBhKqdEYDnZdPpGjAZVt-68CbtGiwimFZQ",
-  appName: "[DEFAULT]",
-  authDomain: "bayty-246cc.firebaseapp.com",
-  stsTokenManager: {
-    apiKey: "AIzaSyBhKqdEYDnZdPpGjAZVt-68CbtGiwimFZQ",
-    refreshToken:
-      "APWA_kqFHiupCN8QVBw8iYU2IVr69scVIBL2LCEokSi13jxxqfKyO3v5xcSPRFMA5KoMm1oDww_rxAkGMd-O2fWowIMo0doG8MuPsp0H8cgkhcvs22B48dLfkpozf0BhZQNw-sY4wqteoWOsWIHqXCZqjZ3SJ-46bLw36NZSQLMzVR_obYTP1eg_WrwNMLD_tmqebRAwLLm3mLrXB2qTJmpD63fIv7aVCQ",
-    accessToken:
-      "eyJhbGciOiJSUzI1NiIsImtpZCI6IjAzYTAzYmRkNjBhNWU1NTFkY2RiZjkyMDVkOTc2YTAzMjU1OWYxOWMifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vYmF5dHktMjQ2Y2MiLCJhdWQiOiJiYXl0eS0yNDZjYyIsImF1dGhfdGltZSI6MTUxMTAyNjk4MSwidXNlcl9pZCI6IjNZRzJQeGlYU2xlQXNwbUdhME1xemk1Y0JDQzIiLCJzdWIiOiIzWUcyUHhpWFNsZUFzcG1HYTBNcXppNWNCQ0MyIiwiaWF0IjoxNTExMDI2OTgxLCJleHAiOjE1MTEwMzA1ODEsImVtYWlsIjoidGVzdHBybzZAYmFpdHkuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbInRlc3Rwcm82QGJhaXR5LmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.PFWAqqJWZwqZOut903_y9TzRrvNey22JlHBaYbywCEZTlfsoZzDs3yPhQuF-pFJqemH79fwEKwfCSEPlUsQVoeENLtmgSSLyxtBQgYZVuWK-A1HnS7aQXMj__HO8tGR5vf3zzulEbkHysvs-NM8cb7Jqr8XvLkwJRswONrdn4_uUlCqzkSr8tc0vLZaFA-D6x5TN6CC7RLhTV6DYwKIyhpOD51yIH3P7ijdr1h_V_-Zo4yDVPazPhILY4nA1XV21O-kcHhSV0dbsoiwypHl-v0BCZiDgCiBZYXKdd_vdYJsM0yWh6V9UqjF8n7Tr6vRp3KJg9UePdsZe-AlVidTQFg",
-    expirationTime: 1511030581439
-  },
-  redirectEventId: null,
-  lastLoginAt: "1511026933000",
-  createdAt: "1511026110000"
-};
-
-*/
-
+import FirestoreServices from 'services/FirestoreServices';
 
 class Login extends Component {
   constructor() {
@@ -60,7 +18,6 @@ class Login extends Component {
         alertMsg: "", //message shown when form can not be submitted cause form is not valid
       }
     }
-
 
     this.authWithEmailPassword = this.authWithEmailPassword.bind(this)
     this.reportError = this.reportError.bind(this)
@@ -101,13 +58,23 @@ class Login extends Component {
         }
       })
       .then((user) => {
-        console.log("fetchProvidersForEmail then")
-
+        const { adminFlag } = this.props.location.state || { adminFlag: false };
         if (user && user.email) {
-          this.loginForm.reset()
-          this.props.setCurrentUser(user)
-          this.setState({ redirect: true })
+          FirestoreServices.readDBRecord('group', user.uid).then((value) => {
+            const { admin } = value;
+            if (adminFlag && !admin) {
+              this.reportError('User is not admin.', true)
+              return;
+            }
 
+            console.log('Autentication Passed successfully!')
+            const { setCurrentUser } = this.props;
+
+            setCurrentUser(user, admin);
+            this.setState({
+              redirect: true
+            })
+          })
         }
       })
       .catch((error) => {
@@ -129,10 +96,11 @@ class Login extends Component {
   }
 
   render() {
-    const { from } = this.props.location.state || { from: { pathname: '/' } }
+    const { from, adminFlag } = this.props.location.state || { from: { pathname: '/' }, adminFlag: false }
     const { redirect } = this.state
 
     if (redirect) {
+      console.log('redirect to ', from)
       return (
         <Redirect to={from.pathname} />
       )

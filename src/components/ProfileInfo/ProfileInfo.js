@@ -113,14 +113,15 @@ class ProfileInfo extends Component {
 
   componentWillMount() {
     var id = ""
+    const { state: { currentUser } } = this.props;
+
     if (this.props.user) {
-      this.setState({ owner: this.props.currentUser })
-      id = this.props.currentUser
-      console.log("this.props.currentUser " + this.props.currentUser)
+      this.setState({ owner: currentUser })
+      id = currentUser
     } else {
-      this.setState({ owner: this.props.currentUser.uid })
-      id = this.props.currentUser.uid
-      console.log("this.props.currentUser.uid " + this.props.currentUser.uid)
+      this.setState({ owner: currentUser.uid })
+      id = currentUser.uid
+      console.log("currentUser.uid " + currentUser.uid)
     }
     FirestoreServices.getProfessionalUserBusinessId(id,
       (businessId) => {

@@ -9,6 +9,9 @@ import './styles.css'
 export class Home extends Component {
 
   render() {
+    const { state: { authenticated, admin } } = this.props
+    console.log(authenticated ? 'User Autenticated successfully' : 'None Authenticated');
+    console.log(admin ? 'Admin Homepage' : 'Public Homepage');
     return (
       <div>
         <div >
@@ -16,7 +19,7 @@ export class Home extends Component {
             this.props.authenticated ?
               ''
               :
-              <CarouselBanner />
+              <CarouselBanner adminFlag={admin} />
           }
         </div>
 
@@ -25,9 +28,8 @@ export class Home extends Component {
             <ItemDiscovery {...{ collection: 'product-discovery', title: 'اختر منتجات منزلك' }} />
           </div>
         </div>
-        <ProductList thisUserOnly={false} />
+        <ProductList thisUserOnly={false} {...admin} />
       </div>
-
     );
   }
 }

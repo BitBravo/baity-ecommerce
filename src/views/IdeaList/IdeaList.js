@@ -66,15 +66,16 @@ class IdeaList extends Component {
     this.listToArray = this.listToArray.bind(this)
     this.next = this.next.bind(this);
     hasMore = true;
-
+    const { currentUser } = this.props;
+    if (!currentUser) return true;
 
     if (this.props.thisUserOnly) {
       var owner;
       if (this.props.user) {
-        owner = this.props.currentUser
+        owner = currentUser
         this.setState({ owner: owner })
       } else {
-        owner = this.props.currentUser.uid
+        owner = currentUser.uid
         this.setState({ owner: owner })
       }
       if (this.props.shortList) {

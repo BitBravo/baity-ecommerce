@@ -1,11 +1,25 @@
-.publish-layout {
-  /* direction: rtl; */
+.publish-layout .main-content {
+  margin-top: 90px;
+  padding-bottom: 49px;
+}
+
+.publish-layout .navbar nav {
+  height: 50px;
 }
 
 .publish-layout .navbar .navbar-nav {
   height: 50px;
 }
 
-.publish-layout .loginreg {
-  margin-top: 100px;
+.publish-layout .navbar-nav>li>a {
+  margin: 0px;
+}
+
+.publish-layout .itemNav {
+  height: unset !important;
+}
+
+.publish-layout .nav-tabs.nav-justified>li>a {
+  border-bottom: 0px;
+  border-radius: 4px 4px 0 0;
 }
