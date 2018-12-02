@@ -24,7 +24,7 @@ export class Home extends Component {
       <div>
         <div >
           {
-            authenticated || !admin ?
+            authenticated || adminRoute ?
               ''
               :
               <CarouselBanner {...{ adminViewFlag }} />
