@@ -1,5 +1,5 @@
 import React from "react";
-import IdeaList from "views/IdeaList";
+import IdeaList from "components/IdeaList";
 import { MdWeekend } from 'react-icons/lib/md';
 import { Grid, Row, Col } from "react-bootstrap";
 

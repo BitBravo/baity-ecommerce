@@ -1,5 +1,5 @@
 import React from "react";
-import IdeaList from "views/IdeaList";
+import IdeaList from "components/IdeaList";
 import styled from 'styled-components'
 import { Grid, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";

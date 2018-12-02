@@ -5,6 +5,8 @@ import FirestoreServices from 'services/FirestoreServices';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Row, Col } from 'react-bootstrap';
+import styled from 'styled-components'
+import empty_icon from 'assets/img/empty.png';
 
 import './styles.css';
 
@@ -59,12 +61,14 @@ export default class CarouselMenu extends Component {
     const resultData = {};
     const itemDatas = this.state.oldProps.items;
     const { modalStatus } = this.state;
-
+    const { redirectUrl } = this.props;
+    const discoveryDBName = redirectUrl.includes('product') ? 'product-discovery' : 'idea-discovery';
     const otherRows = itemDatas.filter(item => item.departmentId !== this.state.modalStatus.departmentId) || [];
     otherRows.push(modalStatus);
+    console.log(otherRows)
     resultData.discoveryList = otherRows;
 
-    FirestoreServices.saveAdminData('product-discovery', resultData).then((res) => {
+    FirestoreServices.saveAdminData(discoveryDBName, resultData).then((res) => {
       if (res) {
         this.props.onRefresh();
       }
@@ -77,12 +81,14 @@ export default class CarouselMenu extends Component {
     this.setState({ editModalFalg: false });
   }
 
-  editDiscovery(e, index) {
+  editDiscovery(e, department, index) {
     const leftMargin = e.target.getClientRects()[0].left - 400;
     const modalStatus = {};
     const { items } = this.state.oldProps;
-    modalStatus.departmentId = items ? items[index].departmentId : 'None';
-    modalStatus.image = items ? items[index].image : 'None';
+    const departmentObj = items.find((item) => item.departmentId === department) || {};
+    const departmentImg = departmentObj.image;
+    modalStatus.departmentId = department;
+    modalStatus.image = departmentImg;
     modalStatus.selectedId = index;
     this.setState({ editModalFalg: true, modalLeft: `${leftMargin}px`, modalStatus });
   }
@@ -91,7 +97,7 @@ export default class CarouselMenu extends Component {
     const settings = {
       speed: 500,
       autoplay: false,
-      slidesToShow: this.props.items.length > 5 ? 5 : this.props.items.length,
+      slidesToShow: this.props.items.length > 5 ? 5 : 5,
       slidesToScroll: 1,
       rows: 1,
       arrows: true,
@@ -130,10 +136,11 @@ export default class CarouselMenu extends Component {
         },
       ],
     };
-    const { items, title } = this.state.oldProps || { items: [] };
+    const { items, title } = this.state.oldProps || { items: [{}] };
     const itemTitleClassName = title === 'اختر منتجات منزلك' ? 'gray-center' : 'white-right';
     const departments = this.state.filters;
-    // console.log(items)
+    const { adminViewFlag, redirectUrl } = this.props;
+
     return (
       <div className="item-discovery-session">
         <div className="carousel-title-container">
@@ -144,58 +151,68 @@ export default class CarouselMenu extends Component {
             departments ?
               departments.map((department, index) => (
                 <div className="carousel-item" key={department}>
-                  <Link to={`/productspage/${items[index] ? items[index].departmentId : department}`}>
+                  <Link to={`/${redirectUrl}/${department}`}>
                     <div
                       style={{
-                        background: `url(${items[index] ? items[index].image : 'none'})`,
+                        background: `url(${
+                          (() => {
+                            const matchedData = items.find((item) => item.departmentId === department) || {};
+                            return matchedData.image || empty_icon
+                          })()
+                          })`,
                         backgroundSize: 'cover',
                         backgroundRepeat: 'no-repeat',
                         backgroundPosition: 'center center',
                       }}
                     />
-                    <p className={itemTitleClassName}>{items[index] ? items[index].departmentId : department}</p>
+                    <p className={itemTitleClassName}>{department}</p>
                   </Link>
-                  <div className="editBtn-area">
-                    <button className="editBtn" onClick={(e) => { this.editDiscovery(e, index); }}>
-                      Edit
-                    </button>
-                  </div>
+                  {
+                    adminViewFlag ?
+                      <div className="editBtn-area">
+                        <button className="editBtn" onClick={(e) => { this.editDiscovery(e, department, index); }}>
+                          Edit
+                        </button>
+                      </div>
+                      : ''
+                  }
                 </div>
               ))
               :
               ''
           }
         </Slider>
-        {this.state.editModalFalg ?
-          <div className="item-discovery-edit-modal" style={{ left: this.state.modalLeft }}>
-            <div className="departmentList">
-              <select name="dapartment" value={this.state.modalStatus.departmentId} onChange={this.onEditModal}>
-                <option value="None">None</option>
-                {
-                  departments ?
-                    departments.map(department =>
-                      <option value={department} key={department}>{department}</option>,
-                    )
-                    :
-                    ''
-                }
+        {
+          this.state.editModalFalg ?
+            <div className="item-discovery-edit-modal" style={{ left: this.state.modalLeft }}>
+              <div className="departmentList">
+                <select name="dapartment" value={this.state.modalStatus.departmentId} onChange={this.onEditModal}>
+                  <option value="None">None</option>
+                  {
+                    departments ?
+                      departments.map(department =>
+                        <option value={department} key={department}>{department}</option>,
+                      )
+                      :
+                      ''
+                  }
 
-              </select>
+                </select>
+              </div>
+              <div className="imageInfo">
+                <input type="text" name="image" value={this.state.modalStatus.image} onChange={this.onEditModal} />
+              </div>
+              <div className="toolbar">
+                <Col md={5} mdOffset={1}>
+                  <button onClick={this.onChangeAction}>Cancel</button>
+                </Col>
+                <Col md={5}>
+                  <button onClick={this.onSaveAction}>Save</button>
+                </Col>
+              </div>
             </div>
-            <div className="imageInfo">
-              <input type="text" name="image" value={this.state.modalStatus.image} onChange={this.onEditModal} />
-            </div>
-            <div className="toolbar">
-              <Col md={5} mdOffset={1}>
-                <button onClick={this.onChangeAction}>Change</button>
-              </Col>
-              <Col md={5}>
-                <button onClick={this.onSaveAction}>Save</button>
-              </Col>
-            </div>
-          </div>
-          :
-          ''
+            :
+            ''
         }
 
       </div>

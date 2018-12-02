@@ -86,7 +86,7 @@ export const routes = {
     },
     {
       component: ProductsPage,
-      path: '/productspage/:id',
+      path: '/productspages/:id',
       layout: DefaultLayout,
     },
     {
@@ -97,6 +97,11 @@ export const routes = {
     {
       component: IdeasPage,
       path: '/ideaspage',
+      layout: DefaultLayout,
+    },
+    {
+      component: IdeasPage,
+      path: '/ideaspage/:id',
       layout: DefaultLayout,
     },
     {

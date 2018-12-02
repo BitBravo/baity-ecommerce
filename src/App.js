@@ -31,7 +31,7 @@ const AuthRoute = ({ component: Component, layout: Layout, parent: _Parent, admi
       admin,
     },
   } = _Parent;
-
+  console.log(_Parent)
   console.log(`User Role => auth: ${authFlag}, admin: ${admin}, AdminRoute: ${adminRoute}`)
   return (
     <Route
@@ -138,9 +138,10 @@ class App extends Component {
 
           FirestoreServices.readDBRecord('profUser', `${user.uid}`)
             .then((val) => {
+              const name = typeof val === 'object' ? val.name : ''
               // cache username value and group value
               window.localStorage.setItem(groupStorageKey, value.group);
-              window.localStorage.setItem(userNameStorageKey, val.name);
+              window.localStorage.setItem(userNameStorageKey, name);
 
               this.setState({
                 currentUser: user,

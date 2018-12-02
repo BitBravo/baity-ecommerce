@@ -67,7 +67,6 @@ class IdeaList extends Component {
     this.next = this.next.bind(this);
     hasMore = true;
     const { currentUser } = this.props;
-    if (!currentUser) return true;
 
     if (this.props.thisUserOnly) {
       var owner;
@@ -109,6 +108,7 @@ class IdeaList extends Component {
 
       }
     } else {
+      console.log('idea list')
       var ref = FirestoreServices.ideas.orderBy('timestamp', 'desc')
       paginator = new FirestorePaginator(ref, {})
       paginator.on()
@@ -119,6 +119,8 @@ class IdeaList extends Component {
             firstTime: false
           })
         )
+      var ref = FirestoreServices.ideas.orderBy('timestamp', 'desc')
+      this.firePaginator(ref);
     }
   }
 
@@ -126,17 +128,28 @@ class IdeaList extends Component {
     this.ideasRef && base.removeBinding(this.ideasRef);
   }
 
+  firePaginator(ref) {
+    paginator = new FirestorePaginator(ref, {})
+    paginator.on()
+      .then((docs) =>
+        this.setState({
+          ideas: docs,
+          loading: false,
+          firstTime: false
+        })
+      )
+  }
   listToArray() {
-    // const ideas = this.state.ideas
-    // const ideaIds = Object.keys(ideas);
-    //
-    // var arr = [];
-    // ideaIds.reverse().map(id => {
-    //   const idea = ideas[id];
-    //   arr.push(idea)
-    // });
-    // var list = [...this.state.extraIdeas, ...arr.slice()]
-    // this.setState({extraIdeas: list, loading: false})
+    const ideas = this.state.ideas
+    const ideaIds = Object.keys(ideas);
+
+    var arr = [];
+    ideaIds.reverse().map(id => {
+      const idea = ideas[id];
+      arr.push(idea)
+    });
+    var list = [...this.state.extraIdeas, ...arr.slice()]
+    this.setState({ extraIdeas: list, loading: false })
   }
 
   next() {

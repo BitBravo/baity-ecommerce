@@ -44,3 +44,7 @@
   font-family: coolvetica;
   font-size: 20px;
 }
+
+.admin-header {
+  z-index: 999 !important;
+}

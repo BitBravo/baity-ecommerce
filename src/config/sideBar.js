@@ -2,7 +2,7 @@ export default
   [
     {
       name: 'Dashboard',
-      url: '/dashboard',
+      url: '/admin',
       icon: 'fa fa-tachometer',
       badge: {
         variant: 'info',

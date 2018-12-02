@@ -18,15 +18,18 @@ export class ItemDiscovery extends Component {
   }
 
   getDiscoveryData() {
-    FirestoreServices.readDBRecord('admin', 'product-discovery')
+    const { collection } = this.props;
+    FirestoreServices.readDBRecord('admin', collection)
       .then((items) => {
         this.setState({ items: items.discoveryList });
       });
   }
 
   render() {
+    const { adminViewFlag, redirectUrl } = this.props;
+
     return (
-      <CarouselMenu {...{ items: this.state.items, title: this.props.title }} onRefresh={this.getDiscoveryData} />
+      <CarouselMenu {...{ items: this.state.items, title: this.props.title, adminViewFlag, redirectUrl }} onRefresh={this.getDiscoveryData} />
     );
   }
 }

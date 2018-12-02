@@ -17,6 +17,7 @@ export class CarouselEditModal extends Component {
     this.modalShow = this.modalShow.bind(this);
     this.clearAction = this.clearAction.bind(this);
     this.importAction = this.importAction.bind(this);
+    this.saveFormData = this.saveFormData.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -52,6 +53,7 @@ export class CarouselEditModal extends Component {
 
   saveFormData() {
     let { carouselItems } = this.state;
+    console.log(carouselItems)
     const errorFlag = carouselItems.find((item, index) => {
       if (item.productId && !item.image) {
         alert(`Please add the ${index + 1}th Carousel Image`);
@@ -85,7 +87,6 @@ export class CarouselEditModal extends Component {
     console.log(data);
     return (
       <Row>
-
         <Col className="carousel-edit-modal" xl={5} lg={5} md={5} sm={6}>
           <div className="modal-tool">
             <button onClick={this.modalShow}>
@@ -100,7 +101,6 @@ export class CarouselEditModal extends Component {
             }
           </div>
 
-          <FaRecycle />
           {this.state.modalFlag ?
             <div className="carousel-modal-content" ref={(el) => { this.curouselForm = el; }} key={1}>
               {
@@ -111,7 +111,7 @@ export class CarouselEditModal extends Component {
                     <Col className="productId" md={3}><input type="text" placeholder="Enter product id" name="productId" value={data[index] ? data[index].productId : ''} onChange={e => this.dataChange(e, index)} /></Col>
                     {/* <Col md={2}><button onClick={this.getValue} onClick={(e) => this.importAction(index)}>Import</button></Col> */}
                     <Col md={2} onClick={e => this.importAction(e, index)} >
-                      <input type="file" name={index} id="file" className="inputfile" onChange={this.importAction} />
+                      <input type="text" name={index} id="file" className="inputfile" onChange={this.importAction} />
                       <label htmlFor="file">
                         Import
                       </label>

@@ -63,9 +63,22 @@ background-color:red;
 border-radius: 50%;
 `
 const UserNav = styled(Nav)`
+width:310px !important;
 @media only screen and (max-width: 767px) {
 display:none;}
 `
+
+const AdminNav = styled(Nav)`
+padding: 6px 0 !important;
+@media only screen and (max-width: 767px) {
+display:none;}
+`
+const AdminIcon = styled.i`
+font-size: 24px !important;
+font-weight: 900;
+color: #07af9fbf;
+`
+
 const UserImg = styled.img`
  width:35px;
  height:35px;
@@ -156,6 +169,8 @@ class Header extends Component {
 
   render() {
     console.log(this.props)
+    const { adminRoute, admin } = this.props;
+    const adminLinkFlag = !adminRoute && admin && admin !== "false" ? true : false;
     return (
       <Navbar fixedTop collapseOnSelect  >
         <Navbar.Header  >
@@ -173,6 +188,18 @@ class Header extends Component {
               </div>
             </NavItem>
           </Nav>
+
+          {adminLinkFlag ? (
+            <AdminNav>
+              <NavItem style={{ float: 'left', fontSize: '8px' }}>
+                <LinkContainer to="/admin">
+                  <AdminIcon className="fa fa-cogs" aria-hidden="true"></AdminIcon>
+                </LinkContainer>
+              </NavItem>
+            </AdminNav>
+          )
+            : ''
+          }
 
           {!this.props.authenticated ? (
             <UserNav >

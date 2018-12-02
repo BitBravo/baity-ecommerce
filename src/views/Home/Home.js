@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ProductList from 'views/ProductList';
+import ProductList from 'components/ProductList';
 import styled from 'styled-components'
 import CarouselBanner from 'components/CarouselBanner';
 import ItemDiscovery from 'components/ItemDiscovery';
@@ -12,12 +12,13 @@ export class Home extends Component {
     const {
       adminRoute,
       state: {
-        authenticated, admin
+        authenticated,
+        admin,
       }
     } = this.props;
-
+    const adminViewFlag = adminRoute && admin && admin !== "false" ? true : false;
     console.log(authenticated ? 'User Autenticated successfully' : 'None Authenticated');
-    console.log(admin ? 'Admin Homepage' : 'Public Homepage');
+    console.log(admin ? 'Admin user' : 'General User');
     console.log(this.props)
     return (
       <div>
@@ -26,13 +27,16 @@ export class Home extends Component {
             this.props.authenticated ?
               ''
               :
-              <CarouselBanner adminFlag={admin} adminRoute={adminRoute} />
+              <CarouselBanner {...{ adminViewFlag }} />
           }
         </div>
 
         <div className='container discovery-containter-block'>
           <div className='discovery-containter carousel-1'>
-            <ItemDiscovery {...{ collection: 'product-discovery', title: 'اختر منتجات منزلك' }} />
+            <ItemDiscovery {...{ collection: 'product-discovery', title: 'اختر منتجات منزلك', adminViewFlag, redirectUrl: 'productspages' }} />
+          </div>
+          <div className='discovery-containter carousel-2'>
+            <ItemDiscovery {...{ collection: 'idea-discovery', title: 'اكتشف تصاميم مبتكرة', adminViewFlag, redirectUrl: 'ideaspage' }} />
           </div>
         </div>
         <ProductList thisUserOnly={false} {...admin} />

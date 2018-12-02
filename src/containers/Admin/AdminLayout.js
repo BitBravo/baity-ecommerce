@@ -6,18 +6,8 @@ import './style.css'
 
 class AdminLayout extends Component {
     render() {
-        const { children:
-            {
-                props: {
-                    adminRoute,
-                    state: {
-                        authenticated: authFlag,
-                    },
-                },
-            },
-        } = this.props;
-        console.log(`Layout: Admin Layout, Autenticated: ${authFlag}, RouteFlag: ${adminRoute}`);
-
+        console.log('Admin Layout ...')
+        console.log(this.props)
         return (
             <div className="wrapper admin-layout">
                 <Header />

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import ProductList from "views/ProductList";
-import IdeaList from "views/IdeaList";
+import ProductList from "components/ProductList";
+import IdeaList from "components/IdeaList";
 import ProfileInfo from "components/ProfileInfo";
 
 class BusinessProfile extends Component {

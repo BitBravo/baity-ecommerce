@@ -8,7 +8,7 @@ import {
   ControlLabel,
   FormControl
 } from "react-bootstrap";
-import ProductList from 'views/ProductList';
+import ProductList from 'components/ProductList';
 import FirestoreServices from 'services/FirestoreServices'
 import styled from 'styled-components'
 import Categories from 'config/categories';

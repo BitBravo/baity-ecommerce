@@ -76,8 +76,9 @@ export class CarouselBanner extends Component {
   }
 
   render() {
-    const { adminFlag } = this.props;
-    console.log(adminFlag)
+    const { adminViewFlag } = this.props;
+    console.log(adminViewFlag)
+    console.log(this.props)
     return (
       <div>
         <Carousel
@@ -108,7 +109,7 @@ export class CarouselBanner extends Component {
           }
         </Carousel>
         {
-          adminFlag ?
+          adminViewFlag ?
             <CarouselEditModal items={this.state.carouselItems} onUpdate={e => this.getCarouselData(e)} />
             :
             ''
