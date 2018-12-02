@@ -40,6 +40,10 @@
   width: 100% !important;
 }
 
+.discovery-containter.carousel-2 {
+  margin-bottom: 22px;
+}
+
 .discovery-containter.carousel-2 .carousel-item {
   padding-top: 0px;
 }

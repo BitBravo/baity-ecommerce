@@ -24,14 +24,14 @@ export class Home extends Component {
       <div>
         <div >
           {
-            this.props.authenticated ?
+            authenticated || !admin ?
               ''
               :
               <CarouselBanner {...{ adminViewFlag }} />
           }
         </div>
 
-        <div className='container discovery-containter-block'>
+        <div className='container '>
           <div className='discovery-containter carousel-1'>
             <ItemDiscovery {...{ collection: 'product-discovery', title: 'اختر منتجات منزلك', adminViewFlag, redirectUrl: 'productspages' }} />
           </div>
