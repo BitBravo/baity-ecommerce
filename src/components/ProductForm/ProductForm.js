@@ -479,7 +479,7 @@ class ProductForm extends Component {
       height: this.state.height.value,
       length: this.state.length.value,
       name: this.state.name.value,
-      price: this.state.price.value,
+      price: this.state.price.value.trim(),
       width: this.state.width.value,
       // weight: this.state.weight.value,
       factory: this.state.factory.value
