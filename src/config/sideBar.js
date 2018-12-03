@@ -18,8 +18,7 @@ export default
       name: 'Inbox',
       url: '/inbox',
       icon: 'fa fa-inbox',
-    },
-    {
+    },    {
       name: 'Log out',
       url: '/logout',
       icon: 'fa fa-sign-out',
