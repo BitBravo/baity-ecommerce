@@ -23,12 +23,14 @@ const Header = (props) => {
       <CompanyNameDiv
         className="company-name col-md-3 col-sm-12"
       >
-        <Link to="/admin/profile">
+        <Link to="/">
           <p>Baity Admin</p>
         </Link>
       </CompanyNameDiv>
       <div className="company-logo col-md-6 col-sm-6 col-xs-6">
-        <img className="logo-img" src={LogoImg} alt="Smiley face" height="50px" width="80px" />
+        <Link to="/">
+          <img className="logo-img" src={LogoImg} alt="Smiley face" height="50px" width="80px" />
+        </Link>
       </div>
       <div className="company-admin col-md-3 col-sm-6 col-xs-6">
         <Link to="/admin/profile">

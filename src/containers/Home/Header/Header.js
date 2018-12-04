@@ -128,6 +128,10 @@ const Input = styled.input`
 }
  `
 
+const LogImg = styled.img`
+  padding: 1px !important;
+`
+
 class Header extends Component {
 
   constructor(props) {
@@ -170,13 +174,13 @@ class Header extends Component {
   render() {
     console.log(this.props)
     const { adminRoute, admin } = this.props;
-    const adminLinkFlag = !adminRoute && admin && admin !== "false" ? true : false;
+    const adminLinkFlag = !adminRoute && (admin || admin === "true") ? true : false;
     return (
       <Navbar fixedTop collapseOnSelect  >
         <Navbar.Header  >
           <NavbarBrand>
             <IndexLinkContainer to="/" style={{ cursor: "pointer" }}>
-              <img src={bayty_icon} />
+              <LogImg src={bayty_icon} />
             </IndexLinkContainer>
           </NavbarBrand>
           {/* desktop search bar */}
@@ -215,7 +219,7 @@ class Header extends Component {
           ) : (
               <UserNav >
                 <NavItem style={{ float: 'left' }}>
-                  <LinkContainer to="/myprofile" activeClassName="imgActivePage">
+                  <LinkContainer to="/logout" activeClassName="imgActivePage">
                     {this.props.userImg && this.props.userImg !== "undefined"
                       ? <UserImg src={this.props.userImg} />
                       :

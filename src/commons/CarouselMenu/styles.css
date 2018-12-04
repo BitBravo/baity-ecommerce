@@ -89,3 +89,6 @@
 button:active {
   background-color: #afaeae !important;
 }
+.carousel-item>a>div {
+    background-size: contain !important;
+}
