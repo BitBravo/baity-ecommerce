@@ -223,7 +223,7 @@ class ProductDetails extends Component {
         //   .then(val => this.setState({ businessName: val.name }))
         //if user authenticated, get her likes to update the heart
         if (authenticated) {
-          this.userLikesRef = FirebaseServices.readDBRecord('likes', `${this.props.currentUser.uid}/products/${this.productId}`)
+          this.userLikesRef = FirebaseServices.readDBRecord('likes', `${this.props.state.currentUser.uid}/products/${this.productId}`)
             .then(val => {
               if (val) {
                 this.setState({ liked: true, loading: false })
@@ -265,7 +265,7 @@ class ProductDetails extends Component {
       var like = false;
       const productRef = FirestoreServices.products.doc(this.productId)
       const userLikes = FirebaseServices.likes
-      const currentUserRef = userLikes.child(this.props.currentUser.uid).child("products")
+      const currentUserRef = userLikes.child(this.props.state.currentUser.uid).child("products")
       currentUserRef.child(this.productId).once('value', (snap) => {
         if (snap.val()) {
           console.log("unlike");
@@ -299,8 +299,9 @@ class ProductDetails extends Component {
   }
 
   addToCart() {
-    if (this.props.currentUser) {
-      FirebaseServices.insertItem(this.state.product, this.props.currentUser.uid)
+    const { currentUser } = this.props.state;
+    if (currentUser) {
+      FirebaseServices.insertItem(this.state.product, currentUser.uid)
         .then(quantity => {
           console.log("quantity " + quantity);
 
@@ -442,7 +443,7 @@ class ProductDetails extends Component {
                 <Col xs={1} style={{ padding: '7px 0 0 0' }}>
                   <IconImg src={Product} className="icons" /> </Col>
               </ProductName>
-              {this.props.currentUser
+              {this.props.state.currentUser
                 ? <button type="submit" onClick={() => { this.addToCart(); this.handleShow() }}>
                   اضافة للسلة
                <IconImg src={Cart} style={{ marginRight: '25px' }} />
@@ -475,7 +476,7 @@ class ProductDetails extends Component {
               <div >
                 {/* only product owner can update a product */}
                 {this.props.authenticated
-                  ? this.props.currentUser.uid === this.state.product.owner
+                  ? this.props.state.currentUser.uid === this.state.product.owner
                     ? <div>
                       <button style={{ width: '45%', position: 'absolute', bottom: '0', right: '5px' }}
                         type="submit" onClick={() => { this.handleShow1(); }}>

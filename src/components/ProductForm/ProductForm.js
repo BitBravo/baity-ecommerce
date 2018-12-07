@@ -503,6 +503,7 @@ class ProductForm extends Component {
     try {
       if (this.state.formValid) {
         var product = this.packageProduct();
+        console.log('vailidate @@@@@@@')
         //submit form by calling onSubmit
         //we will provide three callbacks to form submission handler in parent:
         // 1- callback for notifying us about success
@@ -762,6 +763,7 @@ class ProductForm extends Component {
 
   render() {
     console.log(`${this.constructor.name}.render`);
+    console.log(this.props.currentUser);
     console.log(this.state)
     console.log(this.state.submitStatus.showSubmitModal);
     return (

@@ -135,11 +135,11 @@ class ProductUpdater extends Component {
 
   //addImages(productId, newImages, selectedImg, formPercentageViewer){
   addImages(productId, newImages, formPercentageViewer) {
-    return FirestoreServices.addProductImages(productId, newImages, formPercentageViewer, this.props.currentUser.uid)
+    return FirestoreServices.addProductImages(productId, newImages, formPercentageViewer, this.props.state.currentUser.uid)
   }
 
   addProduct(product) {
-    product = { ...product, owner: this.props.currentUser.uid, businessName: this.name };
+    product = { ...product, owner: this.props.state.currentUser.uid, businessName: this.name };
     return FirestoreServices.insertProduct(product);//returns a promise resolved with product ID
   }
 
@@ -149,9 +149,11 @@ class ProductUpdater extends Component {
 
   //  handleSubmit(product, newImages, selectedImg, formPercentageViewer) {
   handleSubmit(product, newImages, formPercentageViewer) {
+    console.log(this.props.state.currentUser.uid)
+    var self = this
     if (this.state.isNewProduct) {
       return this.addProduct(product)
-        .then((productId) => this.addImages(productId, newImages, formPercentageViewer))
+        .then((productId) => self.addImages(productId, newImages, formPercentageViewer))
         .catch((error) => {
           console.log('could not insert product or upload images');
           console.log(`ERROR: code: ${error.code}, message:${error.message}`);
@@ -161,7 +163,7 @@ class ProductUpdater extends Component {
       return this.updateProduct(product)
         .then(() => {
           this.setState({ isUpdated: true });
-          return this.addImages(this.productId, newImages, formPercentageViewer)
+          return self.addImages(this.productId, newImages, formPercentageViewer)
         })
         .catch((error) => {
           console.log('could not update product or upload images');
@@ -176,6 +178,7 @@ class ProductUpdater extends Component {
   }
 
   render() {
+    const { currentUser } = this.props.state;
     if (this.state.loading && !this.state.errorHandling.showError)
       return <Loading />;
     if (this.state.errorHandling.showError)
@@ -189,7 +192,7 @@ class ProductUpdater extends Component {
             isNewProduct={this.state.isNewProduct}
             product={this.state.product}
             onSubmit={this.handleSubmit.bind(this)}
-            currentUser={this.props.currentUser}
+            currentUser={currentUser}
             deleteImageFromDB={this.deleteImageFromDB.bind(this)}
             isUpdated={this.state.isUpdated}
           />
