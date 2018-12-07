@@ -113,7 +113,7 @@ class ProfileInfo extends Component {
 
   componentWillMount() {
     var id = ""
-    const { state: { currentUser } } = this.props;
+    const { currentUser } = this.props;
 
     if (this.props.user) {
       this.setState({ owner: currentUser })

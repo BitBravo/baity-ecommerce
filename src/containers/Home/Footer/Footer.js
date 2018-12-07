@@ -77,7 +77,7 @@ class Footer extends Component {
               <UserName > الرئيسية </UserName>
             </span>
           </IndexLinkContainer>
-          <LinkContainer to="/productspage" activeClassName="activePage">
+          <LinkContainer to="/productspages" activeClassName="activePage">
             <span>
               <IconImg src={Product} className="icons" />
               <IconImg src={ActiveProduct} className="activeIcons" />
@@ -105,7 +105,7 @@ class Footer extends Component {
               <LinkContainer to="/myprofile" activeClassName="imgActivePage"
               // style={{display:'block',marginLeft:'auto',marginRight:'auto',padding:'0'}}
               >
-                {this.props.userImg
+                {this.props.userImg && this.props.userImg !== "undefined"
                   ? <UserImg src={this.props.userImg} />
                   : <UserImg src={logo_placeholder} />
                 }

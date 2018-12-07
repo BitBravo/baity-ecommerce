@@ -13,35 +13,37 @@ class MyAccount extends Component {
   }
 
   render() {
+    const { currentUser, group } = this.props.state;
+    console.log(this.props)
     return (
       <div>
-        {this.props.group === "prof" ?
+        {group === "prof" ?
           <div>
-            <ProfileInfo currentUser={this.props.currentUser} />
+            <ProfileInfo currentUser={currentUser} />
             <ProductList
               thisUserOnly={true}
               shortList={true}
-              currentUser={this.props.currentUser}
-              group={this.props.group}
+              currentUser={currentUser}
+              group={group}
             />
             <IdeaList
               thisUserOnly={true}
               shortList={true}
-              currentUser={this.props.currentUser}
-              group={this.props.group}
+              currentUser={currentUser}
+              group={group}
             />
           </div>
           : <div>
-            <NormalProfileInfo currentUser={this.props.currentUser} />
+            <NormalProfileInfo currentUser={currentUser} />
             <FavProducts
               shortList={true}
-              currentUser={this.props.currentUser}
-              group={this.props.group}
+              currentUser={currentUser}
+              group={group}
             />
             <FavIdeas
               shortList={true}
-              currentUser={this.props.currentUser}
-              group={this.props.group}
+              currentUser={currentUser}
+              group={group}
             />
           </div>
         }

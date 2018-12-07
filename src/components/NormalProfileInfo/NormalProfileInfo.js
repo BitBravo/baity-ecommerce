@@ -92,11 +92,13 @@ class NormalProfileInfo extends Component {
   }
 
   render() {
+    console.log(this.props)
+    console.log(this.state)
     return (
       <Grid style={{ backgroundColor: "white" }}>
         <Row style={{ display: 'flex', flexWrap: 'wrap' }}>
           <ImageCol sm={12} lg={12}>
-            {this.state.profile.homeImgUrl
+            {typeof this.state.profile ==="object" && this.state.profile.homeImgUrl
               ? <PreviewImg src={this.state.profile.homeImgUrl} />
               : <PreviewImg src={CaroselImg} />
             }

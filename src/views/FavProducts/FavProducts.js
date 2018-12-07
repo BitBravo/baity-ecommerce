@@ -65,7 +65,10 @@ class FavProducts extends Component {
     this.firebasePaginatorFiltering1 = this.firebasePaginatorFiltering.bind(this, ref)
     this.forwardFiltring = this.forwardFiltring.bind(this)
 
+    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@')
+    console.log(this.props)
     if (this.props.shortList) {
+
       FirebaseServices.likes.child(`${this.props.currentUser.uid}/products`).limitToLast(3).once("value", function (snapshot) {
         console.log(snapshot.val())
       }).then(snapshot => this.likedProducts(snapshot.val()));
