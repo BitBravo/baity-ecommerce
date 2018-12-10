@@ -20,7 +20,6 @@ export class Home extends Component {
     console.log(authenticated ? 'User Autenticated successfully' : 'None Authenticated');
     console.log(admin ? 'Admin user' : 'General User');
     console.log(this.props)
-    console.log(adminViewFlag)
     return (
       <div>
         <div >

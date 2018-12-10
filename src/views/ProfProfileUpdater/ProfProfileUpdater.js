@@ -100,9 +100,18 @@ class ProfProfileUpdater extends Component {
     }
     profileData.id = this.state.profile.id;
     FirestoreServices.updateProfProfile(this.props.state.currentUser.uid, profileData, formErrorHandler, this.formSuccessHandler, this.formPercentageViewer)
+    const {
+      state: {
+        admin: adminFlag,
+        currentUser: user
+      },
+      setCurrentUser
+    } = this.props;
+    setCurrentUser(user, adminFlag)
   }
 
   render() {
+
     if (this.state.loading && !this.state.errorHandling.showError)
       return <Loading />;
     if (this.state.errorHandling.showError)

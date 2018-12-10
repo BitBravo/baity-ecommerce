@@ -149,6 +149,8 @@ class NorProfileForm extends Component {
     this.authWithEmailPassword = this.authWithEmailPassword.bind(this)
 
     let fields = { ...FIELDS }
+    console.log(this.props)
+
     _.forEach(fields, (fieldData, fieldName) => { //element value, element key in object
       fieldData.value = this.props.profile[fieldName] || ''
     });
@@ -440,6 +442,7 @@ class NorProfileForm extends Component {
   }
 
   render() {
+    console.log(this.props)
     var loading = false;
     const { from } = { from: { pathname: '/myprofile' } }
     const { redirect } = this.state

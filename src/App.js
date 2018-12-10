@@ -90,7 +90,6 @@ class App extends Component {
           userImg: window.localStorage.getItem(userImgStorageKey),
         },
       );
-      this.setCurrentUser(user, admin)
     }
 
     // the current user is: firebase.auth().currentUser
@@ -100,7 +99,6 @@ class App extends Component {
     this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
       console.log('user from firebase auth');
       console.log(user);
-      this.setCurrentUser(user);
     });
   }
 
