@@ -98,6 +98,7 @@ class ProfProfileUpdater extends Component {
       formErrorHandler('خطأ داخلي: لم يتم العثور على البروفايل في قاعدة البيانات')
       return
     }
+    const self = this;
     profileData.id = this.state.profile.id;
     FirestoreServices.updateProfProfile(this.props.state.currentUser.uid, profileData, formErrorHandler, this.formSuccessHandler, this.formPercentageViewer)
     const {
@@ -106,7 +107,7 @@ class ProfProfileUpdater extends Component {
         currentUser: user
       },
       setCurrentUser
-    } = this.props;
+    } = self.props;
     setCurrentUser(user, adminFlag)
   }
 

@@ -118,6 +118,7 @@ const MyThumbnailDiv = styled.div`
 const PreviewImg = styled.div`
 width:100%;
 height:100%;
+background-size: cover !important;
 `;
 
 const ImageDiv = styled.div`

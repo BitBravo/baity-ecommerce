@@ -5,7 +5,6 @@ import './App.css';
 
 class HomeLayout extends Component {
   render() {
-    console.log(this.props)
     const {
       children:
       {

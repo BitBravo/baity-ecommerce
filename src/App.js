@@ -10,7 +10,7 @@ const groupStorageKey = `${storageKey}_GROUP`;
 const userNameStorageKey = `${storageKey}_USERNAME`;
 const userImgStorageKey = `${storageKey}_LOGO`;
 const userRoleStorageKey = `${storageKey}_Role`;
-
+console.log(userImgStorageKey)
 const AppRoute = ({ component: Component, layout: Layout, parent: _Parent, ...rest }) => {
   return (
     <Route
@@ -123,16 +123,17 @@ class App extends Component {
       window.localStorage.setItem(userStorageKey, JSON.stringify(user));
       window.localStorage.setItem(userRoleStorageKey, admin);
 
-
+      console.log(user)
       FirestoreServices.readDBRecord('group', user.uid).then((value) => {
         console.log(`User Group Data=> ${JSON.stringify(value)}`);
+        console.log(value)
 
         if (value.group === 'prof') {
           owner = user.uid;
           FirestoreServices.businesses.where('owner', '==', owner)
             .onSnapshot((snapshot) => {
               snapshot.forEach((val) => {
-                window.localStorage.setItem(userImgStorageKey, val.imgUrl);
+                window.localStorage.setItem(userImgStorageKey, val.data().imgUrl);
                 this.setState({
                   userImg: val.data().imgUrl,
                   owner,
@@ -159,7 +160,7 @@ class App extends Component {
           FirestoreServices.normalUsers.where('uid', '==', `${user.uid}`)
             .onSnapshot((snapshot) => {
               snapshot.forEach((val) => {
-                window.localStorage.setItem(userImgStorageKey, val.imgUrl);
+                window.localStorage.setItem(userImgStorageKey, val.data().imgUrl);
                 this.setState({
                   userImg: val.data().imgUrl,
                 });
@@ -168,7 +169,7 @@ class App extends Component {
 
           FirestoreServices.readDBRecord('normalUser', `${user.uid}`)
             .then((val) => {
-              window.localStorage.setItem(groupStorageKey, val.group);
+              window.localStorage.setItem(groupStorageKey, value.group);
               window.localStorage.setItem(userNameStorageKey, val.name);
               this.setState({
                 currentUser: user,
