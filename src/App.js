@@ -69,6 +69,7 @@ class App extends Component {
     };
     this.setCurrentUser = this.setCurrentUser.bind(this);
     this.getCart = this.getCart.bind(this);
+    this.updateCart = this.updateCart.bind(this);
     this.clearLocalUserData = this.clearLocalUserData.bind(this);
   }
 
@@ -90,6 +91,7 @@ class App extends Component {
           userImg: window.localStorage.getItem(userImgStorageKey),
         },
       );
+      this.getCart(user);
     }
 
     // the current user is: firebase.auth().currentUser
@@ -154,7 +156,7 @@ class App extends Component {
                 group: value.group,
                 userName: val.name,
               });
-              return this.getCart(user);
+              this.getCart(user);
             });
         } else if (value.group === 'normal') {
           FirestoreServices.normalUsers.where('uid', '==', `${user.uid}`)
@@ -182,7 +184,6 @@ class App extends Component {
               return b;
             });
         }
-        return true;
       }).catch((err) => {
         console.log('Get User Group ERROR')
         console.log(err)

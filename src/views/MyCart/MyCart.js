@@ -137,7 +137,7 @@ export class MyCart extends Component {
     // create a chat between user and business owner **later
     // fetch owners emails
     // send email msg with uesr email and product information
-    FirebaseServices.basket.child(this.props.currentUser.uid).update({ 'completed': { 'isCompleted': true, 'group': `${this.props.group}`, 'contactMethod': "email" } })
+    FirebaseServices.basket.child(this.props.state.currentUser.uid).update({ 'completed': { 'isCompleted': true, 'group': `${this.props.group}`, 'contactMethod': "email" } })
     this.props.updateCart(false, true)
     this.setState({ completed: true });
   }
@@ -149,9 +149,10 @@ export class MyCart extends Component {
   deleteItem(id) {
     delete this.state.basket[id]
     this.setState({ basket: this.state.basket })
-    FirebaseServices.basket.child(`${this.props.currentUser.uid}/items/${id}`).remove()
+    FirebaseServices.basket.child(`${this.props.state.currentUser.uid}/items/${id}`).remove()
     // for some reason calling fetch will not cause the page to rerender
     this.fetchItems()
+    console.log(this.props)
     this.props.updateCart(false, false)
   }
 

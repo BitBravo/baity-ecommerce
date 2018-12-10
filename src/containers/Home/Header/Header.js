@@ -258,8 +258,8 @@ class Header extends Component {
             {this.props.authenticated ?
               <LinkContainer to="/mycart" activeClassName="active" style={{ position: 'relative', cursor: 'pointer' }}>
                 <div style={{ position: 'relative' }}>
-                  {this.props.cart > 0 ?
-                    <CartNo>{this.props.cart}</CartNo>
+                  {this.props.cartCount > 0 ?
+                    <CartNo>{this.props.cartCount}</CartNo>
                     : null
                   }
                   <Logo src={Cart} className="shoppingcart" />
