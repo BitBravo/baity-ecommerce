@@ -86,7 +86,6 @@ class ProductUpdater extends Component {
 
   componentWillMount() {
     const { state: { currentUser } } = this.props;
-    console.log(currentUser)
     if (!this.state.isNewProduct) {
       this.productsRef = base.bindDoc(`${FirestoreServices.PRODUCTS_PATH}/${this.productId}`, {
         context: this,
@@ -120,9 +119,6 @@ class ProductUpdater extends Component {
    * Not sure if there is another case where this method will be called
    */
   componentWillReceiveProps(nextProps) {
-    console.log(`${this.constructor.name}.componentWillReceiveProps`);
-    console.log('nextProps')
-    console.log(nextProps)
     //if there is no id in the url (which means a new product)
     if (!nextProps.match.params.id) {
       //since updating current product was inturrupted,
@@ -140,7 +136,6 @@ class ProductUpdater extends Component {
   addProduct(product) {
     product = { ...product, owner: this.props.state.currentUser.uid, businessName: this.name };
     product.price = parseInt(product.price)
-    console.log(product)
     return FirestoreServices.insertProduct(product);//returns a promise resolved with product ID
   }
 
@@ -150,7 +145,6 @@ class ProductUpdater extends Component {
 
   //  handleSubmit(product, newImages, selectedImg, formPercentageViewer) {
   handleSubmit(product, newImages, formPercentageViewer) {
-    console.log(product)
     var self = this
     if (this.state.isNewProduct) {
       return this.addProduct(product)

@@ -71,14 +71,11 @@ export class CarouselBanner extends Component {
         }
       });
       this.setState({ carouselItems: items.carousel });
-      console.log(items);
     });
   }
 
   render() {
     const { adminViewFlag } = this.props;
-    console.log(adminViewFlag)
-    console.log(this.props)
     return (
       <div>
         <Carousel

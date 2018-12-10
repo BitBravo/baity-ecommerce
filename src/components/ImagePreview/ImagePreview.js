@@ -114,7 +114,6 @@ class ImagePreview extends Component {
   }
 
   handleImageSelect() {
-    console.log('image click and URL is')
     this.props.onImageSelect(this.props.url);
   }
 
@@ -125,7 +124,6 @@ class ImagePreview extends Component {
           this.props.onImageDelete(this.props.url, /*fromDB*/ true)
             .then(() => this.setState({ loading: false }))
             .catch(error => {
-              console.log(`ImagePreview.handleImageDelete: Error found, type: ${error.type}, message: ${error.message}`)
               this.setState({ loading: false }, () => this.setState({ error: error }))
             })
         })

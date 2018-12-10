@@ -174,20 +174,22 @@ const PriceOption = (list) => (
   })
 )
 
-var CategoriesOption = (list) => (
-  categoryList.map(opt => {
-    return (
-      <option key={opt} value={opt}>
-        {opt}
-      </option>
-    );
-  })
+var CategoriesOption = ({list}) => (
+  list.length>0?
+    list.map((opt, key) => {
+      return (
+        <option key={key} value={opt}>
+          {opt}
+        </option>
+      );
+    })
+    :
+    ''
 )
 class ProductsPage extends Component {
 
   constructor(props) {
     super(props);
-    console.log(props)
     this.departmentId = this.props.match.params.id;
     this.state = {
       value: "",
@@ -197,7 +199,8 @@ class ProductsPage extends Component {
       price: "",
       priceRange: { upper: "", lower: "" },
       style: "",
-      departments: []
+      departments: [],
+      categoryList: [],
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -253,7 +256,9 @@ class ProductsPage extends Component {
         if (event.target.value === "") filter[2] = { key: 'category', value: "" };
         this.setState({
           dept: event.target.value
-        }); break;
+        });
+        this.getList(event.target.value);
+        break;
       case "style":
         filter[1] = { key: 'style', value: event.target.value }
         this.setState({
@@ -276,28 +281,30 @@ class ProductsPage extends Component {
     this.setState({ filter: filter });
   }
 
-  getList() {
-    if (this.state.dept === "")
+  getList(dept) {
+    const { departments } = this.state;
+    if (!dept)
       categoryList = ["حدد القسم أولا"]
     else {
       var CategoryList = [];
-      switch (this.state.dept) {
-        case "صالات": CategoryList = Categories.CategoryListLivingroom; break;
-        case "مجالس": CategoryList = Categories.CategoryListSettingroom; break;
-        case "غرف النوم": CategoryList = Categories.CategoryListBedroom; break;
-        case "مطابخ وأواني": CategoryList = Categories.CategoryListKitchen; break;
-        case "غرف الطعام": CategoryList = Categories.CategoryListDining; break;
-        case "دورات المياه": CategoryList = Categories.CategoryListBath; break;
-        case "الأثاث": CategoryList = Categories.CategoryListFurn; break;
-        case "المخازن": CategoryList = Categories.CategoryListStorage; break;
-        case "جلسات خارجية": CategoryList = Categories.CategoryListGarden; break;
-        case "أرضيات": CategoryList = Categories.CategoryListFloors; break;
-        case "غرف أطفال": CategoryList = Categories.CategoryListKids; break;
-        case "مكاتب منزلية": CategoryList = Categories.CategoryListOffice; break;
+      switch (dept) {
+        case departments[0]: CategoryList = Categories.CategoryListLivingroom; break;
+        case departments[1]: CategoryList = Categories.CategoryListSettingroom; break;
+        case departments[2]: CategoryList = Categories.CategoryListBedroom; break;
+        case departments[3]: CategoryList = Categories.CategoryListKitchen; break;
+        case departments[4]: CategoryList = Categories.CategoryListDining; break;
+        case departments[5]: CategoryList = Categories.CategoryListBath; break;
+        case departments[6]: CategoryList = Categories.CategoryListFurn; break;
+        case departments[7]: CategoryList = Categories.CategoryListStorage; break;
+        case departments[8]: CategoryList = Categories.CategoryListGarden; break;
+        case departments[9]: CategoryList = Categories.CategoryListFloors; break;
+        case departments[10]: CategoryList = Categories.CategoryListKids; break;
+        case departments[11]: CategoryList = Categories.CategoryListOffice; break;
         default:
           break;
       }
-      categoryList = CategoryList;
+      this.setState({ categoryList: CategoryList });
+      // categoryList = CategoryList;
     }
   }
 
@@ -353,9 +360,9 @@ class ProductsPage extends Component {
                     <i className="glyphicon glyphicon-plus white plus"></i>
                     <Select name="selectThis" id="category" onChange={this.handleChange} value={this.state.cat}>
                       <option value="">التصنيف</option>
-                      {this.state.dept === ""
-                        ? <option value="">حدد القسم أولا</option>
-                        : <CategoriesOption list={this.getList()} />
+                      {!this.state.dept
+                        ? <option value="">قسم أولاحدد ال</option>
+                        : <CategoriesOption list={this.state.categoryList} />
                       }
                     </Select>
                   </div>

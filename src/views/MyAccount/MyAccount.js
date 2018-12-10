@@ -14,7 +14,6 @@ class MyAccount extends Component {
 
   render() {
     const { currentUser, group } = this.props.state;
-    console.log(this.props)
     return (
       <div>
         {group === "prof" ?

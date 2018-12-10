@@ -7,7 +7,6 @@ import './style.css'
 class AdminLayout extends Component {
     render() {
         console.log('Admin Layout ...')
-        console.log(this.props)
         return (
             <div className="wrapper admin-layout">
                 <Header />

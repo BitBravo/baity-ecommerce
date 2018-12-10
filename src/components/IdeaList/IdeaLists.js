@@ -108,7 +108,6 @@ class IdeaList extends Component {
 
       }
     } else {
-      console.log('idea list')
       var ref = FirestoreServices.ideas.orderBy('timestamp', 'desc')
       paginator = new FirestorePaginator(ref, {})
       paginator.on()
@@ -177,7 +176,6 @@ class IdeaList extends Component {
   render() {
     const ideas = this.state.ideas;
     const ideaIds = Object.keys(ideas);
-    console.log("ideas " + ideaIds.length)
 
     var msg;
     var title;

@@ -256,9 +256,6 @@ class App extends Component {
   }
 
   render() {
-    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-    console.log(this.state)
-    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
     return (
       <BrowserRouter>
         <Switch>

@@ -184,7 +184,6 @@ class IdeasPage extends Component {
 
   constructor(props) {
     super(props);
-    console.log(props)
     this.departmentId = this.props.match.params.id;
     this.state = {
       value: "",
@@ -327,7 +326,6 @@ class IdeasPage extends Component {
 
 
   render() {
-    console.log(this.state.departments)
     return (
       <div>
         <Grid>

@@ -154,8 +154,6 @@ class IdeaBrief extends Component {
   //src="http://via.placeholder.com/243x243"
   render() {
     const idea = this.props.idea;
-    console.log('@@@@@@@@@@@@@@@@@@@@@')
-    console.log(this.props)
     var imgUrl = typeof idea ==="object" && idea.images
       ?  idea.images[0].thumbnail ? idea.images[0].thumbnail : idea.images[0].large
       : "http://via.placeholder.com/243x243"

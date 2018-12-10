@@ -65,7 +65,6 @@ export default class CarouselMenu extends Component {
     const discoveryDBName = redirectUrl.includes('product') ? 'product-discovery' : 'idea-discovery';
     const otherRows = itemDatas.filter(item => item.departmentId !== this.state.modalStatus.departmentId) || [];
     otherRows.push(modalStatus);
-    console.log(otherRows)
     resultData.discoveryList = otherRows;
 
     FirestoreServices.saveAdminData(discoveryDBName, resultData).then((res) => {
@@ -77,7 +76,6 @@ export default class CarouselMenu extends Component {
   }
 
   onChangeAction() {
-    console.log('onChangeAction');
     this.setState({ editModalFalg: false });
   }
 

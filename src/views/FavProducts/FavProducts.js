@@ -48,7 +48,6 @@ class FavProducts extends Component {
       const productIds = Object.keys(val);
       productIds.map(id => {
         FirestoreServices.products.doc(id).get().then((snapshot) => {
-          console.log(snapshot.data())
           var products = [...this.state.products, snapshot.data()]
           this.setState({ products: products, loading: false, empty: false })
 
@@ -65,12 +64,9 @@ class FavProducts extends Component {
     this.firebasePaginatorFiltering1 = this.firebasePaginatorFiltering.bind(this, ref)
     this.forwardFiltring = this.forwardFiltring.bind(this)
 
-    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@')
-    console.log(this.props)
     if (this.props.shortList) {
 
       FirebaseServices.likes.child(`${this.props.currentUser.uid}/products`).limitToLast(3).once("value", function (snapshot) {
-        console.log(snapshot.val())
       }).then(snapshot => this.likedProducts(snapshot.val()));
     } else {
       var ref = FirebaseServices.likes.child(`${this.props.currentUser.uid}/products`)
@@ -94,7 +90,6 @@ class FavProducts extends Component {
     var arr = [];
     productIds.reverse().map(id => {
       const product = products[id];
-      console.log("copy product " + product.id)
       arr.push(product)
     });
     var list = []

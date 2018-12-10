@@ -79,7 +79,6 @@ class NormalProfileInfo extends Component {
   }
 
   componentWillMount() {
-    console.log(this.props)
     const { currentUser } = this.props;
     if (!currentUser) return;
 
@@ -92,8 +91,6 @@ class NormalProfileInfo extends Component {
   }
 
   render() {
-    console.log(this.props)
-    console.log(this.state)
     return (
       <Grid style={{ backgroundColor: "white" }}>
         <Row style={{ display: 'flex', flexWrap: 'wrap' }}>

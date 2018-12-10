@@ -323,8 +323,7 @@ class ProductForm extends Component {
       this.state.formValid = true
       this.state.imagesFromDB = [...this.props.product.images];//just URLs
     }
-    console.log('after adding data from DB, state is: ')
-    console.log(this.state)
+
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.validateForm = this.validateForm.bind(this);
@@ -335,8 +334,6 @@ class ProductForm extends Component {
     this.addImage = this.addImage.bind(this);
     this.deleteImage = this.deleteImage.bind(this);
     this.packageProduct = this.packageProduct.bind(this);
-    console.log('at the end of constructor state is: ')
-    console.log(this.state)
   }
 
   /**
@@ -347,9 +344,6 @@ class ProductForm extends Component {
    * @param {*} nextProps
    */
   componentWillReceiveProps(nextProps) {
-    console.log(`${this.constructor.name}.componentWillReceiveProps`);
-    console.log('nextProps')
-    console.log(nextProps)
     //case 1
     if (nextProps.isUpdated)
       return
@@ -442,8 +436,6 @@ class ProductForm extends Component {
       if (this.state.imagesFromDB.length > 1) {
         return this.props.deleteImageFromDB(imageDataURL)
           .then((imagesFromDB) => {
-            console.log('imagesFromDB')
-            console.log(imagesFromDB)
             this.setState({
               imagesFromDB: [...imagesFromDB],
             }, () => this.validateForm()
@@ -503,7 +495,6 @@ class ProductForm extends Component {
     try {
       if (this.state.formValid) {
         var product = this.packageProduct();
-        console.log('vailidate @@@@@@@')
         //submit form by calling onSubmit
         //we will provide three callbacks to form submission handler in parent:
         // 1- callback for notifying us about success
@@ -558,7 +549,6 @@ class ProductForm extends Component {
         });
     } catch (err) {
       console.log('something went wrong while trying to add product: ');
-      console.log(this.state);
       console.log(`ERROR: code: ${err.code}, message:${err.message}`);
       //in case something went wrong while trying to submit then handle the exception
       //hide waiting alert then show submission failure msg
@@ -762,10 +752,6 @@ class ProductForm extends Component {
   }
 
   render() {
-    console.log(`${this.constructor.name}.render`);
-    console.log(this.props.currentUser);
-    console.log(this.state)
-    console.log(this.state.submitStatus.showSubmitModal);
     return (
       <form>
         <div>

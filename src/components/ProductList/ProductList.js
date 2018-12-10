@@ -51,7 +51,6 @@ var hasMore = true;
 class ProductList extends Component {
   constructor() {
     super();
-    console.log("ProductList Constroctor");
     this.state = {
       products: {},
       extraProducts: [],
@@ -92,8 +91,6 @@ class ProductList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("componentWillReceiveProps - Product List")
-    console.log(nextProps)
     // filter options will be recived as props
     if (nextProps.filter) {
     if (nextProps.filter.length > 0){
@@ -132,7 +129,6 @@ class ProductList extends Component {
     }
       console.log("filter 3" + filter[3].value)
       ref = this.setRangeFilter(ref, filter[3]).orderBy('timestamp', 'desc')
-    console.log(ref)
     this.firePaginator(ref);
   }
 
@@ -229,228 +225,10 @@ class ProductList extends Component {
       })
     })
   }
-// class ProductList extends Component {
-//   constructor() {
-//     super();
-//     this.state = {
-//       products: {},
-//       extraProducts: [],
-//       loading: true,
-//       firstTime: true,
-//       page: 0,
-//       filter: "",
-//       filterValue: "",
-//       owner: ""
-//     };
-//     this.businessProducts = this.businessProducts.bind(this)
-//   }
-
-//   componentWillMount() {
-//     this.listToArray = this.listToArray.bind(this)
-//     this.forward = this.forward.bind(this)
-//     this.firePaginator = this.firePaginator.bind(this)
-//     this.setRangeFilter = this.setRangeFilter.bind(this)
-//     this.createQuery = this.createQuery.bind(this)
-//     //FirebaseServices.filterIndexing();
-//     //FirebaseServices.filterIndexingStyle();
-//     //FirebaseServices.addOwnerName()
-//     //FirestoreServices.copyImages()
-
-//     hasMore = true;
-//     if (this.props.thisUserOnly) {
-//       this.businessProducts(this.props)
-//     } else {
-//       var ref = FirestoreServices.products.orderBy('timestamp', 'desc')
-//       this.firePaginator(ref);
-//       // FirestoreServices.getDataQuery('product')
-//       //   .then(products => {
-//       //     this.setState({ products: products })
-//       //     this.setState({ loading: false })
-//       //   })
-//     }
-//   }
-
-//   componentWillUnmount() {
-//     this.productsRef && base.removeBinding(this.productsRef);
-//   }
-
-//   componentWillReceiveProps(nextProps) {
-//     console.log(`${this.constructor.name} => nextProps`)
-//     console.log(nextProps)
-//     // filter options will be recived as props
-//     if (nextProps.filter) {
-//       if (nextProps.filter.length > 0) {
-//         this.setState({ loading: true }) // start loading indcator
-//         var filterValues = nextProps.filter
-//         //  var ref = FirestoreServices.products
-//         this.createQuery(filterValues);
-//       } else {
-//         // filter was reset => no filteration
-//         if (nextProps.filter.length < 1) {
-//           // reset the product list by deleting all from the extraProducts
-
-//           // var ref = FirestoreServices.products.orderBy('timestamp', 'desc')
-//           FirestoreServices.getDataQuery('product')
-//             .then(products => this.setState({ products: products }))
-//           // this.firePaginator(ref);
-//         }
-//       }
-//     } else if (nextProps.thisUserOnly)
-//       this.businessProducts(nextProps)
-//     else {
-//       FirestoreServices.getDataQuery('product')
-//         .then(items => {
-//           this.setState({ 'products': items });
-//           this.setState({ loading: false })
-//           console.log(items)
-//         })
-//     }
-//   }
-
-//   createQuery(filter) {
-//     console.log(filter)
-//     // let query = [];
-//     // if (filter[0].value) {
-//     //   query.push([filter[0].key, '==', filter[0].value])
-//     // }
-//     // if (filter[1].value) {
-//     //   query.push([filter[1].key, '==', filter[1].value])
-//     // }
-//     // if (filter[2].value) {
-//     //   query.push([filter[2].key, '==', filter[2].value])
-//     // }
-//     // console.log(query)
-//     // FirestoreServices.getDataQuery('product', query)
-//     //   .then(items => {
-//     //     this.setState({ 'products': items });
-//     //     this.setState({ loading: false })
-//     //     console.log(items)
-//     //   })
-//     var ref = FirestoreServices.products
-//     console.log(filter)
-//     if (filter[0].value) {
-//       console.log("filter 0 " + filter[0].value)
-//       ref = ref.where(filter[0].key, "==", filter[0].value)
-//     }
-//     if (filter[1].value !== "") {
-//       console.log("filter 1 " + filter[1].value)
-//       ref = ref.where(filter[1].key, "==", filter[1].value)
-//     }
-//     if (filter[2].value !== "") {
-//       console.log("filter 2 " + filter[2].value)
-//       ref = ref.where(filter[2].key, "==", filter[2].value)
-//     }
-//     if (filter[3].value) {
-//       console.log("filter 3" + filter[3].value)
-//       ref = this.setRangeFilter(ref, filter[3]).orderBy('timestamp', 'desc')
-//     }
-//     console.log(ref)
-//     this.firePaginator(ref);
-//   }
-
-//   setRangeFilter(ref, filter) {
-//     var pf = false;
-//     console.log(filter)
-//     if (filter.value.upper !== "") { ref = ref.where(filter.key, "<=", filter.value.upper); pf = true };
-//     // if (filter.value.lower !== "") { ref = ref.where(filter.key, ">=", filter.value.lower); pf = true; }
-//     if (pf) ref = ref.orderBy('price', 'asc');
-//     return ref;
-//   }
-
-//   businessProducts(props) {
-
-//     console.log("BusinessProducts")
-//     const { currentUser } = this.props;
-//     if (!currentUser) return;
-//     var owner;
-//     if (props.user) {
-//       owner = props.currentUser
-//       this.setState({ owner: owner })
-//     } else {
-//       owner = props.currentUser.uid
-//       this.setState({ owner: owner })
-//     }
-
-//     // Here in the profile page or the company page
-//     if (props.shortList) {
-//       this.productsRef = base.bindCollection(FirestoreServices.PRODUCTS_PATH, {
-//         context: this,
-//         state: "products",
-//         query: (ref) => {
-//           return ref.where('owner', '==', owner)
-//             .orderBy('timestamp', 'desc')
-//             .limit(3);
-//         },
-//         then(data) {
-//           this.setState({ loading: false, firstTime: false })
-//         },
-//         onFailure(error) {
-//           this.setState({ errorHandling: { showError: true, errorMsg: error } });
-//         }
-//       });
-//     } else { // All products by a company
-//       var ref = FirestoreServices.products.where("owner", "==", owner).orderBy('timestamp', 'desc')
-//       this.firePaginator(ref)
-//     }
-//   }
-
-//   listToArray() {
-//     const products = this.state.products
-//     const productIds = Object.keys(products);
-    
-//     var arr = [];
-//     productIds.reverse().map(id => {
-//       const product = products[id];
-//       console.log("copy product " + product.id)
-//       arr.push(product)
-//     });
-//     var list = [...this.state.extraProducts, ...arr.slice()]
-//     //this.setState({extraProducts: arr.slice(), loading: false})
-//     this.setState({extraProducts: list, loading: false})
-//   }
-
-//   firePaginator(ref) {
-//     paginator = new FirestorePaginator(ref, {})
-//     paginator.on()
-//       .then((docs) =>
-//         this.setState({
-//           products: docs,
-//           loading: false,
-//           firstTime: false
-//         })
-//       )
-//   }
-
-//   forward() {
-//     console.log("calling next()")
-//     if (!paginator.hasMore) {
-//       hasMore = false;
-//       console.log("next() Has no more");
-//       return;
-//     }
-//     console.log("next() Has more")
-//     paginator.next()
-//       .then((docs) => {
-//         if (!paginator.hasMore) {
-//           hasMore = false;
-//           console.log("next() Has no more")
-//           return
-//         }
-//         console.log("hasMore = " + paginator.hasMore)
-//         var newProducts = this.state.products.concat(docs)
-//         this.setState({
-//           products: newProducts,
-//           loading: false,
-//           firstTime: false
-//         })
-//       })
-//   }
 
   render() {
     const products = this.state.products
     const productIds = Object.keys(products)
-    console.log(products)
-    console.log(this.state.loading, this.props.shortList)
 
     // if (products.length > 1 && !this.props.shortList) {
       

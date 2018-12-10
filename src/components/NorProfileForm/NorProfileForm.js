@@ -454,7 +454,6 @@ class NorProfileForm extends Component {
       <div>
         <form
           onSubmit={event => {
-            console.log(event)
             this.authWithEmailPassword(event)
           }}
           ref={form => {

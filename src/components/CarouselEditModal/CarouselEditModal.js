@@ -21,7 +21,6 @@ export class CarouselEditModal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.items);
     this.setState({ carouselItems: nextProps.items });
   }
 
@@ -42,7 +41,6 @@ export class CarouselEditModal extends Component {
   }
 
   clearAction(i) {
-    console.log(i);
     const { carouselItems } = this.state;
     if (carouselItems[i]) {
       carouselItems[i].image = '';
@@ -53,7 +51,6 @@ export class CarouselEditModal extends Component {
 
   saveFormData() {
     let { carouselItems } = this.state;
-    console.log(carouselItems)
     const errorFlag = carouselItems.find((item, index) => {
       if (item.productId && !item.image) {
         alert(`Please add the ${index + 1}th Carousel Image`);
@@ -84,7 +81,6 @@ export class CarouselEditModal extends Component {
   render() {
     const emptyData = [1, 2, 3, 4, 5];
     const data = this.state.carouselItems;
-    console.log(data);
     return (
       <Row>
         <Col className="carousel-edit-modal" xl={5} lg={5} md={5} sm={6}>

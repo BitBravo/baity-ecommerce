@@ -157,8 +157,6 @@ class Header extends Component {
   }
 
   componentWillMount() {
-    console.log(this.props)
-
     if (this.props.authenticated) {
       if (this.props.group === "prof") {
         FirestoreServices.readDBRecord('profUser', `${this.props.currentUser.uid}`)
@@ -174,7 +172,6 @@ class Header extends Component {
   }
 
   render() {
-    console.log(this.props)
     const { adminRoute, admin } = this.props;
     const profileUrl = this.props.group ? "/myprofile" : "/myprofile";
 

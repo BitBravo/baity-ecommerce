@@ -12,7 +12,6 @@ const CompanyNameDiv = styled.div`
   `;
 
 const Header = (props) => {
-  console.log(props)
   return (
     <div className="admin-header">
       {/* <div className="company-name col-md-3">

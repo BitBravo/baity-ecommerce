@@ -61,7 +61,6 @@ class Login extends Component {
         const { adminFlag } = this.props.location.state || { adminFlag: false };
         if (user && user.email) {
           FirestoreServices.readDBRecord('group', user.uid).then((value) => {
-            console.log(value)
             const { admin } = value;
             if (adminFlag && !admin) {
               this.reportError('User is not admin.', true)
