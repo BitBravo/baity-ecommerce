@@ -5,7 +5,7 @@ import { Image, Col, Thumbnail, Button, Card, Row } from "react-bootstrap";
 import Equalizer from "react-equalizer";
 import styled from 'styled-components'
 import { MdEventSeat } from 'react-icons/lib/md';
-import idea from 'assets/img/Selected-idea.png';
+import Idea from 'assets/img/Selected-idea.png';
 
 const TagDiv = styled.span`
 position: absolute;
@@ -118,6 +118,7 @@ const MyThumbnailDiv = styled.div`
 const PreviewImg = styled.div`
 width:100%;
 height:100%;
+background-size: cover !important;
 `;
 
 const ImageDiv = styled.div`
@@ -198,7 +199,7 @@ class IdeaBrief extends Component {
                 </DescriptionCol>
               </Link>
               <Col xs={1} style={{ padding: '4px 0 0 0' }}>
-                <IconImg src={idea} className="icons" />
+                <IconImg src={Idea} className="icons" />
               </Col>
             </div>
 
@@ -232,7 +233,7 @@ class IdeaBrief extends Component {
               </Link>
 
               <Col xs={1} style={{ padding: '5px 0 0 0' }}>
-                <IconImg src={idea} className="icons" />
+                <IconImg src={Idea} className="icons" />
               </Col>
             </div>
 
@@ -266,7 +267,7 @@ class IdeaBrief extends Component {
               </Link>
 
               <Col xs={1} style={{ padding: '5px 0 0 0' }}>
-                <IconImg src={idea} className="icons" /> </Col>
+                <IconImg src={Idea} className="icons" /> </Col>
             </div>
 
             <p style={{ paddingTop: '5px' }}>
@@ -300,7 +301,7 @@ class IdeaBrief extends Component {
               </Link>
 
               <Col xs={1} style={{ padding: '5px 0 0 0' }}>
-                <IconImg src={idea} className="icons" /> </Col>
+                <IconImg src={Idea} className="icons" /> </Col>
             </div>
 
             <p style={{ paddingTop: '3px' }}>

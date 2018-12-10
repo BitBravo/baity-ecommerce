@@ -308,23 +308,6 @@ class IdeasPage extends Component {
     return filter;
   }
 
-  // setFilter(filter, filterType, filterValue){
-  //   console.log("filter.length " + filter.length)
-  //
-  //   filter = filter.filter(function(obj){ return obj.key !== filterType;} )
-  //   if (filterValue === ""){    console.log("filter.length " + filter.length)
-  //
-  //     return filter;
-  //   }
-  //   else{
-  //     filter.push({key:filterType, value: filterValue})
-  //     console.log("filter.length " + filter.length)
-  //
-  //     return filter;
-  //   }
-  // }
-
-
   render() {
     return (
       <div>
