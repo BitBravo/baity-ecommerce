@@ -799,7 +799,7 @@ class ProductForm extends Component {
 
         <FieldGroup
           id="formControlsProductPrice"
-          type="text"
+          type="number"
           label="السعر"
           placeholder="أدخل السعر"
           onChange={this.handleChange}

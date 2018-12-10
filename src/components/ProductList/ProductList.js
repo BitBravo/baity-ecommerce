@@ -340,16 +340,19 @@ class ProductList extends Component {
 //       console.log("filter 2 " + filter[2].value)
 //       ref = ref.where(filter[2].key, "==", filter[2].value)
 //     }
-//     console.log("filter 3" + filter[3].value)
-//     ref = this.setRangeFilter(ref, filter[3]).orderBy('timestamp', 'desc')
+//     if (filter[3].value) {
+//       console.log("filter 3" + filter[3].value)
+//       ref = this.setRangeFilter(ref, filter[3]).orderBy('timestamp', 'desc')
+//     }
 //     console.log(ref)
 //     this.firePaginator(ref);
 //   }
 
 //   setRangeFilter(ref, filter) {
 //     var pf = false;
+//     console.log(filter)
 //     if (filter.value.upper !== "") { ref = ref.where(filter.key, "<=", filter.value.upper); pf = true };
-//     if (filter.value.lower !== "") { ref = ref.where(filter.key, ">=", filter.value.lower); pf = true; }
+//     // if (filter.value.lower !== "") { ref = ref.where(filter.key, ">=", filter.value.lower); pf = true; }
 //     if (pf) ref = ref.orderBy('price', 'asc');
 //     return ref;
 //   }
@@ -392,19 +395,18 @@ class ProductList extends Component {
 //   }
 
 //   listToArray() {
-//     // const products = this.state.products
-//     // const productIds = Object.keys(products);
-//     //
-//     // var arr = [];
-//     // productIds.reverse().map(id => {
-//     //   const product = products[id];
-//     //   console.log("copy product " + product.id)
-//     //   arr.push(product)
-//     // });
-//     // var list = [...this.state.extraProducts, ...arr.slice()]
-//     // //this.setState({extraProducts: arr.slice(), loading: false})
-//     // this.setState({extraProducts: list, loading: false})
-
+//     const products = this.state.products
+//     const productIds = Object.keys(products);
+    
+//     var arr = [];
+//     productIds.reverse().map(id => {
+//       const product = products[id];
+//       console.log("copy product " + product.id)
+//       arr.push(product)
+//     });
+//     var list = [...this.state.extraProducts, ...arr.slice()]
+//     //this.setState({extraProducts: arr.slice(), loading: false})
+//     this.setState({extraProducts: list, loading: false})
 //   }
 
 //   firePaginator(ref) {

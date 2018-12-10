@@ -102,7 +102,6 @@ class ProductUpdater extends Component {
     //add owner to product
     FirestoreServices.readDBRecord('profUser', currentUser.uid)
       .then(val => {
-        console.log('@@@@@@@@@@@@@@@@@@@@@@', val)
         this.name = val.name
       })
   }
@@ -140,6 +139,8 @@ class ProductUpdater extends Component {
 
   addProduct(product) {
     product = { ...product, owner: this.props.state.currentUser.uid, businessName: this.name };
+    product.price = parseInt(product.price)
+    console.log(product)
     return FirestoreServices.insertProduct(product);//returns a promise resolved with product ID
   }
 
@@ -149,7 +150,7 @@ class ProductUpdater extends Component {
 
   //  handleSubmit(product, newImages, selectedImg, formPercentageViewer) {
   handleSubmit(product, newImages, formPercentageViewer) {
-    console.log(this.props.state.currentUser.uid)
+    console.log(product)
     var self = this
     if (this.state.isNewProduct) {
       return this.addProduct(product)
