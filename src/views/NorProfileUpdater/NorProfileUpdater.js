@@ -37,7 +37,7 @@ class NorProfileUpdater extends Component {
   }
 
   componentWillMount() {
-    FirestoreServices.readDBRecord('normalUser', this.props.currentUser.uid)
+    FirestoreServices.readDBRecord('normalUser', this.props.state.currentUser.uid)
       .then(value => this.setState({
         loading: false,
         profile: value
@@ -83,7 +83,7 @@ class NorProfileUpdater extends Component {
       return
     }
     profileData.id = this.state.profile.uid;
-    FirestoreServices.updateNormalUserProfile(this.props.currentUser.uid, profileData, formErrorHandler, this.formSuccessHandler, this.formPercentageViewer)
+    FirestoreServices.updateNormalUserProfile(this.props.state.currentUser.uid, profileData, formErrorHandler, this.formSuccessHandler, this.formPercentageViewer)
   }
 
   render() {

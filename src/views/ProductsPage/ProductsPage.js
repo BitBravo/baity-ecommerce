@@ -212,10 +212,12 @@ class ProductsPage extends Component {
     });
     this.setState({ filter: filter });
   }
+
   componentWillMount() {
     FirestoreServices.readDBRecord('product-specification', 'filters')
       .then(filters => this.setState({ departments: filters.department }));
   }
+
   handleChange(event) {
     if (event.target.id === "category") {
       if (this.state.dept === "") {
@@ -270,8 +272,8 @@ class ProductsPage extends Component {
         }); break;
 
     }
-    this.setState({ filter: filter });
 
+    this.setState({ filter: filter });
   }
 
   getList() {
@@ -330,7 +332,6 @@ class ProductsPage extends Component {
 
 
   render() {
-    console.log(this.state.departments)
     return (
       <div>
         <Grid>

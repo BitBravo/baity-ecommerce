@@ -25,13 +25,14 @@ const AppRoute = ({ component: Component, layout: Layout, parent: _Parent, ...re
 
 
 const AuthRoute = ({ component: Component, layout: Layout, parent: _Parent, adminRoute, ...rest }) => {
+  console.log(_Parent)
   const {
     state: {
       authenticated: authFlag,
       admin,
     },
   } = _Parent;
-  console.log(_Parent)
+
   console.log(`User Role => auth: ${authFlag}, admin: ${admin}, AdminRoute: ${adminRoute}`)
   return (
     <Route
@@ -43,6 +44,7 @@ const AuthRoute = ({ component: Component, layout: Layout, parent: _Parent, admi
             :
             <Redirect
               to={{ pathname: '/login', state: { from: props.location, adminRoute } }}
+              state = {_Parent.state}
             />
           }
         </Layout>
@@ -77,25 +79,29 @@ class App extends Component {
     if (window.localStorage.getItem(userStorageKey)) {
       console.log('Parse user data from Storage ...');
       console.log(JSON.parse(window.localStorage.getItem(userStorageKey)));
+      const user = JSON.parse(window.localStorage.getItem(userStorageKey));
+      const admin = window.localStorage.getItem(userRoleStorageKey);
       this.setState(
         {
-          currentUser: JSON.parse(window.localStorage.getItem(userStorageKey)),
+          currentUser: user,
           authenticated: true,
           group: window.localStorage.getItem(groupStorageKey),
           admin: window.localStorage.getItem(userRoleStorageKey),
           userImg: window.localStorage.getItem(userImgStorageKey),
         },
       );
+      this.setCurrentUser(user, admin)
     }
+
     // the current user is: firebase.auth().currentUser
     // For more info on firebase Auth object check the "user lifecycle" in:
     // (https://firebase.google.com/docs/auth/users)
     // Note that: app.auth() is short for firebase.auth(app)
-    // this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
-    //   console.log('user from firebase auth');
-    //   console.log(user);
-    //   this.setCurrentUser(user);
-    // });
+    this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
+      console.log('user from firebase auth');
+      console.log(user);
+      this.setCurrentUser(user);
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -166,13 +172,13 @@ class App extends Component {
             .then((val) => {
               window.localStorage.setItem(groupStorageKey, val.group);
               window.localStorage.setItem(userNameStorageKey, val.name);
-
               this.setState({
                 currentUser: user,
                 authenticated: true,
-                group: val.group,
+                group: value.group,
                 userName: val.name,
               });
+              console.log(val.group)
               const b = this.getCart(user);
               return b;
             });
@@ -197,7 +203,6 @@ class App extends Component {
     window.localStorage.removeItem(userImgStorageKey);
     window.localStorage.removeItem(userRoleStorageKey);
 
-
     // 2- clean up state
     this.setState({
       currentUser: null,
@@ -209,6 +214,7 @@ class App extends Component {
       userImg: '',
       owner: '',
     });
+    return true;
   }
 
   getCart(user) {
@@ -250,6 +256,9 @@ class App extends Component {
   }
 
   render() {
+    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+    console.log(this.state)
+    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
     return (
       <BrowserRouter>
         <Switch>

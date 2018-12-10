@@ -4,7 +4,7 @@ import { Grid, Row, Col } from "react-bootstrap";
 import { app, base } from "config/base";
 import FirestoreServices from 'services/FirestoreServices'
 import FirestorePaginator from 'services/FirestorePaginator'
-import ProductBrief from "components/ProductBrief";
+import IdeaBrief from "components/IdeaBrief";
 import Loading from 'commons/Loading'
 import styled from 'styled-components'
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -116,7 +116,7 @@ class IdeaList extends Component {
         }
       }
     } else if (nextProps.thisUserOnly)
-      this.businessProducts(nextProps)
+      this.businessIdeas(nextProps)
     else {
       FirestoreServices.getDataQuery('idea')
         .then(items => {
@@ -173,19 +173,20 @@ class IdeaList extends Component {
   }
 
   businessIdeas(props) {
-
     console.log("BusinessIdeas")
-    console.log(this.props)
     const { currentUser } = this.props;
     if (!currentUser) return;
+
     var owner;
     if (props.user) {
-      owner = props.currentUser
+      owner = currentUser
       this.setState({ owner: owner })
     } else {
-      owner = props.currentUser.uid
+      owner = currentUser.uid
       this.setState({ owner: owner })
     }
+    console.log(FirestoreServices.IDEAS_PATH)
+
     // Here in the profile page or the company page
     if (props.shortList) {
       this.ideasRef = base.bindCollection(FirestoreServices.IDEAS_PATH, {
@@ -197,9 +198,12 @@ class IdeaList extends Component {
             .limit(3);
         },
         then(data) {
+          console.log(data)
           this.setState({ loading: false, firstTime: false })
         },
         onFailure(error) {
+          console.log(error)
+
           this.setState({ errorHandling: { showError: true, errorMsg: error } });
         }
       });
@@ -253,7 +257,7 @@ class IdeaList extends Component {
           return
         }
         console.log("hasMore = " + paginator.hasMore)
-        var newIdeas = this.state.products.concat(docs)
+        var newIdeas = this.state.ideas.concat(docs)
         this.setState({
           ideas: newIdeas,
           loading: false,
@@ -268,12 +272,13 @@ class IdeaList extends Component {
     console.log(ideas)
     var msg;
     var title;
+
     if (this.props.user) {
-      msg = "لا يوجد منتجات"
-      title = "المنتجات"
+      msg = "لا يوجد أفكار"
+      title = "الأفكار"
     } else {
-      msg = "لم تقم باضافة منتجات، إبدأ الان"
-      title = "منتجاتي"
+      msg = " لم تقم باضافة أفكار، إبدأ الان"
+      title = "أفكاري"
     }
 
     if (this.state.loading)
@@ -288,7 +293,7 @@ class IdeaList extends Component {
               <Col xs={12} lg={12} >
                 <Col xs={5} md={3} lg={2} style={{ padding: "0 15px 0 0" }}>
                   <Link to={`/newidea`}>
-                    <Button>إضافة منتج<IconImg src={Product} /></Button>
+                    <Button>إضافة فكرة<IconImg src={Product} /></Button>
                   </Link>
                 </Col>
                 <Col xs={7} md={9} lg={10} >
@@ -317,9 +322,9 @@ class IdeaList extends Component {
               {ideas.length < 1
                 ? <h4 style={{ textAlign: 'center' }}>{msg}</h4>
                 :
-                ideas.map(id => {
-                  const idea = ideas[id];
-                  return <ProductBrief key={id} product={idea} />;
+                ideas.map((idea, key) => {
+                  // const idea = ideas[id];
+                  return <IdeaBrief key={key} idea={idea} />;
                 })}
             </Col>
           </Row>
@@ -345,7 +350,7 @@ class IdeaList extends Component {
 
                     : <div>{
                       ideas.map((idea, index) => {
-                        return <ProductBrief key={index} product={idea} />;
+                        return <IdeaBrief key={index} idea={idea} />;
                       })
                     }</div>
                   }

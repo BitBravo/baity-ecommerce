@@ -157,6 +157,8 @@ class Header extends Component {
   }
 
   componentWillMount() {
+    console.log(this.props)
+
     if (this.props.authenticated) {
       if (this.props.group === "prof") {
         FirestoreServices.readDBRecord('profUser', `${this.props.currentUser.uid}`)
@@ -174,7 +176,9 @@ class Header extends Component {
   render() {
     console.log(this.props)
     const { adminRoute, admin } = this.props;
-    const adminLinkFlag = !adminRoute && (admin || admin === "true") ? true : false;
+    const profileUrl = this.props.group ? "/myprofile" : "/myprofile";
+
+    const adminLinkFlag = !adminRoute && (admin && admin.toString() === "true") ? true : false;
     return (
       <Navbar fixedTop collapseOnSelect  >
         <Navbar.Header  >
@@ -219,7 +223,7 @@ class Header extends Component {
           ) : (
               <UserNav >
                 <NavItem style={{ float: 'left' }}>
-                  <LinkContainer to="/logout" activeClassName="imgActivePage">
+                  <LinkContainer to={ profileUrl } activeClassName="imgActivePage">
                     {this.props.userImg && this.props.userImg !== "undefined"
                       ? <UserImg src={this.props.userImg} />
                       :

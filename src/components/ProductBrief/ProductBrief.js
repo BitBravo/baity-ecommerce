@@ -154,12 +154,12 @@ class ProductBrief extends Component {
   //src="http://via.placeholder.com/243x243"
   render() {
     const product = this.props.product;
-    var imgUrl;
-    product.images
-      ? imgUrl = product.images[0].thumbnail ? product.images[0].thumbnail : product.images[0].large
-      : imgUrl = "http://via.placeholder.com/243x243"
+    var imgUrl = typeof product ==="object" && product.images
+      ?  product.images[0].thumbnail ? product.images[0].thumbnail : product.images[0].large
+      : "http://via.placeholder.com/243x243"
 
     return (
+      typeof product === "object" ?
       <MyThumbnailCol xs={6} md={4} sm={6} style={{ float: 'right' }} >
         <MyThumbnailDiv>
           <ImageContainer>
@@ -319,7 +319,9 @@ class ProductBrief extends Component {
             </div>
           </XSPaddingDiv>
         </MyThumbnailDiv>
-      </MyThumbnailCol>
+        </MyThumbnailCol>
+        :
+        ""
     );
   }
 }

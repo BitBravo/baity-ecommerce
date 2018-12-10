@@ -99,7 +99,7 @@ class ProfProfileUpdater extends Component {
       return
     }
     profileData.id = this.state.profile.id;
-    FirestoreServices.updateProfProfile(this.props.currentUser.uid, profileData, formErrorHandler, this.formSuccessHandler, this.formPercentageViewer)
+    FirestoreServices.updateProfProfile(this.props.state.currentUser.uid, profileData, formErrorHandler, this.formSuccessHandler, this.formPercentageViewer)
   }
 
   render() {

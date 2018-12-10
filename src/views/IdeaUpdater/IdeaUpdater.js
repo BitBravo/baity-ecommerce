@@ -137,12 +137,12 @@ class IdeaUpdater extends Component {
 
 
   addImages(ideaId, newImages, formPercentageViewer) {
-    return FirestoreServices.addIdeaImages(ideaId, newImages, formPercentageViewer, this.props.currentUser.uid)
+    return FirestoreServices.addIdeaImages(ideaId, newImages, formPercentageViewer, this.props.state.currentUser.uid)
   }
 
   addIdea(idea) {
     //add owner to idea
-    idea = { ...idea, owner: this.props.currentUser.uid, businessName: this.name };
+    idea = { ...idea, owner: this.props.state.currentUser.uid, businessName: this.name };
     return FirestoreServices.insertIdea(idea);//returns a promise resolved with idea ID
   }
 
@@ -193,7 +193,7 @@ class IdeaUpdater extends Component {
             isNewIdea={this.state.isNewIdea}
             idea={this.state.idea}
             onSubmit={this.handleSubmit.bind(this)}
-            currentUser={this.props.currentUser}
+            currentUser={this.props.state.currentUser}
             deleteImageFromDB={this.deleteImageFromDB.bind(this)}
             isUpdated={this.state.isUpdated}
           />

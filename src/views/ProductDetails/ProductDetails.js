@@ -240,6 +240,7 @@ class ProductDetails extends Component {
       }
     });
   }
+  
 
   componentWillUnmount() {
     this.productsRef && base.removeBinding(this.productsRef);

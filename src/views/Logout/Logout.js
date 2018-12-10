@@ -7,20 +7,21 @@ class Logout extends Component {
   constructor() {
     super()
     this.state = {
-      redirect: false
+      redirect: false,
+      clearFlag: false,
     }
   }
 
   componentWillMount() {
     app.auth().signOut().then((user, error) => {
       const { clearLocalUserData } = this.props;
-      clearLocalUserData();
-      this.setState({ redirect: true })
+      this.setState({ redirect: true, clearFlag: clearLocalUserData() })
     });
   }
 
   render() {
-    if (this.state.redirect === true) {
+    const { redirect, clearFlag } = this.state;
+    if (redirect && clearFlag) {
       return <Redirect to="/" />
     }
 

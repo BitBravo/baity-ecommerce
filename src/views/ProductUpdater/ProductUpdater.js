@@ -102,7 +102,7 @@ class ProductUpdater extends Component {
     //add owner to product
     FirestoreServices.readDBRecord('profUser', currentUser.uid)
       .then(val => {
-        console.log(val.name)
+        console.log('@@@@@@@@@@@@@@@@@@@@@@', val)
         this.name = val.name
       })
   }
