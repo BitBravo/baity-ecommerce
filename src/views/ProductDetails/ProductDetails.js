@@ -212,7 +212,7 @@ class ProductDetails extends Component {
   componentWillMount() {
     this.thumbImage.bind(this);
     this.addToCart = this.addToCart.bind(this)
-    const authenticated = this.props.authenticated
+    const authenticated = this.props.state.authenticated
     this.archiveProduct = this.archiveProduct.bind(this)
     this.productsRef = base.bindDoc(`${FirestoreServices.PRODUCTS_PATH}/${this.productId}`, {
       context: this,
@@ -262,7 +262,7 @@ class ProductDetails extends Component {
   }
 
   like() {
-    if (this.props.authenticated) {
+    if (this.props.state.authenticated) {
       var like = false;
       const productRef = FirestoreServices.products.doc(this.productId)
       const userLikes = FirebaseServices.likes
@@ -344,6 +344,8 @@ class ProductDetails extends Component {
   }
 
   render() {
+    console.log(this.props)
+    console.log(this.state)
     const product = this.state.product;
     const { nextIcon, prevIcon } = this.state;
     if (this.state.loading && !this.state.errorHandling.showError)
@@ -476,7 +478,7 @@ class ProductDetails extends Component {
 
               <div >
                 {/* only product owner can update a product */}
-                {this.props.authenticated
+                {this.props.state.authenticated
                   ? this.props.state.currentUser.uid === this.state.product.owner
                     ? <div>
                       <button style={{ width: '45%', position: 'absolute', bottom: '0', right: '5px' }}

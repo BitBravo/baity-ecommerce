@@ -471,7 +471,7 @@ class ProductForm extends Component {
       height: this.state.height.value,
       length: this.state.length.value,
       name: this.state.name.value,
-      price: this.state.price.value.trim(),
+      price: parseInt(this.state.price.value),
       width: this.state.width.value,
       // weight: this.state.weight.value,
       factory: this.state.factory.value
@@ -494,6 +494,7 @@ class ProductForm extends Component {
     e.preventDefault();
     try {
       if (this.state.formValid) {
+
         var product = this.packageProduct();
         //submit form by calling onSubmit
         //we will provide three callbacks to form submission handler in parent:
@@ -785,7 +786,7 @@ class ProductForm extends Component {
 
         <FieldGroup
           id="formControlsProductPrice"
-          type="number"
+          type="text"
           label="السعر"
           placeholder="أدخل السعر"
           onChange={this.handleChange}

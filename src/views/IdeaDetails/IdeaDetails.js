@@ -179,14 +179,14 @@ class IdeaDetails extends Component {
     this.thumbImage.bind(this);
     this.archiveIdea = this.archiveIdea.bind(this)
 
-    const authenticated = this.props.authenticated
+    const authenticated = this.props.state.authenticated
     this.ideasRef = base.bindDoc(`${FirestoreServices.IDEAS_PATH}/${this.ideaId}`, {
       context: this,
       state: 'idea',
       then(data) {
         //if user authenticated, get her likes to update the heart
         if (authenticated) {
-          this.userLikesRef = FirebaseServices.readDBRecord('likes', `${this.props.currentUser.uid}/ideas/${this.ideaId}`)
+          this.userLikesRef = FirebaseServices.readDBRecord('likes', `${this.props.state.currentUser.uid}/ideas/${this.ideaId}`)
             .then(val => {
               if (val) {
                 this.setState({ liked: true, loading: false })
@@ -224,9 +224,9 @@ class IdeaDetails extends Component {
   }
 
   like() {
-    if (this.props.authenticated) {
+    if (this.props.state.authenticated) {
       const userLikes = FirebaseServices.likes
-      const currentUserRef = userLikes.child(`${this.props.currentUser.uid}/ideas`)
+      const currentUserRef = userLikes.child(`${this.props.state.currentUser.uid}/ideas`)
       const ideaRef = FirestoreServices.ideas.doc(this.ideaId)
       var like = false;
 
@@ -397,8 +397,8 @@ class IdeaDetails extends Component {
 
               <div >
                 {
-                  this.props.authenticated
-                    ? this.props.currentUser.uid === this.state.idea.owner
+                  this.props.state.authenticated
+                    ? this.props.state.currentUser.uid === this.state.idea.owner
                       ? <div>
                         <button style={{ width: '45%', position: 'absolute', bottom: '0', right: '5px' }}
                           type="submit" onClick={() => { this.handleShow(); }}>
