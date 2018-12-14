@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Grid, Row, Col } from "react-bootstrap";
-import { app, base } from "config/base";
+import { base } from "config/base";
 import FirestoreServices from 'services/FirestoreServices'
 import FirestorePaginator from 'services/FirestorePaginator'
 import ProductBrief from "components/ProductBrief";

@@ -8,7 +8,7 @@ class Registration extends Component {
       <div style={{ height: 'calc(100vh - (50px + 60px))' }} className="loginreg">
         <form>
           <div className="loginregtitle">
-            <img src={bayty_icon} />
+            <img src={bayty_icon} alt=""/>
             <h2 style={{ color: 'rgb(26,156,142)' }}>التسجيل</h2>
           </div>
           <LinkContainer to="/registerProf" activeClassName="active">

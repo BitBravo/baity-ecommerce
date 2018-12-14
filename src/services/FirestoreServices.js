@@ -475,6 +475,8 @@ export default {
           case firebase.storage.TaskState.RUNNING: // or 'running'
             console.log('Upload is running');
             break;
+          default:
+            break;
         }
       },
       (error) => {
@@ -494,6 +496,8 @@ export default {
 
           case 'storage/unknown':
             // Unknown error occurred, inspect error.serverResponse
+            break;
+          default:
             break;
         }
         errorHandler(error.message);
@@ -543,6 +547,8 @@ export default {
           case firebase.storage.TaskState.RUNNING: // or 'running'
             console.log('Upload is running');
             break;
+          default:
+            break;
         }
       },
       (error) => {
@@ -562,6 +568,8 @@ export default {
 
           case 'storage/unknown':
             // Unknown error occurred, inspect error.serverResponse
+            break;
+          default:
             break;
         }
         errorHandler(error.message);
@@ -756,13 +764,12 @@ export default {
         break;
       default:
         ref = this.products;
+        break;
     }
 
     if (typeof params === 'object' && params.length) {
       if (typeof params[0] === 'object') {
-        params.map((param) => {
-          ref = ref.where(param[0], param[1], param[2]);
-        });
+          ref = params.map((param) => ref.where(param[0], param[1], param[2]))
       } else {
         ref = ref.where(params[0], params[1], params[2]);
       }
@@ -899,6 +906,8 @@ export default {
           case firebase.storage.TaskState.RUNNING: // or 'running'
             console.log(`Upload of  file ${task.name} is running`);
             break;
+          default:
+            break;
         }
       });
       return task;
@@ -931,6 +940,8 @@ export default {
 
           case 'storage/unknown':
             // Unknown error occurred, inspect error.serverResponse
+            break;
+          default:
             break;
         }
         throw error;
@@ -1043,6 +1054,8 @@ export default {
           case firebase.storage.TaskState.RUNNING: // or 'running'
             console.log(`Upload of  file ${task.name} is running`);
             break;
+          default:
+            break;
         }
       });
       return task;
@@ -1074,6 +1087,8 @@ export default {
 
           case 'storage/unknown':
             // Unknown error occurred, inspect error.serverResponse
+            break;
+          default:
             break;
         }
         throw error;
@@ -1204,7 +1219,6 @@ export default {
       let product = doc.data();
       const newProductRef = this.products.doc();
       const id = newProductRef.id;
-      const productNewRef = this.products.doc(id);
       product = { ...product, id };
       newProductRef.set(product).then(() => id);
     });
@@ -1262,7 +1276,7 @@ export default {
   //     //this.professionals.doc(i).update({businessName: "بيتي"})
   //     })
   //   })
-  //   this.products.where("owner", == , i).get().then(docs => {
+  //   this.products.where("owner", === , i).get().then(docs => {
   //     docs.forEach(doc =>{
   //       this.products.doc(i).update({businessName: "بيتي"})
   //       this.products.doc(i).update({oldOwner: doc.data().owner})

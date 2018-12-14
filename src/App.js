@@ -10,22 +10,20 @@ const groupStorageKey = `${storageKey}_GROUP`;
 const userNameStorageKey = `${storageKey}_USERNAME`;
 const userImgStorageKey = `${storageKey}_LOGO`;
 const userRoleStorageKey = `${storageKey}_Role`;
-console.log(userImgStorageKey)
-const AppRoute = ({ component: Component, layout: Layout, parent: _Parent, ...rest }) => {
-  return (
-    <Route
-      {...rest}
-      render={props => (
-        <Layout>
-          <Component {...props}  {..._Parent} adminRoute={false} />
-        </Layout>
-      )} />
-  )
-}
+console.log(userImgStorageKey);
+const AppRoute = ({ component: Component, layout: Layout, parent: _Parent, ...rest }) => (
+  <Route
+    {...rest}
+    render={props => (
+      <Layout>
+        <Component {...props} {..._Parent} adminRoute={false} />
+      </Layout>
+    )} />
+);
 
 
 const AuthRoute = ({ component: Component, layout: Layout, parent: _Parent, adminRoute, ...rest }) => {
-  console.log(_Parent)
+  console.log(_Parent);
   const {
     state: {
       authenticated: authFlag,
@@ -33,26 +31,27 @@ const AuthRoute = ({ component: Component, layout: Layout, parent: _Parent, admi
     },
   } = _Parent;
 
-  console.log(`User Role => auth: ${authFlag}, admin: ${admin}, AdminRoute: ${adminRoute}`)
+  console.log(`User Role => auth: ${authFlag}, admin: ${admin}, AdminRoute: ${adminRoute}`);
   return (
     <Route
       {...rest}
       render={props => (
         <Layout>
-          {authFlag && (admin || !adminRoute) ?
-            <Component {...props} {..._Parent} adminRoute={adminRoute} />
-            :
-            <Redirect
-              to={{ pathname: '/login', state: { from: props.location, adminRoute } }}
-              state = {_Parent.state}
+          {authFlag && (admin || !adminRoute)
+            ? <Component {...props} {..._Parent} adminRoute={adminRoute} />
+            : (
+              <Redirect
+                to={{ pathname: '/login', state: { from: props.location, adminRoute } }}
+                state={_Parent.state}
             />
+            )
           }
         </Layout>
       )
       }
     />
-  )
-}
+  );
+};
 
 class App extends Component {
   constructor() {
@@ -81,7 +80,6 @@ class App extends Component {
       console.log('Parse user data from Storage ...');
       console.log(JSON.parse(window.localStorage.getItem(userStorageKey)));
       const user = JSON.parse(window.localStorage.getItem(userStorageKey));
-      const admin = window.localStorage.getItem(userRoleStorageKey);
       this.setState(
         {
           currentUser: user,
@@ -116,19 +114,19 @@ class App extends Component {
   // For more info on user management in firebase see:
   // (https://firebase.google.com/docs/auth/web/manage-users)
   setCurrentUser(user, admin) {
-    console.log('set current user function')
+    console.log('set current user function');
     if (user) {
-      this.setState({ authenticated: true, admin })
-      console.log('param updated')
+      this.setState({ authenticated: true, admin });
+      console.log('param updated');
       let owner;
       // cache user object to avoid firebase auth latency bug
       window.localStorage.setItem(userStorageKey, JSON.stringify(user));
       window.localStorage.setItem(userRoleStorageKey, admin);
 
-      console.log(user)
+      console.log(user);
       FirestoreServices.readDBRecord('group', user.uid).then((value) => {
         console.log(`User Group Data=> ${JSON.stringify(value)}`);
-        console.log(value)
+        console.log(value);
 
         if (value.group === 'prof') {
           owner = user.uid;
@@ -145,7 +143,7 @@ class App extends Component {
 
           FirestoreServices.readDBRecord('profUser', `${user.uid}`)
             .then((val) => {
-              const name = typeof val === 'object' ? val.name : ''
+              const name = typeof val === 'object' ? val.name : '';
               // cache username value and group value
               window.localStorage.setItem(groupStorageKey, value.group);
               window.localStorage.setItem(userNameStorageKey, name);
@@ -179,42 +177,19 @@ class App extends Component {
                 group: value.group,
                 userName: val.name,
               });
-              console.log(val.group)
+              console.log(val.group);
               const b = this.getCart(user);
               return b;
             });
         }
       }).catch((err) => {
-        console.log('Get User Group ERROR')
-        console.log(err)
+        console.log('Get User Group ERROR');
+        console.log(err);
       });
     } else {
       // No user is logged in
       this.clearLocalUserData();
     }
-  }
-
-  clearLocalUserData() {
-    console.log('Local auth cache clearn up...')
-    // 1- clean up auth cache
-    window.localStorage.removeItem(userStorageKey);
-    window.localStorage.removeItem(groupStorageKey);
-    window.localStorage.removeItem(userNameStorageKey);
-    window.localStorage.removeItem(userImgStorageKey);
-    window.localStorage.removeItem(userRoleStorageKey);
-
-    // 2- clean up state
-    this.setState({
-      currentUser: null,
-      authenticated: false,
-      admin: false,
-      userName: '',
-      cartCount: 0,
-      userCart: '',
-      userImg: '',
-      owner: '',
-    });
-    return true;
   }
 
   getCart(user) {
@@ -239,6 +214,29 @@ class App extends Component {
     });
   }
 
+  clearLocalUserData() {
+    console.log('Local auth cache clearn up...');
+    // 1- clean up auth cache
+    window.localStorage.removeItem(userStorageKey);
+    window.localStorage.removeItem(groupStorageKey);
+    window.localStorage.removeItem(userNameStorageKey);
+    window.localStorage.removeItem(userImgStorageKey);
+    window.localStorage.removeItem(userRoleStorageKey);
+
+    // 2- clean up state
+    this.setState({
+      currentUser: null,
+      authenticated: false,
+      admin: false,
+      userName: '',
+      cartCount: 0,
+      userCart: '',
+      userImg: '',
+      owner: '',
+    });
+    return true;
+  }
+
   updateCart(add, remove) {
     let newCount = 0;
     if (remove) {
@@ -260,28 +258,28 @@ class App extends Component {
       <BrowserRouter>
         <Switch>
           {
-            routes ?
-              Object.keys(routes).map((routeName) => {
-                switch (routeName) {
-                  case 'publicRoutes': {
-                    return routes[routeName].map((routeProps) => (
-                      <AppRoute exact path={routeProps.path} {...routeProps} parent={this} />
-                    ))
-                  }
-                  case 'authRoutes': {
-                    return routes[routeName].map((routeProps) => (
-                      <AuthRoute exact path={routeProps.path} {...routeProps} parent={this} adminRoute={false} />
-                    ))
-                  }
-                  case 'adminRoute': {
-                    return routes[routeName].map((routeProps) => (
-                      <AuthRoute exact path={routeProps.path} {...routeProps} parent={this} adminRoute={true} />
-                    ))
-                  }
+            Object.keys(routes).map((routeName) => {
+              switch (routeName) {
+                case 'publicRoutes': {
+                  return routes[routeName].map(routeProps => (
+                    <AppRoute exact path={routeProps.path} {...routeProps} parent={this} />
+                  ));
                 }
-              })
-              :
-              null
+                case 'authRoutes': {
+                  return routes[routeName].map(routeProps => (
+                    <AuthRoute exact path={routeProps.path} {...routeProps} parent={this} adminRoute={false} />
+                  ));
+                }
+                case 'adminRoute': {
+                  return routes[routeName].map(routeProps => (
+                    <AuthRoute exact path={routeProps.path} {...routeProps} parent={this} adminRoute />
+                  ));
+                }
+                default:
+                  break;
+              }
+              return true;
+            })
           }
         </Switch>
       </BrowserRouter>

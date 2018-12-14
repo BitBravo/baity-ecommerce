@@ -166,9 +166,6 @@ class NorProfileForm extends Component {
       }
     }
 
-    let fieldsWithValuesFromDB = _.reduce(this.state.FIELDS,
-      (fieldsWithValuesFromDB, fieldData, fieldName) => { //result, value, key
-      }, {});
     this.handleLogoUpload = this.handleLogoUpload.bind(this);
     this.handleHomeImgUpload = this.handleHomeImgUpload.bind(this);
     this.updateState = this.updateState.bind(this);
@@ -464,7 +461,7 @@ class NorProfileForm extends Component {
           }}
         >
           <div className="loginregtitle">
-            <img src={bayty_icon} />
+            <img src={bayty_icon} alt=""/>
             <h3>البيانات الشخصية</h3>
           </div>
           {loading ? (

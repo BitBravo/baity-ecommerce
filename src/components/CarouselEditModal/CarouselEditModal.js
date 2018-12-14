@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import FirestoreServices from 'services/FirestoreServices';
-import { FaFileImageO, FaRecycle } from 'react-icons/lib/fa';
 
 import './styles.css';
 
@@ -54,8 +53,8 @@ export class CarouselEditModal extends Component {
     const errorFlag = carouselItems.find((item, index) => {
       if (item.productId && !item.image) {
         alert(`Please add the ${index + 1}th Carousel Image`);
-        return true;
       }
+      return true;
     });
 
     if (errorFlag) return;

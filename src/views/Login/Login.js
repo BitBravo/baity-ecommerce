@@ -81,13 +81,13 @@ class Login extends Component {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        if (errorCode == 'auth/account-exists-with-different-credential') {
+        if (errorCode === 'auth/account-exists-with-different-credential') {
           this.reportError('كلمة السر غير صحيحة. ');
-        } else if (errorCode == 'auth/email-already-in-use') {
+        } else if (errorCode === 'auth/email-already-in-use') {
           this.reportError('البريد الالكتروني مسجل مسبقا. نرجو استخدام عنوان آخر أو طلب استرداد كلمة سر في حال كانت كلمة السر مفقودة');
-        } else if (errorCode == 'auth/invalid-email') {
+        } else if (errorCode === 'auth/invalid-email') {
           this.reportError('عنوان البريد الالكتروني غير صحيح');
-        } else if (errorCode == 'auth/wrong-password') {
+        } else if (errorCode === 'auth/wrong-password') {
           this.reportError('كلمة السر غير صحيحة. ');
         } else {
           this.reportError("حدث خطأ غير معروف. نرجو ابلاغ الصيانة: " + errorCode + errorMessage);
@@ -96,7 +96,7 @@ class Login extends Component {
   }
 
   render() {
-    const { from, adminFlag } = this.props.location.state || { from: { pathname: '/' }, adminFlag: false }
+    const { from } = this.props.location.state || { from: { pathname: '/' }, adminFlag: false }
     const { redirect } = this.state
 
     if (redirect) {
@@ -112,7 +112,7 @@ class Login extends Component {
           ref={(form) => { this.loginForm = form }}>
 
           <div className="loginregtitle">
-            <img src={bayty_icon} />
+            <img src={bayty_icon} alt=""/>
             <h2 style={{ color: 'rgb(26,156,142)' }}>تسجيل الدخول </h2>
           </div>
           <Collapse in={this.state.formStatusAlert.alert}>

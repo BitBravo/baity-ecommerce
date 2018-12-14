@@ -4,9 +4,6 @@ import {
   Row,
   Carousel,
   Grid,
-  FormGroup,
-  ControlLabel,
-  FormControl
 } from "react-bootstrap";
 import ProductList from 'components/ProductList';
 import FirestoreServices from 'services/FirestoreServices'
@@ -139,7 +136,7 @@ const Price = [
   "أعلى من 5000"
 ];
 
-var categoryList = ["حدد القسم أولا"];
+// var categoryList = ["حدد القسم أولا"];
 
 const DepOption = ({ list }) => (
   list ?
@@ -245,8 +242,13 @@ class ProductsPage extends Component {
           case '1000-3000': obj = { upper: 3000, lower: 1000 }; break;
           case '3000-5000': obj = { upper: 5000, lower: 3000 }; break;
           case 'أعلى من 5000': obj = { upper: "", lower: 5000 }; break;
-        }; break;
-      default: obj = event.target.value;
+          default:
+            break;
+        };
+        break;
+      default:
+        obj = event.target.value;
+        break;
     }
     var filter = this.setFilter()
     //filter = this.setFilter(filter, filterType, filterValue)
@@ -275,7 +277,8 @@ class ProductsPage extends Component {
           price: event.target.value,
           priceRange: obj
         }); break;
-
+      default:
+        break;
     }
 
     this.setState({ filter: filter });
@@ -283,10 +286,10 @@ class ProductsPage extends Component {
 
   getList(dept) {
     const { departments } = this.state;
+    var CategoryList = [];
     if (!dept)
-      categoryList = ["حدد القسم أولا"]
+      CategoryList = ["حدد القسم أولا"]
     else {
-      var CategoryList = [];
       switch (dept) {
         case departments[0]: CategoryList = Categories.CategoryListLivingroom; break;
         case departments[1]: CategoryList = Categories.CategoryListSettingroom; break;

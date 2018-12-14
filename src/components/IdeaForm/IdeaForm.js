@@ -184,7 +184,7 @@ class IdeaForm extends Component {
     //IT IS IMPORTANT that validateForm runs after this call to setState
     //is finished. see (https://reactjs.org/docs/state-and-lifecycle.html)
     console.log('before starting adding a new image')
-    if (_.findIndex(this.state.newImages, ['url', newImageDataURL]) != -1)
+    if (_.findIndex(this.state.newImages, ['url', newImageDataURL]) !== -1)
       return;
     console.log('start adding a new image')
     var newImage = { file: newImageFile, url: newImageDataURL }
@@ -373,17 +373,17 @@ class IdeaForm extends Component {
 
     switch (name) {
       case "name":
-        var pattern = /^([\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{3,30})$/i;
-        var spacesPattern = /^([\s]+)$/;
-        valid = pattern.test(value) && !spacesPattern.test(value);
+        var pattern1 = /^([\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{3,30})$/i;
+        var spacesPattern1 = /^([\s]+)$/;
+        valid = pattern1.test(value) && !spacesPattern1.test(value);
         formError = valid
           ? ""
           : " يجب أن يكون طول اسم الفكرة بين ثلاثة أحرف و ٣٠ حرف";
         break;
       case "desc":
-        var pattern = /^([\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{15,500})$/i;
-        var spacesPattern = /^([\s]+)$/;
-        valid = pattern.test(value) && !spacesPattern.test(value);
+        var pattern2 = /^([\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{15,500})$/i;
+        var spacesPattern2 = /^([\s]+)$/;
+        valid = pattern2.test(value) && !spacesPattern2.test(value);
         formError = valid
           ? ""
           : " يجب أن يكون طول وصف الفكرة بين خمسة عشر حرفا  و ٥٠٠ حرف";

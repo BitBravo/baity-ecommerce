@@ -1,11 +1,9 @@
 function FirestorePaginator(ref, defaults) {
-  var paginator = this;
-  var dafaults = defaults || {};
   var pageSize = defaults.pageSize ? parseInt(defaults.pageSize, 10) : 9;
 
   this.hasMore = true;
   this.ref = ref;
-  this.lastVisible;
+  this.lastVisible = '';
 
   this.on = function (callback) {
     var first = this.ref

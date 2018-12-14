@@ -103,11 +103,13 @@ export class MyCart extends Component {
         var productIds = Object.keys(snapshot.val())
         var products = snapshot.val()
         var quantities = [];
-        const listPromises = productIds.map(id =>
+        let listPromises = productIds.map(id =>
           FirestoreServices.products.doc(id).get().then(snapshot => {
+            console.log(id)
             console.log("items " + snapshot.data())
             var quantity = products[id].quantity
             //quantities.push(quantity);
+            console.log(snapshot.data())
             total = Number(snapshot.data().price) * quantity + total
             var product = { ...snapshot.data(), quantity: quantity };
             return newProducts = [...newProducts, product]
@@ -304,8 +306,11 @@ export class HeaderCart extends Component {
     // create a chat between user and business owner **later
     // fetch owners emails
     // send email msg with uesr email and product information
-    FirebaseServices.basket.child(this.props.currentUser.uid).set({ 'completed': true })
-    this.props.updateCart(false, true)
+    FirebaseServices.basket.child(this.props.currentUser.uid).set({ 'completed': true });
+    const updateCartFlag = this.props.updateCart(false, true);
+    if (updateCartFlag) {
+      console.log('cart updated successfully')
+    }
     this.setState({ completed: true });
   }
 
@@ -325,17 +330,15 @@ export class HeaderCart extends Component {
 
   render() {
     var subtotal = this.state.total
-    var vat = Number((subtotal * 0.05).toFixed(2))
     console.log('HeaderCart page')
     console.log(this.props)
 
-    if (this.state.loading)
-      return (
-        <Loading />
-      )
+    if (this.state.loading) {
+     return(<Loading />)
+    }
     else {
       return (
-        <DropCart >
+        <DropCart>
           <p style={{ textAlign: 'center' }}>سلة التسوق</p>
           <hr />
           <HeaderCartList products={this.state.products} />
@@ -344,6 +347,6 @@ export class HeaderCart extends Component {
           </h4>
         </DropCart>
       );
-    };
+    }
   }
 }

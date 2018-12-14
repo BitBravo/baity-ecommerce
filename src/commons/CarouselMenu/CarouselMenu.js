@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 import FirestoreServices from 'services/FirestoreServices';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { Row, Col } from 'react-bootstrap';
-import styled from 'styled-components'
+import { Col } from 'react-bootstrap';
 import empty_icon from 'assets/img/empty.png';
 
 import './styles.css';

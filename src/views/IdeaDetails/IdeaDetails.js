@@ -45,21 +45,7 @@ color: transparent;
 -webkit-text-stroke-width: 2px;
 -webkit-text-stroke-color: rgb(75, 75, 75);
 `;
-const TagDiv = styled.span`
-position: absolute;
-bottom:0;
-right: 0;
-font-size:20px;
-background-color:rgb(26,156,142);
-color: white;
-width: 150px;
-height: 30px;
-text-align:center;
-@media only screen and (max-width: 767px) {
-  font-size:10px;
-  width: 80px;
-  height: 20px;}
-`;
+
 const ImgGallaryThumb = styled.div`
   }
 `;
@@ -146,7 +132,7 @@ class IdeaDetails extends Component {
   constructor(props) {
     super(props);
     this.ideaId = this.props.match.params.id;
-    this.owner = this.props.match.params.owner,
+    this.owner = this.props.match.params.owner;
 
       this.state = {
         idea: {},
@@ -247,12 +233,10 @@ class IdeaDetails extends Component {
             if (doc.exists) {
               var post = doc.data()
               if (!like) {
-                var newLikes = post.likes - 1;
-                transaction.update(ideaRef, { likes: newLikes });
+                transaction.update(ideaRef, { likes: ( post.likes - 1) });
                 this.setState({ liked: false })
               } else {
-                var newLikes = post.likes + 1;
-                transaction.update(ideaRef, { likes: newLikes });
+                transaction.update(ideaRef, { likes: (post.likes + 1) });
                 this.setState({ liked: true })
               }
             }
@@ -324,6 +308,7 @@ class IdeaDetails extends Component {
               </Modal.Body>
             </Modal>
             :
+            // eslint-disable-next-line
             <Modal show={true} style={{ top: 100 }} onHide={this.handleHide} style={{ top: 250 }}>
               <Modal.Header>
                 <CloseButton onClick={this.handleHide}>X</CloseButton>
@@ -344,7 +329,6 @@ class IdeaDetails extends Component {
         <Grid >
           <Row style={{ display: 'flex', flexWrap: 'wrap' }} className="productdetails">
             <ImageCol xs={12} sm={12} md={8} lg={9} style={{ padding: '0' }}>
-
               <Carousel indicators={false} wrap={false}>
                 <Carousel.Item>
                   <ImageContainer>

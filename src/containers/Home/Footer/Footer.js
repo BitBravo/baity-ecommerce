@@ -56,7 +56,7 @@ class Footer extends Component {
   render() {
     return [
       <footer className="myfooter" key="pc" fixed="true">
-        <h4 style={{ display: 'inline-block' }}> {this.state.year} جميع الحقوق محفوظة <span> <img src={baityfooter} /></span></h4>
+        <h4 style={{ display: 'inline-block' }}> {this.state.year} جميع الحقوق محفوظة <span> <img src={baityfooter} alt=""/></span></h4>
         <h6 style={{ display: 'inline-block', paddingRight: '20px' }}>
           <a style={{ color: 'white' }}>
             <TiMail className="icons" /></a>

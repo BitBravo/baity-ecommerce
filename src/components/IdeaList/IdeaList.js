@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Grid, Row, Col } from "react-bootstrap";
-import { app, base } from "config/base";
+import { base } from "config/base";
 import FirestoreServices from 'services/FirestoreServices'
 import FirestorePaginator from 'services/FirestorePaginator'
 import IdeaBrief from "components/IdeaBrief";
@@ -268,8 +268,6 @@ class IdeaList extends Component {
 
   render() {
     const ideas = this.state.ideas
-    const ideasIds = Object.keys(ideas)
-    console.log(ideas)
     var msg;
     var title;
 
@@ -280,12 +278,11 @@ class IdeaList extends Component {
       msg = " لم تقم باضافة أفكار، إبدأ الان"
       title = "أفكاري"
     }
-
-    if (this.state.loading)
+    if (this.state.loading) {
       return (
         <Loading />
       )
-    else if (this.props.shortList) {
+    } else if (this.props.shortList) {
       return (
         <Grid style={{ backgroundColor: "white" }}>
           {this.props.group === 'prof'

@@ -600,7 +600,7 @@ class ProfProfileForm extends Component {
           }}
         >
           <div className="loginregtitle">
-            <img src={bayty_icon} />
+            <img src={bayty_icon} alt=""/>
             <h2 style={{ color: 'rgb(26,156,142)' }}>بيانات الحساب</h2>
           </div>
           {loading ? (

@@ -413,7 +413,7 @@ class ProductForm extends Component {
     //IT IS IMPORTANT that validateForm runs after this call to setState
     //is finished. see (https://reactjs.org/docs/state-and-lifecycle.html)
     console.log('before starting adding a new image')
-    if (_.findIndex(this.state.newImages, ['url', newImageDataURL]) != -1)
+    if (_.findIndex(this.state.newImages, ['url', newImageDataURL]) !== -1)
       return;
     console.log('start adding a new image')
     var newImage = { file: newImageFile, url: newImageDataURL }
@@ -471,7 +471,7 @@ class ProductForm extends Component {
       height: this.state.height.value,
       length: this.state.length.value,
       name: this.state.name.value,
-      price: parseInt(this.state.price.value),
+      price: parseInt(this.state.price.value, 10),
       width: this.state.width.value,
       // weight: this.state.weight.value,
       factory: this.state.factory.value
@@ -596,25 +596,25 @@ class ProductForm extends Component {
 
     switch (name) {
       case "name":
-        var pattern = /^([\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{3,30})$/i;
-        var spacesPattern = /^([\s]+)$/;
-        valid = pattern.test(value) && !spacesPattern.test(value);
+        var pattern1 = /^([\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{3,30})$/i;
+        var spacesPattern1 = /^([\s]+)$/;
+        valid = pattern1.test(value) && !spacesPattern1.test(value);
         formError = valid
           ? ""
           : " يجب أن يكون طول اسم المنتج بين ثلاثة أحرف و ٣٠ حرف";
         break;
       case "desc":
-        var pattern = /^([\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{15,200})$/i;
-        var spacesPattern = /^([\s]+)$/;
-        valid = pattern.test(value) && !spacesPattern.test(value);
+        var pattern2 = /^([\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{15,200})$/i;
+        var spacesPattern2 = /^([\s]+)$/;
+        valid = pattern2.test(value) && !spacesPattern2.test(value);
         formError = valid
           ? ""
           : " يجب أن يكون طول وصف المنتج بين خمسة عشر حرفا  و ٢٠٠ حرف";
         break;
       case "factory":
-        var pattern = /^([\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{2,100})$/i;
-        var spacesPattern = /^([\s]+)$/;
-        valid = pattern.test(value) && !spacesPattern.test(value);
+        var pattern3 = /^([\w\s\u00C0-\u1FFF\u2C00-\uD7FF-]{2,100})$/i;
+        var spacesPattern3 = /^([\s]+)$/;
+        valid = pattern3.test(value) && !spacesPattern3.test(value);
         formError = valid ? "" : " يجب أن يكون طول اسم المصنع أقل من ١٠٠ حرف";
         break;
       case "price":

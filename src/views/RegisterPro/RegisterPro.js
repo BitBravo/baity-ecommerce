@@ -283,7 +283,7 @@ class RegisterPro extends Component {
                     //This should be very rare and currently we just report an error without handling it
                     console.log('adding user to DB failed');
                     this.setState({ loading: false }, () =>
-                      this.reportError("حدث خطأ داخلي في النظام" + " User is signed up but not added to DB. Here is firebase error: " + error.code + " " + error.message));
+                      this.reportError(`حدث خطأ داخلي في النظام  User is signed up but not added to DB. Here is firebase error:  ${error.code}  ${error.message}`));
 
                   })
               }
@@ -346,7 +346,7 @@ class RegisterPro extends Component {
         <form onSubmit={event => this.authWithEmailPassword(event)}
           ref={form => { this.registerForm = form; }}  >
           <div className="loginregtitle">
-            <img className="img-responsive" src={bayty_icon} />
+            <img className="img-responsive" src={bayty_icon} alt="" />
             <h2 style={{ color: 'rgb(26,156,142)' }} >التسجيل </h2>
           </div>
           {loading ? (

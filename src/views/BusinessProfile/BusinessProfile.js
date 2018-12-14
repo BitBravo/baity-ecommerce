@@ -4,9 +4,6 @@ import IdeaList from "components/IdeaList";
 import ProfileInfo from "components/ProfileInfo";
 
 class BusinessProfile extends Component {
-  constructor() {
-    super();
-  }
 
   render() {
     return (

@@ -447,6 +447,8 @@ export default {
           case firebase.storage.TaskState.RUNNING: // or 'running'
             console.log("Upload is running");
             break;
+          default:
+            break;
         }
       },
       error => {
@@ -466,6 +468,8 @@ export default {
 
           case "storage/unknown":
             // Unknown error occurred, inspect error.serverResponse
+            break;
+          default:
             break;
         }
         errorHandler(error.message);
@@ -514,6 +518,8 @@ export default {
           case firebase.storage.TaskState.RUNNING: // or 'running'
             console.log("Upload is running");
             break;
+          default:
+            break;
         }
       },
       error => {
@@ -533,6 +539,8 @@ export default {
 
           case "storage/unknown":
             // Unknown error occurred, inspect error.serverResponse
+            break;
+          default:
             break;
         }
         errorHandler(error.message);
@@ -791,6 +799,8 @@ export default {
           case firebase.storage.TaskState.RUNNING: // or 'running'
             console.log("Upload of  file " + task.name + " is running");
             break;
+          default:
+            break;
         }
       });
       return task;
@@ -824,6 +834,9 @@ export default {
 
           case "storage/unknown":
             // Unknown error occurred, inspect error.serverResponse
+            break;
+
+          default:
             break;
         }
         throw error;
@@ -914,6 +927,8 @@ export default {
           case firebase.storage.TaskState.RUNNING: // or 'running'
             console.log("Upload of  file " + task.name + " is running");
             break;
+          default:
+            break;
         }
       });
       return task;
@@ -946,6 +961,8 @@ export default {
 
           case "storage/unknown":
             // Unknown error occurred, inspect error.serverResponse
+            break;
+          default:
             break;
         }
         throw error;
@@ -1105,12 +1122,14 @@ export default {
           profIds.map(id => {
             this.deptProduct.child(dep).child(id).set("true")
             console.log(dataSnapshot.val().key)
+            return true;
           })
         })
         .catch(error => {
           console.log(`FirebaseServices.readDBRecord: error reading entry from DB`)
           console.log(`ERROR: code: ${error.code}, message:${error.message}`)
         })
+      return true;
     })
   },
 
@@ -1135,12 +1154,14 @@ export default {
           profIds.map(id => {
             this.styleProduct.child(dep).child(id).set("true")
             console.log(dataSnapshot.val().key)
+            return true;
           })
         })
         .catch(error => {
           console.log(`FirebaseServices.readDBRecord: error reading entry from DB`)
           console.log(`ERROR: code: ${error.code}, message:${error.message}`)
         })
+      return true;
     })
   },
 
@@ -1173,9 +1194,10 @@ export default {
             .then(dataSnapshot => {
               const productsIds = Object.keys(dataSnapshot.val());
               productsIds.map(id => {
-                this.products.child(id).child('businessName').set(profs[uid].name)
+                return this.products.child(id).child('businessName').set(profs[uid].name)
               })
             })
+          return true;
         })
       })
       .catch(error => {

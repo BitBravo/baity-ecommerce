@@ -157,7 +157,7 @@ function FirebasePaginator(ref, defaultsValue) {
       return setPage(this.cursor).then(
         function () {
           return fire('previous');
-        }.bind(this)
+        }.bind(this) // eslint-disable-line
       );
     };
 

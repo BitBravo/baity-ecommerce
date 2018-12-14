@@ -49,12 +49,6 @@ display:none;
       display:block;}
 `
 export class MainCartBrief extends Component {
-
-  constructor() {
-    super();
-
-  }
-
   removeItem() {
     this.props.removefromCart(this.props.product.id)
   }
@@ -128,12 +122,6 @@ export class MainCartBrief extends Component {
 
 
 export class HeaderCartBrief extends Component {
-
-  constructor() {
-    super();
-
-  }
-
   removeItem() {
     this.props.removefromCart(this.props.product.id)
   }
@@ -148,7 +136,7 @@ export class HeaderCartBrief extends Component {
 
           <Col xs={0.75} lg={0.75} style={{ paddingRight: '5px', paddingTop: '5px' }} >
             <Link to={`/${product.owner}/products/${product.id}`}>
-              <img src={product.images[0].large} style={{ height: '50px', width: '50px' }} /></Link>
+              <img src={product.images[0].large} style={{ height: '50px', width: '50px' }} alt=""/></Link>
           </Col>
           <Col xs={3} lg={3} style={{ float: 'right', paddingTop: '5px' }}>
             <Link style={{ color: 'rgb(26, 156, 142)' }} to={`/${product.owner}/products/${product.id}`}>

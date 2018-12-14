@@ -236,8 +236,13 @@ class IdeasPage extends Component {
           case '1000-3000': obj = { upper: 3000, lower: 1000 }; break;
           case '3000-5000': obj = { upper: 5000, lower: 3000 }; break;
           case 'أعلى من 5000': obj = { upper: "", lower: 5000 }; break;
-        }; break;
-      default: obj = event.target.value;
+          default:
+            break;
+        };
+        break;
+      default:
+        obj = event.target.value;
+        break;
     }
     var filter = this.setFilter()
     //filter = this.setFilter(filter, filterType, filterValue)
@@ -264,7 +269,8 @@ class IdeasPage extends Component {
           price: event.target.value,
           priceRange: obj
         }); break;
-
+      default:
+        break;
     }
     this.setState({ filter: filter });
 

@@ -50,9 +50,8 @@ class FavProducts extends Component {
         FirestoreServices.products.doc(id).get().then((snapshot) => {
           var products = [...this.state.products, snapshot.data()]
           this.setState({ products: products, loading: false, empty: false })
-
         });
-
+        return true;
       });
     } else {
       this.setState({ loading: false, empty: true })
@@ -61,7 +60,7 @@ class FavProducts extends Component {
 
   componentWillMount() {
     this.listToArray = this.listToArray.bind(this)
-    this.firebasePaginatorFiltering1 = this.firebasePaginatorFiltering.bind(this, ref)
+    this.firebasePaginatorFiltering = this.firebasePaginatorFiltering.bind(this)
     this.forwardFiltring = this.forwardFiltring.bind(this)
 
     if (this.props.shortList) {
@@ -90,7 +89,8 @@ class FavProducts extends Component {
     var arr = [];
     productIds.reverse().map(id => {
       const product = products[id];
-      arr.push(product)
+      arr.push(product);
+      return true;
     });
     var list = []
     if (this.state.extraProducts.length < 1) {

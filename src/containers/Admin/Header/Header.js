@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import LogoImg from 'assets/img/bayty_icon.png';
 import UserAvater from 'assets/img/Profile-icon.png';

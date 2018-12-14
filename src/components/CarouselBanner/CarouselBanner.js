@@ -69,6 +69,7 @@ export class CarouselBanner extends Component {
             })
             .catch((err) => { items.carousel[index].owner = null; });
         }
+        return true;
       });
       this.setState({ carouselItems: items.carousel });
     });

@@ -135,7 +135,7 @@ class ProductUpdater extends Component {
 
   addProduct(product) {
     product = { ...product, owner: this.props.state.currentUser.uid, businessName: this.name };
-    product.price = parseInt(product.price)
+    product.price = parseInt(product.price, 10)
     return FirestoreServices.insertProduct(product);//returns a promise resolved with product ID
   }
 

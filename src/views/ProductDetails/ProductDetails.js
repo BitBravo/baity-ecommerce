@@ -169,7 +169,7 @@ class ProductDetails extends Component {
   constructor(props) {
     super(props);
     this.productId = this.props.match.params.id;
-    this.owner = this.props.match.params.owner,
+    this.owner = this.props.match.params.owner;
       this.state = {
         product: {},
         businessName: "",
@@ -284,12 +284,10 @@ class ProductDetails extends Component {
             if (doc.exists) {
               var post = doc.data()
               if (!like) {
-                var newLikes = post.likes - 1;
-                transaction.update(productRef, { likes: newLikes });
+                transaction.update(productRef, { likes: (post.likes - 1) });
                 this.setState({ liked: false })
               } else {
-                var newLikes = post.likes + 1;
-                transaction.update(productRef, { likes: newLikes });
+                transaction.update(productRef, { likes: (post.likes + 1) });
                 this.setState({ liked: true })
               }
             }
@@ -307,8 +305,10 @@ class ProductDetails extends Component {
           console.log("quantity " + quantity);
 
           // update the cart in the header by calling the updateCart method passed from app
-          (quantity === 1 ? this.props.updateCart(true, false) : null);
-          console.log("Item added");
+          const updateCartFlag = quantity === 1 ? this.props.updateCart(true, false) : null;
+          if (updateCartFlag) {
+            console.log('cart updated successfully')
+          }
         })
         .catch(error =>
           console.log("not able to add item - " + error));
@@ -344,10 +344,7 @@ class ProductDetails extends Component {
   }
 
   render() {
-    console.log(this.props)
-    console.log(this.state)
     const product = this.state.product;
-    const { nextIcon, prevIcon } = this.state;
     if (this.state.loading && !this.state.errorHandling.showError)
       return <Loading />;
     if (this.state.errorHandling.showError)
@@ -380,6 +377,7 @@ class ProductDetails extends Component {
               </Modal.Body>
             </Modal>
             :
+            // eslint-disable-next-line
             <Modal show={true} style={{ top: 100 }} onHide={this.handleHide} style={{ top: 250 }}>
               <Modal.Header>
                 <CloseButton onClick={this.handleHide}>X</CloseButton>

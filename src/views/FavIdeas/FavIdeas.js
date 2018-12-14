@@ -52,6 +52,7 @@ class FavIdeas extends Component {
           const ideas = [...this.state.ideas, snapshot.data()];
           this.setState({ ideas, loading: false, empty: false });
         });
+        return true;
       });
     } else {
       this.setState({ loading: false, empty: true });
@@ -60,7 +61,7 @@ class FavIdeas extends Component {
 
   componentWillMount() {
     this.listToArray = this.listToArray.bind(this);
-    this.firebasePaginatorFiltering1 = this.firebasePaginatorFiltering.bind(this, ref);
+    this.firebasePaginatorFiltering1 = this.firebasePaginatorFiltering.bind(this);
     this.forwardFiltring = this.forwardFiltring.bind(this);
 
     if (this.props.shortList) {
@@ -93,6 +94,7 @@ class FavIdeas extends Component {
       const idea = ideas[id];
       console.log(`copy idea ${idea.id}`);
       arr.push(idea);
+      return true;
     });
     let list = [];
     if (this.state.extraIdeas.length < 1) {
