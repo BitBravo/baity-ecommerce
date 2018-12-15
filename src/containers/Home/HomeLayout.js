@@ -13,13 +13,15 @@ class HomeLayout extends Component {
           state: userData,
           state: {
             authenticated: authFlag,
+            deviceFlag,
           },
         },
       },
     } = this.props;
+
     console.log(`Layout: Public Layout, Autenticated: ${authFlag}, RouteFlag: ${adminRoute}`);
     return (
-      <div style={{ margin: '0 auto' }} className="publish-layout">
+      <div style={{ margin: '0 auto' }} className={`publish-layout ${deviceFlag ? 'desktop' : 'mobile'}`}>
         <Header
           {...userData}
           adminRoute={adminRoute}

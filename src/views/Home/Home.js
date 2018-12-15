@@ -1,41 +1,38 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import ProductList from 'components/ProductList';
 import CarouselBanner from 'components/CarouselBanner';
 import ItemDiscovery from 'components/ItemDiscovery';
-import './styles.css'
+import './styles.css';
 
 
 export class Home extends Component {
-
   render() {
     const {
       adminRoute,
       state: {
         authenticated,
         admin,
-      }
+        deviceFlag,
+      },
     } = this.props;
-    const adminViewFlag = adminRoute && admin && admin !== "false" ? true : false;
-    console.log(authenticated ? 'User Autenticated successfully' : 'None Authenticated');
-    console.log(admin ? 'Admin user' : 'General User');
-    console.log(this.props)
+    const adminViewFlag = !!(adminRoute && admin && admin !== 'false');
+    console.log(this.props);
     return (
       <div>
-        <div >
+        <div>
           {
-            authenticated && !adminRoute?
-              ''
-              :
-              <CarouselBanner adminViewFlag={adminViewFlag} />
+            authenticated && !adminRoute
+              ? ''
+              : <CarouselBanner adminViewFlag={adminViewFlag} />
           }
         </div>
 
-        <div className='container '>
-          <div className='discovery-containter carousel-1'>
-            <ItemDiscovery {...{ collection: 'product-discovery', title: 'اختر منتجات منزلك', adminViewFlag, redirectUrl: 'productspages' }} />
+        <div className="container">
+          <div className="discovery-containter carousel-1">
+            <ItemDiscovery {...{ collection: 'product-discovery', title: 'اختر منتجات منزلك', adminViewFlag, redirectUrl: 'productspages', deviceFlag }} />
           </div>
-          <div className='discovery-containter carousel-2'>
-            <ItemDiscovery {...{ collection: 'idea-discovery', title: 'اكتشف تصاميم مبتكرة', adminViewFlag, redirectUrl: 'ideaspage' }} />
+          <div className="discovery-containter carousel-2">
+            <ItemDiscovery {...{ collection: 'idea-discovery', title: 'اكتشف تصاميم مبتكرة', adminViewFlag, redirectUrl: 'ideaspage', deviceFlag }} />
           </div>
         </div>
         <ProductList thisUserOnly={false} {...admin} />

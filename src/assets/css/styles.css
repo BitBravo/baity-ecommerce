@@ -36,7 +36,7 @@ h4,
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(26, 156, 142);
+  background-color: rgb(0, 161, 154);
   padding: 2px 0 0 0;
   margin: 0;
   border: 0;
@@ -107,7 +107,7 @@ hr {
 }
 
 .carousel-indicators .active {
-  background-color: rgb(26, 156, 142);
+  background-color: rgb(0, 161, 154);
 }
 
 .hero {
@@ -145,9 +145,9 @@ hr {
   display: inline-block;
   margin-left: 7px;
 }
-
+/* rgb(26, 156, 142) */
 .imgActivePage {
-  border: solid rgb(26, 156, 142) 2px;
+  border: solid rgb(0, 161, 154) 2px;  
 }
 
 .navbar {
@@ -171,10 +171,11 @@ hr {
   height: 40px;
   font-size: 18px;
   padding-top: 10px;
+  font-weight: bold;
 }
 
 .activePage {
-  color: rgb(26, 156, 142);
+  color: #00A19A;
 }
 
 .navbar-header {
@@ -206,32 +207,32 @@ hr {
 
 .navbar-toggle.collapsed .icon-bar:nth-child(2) {
   transform: rotate(0)translateY(0)translateX(0);
-  background-color: rgb(26, 156, 142)
+  background-color: rgb(0, 161, 154)
 }
 
 .navbar-toggle.collapsed .icon-bar:nth-child(3) {
   opacity: 1;
-  background-color: rgb(26, 156, 142)
+  background-color: rgb(0, 161, 154)
 }
 
 .navbar-toggle.collapsed .icon-bar:nth-child(4) {
   transform: rotate(0)translateY(0)translateX(0);
-  background-color: rgb(26, 156, 142)
+  background-color: rgb(0, 161, 154)
 }
 
 .navbar-toggle .icon-bar:nth-child(2) {
   transform: rotate(-45deg)translateY(5px)translateX(-5px);
-  background-color: rgb(26, 156, 142)
+  background-color: rgb(0, 161, 154)
 }
 
 .navbar-toggle .icon-bar:nth-child(3) {
   opacity: 0;
-  background-color: rgb(26, 156, 142)
+  background-color: rgb(0, 161, 154)
 }
 
 .navbar-toggle .icon-bar:nth-child(4) {
   transform: rotate(45deg)translateY(-4px)translateX(-3px);
-  background-color: rgb(26, 156, 142)
+  background-color: rgb(0, 161, 154)
 }
 
 .navbar .nav {
@@ -244,7 +245,7 @@ hr {
 }
 
 .navbar-nav>li {
-  float: right;
+  float: none;
 }
 
 .cartmenu {
@@ -252,7 +253,7 @@ hr {
 }
 
 .dropdown {
-  color: rgb(26, 156, 142);
+  color: rgb(0, 161, 154);
   background-color: rgb(247, 247, 247);
   width: 90px;
 }
@@ -310,7 +311,7 @@ hr {
   margin-right: auto;
   width: 100%;
   max-width: 230px;
-  background: rgb(26, 156, 142);
+  background: rgb(0, 161, 154);
   color: white;
   text-align: center;
   height: 45px;
@@ -376,7 +377,7 @@ hr {
 
 input {
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   height: 50px;
   border-radius: 0;
   margin-bottom: 10px;
@@ -436,7 +437,7 @@ input {
 }
 
 button {
-  background-color: rgb(26, 156, 142);
+  background-color: rgb(0, 161, 154);
   width: 100%;
   color: white;
   margin-top: 10px;
@@ -473,6 +474,9 @@ button {
 }
 
 .right-addon .glyphicon {
+  font-size: 17px !important;
+  color: gray;
+  margin: 2px 0px;
   right: 0px;
 }
 
@@ -488,7 +492,9 @@ button {
 }
 
 .right-addon input {
-  padding-right: 30px;
+  padding-right: 35px;
+  width: 80%;
+  height: 100%;
 }
 
 .plus {
@@ -566,7 +572,7 @@ input[type=checkbox] {
 }
 
 .product-slider #thumbcarousel1 .item .thumb:hover {
-  border-color: rgb(26, 156, 142);
+  border-color: rgb(0, 161, 154);
 }
 
 .product-slider .item img {
@@ -602,7 +608,7 @@ input[type=checkbox] {
 
 .leftglyphicon:hover,
 .rightglyphicon:hover {
-  color: rgb(26, 156, 142);
+  color: rgb(0, 161, 154);
 }
 
 input:-moz-placeholder {
@@ -684,12 +690,9 @@ input::-webkit-input-placeholder {
   }
   .navbar>.container .navbar-brand,
   .navbar>.container-fluid .navbar-brand {
-    margin: 0 0 0 5px;
+    margin: 0 0 0 20px;
   }
-  .cartmenu {
-    position: absolute;
-    left: 40px;
-  }
+
   .search {
     display: none;
   }
@@ -708,7 +711,7 @@ input::-webkit-input-placeholder {
   }
   .activePage {
     background-color: rgb(247, 247, 247);
-    color: rgb(26, 156, 142);
+    color: rgb(0, 161, 154);
     text-align: center;
   }
   .icons {
@@ -732,10 +735,11 @@ input::-webkit-input-placeholder {
     margin: 0 0 1px 0;
   }
   .imgActivePage {
-    border: solid rgb(26, 156, 142) 2px;
+    border: solid rgb(0, 161, 154) 2px;
   }
   .carousel div {
-    height: 230px;
+    /* height: 230px; */
+    height: 325px;
   }
   .carousel-indicators {
     bottom: 0;
@@ -769,7 +773,7 @@ input::-webkit-input-placeholder {
   .mopilefooter {
     display: block;
     position: fixed;
-    padding: 5px 0 0 0;
+    padding: 13px 13px 4px 13px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.269);
     left: 0;
     bottom: 0;
@@ -791,8 +795,11 @@ input::-webkit-input-placeholder {
   }
 }
 
-@media only screen and (max-width: 350px) {
+@media only screen and (max-width: 250px) {
   /* .plus{display: none;}  */
+  .navbar .nav{
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 767px) {

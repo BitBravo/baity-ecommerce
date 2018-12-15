@@ -9,6 +9,69 @@ import empty_icon from 'assets/img/empty.png';
 
 import './styles.css';
 
+const settingsDesktop = {
+  speed: 500,
+  autoplay: false,
+  slidesToShow: 5,
+  slidesToScroll: 1,
+  rows: 1,
+  arrows: true,
+  dots: false,
+  initialSlide: 0,
+  swipeToSlide: true,
+  draggable: false,
+  responsive: [
+    {
+      breakpoint: 1200,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 1042,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 990,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 640,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+      },
+    },
+  ],
+};
+
+const settingsMobile = {
+  speed: 500,
+  autoplay: false,
+  slidesToShow: 5,
+  slidesToScroll: 1,
+  rows: 1,
+  arrows: false,
+  dots: false,
+  initialSlide: 0,
+  swipeToSlide: true,
+  draggable: false,
+};
+
 export default class CarouselMenu extends Component {
   constructor(props) {
     super(props);
@@ -91,62 +154,17 @@ export default class CarouselMenu extends Component {
   }
 
   render() {
-    const settings = {
-      speed: 500,
-      autoplay: false,
-      slidesToShow: this.props.items.length > 5 ? 5 : 5,
-      slidesToScroll: 1,
-      rows: 1,
-      arrows: true,
-      dots: false,
-      initialSlide: 0,
-      swipeToSlide: true,
-      draggable: false,
-      responsive: [
-        {
-          breakpoint: 1270,
-          settings: {
-            slidesToShow: 4,
-            slidesToScroll: 1,
-          },
-        },
-        {
-          breakpoint: 1042,
-          settings: {
-            slidesToShow: 4,
-            slidesToScroll: 1,
-          },
-        },
-        {
-          breakpoint: 990,
-          settings: {
-            slidesToShow: 3,
-            slidesToScroll: 1,
-          },
-        },
-        {
-          breakpoint: 640,
-          settings: {
-            slidesToShow: 2,
-            slidesToScroll: 1,
-          },
-        },
-        {
-          breakpoint: 480,
-          settings: {
-            slidesToShow: 1,
-            slidesToScroll: 1,
-          },
-        },
-      ],
-    };
     const { items, title } = this.state.oldProps || { items: [{}] };
     const itemTitleClassName = title === 'اختر منتجات منزلك' ? 'gray-center' : 'white-right';
+    const itemGradient = title === 'اختر منتجات منزلك' ? '' : 'linear-gradient(#e9e8e854 64%, #1b1b1bcc),';
     const departments = this.state.filters;
-    const { adminViewFlag, redirectUrl } = this.props;
+    const { adminViewFlag, redirectUrl, deviceFlag } = this.props;
+    const settings =deviceFlag? settingsDesktop : settingsMobile;
 
     return (
-      <div className="item-discovery-session">
+      <div
+        className="item-discovery-session"
+      >
         <div className="carousel-title-container">
           <p className="carousel-title">{title}</p>
         </div>
@@ -158,12 +176,13 @@ export default class CarouselMenu extends Component {
                   <Link to={`/${redirectUrl}/${department}`}>
                     <div
                       style={{
-                        background: `url(${
+                        background: `${itemGradient} url(${
                           (() => {
                             const matchedData = items.find((item) => item.departmentId === department) || {};
                             return matchedData.image || empty_icon
                           })()
                           })`,
+                        // linear-gradient(#e9e8e8 64%, #1b1b1b), 
                         backgroundSize: 'cover',
                         backgroundRepeat: 'no-repeat',
                         backgroundPosition: 'center center',

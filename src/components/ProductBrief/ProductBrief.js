@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Col } from "react-bootstrap";
-import styled from 'styled-components'
+import styled from 'styled-components';
 import Product from 'assets/img/Selected-product.png';
 
 const TagDiv = styled.span`
@@ -158,7 +158,7 @@ class ProductBrief extends Component {
 
     return (
       typeof product === "object" ?
-      <MyThumbnailCol xs={6} md={4} sm={6} style={{ float: 'right' }} >
+      <MyThumbnailCol xs={12} sm={6} md={4} style={{ float: 'right' }} >
         <MyThumbnailDiv>
           <ImageContainer>
             <ImageDiv>

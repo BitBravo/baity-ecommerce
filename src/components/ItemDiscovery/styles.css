@@ -8,15 +8,10 @@
     margin-bottom: 20px;
 }
 
-.slick-slider {
-    width: 90%;
-    margin: 0px auto;
-}
-
 .slick-prev:before,
 .slick-next:before {
     color: #8c8585;
-    font-size: 25px;
+    font-size: 32px;
 }
 
 .slick-prev {
@@ -41,5 +36,15 @@
     height: 60%;
     width: 80%;
     text-align: center;
+    margin: 0px auto;
+}
+
+.desktop .slick-slider {
+    width: 90%;
+    margin: 0px auto;
+}
+
+.mobile .slick-slider {
+    width: 100%;
     margin: 0px auto;
 }

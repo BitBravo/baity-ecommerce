@@ -26,10 +26,8 @@ export class ItemDiscovery extends Component {
   }
 
   render() {
-    const { adminViewFlag, redirectUrl } = this.props;
-
     return (
-      <CarouselMenu {...{ items: this.state.items, title: this.props.title, adminViewFlag, redirectUrl }} onRefresh={this.getDiscoveryData} />
+      <CarouselMenu {...{ items: this.state.items, ...this.props }} />
     );
   }
 }

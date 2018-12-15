@@ -16,7 +16,7 @@
 .slick-prev:before,
 .slick-next:before {
   color: #8c8585;
-  font-size: 25px;
+  font-size: 32px;
 }
 
 .slick-prev {
@@ -59,4 +59,12 @@
 
 .discovery-containter.carousel-2 .carousel-item div {
   background-size: cover !important;
+}
+
+
+.mobile .main-content .container{
+  margin-left: -15px;
+  margin-right: -15px;
+  padding: 0px;
+  margin: auto;
 }

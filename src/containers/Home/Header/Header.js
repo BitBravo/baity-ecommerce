@@ -18,11 +18,12 @@ import FirestoreServices from 'services/FirestoreServices';
 
 const MainNav = styled(Nav)`
 @media only screen and (max-width: 767px) {
-  display:none;
+  display:none !important;
 }
 `
 const Line = styled.hr`
 width:400%;
+border-style: ridge;
 margin:0 -1500px 0 0;
  color:#e6e6e6;
 `
@@ -41,12 +42,14 @@ background-color:red;
 border-radius: 50%;
 `
 const UserNav = styled(Nav)`
-width:310px !important;
+width:100px !important;
+
 @media only screen and (max-width: 767px) {
-display:none;}
+display:none !important;}
 `
 
 const AdminNav = styled(Nav)`
+width:70px !important;
 padding: 6px 0 !important;
 @media only screen and (max-width: 767px) {
 display:none;}
@@ -66,24 +69,34 @@ const UserImg = styled.img`
  top:8px;
  `
 const Logo = styled.img`
- width:32px;
+ width:28px;
  height:28px;
-
+ margin-top: 9px;
 `
 const PageIcon = styled.img`
 width:18px;
  height:18px;
 ;`
-
+const SearchNavItem = styled.div`
+padding: 10px 0px;
+height: 100%;
+@media only screen and (max-width: 767px) {
+  padding: 12px 0px;
+}
+@media only screen and (max-width: 250px) {
+  display: none;
+}
+`;
 const Search = styled.div`
 display:none;
-@media only screen and (max-width: 767px) {
-display:block;
-position:absolute;
-left:0;
-margin-top:15px;
-margin-left:15px;
+@media only screen and (max-width: 250px) {
+display: block;
 color: rgb(26,156,142);
+width: 100%;
+font-size: 22px;
+text-align: left;
+margin: auto;
+padding-left: 10px;
 }
 `
 const Input = styled.input`
@@ -101,7 +114,7 @@ const Input = styled.input`
  `
 
 const LogImg = styled.img`
-  padding: 1px !important;
+padding: 5px 0px 4px 0px !important;
 `
 
 class Header extends Component {
@@ -145,6 +158,7 @@ class Header extends Component {
 
   render() {
     const { adminRoute, admin } = this.props;
+    console.log(this.props)
     const profileUrl = this.props.group ? "/myprofile" : "/myprofile";
 
     const adminLinkFlag = !adminRoute && (admin && admin.toString() === "true") ? true : false;
@@ -157,14 +171,19 @@ class Header extends Component {
             </IndexLinkContainer>
           </NavbarBrand>
           {/* desktop search bar */}
-          <Nav className="search">
-            <NavItem >
+          <Nav>
+            <SearchNavItem >
               <div className="inner-addon right-addon">
                 <i className="glyphicon glyphicon-search" style={{ fontSize: '10px', color: 'gray' }} ></i>
                 <Input id="search" className="form-control" type="text" placeholder="بحث عن منتجات أفكار ...."></Input>
               </div>
-            </NavItem>
+            </SearchNavItem>
           </Nav>
+
+          {/* mobile search bar */}
+          <Search  >
+            <i className="glyphicon glyphicon-search" onClick={this.handleShow}></i>
+          </Search>
 
           {adminLinkFlag ? (
             <AdminNav>
@@ -212,10 +231,6 @@ class Header extends Component {
 
 
           {/* mobile search bar */}
-          <Search  >
-            <i className="glyphicon glyphicon-search" onClick={this.handleShow}></i>
-          </Search>
-
           <Modal  {...this.props}
             show={this.state.show}
             onHide={this.handleHide} style={{ top: 30 }}  >
@@ -228,7 +243,7 @@ class Header extends Component {
 
           <div style={{ float: 'left' }} className="cartmenu">
             {this.props.authenticated ?
-              <LinkContainer to="/mycart" activeClassName="active" style={{ position: 'relative', cursor: 'pointer' }}>
+              <LinkContainer to="/mycart" activeClassName="active" style={{ position: 'relative', cursor: 'pointer', margin: '3px'}}>
                 <div style={{ position: 'relative' }}>
                   {this.props.cartCount > 0 ?
                     <CartNo>{this.props.cartCount}</CartNo>
@@ -267,7 +282,7 @@ class Header extends Component {
           <LinkContainer to="/ideaspage" activeClassName="activePage">
             <NavItem >
               <PageIcon src={ActiveIdea} className="activeIcons" />
-              <PageIcon src={Idea} className="icons" />الأفكار</NavItem>
+              <PageIcon src={Idea} className="icons" />التصاميم</NavItem>
           </LinkContainer>
         </MainNav>
         {/* </Navbar.Collapse > */}

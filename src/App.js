@@ -10,7 +10,7 @@ const groupStorageKey = `${storageKey}_GROUP`;
 const userNameStorageKey = `${storageKey}_USERNAME`;
 const userImgStorageKey = `${storageKey}_LOGO`;
 const userRoleStorageKey = `${storageKey}_Role`;
-console.log(userImgStorageKey);
+
 const AppRoute = ({ component: Component, layout: Layout, parent: _Parent, ...rest }) => (
   <Route
     {...rest}
@@ -65,13 +65,14 @@ class App extends Component {
       group: null,
       cartCount: 0,
       owner: '',
+      deviceFlag: true,
     };
     this.setCurrentUser = this.setCurrentUser.bind(this);
     this.getCart = this.getCart.bind(this);
     this.updateCart = this.updateCart.bind(this);
     this.clearLocalUserData = this.clearLocalUserData.bind(this);
+    this.updateDimensions = this.updateDimensions.bind(this);
   }
-
 
   componentWillMount() {
     console.log('Route Running... (app)');
@@ -100,11 +101,18 @@ class App extends Component {
       console.log('user from firebase auth');
       console.log(user);
     });
+
+    window.removeEventListener('resize', this.updateDimensions);
   }
 
   componentWillReceiveProps(nextProps) {
     console.log(`${this.constructor.name}.componentWillReceiveProps`);
     console.log(nextProps);
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.updateDimensions);
+    this.updateDimensions();
   }
 
   componentWillUnmount() {
@@ -250,6 +258,17 @@ class App extends Component {
         console.log('Item removed');
       }
       this.setState({ cartCount: newCount });
+    }
+  }
+
+  updateDimensions() {
+    const { deviceFlag } = this.state;
+    if (window.innerWidth > 780) {
+      if (!deviceFlag) {
+        this.setState({ deviceFlag: true });
+      }
+    } else if (deviceFlag) {
+      this.setState({ deviceFlag: false });
     }
   }
 

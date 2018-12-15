@@ -20,7 +20,6 @@ flex-wrap: wrap;
 justify-content: space-between;
 padding-left:7px;
 padding-right:7px;
-
 }
 `
 const IconImg = styled.img`
@@ -56,17 +55,24 @@ class Footer extends Component {
   render() {
     return [
       <footer className="myfooter" key="pc" fixed="true">
-        <h4 style={{ display: 'inline-block' }}> {this.state.year} جميع الحقوق محفوظة <span> <img src={baityfooter} alt=""/></span></h4>
-        <h6 style={{ display: 'inline-block', paddingRight: '20px' }}>
-          <a style={{ color: 'white' }}>
-            <TiMail className="icons" /></a>
-          <a style={{ color: 'white' }} href="https://twitter.com/baity_sa">
-            <TiSocialTwitter className="icons" /></a>
-          <a style={{ color: 'white' }} href="https://www.instagram.com/baity_sa/">
-            <TiSocialInstagram className="icons" /></a>
-          <a style={{ color: 'white' }} href="https://www.facebook.com/profile.php?id=100025094470933">
-            <TiSocialFacebook className="icons" /></a>
-        </h6>
+        <div className="container" style={{ margin: '9px 5px' }}>
+          <h4 style={{ display: 'inline-block', width: '20%' }}>
+            <span> <img src={baityfooter} alt="" /></span>
+          </h4>
+          <h4 style={{ display: 'inline-block', width: '60%', textAlign: "center", fontSize: '18px' }}>
+            {this.state.year} جميع الحقوق محفوظة
+          </h4>
+          <h6 style={{ display: 'inline-block', paddingRight: '20px', width: '20%', fontSize: '19px' }}>
+            <a style={{ color: 'white' }}>
+              <TiMail className="icons" /></a>
+            <a style={{ color: 'white' }} href="https://twitter.com/baity_sa">
+              <TiSocialTwitter className="icons" /></a>
+            <a style={{ color: 'white' }} href="https://www.instagram.com/baity_sa/">
+              <TiSocialInstagram className="icons" /></a>
+            <a style={{ color: 'white' }} href="https://www.facebook.com/profile.php?id=100025094470933">
+              <TiSocialFacebook className="icons" /></a>
+          </h6>
+        </div>
       </footer>,
       <footer className="mopilefooter" key="mobile" fixed="true">
         <MobileDiv >
