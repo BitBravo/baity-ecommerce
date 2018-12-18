@@ -82,12 +82,12 @@ class IdeaList extends Component {
     } else {
       var ref = FirestoreServices.ideas.orderBy('timestamp', 'desc')
       this.firePaginator(ref);
-      FirestoreServices.getDataQuery('idea')
-        .then(ideas => {
-          console.log(ideas)
-          this.setState({ ideas })
-          this.setState({ loading: false })
-        })
+      // FirestoreServices.getDataQuery('idea')
+      //   .then(ideas => {
+      //     console.log(ideas)
+      //     this.setState({ ideas })
+      //     this.setState({ loading: false })
+      //   })
     }
   }
 

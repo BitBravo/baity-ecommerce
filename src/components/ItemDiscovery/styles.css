@@ -14,13 +14,13 @@
     font-size: 32px;
 }
 
-.slick-prev {
+/* .slick-prev {
     left: -40px;
 }
 
 .slick-next {
     right: -40px;
-}
+} */
 
 .carousel-item {
     position: relative;
@@ -36,15 +36,5 @@
     height: 60%;
     width: 80%;
     text-align: center;
-    margin: 0px auto;
-}
-
-.desktop .slick-slider {
-    width: 90%;
-    margin: 0px auto;
-}
-
-.mobile .slick-slider {
-    width: 100%;
     margin: 0px auto;
 }

@@ -55,14 +55,14 @@ class Footer extends Component {
   render() {
     return [
       <footer className="myfooter" key="pc" fixed="true">
-        <div className="container" style={{ margin: '9px 5px' }}>
+        <div className="container" style={{ margin: '33px 5px' }}>
           <h4 style={{ display: 'inline-block', width: '20%' }}>
             <span> <img src={baityfooter} alt="" /></span>
           </h4>
-          <h4 style={{ display: 'inline-block', width: '60%', textAlign: "center", fontSize: '18px' }}>
+          <h4 style={{ display: 'inline-block', width: '60%', textAlign: "center", fontSize: '21px' }}>
             {this.state.year} جميع الحقوق محفوظة
           </h4>
-          <h6 style={{ display: 'inline-block', paddingRight: '20px', width: '20%', fontSize: '19px' }}>
+          <h6 style={{ display: 'inline-block', width: '20%', fontSize: '23px' }}>
             <a style={{ color: 'white' }}>
               <TiMail className="icons" /></a>
             <a style={{ color: 'white' }} href="https://twitter.com/baity_sa">

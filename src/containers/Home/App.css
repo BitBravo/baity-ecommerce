@@ -1,6 +1,6 @@
 .publish-layout .main-content {
-  margin-top: 90px;
-  padding-bottom: 49px;
+  margin-top: 108px;
+  padding-bottom: 130px;
   overflow: hidden;
 }
 
@@ -35,12 +35,12 @@
 
 .publish-layout.mobile .main-content {
   margin-top: 58px;
-  padding-bottom: 49px;
+  padding-bottom: 0px;
 }
 
 .navbar-brand {
   width: 71.3px;
-  height: 58px;
+  height: 62px;
 }
 .navbar-header {
   height: auto;
@@ -51,5 +51,5 @@
   padding: 0;
 }
 .myfooter>.container h6 .icons{
-  margin-left: 10px;
+  margin-left: 12px;
 }

@@ -12,57 +12,57 @@ import './styles.css';
 const settingsDesktop = {
   speed: 500,
   autoplay: false,
-  slidesToShow: 5,
+  slidesToShow: 6,
   slidesToScroll: 1,
   rows: 1,
   arrows: true,
   dots: false,
   initialSlide: 0,
   swipeToSlide: true,
-  draggable: false,
-  responsive: [
-    {
-      breakpoint: 1200,
-      settings: {
-        slidesToShow: 4,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 1042,
-      settings: {
-        slidesToShow: 4,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 990,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 640,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-      },
-    },
-  ],
+  draggable: true,
+  // responsive: [
+  //   {
+  //     breakpoint: 1200,
+  //     settings: {
+  //       slidesToShow: 4,
+  //       slidesToScroll: 1,
+  //     },
+  //   },
+  //   {
+  //     breakpoint: 1042,
+  //     settings: {
+  //       slidesToShow: 4,
+  //       slidesToScroll: 1,
+  //     },
+  //   },
+  //   {
+  //     breakpoint: 990,
+  //     settings: {
+  //       slidesToShow: 3,
+  //       slidesToScroll: 1,
+  //     },
+  //   },
+  //   {
+  //     breakpoint: 640,
+  //     settings: {
+  //       slidesToShow: 2,
+  //       slidesToScroll: 1,
+  //     },
+  //   },
+  //   {
+  //     breakpoint: 480,
+  //     settings: {
+  //       slidesToShow: 1,
+  //       slidesToScroll: 1,
+  //     },
+  //   },
+  // ],
 };
 
 const settingsMobile = {
   speed: 500,
   autoplay: false,
-  slidesToShow: 5,
+  slidesToShow: 6,
   slidesToScroll: 1,
   rows: 1,
   arrows: false,
@@ -82,6 +82,7 @@ export default class CarouselMenu extends Component {
       editModalFalg: false,
       modalStatus: {},
       modalLeft: '200px',
+      topMargin: '50px',
     };
 
     this.editDiscovery = this.editDiscovery.bind(this);
@@ -142,7 +143,8 @@ export default class CarouselMenu extends Component {
   }
 
   editDiscovery(e, department, index) {
-    const leftMargin = e.target.getClientRects()[0].left - 400;
+    console.log(this.props)
+    const { deviceFlag } = this.props;
     const modalStatus = {};
     const { items } = this.state.oldProps;
     const departmentObj = items.find((item) => item.departmentId === department) || {};
@@ -150,7 +152,9 @@ export default class CarouselMenu extends Component {
     modalStatus.departmentId = department;
     modalStatus.image = departmentImg;
     modalStatus.selectedId = index;
-    this.setState({ editModalFalg: true, modalLeft: `${leftMargin}px`, modalStatus });
+    const leftMargin = deviceFlag ? (e.target.getClientRects()[0].left - 400) : e.target.getClientRects()[0].left;
+    const topMargin = deviceFlag ? (e.target.getClientRects()[0].top -100) : e.target.getClientRects()[0].top + 400;
+    this.setState({ editModalFalg: true, modalLeft: `${leftMargin}px`, modalTop: `${topMargin}px`, modalStatus });
   }
 
   render() {
@@ -178,10 +182,10 @@ export default class CarouselMenu extends Component {
                       style={{
                         background: `${itemGradient} url(${
                           (() => {
-                            const matchedData = items.find((item) => item.departmentId === department) || {};
+                            const matchedData = items.find(item => item.departmentId === department) || {};
                             return matchedData.image || empty_icon
                           })()
-                          })`,
+                        })`,
                         // linear-gradient(#e9e8e8 64%, #1b1b1b), 
                         backgroundSize: 'cover',
                         backgroundRepeat: 'no-repeat',
@@ -191,13 +195,13 @@ export default class CarouselMenu extends Component {
                     <p className={itemTitleClassName}>{department}</p>
                   </Link>
                   {
-                    adminViewFlag ?
+                    adminViewFlag ? (
                       <div className="editBtn-area">
                         <button className="editBtn" onClick={(e) => { this.editDiscovery(e, department, index); }}>
                           Edit
                         </button>
                       </div>
-                      : ''
+                    ) : ''
                   }
                 </div>
               ))
@@ -207,7 +211,7 @@ export default class CarouselMenu extends Component {
         </Slider>
         {
           this.state.editModalFalg ?
-            <div className="item-discovery-edit-modal" style={{ left: this.state.modalLeft }}>
+            <div className="item-discovery-edit-modal" style={{ left: this.state.modalLeft, top: this.state.modalTop }}>
               <div className="departmentList">
                 <select name="dapartment" value={this.state.modalStatus.departmentId} onChange={this.onEditModal}>
                   <option value="None">None</option>

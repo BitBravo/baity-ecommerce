@@ -4,7 +4,7 @@
 }
 
 .carousel-item {
-  width: 196px !important;
+  width: 170px !important;
   min-height: 170px;
   display: inherit !important;
   margin: 0px auto;
@@ -94,7 +94,7 @@ button:active {
   position: relative;
 }
 .mobile .item-discovery-session {
-  width: 1020px;
+  /* width: 1020px; */
   display: block;
 }
 
@@ -102,3 +102,37 @@ button:active {
   width: 98%;
   margin: 0px auto;
 }
+
+/* .slick-slider .slick-track,  */
+.slick-slider .slick-list{
+  width: 1120px;
+  direction: rtl;
+  /* float: right; */
+}
+
+/* .desktop .slick-slider {
+  width: 90%;
+  margin: 0px auto;
+  overflow: hidden;
+  direction: rtl;
+} */
+
+.mobile .slick-slider {
+  width: 100%;
+  margin: 0px auto;
+}
+
+.slick-slider {
+  width: 90%;
+  margin: 0px auto;
+  overflow: hidden;
+  direction: rtl;
+  position: static;
+}
+
+.slick-slider .slick-track{
+  position: sticky;
+}
+/* .desktop .slick-slider .slick-track{
+  position: sticky;
+} */

@@ -33,7 +33,7 @@ box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
 const ImageContainer = styled.div`
 width: 100%;
 height: 100%;
-height:395px;
+height:365px;
 `;
 const Button = styled.button`
 width:30%;

@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap-theme.css';
 import Favicon from 'react-favicon';
 import './assets/css/styles.css';
 import "./assets/css/animate.min.css";
-// import "./assets/sass/light-bootstrap-dashboard.css?v=1.2.0";
+import "./assets/sass/light-bootstrap-dashboard.css?v=1.2.0";
 import "./assets/css/demo.css";
 import "./assets/css/pe-icon-7-stroke.css";
 import "./assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css"

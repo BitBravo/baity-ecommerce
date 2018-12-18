@@ -114,7 +114,7 @@ const Input = styled.input`
  `
 
 const LogImg = styled.img`
-padding: 5px 0px 4px 0px !important;
+padding: 7px 0px 5px 0px !important;
 `
 
 class Header extends Component {
@@ -158,7 +158,6 @@ class Header extends Component {
 
   render() {
     const { adminRoute, admin } = this.props;
-    console.log(this.props)
     const profileUrl = this.props.group ? "/myprofile" : "/myprofile";
 
     const adminLinkFlag = !adminRoute && (admin && admin.toString() === "true") ? true : false;

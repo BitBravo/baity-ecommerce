@@ -20,9 +20,9 @@
 }
 
 .slick-prev {
-    left: -40px;
+    left: 22px !important;
 }
 
 .slick-next {
-    right: -40px;
+    right: 13px !important;
 }

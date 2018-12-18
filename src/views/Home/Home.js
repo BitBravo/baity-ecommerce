@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ItemList from 'components/ItemList';
 import ProductList from 'components/ProductList';
 import CarouselBanner from 'components/CarouselBanner';
 import ItemDiscovery from 'components/ItemDiscovery';
@@ -16,7 +17,7 @@ export class Home extends Component {
       },
     } = this.props;
     const adminViewFlag = !!(adminRoute && admin && admin !== 'false');
-    console.log(this.props);
+
     return (
       <div>
         <div>
@@ -35,7 +36,8 @@ export class Home extends Component {
             <ItemDiscovery {...{ collection: 'idea-discovery', title: 'اكتشف تصاميم مبتكرة', adminViewFlag, redirectUrl: 'ideaspage', deviceFlag }} />
           </div>
         </div>
-        <ProductList thisUserOnly={false} {...admin} />
+        <ItemList thisUserOnly={false} admin={admin} deviceFlag={deviceFlag} />
+        {/* <ProductList thisUserOnly={false} {...admin} /> */}
       </div>
     );
   }

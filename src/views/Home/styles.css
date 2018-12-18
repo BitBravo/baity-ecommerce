@@ -19,14 +19,13 @@
   font-size: 32px;
 }
 
-.slick-prev {
+/* .slick-prev {
   left: -40px;
 }
 
 .slick-next {
   right: -40px;
-  ;
-}
+} */
 
 /* ProdictBrieg */
 
@@ -41,7 +40,7 @@
 }
 
 .discovery-containter.carousel-2 {
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 
 .discovery-containter.carousel-2 .carousel-item {
