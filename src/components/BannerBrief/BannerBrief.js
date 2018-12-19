@@ -340,7 +340,7 @@ class BannerBrief extends Component {
                             <BannerButton>
                               {
                                 banner.name
-                                  ? <h3>banner.name</h3>
+                                  ? 'banner.name'
                                   : 'TEST BUTTON'
                               }
                             </BannerButton>

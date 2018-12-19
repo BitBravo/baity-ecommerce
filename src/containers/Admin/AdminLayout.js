@@ -19,7 +19,7 @@ class AdminLayout extends Component {
     } = this.props;
     return (
       <div className={`wrapper admin-layout ${deviceFlag ? 'desktop' : 'mobile'}`}>
-        {/* <Header /> */}
+        <Header />
         <div id="main-panel" className="main-panel" ref="mainPanel">
           <Sidebar />
           <div className="main-content">

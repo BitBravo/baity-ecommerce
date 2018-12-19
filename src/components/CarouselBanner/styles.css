@@ -26,3 +26,6 @@
 .slick-next {
     right: 13px !important;
 }
+.slick-slider .slick-arrow:active {
+    background-color: unset !important;
+}
