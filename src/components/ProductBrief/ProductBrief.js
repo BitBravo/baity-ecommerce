@@ -1,6 +1,7 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { Col } from "react-bootstrap";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { Col, Modal } from 'react-bootstrap';
+import FirestoreServices from 'services/FirestoreServices';
 import styled from 'styled-components';
 import Product from 'assets/img/Selected-product.png';
 import EmptyHeart from 'assets/img/emptyHeart.png';
@@ -28,7 +29,7 @@ height:19px;
     width:12px;
     height:12px;
   }
-`
+`;
 const LikeImg = styled.img`
 width:14px;
 height:14px;
@@ -52,44 +53,6 @@ const PaddingDiv = styled.div`
   //  display:none;
   }
 `;
-
-// const MPaddingDiv = styled.div`
-//   display:none;
-//   @media only screen and (max-width: 1199px) {
-//     line-height:20px;
-//     font-size:90%;
-//     padding: 0 5px 0 5px;
-//     height: 120px;
-//     display:block;}
-//     @media only screen and (max-width: 623px) {
-//       display:none;
-//     }
-// `;
-
-// const SPaddingDiv = styled.div`
-//   display:none;
-//   @media only screen and (max-width: 623px) {
-//     line-height:16px;
-//     font-size:70%;
-//     padding: 0 5px 0 5px;
-//     height: 100px;
-//     display:block;
-//     }
-//     @media only screen and (max-width: 500px) {
-//       display:none;
-// }
-// `;
-
-// const XSPaddingDiv = styled.div`
-//   display:none;
-//     @media only screen and (max-width: 500px) {
-//       display:block;
-//       padding: 0 5px 0 5px;
-//       line-height:13px;
-//       font-size:60%;
-//       height:80px;
-//     }
-// `;
 
 const MyThumbnailCol = styled(Col)`
 // padding-left:10px;
@@ -163,206 +126,234 @@ padding-left:0;
 padding-top:5px;
 font-family: 'dinarm';
 `;
+const MiddleDiv = styled.div`
+position: absolute;
+top: 0;
+bottom: 0;
+left: 0;
+right: 0;
+width: 50%;
+height: 30%;
+margin: auto;
+text-align: center;
+`;
+const EditButton = styled.button`
+color: gray;
+background-color: white;
+font-size: 23px;
+padding: 6px 0px;
+height: auto;
+width: 70%;
+`;
+
+
+const modalStyle = {
+  position: 'fixed',
+  zIndex: 1040,
+  top: 0,
+  bottom: 0,
+  left: 0,
+  right: 0,
+};
+
+const backdropStyle = {
+  ...modalStyle,
+  zIndex: 'auto',
+  backgroundColor: '#000',
+  opacity: 0.1,
+};
+
+const dialogStyle = (x, y) => ({
+  position: 'absolute',
+  width: 250,
+  top: `${x}px`,
+  left: `${y}px`,
+  border: '1px solid #e5e5e5',
+  backgroundColor: '#eff1ec',
+  boxShadow: '0 5px 15px rgba(0,0,0,.5)',
+  padding: '20px 20px 10px 20px',
+});
+
 
 class ProductBrief extends Component {
-  constructor() {
+  constructor(props) {
     super();
-    // this.updateproduct = this.updateproduct.bind(this);
     this.state = {
-      product: {}
+      product: {},
+      rowId: 0,
+      productId: '',
+      itemType: 'product',
+      showModal: false,
+      leftMargin: 0,
+      topMargin: 0,
     };
+
+    this.changeHandler = this.changeHandler.bind(this);
+    this.onSaveAction = this.onSaveAction.bind(this);
+    this.onChangeAction = this.onChangeAction.bind(this);
+    this.onCancelAction = this.onCancelAction.bind(this);
+    this.onEditAction = this.onEditAction.bind(this);
   }
 
-  //src="http://via.placeholder.com/243x243"
-  render() {
-    const product = this.props.product;
-    var imgUrl = typeof product === "object" && product.images
-      ? product.images[0].thumbnail ? product.images[0].thumbnail : product.images[0].large
-      : "http://via.placeholder.com/243x243";
+  componentWillMount() {
+    const { product, rowId } = this.props;
+    const productId = product ? product.id : '';
+    this.setState({ product, rowId, productId });
+  }
 
-    let cssStyle = this.props.styleWidth;
+  componentWillReceiveProps(nextProps) {
+    const { product, rowId } = nextProps;
+    const productId = product ? product.id : '';
+    this.setState({ product, rowId, productId });
+  }
+
+  onChangeAction(e) {
+    this.setState({ productId: e.target.value });
+  }
+
+  onCancelAction() {
+    this.setState({ showModal: false });
+  }
+
+  onEditAction = (data) => {
+    const { rowId, productId, type } = data;
+    this.setState({ rowId, productId, type, showModal: true });
+  }
+
+  onSaveAction() {
+    const { rowId, itemType, productId } = this.state;
+
+    FirestoreServices.readDBRecord(itemType, productId).then((result) => {
+      if (result.postType === itemType) {
+        const data = { [rowId]: { rowId, type: itemType, productId, itemData: result } };
+        FirestoreServices.saveAdminData('home-items', data).then((res) => {
+          if (res) {
+            this.setState({ product: result, showModal: false });
+            console.log('Product added successfully');
+          }
+        });
+      }
+    })
+      .catch(() => {
+        alert('Can not find this product from database!');
+      });
+  }
+
+  changeHandler(e) {
+    const leftMargin = (e.target.getClientRects()[0].left - 60);
+    const topMargin = (e.target.getClientRects()[0].bottom + 20);
+    this.setState({ showModal: true, leftMargin, topMargin });
+  }
+
+  render() {
+    const { product } = this.state;
+    const imgUrl = typeof product === 'object' && product.images
+      ? product.images[0].thumbnail ? product.images[0].thumbnail : product.images[0].large
+      : 'http://via.placeholder.com/243x243';
+
+    let { styleWidth: cssStyle, adminViewFlag } = this.props;
+
     cssStyle = cssStyle ? `col-xs-12 col-sm-6 col-md-${cssStyle}` : 'col-xs-12 col-sm-6 col-md-4';
 
     return (
-      typeof product === "object" ?
+      typeof product === 'object' ? (
         <MyThumbnailCol className={cssStyle} style={{ float: 'right' }} >
-        <MyThumbnailDiv>
-          <ImageContainer>
-            <ImageDiv>
-              <Link to={`/${product.owner}/products/${product.id}`}>
-                <PreviewImg
-                  style={{
-                    background: `url(${imgUrl})`,
-                    backgroundSize: "contain",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center center",
-                  }}
-                // src={
-                //   product.images
-                //     ? product.images[0].thumbnail? product.images[0].thumbnail : product.images[0].large
-                //     : "http://via.placeholder.com/243x243"
-                // }
-                />
-                {/* <img   src="http://via.placeholder.com/243x243" */}
-              </Link>
-            </ImageDiv>
-          </ImageContainer>
-          {product.price > 0
-            ? null
-            : <TagDiv> المنتج للعرض</TagDiv>
-          }
+          <MyThumbnailDiv>
+            <ImageContainer>
+              <ImageDiv>
+                <Link to={`/${product.owner}/products/${product.id}`}>
+                  <PreviewImg
+                    style={{
+                      background: `url(${imgUrl})`,
+                      backgroundSize: 'contain',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'center center',
+                    }}
+                    // src={
+                    //   product.images
+                    //     ? product.images[0].thumbnail? product.images[0].thumbnail : product.images[0].large
+                    //     : "http://via.placeholder.com/243x243"
+                    // }
+                  />
+                </Link>
+              </ImageDiv>
+            </ImageContainer>
 
-          <PaddingDiv >
-            <div style={{ marginTop: '0', borderBottom: 'dotted 1px lightgray ', height: '38px' }}>
-              <DescriptionCol xs={5} md={3}  >
-                <p style={{ color: 'rgb(26, 156, 142)', float: 'left' }}>{product.price} ر.س</p>
-              </DescriptionCol>
-              <Link to={`/${product.owner}/products/${product.id}`} style={{ color: 'black' }} >
-                <DescriptionCol xs={6} md={8}>
-                  <p style={{ color: 'black' }}> {product.name} </p>
+            {product.price > 0
+              ? null
+              : <TagDiv> المنتج للعرض</TagDiv>
+            }
+
+            <PaddingDiv>
+              <div style={{ marginTop: '0', borderBottom: 'dotted 1px lightgray ', height: '38px' }}>
+                <DescriptionCol xs={5} md={3}>
+                  <p style={{ color: 'rgb(26, 156, 142)', float: 'left' }}>
+                    {product.price}
+                    ر.س
+                  </p>
                 </DescriptionCol>
-              </Link>
-              <Col xs={1} style={{ padding: '4px 0 0 0' }}>
-                <IconImg src={Product} className="icons" />
-              </Col>
-            </div>
-
-            <p style={{ paddingTop: '10px', paddingBottom: '10px' }}>
-              {product.desc ? product.desc.substring(0, 105) : ''}
-              <Link style={{ display: 'inline', color: 'rgb(26, 156, 142)' }} to={`/${product.owner}/products/${product.id}`}>
-                ... المزيد
-              </Link>
-            </p >
-
-            <div style={{ display: 'block',  bottom: '0' }}>
-                <Col xs={4} style={{ padding: '0px', textAlign: "left" }}>
-                  {}
-                  <LikeImg src={EmptyHeart} className="icons" />
-              </Col>
-              <p xs={8}> من:
-                  <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
-                  {product.businessName}
+                <Link to={`/${product.owner}/products/${product.id}`} style={{ color: 'black' }} >
+                  <DescriptionCol xs={6} md={8}>
+                    <p style={{ color: 'black' }}>
+                      {product.name}
+                    </p>
+                  </DescriptionCol>
+                </Link>
+                <Col xs={1} style={{ padding: '4px 0 0 0' }}>
+                  <IconImg src={Product} className="icons" />
+                </Col>
+              </div>
+              <p style={{ paddingTop: '10px', paddingBottom: '10px' }}>
+                {product.desc ? product.desc.substring(0, 105) : ''}
+                <Link style={{ display: 'inline', color: 'rgb(26, 156, 142)' }} to={`/${product.owner}/products/${product.id}`}>
+                  ... المزيد
                 </Link>
               </p>
-            </div>
-          </PaddingDiv>
 
-          {/* <MPaddingDiv >
-            <div style={{ marginTop: '0', borderBottom: 'dotted 1px lightgray ', height: '38px' }}>
-
-              <DescriptionCol xs={5} md={4}  >
-                <p style={{ color: 'rgb(26, 156, 142)', float: 'left' }}>{product.price} ر.س</p>
-              </DescriptionCol>
-
-              <Link to={`/${product.owner}/products/${product.id}`} style={{ color: 'black' }} >
-                <DescriptionCol xs={6} md={7}>
-                  <p style={{ color: 'black' }}> {product.name} </p>
-                </DescriptionCol>
-              </Link>
-
-              <Col xs={1} style={{ padding: '5px 0 0 0' }}>
-                <IconImg src={Product} className="icons" />
-              </Col>
-            </div>
-
-            <p style={{ paddingTop: '10px', paddingBottom: '10px' }}>
-              {product.desc}
-              <Link style={{ display: 'inline', color: 'rgb(26, 156, 142)' }} to={`/${product.owner}/products/${product.id}`}>
-                ... المزيد
-              </Link>
-            </p >
-
-            <div style={{ display: 'block',  bottom: '0' }}>
-                <Col xs={4} style={{ padding: '0px', textAlign: "left" }}>
-                  {}
+              <div style={{ display: 'block', bottom: '0' }}>
+                <Col xs={4} style={{ padding: '0px', textAlign: 'left' }}>
                   <LikeImg src={EmptyHeart} className="icons" />
-              </Col>
-              <p xs={8}> من:
+                </Col>
+                <p xs={8}>
+                   من:
                   <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
-                  {product.businessName}
-                </Link>
-              </p>
-            </div>
-
-          </MPaddingDiv>
-
-          <SPaddingDiv >
-            <div style={{ marginTop: '0', borderBottom: 'dotted 1px lightgray ', height: '38px' }}>
-              <DescriptionCol xs={5} md={4}  >
-                <p style={{ color: 'rgb(26, 156, 142)', float: 'left' }}>{product.price} ر.س</p>
-              </DescriptionCol>
-
-              <Link to={`/${product.owner}/products/${product.id}`} style={{ color: 'black' }} >
-                <DescriptionCol xs={6} md={7}>
-                  <p style={{ color: 'black', padding: '0 5px 0 0' }}> {product.name} </p>
-                </DescriptionCol>
-              </Link>
-
-              <Col xs={1} style={{ padding: '5px 0 0 0' }}>
-                <IconImg src={Product} className="icons" /> </Col>
-            </div>
-
-            <p style={{ paddingTop: '5px' }}>
-              {product.desc}
-              <Link style={{ display: 'inline', color: 'rgb(26, 156, 142)' }} to={`/${product.owner}/products/${product.id}`}>
-                ... المزيد
-              </Link>
-            </p >
-
-            <div style={{ display: 'block',  bottom: '0' }}>
-                <Col xs={4} style={{ padding: '0px', textAlign: "left" }}>
-                {}
-                <LikeImg src={EmptyHeart} className="icons" />
-              </Col>
-              <p xs={8}> من:
-                <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
-                {product.businessName}
-              </Link>
-              </p>
-            </div>
-
-          </SPaddingDiv> */}
-
-          {/* <XSPaddingDiv >
-            <div style={{ marginTop: '0', borderBottom: 'dotted 1px lightgray ', height: '25px' }}>
-
-              <DescriptionCol xs={5} md={4}  >
-                <p style={{ color: 'rgb(26, 156, 142)', float: 'left' }}>{product.price} ر.س</p>
-              </DescriptionCol>
-
-              <Link to={`/${product.owner}/products/${product.id}`} style={{ color: 'black' }} >
-                <DescriptionCol xs={6} md={7}>
-                  <p style={{ color: 'black', padding: '0 5px 0 0' }}> {product.name} </p>
-                </DescriptionCol>
-              </Link>
-
-              <Col xs={1} style={{ padding: '5px 0 0 0' }}>
-                <IconImg src={Product} className="icons" /> </Col>
-            </div>
-
-            <p style={{ paddingTop: '3px' }}>
-              {product.desc}
-              <Link style={{ display: 'inline', color: 'rgb(26, 156, 142)' }} to={`/${product.owner}/products/${product.id}`}>
-                ... المزيد
-              </Link>
-            </p >
-
-            <div style={{ display: 'block',  bottom: '0' }}>
-                <Col xs={4} style={{ padding: '0px', textAlign: "left" }}>
-                  {}
-                  <LikeImg src={EmptyHeart} className="icons" />
-              </Col>
-              <p xs={8}> من:
-                  <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
-                  {product.businessName}
-                </Link>
-              </p>
-            </div>
-          </XSPaddingDiv> */}
-        </MyThumbnailDiv>
-      </MyThumbnailCol>
-      :
-      ""
+                    {product.businessName}
+                  </Link>
+                </p>
+              </div>
+            </PaddingDiv>
+            {adminViewFlag
+              ? (
+                <MiddleDiv>
+                  <EditButton onClick={this.changeHandler} name="product" value={product.id}>Edit</EditButton>
+                </MiddleDiv>
+              )
+              : ''}
+            <Modal
+              aria-labelledby="modal-label"
+              style={modalStyle}
+              backdropStyle={backdropStyle}
+              show={this.state.showModal}
+              onHide={this.onCancelAction}
+            >
+              <div style={dialogStyle(this.state.topMargin, this.state.leftMargin)}>
+                <div className="imageInfo">
+                  <input type="text" value={this.state.productId} onChange={this.onChangeAction} />
+                </div>
+                <div className="toolbar">
+                  <Col md={5} mdOffset={1}>
+                    <button onClick={this.onCancelAction}>Cancel</button>
+                  </Col>
+                  <Col md={5}>
+                    <button onClick={this.onSaveAction}>Save</button>
+                  </Col>
+                </div>
+              </div>
+            </Modal>
+          </MyThumbnailDiv>
+        </MyThumbnailCol>
+      )
+        : ''
     );
   }
 }

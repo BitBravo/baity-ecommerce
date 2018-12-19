@@ -136,3 +136,31 @@ button:active {
 /* .desktop .slick-slider .slick-track{
   position: sticky;
 } */
+
+.modal-dialog {
+  width: 100% !important; 
+  margin: 0px !important;
+  height: 0px;
+}
+.modal-content{
+  border: none;
+}
+
+.departmentList {
+  direction: ltr;
+}
+.departmentList select{
+  width: 100%;
+  height: 37px !important;
+  background-color: white;
+  border: 1px solid groove;
+}
+.imageInfo input{
+  margin-top: 10px;
+  height: 37px;
+  background-color: white;
+  border: 1px solid darkgray;
+}
+.toolbar button {
+  height: 30px;
+}

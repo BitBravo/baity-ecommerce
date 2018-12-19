@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ItemList from 'components/ItemList';
-import ProductList from 'components/ProductList';
+// import ProductList from 'components/ProductList';
 import CarouselBanner from 'components/CarouselBanner';
 import ItemDiscovery from 'components/ItemDiscovery';
 import './styles.css';
@@ -36,7 +36,8 @@ export class Home extends Component {
             <ItemDiscovery {...{ collection: 'idea-discovery', title: 'اكتشف تصاميم مبتكرة', adminViewFlag, redirectUrl: 'ideaspage', deviceFlag }} />
           </div>
         </div>
-        <ItemList thisUserOnly={false} admin={admin} deviceFlag={deviceFlag} />
+        
+        <ItemList thisUserOnly={false} adminViewFlag={adminViewFlag} deviceFlag={deviceFlag} />
         {/* <ProductList thisUserOnly={false} {...admin} /> */}
       </div>
     );

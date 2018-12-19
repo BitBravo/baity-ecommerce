@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import FirestoreServices from 'services/FirestoreServices';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { Col } from 'react-bootstrap';
+import { Col, Modal } from 'react-bootstrap';
+// import styled from 'styled-components';
 import empty_icon from 'assets/img/empty.png';
 
 import './styles.css';
@@ -20,43 +21,6 @@ const settingsDesktop = {
   initialSlide: 0,
   swipeToSlide: true,
   draggable: true,
-  // responsive: [
-  //   {
-  //     breakpoint: 1200,
-  //     settings: {
-  //       slidesToShow: 4,
-  //       slidesToScroll: 1,
-  //     },
-  //   },
-  //   {
-  //     breakpoint: 1042,
-  //     settings: {
-  //       slidesToShow: 4,
-  //       slidesToScroll: 1,
-  //     },
-  //   },
-  //   {
-  //     breakpoint: 990,
-  //     settings: {
-  //       slidesToShow: 3,
-  //       slidesToScroll: 1,
-  //     },
-  //   },
-  //   {
-  //     breakpoint: 640,
-  //     settings: {
-  //       slidesToShow: 2,
-  //       slidesToScroll: 1,
-  //     },
-  //   },
-  //   {
-  //     breakpoint: 480,
-  //     settings: {
-  //       slidesToShow: 1,
-  //       slidesToScroll: 1,
-  //     },
-  //   },
-  // ],
 };
 
 const settingsMobile = {
@@ -72,17 +36,47 @@ const settingsMobile = {
   draggable: false,
 };
 
+const modalStyle = {
+  position: 'fixed',
+  zIndex: 1040,
+  top: 0,
+  bottom: 0,
+  left: 0,
+  right: 0,
+};
+
+const backdropStyle = {
+  ...modalStyle,
+  zIndex: 'auto',
+  backgroundColor: '#000',
+  opacity: 0.1,
+};
+
+const dialogStyle = (x, y) => ({
+  position: 'absolute',
+  width: 250,
+  top: `${x}px`,
+  left: `${y}px`,
+  border: '1px solid #e5e5e5',
+  backgroundColor: '#eff1ec',
+  boxShadow: '0 5px 15px rgba(0,0,0,.5)',
+  padding: '20px 20px 10px 20px',
+});
+
 export default class CarouselMenu extends Component {
   constructor(props) {
     super(props);
     this.loadFlag = false;
+    this.ps = [];
+
     this.state = {
       oldProps: '',
       filters: [],
       editModalFalg: false,
       modalStatus: {},
-      modalLeft: '200px',
-      topMargin: '50px',
+      showModal: false,
+      modalLeft: 0,
+      modalTop: 0,
     };
 
     this.editDiscovery = this.editDiscovery.bind(this);
@@ -143,18 +137,16 @@ export default class CarouselMenu extends Component {
   }
 
   editDiscovery(e, department, index) {
-    console.log(this.props)
-    const { deviceFlag } = this.props;
     const modalStatus = {};
     const { items } = this.state.oldProps;
-    const departmentObj = items.find((item) => item.departmentId === department) || {};
+    const departmentObj = items.find(item => item.departmentId === department) || {};
     const departmentImg = departmentObj.image;
     modalStatus.departmentId = department;
     modalStatus.image = departmentImg;
     modalStatus.selectedId = index;
-    const leftMargin = deviceFlag ? (e.target.getClientRects()[0].left - 400) : e.target.getClientRects()[0].left;
-    const topMargin = deviceFlag ? (e.target.getClientRects()[0].top -100) : e.target.getClientRects()[0].top + 400;
-    this.setState({ editModalFalg: true, modalLeft: `${leftMargin}px`, modalTop: `${topMargin}px`, modalStatus });
+    const leftMargin = (e.target.getClientRects()[0].left - 100);
+    const topMargin = (e.target.getClientRects()[0].bottom + 50);
+    this.setState({ editModalFalg: true, modalLeft: leftMargin, modalTop: topMargin, modalStatus });
   }
 
   render() {
@@ -163,8 +155,9 @@ export default class CarouselMenu extends Component {
     const itemGradient = title === 'اختر منتجات منزلك' ? '' : 'linear-gradient(#e9e8e854 64%, #1b1b1bcc),';
     const departments = this.state.filters;
     const { adminViewFlag, redirectUrl, deviceFlag } = this.props;
-    const settings =deviceFlag? settingsDesktop : settingsMobile;
+    const settings = deviceFlag ? settingsDesktop : settingsMobile;
 
+    const { modalLeft, modalTop } = this.state;
     return (
       <div
         className="item-discovery-session"
@@ -183,7 +176,7 @@ export default class CarouselMenu extends Component {
                         background: `${itemGradient} url(${
                           (() => {
                             const matchedData = items.find(item => item.departmentId === department) || {};
-                            return matchedData.image || empty_icon
+                            return matchedData.image || empty_icon;
                           })()
                         })`,
                         // linear-gradient(#e9e8e8 64%, #1b1b1b), 
@@ -205,43 +198,38 @@ export default class CarouselMenu extends Component {
                   }
                 </div>
               ))
-              :
-              ''
+              : ''
           }
         </Slider>
-        {
-          this.state.editModalFalg ?
-            <div className="item-discovery-edit-modal" style={{ left: this.state.modalLeft, top: this.state.modalTop }}>
-              <div className="departmentList">
-                <select name="dapartment" value={this.state.modalStatus.departmentId} onChange={this.onEditModal}>
-                  <option value="None">None</option>
-                  {
-                    departments ?
-                      departments.map(department =>
-                        <option value={department} key={department}>{department}</option>,
-                      )
-                      :
-                      ''
-                  }
-
-                </select>
-              </div>
-              <div className="imageInfo">
-                <input type="text" name="image" value={this.state.modalStatus.image} onChange={this.onEditModal} />
-              </div>
-              <div className="toolbar">
-                <Col md={5} mdOffset={1}>
-                  <button onClick={this.onChangeAction}>Cancel</button>
-                </Col>
-                <Col md={5}>
-                  <button onClick={this.onSaveAction}>Save</button>
-                </Col>
-              </div>
+        <Modal
+          aria-labelledby="modal-label"
+          style={modalStyle}
+          backdropStyle={backdropStyle}
+          show={this.state.editModalFalg}
+          onHide={this.onChangeAction}
+        >
+          <div style={dialogStyle(modalTop, modalLeft)}>
+            <div className="departmentList">
+              <select name="dapartment" value={this.state.modalStatus.departmentId} onChange={this.onEditModal}>
+                <option value="None">None</option>
+                {
+                  departments ? departments.map(department => <option value={department} key={department}>{department}</option>) : ''
+                }
+              </select>
             </div>
-            :
-            ''
-        }
-
+            <div className="imageInfo">
+              <input type="text" name="image" value={this.state.modalStatus.image} onChange={this.onEditModal} />
+            </div>
+            <div className="toolbar">
+              <Col md={5} mdOffset={1}>
+                <button onClick={this.onChangeAction}>Cancel</button>
+              </Col>
+              <Col md={5}>
+                <button onClick={this.onSaveAction}>Save</button>
+              </Col>
+            </div>
+          </div>
+        </Modal>
       </div>
     );
   }

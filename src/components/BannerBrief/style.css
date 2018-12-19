@@ -1,7 +1,7 @@
-.banner-top .sc-kkGfuU{
+.banner-top .banner-container{
   background-color: #efef55;
 }
-.banner-top h3 {
+.banner-top h4 {
   font-weight: bold;
 }
 .banner-top button {
@@ -9,10 +9,10 @@
   font-weight: bold;
 }
 
-.banner-bottom .sc-kkGfuU{
+.banner-bottom .banner-container{
   background-color: #1f9064;
 }
-.banner-bottom h3 {
+.banner-bottom h4 {
   font-weight: bold;
   color: white;
 }
@@ -21,15 +21,20 @@
   font-weight: bold;
   border-color: white;
 }
-
-.banner-right .sc-brqgnP{
-  margin-top: 10%;
+@media screen and (max-width: 760px) {
+  .banner-right .action-div{
+    margin-top: 6% !important;
+    height: 90%;
+  }
+}
+.banner-right .action-div{
+  margin-top: 12%;
   height: 90%;
 }
-.banner-right .sc-kkGfuU{
-  background-color: #1f9064;
+.banner-right .banner-container{
+  background-color: #406d97;
 }
-.banner-right h3 {
+.banner-right h4 {
   font-weight: bold;
   color: white;
 }

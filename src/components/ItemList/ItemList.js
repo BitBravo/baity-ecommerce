@@ -87,41 +87,62 @@ const repeatCount = (deviceFlag, pCount, iCount, bCount) => {
   return Math.max(reapeatProduct, reapeatIdea, reapeatBanner);
 };
 
+const getItemDatas = (data) => {
+  try {
+    return data.itemData;
+  } catch (e) {
+    return {};
+  }
+};
+
 const IteamArrange = (data) => {
-  const { products, ideas, banners, deviceFlag } = data;
+  const { items, deviceFlag, adminViewFlag } = data;
+  const itemKeys = Object.keys(items);
+  const lastKey = [...itemKeys].pop();
+  const unitCount = deviceFlag ? 16 : 3;
+  const originCount = lastKey / unitCount;
   const orderArray = deviceFlag ? orderList.desktop : orderList.mobile;
-  const repeatCounts = repeatCount(deviceFlag, products.length, ideas.length, 0);
+  let repeatCounts = originCount > parseInt(parseFloat(originCount), 10) ? (parseInt(parseFloat(originCount), 10) + 1) : originCount;
+
   let productCount = 0; let ideaCount = 0; let bannerCount = 0;
+  if (adminViewFlag) {
+    repeatCounts = deviceFlag ? 3 : 16;
+  }
+  let indexCount = 0;
   return (
     Array.from({ length: repeatCounts }).map(
       () => orderArray.map((item, index) => {
         switch (item.type) {
           case 'product': {
             productCount++;
+            indexCount++;
             return (
-              <ProductBrief key={index} product={products[(productCount - 1)] || {}} styleWidth={item.width} />
+              <ProductBrief rowId={(indexCount - 1)} key={`product-${(productCount - 1)}-${index}`} product={getItemDatas(items[(indexCount - 1)])} styleWidth={item.width} adminViewFlag={adminViewFlag} />
             );
           }
           case 'idea': {
             ideaCount++;
+            indexCount++;
             return (
-              <IdeaBrief key={index} idea={ideas[(ideaCount - 1)] || {}} styleWidth={item.width} />
+              <IdeaBrief rowId={(indexCount - 1)} key={`idea-${(ideaCount - 1)}-${index}`} idea={getItemDatas(items[(indexCount - 1)])} styleWidth={item.width} adminViewFlag={adminViewFlag} />
             );
           }
           case 'banner': {
             switch (item.count) {
               case 1: {
                 bannerCount++;
+                indexCount++;
                 return (
-                  <BannerBrief key={index} banner={banners[(bannerCount - 1)] || {}} styleWidth={item.width} bannerType="right" />
+                  <BannerBrief rowId={(indexCount - 1)} key={`banner-${(bannerCount - 1)}-${index}`} banner={getItemDatas(items[(indexCount - 1)])} styleWidth={item.width} bannerType="right" adminViewFlag={adminViewFlag} />
                 );
               }
               case 2: {
-                bannerCount += 2;
+                bannerCount = 2 + bannerCount;
+                indexCount += 2;
                 return (
-                  <DoubleTag key={index} className={`col-xs-12 col-sm-6 col-md-${item.width} wideTag`} style={{ marginBottom: '15px' }}>
-                    <BannerBrief banner={banners[(bannerCount - 2)] || {}} styleWidth={item.width} bannerType={'top'} />
-                    <BannerBrief banner={banners[(bannerCount - 1)] || {}} styleWidth={item.width} bannerType={'bottom'}/>
+                  <DoubleTag className={`col-xs-12 col-sm-6 col-md-${item.width} wideTag`} style={{ marginBottom: '15px' }}>
+                    <BannerBrief rowId={(indexCount - 2)} key={`banner-${(bannerCount - 2)}-${index}`} banner={getItemDatas(items[(indexCount - 1)])} styleWidth={item.width} bannerType="top" adminViewFlag={adminViewFlag} />
+                    <BannerBrief rowId={(indexCount - 1)} key={`banner-${(bannerCount - 1)}-${index}`} banner={getItemDatas(items[(indexCount - 1)])} styleWidth={item.width} bannerType="bottom" adminViewFlag={adminViewFlag} />
                   </DoubleTag>
                 );
               }
@@ -141,7 +162,6 @@ const IteamArrange = (data) => {
 let paginator;
 let hasMore = true;
 
-
 class ItemList extends Component {
   constructor() {
     super();
@@ -153,15 +173,18 @@ class ItemList extends Component {
       loading: true,
       firstTime: true,
       page: 0,
-      filter: "",
-      filterValue: "",
-      owner: ""
+      filter: '',
+      filterValue: '',
+      owner: '',
+      items: [],
     };
     this.businessProducts = this.businessProducts.bind(this);
     this.businessIdeas = this.businessIdeas.bind(this);
+    this.getItems = this.getItems.bind(this);
   }
 
   componentWillMount() {
+    this.getItems();
     this.listToArray = this.listToArray.bind(this);
     this.forward = this.forward.bind(this);
     this.productFirePaginator = this.productFirePaginator.bind(this);
@@ -183,29 +206,29 @@ class ItemList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    this.getItems();
     // filter options will be recived as props
     if (nextProps.filter) {
-    if (nextProps.filter.length > 0){
-      this.setState({loading: true}) // start loading indcator
-        var filterValues = nextProps.filter
-        console.log("filters: " + filterValues.length)
-      //  var ref = FirestoreServices.products
+      if (nextProps.filter.length > 0) {
+        this.setState({ loading: true }); // start loading indcator
+        let filterValues = nextProps.filter;
+        console.log(`filters: ${filterValues.length}`);
+        //  var ref = FirestoreServices.products
         this.productCreateQuery(filterValues);
         this.ideaCreateQuery(filterValues);
-      }else {
+      } else {
         // filter was reset => no filteration
-        if(nextProps.filter.length < 1) {
-        // reset the product list by deleting all from the extraProducts
-
-        var productRef = FirestoreServices.products.orderBy('timestamp', 'desc')
-        this.productFirePaginator(productRef);
-        var ideaRef = FirestoreServices.products.orderBy('timestamp', 'desc')
-        this.ideaFirePaginator(ideaRef);          
+        if (nextProps.filter.length < 1) {
+          // reset the product list by deleting all from the extraProducts
+          const productRef = FirestoreServices.products.orderBy('timestamp', 'desc');
+          this.productFirePaginator(productRef);
+          const ideaRef = FirestoreServices.products.orderBy('timestamp', 'desc');
+          this.ideaFirePaginator(ideaRef);
+        }
       }
-    }
     } else if (nextProps.thisUserOnly) {
-      this.businessProducts(nextProps)
-      this.businessIdeas(nextProps)      
+      this.businessProducts(nextProps);
+      this.businessIdeas(nextProps);
     }
   }
 
@@ -295,6 +318,13 @@ class ItemList extends Component {
     }
   }
 
+  getItems() {
+    FirestoreServices.readDBRecord('admin', 'home-items').then((result) => {
+      this.setState({ items: result, loading: false });
+      console.log(result);
+    })
+      .catch(() => {});
+  }
   businessIdeas(props) {
     console.log('BusinessIdeas');
     const { currentUser } = this.props;
@@ -356,7 +386,7 @@ class ItemList extends Component {
       .then(docs => this.setState({
         products: docs,
         loading: false,
-        firstTime: false
+        firstTime: false,
       }),
       );
   }
@@ -367,7 +397,7 @@ class ItemList extends Component {
       .then(docs => this.setState({
         ideas: docs,
         loading: false,
-        firstTime: false
+        firstTime: false,
       }),
       );
   }
@@ -399,14 +429,15 @@ class ItemList extends Component {
 
   render() {
     let products = this.state.products;
+    const { items } = this.state;
     const productIds = Object.keys(products);
     let ideas = this.state.ideas;
-    const ideasIds = Object.keys(ideas);
+    // const ideasIds = Object.keys(ideas);
 
     products = products.length > 0 ? products.map(product => product.data()) : [];
     ideas = ideas.length > 0 ? ideas.map(idea => idea.data()) : [];
     const banners = [];
-    const { deviceFlag } = this.props;
+    const { deviceFlag, adminViewFlag } = this.props;
 
     let msg;
     let title;
@@ -418,85 +449,85 @@ class ItemList extends Component {
       title = 'منتجاتي';
     }
 
-    if (this.state.loading)
+    if (this.state.loading) {
       return (
         <Loading />
-      )
-    else if (this.props.shortList) {
+      );
+    } if (this.props.shortList) {
       return (
-        <Grid style={{ backgroundColor: "white" }}>
+        <Grid style={{ backgroundColor: 'white' }}>
           {this.props.group === 'prof'
-            ? <Row style={{ display: 'flex', flexWrap: 'wrap' }}>
-              <Col xs={12} lg={12} >
-                <Col xs={5} md={3} lg={2} style={{ padding: "0 15px 0 0" }}>
-                  <Link to={`/newproduct`}>
-                    <Button>إضافة منتج<IconImg src={Product} /></Button>
+            ? (
+              <Row style={{ display: 'flex', flexWrap: 'wrap' }}>
+                <Col xs={12} lg={12}>
+                  <Col xs={5} md={3} lg={2} style={{ padding: '0 15px 0 0' }}>
+                    <Link to="/newproduct">
+                      <Button>
+                        إضافة منتج
+                        <IconImg src={Product} />
+                      </Button>
+                    </Link>
+                  </Col>
+                  <Col xs={7} md={9} lg={10}>
+                    <Link to="/myproducts">
+                      <h3 style={{ color: 'rgb(26,156,142)', fontFamily: 'dinarm' }}>{title}</h3>
+                    </Link>
+                  </Col>
+                </Col>
+              </Row>
+            )
+            : (
+              <Row style={{ display: 'flex', flexWrap: 'wrap' }}>
+                <Col xs={9} md={9} lg={10}>
+                  <Link to={`/${this.state.owner}/products`}>
+                    <h3 style={{ color: 'rgb(26,156,142)', padding: '0 10px 0 0', fontFamily: 'dinarm' }}> المنتجات</h3>
+                  </Link >
+                </Col>
+                <Col xs={3} md={3} lg={2} style={{ padding: '20px 10px 0 0' }} >
+                  <Link to={`/${this.state.owner}/products`}>
+                    <MoreButton>المزيد</MoreButton>
                   </Link>
                 </Col>
-                <Col xs={7} md={9} lg={10} >
-                  <Link to={`/myproducts`}>
-                    <h3 style={{ color: 'rgb(26,156,142)', fontFamily: 'dinarm' }}>{title}</h3>
-                  </Link>
-                </Col>
-              </Col>
-            </Row>
-            : <Row style={{ display: 'flex', flexWrap: 'wrap' }}>
-
-              <Col xs={9} md={9} lg={10} >
-                <Link to={`/${this.state.owner}/products`}>
-                  <h3 style={{ color: 'rgb(26,156,142)', padding: "0 10px 0 0", fontFamily: 'dinarm' }}> المنتجات</h3>
-                </Link >
-              </Col>
-              <Col xs={3} md={3} lg={2} style={{ padding: "20px 10px 0 0" }} >
-                <Link to={`/${this.state.owner}/products`}>
-                  <MoreButton>المزيد</MoreButton>
-                </Link>
-              </Col>
-            </Row>
+              </Row>
+            )
           }
           <Row style={{ display: 'flex', flexWrap: 'wrap', borderBottom: 'dotted 1px lightgray ' }}>
             <Col xs={12} lg={12} style={{ padding: '0 5px 0 5px' }}>
               {productIds.length < 1
                 ? <h4 style={{ textAlign: 'center' }}>{msg}</h4>
                 : null}
-              {productIds.map(id => {
-              const product = products[id];
-              return <ProductBrief key={id} product={product} />;
-            })}
+              {productIds.map((id) => {
+                const product = products[id];
+                return <ProductBrief key={id} product={product} />;
+              })}
             </Col>
           </Row>
         </Grid>
-
       );
-    } else {
-
-      return (
-        <div style={{ paddingTop: "0px" }}>
-          <Grid>
-            <Row style={{ display: 'flex', flexWrap: 'wrap' }}>
-
-              <Col xs={12} md={12} style={{ padding: '0 5px 0 5px' }}>
-                <InfiniteScroll style={{ overflow: 'none' }}
-                  hasMore={hasMore}
-                  next={this.forward}
-                >
-                  {products.length < 1
+    }
+    return (
+      <div style={{ paddingTop: '0px' }}>
+        <Grid>
+          <Row style={{ display: 'flex', flexWrap: 'wrap' }}>
+            <Col xs={12} md={12} style={{ padding: '0 5px 0 5px' }}>
+              <InfiniteScroll
+                style={{ overflow: 'none' }}
+                hasMore={hasMore}
+                next={this.forward}
+              >
+                {
+                  products.length < 1
                     ? this.props.thisUserOnly
                       ? <h4 style={{ textAlign: 'center' }}>لم تقم باضافة منتجات، إبدأ الان</h4>
                       : <h4 style={{ textAlign: 'center' }}>لا يوجد نتائج مطابقة</h4>
-
-                    :
-                    <IteamArrange {...{products, ideas, banners, deviceFlag }}/>
-                  }
-                </InfiniteScroll>
-              </Col>
-
-            </Row>
-
-          </Grid>
-        </div>
-      );
-    }
+                    : <IteamArrange {...{ items, deviceFlag, adminViewFlag }} />
+                }
+              </InfiniteScroll>
+            </Col>
+          </Row>
+        </Grid>
+      </div>
+    );
   }
 }
 

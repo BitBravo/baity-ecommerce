@@ -99,7 +99,6 @@ class App extends Component {
     // Note that: app.auth() is short for firebase.auth(app)
     this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
       console.log('user from firebase auth');
-      console.log(user);
     });
 
     window.removeEventListener('resize', this.updateDimensions);
@@ -131,7 +130,6 @@ class App extends Component {
       window.localStorage.setItem(userStorageKey, JSON.stringify(user));
       window.localStorage.setItem(userRoleStorageKey, admin);
 
-      console.log(user);
       FirestoreServices.readDBRecord('group', user.uid).then((value) => {
         console.log(`User Group Data=> ${JSON.stringify(value)}`);
         console.log(value);

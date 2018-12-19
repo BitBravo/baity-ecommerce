@@ -28,6 +28,7 @@ const STORAGE_BASE = storage.ref();
 /* DATABASE AND STORGAE REFERENCES FOR DEPLOYMENT */
 const _PRODUCTS_PATH = 'product'; // change me by removing test
 const _IDEAS_PATH = 'idea';
+const _BANNERS_PATH = 'banner';
 const _BUSINESSES_PATH = 'business'; // change me by removing test
 const _LIKES_PATH = 'likes';
 const _GROUPS_PATH = 'group'; // change me by removing test
@@ -50,6 +51,7 @@ const _ADMIN_DATA_PATH = 'admin';
 // firestore references
 const _REF_PRODUCT = DB_BASE.collection(_PRODUCTS_PATH); // change me by removing test
 const _REF_IDEA = DB_BASE.collection(_IDEAS_PATH);
+const _REF_BANNER = DB_BASE.collection(_BANNERS_PATH);
 const _REF_BUSINESS = DB_BASE.collection(_BUSINESSES_PATH); // change me by removing test
 const _REF_CAROUSEL = DB_BASE.collection(_CAROUSEL_BANNER_PATH);
 const _REF_PRODUCTS_DISCOVERY = DB_BASE.collection(_PRODUCTS_DISCOVERY_PATH);
@@ -86,6 +88,9 @@ export default {
   },
   get IDEAS_PATH() {
     return _IDEAS_PATH;
+  },
+  get BANNERS_PATH() {
+    return _BANNERS_PATH;
   },
   get IDEA_ARCHIVE_PATH() {
     return _IDEA_ARCHIVE_PATH;
@@ -149,6 +154,9 @@ export default {
   },
   get ideas() {
     return _REF_IDEA;
+  },
+  get banners() {
+    return _REF_BANNER;
   },
   get ideasArchive() {
     return _REF_IDEA_ARCHIVE;
@@ -215,6 +223,9 @@ export default {
         break;
       case 'idea':
         ref = this.ideas.doc(entryId);
+        break;
+      case 'banner':
+        ref = this.banners.doc(entryId);
         break;
       case 'profUser':
         ref = this.professionals.doc(entryId);

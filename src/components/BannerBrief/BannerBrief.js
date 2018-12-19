@@ -1,96 +1,10 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { Col } from "react-bootstrap";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { Col, Modal } from 'react-bootstrap';
+import FirestoreServices from 'services/FirestoreServices';
 import styled from 'styled-components';
-import product from 'assets/img/Selected-product.png';
-import EmptyHeart from 'assets/img/emptyHeart.png';
+import { relative } from 'path';
 import './style.css';
-import { relative } from "path";
-const TagDiv = styled.span`
-position: absolute;
-top:5px;
-right: 0;
-font-size:10px;
-background-color:rgb(26,156,142);
-color: white;
-width: 70px;
-height: 18px;
-text-align:center;
-
-`;
-
-const IconImg = styled.img`
-width:20px;
-height:19px;
-@media only screen and (max-width: 767px) {
-  width:15px;
-  height:15px;}
-  @media only screen and (max-width: 400px) {
-    width:12px;
-    height:12px;
-  }
-`
-const LikeImg = styled.img`
-width:14px;
-height:14px;
-margin-right: 8px;
-// @media only screen and (max-width: 767px) {
-//   width:15px;
-//   height:15px;}
-//   @media only screen and (max-width: 400px) {
-//     width:12px;
-//     height:12px;
-//   }
-`
-
-const PaddingDiv = styled.div`
- font-size:95%;
-  padding-right: 10px;
-  padding-left: 10px;
-  height: 120px;
-  line-height:22px;
-  @media only screen and (max-width: 1199px) {
-  //  display:none;
-  }
-`;
-
-// const MPaddingDiv = styled.div`
-//   display:none;
-//   @media only screen and (max-width: 1199px) {
-//     line-height:20px;
-//     font-size:90%;
-//     padding: 0 5px 0 5px;
-//     height: 120px;
-//     display:block;}
-//     @media only screen and (max-width: 623px) {
-//       display:none;
-//     }
-// `;
-
-// const SPaddingDiv = styled.div`
-//   display:none;
-//   @media only screen and (max-width: 623px) {
-//     line-height:16px;
-//     font-size:70%;
-//     padding: 0 5px 0 5px;
-//     height: 100px;
-//     display:block;
-//     }
-//     @media only screen and (max-width: 500px) {
-//       display:none;
-// }
-// `;
-
-// const XSPaddingDiv = styled.div`
-//   display:none;
-//     @media only screen and (max-width: 500px) {
-//       display:block;
-//       padding: 0 5px 0 5px;
-//       line-height:13px;
-//       font-size:60%;
-//       height:80px;
-//     }
-// `;
 
 const MyThumbnailCol = styled(Col)`
 // padding-left:10px;
@@ -207,12 +121,6 @@ const ImageContainer = styled.div`
   position: relative;
 `;
 
-const DescriptionCol = styled(Col)`
-padding-right:0;
-padding-left:0;
-padding-top:5px;
-font-family: 'dinarm';
-`;
 const ActionDiv = styled.div`
 position: absolute;
 top: 0;
@@ -225,102 +133,257 @@ margin: auto;
 text-align: center;
 `;
 const BannerButton = styled.button`
-height: 38px;
+// height: 38px;
 border-radius: 1px;
 background-color: #f0f8ff00;
 border: 1px solid black;
 `;
+
+const MiddleDiv = styled.div`
+position: absolute;
+top: 0;
+bottom: 0;
+left: 0;
+right: 0;
+width: 50%;
+height: 30%;
+margin: auto;
+text-align: center;
+`;
+const EditButton = styled.button`
+color: gray !important;
+background-color: white;
+font-size: 23px;
+padding: 6px 0px;
+height: auto;
+width: 70%;
+max-width: 150px;
+margin: 10px 0px 10px 0px !important;
+outline: none;
+`;
+
+
+const modalStyle = {
+  position: 'fixed',
+  zIndex: 1040,
+  top: 0,
+  bottom: 0,
+  left: 0,
+  right: 0,
+};
+
+const backdropStyle = {
+  ...modalStyle,
+  zIndex: 'auto',
+  backgroundColor: '#000',
+  opacity: 0.1,
+};
+
+const dialogStyle = (x, y) => ({
+  position: 'absolute',
+  width: 250,
+  top: `${x}px`,
+  left: `${y}px`,
+  border: '1px solid #e5e5e5',
+  backgroundColor: '#eff1ec',
+  boxShadow: '0 5px 15px rgba(0,0,0,.5)',
+  padding: '20px 20px 10px 20px',
+});
+
 
 class BannerBrief extends Component {
   constructor() {
     super();
     // this.updatebanner = this.updatebanner.bind(this);
     this.state = {
-      banner: {}
+      banner: {},
+      rowId: 0,
+      bannerId: '',
+      itemType: 'product',
+      showModal: false,
+      leftMargin: 0,
+      topMargin: 0,
     };
+
+    this.changeHandler = this.changeHandler.bind(this);
+    this.onSaveAction = this.onSaveAction.bind(this);
+    this.onChangeAction = this.onChangeAction.bind(this);
+    this.onCancelAction = this.onCancelAction.bind(this);
+    this.onEditAction = this.onEditAction.bind(this);
   }
 
-  //src="http://via.placeholder.com/243x243"
+
+  componentWillMount() {
+    const { banner, rowId } = this.props;
+    const bannerId = banner ? banner.id : '';
+    this.setState({ banner, rowId, bannerId });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { banner, rowId } = nextProps;
+    const bannerId = banner ? banner.id : '';
+    this.setState({ banner, rowId, bannerId });
+  }
+
+  onChangeAction(e) {
+    this.setState({ bannerId: e.target.value });
+  }
+
+  onCancelAction() {
+    this.setState({ showModal: false });
+  }
+
+  onEditAction = (data) => {
+    const { rowId, bannerId, type } = data;
+    this.setState({ rowId, bannerId, type, showModal: true });
+  }
+
+  onSaveAction() {
+    const { rowId, itemType, bannerId } = this.state;
+    
+    FirestoreServices.readDBRecord(itemType, bannerId).then((result) => {
+      if (result.postType === itemType) {
+        const data = { [rowId]: { rowId, type: itemType, bannerId, itemData: result } };
+        FirestoreServices.saveAdminData('home-items', data).then((res) => {
+          if (res) {
+            this.setState({ banner: result, showModal: false });
+            console.log('Banner added successfully');
+          }
+        });
+      }
+    })
+      .catch(() => {
+        alert('Can not find this banner from database!');
+      });
+  }
+
+  changeHandler(e) {
+    const leftMargin = (e.target.getClientRects()[0].left - 60);
+    const topMargin = (e.target.getClientRects()[0].bottom + 20);
+    this.setState({ showModal: true, leftMargin, topMargin });
+  }
+
   render() {
-    const banner = this.props.banner;
-    var imgUrl = typeof banner === "object" && banner.images
+    const { banner } = this.state;
+    const imgUrl = typeof banner === 'object' && banner.images
       ? banner.images[0].thumbnail ? banner.images[0].thumbnail : banner.images[0].large
-      : "http://via.placeholder.com/243x243";
+      : 'http://via.placeholder.com/243x243';
 
-    let styleWidth = this.props.styleWidth;
+    let { styleWidth, adminViewFlag } = this.props;
     const cssStyle = styleWidth === 8 ? `col-xs-12 col-sm-12 col-md-12` : 'col-xs-12 col-sm-6 col-md-4';
-    let bannerType = this.props.bannerType;
-
-    console.log(this.props)
+    const bannerType = this.props.bannerType;
 
     return (
-      typeof banner === "object" ?
-        <MyThumbnailCol className={`${cssStyle}  banner-${bannerType}`} style={{ float: 'right', padding: styleWidth ===8? '0px 8px 0px 8px' : '' }} >
-          {styleWidth === 8 ?
-            <MyThumbnailLDiv>
-              <ImageContainer>
-                <div className="col-xs-7 col-sm-7 col-md-7" style={{padding: '0px'}}>
-                  <ImageDiv>
-                    <Link to={`/${banner.owner}/banners/${banner.id}`}>
-                      <PreviewLImg
-                        style={{
-                          background: `url(${imgUrl})`,
-                          backgroundSize: "contain",
-                          backgroundRepeat: "no-repeat",
-                          backgroundPosition: "center center",
-                        }}
-                      />
-                    </Link>
-                  </ImageDiv>
-                </div>
-                <div className="col-xs-5 col-sm-5 col-md-5" style={{ position: relative }}>
-                  <ActionDiv>
-                    {
-                      // banner.name ?
-                      <h3>sss</h3>
-                      // : ''
-                    }
-                    <Link to={`/${banner.owner}/banners/${banner.id}`}>
-                      <BannerButton>
-                          ssddqd
-                      </BannerButton>
-                    </Link>
-                  </ActionDiv>
-                </div>
-              </ImageContainer>
-            </MyThumbnailLDiv>
-            :
-            <MyThumbnailSDiv>
-               <ImageContainer>
-                  <ImageDiv>
-                    <Link to={`/${banner.owner}/banners/${banner.id}`}>
-                      <PreviewSImg
-                        style={{
-                          background: `url(${imgUrl})`,
-                          backgroundSize: "contain",
-                          backgroundRepeat: "no-repeat",
-                          backgroundPosition: "center center",
-                        }}
-                      >
-                        <ActionDiv>
-                          {
-                            // banner.name ?
-                            <h3>fwefwef</h3>
-                            // : ''
-                          }
+      typeof banner === 'object'
+        ? (
+          <MyThumbnailCol className={`${cssStyle}  banner-${bannerType}`} style={{ float: 'right', padding: styleWidth ===8? '0px 8px 0px 8px' : '' }} >
+            {styleWidth === 8
+              ? (
+                <MyThumbnailLDiv className="banner-container">
+                  <ImageContainer>
+                    <div className="col-xs-7 col-sm-7 col-md-7" style={{padding: '0px'}}>
+                      <ImageDiv>
+                        <Link to={`/${banner.owner}/banners/${banner.id}`}>
+                          <PreviewLImg
+                            style={{
+                              background: `url(${imgUrl})`,
+                              backgroundSize: 'contain',
+                              backgroundRepeat: 'no-repeat',
+                              backgroundPosition: 'center center',
+                            }}
+                          />
+                        </Link>
+                      </ImageDiv>
+                    </div>
+                    <div className="col-xs-5 col-sm-5 col-md-5" style={{ position: relative }}>
+                      <ActionDiv>
+                        {
+                          banner.name
+                            ? <h4>banner.name</h4>
+                            : <h4>'banner.name'</h4>
+                        }
+                        <Link to={`/${banner.owner}/banners/${banner.id}`}>
                           <BannerButton>
-                              ssddqd
+                            {
+                              banner.name
+                                ? banner.name
+                                : 'TEST BUTTON'
+                            }
                           </BannerButton>
-                        </ActionDiv>
-                      </PreviewSImg>
-                    </Link>
-                  </ImageDiv>
-              </ImageContainer>
-            </MyThumbnailSDiv>
-          }
-      </MyThumbnailCol>
-      :
-      ""
+                        </Link>
+                      </ActionDiv>
+                    </div>
+                  </ImageContainer>
+                </MyThumbnailLDiv>
+              )
+              : (
+                <MyThumbnailSDiv>
+                  <ImageContainer>
+                    <ImageDiv>
+                      <Link to={`/${banner.owner}/banners/${banner.id}`}>
+                        <PreviewSImg
+                          style={{
+                            background: `url(${imgUrl})`,
+                            backgroundSize: 'contain',
+                            backgroundRepeat: 'no-repeat',
+                            backgroundPosition: 'center center',
+                          }}
+                          className="banner-container"
+                        >
+                          <ActionDiv className="action-div">
+                            {
+                              banner.name
+                                ? <h4>banner.name</h4>
+                                : <h4>banner.name</h4>
+                            }
+
+                            <BannerButton>
+                              {
+                                banner.name
+                                  ? <h3>banner.name</h3>
+                                  : 'TEST BUTTON'
+                              }
+                            </BannerButton>
+                          </ActionDiv>
+                        </PreviewSImg>
+                      </Link>
+                    </ImageDiv>
+                  </ImageContainer>
+                </MyThumbnailSDiv>
+              )
+            }
+            {adminViewFlag
+              ? (
+                <MiddleDiv>
+                  <EditButton onClick={this.changeHandler} name="product" value={banner.id}>Edit</EditButton>
+                </MiddleDiv>
+              ) : ''
+            }
+
+            <Modal
+              aria-labelledby="modal-label"
+              style={modalStyle}
+              backdropStyle={backdropStyle}
+              show={this.state.showModal}
+              onHide={this.onCancelAction}
+            >
+              <div style={dialogStyle(this.state.topMargin, this.state.leftMargin)}>
+                <div className="imageInfo">
+                  <input type="text" value={this.state.bannerId} onChange={this.onChangeAction} />
+                </div>
+                <div className="toolbar">
+                  <Col md={5} mdOffset={1}>
+                    <button onClick={this.onCancelAction}>Cancel</button>
+                  </Col>
+                  <Col md={5}>
+                    <button onClick={this.onSaveAction}>Save</button>
+                  </Col>
+                </div>
+              </div>
+            </Modal>
+          </MyThumbnailCol>
+        )
+        : ''
     );
   }
 }

@@ -1,7 +1,8 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import {  Col } from "react-bootstrap";
-import styled from 'styled-components'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { Col, Modal } from 'react-bootstrap';
+import FirestoreServices from 'services/FirestoreServices';
+import styled from 'styled-components';
 import Idea from 'assets/img/AddingIdea.png';
 import EmptyHeart from 'assets/img/emptyHeart.png';
 
@@ -17,17 +18,6 @@ height: 18px;
 text-align:center;
 `;
 
-const IconImg = styled.img`
-width:20px;
-height:19px;
-@media only screen and (max-width: 767px) {
-  width:15px;
-  height:15px;}
-  @media only screen and (max-width: 400px) {
-    width:12px;
-    height:12px;
-  }
-`
 const LikeImg = styled.img`
 width:14px;
 height:14px;
@@ -39,7 +29,7 @@ margin-right: 8px;
 //     width:12px;
 //     height:12px;
 //   }
-`
+`;
 
 const PaddingDiv = styled.div`
  font-size:95%;
@@ -51,44 +41,6 @@ const PaddingDiv = styled.div`
   //  display:none;
   }
 `;
-
-// const MPaddingDiv = styled.div`
-//   display:none;
-//   @media only screen and (max-width: 1199px) {
-//     line-height:20px;
-//     font-size:90%;
-//     padding: 0 5px 0 5px;
-//     height: 120px;
-//     display:block;}
-//     @media only screen and (max-width: 623px) {
-//       display:none;
-//     }
-// `;
-
-// const SPaddingDiv = styled.div`
-//   display:none;
-//   @media only screen and (max-width: 623px) {
-//     line-height:16px;
-//     font-size:70%;
-//     padding: 0 5px 0 5px;
-//     height: 100px;
-//     display:block;
-//     }
-//     @media only screen and (max-width: 500px) {
-//       display:none;
-// }
-// `;
-
-// const XSPaddingDiv = styled.div`
-//   display:none;
-//     @media only screen and (max-width: 500px) {
-//       display:block;
-//       padding: 0 5px 0 5px;
-//       line-height:13px;
-//       font-size:60%;
-//       height:80px;
-//     }
-// `;
 
 const MyThumbnailCol = styled(Col)`
 padding-left:23.6px;
@@ -180,185 +132,213 @@ const ImageContainer = styled.div`
   position: relative;
 `;
 
-const DescriptionCol = styled(Col)`
-padding-right:0;
-padding-left:0;
-padding-top:5px;
-font-family: 'dinarm';
+const MiddleDiv = styled.div`
+position: absolute;
+top: 0;
+bottom: 0;
+left: 0;
+right: 0;
+width: 50%;
+height: 30%;
+margin: auto;
+text-align: center;
+`;
+const EditButton = styled.button`
+color: gray;
+background-color: white;
+font-size: 23px;
+padding: 6px 0px;
+height: auto;
+width: 70%;
+max-width: 150px;
 `;
 
 
+const modalStyle = {
+  position: 'fixed',
+  zIndex: 1040,
+  top: 0,
+  bottom: 0,
+  left: 0,
+  right: 0,
+};
+
+const backdropStyle = {
+  ...modalStyle,
+  zIndex: 'auto',
+  backgroundColor: '#000',
+  opacity: 0.1,
+};
+
+const dialogStyle = (x, y) => ({
+  position: 'absolute',
+  width: 250,
+  top: `${x}px`,
+  left: `${y}px`,
+  border: '1px solid #e5e5e5',
+  backgroundColor: '#eff1ec',
+  boxShadow: '0 5px 15px rgba(0,0,0,.5)',
+  padding: '20px 20px 10px 20px',
+});
+
+
 class IdeaBrief extends Component {
-  constructor() {
+  constructor(props) {
     super();
-    // this.updateidea = this.updateidea.bind(this);
     this.state = {
-      idea: {}
+      idea: {},
+      rowId: 0,
+      ideaId: '',
+      itemType: 'idea',
+      showModal: false,
+      leftMargin: 0,
+      topMargin: 0,
     };
+    this.onSaveAction = this.onSaveAction.bind(this);
+    this.onChangeAction = this.onChangeAction.bind(this);
+    this.onEditAction = this.onEditAction.bind(this);
+    this.onCancelAction = this.onCancelAction.bind(this);
   }
 
-  //src="http://via.placeholder.com/243x243"
+  componentWillMount() {
+    const { idea, rowId } = this.props;
+    const ideaId = idea ? idea.id : '';
+    this.setState({ idea, rowId, ideaId });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { idea, rowId } = nextProps;
+    const ideaId = idea ? idea.id : '';
+    this.setState({ idea, rowId, ideaId });
+  }
+
+  changeHandler = (e) => {
+    const leftMargin = (e.target.getClientRects()[0].left - 60);
+    const topMargin = (e.target.getClientRects()[0].bottom + 20);
+    this.setState({ showModal: true, leftMargin, topMargin });
+  }
+
+  onSaveAction = () => {
+    const { rowId, itemType, ideaId } = this.state;
+    FirestoreServices.readDBRecord(itemType, ideaId).then((result) => {
+      if (result.postType === itemType) {
+        const data = { [rowId]: { rowId, type: itemType, ideaId, itemData: result } };
+        FirestoreServices.saveAdminData('home-items', data).then((res) => {
+          if (res) {
+            this.setState({ idea: result, showModal: false });
+            console.log('Idea added successfully');
+          }
+        });
+      }
+    })
+      .catch(() => {
+        alert('Can not find this idea from database!');
+      });
+  }
+
+  onChangeAction = (e) => {
+    this.setState({ ideaId: e.target.value });
+  }
+
+  onEditAction = (data) => {
+    const { rowId, ideaId, type } = data;
+    this.setState({ rowId, ideaId, type, showModal: true });
+  }
+
+  onCancelAction = () => {
+    this.setState({ showModal: false });
+  }
+
   render() {
-    console.log(this.props)
-    const idea = this.props.idea;
-    let imgUrl = typeof idea === "object" && idea.images
+    const { idea } = this.state;
+    const imgUrl = typeof idea === 'object' && idea.images
       ? idea.images[0].thumbnail ? idea.images[0].thumbnail : idea.images[0].large
-      : "http://via.placeholder.com/243x243";
+      : 'http://via.placeholder.com/243x243';
 
-    let cssStyle = this.props.styleWidth;
-    const layoutClassName = cssStyle >= 8? `col-xs-12 col-sm-12 col-md-${cssStyle}` : 'col-xs-12 col-sm-6 col-md-4';
+    let { styleWidth: cssStyle, adminViewFlag } = this.props;
+    const layoutClassName = cssStyle >= 8 ? `col-xs-12 col-sm-12 col-md-${cssStyle}` : 'col-xs-12 col-sm-6 col-md-4';
 
-    const styles = cssStyle >= 8 ? { width: '100%'} : {}
+    const styles = cssStyle >= 8 ? { width: '100%' } : {};
 
     return (
-      typeof idea === "object" ?
-        <MyThumbnailCol className={layoutClassName} style={{ float: 'right' }} >
-          <MyThumbnailDiv style={styles}>
-          <ImageContainer>
-            <ImageDiv>
-              <Link to={`/${idea.owner}/ideas/${idea.id}`}>
-                <PreviewImg
-                  style={{
-                    background: `url(${imgUrl})`,
-                    backgroundSize: "contain",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center center",
-                    width: cssStyle>=8 ? '100%' : '',
-                    }}>
-                    <IdeaDiv>
-                      <IdeaImgDiv>
-                        <img src={Idea} style={{ width: "100%" }}/>
-                      </IdeaImgDiv>
-                      <IdeaTitle style={{}}>{idea.department}</IdeaTitle>
-                    </IdeaDiv>
-                </PreviewImg>
-                  {/* <img   src="http://via.placeholder.com/243x243" */}
-              </Link>
-            </ImageDiv>
-          </ImageContainer>
-          {idea.price > 0
-            ? null
-            : <TagDiv> المنتج للعرض</TagDiv>
-          }
+      typeof idea === 'object'
+        ? (
+          <MyThumbnailCol className={layoutClassName} style={{ float: 'right' }} >
+            <MyThumbnailDiv style={styles}>
+              <ImageContainer>
+                <ImageDiv>
+                  <Link to={`/${idea.owner}/ideas/${idea.id}`}>
+                    <PreviewImg
+                      style={{
+                        background: `url(${imgUrl})`,
+                        backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center center',
+                        width: cssStyle >= 8 ? '100%' : '',
+                      }}>
+                      <IdeaDiv>
+                        <IdeaImgDiv>
+                          <img src={Idea} style={{ width: '100%' }} alt="" />
+                        </IdeaImgDiv>
+                        <IdeaTitle style={{}}>{idea.department}</IdeaTitle>
+                      </IdeaDiv>
+                    </PreviewImg>
+                  </Link>
+                </ImageDiv>
+              </ImageContainer>
 
-          <PaddingDiv >
-            <div style={{ display: 'block',  bottom: '0', height: '30px' }}>
-                <Col xs={4} style={{ padding: '0px', textAlign: "left" }}>
-                  {}
-                  <LikeImg src={EmptyHeart} className="icons" />
-              </Col>
-              <p xs={8} style={{margin: '4px'}}> من:
-                  <Link to={`/businessprofile/${idea.owner}`} style={{ color: 'rgb(26,156,142)' }}>
-                  {idea.businessName}
-                </Link>
-              </p>
-            </div>
-          </PaddingDiv>
+              {idea.price > 0
+                ? null
+                : <TagDiv> المنتج للعرض</TagDiv>
+              }
 
-          {/* <MPaddingDiv >
-            <div style={{ marginTop: '0', borderBottom: 'dotted 1px lightgray ', height: '35px' }}>
-
-              <DescriptionCol xs={5} md={4}  >
-                <p style={{ color: 'rgb(26, 156, 142)', float: 'left' }}>{idea.price} ر.س</p>
-              </DescriptionCol>
-
-              <Link to={`/${idea.owner}/ideas/${idea.id}`} style={{ color: 'black' }} >
-                <DescriptionCol xs={6} md={7}>
-                  <p style={{ color: 'black' }}> {idea.name} </p>
-                </DescriptionCol>
-              </Link>
-
-              <Col xs={1} style={{ padding: '5px 0 0 0' }}>
-                <IconImg src={Idea} className="icons" />
-              </Col>
-            </div>
-
-            <p style={{ paddingTop: '10px', paddingBottom: '10px' }}>
-              {idea.desc}
-              <Link style={{ display: 'inline', color: 'rgb(26, 156, 142)' }} to={`/${idea.owner}/ideas/${idea.id}`}>
-                ... المزيد
-              </Link>
-            </p >
-
-            <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
-              <p> من:
-                  <Link to={`/businessprofile/${idea.owner}`} style={{ color: 'rgb(26,156,142)' }}>
-                  {idea.businessName}
-                </Link>
-              </p>
-            </div>
-
-          </MPaddingDiv>
-
-          <SPaddingDiv >
-            <div style={{ marginTop: '0', borderBottom: 'dotted 1px lightgray ', height: '30px' }}>
-              <DescriptionCol xs={5} md={4}  >
-                <p style={{ color: 'rgb(26, 156, 142)', float: 'left' }}>{idea.price} ر.س</p>
-              </DescriptionCol>
-
-              <Link to={`/${idea.owner}/ideas/${idea.id}`} style={{ color: 'black' }} >
-                <DescriptionCol xs={6} md={7}>
-                  <p style={{ color: 'black', padding: '0 5px 0 0' }}> {idea.name} </p>
-                </DescriptionCol>
-              </Link>
-
-              <Col xs={1} style={{ padding: '5px 0 0 0' }}>
-                <IconImg src={Idea} className="icons" /> </Col>
-            </div>
-
-            <p style={{ paddingTop: '5px' }}>
-              {idea.desc}
-              <Link style={{ display: 'inline', color: 'rgb(26, 156, 142)' }} to={`/${idea.owner}/ideas/${idea.id}`}>
-                ... المزيد
-              </Link>
-            </p >
-
-            <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
-              <p > من:
-                  <Link to={`/businessprofile/${idea.owner}`} style={{ color: 'rgb(26,156,142)' }}>
-                  {idea.businessName}
-                </Link>
-              </p>
-            </div>
-
-          </SPaddingDiv>
-
-          <XSPaddingDiv > 
-            <div style={{ marginTop: '0', borderBottom: 'dotted 1px lightgray ', height: '23px' }}>
-
-              <DescriptionCol xs={5} md={4}  >
-                <p style={{ color: 'rgb(26, 156, 142)', float: 'left' }}>{idea.price} ر.س</p>
-              </DescriptionCol>
-
-              <Link to={`/${idea.owner}/ideas/${idea.id}`} style={{ color: 'black' }} >
-                <DescriptionCol xs={6} md={7}>
-                  <p style={{ color: 'black', padding: '0 5px 0 0' }}> {idea.name} </p>
-                </DescriptionCol>
-              </Link>
-
-              <Col xs={1} style={{ padding: '5px 0 0 0' }}>
-                <IconImg src={Idea} className="icons" /> </Col>
-            </div>
-
-            <p style={{ paddingTop: '3px' }}>
-              {idea.desc}
-              <Link style={{ display: 'inline', color: 'rgb(26, 156, 142)' }} to={`/${idea.owner}/ideas/${idea.id}`}>
-                ... المزيد
-              </Link>
-            </p >
-
-            <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
-              <p > من:
-                  <Link to={`/businessprofile/${idea.owner}`} style={{ color: 'rgb(26,156,142)' }}>
-                  {idea.businessName}
-                </Link>
-              </p>
-            </div>
-          </XSPaddingDiv>*/}
-        </MyThumbnailDiv>
-        </MyThumbnailCol>
-        :
-        ""
+              <PaddingDiv>
+                <div style={{ display: 'block', bottom: '0', height: '30px' }}>
+                  <Col xs={4} style={{ padding: '0px', textAlign: 'left' }}>
+                    {''}
+                    <LikeImg src={EmptyHeart} className="icons" />
+                  </Col>
+                  <p xs={8} style={{ margin: '4px' }}>
+                     من:
+                    <Link to={`/businessprofile/${idea.owner}`} style={{ color: 'rgb(26,156,142)' }}>
+                      {idea.businessName}
+                    </Link>
+                  </p>
+                </div>
+              </PaddingDiv>
+              {adminViewFlag
+                ? (
+                  <MiddleDiv>
+                    <EditButton onClick={this.changeHandler} name="idea" value={idea.id}>Edit</EditButton>
+                  </MiddleDiv>
+                )
+                : ''
+              }
+              <Modal
+                aria-labelledby="modal-label"
+                style={modalStyle}
+                backdropStyle={backdropStyle}
+                show={this.state.showModal}
+                onHide={this.onCancelAction}
+              >
+                <div style={dialogStyle(this.state.topMargin, this.state.leftMargin)}>
+                  <div className="imageInfo">
+                    <input type="text" value={this.state.ideaId} onChange={this.onChangeAction} />
+                  </div>
+                  <div className="toolbar">
+                    <Col md={5} mdOffset={1}>
+                      <button onClick={this.onCancelAction}>Cancel</button>
+                    </Col>
+                    <Col md={5}>
+                      <button onClick={this.onSaveAction}>Save</button>
+                    </Col>
+                  </div>
+                </div>
+              </Modal>
+            </MyThumbnailDiv>
+          </MyThumbnailCol>
+        )
+        : ''
     );
   }
 }

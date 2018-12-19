@@ -82,7 +82,7 @@ export class CarouselEditModal extends Component {
     const data = this.state.carouselItems;
     return (
       <Row>
-        <Col className="carousel-edit-modal" xl={5} lg={5} md={6} sm={12}>
+        <Col className="carousel-edit-modal" xs={12} xl={5} lg={5} md={6} sm={12 }>
           <div className="modal-tool">
             <button onClick={this.modalShow}>
               {this.state.modalFlag ? 'Close' : 'Edit'}
@@ -101,17 +101,17 @@ export class CarouselEditModal extends Component {
               {
                 emptyData.map((item, index) => (
                   <Row key={index}>
-                    <Col className="line-number" md={1} sm={1}>{index + 1}</Col>
-                    <Col className="imageInfo" md={4} sm={4}><input type="text" placeholder="Add photo" name="image" value={data[index] ? data[index].image : ''} onChange={e => this.dataChange(e, index)} /></Col>
-                    <Col className="productId" md={3} sm={3}><input type="text" placeholder="Enter product id" name="productId" value={data[index] ? data[index].productId : ''} onChange={e => this.dataChange(e, index)} /></Col>
+                    <Col className="line-number" md={1} sm={1} xs={1}>{index + 1}</Col>
+                    <Col className="imageInfo" md={4} sm={4} xs={4}><input type="text" placeholder="Add photo" name="image" value={data[index] ? data[index].image : ''} onChange={e => this.dataChange(e, index)} /></Col>
+                    <Col className="productId" md={3} sm={3} xs={3}><input type="text" placeholder="Enter product id" name="productId" value={data[index] ? data[index].productId : ''} onChange={e => this.dataChange(e, index)} /></Col>
                     {/* <Col md={2}><button onClick={this.getValue} onClick={(e) => this.importAction(index)}>Import</button></Col> */}
-                    <Col md={2} sm={2} onClick={e => this.importAction(e, index)} >
+                    <Col md={2} sm={2} xs={2} onClick={e => this.importAction(e, index)} >
                       <input type="text" name={index} id="file" className="inputfile" onChange={this.importAction} />
                       <label htmlFor="file">
                         Import
                       </label>
                     </Col>
-                    <Col md={2} sm={2}><button onClick={e => this.clearAction(index)}>Clear</button></Col>
+                    <Col md={2} sm={2} xs={2}><button onClick={e => this.clearAction(index)}>Clear</button></Col>
                   </Row>
                 ))
               }

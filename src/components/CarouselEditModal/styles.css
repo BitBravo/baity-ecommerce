@@ -40,7 +40,14 @@
   border-right: 6px solid #ddd;
 }
 
-.carousel-modal-content input {
+.carousel-modal-content .imageInfo input {
+  border: navajowhite;
+  height: 100%;
+  text-align: left;
+  padding: 7px;
+}
+
+.carousel-modal-content .productId input {
   border: navajowhite;
   height: 100%;
   text-align: left;

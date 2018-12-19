@@ -13,7 +13,7 @@ const CompanyNameDiv = styled.div`
 
 const Header = (props) => {
   return (
-    <div className="admin-header">
+    <div className="admin-header col-md-12 col-sm-12">
       {/* <div className="company-name col-md-3">
         <Link to="/admin/profile">
           <p>Baity Admin</p>
