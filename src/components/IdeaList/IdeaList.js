@@ -331,7 +331,7 @@ class IdeaList extends Component {
     } else {
 
       return (
-        <div style={{ paddingTop: "0px" }}>
+        <div style={{ paddingTop: "30px" }}>
           <Grid>
             <Row style={{ display: 'flex', flexWrap: 'wrap' }}>
 

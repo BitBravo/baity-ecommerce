@@ -10,6 +10,7 @@ import styled from 'styled-components'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Product from 'assets/img/AddingProduct.png';
 
+
 const IconImg = styled.img`
 width:20px;
  height:20px;
@@ -20,7 +21,7 @@ width:20px;
   margin-right:2px;
  }`
 
-const MoreButton = styled.button`
+ const MoreButton = styled.button`
  background-color:transparent;
  border:1px solid rgb(26, 156, 142);
  color:rgb(26, 156, 142);
@@ -45,6 +46,42 @@ height:40px;
     height: 30px;
     width:90%;}
   `;
+
+// const IconImg = styled.img`
+// width:20px;
+//  height:20px;
+//  margin-right:20px;
+//  @media only screen and (max-width: 767px) {
+//   width:15px;
+//   height:15px;
+//   margin-right:2px;
+//  }`
+
+// const MoreButton = styled.button`
+//  background-color:transparent;
+//  border:1px solid rgb(26, 156, 142);
+//  color:rgb(26, 156, 142);
+//    width:100px;
+//    height: 30px;
+//    @media only screen and (max-width: 767px) {
+//      height: 20px;
+//      width:40px;
+//      font-size:10px;
+//    `;
+// const Button = styled.button`
+// font-size:15px;
+// float:left;
+// width:180px;
+// height:40px;
+// @media only screen and (max-width: 767px) {
+//   font-size:12px;
+//   height: 35px;
+//   width:70%;}
+//   @media only screen and (max-width: 500px) {
+//     font-size:10px;
+//     height: 30px;
+//     width:90%;}
+//   `;
 
 var paginator;
 var hasMore = true;
@@ -242,56 +279,48 @@ class ProductList extends Component {
     
     var msg;
     var title;
-    if (this.props.user) {
-      msg = "لا يوجد منتجات"
-      title = "المنتجات"
-    } else {
-      msg = "لم تقم باضافة منتجات، إبدأ الان"
-      title = "منتجاتي"
-    }
-
     if (this.state.loading)
-      return (
-        <Loading />
+      return(
+      <Loading />
       )
-    else if (this.props.shortList) {
+    else if (this.props.shortList){
       return (
-        <Grid style={{ backgroundColor: "white" }}>
-          {this.props.group === 'prof'
-            ? <Row style={{ display: 'flex', flexWrap: 'wrap' }}>
-              <Col xs={12} lg={12} >
-                <Col xs={5} md={3} lg={2} style={{ padding: "0 15px 0 0" }}>
-                  <Link to={`/newproduct`}>
-                    <Button>إضافة منتج<IconImg src={Product} /></Button>
-                  </Link>
-                </Col>
-                <Col xs={7} md={9} lg={10} >
-                  <Link to={`/myproducts`}>
-                    <h3 style={{ color: 'rgb(26,156,142)', fontFamily: 'dinarm' }}>{title}</h3>
-                  </Link>
-                </Col>
-              </Col>
-            </Row>
-            : <Row style={{ display: 'flex', flexWrap: 'wrap' }}>
+        <Grid style={{backgroundColor:"white"}}>
+        {this.props.group === 'prof'
+        ?<Row   style={{display: 'flex', flexWrap: 'wrap'}}>
+        <Col xs={12}  lg={12} >
+        <Col xs={5} md={3} lg={2} style={{padding:"0 15px 0 0"}}>
+          <Link to={`/newproduct`}>
+            <Button>إضافة منتج<IconImg src={Product}/></Button>
+          </Link>
+          </Col>
+          <Col xs={7} md={9} lg={10} >
+          <Link to={`/myproducts`}>
+          <h3 style={{color:'rgb(26,156,142)',fontFamily: 'dinarm'}}>{title}</h3>
+          </Link>
+          </Col>
+          </Col>
+          </Row>
+        :<Row   style={{display: 'flex', flexWrap: 'wrap'}}>
 
-              <Col xs={9} md={9} lg={10} >
-                <Link to={`/${this.state.owner}/products`}>
-                  <h3 style={{ color: 'rgb(26,156,142)', padding: "0 10px 0 0", fontFamily: 'dinarm' }}> المنتجات</h3>
-                </Link >
-              </Col>
-              <Col xs={3} md={3} lg={2} style={{ padding: "20px 10px 0 0" }} >
-                <Link to={`/${this.state.owner}/products`}>
-                  <MoreButton>المزيد</MoreButton>
-                </Link>
-              </Col>
-            </Row>
-          }
-          <Row style={{ display: 'flex', flexWrap: 'wrap', borderBottom: 'dotted 1px lightgray ' }}>
-            <Col xs={12} lg={12} style={{ padding: '0 5px 0 5px' }}>
-              {productIds.length < 1
-                ? <h4 style={{ textAlign: 'center' }}>{msg}</h4>
-                : null}
-              {productIds.map(id => {
+        <Col xs={9} md={9} lg={10} >
+        <Link  to={`/${this.state.owner}/products`}>
+          <h3 style={{color:'rgb(26,156,142)',padding:"0 10px 0 0",fontFamily: 'dinarm'}}> المنتجات</h3>
+          </Link >
+          </Col>
+        <Col xs={3} md={3} lg={2} style={{padding:"20px 10px 0 0"}} >
+            <Link to={`/${this.state.owner}/products`}>
+            <MoreButton>المزيد</MoreButton>
+          </Link>
+          </Col>
+          </Row>
+        }
+          <Row style={{display: 'flex', flexWrap: 'wrap',borderBottom:'dotted 1px lightgray ' }}>
+          <Col xs={12}  lg={12} style={{padding:'0 5px 0 5px'}}>
+          {productIds.length < 1
+            ? <h4 style={{textAlign:'center'}}>{msg}</h4>
+          : null}
+            {productIds.map(id => {
               const product = products[id];
               return <ProductBrief key={id} product={product} />;
             })}
@@ -299,39 +328,39 @@ class ProductList extends Component {
           </Row>
         </Grid>
 
-      );
-    } else {
+    );
+  } else {
 
-      return (
-        <div style={{ paddingTop: "3px" }}>
-          <Grid>
-            <Row style={{ display: 'flex', flexWrap: 'wrap' }}>
+    return (
+      <div style={{paddingTop: "30px"}}>
+        <Grid>
+          <Row style={{display: 'flex', flexWrap: 'wrap'}}>
 
-              <Col xs={12} md={12} style={{ padding: '0 5px 0 5px' }}>
-                <InfiniteScroll style={{ overflow: 'none' }}
-                  hasMore={hasMore}
-                  next={this.forward}
-                >
-                  {products.length < 1
-                    ? this.props.thisUserOnly
-                      ? <h4 style={{ textAlign: 'center' }}>لم تقم باضافة منتجات، إبدأ الان</h4>
-                      : <h4 style={{ textAlign: 'center' }}>لا يوجد نتائج مطابقة</h4>
+          <Col xs={12} md={12}  style={{padding:'0 5px 0 5px'}}>
+          <InfiniteScroll style={{overflow:'none'}}
+            hasMore={hasMore}
+            next={this.forward}
+          >
+          {products.length < 1
+            ? this.props.thisUserOnly
+              ?<h4 style={{textAlign:'center'}}>لم تقم باضافة منتجات، إبدأ الان</h4>
+              :<h4 style={{textAlign:'center'}}>لا يوجد نتائج مطابقة</h4>
 
-                    : <div>{
-                      products.map((product, index ) => {
-                      return <ProductBrief key={index} product={product.data()} />;
-                    })
-                  }</div>
-                  }
-                </InfiniteScroll>
-              </Col>
+          : <div>{
+                products.map((product, index) => {
+                return <ProductBrief key={product.id} product={product.data()} />;
+              })
+            }</div>
+          }
+            </InfiniteScroll>
+                </Col>
 
-            </Row>
+          </Row>
 
-          </Grid>
-        </div>
-      );
-    }
+        </Grid>
+    </div>
+  );
+  }
   }
 }
 

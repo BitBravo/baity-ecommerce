@@ -62,7 +62,7 @@ const ImageDiv = styled.div`
 const ImageContainer = styled.div`
 width: 100%;
 height: 100%;
-height:300px
+height:395px
 `;
 const Select = styled.select`
 background-color: rgb(26, 156, 142);
@@ -319,7 +319,7 @@ class IdeasPage extends Component {
       <div>
         <Grid>
           <Row style={{ display: 'flex', flexWrap: 'wrap' }}>
-            <Col sm={4} xs={12} style={{ padding: '2px' }}>
+            {/* <Col sm={4} xs={12} style={{ padding: '2px' }}>
               <Filter >
                 <PaddingDiv>
                   <div className="inner-addon left-addon ">
@@ -378,9 +378,9 @@ class IdeasPage extends Component {
                   </div>
                 </PaddingDiv>
               </Filter>
-            </Col>
+            </Col> */}
 
-            <CarouselDiv sm={8} xs={12} >
+            <CarouselDiv lg={12} sm={12} xs={12} >
 
               <Carousel controls={false} >
                 <Carousel.Item >

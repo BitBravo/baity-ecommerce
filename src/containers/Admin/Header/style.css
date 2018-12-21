@@ -48,9 +48,6 @@
 .admin-header {
   z-index: 999 !important;
 }
-.container {
-  /* width: auto !important; */
-}
 
 .admin-layout.desktop .admin-header{
   top: 0px;

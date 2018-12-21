@@ -23,13 +23,13 @@ width:20px;
   margin-right:2px;
  }`;
 const DoubleTag = styled.div`
-margin-left: ;
-@media only screen and (max-width: 1200px) {
-  margin-left: -50px;
-}
-@media only screen and (max-width: 990px) {
-  margin-left: 0px;
-}
+// margin-left: ;
+// @media only screen and (max-width: 1200px) {
+//   margin-left: -50px;
+// }
+// @media only screen and (max-width: 990px) {
+//   margin-left: 0px;
+// }
 `;
 const MoreButton = styled.button`
  background-color:transparent;
@@ -140,7 +140,7 @@ const IteamArrange = (data) => {
                 bannerCount = 2 + bannerCount;
                 indexCount += 2;
                 return (
-                  <DoubleTag className={`col-xs-12 col-sm-6 col-md-${item.width} wideTag`} style={{ marginBottom: '15px' }}>
+                  <DoubleTag className={`col-xs-12 col-sm-6 col-md-${item.width} wide-banner`}>
                     <BannerBrief rowId={(indexCount - 2)} key={`banner-${(bannerCount - 2)}-${index}`} banner={getItemDatas(items[(indexCount - 1)])} styleWidth={item.width} bannerType="top" adminViewFlag={adminViewFlag} />
                     <BannerBrief rowId={(indexCount - 1)} key={`banner-${(bannerCount - 1)}-${index}`} banner={getItemDatas(items[(indexCount - 1)])} styleWidth={item.width} bannerType="bottom" adminViewFlag={adminViewFlag} />
                   </DoubleTag>
