@@ -11,29 +11,23 @@ import empty_icon from 'assets/img/empty.png';
 import './styles.css';
 
 const settingsDesktop = {
-  speed: 500,
-  autoplay: false,
-  slidesToShow: 6,
-  slidesToScroll: 1,
-  rows: 1,
-  arrows: true,
   dots: false,
-  initialSlide: 0,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 6,
   swipeToSlide: true,
-  draggable: true,
+  arrows: true,
+  rtl: true,
 };
 
 const settingsMobile = {
-  speed: 500,
-  autoplay: false,
-  slidesToShow: 6,
-  slidesToScroll: 1,
-  rows: 1,
-  arrows: false,
   dots: false,
-  initialSlide: 0,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 6,
   swipeToSlide: true,
-  draggable: false,
+  arrows: false,
+  rtl: true,
 };
 
 const modalStyle = {
@@ -156,52 +150,57 @@ export default class CarouselMenu extends Component {
     const departments = this.state.filters;
     const { adminViewFlag, redirectUrl, deviceFlag } = this.props;
     const settings = deviceFlag ? settingsDesktop : settingsMobile;
-
+    console.log(items)
+    console.log(departments)
     const { modalLeft, modalTop } = this.state;
     return (
-      <div
-        className="item-discovery-session"
-      >
+      <div className="item-discovery-session">
         <div className="carousel-title-container">
           <p className="carousel-title">{title}</p>
         </div>
-        <Slider {...settings}>
-          {
-            departments ?
-              departments.map((department, index) => (
-                <div className="carousel-item" key={department}>
-                  <Link to={`/${redirectUrl}/${department}`}>
-                    <div
-                      style={{
-                        background: `${itemGradient} url(${
-                          (() => {
-                            const matchedData = items.find(item => item.departmentId === department) || {};
-                            return matchedData.image || empty_icon;
-                          })()
-                        })`,
-                        // linear-gradient(#e9e8e8 64%, #1b1b1b), 
-                        backgroundSize: 'cover',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPosition: 'center center',
-                      }}
-                    />
-                    <p className={itemTitleClassName}>{department}</p>
-                  </Link>
-                  {
-                    adminViewFlag ? (
-                      <div className="editBtn-area">
-                        <button className="editBtn" onClick={(e) => { this.editDiscovery(e, department, index); }}>
-                          Edit
-                        </button>
-                      </div>
-                    ) : ''
-                  }
-                </div>
-              ))
-              : ''
-          }
-        </Slider>
-        <Modal
+        <div className="slide-area">
+          <Slider {...settings}>
+            {
+              departments
+                ? departments.map((department, index) => (
+                  <div className="carousel-item" key={department}>
+                    <div className="discovery-item">
+                      {/* <Link to={`/${redirectUrl}/${department}`}> */}
+                        <div
+                          className="discovery-img"
+                          style={{
+                            background: `${itemGradient} url(${
+                              (() => {
+                              const matchedData = items.find(item => item.departmentId === department) || {};
+                                return matchedData.image || empty_icon;
+                              })()
+                            })`,
+                            // linear-gradient(#e9e8e8 64%, #1b1b1b), 
+                            backgroundSize: 'cover',
+                            backgroundRepeat: 'no-repeat',
+                            backgroundPosition: 'center center',
+                          }}
+                        />
+                      {/* </Link> */}
+                      <p className={itemTitleClassName}>{department}</p>
+                    </div>
+                    {
+                      adminViewFlag ? (
+                        <div className="editBtn-area">
+                          <button className="editBtn" onClick={(e) => { this.editDiscovery(e, department, index); }}>
+                            Edit
+                          </button>
+                        </div>
+                      ) : ''
+                    }
+                  </div>
+                ))
+                : ''
+            }
+          </Slider>
+        </div>
+        
+        {/* <Modal
           aria-labelledby="modal-label"
           style={modalStyle}
           backdropStyle={backdropStyle}
@@ -229,7 +228,7 @@ export default class CarouselMenu extends Component {
               </Col>
             </div>
           </div>
-        </Modal>
+        </Modal>  */}
       </div>
     );
   }

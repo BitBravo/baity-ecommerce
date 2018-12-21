@@ -55,7 +55,7 @@ class Footer extends Component {
   render() {
     return [
       <footer className="myfooter" key="pc" fixed="true">
-        <div className="container" style={{ margin: '33px 5px' }}>
+        <div className="container" style={{ margin: '15px 5px' }}>
           <h4 style={{ display: 'inline-block', width: '20%' }}>
             <span> <img src={baityfooter} alt="" /></span>
           </h4>
@@ -80,21 +80,21 @@ class Footer extends Component {
             <span>
               <IconImg src={Homepage} className="icons" />
               <IconImg src={ActiveHomepage} className="activeIcons" />
-              <UserName > الرئيسية </UserName>
+              <UserName> الرئيسية </UserName>
             </span>
           </IndexLinkContainer>
           <LinkContainer to="/productspages" activeClassName="activePage">
             <span>
               <IconImg src={Product} className="icons" />
               <IconImg src={ActiveProduct} className="activeIcons" />
-              <UserName > المنتجات </UserName>
+              <UserName> المنتجات </UserName>
             </span>
           </LinkContainer>
           <LinkContainer to="/ideaspage" activeClassName="activePage">
             <span>
               <IconImg src={Idea} className="icons" />
               <IconImg src={ActiveIdea} className="activeIcons" />
-              <UserName > الأفكار </UserName>
+              <UserName> التصاميم </UserName>
             </span>
           </LinkContainer>
 
@@ -104,22 +104,24 @@ class Footer extends Component {
               <span>
                 <IconImg src={ActiveProfile} className="activeIcons" />
                 <IconImg src={Profile} className="icons" />
-                <UserName > حسابي </UserName>
+                <UserName> حسابي </UserName>
               </span>
             </LinkContainer>
           ) : (
-              <LinkContainer to="/myprofile" activeClassName="imgActivePage"
+            <LinkContainer
+              to="/myprofile"
+              activeClassName="imgActivePage"
               // style={{display:'block',marginLeft:'auto',marginRight:'auto',padding:'0'}}
               >
-                {this.props.userImg && this.props.userImg !== "undefined"
-                  ? <UserImg src={this.props.userImg} />
-                  : <UserImg src={logo_placeholder} />
+              {this.props.userImg && this.props.userImg !== 'undefined'
+                ? <UserImg src={this.props.userImg} />
+                : <UserImg src={logo_placeholder} />
                 }
-              </LinkContainer>
-            )}
-        </MobileDiv >
-      </footer>
-    ]
+            </LinkContainer>
+          )}
+        </MobileDiv>
+      </footer>,
+    ];
   }
 }
 

@@ -85,13 +85,12 @@ margin-top:-5px;
 @media only screen and (max-width: 767px){
   position:fixed;
   margin-top:0;
-  top:30px;
+  top:44px;
   z-index:1;
   background-color:white;
   width:100%;
-
 }
-`
+`;
 const PaddingDiv = styled.div`
   padding-right: 0px;
   padding-top: 20px;
@@ -346,7 +345,7 @@ class ProductsPage extends Component {
       <div>
         <Grid>
           <Row style={{ display: 'flex', flexWrap: 'wrap' }}>
-            <Col sm={4} xs={12} style={{ padding: '2px' }}>
+            <Col sm={4} xs={12} className="filter-container">
               <Filter >
                 <PaddingDiv>
                   <div className="inner-addon left-addon ">

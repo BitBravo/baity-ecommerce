@@ -20,20 +20,29 @@ text-align:center;
 `;
 
 const IconImg = styled.img`
-width:20px;
-height:19px;
+width: 20px;
+height: 20px;
 @media only screen and (max-width: 767px) {
-  width:15px;
-  height:15px;}
+  width: 20px;
+  height: 20px;
+}
   @media only screen and (max-width: 400px) {
-    width:12px;
-    height:12px;
+    width: 20px;
+    height: 20px;
   }
 `;
-const LikeImg = styled.img`
-width:14px;
-height:14px;
+
+const LikeImg = styled.div`
+width: 18px;
 margin-right: 8px;
+position: absolute;
+height: unset;
+left: 3px;
+padding: 3px;
+font-size: 10px;
+text-align: center;
+min-height: 28px;
+color: black;
 // @media only screen and (max-width: 767px) {
 //   width:15px;
 //   height:15px;}
@@ -41,7 +50,8 @@ margin-right: 8px;
 //     width:12px;
 //     height:12px;
 //   }
-`
+`;
+
 
 const PaddingDiv = styled.div`
  font-size:95%;
@@ -312,11 +322,20 @@ class ProductBrief extends Component {
 
               <div style={{ display: 'block', bottom: '0' }}>
                 <Col xs={4} style={{ padding: '0px', textAlign: 'left' }}>
-                  <LikeImg src={EmptyHeart} className="icons" />
+                  <LikeImg
+                    style={{
+                      background: `url(${EmptyHeart})`,
+                      backgroundSize: 'contain',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'center center',
+                      width: cssStyle >= 8 ? '100%' : '',
+                    }}>
+                    {product.likes || ''}
+                  </LikeImg>
                 </Col>
                 <p xs={8}>
                    من:
-                  <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
+                  <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)', marginRight: '10px' }}>
                     {product.businessName}
                   </Link>
                 </p>

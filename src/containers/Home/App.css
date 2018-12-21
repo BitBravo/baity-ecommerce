@@ -53,3 +53,10 @@
 .myfooter>.container h6 .icons{
   margin-left: 12px;
 }
+
+.mobile .authenticated-cart {
+  margin-top: 7px;
+}
+.desktop .authenticated-cart {
+  margin-top: unset;
+}

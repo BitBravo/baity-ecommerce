@@ -106,12 +106,11 @@ export class CarouselBanner extends Component {
             ))
           }
         </Carousel>
-        {
-          adminViewFlag ?
-            <CarouselEditModal items={this.state.carouselItems} onUpdate={e => this.getCarouselData(e)} />
-            :
-            ''
-        }
+        {/* {
+          adminViewFlag
+            ? <CarouselEditModal items={this.state.carouselItems} onUpdate={e => this.getCarouselData(e)} />
+            : ''
+        } */}
       </div>
     );
   }

@@ -506,7 +506,7 @@ class ItemList extends Component {
       );
     }
     return (
-      <div style={{ paddingTop: '0px' }}>
+      <div style={{ paddingTop: '0px', marginTop: '20px' }}>
         <Grid>
           <Row style={{ display: 'flex', flexWrap: 'wrap' }}>
             <Col xs={12} md={12} style={{ padding: '0 5px 0 5px' }}>

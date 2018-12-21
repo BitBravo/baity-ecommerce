@@ -23,8 +23,18 @@
 }
 @media screen and (max-width: 760px) {
   .banner-right .action-div{
-    margin-top: 6% !important;
-    height: 90%;
+    margin-top: 12%;
+  }
+  .mobile .banner-right button{
+    margin-top: auto;
+  }
+}
+@media screen and (max-width: 600px) {
+  .banner-right .action-div{
+    margin-top: 6%;
+  }
+  .mobile .banner-right button{
+    margin-top: auto;
   }
 }
 .banner-right .action-div{
@@ -43,4 +53,22 @@
   font-weight: bold;
   border-color: white;
   margin-top: 100%;
+}
+.banner-right{
+  padding-left: 0px;
+}
+.banner-right .image-container{
+  margin-left: 0px;
+}
+.wideTag {
+  padding-right: 0px;
+}
+.banner-top, .banner-bottom{
+  padding-right: 0px !important;
+}
+.mobile .banner-container {
+  padding-top: 50%;
+}
+.mobile .banner-right button {
+  margin-top: none;
 }

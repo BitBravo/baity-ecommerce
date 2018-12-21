@@ -494,7 +494,7 @@ button {
 
 .right-addon input {
   padding-right: 35px;
-  width: 80%;
+  width: 90%;
   height: 100%;
 }
 
@@ -807,4 +807,12 @@ input::-webkit-input-placeholder {
   .dropdownmenu:hover ul {
     display: block;
   }
+}
+
+.mobile .filter-container {
+  padding: 0 auto;
+}
+
+.desktop .filter-container {
+  padding: 2px auto;
 }

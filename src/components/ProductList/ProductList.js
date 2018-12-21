@@ -303,7 +303,7 @@ class ProductList extends Component {
     } else {
 
       return (
-        <div style={{ paddingTop: "0px" }}>
+        <div style={{ paddingTop: "3px" }}>
           <Grid>
             <Row style={{ display: 'flex', flexWrap: 'wrap' }}>
 

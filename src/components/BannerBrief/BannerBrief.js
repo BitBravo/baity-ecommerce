@@ -317,7 +317,7 @@ class BannerBrief extends Component {
                 </MyThumbnailLDiv>
               )
               : (
-                <MyThumbnailSDiv>
+                <MyThumbnailSDiv className="image-container">
                   <ImageContainer>
                     <ImageDiv>
                       <Link to={`/${banner.owner}/banners/${banner.id}`}>

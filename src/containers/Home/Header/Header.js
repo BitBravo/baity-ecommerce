@@ -26,7 +26,7 @@ width:400%;
 border-style: ridge;
 margin:0 -1500px 0 0;
  color:#e6e6e6;
-`
+`;
 
 const CartNo = styled.div`
 position:absolute;
@@ -40,25 +40,27 @@ color:white;
 text-align:center;
 background-color:red;
 border-radius: 50%;
-`
+`;
+
 const UserNav = styled(Nav)`
 width:100px !important;
 
 @media only screen and (max-width: 767px) {
 display:none !important;}
-`
+`;
 
 const AdminNav = styled(Nav)`
 width:70px !important;
 padding: 6px 0 !important;
 @media only screen and (max-width: 767px) {
 display:none;}
-`
+`;
+
 const AdminIcon = styled.i`
 font-size: 24px !important;
 font-weight: 900;
-color: #07af9fbf;
-`
+color: #00A19A;
+`;
 
 const UserImg = styled.img`
  width:35px;
@@ -71,7 +73,7 @@ const UserImg = styled.img`
 const Logo = styled.img`
  width:28px;
  height:28px;
- margin-top: 9px;
+//  margin-top: 9px;
 `
 const PageIcon = styled.img`
 width:18px;
@@ -158,37 +160,37 @@ class Header extends Component {
 
   render() {
     const { adminRoute, admin } = this.props;
-    const profileUrl = this.props.group ? "/myprofile" : "/myprofile";
+    const profileUrl = this.props.group ? '/myprofile' : '/myprofile';
 
-    const adminLinkFlag = !adminRoute && (admin && admin.toString() === "true") ? true : false;
+    const adminLinkFlag = !!(!adminRoute && (admin && admin.toString() === 'true'));
     return (
-      <Navbar fixedTop collapseOnSelect  >
-        <Navbar.Header  >
+      <Navbar fixedTop collapseOnSelect>
+        <Navbar.Header>
           <NavbarBrand>
-            <IndexLinkContainer to="/" style={{ cursor: "pointer" }}>
+            <IndexLinkContainer to="/" style={{ cursor: 'pointer' }}>
               <LogImg src={bayty_icon} />
             </IndexLinkContainer>
           </NavbarBrand>
           {/* desktop search bar */}
           <Nav>
-            <SearchNavItem >
+            <SearchNavItem>
               <div className="inner-addon right-addon">
-                <i className="glyphicon glyphicon-search" style={{ fontSize: '10px', color: 'gray' }} ></i>
-                <Input id="search" className="form-control" type="text" placeholder="بحث عن منتجات أفكار ...."></Input>
+                <i className="glyphicon glyphicon-search" style={{ fontSize: '10px', color: 'gray' }} />
+                <Input id="search" className="form-control" type="text" placeholder="بحث عن منتجات أفكار ...." style={{ width: adminLinkFlag? '100%' : '' }} />
               </div>
             </SearchNavItem>
           </Nav>
 
           {/* mobile search bar */}
-          <Search  >
-            <i className="glyphicon glyphicon-search" onClick={this.handleShow}></i>
+          <Search>
+            <i className="glyphicon glyphicon-search" onClick={this.handleShow} />
           </Search>
 
           {adminLinkFlag ? (
             <AdminNav>
               <NavItem style={{ float: 'left', fontSize: '8px' }}>
                 <LinkContainer to="/admin">
-                  <AdminIcon className="fa fa-cogs" aria-hidden="true"></AdminIcon>
+                  <AdminIcon className="fa fa-cogs" aria-hidden="true" />
                 </LinkContainer>
               </NavItem>
             </AdminNav>
@@ -197,7 +199,7 @@ class Header extends Component {
           }
 
           {!this.props.authenticated ? (
-            <UserNav >
+            <UserNav>
               <NavItem style={{ float: 'left', fontSize: '8px' }}>
                 <LinkContainer to="/login" activeClassName="activePage">
                   <span>
@@ -208,50 +210,63 @@ class Header extends Component {
               </NavItem>
             </UserNav>
           ) : (
-              <UserNav >
-                <NavItem style={{ float: 'left' }}>
-                  <LinkContainer to={ profileUrl } activeClassName="imgActivePage">
-                    {this.props.userImg && this.props.userImg !== "undefined"
-                      ? <UserImg src={this.props.userImg} />
-                      :
-                      <UserImg src={logo_placeholder} />
-                    }
-                    {/* <UserLogo >
-                      <IconImg src={Profile} />
-                      <br />
-                      <UserName >
-                        مرحبا ،  {this.props.userName}
-                      </UserName>
-                    </UserLogo> */}
-                  </LinkContainer>
-                </NavItem>
-              </UserNav>
-            )}
+            <UserNav>
+              <NavItem style={{ float: 'left' }}>
+                <LinkContainer to={profileUrl} activeClassName="imgActivePage">
+                  {this.props.userImg && this.props.userImg !== 'undefined'
+                    ? <UserImg src={this.props.userImg} />
+                    : <UserImg src={logo_placeholder} />
+                  }
+                  {/* <UserLogo >
+                    <IconImg src={Profile} />
+                    <br />
+                    <UserName >
+                      مرحبا ،  {this.props.userName}
+                    </UserName>
+                  </UserLogo> */}
+                </LinkContainer>
+              </NavItem>
+            </UserNav>
+          )}
 
 
           {/* mobile search bar */}
-          <Modal  {...this.props}
+          <Modal
+            {...this.props}
             show={this.state.show}
-            onHide={this.handleHide} style={{ top: 30 }}  >
+            onHide={this.handleHide}
+            style={{ top: 30 }}>
             <Modal.Body>
-              <form >
+              <form>
                 <Input placeholder="بحث عن منتجات أفكار ...." />
               </form>
             </Modal.Body>
           </Modal>
 
           <div style={{ float: 'left' }} className="cartmenu">
-            {this.props.authenticated ?
-              <LinkContainer to="/mycart" activeClassName="active" style={{ position: 'relative', cursor: 'pointer', margin: '3px'}}>
-                <div style={{ position: 'relative' }}>
-                  {this.props.cartCount > 0 ?
-                    <CartNo>{this.props.cartCount}</CartNo>
-                    : null
-                  }
-                  <Logo src={Cart} className="shoppingcart" />
-                </div>
-              </LinkContainer>
-              : null}
+            {this.props.authenticated
+              ? (
+                <LinkContainer to="/mycart" activeClassName="active" style={{ position: 'relative', cursor: 'pointer', margin: '3px' }}>
+                  <div style={{ position: 'relative' }}>
+                    {this.props.cartCount > 0
+                      ? <CartNo>{this.props.cartCount}</CartNo>
+                      : null
+                    }
+                    <Logo src={Cart} className="shoppingcart" />
+                  </div>
+                </LinkContainer>
+              )
+              : (
+                <LinkContainer to="/registration" activeClassName="active" className="authenticated-cart" style={{ position: 'relative', cursor: 'pointer' }}>
+                  <div style={{ position: 'relative' }}>
+                    {/* {this.props.cartCount > 0 ?
+                  <CartNo>{this.props.cartCount}</CartNo>
+                  : null
+                } */}
+                    <Logo src={Cart} className="shoppingcart" />
+                  </div>
+                </LinkContainer>
+              )}
             {/* {this.props.authenticated ?
               <div className="shorcartlist">
                 <HeaderCart currentUser={this.props.currentUser}
@@ -269,19 +284,25 @@ class Header extends Component {
         <MainNav bsStyle="tabs" justified className="itemNav">
           <Line style={{}} />
           <IndexLinkContainer to="/" activeClassName="activePage">
-            <NavItem >
+            <NavItem>
               <PageIcon src={ActiveHomepage} className="activeIcons" />
-              <PageIcon src={Homepage} className="icons" />الرئيسية</NavItem>
+              <PageIcon src={Homepage} className="icons" />
+                الرئيسية
+            </NavItem>
           </IndexLinkContainer>
           <LinkContainer to="/productspages" activeClassName="activePage">
-            <NavItem >
+            <NavItem>
               <PageIcon src={ActiveProduct} className="activeIcons" />
-              <PageIcon src={Product} className="icons" />المنتجات</NavItem>
+              <PageIcon src={Product} className="icons" />
+                المنتجات
+            </NavItem>
           </LinkContainer>
           <LinkContainer to="/ideaspage" activeClassName="activePage">
-            <NavItem >
+            <NavItem>
               <PageIcon src={ActiveIdea} className="activeIcons" />
-              <PageIcon src={Idea} className="icons" />التصاميم</NavItem>
+              <PageIcon src={Idea} className="icons" />
+                 التصاميم
+            </NavItem>
           </LinkContainer>
         </MainNav>
         {/* </Navbar.Collapse > */}

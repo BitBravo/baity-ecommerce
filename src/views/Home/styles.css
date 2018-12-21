@@ -8,58 +8,9 @@
   margin-bottom: 20px;
 }
 
-.slick-slider {
-  width: 90%;
-  margin: 0px auto;
-}
-
-.slick-prev:before,
-.slick-next:before {
-  color: #8c8585;
-  font-size: 32px;
-}
-
-/* .slick-prev {
-  left: -40px;
-}
-
-.slick-next {
-  right: -40px;
-} */
-
-/* ProdictBrieg */
-
-.ipUxan {
-  background-size: contain !important;
-  background-repeat: no-repeat !important;
-  background-position: center center !important
-}
-
 .discovery-containter-block {
   width: 100% !important;
 }
-
-.discovery-containter.carousel-2 {
-  margin-bottom: 20px;
-}
-
-.discovery-containter.carousel-2 .carousel-item {
-  padding-top: 0px;
-}
-
-.discovery-containter.carousel-2 .carousel-item div {
-  width: 100%;
-  height: 100%;
-}
-
-.discovery-containter.carousel-2 .editBtn-area {
-  top: 53px;
-}
-
-.discovery-containter.carousel-2 .carousel-item div {
-  background-size: cover !important;
-}
-
 
 .mobile .main-content .container{
   margin-left: -15px;

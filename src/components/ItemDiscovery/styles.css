@@ -7,34 +7,3 @@
 .carousel-containter-block {
     margin-bottom: 20px;
 }
-
-.slick-prev:before,
-.slick-next:before {
-    color: #8c8585;
-    font-size: 32px;
-}
-
-/* .slick-prev {
-    left: -40px;
-}
-
-.slick-next {
-    right: -40px;
-} */
-
-.carousel-item {
-    position: relative;
-}
-
-.carousel-item>a {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-}
-
-.carousel-item>a>div {
-    height: 60%;
-    width: 80%;
-    text-align: center;
-    margin: 0px auto;
-}

@@ -18,10 +18,16 @@ height: 18px;
 text-align:center;
 `;
 
-const LikeImg = styled.img`
-width:14px;
-height:14px;
+const LikeImg = styled.div`
+width: 18px !important;
 margin-right: 8px;
+position: absolute;
+height: unset;
+left: 3px;
+padding: 3px;
+font-size: 10px;
+text-align: center;
+color: black;
 // @media only screen and (max-width: 767px) {
 //   width:15px;
 //   height:15px;}
@@ -113,6 +119,7 @@ const IdeaTitle = styled.h2`
   margin-top: 12px;
   font-weight: bold;
   color: white;
+  text-shadow: 1px 2px 3px #666;
 `
 const IdeaImgDiv = styled.div`
 width: 58px;
@@ -296,11 +303,20 @@ class IdeaBrief extends Component {
                 <div style={{ display: 'block', bottom: '0', height: '30px' }}>
                   <Col xs={4} style={{ padding: '0px', textAlign: 'left' }}>
                     {''}
-                    <LikeImg src={EmptyHeart} className="icons" />
+                    <LikeImg
+                      style={{
+                        background: `url(${EmptyHeart})`,
+                        backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center center',
+                        width: cssStyle >= 8 ? '100%' : '',
+                      }}>
+                      {idea.likes || 4}
+                    </LikeImg>
                   </Col>
                   <p xs={8} style={{ margin: '4px' }}>
                      من:
-                    <Link to={`/businessprofile/${idea.owner}`} style={{ color: 'rgb(26,156,142)' }}>
+                    <Link to={`/businessprofile/${idea.owner}`} style={{ color: 'rgb(26,156,142)', marginRight: '10px' }}>
                       {idea.businessName}
                     </Link>
                   </p>
