@@ -75,8 +75,8 @@ height:60px;
 border-radius: 0;
 -webkit-appearance: none;
 @media only screen and (max-width: 767px) {
-  font-size:11px;
-  height:30px;
+  font-size:13px;
+  height:36px;
   padding-right:5px;
 }
 `
@@ -89,6 +89,7 @@ margin-top:-5px;
   z-index:1;
   background-color:white;
   width:100%;
+  padding-right: 2px;
 }
 `;
 const PaddingDiv = styled.div`
@@ -110,7 +111,7 @@ padding-right:15px;
 margin-top:17px;
 @media only screen and (max-width: 767px) {
   padding:0;
-  margin-top:33px;
+  margin-top: 40px;
 `
 
 const Style = [

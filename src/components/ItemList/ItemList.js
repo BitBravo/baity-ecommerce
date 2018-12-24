@@ -140,7 +140,7 @@ const IteamArrange = (data) => {
                 bannerCount = 2 + bannerCount;
                 indexCount += 2;
                 return (
-                  <DoubleTag className={`col-xs-12 col-sm-6 col-md-${item.width} wide-banner`}>
+                  <DoubleTag className={`col-xs-12 col-sm-8 col-md-${item.width} wide-banner`}>
                     <BannerBrief rowId={(indexCount - 2)} key={`banner-${(bannerCount - 2)}-${index}`} banner={getItemDatas(items[(indexCount - 1)])} styleWidth={item.width} bannerType="top" adminViewFlag={adminViewFlag} />
                     <BannerBrief rowId={(indexCount - 1)} key={`banner-${(bannerCount - 1)}-${index}`} banner={getItemDatas(items[(indexCount - 1)])} styleWidth={item.width} bannerType="bottom" adminViewFlag={adminViewFlag} />
                   </DoubleTag>
@@ -187,26 +187,26 @@ class ItemList extends Component {
     this.getItems();
     this.listToArray = this.listToArray.bind(this);
     this.forward = this.forward.bind(this);
-    this.productFirePaginator = this.productFirePaginator.bind(this);
-    this.ideaFirePaginator = this.ideaFirePaginator.bind(this);
-    this.setRangeFilter = this.setRangeFilter.bind(this);
-    this.productCreateQuery = this.productCreateQuery.bind(this);
-    this.ideaCreateQuery = this.ideaCreateQuery.bind(this);
+    // this.itemFirePaginator = this.itemFirePaginator.bind(this);
+    // this.ideaFirePaginator = this.ideaFirePaginator.bind(this);
+    // this.setRangeFilter = this.setRangeFilter.bind(this);
+    // this.itemCreateQuery = this.itemCreateQuery.bind(this);
+    // this.ideaCreateQuery = this.ideaCreateQuery.bind(this);
 
     hasMore = true;
     if (this.props.thisUserOnly) {
-      this.businessProducts(this.props);
-      this.businessIdeas(this.props);
+      // this.businessProducts(this.props);
+      // this.businessIdeas(this.props);
     } else {
-      const productRef = FirestoreServices.products.orderBy('timestamp', 'desc');
-      this.productFirePaginator(productRef);
-      const ideaRef = FirestoreServices.ideas.orderBy('timestamp', 'desc');
-      this.ideaFirePaginator(ideaRef);
+      // const items = FirestoreServices.adminData().orderBy('timestamp', 'desc');
+      // this.productFirePaginator(productRef);
+      // const ideaRef = FirestoreServices.ideas.orderBy('timestamp', 'desc');
+      // this.ideaFirePaginator(ideaRef);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    this.getItems();
+    // this.getItems();
     // filter options will be recived as props
     if (nextProps.filter) {
       if (nextProps.filter.length > 0) {
@@ -214,21 +214,21 @@ class ItemList extends Component {
         let filterValues = nextProps.filter;
         console.log(`filters: ${filterValues.length}`);
         //  var ref = FirestoreServices.products
-        this.productCreateQuery(filterValues);
-        this.ideaCreateQuery(filterValues);
+        // this.productCreateQuery(filterValues);
+        // this.ideaCreateQuery(filterValues);
       } else {
         // filter was reset => no filteration
         if (nextProps.filter.length < 1) {
           // reset the product list by deleting all from the extraProducts
-          const productRef = FirestoreServices.products.orderBy('timestamp', 'desc');
-          this.productFirePaginator(productRef);
-          const ideaRef = FirestoreServices.products.orderBy('timestamp', 'desc');
-          this.ideaFirePaginator(ideaRef);
+          // const productRef = FirestoreServices.products.orderBy('timestamp', 'desc');
+          // this.productFirePaginator(productRef);
+          // const ideaRef = FirestoreServices.products.orderBy('timestamp', 'desc');
+          // this.ideaFirePaginator(ideaRef);
         }
       }
     } else if (nextProps.thisUserOnly) {
-      this.businessProducts(nextProps);
-      this.businessIdeas(nextProps);
+      // this.businessProducts(nextProps);
+      // this.businessIdeas(nextProps);
     }
   }
 
@@ -296,12 +296,11 @@ class ItemList extends Component {
 
     // Here in the profile page or the company page
     if (props.shortList) {
-      this.productsRef = base.bindCollection(FirestoreServices.PRODUCTS_PATH, {
+      this.productsRef = base.bindCollection(FirestoreServices.ADMIN_DATA_PATH, {
         context: this,
-        state: 'products',
+        state: 'items',
         query: (ref) => {
-          return ref.where('owner', '==', owner)
-            .orderBy('timestamp', 'desc')
+          return ref.orderBy('timestamp', 'desc')
             .limit(3);
         },
         then() {
@@ -313,8 +312,8 @@ class ItemList extends Component {
         },
       });
     } else { // All products by a company
-      const ref = FirestoreServices.products.where('owner', '==', owner).orderBy('timestamp', 'desc');
-      this.firePaginator(ref);
+      const ref = FirestoreServices.adminData.orderBy('timestamp', 'desc');
+      this.itemFirePaginator(ref);
     }
   }
 
@@ -361,7 +360,7 @@ class ItemList extends Component {
       });
     } else { // All products by a company
       const ref = FirestoreServices.ideas.where('owner', '==', owner).orderBy('timestamp', 'desc');
-      this.firePaginator(ref);
+      this.itemFirePaginator(ref);
     }
   }
 
@@ -380,27 +379,27 @@ class ItemList extends Component {
     // this.setState({extraProducts: list, loading: false})
   }
 
-  productFirePaginator(ref) {
+  itemFirePaginator(ref) {
     paginator = new FirestorePaginator(ref, {})
     paginator.on()
       .then(docs => this.setState({
-        products: docs,
+        items: docs,
         loading: false,
         firstTime: false,
       }),
       );
   }
 
-  ideaFirePaginator(ref) {
-    paginator = new FirestorePaginator(ref, {})
-    paginator.on()
-      .then(docs => this.setState({
-        ideas: docs,
-        loading: false,
-        firstTime: false,
-      }),
-      );
-  }
+  // ideaFirePaginator(ref) {
+  //   paginator = new FirestorePaginator(ref, {})
+  //   paginator.on()
+  //     .then(docs => this.setState({
+  //       ideas: docs,
+  //       loading: false,
+  //       firstTime: false,
+  //     }),
+  //     );
+  // }
 
   forward() {
     console.log('calling next()');
@@ -418,9 +417,9 @@ class ItemList extends Component {
           return;
         }
         console.log(`hasMore = ${paginator.hasMore}`);
-        const newProducts = this.state.products.concat(docs);
+        const newProducts = this.state.items.concat(docs);
         this.setState({
-          products: newProducts,
+          items: newProducts,
           loading: false,
           firstTime: false,
         });
@@ -510,19 +509,19 @@ class ItemList extends Component {
         <Grid>
           <Row style={{ display: 'flex', flexWrap: 'wrap' }}>
             <Col xs={12} md={12} style={{ padding: '0 5px 0 5px' }}>
-              <InfiniteScroll
+              {/* <InfiniteScroll
                 style={{ overflow: 'none' }}
                 hasMore={hasMore}
                 next={this.forward}
-              >
-                {
-                  products.length < 1
-                    ? this.props.thisUserOnly
-                      ? <h4 style={{ textAlign: 'center' }}>لم تقم باضافة منتجات، إبدأ الان</h4>
-                      : <h4 style={{ textAlign: 'center' }}>لا يوجد نتائج مطابقة</h4>
-                    : <IteamArrange {...{ items, deviceFlag, adminViewFlag }} />
-                }
-              </InfiniteScroll>
+              > */}
+              {
+                items.length < 1
+                  ? this.props.thisUserOnly
+                    ? <h4 style={{ textAlign: 'center' }}>لم تقم باضافة منتجات، إبدأ الان</h4>
+                    : <h4 style={{ textAlign: 'center' }}>لا يوجد نتائج مطابقة</h4>
+                  : <IteamArrange {...{ items, deviceFlag, adminViewFlag }} />
+              }
+              {/* </InfiniteScroll> */}
             </Col>
           </Row>
         </Grid>

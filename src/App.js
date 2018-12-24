@@ -261,7 +261,7 @@ class App extends Component {
 
   updateDimensions() {
     const { deviceFlag } = this.state;
-    if (window.innerWidth > 780) {
+    if (window.innerWidth > 768) {
       if (!deviceFlag) {
         this.setState({ deviceFlag: true });
       }

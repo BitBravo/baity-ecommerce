@@ -13,7 +13,7 @@
 } */
 
 .carousel-title-container {
-  width: 75%;
+  width: 92%;
   margin: 0px auto;
 }
 
@@ -100,7 +100,7 @@ button:active {
 }
 
 .mobile .carousel-title-container {
-  width: 98%;
+  width: 92%;
   margin: 0px auto;
 }
 
@@ -308,6 +308,7 @@ button:active {
   width: 92%;
   margin: auto;
   position: static;
+  overflow: hidden;
 }
 
 .slide-area .slick-slider .slick-list{
@@ -317,6 +318,7 @@ button:active {
 
 .slick-list .slick-track .carousel-item{
   outline: none;
+  position: relative;
 }
 
 .slick-list .slick-track .carousel-item a{

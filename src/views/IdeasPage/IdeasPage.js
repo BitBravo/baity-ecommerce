@@ -75,11 +75,11 @@ height:60px;
 border-radius: 0;
 -webkit-appearance: none;
 @media only screen and (max-width: 767px) {
-  font-size:11px;
-  height:30px;
-  padding-right:5px;
+  font-size: 13px;
+  height: 36px;
+  padding-right: 5px;
 }
-`
+`;
 const Filter = styled.div`
 margin-top:-5px;
 @media only screen and (max-width: 767px){
@@ -99,8 +99,8 @@ const PaddingDiv = styled.div`
   padding-bottom: 0;
   @media only screen and (max-width: 767px) {
     display:inline-block;
-    width:25%;
-    padding-top:25px;
+    width:33.33%;
+    padding-top:40px;
     padding-left:3px;
     padding-bottom: 2px;
   z-index:1000;}
@@ -273,7 +273,6 @@ class IdeasPage extends Component {
         break;
     }
     this.setState({ filter: filter });
-
   }
 
   getList() {
@@ -319,7 +318,7 @@ class IdeasPage extends Component {
       <div>
         <Grid>
           <Row style={{ display: 'flex', flexWrap: 'wrap' }}>
-            {/* <Col sm={4} xs={12} style={{ padding: '2px' }}>
+            <Col sm={4} xs={12} style={{ padding: '2px' }}>
               <Filter >
                 <PaddingDiv>
                   <div className="inner-addon left-addon ">
@@ -344,7 +343,7 @@ class IdeasPage extends Component {
                   </div>
                 </PaddingDiv>
 
-                <PaddingDiv>
+                {/* <PaddingDiv>
                   <div className="inner-addon left-addon ">
                     <i className="glyphicon glyphicon-plus white plus"></i>
                     <Select name="selectThis" id="price" onChange={this.handleChange} value={this.state.price}>
@@ -352,22 +351,8 @@ class IdeasPage extends Component {
                       <PriceOption list={Price} />
                     </Select>
                   </div>
-                </PaddingDiv>
+                </PaddingDiv> */}
 
-                {
-                  //       <PaddingDiv>
-                  //       <div className="inner-addon left-addon ">
-                  // <i className="glyphicon glyphicon-plus white plus"  ></i>
-                  //       <Select name="selectThis" id="selectThis">
-                  //           <option value="">بلد الصنع</option>
-                  //           <option value=".option1">Option 1</option>
-                  //           <option value=".option2">Option 2</option>
-                  //           <option value=".option3">Option 3</option>
-                  //           <option value=".option4">Option 4</option>
-                  //       </Select>
-                  //       </div>
-                  //       </PaddingDiv>
-                }
                 <PaddingDiv>
                   <div className="inner-addon left-addon ">
                     <i className="glyphicon glyphicon-plus white plus" ></i>
@@ -378,7 +363,7 @@ class IdeasPage extends Component {
                   </div>
                 </PaddingDiv>
               </Filter>
-            </Col> */}
+            </Col>
 
             <CarouselDiv lg={12} sm={12} xs={12} >
 

@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { Col, Modal } from 'react-bootstrap';
 import FirestoreServices from 'services/FirestoreServices';
 import styled from 'styled-components';
-// import Idea from 'assets/img/AddingIdea.png';
-import Idea from 'assets/img/Selected-idea.png';
+import Idea from 'assets/img/AddingIdea.png';
+// import Idea from 'assets/img/Selected-idea.png';
 import EmptyHeart from 'assets/img/emptyHeart.png';
 
 
@@ -18,7 +18,20 @@ height:20px;
     width:12px;
     height:12px;
   }
-`
+`;
+
+const IdeaDiv = styled.div`
+position: absolute;
+top: 0;
+bottom: 0;
+left: 0;
+right: 0;
+width: 50%;
+height: 30%;
+margin: auto;
+text-align: center;
+`;
+
 const IdeaNameCol = styled(Col)`
 border-bottom:dotted 1px lightgray;
 height:28px;
@@ -31,19 +44,18 @@ margin-top:3px;
 const PaddingDiv = styled.div`
  font-size:95%;
  padding: 5px 5px 0 5px;
-  height: 120px;
+  height: 30px;
   line-height:22px;
   @media only screen and (max-width: 1199px) {
     line-height:22px;
     font-size:90%;
     padding: 5px 5px 0 5px;
-    height: 120px;
+    height: 30px;
     display:block;}
     @media only screen and (max-width: 623px) {
       line-height:16px;
       font-size:70%;
       padding: 5px 5px 0 5px;
-      height: 100px;
       display:block;
       }
       @media only screen and (max-width: 500px) {
@@ -51,7 +63,6 @@ const PaddingDiv = styled.div`
         padding: 5px 5px 0 5px;
         line-height:13px;
         font-size:60%;
-        height:80px;
       }
 `
 const Description = styled.p`
@@ -100,10 +111,10 @@ const MyThumbnailDiv = styled.div`
   background-color: #fff;
   transform: scale(1, 1);
   transition: transform 1s ease;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   &:hover{
     box-shadow:0px 0px 10px #6A6A6A;
-    border:1px solid #6A6A6A;
+    // border:1px solid #6A6A6A;
     transition:all 0.5s ease-in-out;
     transform: scale(1.05, 1.05);
   }
@@ -111,7 +122,7 @@ const MyThumbnailDiv = styled.div`
     &:hover{
       transition:none;
       transform: none;}
-      margin-bottom: 20px;
+      margin-bottom: 5px;
   }
 `
 
@@ -137,6 +148,47 @@ const ImageContainer = styled.div`
   width: 100%;
   padding-top: 100%;
   position: relative;
+`;
+
+
+const LikeImg = styled.div`
+width: 18px;
+margin-right: 8px;
+position: absolute;
+height: unset;
+left: 10px;
+padding: 3px;
+font-size: 10px;
+text-align: center;
+min-height: 28px;
+color: black;
+position: relative;
+float: left;
+top: -1px;
+
+@media only screen and (max-width: 623px) {
+  left: 5px;
+  font-size: 11px;
+  text-align: center;
+  color: black;
+  width: 12px;
+  padding-left: 9px;
+  padding-top: 6px;
+  padding-right: 4px;
+  top: -2px;
+}
+
+@media only screen and (max-width: 500px) {
+  left: 5px;
+  font-size: 7px;
+  text-align: center;
+  color: black;
+  width: 12px;
+  padding-left: 9px;
+  padding-top: 8px;
+  padding-right: 4px;
+  top: -1px;
+}
 `;
 
 // const TagDiv = styled.span`
@@ -247,25 +299,29 @@ const ImageContainer = styled.div`
 // margin: auto;
 // text-align: center;
 // `;
-// const IdeaTitle = styled.h2`
-//   font-size: 36px;
-//   margin-top: 12px;
-//   font-weight: bold;
-//   color: white;
-//   text-shadow: 1px 2px 3px #666;
-// `
-// const IdeaImgDiv = styled.div`
-// width: 58px;
-// height: 58px;
-// width: 58px;
-// height: 58px;
-// background-color: #00A19A;
-// border-radius: 50%;
-// padding: 7px;
-// border: 1px solid #07a7d3;
-// margin: 0px auto;
-// text-align: center;
-// `;
+const IdeaTitle = styled.h2`
+  font-size: 36px;
+  margin-top: 12px;
+  // font-weight: bold;
+  color: white;
+  text-shadow: 1px 2px 3px #666;
+@media only screen and (max-width: 767px) {
+  font-size: 28px;  
+}
+`;
+
+const IdeaImgDiv = styled.div`
+width: 58px;
+height: 58px;
+width: 58px;
+height: 58px;
+background-color: #00A19A;
+border-radius: 50%;
+padding: 7px;
+border: 1px solid #07a7d3;
+margin: 0px auto;
+text-align: center;
+`;
 // const ImageContainer = styled.div`
 //   // width: 100%;
 //   // padding-top: 100%;
@@ -396,66 +452,83 @@ class IdeaBrief extends Component {
       : 'http://via.placeholder.com/243x243';
 
     let { styleWidth: cssStyle, adminViewFlag } = this.props;
-    const layoutClassName = cssStyle >= 8 ? `col-xs-12 col-sm-12 col-md-${cssStyle}` : 'col-xs-12 col-sm-6 col-md-4';
+    const layoutClassName = cssStyle >= 8 ? `col-xs-12 col-sm-12 col-md-${cssStyle}` : 'col-xs-6 col-sm-6 col-md-4';
 
     const styles = cssStyle >= 8 ? { width: '100%' } : {};
 
     return (
       typeof idea === 'object'
         ? (
-          <MyThumbnailCol xs={6} md={4} sm={6} style={{float:'right'}}>
+          <MyThumbnailCol className={layoutClassName} style={{float:'right'}}>
             <MyThumbnailDiv>
-              <ImageContainer>
-                <ImageDiv>
-                  <Link to={`/${idea.owner}/ideas/${idea.id}`}>
-                    <PreviewImg
-                      style={{
-                        backgroundImage: `url(${imgUrl})`,
-                        backgroundSize: 'cover',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPosition: 'center center',
-                      }}
-                    />
-                  </Link>
-                </ImageDiv>
-              </ImageContainer>
+              <div>
+                <Link to={`/${idea.owner}/ideas/${idea.id}`}>
+                  <div
+                    style={{
+                      backgroundImage: `url(${imgUrl})`,
+                      backgroundSize: 'cover',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'center center',
+                    }}
+                    className="idea-img"
+                  >
+                    <IdeaDiv>
+                      <IdeaImgDiv>
+                        <img src={Idea} style={{ width: '100%' }} alt="" />
+                      </IdeaImgDiv>
+                      <IdeaTitle style={{}}>{idea.department}</IdeaTitle>
+                    </IdeaDiv>
+                  </div>
+                </Link>
+              </div>
 
               <PaddingDiv>
-                <Link to={`/${idea.owner}/ideas/${idea.id}`} style={{color:'black'}}>
-                <IdeaNameCol xs ={11} style={{paddingLeft:'0',paddingRight:'0'}}>
-                  <p style={{color:'black',fontFamily: 'dinarm',paddingRight:'1px'}}>
-                  {idea.name}
+                <div style={{display:'inline-block',position:'absolute'}}>
+                  <p className="item-owner-name"> من:
+                    <Link to={`/businessprofile/${idea.owner}`}style={{color:'rgb(26,156,142)'}}>
+                    {idea.businessName}
+                    </Link>
                   </p>
-                  </IdeaNameCol>
-                </Link>
-                <IdeaNameCol xs ={1}  style={{padding:'0 0 15px 0'}}>
-                <IconImg src={Idea} className="icons"/>
-                </IdeaNameCol>
-                <Description className="flex-text text-muted">{(idea.desc || '').substring(0,105)}
-                  <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${idea.owner}/ideas/${idea.id}`}>
-                  ... المزيد
-                  </Link>
-                </Description>
-                <MDescription className="flex-text text-muted">{(idea.desc || '').substring(0,90)}
-                  <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${idea.owner}/ideas/${idea.id}`}>
-                  ... المزيد
-                  </Link>
-                </MDescription>
-                <SDescription className="flex-text text-muted">{(idea.desc || '').substring(0,60)}
-                  <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${idea.owner}/ideas/${idea.id}`}>
-                  ... المزيد
-                  </Link>
-                </SDescription>
-
-                <div style={{display:'inline-block',position:'absolute',bottom:'0'}}>
-                      <p > من:
-                      <Link to={`/businessprofile/${idea.owner}`}style={{color:'rgb(26,156,142)'}}>
-                      {idea.businessName}
-                      </Link>
-                    </p>
-                    </div>
-
+                </div>
+                <LikeImg
+                  style={{
+                    background: `url(${EmptyHeart})`,
+                    backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center center',
+                  }}>
+                  {idea.likes || ''}
+                </LikeImg>
               </PaddingDiv>
+              {adminViewFlag
+                ? (
+                  <MiddleDiv>
+                    <EditButton onClick={this.changeHandler} name="idea" value={idea.id}>Edit</EditButton>
+                  </MiddleDiv>
+                )
+                : ''
+              }
+              <Modal
+                aria-labelledby="modal-label"
+                style={modalStyle}
+                backdropStyle={backdropStyle}
+                show={this.state.showModal}
+                onHide={this.onCancelAction}
+              >
+                <div style={dialogStyle(this.state.topMargin, this.state.leftMargin)}>
+                  <div className="imageInfo">
+                    <input type="text" value={this.state.ideaId} onChange={this.onChangeAction} />
+                  </div>
+                  <div className="toolbar">
+                    <Col md={5} mdOffset={1}>
+                      <button onClick={this.onCancelAction}>Cancel</button>
+                    </Col>
+                    <Col md={5}>
+                      <button onClick={this.onSaveAction}>Save</button>
+                    </Col>
+                  </div>
+                </div>
+              </Modal>
             </MyThumbnailDiv>
           </MyThumbnailCol>
         )

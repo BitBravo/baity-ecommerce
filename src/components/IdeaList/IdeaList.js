@@ -43,7 +43,8 @@ height:40px;
   @media only screen and (max-width: 500px) {
     font-size:10px;
     height: 30px;
-    width:90%;}
+    width:90%;
+  }
   `;
 
 var paginator;
@@ -138,7 +139,7 @@ class IdeaList extends Component {
     if (filter[2].value) {
       query.push([filter[2].key, '==', filter[2].value])
     }
-    console.log(query)
+    console.log(query);
     FirestoreServices.getDataQuery('idea', query)
       .then(items => {
         this.setState({ 'ideas': items });
@@ -268,6 +269,7 @@ class IdeaList extends Component {
 
   render() {
     const ideas = this.state.ideas
+
     var msg;
     var title;
 

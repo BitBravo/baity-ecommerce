@@ -179,7 +179,7 @@ export class MyCart extends Component {
           {this.state.total > 0 /* this.state.basket.length*/ ?
             <Row style={{ display: 'flex', flexWrap: 'wrap', boxShadow: '5px 5px 5px #d7d7d7' }} >
               <MainCartList products={this.state.products} removefromCart={this.removefromCart} />
-              <Col xs={12} style={{ background: 'white' }}>
+              <Col xs={12} className="cart-item-list" style={{ background: 'white' }}>
                 <h4 style={{ textAlign: 'left' }}> قيمة الطلبات: &nbsp;&nbsp;
            <span style={{ color: 'rgb(26,156,142)' }}> {subtotal}ر.س</span></h4>
                 <h4 style={{ textAlign: 'left' }}> القيمة الضريبية:&nbsp;&nbsp;

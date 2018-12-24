@@ -4,7 +4,6 @@
 import FirestoreServices from 'services/FirestoreServices';
 // import styled from 'styled-components';
 // import Product from 'assets/img/Selected-product.png';
-// import EmptyHeart from 'assets/img/emptyHeart.png';
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { app, base } from "config/base";
@@ -13,6 +12,7 @@ import Equalizer from "react-equalizer";
 import styled from 'styled-components'
 import {MdEventSeat} from 'react-icons/lib/md';
 import Product from 'assets/img/Selected-product.png';
+import EmptyHeart from 'assets/img/emptyHeart.png';
 
 // const TagDiv = styled.span`
 // position: absolute;
@@ -40,25 +40,6 @@ import Product from 'assets/img/Selected-product.png';
 //   }
 // `;
 
-// const LikeImg = styled.div`
-// width: 18px;
-// margin-right: 8px;
-// position: absolute;
-// height: unset;
-// left: 3px;
-// padding: 3px;
-// font-size: 10px;
-// text-align: center;
-// min-height: 28px;
-// color: black;
-// // @media only screen and (max-width: 767px) {
-// //   width:15px;
-// //   height:15px;}
-// //   @media only screen and (max-width: 400px) {
-// //     width:12px;
-// //     height:12px;
-// //   }
-// `;
 
 
 // const PaddingDiv = styled.div`
@@ -236,10 +217,10 @@ const MyThumbnailDiv = styled.div`
   background-color: #fff;
   transform: scale(1, 1);
   transition: transform 1s ease;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   &:hover{
     box-shadow:0px 0px 10px #6A6A6A;
-    border:1px solid #6A6A6A;
+    // border:1px solid #6A6A6A;
     transition:all 0.5s ease-in-out;
     transform: scale(1.05, 1.05);
   }
@@ -247,12 +228,53 @@ const MyThumbnailDiv = styled.div`
     &:hover{
       transition:none;
       transform: none;}
-      margin-bottom: 20px;
+      margin-bottom: 5px;
   }
 `
 const PreviewImg = styled.div`
 // width:100%;
 // height:100%;
+`;
+
+const LikeImg = styled.div`
+width: 18px;
+margin-right: 8px;
+position: absolute;
+height: unset;
+left: 10px;
+padding: 3px;
+font-size: 10px;
+text-align: center;
+min-height: 28px;
+color: black;
+float: left;
+top: 3px;
+
+@media only screen and (max-width: 623px) {
+  position: absolute;
+  left: 5px;
+  font-size: 11px;
+  text-align: center;
+  color: black;
+  width: 12px;
+  padding-left: 9px;
+  padding-top: 6px;
+  padding-right: 4px;
+  top: 8px;
+}
+
+@media only screen and (max-width: 500px) {
+  position: absolute;
+  left: 5px;
+  font-size: 7px;
+  text-align: center;
+  color: black;
+  width: 12px;
+  padding-left: 9px;
+  padding-top: 8px;
+  padding-right: 4px;
+  top: -8px;
+}
 `;
 
 // const ImageDiv = styled.div`
@@ -273,6 +295,7 @@ const DescriptionCol = styled(Col)`
 padding-right:0;
 padding-left:0;
 padding-top:6px;
+padding-left: 6px;
 font-family: 'dinarm';
 `;
 
@@ -403,11 +426,11 @@ class ProductBrief extends Component {
 
     let { styleWidth: cssStyle, adminViewFlag } = this.props;
 
-    cssStyle = cssStyle ? `col-xs-12 col-sm-6 col-md-${cssStyle}` : 'col-xs-12 col-sm-6 col-md-4';
-    console.log(product)
+    cssStyle = cssStyle ? `col-xs-12 col-sm-6 col-md-${cssStyle}` : 'col-xs-6 col-sm-6 col-md-4';
+
     return (
       typeof product === 'object' ? (
-        <MyThumbnailCol xs={6} md={4} sm={6} style={{float:'right'}} >
+        <MyThumbnailCol className={cssStyle} style={{float:'right'}} >
           <MyThumbnailDiv>
             <div>
               <Link to={`/${product.owner}/products/${product.id}`}>
@@ -453,21 +476,29 @@ class ProductBrief extends Component {
                 </Link>
                 </p >
 
-              <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
+              <div style={{ display: 'block', position: 'relative', bottom: '0' }}>
                   <p className="item-owner-name"> من:
                     <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
                       {product.businessName}
                     </Link>
-                </p>
+                  </p>
+                <LikeImg
+                  style={{
+                    background: `url(${EmptyHeart})`,
+                    backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center center',
+                  }}>
+                  {product.likes || ''}
+                </LikeImg>
               </div>
-              <div>ddd</div>
           </PaddingDiv>
 
 
            <MPaddingDiv >
             <div style={{marginTop:'0',borderBottom:'dotted 1px lightgray ',height:'35px'}}>
 
-              <DescriptionCol xs ={5} md={4}  >
+              <DescriptionCol xs ={5} md={4}>
                 <p style={{color:'rgb(26, 156, 142)',float:'left'}}>{product.price} ر.س</p>
               </DescriptionCol>
 
@@ -488,12 +519,21 @@ class ProductBrief extends Component {
                 </Link>
                 </p >
 
-              <div style={{ display: 'inline-block', position: 'absolute', bottom: '0' }}>
+                <div style={{ display: 'block', position: 'relative', bottom: '0' }}>
                   <p className="item-owner-name"> من:
                     <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
                       {product.businessName}
                     </Link>
                   </p>
+                <LikeImg
+                  style={{
+                    background: `url(${EmptyHeart})`,
+                    backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center center',
+                  }}>
+                  {product.likes || ''}
+                </LikeImg>
               </div>
           </MPaddingDiv>
 
@@ -521,14 +561,22 @@ class ProductBrief extends Component {
                 </Link>
                 </p >
 
-              <div style={{ display: 'inline-block', position: 'absolute', bottom: '0'}}>
+                <div style={{ display: 'block', position: 'relative', bottom: '0' }}>
                   <p className="item-owner-name"> من:
                     <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
                       {product.businessName}
                     </Link>
                   </p>
+                <LikeImg
+                  style={{
+                    background: `url(${EmptyHeart})`,
+                    backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center center',
+                  }}>
+                  {product.likes || ''}
+                </LikeImg>
               </div>
-
           </SPaddingDiv>
 
           <XSPaddingDiv >
@@ -555,12 +603,21 @@ class ProductBrief extends Component {
                 </Link>
                 </p >
 
-              <div style={{ display: 'inline-block', position: 'absolute', bottom: '0'}}>
-                <p className="item-owner-name"> من:
-                  <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
-                    {product.businessName}
-                  </Link>
-                </p>
+                <div style={{ display: 'block', position: 'relative', bottom: '0' }}>
+                  <p className="item-owner-name"> من:
+                    <Link to={`/businessprofile/${product.owner}`} style={{ color: 'rgb(26,156,142)' }}>
+                      {product.businessName}
+                    </Link>
+                  </p>
+                <LikeImg
+                  style={{
+                    background: `url(${EmptyHeart})`,
+                    backgroundSize: 'contain',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center center',
+                  }}>
+                  {product.likes || ''}
+                </LikeImg>
               </div>
             </XSPaddingDiv>
             

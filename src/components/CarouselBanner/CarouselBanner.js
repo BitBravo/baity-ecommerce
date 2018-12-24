@@ -5,6 +5,7 @@ import bedroom from 'assets/img/bedroom.jpg';
 import FirestoreServices from 'services/FirestoreServices';
 import styled from 'styled-components';
 import CarouselEditModal from 'components/CarouselEditModal';
+
 import './styles.css';
 
 
@@ -106,11 +107,11 @@ export class CarouselBanner extends Component {
             ))
           }
         </Carousel>
-        {/* {
+        {
           adminViewFlag
             ? <CarouselEditModal items={this.state.carouselItems} onUpdate={e => this.getCarouselData(e)} />
             : ''
-        } */}
+        }
       </div>
     );
   }

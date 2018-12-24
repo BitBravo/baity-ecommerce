@@ -744,6 +744,7 @@ export default {
   //   No Query to get all products
 
   getDataQuery(entryType, params) {
+    console.log(entryType, params)
     let ref;
     switch (entryType) {
       case 'product':
@@ -780,14 +781,18 @@ export default {
 
     if (typeof params === 'object' && params.length) {
       if (typeof params[0] === 'object') {
-          ref = params.map((param) => ref.where(param[0], param[1], param[2]))
+        // ref = params.map(param => ref.where(param[0], param[1], param[2]));
+        params.map(param => {
+          // return ref.where(param[0], "==", param[2]);
+          ref = ref.where(param[0], param[1], param[2]);
+        })
+        console.log(ref)
       } else {
         ref = ref.where(params[0], params[1], params[2]);
       }
     }
 
-    return ref
-      .get()
+    return ref.get()
       .then((querySnapshot) => {
         const data_array = [];
         querySnapshot.forEach((item, i) => {

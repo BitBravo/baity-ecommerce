@@ -6,8 +6,8 @@
     right: 0;
   }
   .admin-layout.mobile .container .row{
-    margin-left: 0px;
-    margin-right: 0px;
+    /* margin-left: 0px;
+    margin-right: 0px; */
   }
   .admin-layout.mobile .container .infinite-scroll-component>div{
     padding: 0px !important;

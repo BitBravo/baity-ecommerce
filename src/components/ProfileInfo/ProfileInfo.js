@@ -45,6 +45,7 @@ height:280px;
 padding:0;
 @media only screen and (max-width: 767px) {
   height:200px;
+  width: 100%;
   }
 `;
 

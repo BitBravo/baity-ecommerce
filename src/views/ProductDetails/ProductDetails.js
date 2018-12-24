@@ -433,15 +433,15 @@ class ProductDetails extends Component {
               </div >
             </ImageCol>
 
-            <DetailsCol xs={12} sm={12} md={4} lg={3}  >
+            <DetailsCol xs={12} sm={12} md={4} lg={3} className="product-detail-info" >
               <ProductName >
-                <Col xs={5} sm={5} md={5} lg={4} style={{ padding: '0 0 0 10px' }}>
+                <Col xs={5} sm={5} md={5} lg={4} style={{ padding: '0 0 0 0px' }}>
                   <h4 style={{ color: 'rgb(26,156,142)', float: 'left' }}>{product.price} ر.س </h4>
                 </Col>
-                <Col xs={6} sm={6} md={6} lg={7} style={{ padding: '0 0 0 10px' }}>
+                <Col xs={6} sm={6} md={6} lg={7} style={{ padding: '0 0 0 0px' }}>
                   <h4>{product.name}</h4>
                 </Col>
-                <Col xs={1} style={{ padding: '7px 0 0 0' }}>
+                <Col xs={1} style={{ padding: '15px 0 0 0' }}>
                   <IconImg src={Product} className="icons" /> </Col>
               </ProductName>
               {this.props.state.currentUser

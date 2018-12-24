@@ -11,23 +11,31 @@ import empty_icon from 'assets/img/empty.png';
 import './styles.css';
 
 const settingsDesktop = {
+  initialSlide: 0,
   dots: false,
   infinite: true,
-  speed: 500,
+  speed: 300,
   slidesToShow: 6,
+  touchThreshold: 25,
+  touchMove: true,
   swipeToSlide: true,
+  swipe: true,
   arrows: true,
-  rtl: true,
+  focusOnChange: true,
 };
 
 const settingsMobile = {
+  initialSlide: 0,
   dots: false,
   infinite: true,
-  speed: 500,
+  speed: 300,
   slidesToShow: 6,
+  touchThreshold: 25,
+  touchMove: true,
   swipeToSlide: true,
+  swipe: true,
   arrows: false,
-  rtl: true,
+  focusOnChange: true,
 };
 
 const modalStyle = {
@@ -150,8 +158,7 @@ export default class CarouselMenu extends Component {
     const departments = this.state.filters;
     const { adminViewFlag, redirectUrl, deviceFlag } = this.props;
     const settings = deviceFlag ? settingsDesktop : settingsMobile;
-    console.log(items)
-    console.log(departments)
+    console.log(adminViewFlag)
     const { modalLeft, modalTop } = this.state;
     return (
       <div className="item-discovery-session">
@@ -184,6 +191,7 @@ export default class CarouselMenu extends Component {
                       {/* </Link> */}
                       <p className={itemTitleClassName}>{department}</p>
                     </div>
+                    hello world
                     {
                       adminViewFlag ? (
                         <div className="editBtn-area">
@@ -199,8 +207,7 @@ export default class CarouselMenu extends Component {
             }
           </Slider>
         </div>
-        
-        {/* <Modal
+        <Modal
           aria-labelledby="modal-label"
           style={modalStyle}
           backdropStyle={backdropStyle}
@@ -228,7 +235,7 @@ export default class CarouselMenu extends Component {
               </Col>
             </div>
           </div>
-        </Modal>  */}
+        </Modal> 
       </div>
     );
   }

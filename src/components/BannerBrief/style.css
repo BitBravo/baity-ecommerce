@@ -64,9 +64,22 @@
 .banner-top, .banner-bottom{
   padding-right: 0px !important;
 }
-.mobile .banner-container {
+/* .mobile .banner-container {
   padding-top: 50%;
-}
+} */
 .mobile .banner-right button {
   margin-top: none;
 }
+
+.banner-container a{
+
+}
+
+
+
+
+
+
+
+
+

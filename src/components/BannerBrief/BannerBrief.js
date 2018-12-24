@@ -84,10 +84,20 @@ padding-right:10px;
 padding-bottom:5px;
 padding-top:5px;
 @media only screen and (max-width: 767px) {
+  display: none;
   padding-left:5px;
   padding-right:5px;
   padding-bottom:5px;
   padding-top:5px;
+}
+`
+const MyThumbnailColMb = styled(Col)`
+padding-left:5px;
+padding-right:5px;
+padding-bottom:5px;
+padding-top:5px;
+@media only screen and (min-width: 767px) {
+ display: none;
 }
 `
 
@@ -98,7 +108,7 @@ const MyThumbnailDiv = styled.div`
   background-color: #fff;
   transform: scale(1, 1);
   transition: transform 1s ease;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   &:hover{
     box-shadow:0px 0px 10px #6A6A6A;
     border:1px solid #6A6A6A;
@@ -109,14 +119,14 @@ const MyThumbnailDiv = styled.div`
     &:hover{
       transition:none;
       transform: none;}
-      margin-bottom: 20px;
+      margin-bottom: 5px;
   }
 `
 
 
-const PreviewImg = styled.img`
-  width: 100%;
-  height: 100%;
+const PreviewImg = styled.div`
+  width: 80%;
+  height: 70%;
 `;
 
 const ImageDiv = styled.div`
@@ -131,10 +141,16 @@ const ImageDiv = styled.div`
   }
 `;
 
+const ImgDiv = styled.div`
+height: inherit;
+`;
+
 const ImageContainer = styled.div`
   width: 100%;
-  padding-top: 100%;
-  position: relative;
+  // padding-top: 100%;
+  // position: relative;
+  height: -webkit-fill-available;
+  z-index: 1;
 `;
 
 // const MyThumbnailCol = styled(Col)`
@@ -259,9 +275,9 @@ bottom: 0;
 left: 0;
 right: 0;
 width: 50%;
-height: 30%;
+height: 90%;
 margin: auto;
-text-align: center;
+text-align: -webkit-center;
 `;
 const BannerButton = styled.button`
 // height: 38px;
@@ -280,6 +296,7 @@ width: 50%;
 height: 30%;
 margin: auto;
 text-align: center;
+z-index: 9999;
 `;
 const EditButton = styled.button`
 color: gray !important;
@@ -407,220 +424,154 @@ class BannerBrief extends Component {
     return (
       typeof banner === 'object'
         ? (
-          bannerType === 'right'
-          ? (
-          <MyThumbnailCol xs={6} md={4} sm={6} style={{float:'right'}}>
-            <MyThumbnailDiv>
-              <ImageContainer>
-                <ImageDiv>
-                <Link to={`/${idea.owner}/ideas/${idea.id}`}>
-                {
-                <PreviewImg style={{background:`url(${imgUrl})`,
-                                    backgroundSize: "cover",
-                                    backgroundRepeat: "no-repeat",
-                                    backgroundPosition: "center center"}}
-                />
-              }
-              {
-              // <PreviewImg
-              //   src={
-              //     idea.images
-              //       ? idea.images[0].thumbnail? idea.images[0].thumbnail : idea.images[0].large
-              //       : "http://via.placeholder.com/243x243"
-              //   }
-              // />
-            }
-                  {/* <img   src="http://via.placeholder.com/243x243" */}
-                </Link>
-                </ImageDiv>
-              </ImageContainer>
-
-              <PaddingDiv>
-                <Link to={`/${idea.owner}/ideas/${idea.id}`} style={{color:'black'}}>
-                <IdeaNameCol xs ={11} style={{paddingLeft:'0',paddingRight:'0'}}>
-                  <p style={{color:'black',fontFamily: 'dinarm',paddingRight:'1px'}}>
-                  {idea.name}
-                  </p>
-                  </IdeaNameCol>
-                </Link>
-                <IdeaNameCol xs ={1}  style={{padding:'0 0 15px 0'}}>
-                <IconImg src={'Idea'} className="icons"/>
-                </IdeaNameCol>
-                <Description className="flex-text text-muted">{(idea.desc || '').substring(0,105)}
-                  <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${idea.owner}/ideas/${idea.id}`}>
-                  ... المزيد
-                  </Link>
-                </Description>
-                <MDescription className="flex-text text-muted">{(idea.desc || '').substring(0,90)}
-                  <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${idea.owner}/ideas/${idea.id}`}>
-                  ... المزيد
-                  </Link>
-                </MDescription>
-                <SDescription className="flex-text text-muted">{(idea.desc || '').substring(0,60)}
-                  <Link style={{display: 'inline',color:'rgb(26, 156, 142)'}} to={`/${idea.owner}/ideas/${idea.id}`}>
-                  ... المزيد
-                  </Link>
-                </SDescription>
-
-                <div style={{display:'inline-block',position:'absolute',bottom:'0'}}>
-                      <p > من:
-                      <Link to={`/businessprofile/${idea.owner}`}style={{color:'rgb(26,156,142)'}}>
-                      {idea.businessName}
-                      </Link>
-                    </p>
-                    </div>
-
-              </PaddingDiv>
-            </MyThumbnailDiv>
-          </MyThumbnailCol>
-            )
-            : (
-              <MyThumbnailCol xs={12} md={12} sm={12} style={{float:'right'}}>
-                <MyThumbnailDiv className="banner-container">
-                  <ImageContainer>
-                    <div>test</div>
-                    {/* <div className="col-xs-7 col-sm-7 col-md-7" style={{padding: '0px'}}>
-                      <ImageDiv>
-                        <Link to={`/${banner.owner}/banners/${banner.id}`}>
-                          <PreviewImg
-                            style={{
-                              background: `url(${imgUrl})`,
-                              backgroundSize: 'contain',
-                              backgroundRepeat: 'no-repeat',
-                              backgroundPosition: 'center center',
-                            }}
-                          />
-                        </Link>
-                      </ImageDiv>
-                    </div>
-                    <div className="col-xs-5 col-sm-5 col-md-5" style={{ position: relative }}>
-                      <ActionDiv>
-                        {
-                          banner.name
-                            ? <h4>banner.name</h4>
-                            : <h4>'banner.name'</h4>
-                        }
-                        <Link to={`/${banner.owner}/banners/${banner.id}`}>
-                          <BannerButton>
+          <div>
+            {
+              bannerType === 'right'
+                ? (
+                  <div>
+                    <MyThumbnailCol xs={6} md={4} sm={4} className="single-banner" style={{ float: 'right' }}>
+                      <MyThumbnailDiv className={`banner-container banner-single ${bannerType}`}>
+                        <ImgDiv>
+                          <Link to={`/${banner.owner}/banners/${banner.id}`}>
+                            <ActionDiv className="action-div">
+                              {
+                                banner.name
+                                  ? <h4>banner.name</h4>
+                                  : <h4>banner.name</h4>
+                              }
+                              <PreviewImg
+                                style={{
+                                  background: `url(${imgUrl})`,
+                                  backgroundSize: 'contain',
+                                  backgroundRepeat: 'no-repeat',
+                                  backgroundPosition: 'center center',
+                                }}
+                                className="img-container"
+                              />
+                              <BannerButton>
+                                {
+                                  banner.name
+                                    ? 'banner.name'
+                                    : 'TEST BUTTON'
+                                }
+                              </BannerButton>
+                            </ActionDiv>
+                          </Link>
+                        </ImgDiv>
+                      </MyThumbnailDiv>
+                      {adminViewFlag
+                        ? (
+                          <MiddleDiv>
+                            <EditButton onClick={this.changeHandler} name="product" value={banner.id}>Edit</EditButton>
+                          </MiddleDiv>
+                        ) : ''
+                      }
+                    </MyThumbnailCol>
+                    <MyThumbnailColMb xs={12} md={12} sm={12} className="banner-wide" style={{ float: 'left', padding: '0px' }}>
+                      <MyThumbnailDiv className={`banner-container ${bannerType}`}>
+                        <ImageContainer>
+                          <ImgDiv className="col-xs-6 col-sm-7 col-md-7" style={{ padding: '0px' }}>
+                            <Link to={`/${banner.owner}/banners/${banner.id}`}>
+                              <PreviewImg
+                                className="vertical-middle padding-img"
+                                style={{ background: `url(${imgUrl})` }}
+                              />
+                            </Link>
+                          </ImgDiv>
+                          <div className="col-xs-6 col-sm-5 col-md-5" style={{ position: relative }}>
+                            <ActionDiv>
+                              {
+                                banner.name
+                                  ? <h4>banner.name</h4>
+                                  : <h4>'banner.name'</h4>
+                              }
+                              <Link to={`/${banner.owner}/banners/${banner.id}`}>
+                                <BannerButton>
+                                  {
+                                    banner.name
+                                      ? banner.name
+                                      : 'TEST BUTTON'
+                                  }
+                                </BannerButton>
+                              </Link>
+                            </ActionDiv>
+                          </div>
+                        </ImageContainer>
+                      </MyThumbnailDiv>
+                      {adminViewFlag
+                        ? (
+                          <MiddleDiv>
+                            <EditButton onClick={this.changeHandler} name="product" value={banner.id}>Edit</EditButton>
+                          </MiddleDiv>
+                        ) : ''
+                      }
+                    </MyThumbnailColMb>
+                  </div>
+                )
+                : (
+                  <MyThumbnailCol xs={12} md={12} sm={12} className="banner-wide" style={{ float: 'left', padding: '0px' }}>
+                    <MyThumbnailDiv className={`banner-container ${bannerType}`}>
+                      <ImageContainer>
+                        <ImgDiv className="col-xs-6 col-sm-7 col-md-7" style={{ padding: '0px' }}>
+                          <Link to={`/${banner.owner}/banners/${banner.id}`}>
+                            <PreviewImg
+                              className="vertical-middle padding-img"
+                              style={{ background: `url(${imgUrl})` }}
+                            />
+                          </Link>
+                        </ImgDiv>
+                        <div className="col-xs-6 col-sm-5 col-md-5" style={{ position: relative }}>
+                          <ActionDiv>
                             {
                               banner.name
-                                ? banner.name
-                                : 'TEST BUTTON'
+                                ? <h4>banner.name</h4>
+                                : <h4>'banner.name'</h4>
                             }
-                          </BannerButton>
-                        </Link>
-                      </ActionDiv>
-                    </div> */}
-                  </ImageContainer>
-                </MyThumbnailDiv>
-              </MyThumbnailCol>
-            )
-          // <MyThumbnailCol className={`${cssStyle}  banner-${bannerType}`} style={{ float: 'right', padding: styleWidth ===8? '0px 8px 0px 8px' : '' }} >
-          //   {styleWidth === 8
-          //     ? (
-          //       <MyThumbnailLDiv className="banner-container">
-          //         <ImageContainer>
-          //           <div className="col-xs-7 col-sm-7 col-md-7" style={{padding: '0px'}}>
-          //             <ImageDiv>
-          //               <Link to={`/${banner.owner}/banners/${banner.id}`}>
-          //                 <PreviewLImg
-          //                   style={{
-          //                     background: `url(${imgUrl})`,
-          //                     backgroundSize: 'contain',
-          //                     backgroundRepeat: 'no-repeat',
-          //                     backgroundPosition: 'center center',
-          //                   }}
-          //                 />
-          //               </Link>
-          //             </ImageDiv>
-          //           </div>
-          //           <div className="col-xs-5 col-sm-5 col-md-5" style={{ position: relative }}>
-          //             <ActionDiv>
-          //               {
-          //                 banner.name
-          //                   ? <h4>banner.name</h4>
-          //                   : <h4>'banner.name'</h4>
-          //               }
-          //               <Link to={`/${banner.owner}/banners/${banner.id}`}>
-          //                 <BannerButton>
-          //                   {
-          //                     banner.name
-          //                       ? banner.name
-          //                       : 'TEST BUTTON'
-          //                   }
-          //                 </BannerButton>
-          //               </Link>
-          //             </ActionDiv>
-          //           </div>
-          //         </ImageContainer>
-          //       </MyThumbnailLDiv>
-          //     )
-          //     : (
-          //       <MyThumbnailSDiv className="image-container">
-          //         <ImageContainer>
-          //           <ImageDiv>
-          //             <Link to={`/${banner.owner}/banners/${banner.id}`}>
-          //               <PreviewSImg
-          //                 style={{
-          //                   background: `url(${imgUrl})`,
-          //                   backgroundSize: 'contain',
-          //                   backgroundRepeat: 'no-repeat',
-          //                   backgroundPosition: 'center center',
-          //                 }}
-          //                 className="banner-container"
-          //               >
-          //                 <ActionDiv className="action-div">
-          //                   {
-          //                     banner.name
-          //                       ? <h4>banner.name</h4>
-          //                       : <h4>banner.name</h4>
-          //                   }
-
-          //                   <BannerButton>
-          //                     {
-          //                       banner.name
-          //                         ? 'banner.name'
-          //                         : 'TEST BUTTON'
-          //                     }
-          //                   </BannerButton>
-          //                 </ActionDiv>
-          //               </PreviewSImg>
-          //             </Link>
-          //           </ImageDiv>
-          //         </ImageContainer>
-          //       </MyThumbnailSDiv>
-          //     )
-          //   }
-          //   {adminViewFlag
-          //     ? (
-          //       <MiddleDiv>
-          //         <EditButton onClick={this.changeHandler} name="product" value={banner.id}>Edit</EditButton>
-          //       </MiddleDiv>
-          //     ) : ''
-          //   }
-
-          //   <Modal
-          //     aria-labelledby="modal-label"
-          //     style={modalStyle}
-          //     backdropStyle={backdropStyle}
-          //     show={this.state.showModal}
-          //     onHide={this.onCancelAction}
-          //   >
-          //     <div style={dialogStyle(this.state.topMargin, this.state.leftMargin)}>
-          //       <div className="imageInfo">
-          //         <input type="text" value={this.state.bannerId} onChange={this.onChangeAction} />
-          //       </div>
-          //       <div className="toolbar">
-          //         <Col md={5} mdOffset={1}>
-          //           <button onClick={this.onCancelAction}>Cancel</button>
-          //         </Col>
-          //         <Col md={5}>
-          //           <button onClick={this.onSaveAction}>Save</button>
-          //         </Col>
-          //       </div>
-          //     </div>
-          //   </Modal>
-          // </MyThumbnailCol>
+                            <Link to={`/${banner.owner}/banners/${banner.id}`}>
+                              <BannerButton>
+                                {
+                                  banner.name
+                                    ? banner.name
+                                    : 'TEST BUTTON'
+                                }
+                              </BannerButton>
+                            </Link>
+                          </ActionDiv>
+                        </div>
+                      </ImageContainer>
+                    </MyThumbnailDiv>
+                    {adminViewFlag
+                      ? (
+                        <MiddleDiv>
+                          <EditButton onClick={this.changeHandler} name="product" value={banner.id}>Edit</EditButton>
+                        </MiddleDiv>
+                      ) : ''
+                    }
+                  </MyThumbnailCol>
+                )
+            }
+            <Modal
+              aria-labelledby="modal-label"
+              style={modalStyle}
+              backdropStyle={backdropStyle}
+              show={this.state.showModal}
+              onHide={this.onCancelAction}
+            >
+              <div style={dialogStyle(this.state.topMargin, this.state.leftMargin)}>
+                <div className="imageInfo">
+                  <input type="text" value={this.state.bannerId} onChange={this.onChangeAction} />
+                </div>
+                <div className="toolbar">
+                  <Col md={5} mdOffset={1}>
+                    <button onClick={this.onCancelAction}>Cancel</button>
+                  </Col>
+                  <Col md={5}>
+                    <button onClick={this.onSaveAction}>Save</button>
+                  </Col>
+                </div>
+              </div>
+            </Modal>
+          </div>
         )
         : ''
     );
