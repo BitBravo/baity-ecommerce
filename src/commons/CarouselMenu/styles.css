@@ -1,0 +1,353 @@
+/* .slick-slide>div {
+  margin: 0px 3px;
+  /* text-align: center; */
+/* } */
+/* 
+.carousel-item {
+  width: 170px !important;
+  min-height: 170px;
+  display: inherit !important;
+  margin: 0px auto;
+  padding-top: 15px;
+  background-color: #f1f1f1;
+} */
+
+.carousel-title-container {
+  width: 92%;
+  margin: 0px auto;
+}
+
+.carousel-title {
+  padding-top: 16px;
+  font-size: 21px;
+  margin-bottom: 3px;
+  font-weight: bold;
+}
+
+.gray-center {
+  margin-top: 30px;
+  color: #464242;
+  font-weight: 500;
+  font-size: 17px;
+  text-align: center;
+}
+
+.white-right {
+  margin-top: -34px;
+  color: white;
+  font-weight: 500;
+  font-size: 17px;
+  text-align: right;
+  padding-right: 10px;
+  position: relative;
+}
+
+.item-discovery-edit-modal {
+  position: absolute;
+  top: 164px;
+  z-index: 1;
+  width: 250px;
+  background-color: #efefef;
+  padding: 10px;
+  direction: ltr;
+}
+
+.item-discovery-edit-modal select:not([multiple]) {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-position: right 50%;
+  background-repeat: no-repeat;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAMCAYAAABSgIzaAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NDZFNDEwNjlGNzFEMTFFMkJEQ0VDRTM1N0RCMzMyMkIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NDZFNDEwNkFGNzFEMTFFMkJEQ0VDRTM1N0RCMzMyMkIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0NkU0MTA2N0Y3MUQxMUUyQkRDRUNFMzU3REIzMzIyQiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0NkU0MTA2OEY3MUQxMUUyQkRDRUNFMzU3REIzMzIyQiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PuGsgwQAAAA5SURBVHjaYvz//z8DOYCJgUxAf42MQIzTk0D/M+KzkRGPoQSdykiKJrBGpOhgJFYTWNEIiEeAAAMAzNENEOH+do8AAAAASUVORK5CYII=);
+  padding: .5em;
+  padding-right: 1.5em;
+  width: 100%;
+  height: 30px;
+  border-radius: 0px !important;
+  outline: none;
+}
+
+.item-discovery-edit-modal .imageInfo {
+  margin-top: 6px;
+  height: 30px;
+}
+
+.item-discovery-edit-modal input {
+  height: 100%;
+  border: 1px solid #b1aaaa;
+}
+
+.item-discovery-edit-modal .toolbar button {
+  height: inherit;
+  padding: 5px 0px;
+  outline: none;
+  background-color: #6d6d6d;
+  color: white;
+}
+
+button:active {
+  background-color: #afaeae !important;
+}
+.carousel-item>a>div {
+    background-size: contain !important;
+}
+.desktop .item-discovery-session {
+  width: 100%;
+  position: relative;
+}
+.mobile .item-discovery-session {
+  /* width: 1020px; */
+  display: block;
+}
+
+.mobile .carousel-title-container {
+  width: 92%;
+  margin: 0px auto;
+}
+
+/* .slick-slider .slick-track,  */
+/* .slick-slider .slick-list{
+  width: 1120px;
+  direction: rtl;
+  /* float: right; */
+/* } */ 
+
+/* .desktop .slick-slider {
+  width: 90%;
+  margin: 0px auto;
+  overflow: hidden;
+  direction: rtl;
+} */
+
+/* .mobile .slick-slider {
+  width: 100%;
+  margin: 0px auto;
+} */
+
+/* .slick-slider {
+  width: 90%;
+  margin: 0px auto;
+  overflow: hidden;
+  direction: rtl;
+  position: static;
+} */
+
+/* .slick-slider .slick-track{
+  position: sticky;
+} */
+/* .desktop .slick-slider .slick-track{
+  position: sticky;
+} */
+
+.modal-dialog {
+  width: 100% !important; 
+  margin: 0px !important;
+  height: 0px;
+}
+.modal-content{
+  border: none;
+}
+
+.departmentList {
+  direction: ltr;
+}
+.departmentList select{
+  width: 100%;
+  height: 37px !important;
+  background-color: white;
+  border: 1px solid groove;
+}
+.imageInfo input{
+  margin-top: 10px;
+  height: 37px;
+  background-color: white;
+  border: 1px solid darkgray;
+}
+.toolbar button {
+  height: 30px;
+}
+
+
+/* .slick-prev:before,
+.slick-next:before {
+    color: #8c8585;
+    font-size: 33px;
+} */
+/* 
+.slick-prev {
+    left: 22px !important;
+} */
+
+/* .slick-next {
+    right: 13px !important;
+}
+.slick-slider .slick-arrow:active {
+    background-color: unset !important;
+} */
+
+/* .slick-slider {
+    width: 90%;
+    margin: 0px auto;
+} */
+
+
+/* .discovery-containter.carousel-2 {
+  margin-bottom: 20px;
+}
+
+.discovery-containter.carousel-2 .carousel-item {
+  padding-top: 0px;
+}
+
+.discovery-containter.carousel-2 .carousel-item div {
+  width: 100%;
+  height: 100%;
+}
+
+.discovery-containter.carousel-2 .editBtn-area {
+  top: 53px;
+}
+
+.discovery-containter.carousel-2 .carousel-item div {
+  background-size: cover !important;
+} */
+
+
+
+/* .slick-prev:before,
+.slick-next:before {
+    color: #8c8585;
+    font-size: 32px;
+} */
+
+/* .slick-prev {
+    left: -40px;
+}
+
+.slick-next {
+    right: -40px;
+} */
+
+/* .carousel-item {
+    position: relative;
+}
+
+.carousel-item>a {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.carousel-item>a>div {
+    height: 60%;
+    width: 80%;
+    text-align: center;
+    margin: 0px auto;
+} */
+
+
+
+/* .slick-slider {
+  width: 90%;
+  margin: 0px auto;
+} */
+/* 
+.slick-prev:before,
+.slick-next:before {
+  color: #8c8585;
+  font-size: 32px;
+} */
+
+/* .slick-prev {
+  left: -40px;
+}
+
+.slick-next {
+  right: -40px;
+} */
+
+/* ProdictBrieg */
+
+/* .ipUxan {
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important
+} */
+
+.slide-area {
+  height: 170px;
+  width: 100%;
+  text-align: -webkit-right;
+
+  /* overflow: hidden;
+  margin: auto; */
+}
+.slick-track {
+  height: 170px;
+  /* background-color: gray; */
+}
+.carousel-1 .item-discovery-session .slick-list .discovery-img{
+  width: 80%;
+  height: 100px;
+  margin: auto;
+  position: relative;
+  top: 20px;
+}
+
+.carousel-2 .item-discovery-session .slick-list .discovery-img{
+  width: 100%;
+  height: 100%;
+  /* margin: auto; */
+  position: relative;
+  /* top: 20px; */
+}
+
+.slick-list .slick-track>.slick-slide{
+  /* background-color: gray; */
+}
+.slide-area .slick-slider{
+  width: 92%;
+  margin: auto;
+  position: static;
+  overflow: hidden;
+}
+
+.slide-area .slick-slider .slick-list{
+  width: 1048px;
+}
+
+
+.slick-list .slick-track .carousel-item{
+  outline: none;
+  position: relative;
+}
+
+.slick-list .slick-track .carousel-item a{
+  width: 170px;
+  margin: 0px auto;
+  outline: none;
+}
+
+.slick-list .carousel-item .discovery-item{
+  width: 170px;
+  height: 170px;
+  text-shadow: 1px 2px 3px #666;
+  margin: auto;
+  background-color: #cccecd;
+  position: relative;
+}
+
+.slide-area .slick-prev, .slick-next{
+  background-color: white;
+}
+
+.slide-area .slick-prev{
+  left: 10px;
+}
+
+.slide-area .slick-next{
+  right: 10px;
+}
+
+.slick-prev:before, .slick-next:before {
+  color: #3f3f3f;
+}

@@ -1,0 +1,28 @@
+.discovery-containter {
+  margin-top: 20px;
+  background-color: white;
+  height: 235px;
+}
+
+.discovery-containter-block {
+  margin-bottom: 20px;
+}
+
+.discovery-containter-block {
+  width: 100% !important;
+}
+
+.mobile .main-content .container{
+  margin-left: -15px;
+  margin-right: -15px;
+  /* padding: 0px; */
+  margin: auto;
+}
+.carousel-modal-content .imageInfo {
+  padding-top: 0px !important;
+}
+.carousel-modal-content .imageInfo input {
+  margin-top: 0px;
+  border: 0px;
+}
+

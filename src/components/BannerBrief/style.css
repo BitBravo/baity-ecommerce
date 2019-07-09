@@ -1,0 +1,85 @@
+.banner-top .banner-container{
+  background-color: #efef55;
+}
+.banner-top h4 {
+  font-weight: bold;
+}
+.banner-top button {
+  color: black;
+  font-weight: bold;
+}
+
+.banner-bottom .banner-container{
+  background-color: #1f9064;
+}
+.banner-bottom h4 {
+  font-weight: bold;
+  color: white;
+}
+.banner-bottom button {
+  color: white;
+  font-weight: bold;
+  border-color: white;
+}
+@media screen and (max-width: 760px) {
+  .banner-right .action-div{
+    margin-top: 12%;
+  }
+  .mobile .banner-right button{
+    margin-top: auto;
+  }
+}
+@media screen and (max-width: 600px) {
+  .banner-right .action-div{
+    margin-top: 6%;
+  }
+  .mobile .banner-right button{
+    margin-top: auto;
+  }
+}
+.banner-right .action-div{
+  margin-top: 12%;
+  height: 90%;
+}
+.banner-right .banner-container{
+  background-color: #406d97;
+}
+.banner-right h4 {
+  font-weight: bold;
+  color: white;
+}
+.banner-right button {
+  color: white;
+  font-weight: bold;
+  border-color: white;
+  margin-top: 100%;
+}
+.banner-right{
+  padding-left: 0px;
+}
+.banner-right .image-container{
+  margin-left: 0px;
+}
+
+.banner-top, .banner-bottom{
+  padding-right: 0px !important;
+}
+/* .mobile .banner-container {
+  padding-top: 50%;
+} */
+.mobile .banner-right button {
+  margin-top: none;
+}
+
+.banner-container a{
+
+}
+
+
+
+
+
+
+
+
+
